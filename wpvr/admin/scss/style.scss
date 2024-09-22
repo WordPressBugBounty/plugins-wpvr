@@ -1,0 +1,149 @@
+@import 'welcome-page';
+@import 'setup-wizard';
+@import 'initial_setup_wizard';
+
+
+
+
+/**
+ * Setup wizard custom CSS.
+ * @since 1.0.3
+ */
+ 
+ *,
+ *::after,
+ *::before {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+ }
+
+$step_color_primary: #00B4FF;
+$step-primary-font: 'Roboto', sans-serif;
+
+.setup-wizard__logo {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 25px;
+  display: block;
+  max-width: 100%;
+
+  @media (max-width: 1280px) {
+
+  }
+}
+
+.setup-wizard__pregress-bar {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  border: 1px solid #EBEFF5;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+
+  .setup-wizard__pregress-step {
+    flex-grow: 1;
+    position: relative;
+    padding: 15px 16px 15px 50px;
+    background-color: transparent;
+
+    &:first-child {
+      padding: 15px 16px;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      top: 0px;
+      bottom: 0;
+      right: -18px;
+      margin: auto 0;
+      width: 40px;
+      height: 43px;
+      background: rgb(255 255 255);
+      transform: rotate(-43deg);
+      clip-path: polygon(100% 2%, 2% 100%, 100% 100%);
+      border-radius: 0 0 10px 0;
+      border-right: 2px solid #EBEFF5;
+      border-bottom: 2px solid #EBEFF5;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 400;
+      gap: 9px;
+      margin: 0;
+      font-family: $step-primary-font;
+      color: $step_color_primary;
+
+      span {
+        border: 1px solid $step_color_primary;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .step-not-visited {
+    p {
+      color: #73707D;
+
+      span {
+        border: 1px solid rgba(229, 232, 243, 1);
+        color: rgba(36, 34, 60, 0.2);
+      }
+    }
+  }
+
+  .step-active {
+    background: $step_color_primary;
+    color: #ffffff;
+
+    &:before {
+      background: $step_color_primary;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    p {
+      font-weight: 500;
+      color: #fff;
+
+      span {
+        border: 1px solid #ffffff;
+      }
+    }
+  }
+
+  .step-visited {
+    background: #FFFFFF;
+
+    p {
+      font-weight: 600;
+      color: #081E43;
+
+      span {
+        background: $step_color_primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg{
+          width: 9px;
+          height: 9px;
+        }
+      }
+    }
+  }
+}
+
+
+    
