@@ -1,6 +1,6 @@
 === WP VR - 360 Panorama and Virtual Tour Builder For WordPress ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator
+Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
 Tested up to: 6.6.2
@@ -32,8 +32,7 @@ WPVR gives you all the features needed to create a free virtual tour on your own
 
 Learn how to create a free virtual tour in just a few minutes! 👇
 
-https://www.youtube.com/watch?v=SWsv-bplne8
-
+https://youtu.be/ukpHp8RzxUw?si=y_uQwNQUD2VT0vxh
 ==🌟 Simple & Easy To Use Virtual Tour Builder 🌟==
 
 WPVR has a simple & user-friendly interface, designed for you to create virtual tours real quickly, even without any expertise.
@@ -42,7 +41,7 @@ WPVR has a simple & user-friendly interface, designed for you to create virtual 
 
 We also have Video Tutorials, Detailed Documentation, and Virtual Tour Creation Guides in case you need any help.
 
-<h4><a href="https://www.youtube.com/watch?v=aNwB066MYko&list=PLelDqLncNWcUndi1NkXJh2BH62OYmIayt&ab_channel=RexTheme" target="_blank"> ✅ How to Create 360 Virtual Tours [Video Tutorials] </a> </h4>
+<h4><a href="https://www.youtube.com/watch?v=aNwB066MYko&list=PLelDqLncNWcUndi1NkXJh2BH62OYmIayt&ab_channel=RexTheme" target="_blank"> ✅ How to Create Free 360 Virtual Tours [Video Tutorials] </a> </h4>
 
 <h4><a href="https://rextheme.com/docs/wp-vr/" target="_blank"> ✅ WP VR Documentation </a> </h4>
 
@@ -60,7 +59,7 @@ It also has dedicated support to publish & customize virtual tours:
 
 - 360 degree view & [Virtual Tour Widget for Elementor](https://rextheme.com/docs/wp-vr-embed-virtual-tour-elementor-widget/).
 - 360 Image Viewer & [Virtual Tour Block for Gutenberg](https://rextheme.com/docs/wp-vr-embed-virtual-tour-gutenberg-block/).
-- Virtual Tour & [360 Panorama Module for Divi](https://rextheme.com/docs/publish-virtual-tour-divi-panorama-module/).
+- Virtual Tour & [360 VR Panorama Module for Divi](https://rextheme.com/docs/publish-virtual-tour-divi-panorama-module/).
 - Panoramic image 360 view & [Virtual Tour Element for Oxygen](https://rextheme.com/docs/wp-vr-oxygen-element-embed-virtual-tour/).
 - 360 Panorama Viewer & [Virtual Tour Element for Visual Composer](https://rextheme.com/docs/wp-vr-embed-virtual-tour-visual-composer-element/).
 - Publish Virtual Tours with [Password Protection](https://rextheme.com/docs/how-to-set-up-password-protection-for-your-360-virtual-tour-wp-vr/)
@@ -99,7 +98,7 @@ It's a great way to grab your viewer's attention!
 
 == 🌟 Create A Complete Virtual Tour In Just Easy 3 Steps 🌟 ==
 
-Use multiple 360° panorama images to create a free 360 VR tour of any house or location. Add scenes covering different rooms, corners, or spots.
+Use multiple 360 panorama images to create a free 360 VR tour of any house or location. Add scenes covering different rooms, corners, or spots.
 
 1. Connect these Panorama Scenes
 2. Use Scene-type Hotspots so all the 360 degree images join together
@@ -148,9 +147,9 @@ https://www.youtube.com/watch?v=wqi_Yajk9nc
 
 You can customize the pointer designs however you want with different colors.
 
-==🔐 Private & Password Protected Tours For Your Premium Clients 🔐==
+==🔐 Password Protected Tours For Your Premium Clients 🔐==
 
-You can create private tours or password protected virtual tours for your premium clients and also offer special services like private art gallery tours or private museum virtual tours for your clients. And this feature is completely free!
+You can create private tours or [password protected virtual tours](https://youtu.be/Oi0pw4U1wnc?si=73I7kqowEvHEy_aN) for your premium clients and also offer special services like private art gallery tours or private museum virtual tours for your clients. And this feature is completely free!
 
 == 🔗 Share the Virtual Tours on Different Social Platforms (Pro) 🔗  ==
 
