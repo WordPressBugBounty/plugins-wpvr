@@ -342,12 +342,14 @@ class WPVR_Post_Type {
      *
      * @return string The custom body class.
      */
-    public function add_body_class()
+    public function add_body_class($classes)
     {
         $current_screen = get_current_screen();
-        if(!empty($current_screen->post_type) && $current_screen->post_type == $this->post_type && $current_screen->base == 'edit'){
-            return 'wpvr-tour-list';
+        if (!empty($current_screen->post_type) && $current_screen->post_type == $this->post_type && $current_screen->base == 'edit') {
+            $classes .= 'wpvr-tour-list';
         }
+
+        return $classes;
     }
 
 	/**

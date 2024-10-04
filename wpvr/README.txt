@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.5
+Stable tag: 8.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -431,6 +431,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.6 (04-10-2024) =
+* Fix: Security patch
+* Fix : WooCommerce Compatibility
 
 = 8.5.5 (12-09-2024) =
 * Fix: Security patch

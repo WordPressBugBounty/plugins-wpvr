@@ -86,6 +86,10 @@ class Wpvr_Ajax
 
   public function wpvr_review_request()
   {
+      if( !current_user_can( 'manage_options' ) ){
+          wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+          return;
+      }
     $nonce  = sanitize_text_field($_POST['nonce']);
     if (!wp_verify_nonce($nonce, 'wpvr-dismiss-notice-five-star-review')) {
       $response = array(
@@ -395,6 +399,10 @@ class Wpvr_Ajax
    */
   function wpvr_halloween_offer_notice_dismiss()
   {
+      if( !current_user_can( 'manage_options' ) ){
+          wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+          return;
+      }
     update_option('_is_wpvr_promotion', 'no');
     wp_send_json([
       'success' => true,
@@ -405,8 +413,11 @@ class Wpvr_Ajax
   /**
    * Dismiss black friday notice
    */
-  function dismiss_black_friday_notice()
-  {
+  function dismiss_black_friday_notice(){
+      if( !current_user_can( 'manage_options' ) ){
+          wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+          return;
+      }
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wpvr')) {
       wp_die(__('Permission check failed', 'wpvr'));
     }
@@ -424,6 +435,10 @@ class Wpvr_Ajax
  * @since 8.4.10
  */
   function wpvr_create_contact(){
+      if( !current_user_can( 'manage_options' ) ){
+          wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+          return;
+      }
       $nonce = filter_input(INPUT_POST, 'security', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
       $nonce = !empty( $nonce ) ? $nonce : null;
       if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
