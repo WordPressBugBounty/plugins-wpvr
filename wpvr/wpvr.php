@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.6
+ * Version:           8.5.7
  * Tested up to:      6.6
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -38,7 +38,7 @@ require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.6');
+define('WPVR_VERSION', '8.5.7');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -94,11 +94,15 @@ function run_wpvr()
     $plugin->run();
 
     // black friday banner class initialization
-//    new WPVR_Special_Occasion_Banner('eid-al-adha-2024', '2024-06-14 00:00:00', '2024-06-25 23:59:00');
+   new WPVR_Special_Occasion_Banner(
+        'halloween_first_deal_2024',
+	   '2024-10-09 00:00:00',
+	   '2024-10-25 00:00:00'
+    );
 
-    if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
-        new WPVR_Notification_Bar();
-    }
+    // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
+    //     new WPVR_Notification_Bar();
+    // }
 
 }
 run_wpvr();
@@ -2779,12 +2783,12 @@ function wpvr_cache_admin_notice()
 {
     $option = get_option('wpvr_warning');
     if (!$option) {
-?>
+    ?>
         <div class="notice notice-warning" id="wpvr-warning" style="position: relative;">
             <p><?php _e('Since you have updated the plugin, please clear the browser cache for smooth functioning. Follow these steps if you are using <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">Google Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/how-clear-firefox-cache" target="_blank">Mozilla Firefox</a>, <a href="https://clear-my-cache.com/en/apple-mac-os/safari.html" target="_blank">Safai</a> or <a href="https://support.microsoft.com/en-us/help/10607/microsoft-edge-view-delete-browser-history" target="_blank">Microsoft Edge</a>', 'wpvr'); ?></p>
             <button type="button" id="wpvr-dismissible" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
         </div>
-<?php
+    <?php
     }
 }
 // add_action('admin_notices', 'wpvr_cache_admin_notice');
@@ -2840,17 +2844,3 @@ function replace_callback($matches)
         return str_replace('<img', '<img decoding="async" ', $match);
     }
 }
-
-
-/**
- * Add promoition notice flag in option table
- *
- * @return void
- */
-function wpvr_add_promotional_banner_flag()
-{
-    if (!get_option('_is_wpvr_promotion')) {
-        update_option('_is_wpvr_promotion', 'yes');
-    }
-}
-add_action('admin_init', 'wpvr_add_promotional_banner_flag');

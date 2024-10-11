@@ -28,7 +28,7 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
-  $(document).ready(function(){
+  	$(document).ready(function(){
 
 	  	$( '#wpvr-gopro-submenu' ).parent().attr( 'target', '_blank' );
 
@@ -46,45 +46,6 @@
 			$('#'+val).show();
 			$('#'+val).siblings().hide();
 		});
-
-		function wpvr_bf_notice_dismiss(event) {
-			event.preventDefault();
-			var ajaxurl = wpvr_global_obj.ajaxurl;
-			var that = $(this);
-			$.ajax({
-					type : "post",
-					dataType : "json",
-					url : ajaxurl,
-					data : { action: "wpvr_black_friday_offer_notice_dismiss", nonce : wpvr_global_obj.ajax_nonce },
-					success: function(response) {
-							if(response.success) {
-									that.fadeOut('slow');
-							}
-					}
-			})
-		}
-		$(document).on('click', '.wpvr-black-friday-offer notice-dismiss', wpvr_bf_notice_dismiss);
-
-
-		function wpvr_halloween_notice_dismiss(event) {
-			event.preventDefault();
-			$('#rex_wpvr_deal_notification').css('display','none');
-			var ajaxurl = wpvr_global_obj.ajaxurl;
-			var that = $(this);
-			$.ajax({
-				type : "post",
-				dataType : "json",
-				url : ajaxurl,
-				data : { action: "wpvr_halloween_offer_notice_dismiss", nonce : wpvr_global_obj.ajax_nonce },
-				success: function(response) {
-					if(response.success) {
-						that.fadeOut('slow');
-					}
-				}
-			})
-		}
-		$(document).on('click', '.close-promotional-banner', wpvr_halloween_notice_dismiss);
-
 	});
 
 	$(document).on("click","#wpvr-dismissible",function(e) {
@@ -103,29 +64,6 @@
 					}
 		});
 	});
-
-
-	/**
-	 * Dismiss black friday notice
-	 *
-	 * @param e
-	 */
-	function wpvr_dismiss_black_friday_notice(e) {
-		e.preventDefault();
-		jQuery.ajax({
-			type: "POST",
-			url: ajaxurl,
-			data: {
-				action: "wpvr_dismiss_black_friday_notice",
-				nonce : wpvr_global_obj.ajax_nonce
-			},
-			success: function(response) {
-				$('.wpvr-black-friday-banner').hide();
-			}
-		});
-	}
-	$(document).on('click', '#wpvr-black-friday-close-button, #wpvr-black-friday-close-button svg', wpvr_dismiss_black_friday_notice);
-
 
     // video setup wizard__video
     $( document ).on( 'click', '.box-video', function() {
@@ -162,9 +100,5 @@
 		setTimeout(function(){
 			current.find(".copy-shortcode-text").hide();
 		}, 2000 );
-
 	}
-
-	
-
 })( jQuery );

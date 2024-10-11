@@ -73,7 +73,6 @@ class Wpvr_Ajax
     add_action('wp_ajax_wpvr_file_import',       array($this, 'wpvr_file_import'));
     add_action('wp_ajax_wpvr_role_management',   array($this, 'wpvr_role_management'));
     add_action('wp_ajax_wpvr_notice',            array($this, 'wpvr_notice'));
-    add_action('wp_ajax_wpvr_halloween_offer_notice_dismiss',  array($this, 'wpvr_halloween_offer_notice_dismiss'));
     add_action('wp_ajax_wpvr_dismiss_black_friday_notice',  array($this, 'dismiss_black_friday_notice'));
     add_action('wp_ajax_wpvr_review_request',  array($this, 'wpvr_review_request'));
 
@@ -391,24 +390,6 @@ class Wpvr_Ajax
     //===Nonce check===//
     update_option('wpvr_black_friday_notice', '1');
   }
-
-  /**
-   * WPVR Halloween Notice
-   * 
-   * @return void
-   */
-  function wpvr_halloween_offer_notice_dismiss()
-  {
-      if( !current_user_can( 'manage_options' ) ){
-          wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
-          return;
-      }
-    update_option('_is_wpvr_promotion', 'no');
-    wp_send_json([
-      'success' => true,
-    ]);
-  }
-
 
   /**
    * Dismiss black friday notice
