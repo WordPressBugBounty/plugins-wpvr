@@ -729,9 +729,18 @@ function onDocumentMouseDown(event) {
     }
 
     //==Custom wpvr code to set coordinate on admin==//
+
+    // Parse the URL parameters to get the value of the 'active_tab' parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeTab = urlParams.get('active_tab') ?? '';
+
     var coords = mouseEventToCoords(event);
     jQuery("#panodata").html('Pitch: ' + coords[0] + ', Yaw: ' + coords[1]);
-    jQuery( ".rex-hide-coordinates" ).removeClass( 'rex-hide-coordinates' );
+    if( activeTab && 'hotspot' === activeTab ){
+        jQuery(".add-pitch").removeClass('rex-hide-coordinates');
+    }else{
+        jQuery(".add-pitch").addClass('rex-hide-coordinates');
+    }
     //==Custom wpvr code end==//
 
     // Turn off auto-rotation if enabled

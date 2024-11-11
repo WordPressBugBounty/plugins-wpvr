@@ -98,16 +98,22 @@ class WPVR_Special_Occasion_Banner
                     <div class="rex-notification-counter__container">
                         <div class="rex-notification-counter__content">
 
+                            <figure class="rex-notification-counter__biggest-sale">
+                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/biggest-sale-text.webp'); ?>" alt="<?php esc_attr_e('Biggest sale of the year!', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                            </figure>
+
                             <figure class="rex-notification-counter__figure-logo">
-                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/halloween/halloween-logo.webp'); ?>" alt="<?php esc_attr_e('Halloween special offer banner', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/black-friday-logo.webp'); ?>" alt="<?php esc_attr_e('Black Friday special offer logo', 'wpvr'); ?>" class="rex-notification-counter__img" >
                             </figure>
 
                             <figure class="rex-notification-counter__figure-percentage">
-                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/halloween/discount-percent.webp'); ?>" alt="<?php esc_attr_e('Halloween special offer banner', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/discount-percent.webp'); ?>" alt="<?php esc_attr_e('Black Friday special discount', 'wpvr'); ?>" class="rex-notification-counter__img" >
                             </figure>
 
                             <div id="rex-halloween-countdown" class="rex-notification-counter__countdown" aria-live="polite">
-                                <h3 class="screen-reader-text"><?php esc_html_e('Offer Countdown', 'wpvr'); ?></h3>
+                                <span class="screen-reader-text">
+                                    <?php esc_html_e('Offer Countdown', 'wpvr'); ?>
+                                </span>
                                 <ul class="rex-notification-counter__list">
                                     <?php foreach (['days', 'hours', 'mins'] as $unit): ?>
                                         <li class="rex-notification-counter__item">
@@ -124,16 +130,18 @@ class WPVR_Special_Occasion_Banner
 
                             <div class="rex-notification-counter__btn-area">
                                 <a 
-                                    href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=plugin-CTA&utm_medium=wpvr-free-plugin&utm_campaign=halloween-2024' ); ?>"
+                                    href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=plugin-CTA&utm_medium=wpvr-free-plugin&utm_campaign=bfcm-2024' ); ?>"
                                     class="rex-notification-counter__btn"
                                     target="_blank"
                                 >
 
-                                    <span class="screen-reader-text"><?php esc_html_e('Click to view Halloween sale products', 'wpvr'); ?></span>
+                                    <span class="screen-reader-text">
+                                        <?php esc_html_e('Click to view Black Friday sale products', 'wpvr'); ?>
+                                    </span>
 
-                                    <?php esc_html_e('FLAT', 'wpvr'); ?> 
-                                    <strong class="rex-notification-counter__stroke-font">30%</strong> 
-                                    <?php esc_html_e('OFF', 'wpvr'); ?>
+                                    <?php esc_html_e('Get Discount Now', 'wpvr'); ?> 
+                                    <!-- <strong class="rex-notification-counter__stroke-font">30%</strong>  -->
+                                    <?php //esc_html_e('OFF', 'wpvr'); ?>
                                 </a>
                             </div>
                         </div>
@@ -250,8 +258,8 @@ class WPVR_Special_Occasion_Banner
     public function add_styles()
     {
         $plugin_dir_url = plugin_dir_url(__FILE__);
-    ?>
-        <style id="wpvr-promotional-banner-style" type="text/css">
+        ?>
+        <style id="promotional-banner-style" type="text/css">
             @font-face {
                 font-family: 'Inter';
                 src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Bold.woff2'; ?>) format('woff2');
@@ -269,8 +277,8 @@ class WPVR_Special_Occasion_Banner
             }
 
             @font-face {
-                font-family: "Circular Std Book";
-                src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/CircularStd-Book.woff2'; ?>) format('woff2');
+                font-family: "Inter";
+                src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Regular.woff2'; ?>) format('woff2');
                 font-weight: 400;
                 font-style: normal;
                 font-display: swap;
@@ -282,10 +290,10 @@ class WPVR_Special_Occasion_Banner
             }
 
             .rex-feed-tb__notification.wpvr-banner {
-                background-color: #03031e;
+                background-color: #05041E;
                 width: calc(100% - 20px);
                 margin: 50px 0 20px;
-                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/halloween/promotional-banner-bg.webp'; ?>);
+                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/black-friday-banner-bg.webp'; ?>);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -300,8 +308,13 @@ class WPVR_Special_Occasion_Banner
             .wpvr-banner .rex-notification-counter {
                 position: relative;
                 z-index: 1111;
-                padding: 9px 0 4px;
+                padding: 12px 0;
             }
+
+            .wpvr-banner .rex-notification-counter figure {
+                margin: 0;
+            }
+
             .wpvr-banner .rex-notification-counter__container {
                 position: relative;
                 width: 100%;
@@ -316,13 +329,16 @@ class WPVR_Special_Occasion_Banner
                 align-items: center;
                 gap: 20px;
             }
+            .wpvr-banner .rex-notification-counter__biggest-sale {
+                max-width: 188px;
+            }
             .wpvr-banner .rex-notification-counter__figure-logo {
-                max-width: 268px;
-                margin: 0;
+                max-width: 226px;
             }
             .wpvr-banner .rex-notification-counter__figure-percentage {
-                max-width: 248px;
-                margin: 0;
+                max-width: 270px;
+                position: relative;
+                top: -5px;
             }
             .wpvr-banner .rex-notification-counter__img {
                 width: 100%;
@@ -332,7 +348,7 @@ class WPVR_Special_Occasion_Banner
             .wpvr-banner .rex-notification-counter__list {
                 display: flex;
                 justify-content: center;
-                gap: 10px;
+                gap: 14px;
                 margin: 0;
                 padding: 0;
                 list-style: none;
@@ -352,11 +368,11 @@ class WPVR_Special_Occasion_Banner
             .wpvr-banner .rex-notification-counter__item {
                 display: flex;
                 flex-direction: column;
-                width: 56.14px;
-                font-family: "Circular Std Book";
-                font-size: 15px;
-                font-weight: 500;
-                line-height: normal;
+                width: 55px;
+                font-family: "Inter";
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1;
                 letter-spacing: 0.75px;
                 text-transform: uppercase;
                 text-align: center;
@@ -380,19 +396,29 @@ class WPVR_Special_Occasion_Banner
                     width: 47px;
                 }
             }
+            .wpvr-banner .rex-notification-counter__label {
+                font-weight: 400;
+            }
+
             .wpvr-banner .rex-notification-counter__time {
-                font-size: 32px;
+                font-size: 28px;
                 font-family: "Inter";
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
                 color: #fff;
                 text-align: center;
-                margin-bottom: 6px;
-                border-radius: 3px 3px 10px 10px;
-                border: 1px solid #201cfe;
-                border-bottom-width: 5px;
-                background: linear-gradient(155deg, #201cfe 2.02%, #100e35 55.1%, #100e35 131.47%);
+                height: 44px;
+                padding: 1px 2px 0px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 10px;
+                border-radius: 10px;
+                box-shadow: 0px 4px 0px 0px #201CFE;
+                background-image: linear-gradient(148deg, #201CFE 17.69%, #0F0E62 80.41%), linear-gradient(180deg, #00B4FF, #3F05FD);
+                background-origin: border-box;
+                background-clip: content-box, border-box;
             }
             @media only screen and (max-width: 1199px) {
                 .wpvr-banner .rex-notification-counter__time {
@@ -413,17 +439,16 @@ class WPVR_Special_Occasion_Banner
                 position: relative;
                 background-color: #3F05FD;
                 font-family: "Inter";
-                font-size: 20px;
-                font-weight: 500;
-                line-height: normal;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 1;
                 color: #fff;
                 text-align: center;
                 filter: drop-shadow(0px 30px 60px rgba(21, 19, 119, 0.20));
-                padding: 12px 22px;
+                padding: 18px 20px;
                 display: inline-block;
                 border-radius: 10px;
                 cursor: pointer;
-                text-transform: uppercase;
                 transition: all 0.3s ease;
                 text-decoration: none;
                 box-shadow: none;
@@ -457,9 +482,6 @@ class WPVR_Special_Occasion_Banner
             
 
             @media only screen and (max-width: 1599px) {
-                .wpvr-banner .rex-notification-counter__container {
-                    max-width: 1030px;
-                }
                 .wpvr-banner .rex-notification-counter__figure-logo {
                     max-width: 200px;
                 }
@@ -481,27 +503,67 @@ class WPVR_Special_Occasion_Banner
                     background-position: left center;
                 }
 
+                .wpvr-banner .rex-notification-counter__container {
+                    max-width: 1140px;
+                }
+
+                .wpvr-banner .rex-notification-counter {
+                    padding: 12px 0;
+                }
+                .wpvr-banner .rex-notification-counter__biggest-sale {
+                    max-width: 128px;
+                }
+                .wpvr-banner .rex-notification-counter__figure-logo {
+                    max-width: 160px;
+                }
+                .wpvr-banner .rex-notification-counter__figure-percentage {
+                    max-width: 180px;
+                    top: 0;
+                }
+
+                .wpvr-banner .rex-notification-counter__list {
+                    gap: 8px;
+                }
+                .wpvr-banner .rex-notification-counter__item {
+                    width: 44px;
+                    font-size: 12px;
+                }
+                .wpvr-banner .rex-notification-counter__time {
+                    font-size: 24px;
+                    height: 36px;
+                }
+
+                .wpvr-banner .rex-notification-counter__btn {
+                    padding: 15px 20px;
+                }
+
             }
 
             @media only screen and (max-width: 1199px) {
                 .wpvr-banner .rex-notification-counter__container {
-                    max-width: 740px;
+                    max-width: 820px;
+                }
+                .wpvr-banner .rex-notification-counter__biggest-sale {
+                    max-width: 110px;
                 }
                 .wpvr-banner .rex-notification-counter__figure-logo {
-                    max-width: 140px;
+                    max-width: 130px;
                 }
                 .wpvr-banner .rex-notification-counter__figure-percentage {
                     max-width: 140px;
                 }
                 .wpvr-banner .rex-notification-counter__time {
-                    font-size: 22px;
-                    padding: 2px 0;
+                    font-size: 18px;
+                    height: 32px;
                     font-weight: 500;
+                    border-radius: 7px;
+                }
+                .wpvr-banner .rex-notification-counter__item {
+                    font-size: 11px;
+                    width: 42px;
                 }
                 .wpvr-banner .rex-notification-counter__btn {
                     font-size: 13px;
-                    padding: 8px 16px;
-                    transform: translateY(-2px);
                 }
                 .wpvr-banner .rex-notification-counter__stroke-font {
                     font-size: 20px;
@@ -510,11 +572,31 @@ class WPVR_Special_Occasion_Banner
             }
 
             @media only screen and (max-width: 991px) {
+                .wpvr-banner .rex-notification-counter__biggest-sale {
+                    max-width: 100px;
+                }
+                .wpvr-banner .rex-notification-counter__figure-logo {
+                    max-width: 110px;
+                }
+
                 .wpvr-banner .rex-notification-counter__item {
-                    font-size: 12px;
+                    width: 36px;
+                    font-size: 10px;
+                }
+                .wpvr-banner .rex-notification-counter__time {
+                    height: 28px;
+                }
+                .wpvr-banner .rex-notification-counter__figure-percentage {
+                    max-width: 140px;
+                }
+
+                .wpvr-banner .rex-notification-counter__btn {
+                    padding: 12px 14px;
+                    border-radius: 6px;
                 }
 
             }
+
         </style>
         <?php
 

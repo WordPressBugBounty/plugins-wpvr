@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.7
+ * Version:           8.5.8
  * Tested up to:      6.6
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -38,7 +38,7 @@ require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.7');
+define('WPVR_VERSION', '8.5.8');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -94,15 +94,16 @@ function run_wpvr()
     $plugin->run();
 
     // black friday banner class initialization
-   new WPVR_Special_Occasion_Banner(
-        'halloween_first_deal_2024',
-	   '2024-10-09 00:00:00',
-	   '2024-10-25 00:00:00'
+    new WPVR_Special_Occasion_Banner(
+        'blackfriday_deal_2024',
+	   '2024-11-11 00:00:00',
+	   '2024-12-05 23:59:59'
     );
 
     // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
-    //     new WPVR_Notification_Bar();
+    //     new WPVR_Notification_Bar(); 
     // }
+
 
 }
 run_wpvr();

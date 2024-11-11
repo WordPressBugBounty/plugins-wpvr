@@ -1,11 +1,11 @@
-=== WP VR - 360 Panorama and Virtual Tour Builder For WordPress ===
+=== WP VR - 360 Panorama and Free Virtual Tour Builder For WordPress ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour
+Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.7
+Stable tag: 8.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,9 +26,10 @@ Simply upload a 360 panorama image, and the plugin will help you transform it in
 
 WPVR gives you all the features needed to create a free virtual tour on your own.
 
-<h4>🎃 Halloween Special Sale - 30% Off! 🎃 </h4>
 
-<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=halloween-2024" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at a 30% Discount Today! 🔥</a> </h4>
+🙌 Special Black Friday Sale 🙌
+
+<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=bfcm-2024" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at a 40% Discount Today! 💸 🔥</a> </h4>
 
 
 Learn how to create a free virtual tour in just a few minutes! 👇
@@ -135,7 +136,7 @@ No worries.
 
 You can easily [create a complete floor plan](https://rextheme.com/docs/virtual-floor-plans-inside-tours/) for your property, store, showroom, or any other place you own.
 
-Real Estate Floor plans are really popular among realtors and agencies and you can also utilize them to spice up your real estate tours.
+Real Estate Floor plans are really popular among realtors and real estate agencies and you can also utilize them to spice up your real estate tours.
 
 Upload the floor plan to WPVR,
 set pointers on that floor map for every 360 panorama scene you’ve created, and simply connect the pointers with the scenes.
@@ -432,6 +433,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.8 (11-11-2024) =
+* Fixed: Warning box style issue
+* Fixed: Wrong warning message while deleting a scene
+* Fixed: Pitch and Yaw issue in the scene
+* Fixed: Broken UI after uploading a scene
 
 = 8.5.7 (11-10-2024) =
 * Improvement: Optimized Tour Listing page performance

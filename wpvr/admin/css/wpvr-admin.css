@@ -2802,6 +2802,7 @@ button.delete-scene {
     right: 50%;
     max-width: 605px;
     width: 100%;
+    padding: 40px;
     -webkit-transform: translate(50%, -50%);
     -moz-transform: translate(50%, -50%);
     -ms-transform: translate(50%, -50%);
@@ -3369,6 +3370,12 @@ button.delete-scene {
     }
 }
 
+@media (max-width: 1470px) {
+    .post-type-wpvr_item #post-body #postbox-container-1 .iframe-wrapper iframe {
+        width: 475px;
+        height: 300px;
+    }
+}
 
 /* -----------On Boarding Page style----------- */
 
@@ -3653,7 +3660,7 @@ p.wpvr-premium-feature__discount-price-label {
 }
 
 p.wpvr-premium-feature__discount-price-label:before {
-    content: "Save 20%";
+    content: "Save 40%";
     position: absolute;
     background: #00b4ff;
     border-radius: 16px 16px 16px 0;

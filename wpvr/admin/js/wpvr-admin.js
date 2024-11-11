@@ -2155,5 +2155,34 @@
         
     });
 
+    jQuery(document).ready(function() {
+        jQuery(".rex-pano-tab-nav li").on('click', function() {
+            var activeTab = jQuery(this).data('screen');
+            var panoData = jQuery("#panodata").html();
 
+            if (panoData && panoData.trim() !== "") {
+                if (activeTab && 'hotspot' === activeTab) {
+                    if (jQuery(".add-pitch").hasClass('rex-hide-coordinates')) {
+                        jQuery(".add-pitch").removeClass('rex-hide-coordinates');
+                    }
+                } else {
+                    if (!jQuery(".add-pitch").hasClass('rex-hide-coordinates')) {
+                        jQuery(".add-pitch").addClass('rex-hide-coordinates');
+                    }
+                }
+            }
+            toggleSceneGallery(activeTab);
+        });
+
+        var activeTab = jQuery('.videos.active').data('screen');
+        toggleSceneGallery(activeTab);
+    });
+
+    function toggleSceneGallery(activeTab) {
+        if (activeTab && 'video' === activeTab) {
+            jQuery('.scene-gallery').hide();
+        } else {
+            jQuery('.scene-gallery').show();
+        }
+    }
 })(jQuery);
