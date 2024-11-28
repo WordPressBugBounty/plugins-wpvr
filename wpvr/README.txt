@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.8
+Stable tag: 8.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -434,7 +434,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-= 8.5.8 (11-11-2024) =
+= 8.5.9 (11-10-2024) =
+* Fix: Compatibility With WP 6.7
+
+= 8.5.8 (28-11-2024) =
 * Fixed: Warning box style issue
 * Fixed: Wrong warning message while deleting a scene
 * Fixed: Pitch and Yaw issue in the scene
