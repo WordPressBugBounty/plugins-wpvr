@@ -3660,7 +3660,7 @@ p.wpvr-premium-feature__discount-price-label {
 }
 
 p.wpvr-premium-feature__discount-price-label:before {
-    content: "Save 40%";
+    content: "Save 20%";
     position: absolute;
     background: #00b4ff;
     border-radius: 16px 16px 16px 0;

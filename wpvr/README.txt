@@ -1,11 +1,11 @@
 === WP VR - 360 Panorama and Free Virtual Tour Builder For WordPress ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image
+Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.9
+Stable tag: 8.5.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,10 +27,7 @@ Simply upload a 360 panorama image, and the plugin will help you transform it in
 WPVR gives you all the features needed to create a free virtual tour on your own.
 
 
-🙌 Special Black Friday Sale 🙌
-
-<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=bfcm-2024" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at a 40% Discount Today! 💸 🔥</a> </h4>
-
+<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro)! 🔥</a> </h4>
 
 Learn how to create a free virtual tour in just a few minutes! 👇
 
@@ -41,7 +38,7 @@ WPVR has a simple & user-friendly interface, designed for you to create virtual 
 
 **In fact, you can create a virtual tour for free in less than 5 minutes!!**
 
-We also have Video Tutorials, Detailed Documentation, and Virtual Tour Creation Guides in case you need any help.
+We also have video tutorials, detailed documentation, and virtual tour creation guides if you need any help.
 
 <h4><a href="https://www.youtube.com/watch?v=aNwB066MYko&list=PLelDqLncNWcUndi1NkXJh2BH62OYmIayt&ab_channel=RexTheme" target="_blank"> ✅ How to Create Free 360 Virtual Tours [Video Tutorials] </a> </h4>
 
@@ -433,6 +430,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.10 (2024-12-13) =
+* Enhancement: Update pricing on setup wizard
 
 = 8.5.9 (11-10-2024) =
 * Fix: Compatibility With WP 6.7
