@@ -431,7 +431,7 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['autoRotate']) ? $postdata['autoRotate'] : -5,
                 'placeholder' => -5,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Set a value to determine the speed of rotation. The higher the number, the faster it will rotate. Positive values will make it rotate clockwise and negative values will make it rotate anti clockwise','wpvr'),
+                'tooltip_text' => __('Set a value to determine the speed of rotation. The higher the number, the faster it will rotate. Positive values will make it rotate anti clockwise and negative values will make it rotate clockwise','wpvr'),
             ),
             'auto-rotation-inactive-delay' => array(
                 'class' => 'single-settings autorotationdata',

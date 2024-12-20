@@ -285,6 +285,8 @@ class Wpvr_Admin
                 'url' => $_SERVER['PHP_SELF'],
                 'param' => $_GET,
             ),
+            'active_tab_url' => admin_url('post-new.php?post_type=wpvr_item&active_tab=scene'),
+            'hotspot_warning_text' => __('Please upload a scene before proceeding to set hotspot!', 'wpvr'),
         ));
         wp_localize_script('wpvr-global', 'wpvr_id_options', $wpvr_list);
     }

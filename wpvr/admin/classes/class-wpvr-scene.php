@@ -1862,6 +1862,7 @@ class WPVR_Scene {
                 }
             }
         }
+        $html .= '(function ($) {';
         $html .= 'jQuery(document).ready(function() {';
         $html .= 'var response = ' . $response . ';';
         $html .= 'var scenes = response[1];';
@@ -2786,6 +2787,7 @@ class WPVR_Scene {
                 jQuery(this).removeAttr("title");
             });';
         $html .= '});';
+        $html .= '})(jQuery);';
         $html .= '</script>';
 
         $tour_data = [];

@@ -92,9 +92,10 @@
   right: 50%;
   bottom: 50%;
   transform: translate(50%, 50%);
-  width: 80% !important;
-  height: 80% !important;
   z-index: 100;
+  max-width: 80%;
+  background: transparent;
+  object-fit: contain;
 }
 .et-db #et-boc .wpvr-floor-map .floor-plan-pointer,
 .wpvr-floor-map .floor-plan-pointer {
@@ -159,7 +160,7 @@
   display: block;
   margin-left: auto;
   height: 100%;
-  border-radius: 5px;
+  border-radius: 5px
 }
 .et-db #et-boc .wpvr-floor-map img {
   border-radius: 5px !important;
@@ -1106,7 +1107,11 @@ div.custom-ifram {
   max-width: 100%;
   margin: 0 auto !important;
   display: block;
-  width: auto !important;
+  width: 100% !important;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /*-------load box----------*/

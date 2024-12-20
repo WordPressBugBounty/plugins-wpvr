@@ -31,7 +31,7 @@
      * practising this, we should strive to set a better example in our own work.
      */
 
-
+    let lastChildClicked = false;
     $(document).ready(function () {
         if($('#scene-1').find('input.sceneid').val()){
             $('.scene-gallery').append('<ul style="width:150px;"><li class="owlscene owl" ></li><li title="Double click to Upload scene"><div class="upload-scene-wrapper"><img loading="lazy"  class="scctrl upload-form-scene-gallery" src="'+window.wpvr_localize.WPVR_ASSET_PATH+'/icon/scene-upload.svg"><p>Upload Scene</p></div></li></ul>');
@@ -71,20 +71,25 @@
     var newScene = ''
     $(document).on("click", ".scene-nav ul li span", function (event) {
         $('.owl-item').removeClass('marked');
-        var target = $(this).attr("data-index");
-        if(target == undefined){
-            var currentLi = $(this).parent('li');
-            var previousLi = currentLi.prev();
-            if (previousLi.length > 0) {
-                newScene = previousLi.find('span').attr('data-index');
+        setTimeout(function(){
+            var target = $('.scene-nav ul li.active span').attr("data-index");
+            if(target == undefined){
+                var currentLi = $(this).parent('li');
+                var previousLi = currentLi.prev();
+                if (previousLi.length > 0) {
+                    newScene = previousLi.find('span').attr('data-index');
+                }
             }
-        }
-        var data = $('#scene-' + target).find('input.sceneid').val();
-        if (data) {
-            specificeSceneID = data;
-            $('.panolenspreview').trigger('click')
-            $('.owl' + data).parents('.owl-item').addClass('marked');
-        }
+            var data = $('#scene-' + target).find('input.sceneid').val();
+            if (data) {
+                specificeSceneID = data;
+                if(!lastChildClicked){
+                    $('.panolenspreview').trigger('click')
+                }
+                $('.owl' + data).parents('.owl-item').addClass('marked');
+            }
+            lastChildClicked = false;
+        }, 500);
     });
 
     jQuery(document).ready(function ($) {
@@ -643,7 +648,7 @@
                     ],
                 });
                 if ($(this).parents(".scene-setup").attr("data-limit").length > 0) {
-
+                    lastChildClicked = true;
                     if ($(this).parents(".scene-setup").find("div[data-repeater-item]:not(.hotspot-setup div[data-repeater-item])").length <= $(this).parents(".scene-setup").attr("data-limit")) {
 
                         $(this).slideDown();
@@ -702,39 +707,6 @@
                 if (elementcontains.indexOf(str1) != -1 && elementcontains.indexOf(str2) == -1) {
 
                     var _this = $(this);
-                    // $('.wpvr-delete-alert-wrapper').addClass('pano-error-color').css('display', 'flex');
-                    // $('#confirm_text').html(' Are you sure you want to delete this Scene?');
-                    // $('.wpvr-delete-confirm-btn .yes').click(function (e) {
-                    //     e.preventDefault();
-                    //     jQuery(_this).slideUp(deleteElement);
-                    //     if (current == fchild) {
-                    //         $(_this).next().addClass("active");
-                    //         $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").next().addClass("active");
-                    //         $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").next().children("span").trigger("click");
-                    //     } else {
-                    //         $(_this).prev().addClass("active");
-                    //         $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").prev().addClass("active");
-                    //         $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").prev().children("span").trigger("click");
-                    //     }
-                    //     $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").remove();
-                    //     setTimeout(deleteinfodata, 1000);
-
-                    //     //tab active setup
-                    //     if (parseInt(_hide_id) - 1 > 0) {
-                    //         $('#wpvr_active_scenes').val(parseInt(_hide_id) - 1);
-                    //     } else {
-                    //         $('#wpvr_active_scenes').val(1);
-                    //     }
-                    //     $('#wpvr_active_hotspot').val(1);
-                    //     $('.wpvr-delete-alert-wrapper').removeClass('pano-error-color').css('display', 'none');
-                    //     $('.wpvr-delete-alert-wrapper').hide();
-                    // });
-
-                    // $(document).on("click", ".wpvr-delete-confirm-btn .cancel, .wpvr-delete-alert-wrapper .cross", function (e) {
-                    //     e.preventDefault();
-                    //     $('.wpvr-delete-alert-wrapper').removeClass('pano-error-color').css('display', 'none');
-                    //     $('.wpvr-delete-alert-wrapper').hide();
-                    // });
 
                     if (confirm('Are you sure you want to delete?')) {
                         jQuery(_this).slideUp(deleteElement);
@@ -869,39 +841,6 @@
                     if (hpelementcontains.indexOf(hpstr1) != -1 && hpelementcontains.indexOf(hpstr2) != -1) {
 
                         var _this = $(this);
-
-                        // $('#confirm_text').html(' Are you sure you want to delete this Hotspot?');
-                        // $('.wpvr-delete-alert-wrapper').addClass('pano-error-color').css('display', 'flex');
-
-                        // $('.wpvr-delete-confirm-btn .yes').click(function (e) {
-                        //     e.preventDefault();
-                        //     jQuery(_this).slideUp(deleteElement);
-                        //     if (hotspot_current == hotspot_fchild) {
-                        //         $(_this).next().addClass("active");
-                        //         $(_this).parent().parent('.hotspot-setup').find('.hotspot-nav li span[data-href="' + hotspot_hide_id + '"]').parent("li").next().addClass("active");
-
-                        //     } else {
-                        //         $(_this).prev().addClass("active");
-                        //         $(_this).parent().parent('.hotspot-setup').find('.hotspot-nav li span[data-href="' + hotspot_hide_id + '"]').parent("li").prev().addClass("active");
-                        //     }
-
-                        //     $(_this).parent().parent('.hotspot-setup').find('.hotspot-nav li:not(:last-child) span[data-href="' + hotspot_hide_id + '"]').parent("li").remove();
-
-                        //     //tab active setup
-                        //     if (parseInt(_hide_id) - 1 > 0) {
-                        //         $('#wpvr_active_hotspot').val(parseInt(_hide_id) - 1);
-                        //     } else {
-                        //         $('#wpvr_active_hotspot').val(1);
-                        //     }
-                        //     $('.wpvr-delete-alert-wrapper').removeClass('pano-error-color').css('display', 'none');
-                        //     $('.wpvr-delete-alert-wrapper').hide();
-                        // });
-
-                        // $(document).on("click", ".wpvr-delete-confirm-btn .cancel, .wpvr-delete-alert-wrapper .cross", function (e) {
-                        //     e.preventDefault();
-                        //     $('.wpvr-delete-alert-wrapper').removeClass('pano-error-color').css('display', 'none');
-                        //     $('.wpvr-delete-alert-wrapper').hide();
-                        // });
 
                         if (confirm('Are you sure you want to delete?')) {
                             jQuery(_this).slideUp(deleteElement);
@@ -1206,25 +1145,6 @@
         });
     });
 
-    // $(document).on("change", "input[type=radio][name=panovideo]", function(event) {
-    //     var getvalue = $(this).val();
-
-    //     if (getvalue == 'on') {
-
-    //         $(".video-setting").show();
-    //         $("li.general").hide();
-    //         $("li.scene").hide();
-    //         $("li.hotspot").hide();
-    //         $("li.streetview").hide();
-    //     } else {
-    //         $(".video-setting").hide();
-    //         $("li.general").show();
-    //         $("li.scene").show();
-    //         $("li.hotspot").show();
-    //         $("li.streetview").show();
-    //     }
-    // });
-
     jQuery(document).ready(function ($) {
         var viddata = $("input[name='panovideo']:checked").val();
         
@@ -1351,6 +1271,7 @@
             var newUrl = url_info.admin_url+"post.php?"+"post="+url_info.param.post+"&action=edit"+"&active_tab="+screen;
         }
 
+        handle_add_pitch_button(screen);
 
         if (window.history != 'undefined' && window.history.pushState != 'undefined') {
             window.history.pushState({ path: newUrl }, '', newUrl);
@@ -2104,15 +2025,6 @@
         } 
     });
 
-    // $(document).on('click','.rex-import-disable',function(){
-    //     setTimeout(function(){
-    //         $('.pano-alert .pano-error-message').html('<span class="pano-error-title">Import Tour</span><p> To import a VR tour, you\'ll need to upgrade to WP VR Pro from the free version you\'re currently using.</p>');
-    //         $('body').addClass('error-overlay2');
-    //         $('.pano-alert').addClass('pano-default-warning').show();
-    //     }, 500 );
-    // });
-
-
     $(document).on("click", ".single-settings .wpvr-switcher input:disabled+label,.vr-export,#styled-radio-sv-off,#styled-radio-sv-on,#wpvr_floor_plan_enabler,.wpvr_cardboard_disable_label,.rex-import-disable,.single-settings.scene-animation", function (event) {
         event.preventDefault();
         $("#wpvr_premium_feature_popup").show();
@@ -2155,34 +2067,75 @@
         
     });
 
-    jQuery(document).ready(function() {
-        jQuery(".rex-pano-tab-nav li").on('click', function() {
-            var activeTab = jQuery(this).data('screen');
-            var panoData = jQuery("#panodata").html();
-
-            if (panoData && panoData.trim() !== "") {
-                if (activeTab && 'hotspot' === activeTab) {
-                    if (jQuery(".add-pitch").hasClass('rex-hide-coordinates')) {
-                        jQuery(".add-pitch").removeClass('rex-hide-coordinates');
-                    }
-                } else {
-                    if (!jQuery(".add-pitch").hasClass('rex-hide-coordinates')) {
-                        jQuery(".add-pitch").addClass('rex-hide-coordinates');
-                    }
-                }
-            }
-            toggleSceneGallery(activeTab);
-        });
-
-        var activeTab = jQuery('.videos.active').data('screen');
-        toggleSceneGallery(activeTab);
+    $(document).ready(function() {
+        handle_add_pitch_button();
+        toggleSceneGallery();
     });
 
-    function toggleSceneGallery(activeTab) {
+    $(document).on( 'mousedown', 'div.pnlm-dragfix', () => { handle_add_pitch_button() } );
+
+    function get_active_tab() {
+        let activeTab = $('#wpvr_active_tab').val() ?? null;
+        if ( !activeTab ) {
+            activeTab = $(".rex-pano-tab-nav li.active").data('screen');
+        }
+        return activeTab;
+    }
+
+    function handle_add_pitch_button( activeTab = null ) {
+        activeTab = activeTab === null ? get_active_tab() : activeTab;
+
+        if(handle_hotspot_tab(activeTab, true))
+            return;
+
+        if( activeTab && 'hotspot' === activeTab && '' !== $( "#panodata" ).html().trim() ) {
+            $(".add-pitch").removeClass('rex-hide-coordinates');
+        }
+        else {
+            $(".add-pitch").addClass('rex-hide-coordinates');
+        }
+
+        if('video' === activeTab){
+            $(".rex-add-coordinates").addClass('rex-hide-coordinates');
+        }else{
+            $(".rex-add-coordinates").removeClass('rex-hide-coordinates');
+        }
+    }
+
+    $(document).ready(function() {
+        $(".rex-pano-tab-nav li").on( 'click', function() {
+            var activeTab = jQuery(this).data('screen');
+            if(handle_hotspot_tab(activeTab, false))
+                return false;
+        });
+    });
+
+    function handle_hotspot_tab(activeTab, redirect) {
+        let isReturn = false;
+        if (activeTab && 'hotspot' === activeTab) {
+            const activeScene = jQuery('.scene-nav li.active span').attr('data-index');
+            const activeSceneId = $('#scene-' + activeScene).find(".form-group img").attr('src');
+            let activeTabUrl = window?.wpvr_global_obj?.active_tab_url;
+            if (!activeSceneId && redirect) {
+                window.location.replace(activeTabUrl);
+                isReturn = true;
+            } else if(!activeSceneId && !redirect){
+                alert(window?.wpvr_global_obj?.hotspot_warning_text);
+                jQuery('.rex-pano-tab-nav li scene').addClass('active');
+                isReturn = true;
+            }
+        }
+        return isReturn;
+    }
+
+
+    function toggleSceneGallery(activeTab = null) {
+        activeTab = activeTab === null ? get_active_tab() : activeTab;
         if (activeTab && 'video' === activeTab) {
             jQuery('.scene-gallery').hide();
         } else {
             jQuery('.scene-gallery').show();
         }
     }
+
 })(jQuery);

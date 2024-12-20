@@ -12,7 +12,7 @@
     justify-content: space-between;
 }
 
-.wpvr_halloween_dismiss{
+.wpvr_halloween_dismiss {
     cursor: pointer;
     border: 1px solid red;
 }
@@ -270,7 +270,6 @@ img.scctrl.upload-form-scene-gallery {
     background-color: #fff3cd;
     border-color: #ffeeba;
 }
-
 
 .vrgallery-gallery-icon-size .wpvr-switcher label:before {
     content: "S";
@@ -641,9 +640,7 @@ div.custom-tooltip:hover span:after {
     .pnlm-container {
         width: 100%!important;
     }
-    /* div.custom-tooltip span {
-        width: 420px!important;
-    } */
+
     .custom-tooltip p {
         width: 420px;
     }
@@ -908,11 +905,6 @@ div.custom-tooltip:hover span:after {
     background: #3F04FE;
 }
 
-/* .rex-pano-tabs .rex-pano-tab-nav li:hover>.navigator-pro-tag,
-.rex-pano-tabs .rex-pano-tab-nav li.active>.navigator-pro-tag {
-    color: #3F04FE;
-    background: #fff;
-} */
 
 .rex-pano-tabs .rex-pano-tab-nav li:hover span img.hover,
 .rex-pano-tabs .rex-pano-tab-nav li.active span img.hover {
@@ -998,6 +990,7 @@ div.custom-tooltip:hover span:after {
 .rex-pano-tab-content .rex-pano-tab.general {
     padding: 20px;
 }
+
 
 .pro-tag {
     position: absolute;
@@ -1752,8 +1745,6 @@ li.export.export-pro-tag {
     padding: 4px 10px;
     border-radius: 5px;
     float: right;
-    /* margin-top: 10px;
-    min-width: 183px; */
 }
 
 .wpvr-use-shortcode .wpvr-single-shortcode .wpvr-shortcode-field {
@@ -2080,6 +2071,19 @@ li.export.export-pro-tag {
 }
 
 
+/*--------------tab content streetview style----------------*/
+
+.rex-pano-tab.streetview .single-settings .field-tooltip {
+    position: relative;
+}
+
+.rex-pano-tab.streetview .single-settings .field-tooltip span:before {
+    left: -8px;
+}
+
+.rex-pano-tab.streetview .single-settings .field-tooltip span {
+    left: 26px;
+}
 
 .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span {
     bottom: calc(100% + 13px);
@@ -2113,9 +2117,6 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-sub-tabs .rex-pano-tab-nav ul li {
-    /* display: inline-block;
-    margin-right: 17px;
-    margin-bottom: 10px; */
     width: auto;
 }
 

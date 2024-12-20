@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.10
+Stable tag: 8.5.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -431,7 +431,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-= 8.5.10 (2024-12-13) =
+= 8.5.11 (19-12-2024) =
+* Fix: Preview image loading issue
+* Fix: 'Add pitch' goes missing after adding a pitch
+* Fix: YouTube iframe Embed Width Changes In The Hotspot Doesn't Reflect in Tour
+
+= 8.5.10 (13-12-2024) =
 * Enhancement: Update pricing on setup wizard
 
 = 8.5.9 (11-10-2024) =
