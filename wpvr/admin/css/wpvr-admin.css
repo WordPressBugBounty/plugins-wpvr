@@ -551,7 +551,17 @@ div.custom-tooltip:hover span:after {
     width: 400px;
 }
 
+
+.rex-add-coordinates > ul:first-child {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .rex-add-coordinates ul li {
+    position: relative;
     display: inline-block;
     text-align: center !important;
     cursor: pointer;
@@ -564,10 +574,11 @@ div.custom-tooltip:hover span:after {
     font-size: 13px;
 }
 
-.rex-add-coordinates ul li.add-pitch {
+.rex-add-coordinates ul li.add-pitch i {
     margin-bottom: 0;
     width: 20px;
     height: 20px;
+    line-height: 20px;
     background: rgb(71, 117, 246);
     color: #fff;
     border-radius: 100%;
@@ -590,10 +601,12 @@ div.custom-tooltip:hover span:after {
     /* transform: rotate(-90deg); */
 }
 
+
+
 .rex-add-coordinates ul li.add-pitch .rex-tooltiptext {
     visibility: hidden;
     opacity: 0;
-    width: auto;
+    width: 220px;
     background-color: #222;
     color: #fff;
     text-align: center;
@@ -603,7 +616,7 @@ div.custom-tooltip:hover span:after {
     top: -100%;
     left: 50%;
     padding: 6px 12px;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     font-size: 11px;
     margin-top: -16px;
     letter-spacing: 0.5px;
@@ -624,7 +637,7 @@ div.custom-tooltip:hover span:after {
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-left: -5px;
+    margin-left: -2px;
     border-width: 5px;
     border-style: solid;
     border-color: #222 transparent transparent transparent;
@@ -634,6 +647,28 @@ div.custom-tooltip:hover span:after {
     visibility: visible;
     margin-top: -18px;
     opacity: 1;
+}
+
+
+@media (max-width: 1499px) {
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext {
+        right: 0;
+        left: -61px;
+    }
+
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
+        left: 80%;
+    }
+}
+
+@media (max-width: 1399px) {
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext {
+        left: 50%;
+    }
+
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
+        left: 50%;
+    }
 }
 
 @media (max-width: 1199px) {
@@ -3661,7 +3696,7 @@ p.wpvr-premium-feature__discount-price-label {
 }
 
 p.wpvr-premium-feature__discount-price-label:before {
-    content: "Save 20%";
+    content: "Save 25%";
     position: absolute;
     background: #00b4ff;
     border-radius: 16px 16px 16px 0;
@@ -4928,7 +4963,8 @@ a:focus.wpvr-premium-feature__btn {
     }
 }
 
-.rex-pano-tab-content .floor-plan .single-settings.inline-style, .rex-pano-tab-content .background-tour .single-settings.inline-style, .rex-pano-tab-content .general .inner-nav-content .single-settings.button_configuration{
+.rex-pano-tab-content .background-tour .single-settings.inline-style,
+.rex-pano-tab-content .general .inner-nav-content .single-settings.button_configuration {
     display: block;
 }
 

@@ -519,7 +519,7 @@
 
                     <?php
                         $price = '$79.99'; // This could be dynamic
-                        $price_discount = '$63.99'; // This could be dynamic
+                        $price_discount = '$59.99'; // This could be dynamic
                     ?>
 
                     <div class="wpvr-premium-feature__discount-price">

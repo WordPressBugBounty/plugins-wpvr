@@ -32,7 +32,7 @@ Class WPVR_Notification_Bar {
             <div class="wpvr-promo-banner__container">
                 <h2 class="wpvr-promo-banner__title" id="wpvr-promo-banner-title">
                     <a href="<?php echo esc_url($btn_link); ?>"  target ="_blank" class="wpvr-promo-banner__link" aria-label="Get Special Discount">
-                        <?php echo esc_html__('Get ', 'wpvr'); ?><strong class="wpvr-promo-banner__discount"><?php echo esc_html__(' 20% ', 'wpvr'); ?></strong><?php echo esc_html__(' Discount On ', 'wpvr'); ?><strong class="wpvr-promo-banner__discount"><?php echo esc_html__('WPVR', 'wpvr'); ?></strong>
+                        <?php echo esc_html__('Get ', 'wpvr'); ?><strong class="wpvr-promo-banner__discount"><?php echo esc_html__('20% ', 'wpvr'); ?></strong><?php echo esc_html__(' Discount On ', 'wpvr'); ?><strong class="wpvr-promo-banner__discount"><?php echo esc_html__('WPVR', 'wpvr'); ?></strong>
                         <span class="wpvr-promo-banner__icon" aria-hidden="true">
                             <svg class="wpvr-promo-banner__svg" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                                 <title id="arrow-icon-title">Arrow Icon</title>

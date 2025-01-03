@@ -774,7 +774,7 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_scene_navigation',
                 'type' => 'checkbox',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Turning it On will display a gallery with all the scenes on your tour. By double clicking on a scene thumbnail on the gallery, you can move to that specific scene. The gallery will only show up on the front end and not on the preview.','wpvr')
+                'tooltip_text' => __('Turning this on will display a navigation menu with all the scenes of the tour. By clicking on a menu item, you can move to the specific scene. The navigation will only appear on the front end and not in the preview.','wpvr')
             ),
             'bg_music' => array(
                 'class' => 'single-settings',

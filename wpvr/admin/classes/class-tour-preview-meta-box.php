@@ -152,7 +152,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext">Add This Position into active Hotspot</span>
+                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>
@@ -179,7 +179,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext">Add This Position into active Hotspot</span>
+                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>
@@ -587,7 +587,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext">Add This Position into active Hotspot</span>
+                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>

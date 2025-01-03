@@ -3,7 +3,7 @@
         'name' => 'wpvr/wpvr',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '020804e01af1036f278bd0da77381e3a9a17e506',
+        'reference' => '26ef92168108fc0168d100958d0d63388e4518fd',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'wpvr/wpvr' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '020804e01af1036f278bd0da77381e3a9a17e506',
+            'reference' => '26ef92168108fc0168d100958d0d63388e4518fd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
