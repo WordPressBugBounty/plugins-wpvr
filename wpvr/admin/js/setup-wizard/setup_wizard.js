@@ -247,12 +247,12 @@
                   <div class="pro-text">
                   <p>
                   Starting at
-                  <span class="setup-wizard__pro-features-price-amount">$59.99</span>/year
+                  <span class="setup-wizard__pro-features-price-amount">$63.99</span>/year
                   </p>
                   <p>Normally $79.99/year</p>
                   </div>
                 <div class="setup-wizard__pro-features-price-tag">
-                  Save 25%
+                  Save 20%
                 </div>
               </div>
               <div class="setup-wizard__pro-feature-list-button-container">
