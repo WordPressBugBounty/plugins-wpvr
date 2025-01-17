@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.14
+ * Version:           8.5.15
  * Tested up to:      6.7.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -38,7 +38,7 @@ require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.14');
+define('WPVR_VERSION', '8.5.15');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -96,12 +96,12 @@ function run_wpvr()
     // black friday banner class initialization
     new WPVR_Special_Occasion_Banner(
         'christmas_deal_2024',
-	   '2024-12-17 00:00:00',
-	   '2025-01-05 23:59:59'
+        '2024-12-17 00:00:00',
+        '2025-01-05 23:59:59'
     );
 
     // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
-    //     new WPVR_Notification_Bar(); 
+    //     new WPVR_Notification_Bar();
     // }
 
 
@@ -291,7 +291,7 @@ function wpvr_block_render($attributes)
         }
         $streetviewurl = $postdata['streetviewurl'];
         $html = '';
-        $html .= '<div class="vr-streetview ' . $className . '" style="text-align: center; max-width:100%; width:' . $width . $width_unit . '; height:' . $height . $height_unit . '; margin: 0 auto;">';
+        $html .= '<div class="vr-streetview ' . esc_attr( $className ) . '" style="text-align: center; max-width:100%; width:' . esc_attr( $width ) . esc_attr( $width_unit ) . '; height:' . esc_attr( $height ) . esc_attr( $height_unit ) . '; margin: 0 auto;">';
         $html .= '<iframe src="' . $streetviewurl . '" frameborder="0" style="border:0; width:100px; height:100%;" allowfullscreen=""></iframe>';
         $html .= '</div>';
 
@@ -349,10 +349,10 @@ function wpvr_block_render($attributes)
             $playlist = str_replace("?feature=shared", "", $playlist);
 
             $html = '';
-            $html .= '<div class="' . $className . '" style="text-align:center; max-width:100%; width:' . $width . $width_unit . '; height:' . $height . $height_unit . '; border-radius: ' . $radius . '; margin: 0 auto;">';
+            $html = '<div class="' . esc_attr($className) . '" style="text-align:center; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; border-radius: ' . esc_attr($radius) . '; margin: 0 auto;">';
 
             $html .= '
-            <iframe src="https://www.youtube.com/embed/' . $expdata . '?rel=0&modestbranding=1' . $loop . '&autohide=1' . $muted . '&showinfo=0&controls=1' . $autoplay . '' . $playlist . '"  width="100%" height="100%" style="border-radius: ' . $radius . ';" frameborder="0" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/' . $expdata . '?rel=0&modestbranding=1' . esc_attr($loop) . '&autohide=1' . esc_attr($muted) . '&showinfo=0&controls=1' . esc_attr($autoplay) . '' . esc_attr($playlist) . '"  width="100%" height="100%" style="border-radius: ' . esc_attr($radius) . ';" frameborder="0" allowfullscreen></iframe>
         ';
             $html .= '</div>';
         } elseif (strpos($videourl, 'vimeo') > 0) {
@@ -374,13 +374,13 @@ function wpvr_block_render($attributes)
 
             $foundid = $explodeid[3] . '?' . $autoplay . $loop;
             $html = '';
-            $html .= '<div class="' . $className . '" style="text-align:center; max-width:100%; width:' . $width . $width_unit . '; height:' . $height . $height_unit . '; margin: 0 auto;">';
-            $html .= '<iframe src="https://player.vimeo.com/video/' . $foundid . '" width="' . $width . '" height="' . $height . '" style="border-radius: ' . $radius . ';" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+            $html .= '<div class="' . esc_attr($className) . '" style="text-align:center; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; margin: 0 auto;">';
+            $html .= '<iframe src="https://player.vimeo.com/video/' . $foundid . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" style="border-radius: ' . esc_attr($radius) . ';" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
             $html .= '</div>';
         } else {
             $html = '';
-            $html .= '<div id="pano' . $id . '" class="pano-wrap ' . $className . '" style="max-width:100%; width:' . $width . $width_unit . '; height: ' . $height . $height_unit . '; border-radius:' . $radius . '; margin: 0 auto;">';
-            $html .= '<div style="width:100%; height:100%; border-radius: ' . $radius . ';">' . $postdata['panoviddata'] . '</div>';
+            $html .= '<div id="pano' . esc_attr($id) . '" class="pano-wrap ' . esc_attr($className) . '" style="max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height: ' . esc_attr($height) . esc_attr($height_unit) . '; border-radius:' . esc_attr($radius) . '; margin: 0 auto;">';
+            $html .= '<div style="width:100%; height:100%; border-radius: ' . esc_attr($radius) . ';">' . $postdata['panoviddata'] . '</div>';
 
             $html .= '
             <style>
@@ -2784,12 +2784,12 @@ function wpvr_cache_admin_notice()
 {
     $option = get_option('wpvr_warning');
     if (!$option) {
-    ?>
+        ?>
         <div class="notice notice-warning" id="wpvr-warning" style="position: relative;">
             <p><?php _e('Since you have updated the plugin, please clear the browser cache for smooth functioning. Follow these steps if you are using <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">Google Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/how-clear-firefox-cache" target="_blank">Mozilla Firefox</a>, <a href="https://clear-my-cache.com/en/apple-mac-os/safari.html" target="_blank">Safai</a> or <a href="https://support.microsoft.com/en-us/help/10607/microsoft-edge-view-delete-browser-history" target="_blank">Microsoft Edge</a>', 'wpvr'); ?></p>
             <button type="button" id="wpvr-dismissible" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
         </div>
-    <?php
+        <?php
     }
 }
 // add_action('admin_notices', 'wpvr_cache_admin_notice');
@@ -2810,9 +2810,9 @@ function wpvr_mobile_media_handle()
 
 
 add_action(
-    /**
-     * @param $api \VisualComposer\Modules\Api\Factory
-     */
+/**
+ * @param $api \VisualComposer\Modules\Api\Factory
+ */
     'vcv:api',
     function ($api) {
         $elementsToRegister = [

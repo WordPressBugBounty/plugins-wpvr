@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.14
+Stable tag: 8.5.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -430,6 +430,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.15 (16-01-2024) =
+* Fix: Cross-Site Scripting (XSS) vulnerability in WPVR block.
 
 = 8.5.14 (07-01-2024) =
 * Enhancement: Update pricing on setup wizard
