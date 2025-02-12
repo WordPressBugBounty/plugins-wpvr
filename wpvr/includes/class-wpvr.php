@@ -266,7 +266,7 @@ class Wpvr
                 <div class="background-tour-left">
                     <!-- bg tour on/off -->
                     <div class="single-settings inline-style">
-                        <span> <?= __('Enable background tour: ', 'wpvr') ?> </span>
+                        <span> <?= __('Enable Background Tour: ', 'wpvr') ?> </span>
                         <span class="wpvr-switcher">
                     <input id="wpvr_bg_tour_enabler" class="vr-switcher-check wpvr_bg_tour_enabler" name="wpvr_bg_tour_enabler" type="checkbox" disabled />
                     <label for="wpvr_bg_tour_enabler"></label>
@@ -299,7 +299,7 @@ class Wpvr
                     </li>
                 </ul>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png'; ?>" alt="icon" />
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
                     <span><?= __('Please only add street view iframe source. For more details check documentation.', 'wpvr-pro'); ?></span>
                 </div>
             </div>

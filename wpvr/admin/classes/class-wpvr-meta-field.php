@@ -226,22 +226,11 @@ class WPVR_Meta_Field {
             'scene-animation' => array(
                 'class' => 'single-settings scene-animation',
                 'title' => __('Enable Scene Transition','wpvr'),
-                'type' => 'basic_setting_checkbox',
+                'type' => 'basic_setting_checkbox_for_scene_animation',
                 'id' => 'wpvr_scene_animation',
                 'package' => 'pro',
                 'checked' => isset($postdata['sceneAnimation']) ? 1 : 0,
                 'value' => isset($postdata['sceneAnimation']) ? $postdata['sceneAnimation'] : 'off',
-                'placeholder' => null,
-                'have_tooltip' => true,
-                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
-            ),
-            'scene-animation-name' => array(
-                'class' => 'single-settings scene-animation-name',
-                'title' => __('Select Transition Style','wpvr'),
-                'type' => 'animation_name_select',
-                'id' => 'wpvr_scene_animation_name',
-                'package' => 'pro',
-                'value' => isset($postdata['sceneAnimationName']) ? $postdata['sceneAnimationName'] : 'none',
                 'placeholder' => null,
                 'have_tooltip' => true,
                 'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
@@ -405,7 +394,11 @@ class WPVR_Meta_Field {
         $fields = self::get_basic_setting_right_fields($postdata);
 
         foreach($fields as $name => $val) {
-            self::{ 'render_' . $val['type'] }( $name, $val );
+            if('basic_setting_checkbox_for_scene_animation' === $val['type']){
+                self::{ 'render_' . $val['type'] }( $name, $val, $postdata );
+            } else{
+                self::{ 'render_' . $val['type'] }( $name, $val );
+            }
         }
 
 
@@ -450,6 +443,55 @@ class WPVR_Meta_Field {
                 'placeholder' => 2000,
                 'have_tooltip' => true,
                 'tooltip_text' => __('Set a time after which auto rotation will stop. Assign in milliseconds, where 1000 milliseconds = 1 second.','wpvr'),
+            ),
+        );
+    }
+
+
+    /**
+     * Initialize Scene Animation Transition Data Wrapper Fields
+     * @param mixed $sceneAnimationName
+     * @param mixed $sceneAnimationTransitionDuration
+     * @param mixed $sceneAnimationTransitionDelay
+     *
+     * @return array
+     * @since 8.5.16
+     */
+    public static function get_scene_animation_transition_data_wrapper_fields($postdata)
+    {
+        return array(
+            'scene-animation-name' => array(
+                'class' => 'single-settings scene-animation-name',
+                'title' => __('Select Transition Style','wpvr'),
+                'type' => 'animation_name_select',
+                'id' => 'wpvr_scene_animation_name',
+                'package' => 'pro',
+                'value' => isset($postdata['sceneAnimationName']) ? $postdata['sceneAnimationName'] : 'none',
+                'placeholder' => null,
+                'have_tooltip' => true,
+                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+            ),
+            'scene-animation-transition-duration' => array(
+                'class' => 'single-settings autorotationdata scene-animation-transition-duration',
+                'title' => __('Scene Transition Duration (ms)','wpvr'),
+                'type' => 'number_field',
+                'id' => 'wpvr_scene_animation_transition_duration',
+                'package' => 'pro',
+                'value' => isset($postdata['sceneAnimationTransitionDuration']) ? $postdata['sceneAnimationTransitionDuration'] : '500',
+                'placeholder' => null,
+                'have_tooltip' => true,
+                'tooltip_text' => __('Set the duration for scene transition animations in milliseconds (default: 500 ms).','wpvr'),
+            ),
+            'scene-animation-transition-delay' => array(
+                'class' => 'single-settings autorotationdata scene-animation-transition-delay',
+                'title' => __('Add Animation Delay (ms)','wpvr'),
+                'type' => 'number_field',
+                'id' => 'wpvr_scene_animation_transition_delay',
+                'package' => 'pro',
+                'value' => isset($postdata['sceneAnimationTransitionDelay']) ? $postdata['sceneAnimationTransitionDelay'] : '0',
+                'placeholder' => null,
+                'have_tooltip' => true,
+                'tooltip_text' => __('Set the delay before the scene transition animation starts (default: 0 ms).','wpvr'),
             ),
         );
     }
@@ -582,6 +624,24 @@ class WPVR_Meta_Field {
     public static function render_autorotation_data_wrapper_fields($postdata)
     {
         $fields = self::get_autorotation_data_wrapper_fields($postdata);
+        foreach($fields as $name => $val) {
+            self::{ 'render_' . $val['type'] }( $name, $val );
+        }
+    }
+
+
+    /**
+     * Render Scene Animation Transition Data Wrapper Fields
+     * @param mixed $sceneAnimationName
+     * @param mixed $sceneAnimationTransitionDuration
+     * @param mixed $sceneAnimationTransitionDelay
+     *
+     * @return void
+     * @since 8.5.16
+     */
+    public static function render_scene_animation_transition_data_wrapper_fields($postdata)
+    {
+        $fields = self::get_scene_animation_transition_data_wrapper_fields($postdata);
 
         foreach($fields as $name => $val) {
             self::{ 'render_' . $val['type'] }( $name, $val );
@@ -1723,7 +1783,7 @@ class WPVR_Meta_Field {
             <select class="wpvr-pro-select-scene-type" name="scene-type" id="">
                 <option value="equirectangular" <?= $selected == 'equirectangular' ? 'selected' : '' ?> > <?php echo __('Equirectangular','wpvr')  ?></option>
                 <option value="cubemap" <?= $selected == 'cubemap' ? 'selected' : '' ?> > <?php echo __('Cubemap','wpvr') ?></option>
-            <select>
+            </select>
         </div>
         <?php 
         ob_end_flush();
@@ -1833,15 +1893,16 @@ class WPVR_Meta_Field {
         ?>
         <div class="equirectangular-upload" style="display:<?= $display?>;">
             <label for="scene-upload"><?= __('Scene Upload: ', 'wpvr')?></label>
+            
+            <div class="field-tooltip">
+                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+                <span><?= __('You can use any image size but maximum image upload size recommended to support all device is 4096x2000 px for perfect responsive view. To check 360 view, click on preview button and check tour preview metabox.', 'wpvr') ?></span>
+            </div>
+
             <div class="form-group">
                 <img loading="lazy" src="<?= $value?>" style="display: <?= $img_display?>;"><br>
                 <input type="button" class="scene-upload" data-info="" value="Upload"/>
                 <input type="hidden" name="scene-attachment-url" class="scene-attachment-url" value="<?= $value?>">
-            </div>
-
-            <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png'?>" alt="icon" />
-                <span><?= __('You can use any image size but maximum image upload size recommended to support all device is 4096x2000 px for perfect responsive view. To check 360 view, click on preview button and check tour preview metabox.', 'wpvr') ?></span>
             </div>
         </div>
         <?php
@@ -1875,7 +1936,7 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __('You can use any image size but maximum image upload size recommended to support all device is 4096x2000 px for perfect responsive view. To check 360 view, click on preview button and check tour preview metabox.', 'wpvr') ?></span>
                 </div>
             </div>
@@ -2003,7 +2064,7 @@ class WPVR_Meta_Field {
             </span>
             <?php if($have_tooltip) {?>
             <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
             <?php } ?>
@@ -2036,7 +2097,7 @@ class WPVR_Meta_Field {
             </span>
             <?php if($have_tooltip) { ?>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
                 </div>
             <?php } ?>
@@ -2087,7 +2148,7 @@ class WPVR_Meta_Field {
 
                 <?php if($have_tooltip) { ?>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
                 </div>
                 <?php } ?>
@@ -2210,7 +2271,7 @@ class WPVR_Meta_Field {
             <input type="text" class="<?= $input_class ?>" name="<?= $name ?>" placeholder="<?= $placeholder ?>" value="<?= $value ?>" />
 
             <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
         </div>
@@ -2383,11 +2444,56 @@ class WPVR_Meta_Field {
 
             <?php if($have_tooltip) {?>
             <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
             <?php } ?>
         </div>
+        <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
+                <div class="scene-animation-settings-wrapper">
+                    <?php WPVR_Meta_Field::render_scene_animation_transition_data_wrapper_fields($postdata) ;?>
+                </div>
+        <?php } ?>
+        <?php
+        ob_end_flush();
+    }
+
+    /**
+     * Render Basc Setting Checkbox for scene animation
+     * @param mixed $name input name
+     * @param mixed $val options
+     *
+     * @return void
+     * @since 8.5.16
+     */
+    public static function render_basic_setting_checkbox_for_scene_animation($name, $val, $postdata)
+    {
+        extract( $val );
+        ob_start();
+        ?>
+        <div class="<?= $class; ?>">
+            <?php if(isset($val['package']) && $val['package'] == 'pro' && !defined('WPVR_PRO_VERSION')){?>
+                <div class="basic-setting-checkbox-pro-tag">pro</div>
+            <?php } ?>
+            <span><?= __($title.': ', 'wpvr'); ?></span>
+
+            <span class="wpvr-switcher">
+                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="1" <?php checked( $checked, 1 ); ?> />
+                <label for="<?= $id;?>"></label>
+            </span>
+
+            <?php if($have_tooltip) {?>
+            <div class="field-tooltip">
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                <span><?= __($tooltip_text, 'wpvr'); ?></span>
+            </div>
+            <?php } ?>
+        </div>
+        <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
+                <div class="scene-animation-settings-wrapper">
+                    <?php WPVR_Meta_Field::render_scene_animation_transition_data_wrapper_fields($postdata) ;?>
+                </div>
+        <?php } ?>
         <?php
         ob_end_flush();
     }
@@ -2407,7 +2513,7 @@ class WPVR_Meta_Field {
 
             <?php if($have_tooltip) {?>
             <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
             <?php } ?>
@@ -2432,11 +2538,11 @@ class WPVR_Meta_Field {
         ?>
         <div class="<?= $class; ?>">
             <span><?= __($title.': ', 'wpvr'); ?></span>
-            <input type="number" name="<?= $name; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder;?>" />
+            <input type="number" name="<?= $name; ?>" min="0" value="<?= $value; ?>" placeholder="<?= $placeholder;?>" />
 
             <?php if($have_tooltip) {?>
             <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png'; ?>" alt="icon" />
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
             <?php } ?>
@@ -2514,7 +2620,7 @@ class WPVR_Meta_Field {
 
             <?php if($have_tooltip) {?>
             <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png'; ?>" alt="icon" />
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
                 <span><?= __($tooltip_text, 'wpvr'); ?></span>
             </div>
             <?php } ?>
@@ -2889,7 +2995,7 @@ class WPVR_Meta_Field {
             </select>
             <span class="change-icon"><i class="<?= $hotspot_custom_class_pro ?>"></i></span>
             <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                 <span><?= __('Custom icons will only show on frontend. Hotspot custom icons only works with fontawesome 5. If you are using any different version of fontawesome under theme or any plugin, you may deactivate fontawesome from WP VR. Go to "Get Started menu" and select "Role" and check fontawesome disable switch. Now put your desired any icon class under "Hotspot custom icon class" field. It will appear on the frontend.', 'wpvr') ?></span>
             </div>
         </div>
@@ -3190,7 +3296,7 @@ class WPVR_Meta_Field {
 
             <?php if($have_tooltip) {?>
                 <div class="field-tooltip">
-                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
                 </div>
             <?php } ?>
@@ -3208,7 +3314,7 @@ class WPVR_Meta_Field {
             <div id="<?= $code_mirror_id ?>" ></div>
 <!--            --><?php //if($have_tooltip) {?>
 <!--                <div class="field-tooltip">-->
-<!--                    <img src="--><?php //= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png'; ?><!--" alt="icon" />-->
+<!--                    <img src="--><?php //= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?><!--" alt="icon" />-->
 <!--                    <span>--><?php //= __($tooltip_text, 'wpvr'); ?><!--</span>-->
 <!--                </div>-->
 <!--            --><?php //} ?>
@@ -3241,7 +3347,7 @@ class WPVR_Meta_Field {
 
             <?php if($have_tooltip) {?>
                 <div class="field-tooltip">
-                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
                 </div>
             <?php } ?>
@@ -3481,7 +3587,7 @@ class WPVR_Meta_Field {
             </span>
             <?php if($have_tooltip) { ?>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/question.png' ?>" alt="icon" />
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
                 </div>
             <?php } ?>
@@ -3556,7 +3662,6 @@ class WPVR_Meta_Field {
 
         ?>
 
-        <div class="scene-animation-settings-wrapper" style="display:none;" >
         <div class='single-settings'>
 
             <span for="scene-animation-name"><?= __($title .': ', 'wpvr'); ?></span>
@@ -3566,7 +3671,6 @@ class WPVR_Meta_Field {
                     echo sprintf("<option %s value='%s'>%s</option>\n", selected($key, $value, true), esc_attr($key), esc_attr($type));
                 } ?>
             </select>
-        </div>
         </div>
 
         <?php

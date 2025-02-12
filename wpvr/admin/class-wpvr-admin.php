@@ -287,6 +287,7 @@ class Wpvr_Admin
             ),
             'active_tab_url' => admin_url('post-new.php?post_type=wpvr_item&active_tab=scene'),
             'hotspot_warning_text' => __('Please upload a scene before proceeding to set hotspot!', 'wpvr'),
+            'negative_number_warning_text' =>__('Negative numbers are not allowed!', 'wpvr'),
         ));
         wp_localize_script('wpvr-global', 'wpvr_id_options', $wpvr_list);
     }

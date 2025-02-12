@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.15
+Stable tag: 8.5.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -431,8 +431,17 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 8.5.16 (12-02-2025) =
+* Enhancement: Updated pricing in the setup wizard.
+* Improvement: Added support for Scene Transition Duration.
+* Improvement: Added support for Animation Delay.
+* Improvement: Converted all PNG images to SVG for tooltips.
+* Fix: Fixed background tour title alignment issue.
+* Fix: Fixed tour enable button alignment issue.
+
+
 = 8.5.15 (16-01-2024) =
-* Fix: Cross-Site Scripting (XSS) vulnerability in WPVR block.
+* Fix: 8.5.14 is vulnerable to Cross Site Scripting (XSS)
 
 = 8.5.14 (07-01-2024) =
 * Enhancement: Update pricing on setup wizard

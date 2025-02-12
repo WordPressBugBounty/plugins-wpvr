@@ -3,9 +3,6 @@
  * included in this file.
  */
 
-/*#submitdiv {*/
-/*    display: none;*/
-/*}*/
 .notice.notice-success.wpvr-halloween-notice {
     display: flex;
     align-items: center;
@@ -1341,7 +1338,7 @@ li.export.export-pro-tag {
     height: 33px;
     margin-left: auto;
 }
-.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper select{
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper select {
     width: 175px;
     padding: 2px 7px;
     height: 33px;
@@ -2009,6 +2006,7 @@ li.export.export-pro-tag {
     position: absolute;
     right: -25px;
     bottom: 13px;
+    line-height: 1;
 }
 
 .hotspot-setup .hotspot-setting.custom-icon .field-tooltip {
@@ -2019,7 +2017,7 @@ li.export.export-pro-tag {
 
 .single-scene .scene-content .scene-setting.scene-upload-wrapper .field-tooltip {
     right: initial;
-    left: 180px;
+    left: 120px;
     bottom: inherit;
     top: 5px;
 }
@@ -2052,7 +2050,7 @@ li.export.export-pro-tag {
     max-width: 280px;
     padding: 7px 8px;
     font-size: 14px;
-    left: 40px;
+    left: 30px;
     line-height: 20px;
     border-radius: 3px;
     z-index: 11;
@@ -2666,12 +2664,16 @@ button.delete-scene {
     flex-flow: row wrap;
     border-bottom: 1px solid #e4e4e4;
 }
-.rex-pano-tab-content .floor-plan .floor-plan-left,
-.rex-pano-tab-content .background-tour .background-tour-left {
+
+.rex-pano-tab-content .floor-plan .floor-plan-left {
     width: 50%;
     padding-right: 15px;
-    /* border-right: 1px solid #e4e4e4; */
 }
+
+.rex-pano-tab-content .background-tour .background-tour-left {
+    width: 100%;
+}
+
 .rex-pano-tab-content .background-tour .background-tour-right {
     width: 50%;
     padding-left: 15px;
@@ -3293,6 +3295,10 @@ button.delete-scene {
     .rex-pano-tab-content {
         border-left: none;
     }
+    
+    .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper select {
+        width: 130px;
+    }
 
     .rex-pano-tabs .main-nav li {
         width: 144px;
@@ -3696,7 +3702,7 @@ p.wpvr-premium-feature__discount-price-label {
 }
 
 p.wpvr-premium-feature__discount-price-label:before {
-    content: "Save 20%";
+    content: "Save 15%";
     position: absolute;
     background: #00b4ff;
     border-radius: 16px 16px 16px 0;
@@ -4963,7 +4969,7 @@ a:focus.wpvr-premium-feature__btn {
     }
 }
 
-.rex-pano-tab-content .background-tour .single-settings.inline-style,
+/* .rex-pano-tab-content .background-tour .single-settings.inline-style, */
 .rex-pano-tab-content .general .inner-nav-content .single-settings.button_configuration {
     display: block;
 }

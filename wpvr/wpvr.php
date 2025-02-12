@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.15
+ * Version:           8.5.16
  * Tested up to:      6.7.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -38,7 +38,7 @@ require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.15');
+define('WPVR_VERSION', '8.5.16');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -1169,7 +1169,9 @@ function wpvr_block_render($attributes)
 
     if( $scene_animation === 'on'){
         $animation_type = isset($postdata['sceneAnimationName']) ? $postdata['sceneAnimationName'] : 'none';
-        $animation_css = apply_filters('wpvr_tour_scene_animation',$animation_type,$postdata,$id);
+        $animationDuration = isset($postdata['sceneAnimationTransitionDuration']) ? $postdata['sceneAnimationTransitionDuration'] : '500ms';
+        $animationDelay = isset($postdata['sceneAnimationTransitionDelay']) ? $postdata['sceneAnimationTransitionDelay'] : '0ms';
+        $animation_css = apply_filters('wpvr_tour_scene_animation',$animation_type,$animationDuration, $animationDelay, $postdata,$id);
         $html .= $animation_css;
     }
 
@@ -1354,7 +1356,8 @@ function wpvr_block_render($attributes)
             $explainerControlSwitch = $custom_control['explainerSwitch'];
         }
         if ($custom_control['explainerSwitch'] == "on") {
-            $html .= '<div class="explainer_button" id="explainer_button_' . $id . '" style="right:' . $explainer_right . '">';
+            $explainer_style = empty($postdata['explainerContent']) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )? 'pointer-events: none; opacity: 0.5;' : '';
+            $html .= '<div class="explainer_button" id="explainer_button_' . $id . '" style="right:' . $explainer_right . '; ' . $explainer_style . '">';
             $html .= '<div class="ctrl" id="explainer_target_' . $id . '"><i class="' . $custom_control['explainerIcon'] . '" style="color:' . $custom_control['explainerColor'] . ';"></i></div>';
             $html .= '</div>';
         }
@@ -2027,7 +2030,7 @@ function wpvr_block_render($attributes)
     });';
 
     if($scene_animation == 'on'){
-        $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type);
+        $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
         $html .= $animation_js;
         $html .= 'panoshow' . $id . '.on("load", function (scene){
 				if (typeof changeScene === "function") {

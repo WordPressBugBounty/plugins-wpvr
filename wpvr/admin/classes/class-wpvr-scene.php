@@ -486,7 +486,7 @@ class WPVR_Scene {
 
       $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
       $mouseZoom    = $this->format->set_pro_checkbox_value(@$_POST['mouseZoom']);
-      $draggable    = $this->format->set_checkbox_value(@$_POST['draggable']);
+      $draggable = $this->format->set_checkbox_value($_POST['draggable'] ?? null);
       $gzoom        = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
       $diskeyboard  = $this->format->set_checkbox_value(@$_POST['diskeyboard']);
       $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
@@ -1344,7 +1344,9 @@ class WPVR_Scene {
 
         if( $scene_animation === 'on'){
             $animation_type = isset($postdata['sceneAnimationName']) ? $postdata['sceneAnimationName'] : 'none';
-            $animation_css = apply_filters('wpvr_tour_scene_animation',$animation_type,$postdata,$id);
+            $animationDuration = isset($postdata['sceneAnimationTransitionDuration']) ? $postdata['sceneAnimationTransitionDuration'] : '500ms';
+            $animationDelay = isset($postdata['sceneAnimationTransitionDelay']) ? $postdata['sceneAnimationTransitionDelay'] : '0ms';
+            $animation_css = apply_filters('wpvr_tour_scene_animation',$animation_type,$animationDuration,$animationDelay,$postdata,$id);
             $html .= $animation_css;
         }
 
@@ -1544,7 +1546,8 @@ class WPVR_Scene {
                 $explainerControlSwitch = $custom_control['explainerSwitch'];
             }
             if ($explainerControlSwitch == "on") {
-                $html .= '<div class="explainer_button" id="explainer_button_' . $id . '" style="right:' . $explainer_right . '">';
+                $explainer_style = empty($postdata['explainerContent']) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )? 'pointer-events: none; opacity: 0.5;' : '';
+                $html .= '<div class="explainer_button" id="explainer_button_' . $id . '" style="right:' . $explainer_right . '; ' . $explainer_style . '">';
                 $html .= '<div class="ctrl" id="explainer_target_' . $id . '"><i class="' . $custom_control['explainerIcon'] . '" style="color:' . $custom_control['explainerColor'] . ';"></i></div>';
                 $html .= '</div>';
             }
@@ -2226,7 +2229,7 @@ class WPVR_Scene {
         });';
 
         if($scene_animation == 'on'){
-            $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type);
+            $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
             $html .= $animation_js;
             $html .= 'panoshow' . $id . '.on("load", function (scene){
 				if (typeof changeScene === "function") {
@@ -2793,10 +2796,10 @@ class WPVR_Scene {
         $tour_data = [];
         if(defined("WPVR_PRO_VERSION")){
             $tour_data = array(
-                'explainerControlSwitch' => $explainerControlSwitch,
-                'floor_plan_enable' => $floor_plan_enable,
-                'floor_plan_image' => $floor_plan_image,
-                'custom_control' => $custom_control,
+                'explainerControlSwitch' => $explainerControlSwitch ?? '',
+                'floor_plan_enable' => $floor_plan_enable ?? '',
+                'floor_plan_image' => $floor_plan_image ?? '',
+                'custom_control' => $custom_control ?? '',
             );
         }
         return apply_filters('wpvr_generate_tour_layout_html', $html ,$postdata ,$id, $tour_data);
