@@ -14,7 +14,7 @@ class WPVR_Scene {
 
     /**
      * Instance of WPVR_Hotspot class
-     * 
+     *
      * @var object
      * @since 8.0.0
      */
@@ -22,7 +22,7 @@ class WPVR_Scene {
 
     /**
      * Instance of WPVR_Format class
-     * 
+     *
      * @var object
      * @since 8.0.0
      */
@@ -30,7 +30,7 @@ class WPVR_Scene {
 
     /**
      * Instance of WPVR_Validator class
-     * 
+     *
      * @var object
      * @since 8.0.0
      */
@@ -38,7 +38,7 @@ class WPVR_Scene {
 
     /**
      * Number of scene or hotspot item
-     * 
+     *
      * @var integer
      * @since 8.0.0
      */
@@ -46,12 +46,12 @@ class WPVR_Scene {
 
     /**
      * Pro version license status
-     * 
+     *
      * @var string
      * @since 8.0.0
      */
     protected $status;
-    
+
 
     function __construct()
     {
@@ -71,167 +71,167 @@ class WPVR_Scene {
 
     /**
      * Render Scene Settings Content
-     * 
+     *
      * @param array $postdata
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     public function render_scene($postdata)
     {
-      ob_start();
+        ob_start();
         ?>
-        
-          <!-- Scene and Hotspot repeater -->
-          <div class="scene-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit + 1;?>">
-            <?php $this->render_scene_repeater_list($postdata); ?>
-          </div>
 
-        <?php 
+        <!-- Scene and Hotspot repeater -->
+        <div class="scene-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit + 1;?>">
+            <?php $this->render_scene_repeater_list($postdata); ?>
+        </div>
+
+        <?php
 //      ob_end_flush();
     }
 
 
     /**
      * Render scene setup data repeater list
-     * 
+     *
      * @param array $postdata
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_scene_repeater_list($postdata)
     {
-      ob_start();
-      ?>
-      <nav class="rex-pano-tab-nav rex-pano-nav-menu scene-nav">
-        <?php $this->render_nav_menu($postdata); // Will render scene navigation bar ?> 
-      </nav>
-      
-      <div data-repeater-list="scene-list" class="rex-pano-tab-content">
+        ob_start();
+        ?>
+        <nav class="rex-pano-tab-nav rex-pano-nav-menu scene-nav">
+            <?php $this->render_nav_menu($postdata); // Will render scene navigation bar ?>
+        </nav>
 
-        <!-- Default empty repeater -->
-        <div data-repeater-item class="single-scene rex-pano-tab" data-title="0" id="scene-0">
-            <?php $this->render_default_repeater_item(); ?>
+        <div data-repeater-list="scene-list" class="rex-pano-tab-content">
+
+            <!-- Default empty repeater -->
+            <div data-repeater-item class="single-scene rex-pano-tab" data-title="0" id="scene-0">
+                <?php $this->render_default_repeater_item(); ?>
+            </div>
+            <!-- Empty repeater end -->
+
+            <?php $s = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
+            foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
+
+                <div data-repeater-item  class="single-scene rex-pano-tab <?php if($pano_scene['scene-id'] == $firstvalue['scene-id']) { echo 'active'; }; ?>" data-title="1" id="scene-<?php echo $s;?>">
+                    <?php $this->render_repeater_item_with_panodata($pano_scene, $s); ?>
+                </div>
+
+                <?php $s++; } ?>
         </div>
-        <!-- Empty repeater end -->
-
-          <?php $s = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
-          foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
-
-          <div data-repeater-item  class="single-scene rex-pano-tab <?php if($pano_scene['scene-id'] == $firstvalue['scene-id']) { echo 'active'; }; ?>" data-title="1" id="scene-<?php echo $s;?>">
-              <?php $this->render_repeater_item_with_panodata($pano_scene, $s); ?>
-          </div>
-      
-          <?php $s++; } ?>
-      </div>
-      <?php 
+        <?php
 //      ob_end_flush();
     }
 
 
     /**
-     * Render scene nav menu 
-     * 
+     * Render scene nav menu
+     *
      * @param array $postdata
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_nav_menu($postdata)
     {
-      ob_start();
-      ?>
-      <ul>
-        <?php $i = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
-        foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
+        ob_start();
+        ?>
+        <ul>
+            <?php $i = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
+            foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
 
-          <li class="<?php if ($pano_scene['scene-id'] == $firstvalue['scene-id']) {echo 'active';};?>">
+                <li class="<?php if ($pano_scene['scene-id'] == $firstvalue['scene-id']) {echo 'active';};?>">
             <span data-index="<?php echo $i;?>" data-href="#scene-<?php echo $i;?>">
               <i class="fa fa-image"></i>
             </span>
-          </li>
+                </li>
 
-        <?php $i++; } ?>
-        <li class="add" data-repeater-create><span><i class="fa fa-plus-circle"></i></span></li>
-      </ul>
-      <?php
-      ob_end_flush();
+                <?php $i++; } ?>
+            <li class="add" data-repeater-create><span><i class="fa fa-plus-circle"></i></span></li>
+        </ul>
+        <?php
+        ob_end_flush();
     }
 
 
     /**
      * Render repeater item for default scene
-     * 
+     *
      * @param int $data_limit
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_default_repeater_item()
     {
-      ob_start();
-      ?>
-      <div class="active_scene_id"><p></p></div>
-      <div class="scene-content">
-          <?php $this->render_default_repeater_item_scene_content(); ?>
-      </div>
+        ob_start();
+        ?>
+        <div class="active_scene_id"><p></p></div>
+        <div class="scene-content">
+            <?php $this->render_default_repeater_item_scene_content(); ?>
+        </div>
 
-      <!-- hotspot setup -->
-      <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
-          <?php $this->hotspot->render_hotspot($s = 0, $h =1)?>
-      </div>
-      <button data-repeater-delete type="button" title="Delete Scene" class="delete-scene"><i class="far fa-trash-alt"></i></button>
-      <?php
-      ob_end_flush();
+        <!-- hotspot setup -->
+        <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+            <?php $this->hotspot->render_hotspot($s = 0, $h =1)?>
+        </div>
+        <button data-repeater-delete type="button" title="Delete Scene" class="delete-scene"><i class="far fa-trash-alt"></i></button>
+        <?php
+        ob_end_flush();
     }
 
 
     /**
      * Render repeater items while scene has panaromic data
-     * 
+     *
      * @param array $pano_scene
      * @param int $s scene number increment var
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_repeater_item_with_panodata($pano_scene, $s)
     {
-      ob_start();
-      ?>
-      <div class="active_scene_id"><p></p></div>
-      <div class="scene-content">
-          <!-- 
-            - Render repeater item scene content 
-            - If scene has panaromic data 
-          -->
-          <?php $this->render_repeater_scene_content_with_data($pano_scene); ?>
-      </div>
-      <!-- 
-        - Render repeater item hotspot content 
-      -->
-      <?php $this->render_repeater_item_hotspot_content($pano_scene, $s); ?>
-  
-      <button data-repeater-delete type="button" title="Delete Scene" class="delete-scene"><i class="far fa-trash-alt"></i></button>
-      <?php
-      ob_end_flush();
+        ob_start();
+        ?>
+        <div class="active_scene_id"><p></p></div>
+        <div class="scene-content">
+            <!--
+              - Render repeater item scene content
+              - If scene has panaromic data
+            -->
+            <?php $this->render_repeater_scene_content_with_data($pano_scene); ?>
+        </div>
+        <!--
+          - Render repeater item hotspot content
+        -->
+        <?php $this->render_repeater_item_hotspot_content($pano_scene, $s); ?>
+
+        <button data-repeater-delete type="button" title="Delete Scene" class="delete-scene"><i class="far fa-trash-alt"></i></button>
+        <?php
+        ob_end_flush();
     }
 
 
     /**
      * Render scene content for default repeater item
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_default_repeater_item_scene_content()
     {
-      ob_start();
-      ?>
+        ob_start();
+        ?>
 
-      <h6 class="title"><i class="fa fa-cog"></i> <?php  echo __('Scene Settings','wpvr') ?> </h6>
-      
+        <h6 class="title"><i class="fa fa-cog"></i> <?php  echo __('Scene Settings','wpvr') ?> </h6>
+
         <div class="scene-left">
             <?php WPVR_Meta_Field::render_scene_left_fields_empty_panodata(); ?>
         </div>
@@ -240,240 +240,240 @@ class WPVR_Scene {
             <?php do_action( 'wpvr_pro_scene_empty_right_fields' ) ?>
         </div>
 
-      <?php
-      ob_end_flush();
+        <?php
+        ob_end_flush();
     }
 
 
     /**
      * Render repeater item scene content is scene has panaromic data
-     * 
+     *
      * @param mixed $dscene
      * @param mixed $scene_id
      * @param mixed $scene_photo
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_repeater_scene_content_with_data($pano_scene)
     {
-      ob_start();
-      ?>
-      <h6 class="title"><i class="fa fa-cog"></i> <?php echo __('Scene Settings','wpvr') ?> </h6>
+        ob_start();
+        ?>
+        <h6 class="title"><i class="fa fa-cog"></i> <?php echo __('Scene Settings','wpvr') ?> </h6>
 
         <div class="scene-left">
             <?php WPVR_Meta_Field::render_scene_left_fields_with_panodata($pano_scene) ;?>
         </div>
-        
+
         <div class="scene-right">
             <?php do_action( 'wpvr_pro_scene_right_fields', $pano_scene ) ?>
         </div>
 
 
-      <?php
-      ob_end_flush();
+        <?php
+        ob_end_flush();
     }
 
 
     /**
      * Render repeater item hotspot content
-     * 
+     *
      * @param array $pano_hotspots
      * @param int $data_limit
      * @param int $s
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     private function render_repeater_item_hotspot_content($pano_scene, $s)
     {
-      if (!empty($pano_scene['hotspot-list'])) { ?>
-        <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
-  
-            <?php $this->hotspot->render_hotspot_with_panodata($pano_scene['hotspot-list'], $s); //Render hotspot while scene has hotspot data ?> 
-  
-        </div>
+        if (!empty($pano_scene['hotspot-list'])) { ?>
+            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+
+                <?php $this->hotspot->render_hotspot_with_panodata($pano_scene['hotspot-list'], $s); //Render hotspot while scene has hotspot data ?>
+
+            </div>
         <?php } else { ?>
-        <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
-  
-            <?php $this->hotspot->render_hotspot($s, $h = 1); //Render hotspot while scene has no hotspot data ?>
-  
-        </div>
+            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+
+                <?php $this->hotspot->render_hotspot($s, $h = 1); //Render hotspot while scene has no hotspot data ?>
+
+            </div>
         <?php }
     }
 
 
     /**
      * Update post meta data
-     * 
+     *
      * @param integer $postid
      * @param integer $panoid
-     * 
+     *
      * @return void
      * @since 8.0.0
      */
     public function wpvr_update_meta_box($postid, $panoid)
     {
-      $panodata      = $this->format->prepare_panodata($_POST['panodata']);
-      $default_scene = $this->format->prepare_default_scene($panodata);
-      $previewtext = $this->validator->preview_text_validation($_POST['previewtext']);
+        $panodata      = $this->format->prepare_panodata($_POST['panodata']);
+        $default_scene = $this->format->prepare_default_scene($panodata);
+        $previewtext = $this->validator->preview_text_validation($_POST['previewtext']);
 
-      $gzoom       = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
-      $default_global_zoom = '';
-      $max_global_zoom = '';
-      $min_global_zoom = '';
-      if ($gzoom == 'on') {
-        $default_global_zoom = $_POST['dzoom'];
-        $max_global_zoom = $_POST['maxzoom'];
-        $min_global_zoom = $_POST['minzoom'];
-      }
-
-      $custom_control = isset($_POST['customcontrol']) ? $_POST['customcontrol'] : null;
-
-      $vrgallery            = $this->format->set_checkbox_value(@$_POST['vrgallery']);
-      $vrgallery_title      = $this->format->set_checkbox_value(@$_POST['vrgallery_title']);
-      $vrgallery_display    = $this->format->set_checkbox_value(@$_POST['vrgallery_display']);
-      $vrgallery_icon_size  = $this->format->set_checkbox_value(@$_POST['vrgallery_icon_size']);
-
-      $mouseZoom    = $this->format->set_pro_checkbox_value(@$_POST['mouseZoom']);
-      $draggable    = $this->format->set_pro_checkbox_value(@$_POST['draggable']);
-      $diskeyboard  = $this->format->set_pro_checkbox_value(@$_POST['diskeyboard']);
-      $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
-      $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
-      //===Gyroscopre control===//
-      $gyro = $this->format->set_pro_checkbox_value(@$_POST['gyro']);
-      if ($gyro == 'on') {
-        if (!is_ssl()) {
-          wp_send_json_error('<p><span>Warning:</span> Please add SSL to enable Gyroscope for WP VR. </p>');
-          die();
+        $gzoom       = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
+        $default_global_zoom = '';
+        $max_global_zoom = '';
+        $min_global_zoom = '';
+        if ($gzoom == 'on') {
+            $default_global_zoom = $_POST['dzoom'];
+            $max_global_zoom = $_POST['maxzoom'];
+            $min_global_zoom = $_POST['minzoom'];
         }
-        $gyro = true;
-        $deviceorientationcontrol = $this->format->set_checkbox_value(@$_POST['deviceorientationcontrol']);
-      } else {
-        $gyro = false;
-        $deviceorientationcontrol = false;
-      }
-      //===Gyroscopre control===//
 
-      $autoload           = $this->format->set_checkbox_value($_POST['autoload']);
-      $control            = $this->format->set_checkbox_value($_POST['control']);
+        $custom_control = isset($_POST['customcontrol']) ? $_POST['customcontrol'] : null;
 
-      $scene_fade_duration = $_POST['scenefadeduration'];
-      $preview = esc_url($_POST['preview']);
-      $rotation = sanitize_text_field($_POST['rotation']);
-      $autorotation = sanitize_text_field($_POST['autorotation']);
+        $vrgallery            = $this->format->set_checkbox_value(@$_POST['vrgallery']);
+        $vrgallery_title      = $this->format->set_checkbox_value(@$_POST['vrgallery_title']);
+        $vrgallery_display    = $this->format->set_checkbox_value(@$_POST['vrgallery_display']);
+        $vrgallery_icon_size  = $this->format->set_checkbox_value(@$_POST['vrgallery_icon_size']);
 
-      $autorotationinactivedelay = sanitize_text_field($_POST['autorotationinactivedelay']);
-      $autorotationstopdelay = sanitize_text_field($_POST['autorotationstopdelay']);
-
-      //===generic form===//
-      $genericform = sanitize_text_field(isset($_POST['genericform']) ? $_POST['genericform'] : 'off');
-      $genericformshortcode = isset($_POST['genericformshortcode']) ? $_POST['genericformshortcode'] : '' ;
-      //===generic form===//
-    
-      $this->validator->basic_setting_validation($autorotationinactivedelay, $autorotationstopdelay);   // Basic setting error control and validation //
-
-      //===Company Logo===//
-      $cpLogoSwitch  = isset($_POST['cpLogoSwitch']) ? $_POST['cpLogoSwitch'] : 'off';
-      $cpLogoImg     = isset($_POST['cpLogoImg']) ? $_POST['cpLogoImg'] : '';
-      $cpLogoContent = isset($_POST['cpLogoContent']) ? sanitize_text_field($_POST['cpLogoContent']) : '';
-      //===Company Logo===//
-
-      //===Explainer video===//
-      $explainerSwitch = isset($_POST['explainerSwitch']) ? $_POST['explainerSwitch'] : 'off';
-      $explainerContent = '';
-      $explainerContent = isset($_POST['explainerContent']) ? $_POST['explainerContent'] : '';
-      //===Explainer video===//
-
-
-      $scene_fade_duration = '';
-      $scene_fade_duration = $_POST['scenefadeduration'];
-              
-      $this->validator->scene_validation($panodata);                                                    // Scene content error control and validation //
-    
-      $this->validator->empty_scene_validation($panodata);                                              // Empty scene content error control and validation //
-    
-      $this->validator->duplicate_hotspot_validation($panodata);                                        // Duplicate error control and validation //
-
-      $panodata = $this->format->remove_empty_scene_and_hotspot($panodata);                             // Remove Empty scene and hotspot //
-
-      //===audio===//
-      $bg_music          = isset($_POST['bg_music']) ? sanitize_text_field($_POST['bg_music']) : 'off';
-      $bg_music_url      = isset($_POST['bg_music_url']) ? esc_url_raw($_POST['bg_music_url']) : '';
-      $autoplay_bg_music = isset($_POST['autoplay_bg_music']) ? sanitize_text_field($_POST['autoplay_bg_music']) : 'off';
-      $loop_bg_music     = isset($_POST['loop_bg_music']) ? sanitize_text_field($_POST['loop_bg_music']) : 'off';
-      if ($bg_music == 'on') {
-        if (empty($bg_music_url)) {
-          wp_send_json_error('<p><span>Warning:</span> Please add an audio file as you enabled audio for this tour </p>');
-          die();
+        $mouseZoom    = $this->format->set_pro_checkbox_value(@$_POST['mouseZoom']);
+        $draggable    = $this->format->set_pro_checkbox_value(@$_POST['draggable']);
+        $diskeyboard  = $this->format->set_pro_checkbox_value(@$_POST['diskeyboard']);
+        $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
+        $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
+        //===Gyroscopre control===//
+        $gyro = $this->format->set_pro_checkbox_value(@$_POST['gyro']);
+        if ($gyro == 'on') {
+            if (!is_ssl()) {
+                wp_send_json_error('<p><span>Warning:</span> Please add SSL to enable Gyroscope for WP VR. </p>');
+                die();
+            }
+            $gyro = true;
+            $deviceorientationcontrol = $this->format->set_checkbox_value(@$_POST['deviceorientationcontrol']);
+        } else {
+            $gyro = false;
+            $deviceorientationcontrol = false;
         }
-      }
-      //===audio===//
-      $advanced_control = array(
-        'keyboardzoom'              => $keyboardzoom,
-        'diskeyboard'               => $diskeyboard,
-        'draggable'                 => $draggable, 
-        'mouseZoom'                 => $mouseZoom,
-        'gyro'                      => $gyro, 
-        'deviceorientationcontrol'  => $deviceorientationcontrol, 
-        'compass'                   => $compass,
-        'vrgallery'                 => $vrgallery, 
-        'vrgallery_title'           => $vrgallery_title, 
-        'vrgallery_display'         => $vrgallery_display,
-        'vrgallery_icon_size'       => $vrgallery_icon_size,
-        'bg_music'                  => $bg_music,
-        'bg_music_url'              => $bg_music_url, 
-        'autoplay_bg_music'         => $autoplay_bg_music, 
-        'loop_bg_music'             => $loop_bg_music,
-        'cpLogoSwitch'              => $cpLogoSwitch, 
-        'cpLogoImg'                 => $cpLogoImg, 
-        'cpLogoContent'             => $cpLogoContent, 
-        'hfov'                      => $default_global_zoom, 
-        'maxHfov'                   => $max_global_zoom, 
-        'minHfov'                   => $min_global_zoom,
-        'explainerSwitch'           => $explainerSwitch,
-        'explainerContent'          => $explainerContent,
-      );
-      
-      $pano_array = array();
-      $pano_array = array(
-                      "panoid" => $panoid,
-                      "autoLoad" => $autoload,
-                      "showControls" => $control,
-                      "customcontrol" => $custom_control,
-                      "autoRotate" => $autorotation,
-                      "autoRotateInactivityDelay" => $autorotationinactivedelay,
-                      "autoRotateStopDelay" => $autorotationstopdelay,
-                      "genericform" => $genericform,
-                      "genericformshortcode" => $genericformshortcode,
-                      "preview" => $preview,
-                      "defaultscene" => $default_scene,
-                      "scenefadeduration" => $scene_fade_duration,
-                      "panodata" => $panodata,
-                      "previewtext" => $previewtext);
-      $pano_array = apply_filters( 'prepare_scene_pano_array_with_pro_version', $pano_array, $_POST, $advanced_control );
-      $pano_array = $this->format->prepare_rotation_wrapper_data($pano_array, $rotation);
-      // Prepare tour rotation wrapper data /
-      update_post_meta($postid, 'panodata', $pano_array);
+        //===Gyroscopre control===//
+
+        $autoload           = $this->format->set_checkbox_value($_POST['autoload']);
+        $control            = $this->format->set_checkbox_value($_POST['control']);
+
+        $scene_fade_duration = $_POST['scenefadeduration'];
+        $preview = esc_url($_POST['preview']);
+        $rotation = sanitize_text_field($_POST['rotation']);
+        $autorotation = sanitize_text_field($_POST['autorotation']);
+
+        $autorotationinactivedelay = sanitize_text_field($_POST['autorotationinactivedelay']);
+        $autorotationstopdelay = sanitize_text_field($_POST['autorotationstopdelay']);
+
+        //===generic form===//
+        $genericform = sanitize_text_field(isset($_POST['genericform']) ? $_POST['genericform'] : 'off');
+        $genericformshortcode = isset($_POST['genericformshortcode']) ? $_POST['genericformshortcode'] : '' ;
+        //===generic form===//
+
+        $this->validator->basic_setting_validation($autorotationinactivedelay, $autorotationstopdelay);   // Basic setting error control and validation //
+
+        //===Company Logo===//
+        $cpLogoSwitch  = isset($_POST['cpLogoSwitch']) ? $_POST['cpLogoSwitch'] : 'off';
+        $cpLogoImg     = isset($_POST['cpLogoImg']) ? $_POST['cpLogoImg'] : '';
+        $cpLogoContent = isset($_POST['cpLogoContent']) ? sanitize_text_field($_POST['cpLogoContent']) : '';
+        //===Company Logo===//
+
+        //===Explainer video===//
+        $explainerSwitch = isset($_POST['explainerSwitch']) ? $_POST['explainerSwitch'] : 'off';
+        $explainerContent = '';
+        $explainerContent = isset($_POST['explainerContent']) ? $_POST['explainerContent'] : '';
+        //===Explainer video===//
+
+
+        $scene_fade_duration = '';
+        $scene_fade_duration = $_POST['scenefadeduration'];
+
+        $this->validator->scene_validation($panodata);                                                    // Scene content error control and validation //
+
+        $this->validator->empty_scene_validation($panodata);                                              // Empty scene content error control and validation //
+
+        $this->validator->duplicate_hotspot_validation($panodata);                                        // Duplicate error control and validation //
+
+        $panodata = $this->format->remove_empty_scene_and_hotspot($panodata);                             // Remove Empty scene and hotspot //
+
+        //===audio===//
+        $bg_music          = isset($_POST['bg_music']) ? sanitize_text_field($_POST['bg_music']) : 'off';
+        $bg_music_url      = isset($_POST['bg_music_url']) ? esc_url_raw($_POST['bg_music_url']) : '';
+        $autoplay_bg_music = isset($_POST['autoplay_bg_music']) ? sanitize_text_field($_POST['autoplay_bg_music']) : 'off';
+        $loop_bg_music     = isset($_POST['loop_bg_music']) ? sanitize_text_field($_POST['loop_bg_music']) : 'off';
+        if ($bg_music == 'on') {
+            if (empty($bg_music_url)) {
+                wp_send_json_error('<p><span>Warning:</span> Please add an audio file as you enabled audio for this tour </p>');
+                die();
+            }
+        }
+        //===audio===//
+        $advanced_control = array(
+            'keyboardzoom'              => $keyboardzoom,
+            'diskeyboard'               => $diskeyboard,
+            'draggable'                 => $draggable,
+            'mouseZoom'                 => $mouseZoom,
+            'gyro'                      => $gyro,
+            'deviceorientationcontrol'  => $deviceorientationcontrol,
+            'compass'                   => $compass,
+            'vrgallery'                 => $vrgallery,
+            'vrgallery_title'           => $vrgallery_title,
+            'vrgallery_display'         => $vrgallery_display,
+            'vrgallery_icon_size'       => $vrgallery_icon_size,
+            'bg_music'                  => $bg_music,
+            'bg_music_url'              => $bg_music_url,
+            'autoplay_bg_music'         => $autoplay_bg_music,
+            'loop_bg_music'             => $loop_bg_music,
+            'cpLogoSwitch'              => $cpLogoSwitch,
+            'cpLogoImg'                 => $cpLogoImg,
+            'cpLogoContent'             => $cpLogoContent,
+            'hfov'                      => $default_global_zoom,
+            'maxHfov'                   => $max_global_zoom,
+            'minHfov'                   => $min_global_zoom,
+            'explainerSwitch'           => $explainerSwitch,
+            'explainerContent'          => $explainerContent,
+        );
+
+        $pano_array = array();
+        $pano_array = array(
+            "panoid" => $panoid,
+            "autoLoad" => $autoload,
+            "showControls" => $control,
+            "customcontrol" => $custom_control,
+            "autoRotate" => $autorotation,
+            "autoRotateInactivityDelay" => $autorotationinactivedelay,
+            "autoRotateStopDelay" => $autorotationstopdelay,
+            "genericform" => $genericform,
+            "genericformshortcode" => $genericformshortcode,
+            "preview" => $preview,
+            "defaultscene" => $default_scene,
+            "scenefadeduration" => $scene_fade_duration,
+            "panodata" => $panodata,
+            "previewtext" => $previewtext);
+        $pano_array = apply_filters( 'prepare_scene_pano_array_with_pro_version', $pano_array, $_POST, $advanced_control );
+        $pano_array = $this->format->prepare_rotation_wrapper_data($pano_array, $rotation);
+        // Prepare tour rotation wrapper data /
+        update_post_meta($postid, 'panodata', $pano_array);
         $response = array(
             'success'   => true,
             'data'  => array(
-                    'post_ID' => $postid,
-                    'post_status' => get_post_status($postid)
+                'post_ID' => $postid,
+                'post_status' => get_post_status($postid)
             )
         );
         wp_send_json($response);
-      die();
-    
+        die();
+
     }
 
 
     /**
      * Responsible for showing Scene Preview
-     * 
+     *
      * @param string $panoid
      * @param string $panovideo
-     * 
+     *
      * @return wp_send_json_success
      * @since 8.0.0
      */
@@ -542,6 +542,7 @@ class WPVR_Scene {
       $pano_response = array("autoLoad" => $autoload, "defaultZoom" => $default_global_zoom, "minZoom" => $min_global_zoom, "maxZoom" => $max_global_zoom, "showControls" => $control, "compass" => $compass, "mouseZoom" => $mouseZoom, "draggable" => $draggable, "disableKeyboardCtrl" => $diskeyboard, 'keyboardZoom' => $keyboardzoom, "preview" => $preview, "autoRotate" => $autorotation, "autoRotateInactivityDelay" => $autorotationinactivedelay, "autoRotateStopDelay" => $autorotationstopdelay, "default" => $default_data, "scenes" => $scene_data);
       
       $pano_response = $this->format->prepare_rotation_wrapper_data($pano_response, $rotation);
+
         $is_pro = apply_filters('is_wpvr_pro_active',false);
         $status  = get_option('wpvr_edd_license_status');
         $pano_floor_plan = array();
@@ -558,22 +559,22 @@ class WPVR_Scene {
             );
         }
 
-      $response = array();
-      $response = array($pano_id_array, $pano_response, $panovideo,$pano_floor_plan,$call_to_action);
-      wp_send_json_success($response);
+        $response = array();
+        $response = array($pano_id_array, $pano_response, $panovideo,$pano_floor_plan,$call_to_action);
+        wp_send_json_success($response);
     }
 
 
     /**
      * Render shortcode for scene and hotspot post data
-     * 
+     *
      * @param array $postdata
      * @param string $panoid
      * @param integer $id
      * @param mixed $radius
      * @param mixed $width
      * @param mixed $height
-     * 
+     *
      * @return string
      * @since 8.0.0
      */
@@ -722,7 +723,7 @@ class WPVR_Scene {
 
         $draggable = true;
         if (isset($postdata['draggable'])) {
-          $draggable = $postdata['draggable'] == 'off' || $postdata['draggable'] == null ? false : true;
+            $draggable = $postdata['draggable'] == 'off' || $postdata['draggable'] == null ? false : true;
         }
 
         $diskeyboard = false;
@@ -955,9 +956,7 @@ class WPVR_Scene {
                         "URL" => $hotspot_data["hotspot-url"],
                         "wpvr_url_open" => $wpvr_url_open,
                         "clickHandlerArgs" => $on_click_content,
-//                        "clickHandlerArgs" => $hotspot_content,
-//                    'createTooltipArgs' =>  $hotspot_data['hotspot-hover'],
-                        'createTooltipArgs' => $on_hover_content,
+                        'createTooltipArgs' => empty(trim($on_hover_content)) ? trim($on_hover_content) : '',
                         "sceneId" => $hotspot_data["hotspot-scene"],
                         "targetPitch" => (float)$hotspot_scene_pitch,
                         "targetYaw" => (float)$hotspot_scene_yaw,
@@ -1204,13 +1203,13 @@ class WPVR_Scene {
                              '.$hotspot_animation.'
                           }';
 
-                            if($hotspot_shape === 'hexagon'){
+                        if($hotspot_shape === 'hexagon'){
 
-                                $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' .hexagon-wrapper svg path {
+                            $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' .hexagon-wrapper svg path {
                                     fill: ' . $hotspoticoncolor . ';
                                  }';
 
-                                $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . '.pnlm-tooltip:after{
+                            $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . '.pnlm-tooltip:after{
                                     content: "";
                                     position: absolute;
                                     left: 50%;
@@ -1223,9 +1222,9 @@ class WPVR_Scene {
                                     z-index: -2;
                                  }';
 
-                            }
+                        }
 
-                              $html .= '#' . $panoid2 . ' div.pnlm-hotspot-base.fas.custom-' . $id.'-' . $panoscenes['scene-id'] .'-'. $hotspot['hotspot-title'].',
+                        $html .= '#' . $panoid2 . ' div.pnlm-hotspot-base.fas.custom-' . $id.'-' . $panoscenes['scene-id'] .'-'. $hotspot['hotspot-title'].',
                               #' . $panoid2 . ' div.pnlm-hotspot-base.fab.custom-' . $id.'-' . $panoscenes['scene-id'] .'-'. $hotspot['hotspot-title'].',
                               #' . $panoid2 . ' div.pnlm-hotspot-base.fa-solid.custom-' . $id.'-' . $panoscenes['scene-id'] .'-'. $hotspot['hotspot-title'].',
                               #' . $panoid2 . ' div.pnlm-hotspot-base.fa.custom-' . $id.'-' . $panoscenes['scene-id'] .'-'. $hotspot['hotspot-title'].',
@@ -1454,7 +1453,7 @@ class WPVR_Scene {
 
             $bg_tour_enabler = $postdata['bg_tour_enabler'];
             if ($bg_tour_enabler == 'on') {
-                $bg_tour_navmenu = $postdata['bg_tour_navmenu'];
+                $bg_tour_navmenu = $postdata['bg_tour_navmenu'] ?? 'off';
                 $bg_tour_title = $postdata['bg_tour_title'];
                 $bg_tour_subtitle = $postdata['bg_tour_subtitle'];
 
@@ -1977,18 +1976,14 @@ class WPVR_Scene {
                 }
             }
        };
-       
        function vrDeviseOrientation(){
             var data = {
                 pitch: panoshow' . $id . '.getPitch(),
                 yaw: panoshow' . $id . '.getYaw(),
             };
             panoShowCardBoardOnTrigger(data);
-       }
-    ';
-
+       }';
             $html .= '
-            
             function requestFullScreen(){
                 var elem = document.getElementById("master-container");
                 if (elem.requestFullscreen) {
@@ -2019,11 +2014,8 @@ class WPVR_Scene {
                 jQuery(this).parent().find(".expand").show()
                 requestExitFullscreen()
                 screen.orientation.unlock();
-                 
-            }); 
-            ';
-            $html .= '
-        panoshow' . $id . '.on("scenechange", function (scene){
+            });';
+            $html .= 'panoshow' . $id . '.on("scenechange", function (scene){
             jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
             active_scene = scene;
             // if(localStorage.getItem("vr_mode") == "on") {
@@ -2047,7 +2039,6 @@ class WPVR_Scene {
           if(panoInfo == "block"){
             infoBlock = "block";
           }
-            
             if (getValue == "off") {
                 requestFullScreen()
                 screen.orientation.lock("landscape-primary").then(function() {
@@ -2066,10 +2057,8 @@ class WPVR_Scene {
                 gyroSwitch = true;
                 panoshow' . $id . '.startOrientation();
                 panoshow2' . $id . '.startOrientation();
-                
                 panoshow2' . $id . '.setPitch(panoshow' . $id . '.getPitch(), 0);
                 panoshow2' . $id . '.setYaw(panoshow' . $id . '.getYaw(), 0);
-                
                 getParent.find(".pano-wrap").addClass("wpvr-cardboard-disable-event");
                 getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").hide();
                 getParent.find("#pano' .$id. ' #controls'.$id.'").hide();
@@ -2081,78 +2070,58 @@ class WPVR_Scene {
                 getParent.find("#pano' .$id. ' .owl-nav.wpvr_slider_nav").hide();
                 getParent.find("#pano' .$id. ' #cp-logo-controls").hide();
                 getParent.find("#pano' .$id. ' #wpvr-social-share-bg-box'.$id.'").hide();
-                
                 getParent.find("#pano2' . $id . ' .pnlm-controls-container").hide();
                 getParent.find("#pano' . $id . ' .pnlm-controls-container").hide();
-                
                 getParent.find("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
                 getParent.find("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
-                
                 getParent.find("#pano2' . $id . ' .pnlm-panorama-info").hide();
                 getParent.find("#pano' . $id . ' .pnlm-panorama-info").hide();
                 getParent.find("#pano' . $id . '").addClass("cardboard-half"); 
                 getParent.find("#center-pointer' . $id . '").show();
                 getParent.find(".fullscreen-button").hide();
-                
                 getParent.find("#pano' . $id . ' #custom-scene-navigation' . $id . '").hide();
-                
                 if (window.DeviceOrientationEvent) {
                     window.addEventListener("deviceorientation", vrDeviseOrientation);
                 }
-                
                  panoshow' . $id . '.on("zoomchange", function (data){
                     panoshow2' . $id . '.setHfov(data, 0);
                 });
-
                 panoshow2' . $id . '.on("zoomchange", function (data){
                     panoshow' . $id . '.setHfov(data, 0);
                 });
-                
                 jQuery(document).on("click","#pano2' . $id . '",function(event) {
                   panoshow' . $id . '.startOrientation();
                   panoshow2' . $id . '.startOrientation();
-                  
                 });
-                
                 jQuery(document).on("click","#pano' . $id . '",function(event) {
                   panoshow' . $id . '.startOrientation();
                   panoshow2' . $id . '.startOrientation();
                 });
-                
                 panoshow' . $id . '.on("mousemove", function (data){
                     panoshow2' . $id . '.setPitch(data.pitch, 0);
                     panoshow2' . $id . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
-            
                 });
                 panoshow2' . $id . '.on("mousemove", function (data){
                     panoshow' . $id . '.setPitch(data.pitch, 0);
                     panoshow' . $id . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
-            
                 });
-                
-                
                 panoshow' . $id . '.on("touchmove", function (data){
                     panoshow' . $id . '.stopOrientation();
                     panoshow2' . $id . '.stopOrientation();
                     panoshow2' . $id . '.setPitch(data.pitch, 0);
                     panoshow2' . $id . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
-            
                 });
-                
                 panoshow2' . $id . '.on("touchmove", function (data){
                     panoshow' . $id . '.stopOrientation();
                     panoshow2' . $id . '.stopOrientation();
                     panoshow' . $id . '.setPitch(data.pitch, 0);
                     panoshow' . $id . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
-            
-                });
-                
-            }
-            else if(getValue == "on") {
+                });   
+            } else if(getValue == "on") {
                 screen.orientation.unlock();
                 requestExitFullscreen();
                 // localStorage.setItem("vr_mode", "off");
@@ -2165,12 +2134,10 @@ class WPVR_Scene {
                     "position": "absolute",
                 });
                 getParent.find(".pano-wrap").removeClass("wpvr-cardboard-disable-event");
-
                 getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").show();
                 getParent.find("#pano' .$id. ' #controls'.$id.'").show();
                 getParent.find("#pano' .$id. ' #explainer_button_'.$id.'").show();
                 getParent.find("#pano' .$id. ' #floor_map_button_'.$id.'").show();
-
                 getParent.find("#pano2' . $id . ' .pnlm-controls-container").show();
                 getParent.find("#pano' . $id . ' .pnlm-controls-container").show();
                 getParent.find("#pano' .$id. ' #vrgcontrols'.$id.'").show();
@@ -2179,9 +2146,7 @@ class WPVR_Scene {
                 getParent.find("#pano' .$id. ' .owl-nav.wpvr_slider_nav").hide();
                 getParent.find("#pano' .$id. ' #cp-logo-controls").show();
                 getParent.find("#pano' .$id. ' #wpvr-social-share-bg-box'.$id.'").show();
-                
                  getParent.find("#pano' . $id . ' #custom-scene-navigation' . $id . '").show();
-                
                 if(compassBlock == "block"){
                     getParent.find("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
                     getParent.find("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
@@ -2190,7 +2155,7 @@ class WPVR_Scene {
                     getParent.find("#pano2' . $id . ' .pnlm-panorama-info").show();
                     getParent.find("#pano' . $id . ' .pnlm-panorama-info").show();
                 }
-                  getParent.find("#pano' . $id . '").removeClass("cardboard-half");
+                getParent.find("#pano' . $id . '").removeClass("cardboard-half");
                 getParent.find("#center-pointer' . $id . '").hide();
                 getParent.find(".fullscreen-button").hide();
                 panoshow' . $id . '.off("mousemove");
@@ -2225,9 +2190,7 @@ class WPVR_Scene {
            panoshow' . $id . '.loadScene(scene_id)
            jQuery(".floor-plan-pointer").removeClass("add-pulse")
            jQuery(this).addClass("add-pulse")
-           
         });';
-
         if($scene_animation == 'on'){
             $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
             $html .= $animation_js;
@@ -2239,15 +2202,11 @@ class WPVR_Scene {
 				}
 			});';
         }
-
-
         $html .= '
         panoshow' . $id . '.on("mousemove", function (data){
             jQuery(".add-pulse").css({"transform":"rotate("+data.yaw+"deg)"});
         });
     ';
-
-
         $status  = get_option('wpvr_edd_license_status');
         if ($status !== false &&  'valid' == $status  && $is_pro){
             $html .= 'panoshow' . $id . '.on("scenechange", function (scene){
@@ -2259,7 +2218,6 @@ class WPVR_Scene {
                     jQuery(this).addClass("add-pulse")
                 }
             });
-            
         });';
             $html .= 'panoshow' . $id . '.on("load", function (){
            if(jQuery(".floor-plan-pointer").length > 0){
@@ -2273,96 +2231,80 @@ class WPVR_Scene {
            }
         });';
         }
-
         if ($status !== false &&  'valid' == $status  && $is_pro){
             $scene_navigation_content_type = isset($postdata['scene_navigation_content_type']) ? $postdata['scene_navigation_content_type'] : 'scene_id';
-            $html .= '
-         jQuery("#pano' . $id . ' .custom-scene-navigation").on("click",function(){
-            jQuery("#custom-scene-navigation-nav' . $id . ' ul").empty()
-                if(scenes){
-                    var scene_navigation_content_type = '."'".$scene_navigation_content_type."'" .';
-                    var sceneList = scenes.scenes;                    
+            $html .= 'jQuery("#pano' . $id . ' .custom-scene-navigation").on("click", function() {
+                jQuery("#custom-scene-navigation-nav' . $id . ' ul").empty();
+                if (scenes) {
+                    var scene_navigation_content_type = "' . $scene_navigation_content_type . '";
+                    var sceneList = scenes.scenes;
                     var getScene = panoshow' . $id . '.getScene();
                     for (const key in sceneList) {
                         let title;
                         if (scene_navigation_content_type === "scene_title") {
                             if (sceneList[key].title) {
                                 title = sceneList[key].title;
-                                
-                            }else{
-                                if(title == "" || title == undefined){
+                            } else {
+                                if (title == "" || title == undefined) {
                                     if (sceneList[key].panorama) {
-                                        title = getImageNameWithoutExtension(sceneList[key].panorama); 
+                                        title = getImageNameWithoutExtension(sceneList[key].panorama);
                                     }
                                 }
                             }
                         } else if (scene_navigation_content_type === "scene_image_name") {
                             if (sceneList[key].panorama) {
-                                title = getImageNameWithoutExtension(sceneList[key].panorama); 
+                                title = getImageNameWithoutExtension(sceneList[key].panorama);
                             }
                         } else {
                             title = key;
                         }
-                    if (sceneList.hasOwnProperty(key)) {
-                    if( key === getScene){
-                        jQuery("#custom-scene-navigation-nav' . $id . ' ul").append("<li class=\"scene-navigation-list active\" scene_id= " + key + " >" + title + "</li>");
-                    }else{
-                            jQuery("#custom-scene-navigation-nav' . $id . ' ul").append("<li class=\"scene-navigation-list\" scene_id= " + key + " >" + title + "</li>");
+                        if (sceneList.hasOwnProperty(key)) {
+                            let ulElement = document.querySelector("#custom-scene-navigation-nav' . $id . ' ul");
+                            if (ulElement) {
+                                let liElement = document.createElement("li");
+                                liElement.className = "scene-navigation-list" + (key === getScene ? " active" : "");
+                                liElement.setAttribute("scene_id", key);
+                                liElement.textContent = title;
+                                ulElement.appendChild(liElement);
+                            }
                         }
                     }
+                    jQuery("#custom-scene-navigation-nav' . $id . '").toggleClass("visible");
                 }
-            }
-             jQuery("#custom-scene-navigation-nav' . $id . '").toggleClass("visible");
-         });
-     ';
-
+            });';
             $html .='function getImageNameWithoutExtension(imageUrl) {
                     // Split the URL by "/"
                     var parts = imageUrl.split("/");
-                
                     // Get the last part which contains the image name
                     var imageNameWithExtension = parts[parts.length - 1];
-                
                     // Split the image name by period (.)
                     var imageNameParts = imageNameWithExtension.split(".");
-                
                     // Remove the last part (which is the extension) and join the remaining parts
                     var imageNameWithoutExtension = imageNameParts.slice(0, -1).join(".");
-                
                     // Return the image name without extension
                     return imageNameWithoutExtension;
                 }';
-
-
-            $html .= '
-        jQuery("#pano' . $id . ' #custom-scene-navigation-nav' . $id . ' ul").on("click", "li.scene-navigation-list", function() {
+            $html .= 'jQuery("#pano' . $id . ' #custom-scene-navigation-nav' . $id . ' ul").on("click", "li.scene-navigation-list", function() {
             if (scenes) {
                 jQuery(this).siblings("li").removeClass("active");
                 jQuery(this).addClass("active");
-
                 var scene_key = jQuery(this).attr("scene_id");
                 panoshow' . $id . '.loadScene(scene_key);
             }
-        });
-     ';
+        });';
         }
-
-        $html .= '
-        const node = document.querySelector(".add-pulse");
+        $html .= 'const node = document.querySelector(".add-pulse");
         panoshow' . $id . '.on("compasschange", function (data){
             console.log(data);
             // const node = document.querySelector(".add-pulse");
             // node.style.transform = data;
             // jQuery(".add-pulse").css({"transform":data});
-    
-            });
-        ';
+            });';
         $html .= 'panoshow' . $id . '.on("load", function (){
             // if(localStorage.getItem("vr_mode") == "off") {
             if(vr_mode == "off") {
                   jQuery(".vr-mode-title").hide();
-                }
-             else {
+                } else {
                 jQuery("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
                 jQuery("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
                 jQuery("#pano2' . $id . ' .pnlm-panorama-info").hide();
@@ -2379,21 +2321,17 @@ class WPVR_Scene {
 	             jQuery("#controls' . $id . '").css("bottom", "5px");
 	           }
 					});';
-
         $html .= 'panoshow' . $id . '.on("render", function (){
               window.dispatchEvent(new Event("resize"));
             });';
-
-        $html .= '
-					if (scenes.autoRotate) {
+        $html .= 'if (scenes.autoRotate) {
 						panoshow' . $id . '.on("load", function (){
 						 setTimeout(function(){ panoshow' . $id . '.startAutoRotate(scenes.autoRotate, 0); }, 3000);
 						});
 						panoshow' . $id . '.on("scenechange", function (){
 						 setTimeout(function(){ panoshow' . $id . '.startAutoRotate(scenes.autoRotate, 0); }, 3000);
 						});
-					}
-					';
+					}';
         $html .= 'var touchtime = 0;';
         if ($vrgallery) {
             if (isset($panodata["scene-list"])) {
@@ -2413,15 +2351,12 @@ class WPVR_Scene {
                     // $html .= '}';
                     // $html .= '}';
                     // $html .= '});';
-                    $html .= '
-                    jQuery(document).on("click","#' . $scene_key_gallery . '",function() {
+                    $html .= 'jQuery(document).on("click","#' . $scene_key_gallery . '",function() {
                         panoshow' . $id . '.loadScene("' . $scene_key . '");
-    		        });
-                    ';
+    		        });';
                 }
             }
         }
-
         //===Custom Control===//
         if (isset($custom_control)) {
             if ($custom_control['panupSwitch'] == "on") {
@@ -2429,49 +2364,41 @@ class WPVR_Scene {
                 $html .= 'panoshow' . $id . '.setPitch(panoshow' . $id . '.getPitch() + 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panDownSwitch'] == "on") {
                 $html .= 'document.getElementById("pan-down' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.setPitch(panoshow' . $id . '.getPitch() - 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panLeftSwitch'] == "on") {
                 $html .= 'document.getElementById("pan-left' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.setYaw(panoshow' . $id . '.getYaw() - 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panRightSwitch'] == "on") {
                 $html .= 'document.getElementById("pan-right' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.setYaw(panoshow' . $id . '.getYaw() + 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panZoomInSwitch'] == "on") {
                 $html .= 'document.getElementById("zoom-in' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.setHfov(panoshow' . $id . '.getHfov() - 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panZoomOutSwitch'] == "on") {
                 $html .= 'document.getElementById("zoom-out' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.setHfov(panoshow' . $id . '.getHfov() + 10);';
                 $html .= '});';
             }
-
             if ($custom_control['panFullscreenSwitch'] == "on") {
                 $html .= 'document.getElementById("fullscreen' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.toggleFullscreen();';
                 $html .= '});';
             }
-
             if ($custom_control['backToHomeSwitch'] == "on") {
                 $html .= 'document.getElementById("backToHome' . $id . '").addEventListener("click", function(e) {';
                 $html .= 'panoshow' . $id . '.loadScene("' . $default_scene . '");';
                 $html .= '});';
             }
-
             if ($custom_control['gyroscopeSwitch'] == "on") {
                 $html .= '
                 var element = document.getElementById("gyroscope' . $id . '");
@@ -2494,7 +2421,6 @@ class WPVR_Scene {
                         element.children[0].style.color = "red";
                     }
                 });
-    
                 panoshow' . $id . '.on("touchstart", function (){
                 if (panoshow' . $id . '.isOrientationActive()) {
                     gyroSwitch = true;
@@ -2504,28 +2430,21 @@ class WPVR_Scene {
                     gyroSwitch = false;
                     element.children[0].style.color = "red";
                 }
-                });
-                ';
+                });';
                 $html .= 'document.getElementById("gyroscope' . $id . '").addEventListener("click", function(e) {';
-                $html .= '
-                    var element = document.getElementById("gyroscope' . $id . '");
+                $html .= 'var element = document.getElementById("gyroscope' . $id . '");
                     if (panoshow' . $id . '.isOrientationActive()) {
-                        
                       panoshow' . $id . '.stopOrientation();
                       gyroSwitch = false;
                       element.children[0].style.color = "red";
-                    }
-                    else {
+                    } else {
                       panoshow' . $id . '.startOrientation();
                       gyroSwitch = true;
                       element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
-                    }
-    
-                  ';
+                    }';
                 $html .= '});';
             }
         }
-
         $angle_up = '<i class="fa fa-angle-up"></i>';
         $angle_down = '<i class="fa fa-angle-down"></i>';
         $sin_qout = "'";
@@ -2533,79 +2452,59 @@ class WPVR_Scene {
         //===Explainer Script===//
 
         if ($autoplay_bg_music == 'on') {
-
-            $html .= '
-            jQuery(document).on("click","#explainer_button_' . $id . '",function() {
+            $html .= 'jQuery(document).on("click","#explainer_button_' . $id . '",function() {
                 jQuery("#explainer' . $id . '").slideToggle();
-    
                 playing' . $id . ' = false;
                 var x' . $id . ' = document.getElementById("vrAudio' . $id . '");
                 jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up");
                 jQuery("#vr-volume' . $id . '").addClass("fas fa-volume-mute");
                 x' . $id . '.pause();
             });
-    
             jQuery(document).on("click",".close-explainer-video",function() {
                 jQuery(this).parent(".explainer").hide();
                 var el_src = jQuery(".vr-iframe").attr("src");
                 jQuery(".vr-iframe").attr("src", el_src);
-              });
-    
-            ';
+              });';
         } else {
-            $html .= '
-            jQuery(document).on("click","#explainer_button_' . $id . '",function() {
+            $html .= 'jQuery(document).on("click","#explainer_button_' . $id . '",function() {
                 jQuery("#explainer' . $id . '").slideToggle();
             });
-    
             jQuery(document).on("click",".close-explainer-video",function() {
                 jQuery(this).parent(".explainer").hide();
                 var el_src = jQuery(".vr-iframe").attr("src");
                 jQuery(".vr-iframe").attr("src", el_src);
-              });
-    
-            ';
+              });';
         }
 
         //===Explainer Script End===//
 
 
         //===Floor map  Script===//
-        $html .= '
-            jQuery(document).on("click","#floor_map_button_' . $id . '",function() {
+        $html .= 'jQuery(document).on("click","#floor_map_button_' . $id . '",function() {
                 jQuery("#wpvr-floor-map' . $id . '").toggle().removeClass("fullwindow");
               });
-        
               jQuery(document).on("dblclick","#wpvr-floor-map' . $id . '",function(){
                 jQuery(this).addClass("fullwindow");
                 jQuery(this).parents(".pano-wrap").addClass("show-modal");
               });
-              
               jQuery(document).on("click",".close-floor-map-plan",function() {
                 jQuery(this).parent(".wpvr-floor-map").hide();
                 jQuery(this).parent(".wpvr-floor-map").removeClass("fullwindow");
                 jQuery(this).parents(".pano-wrap").removeClass("show-modal");
-              });
-        
-            ';
+              });';
         //===Floor map Script End===//
 
         if ($vrgallery_display) {
 
             if (!$autoload) {
-                $html .= '
-                jQuery(document).ready(function($){
+                $html .= 'jQuery(document).ready(function($){
                     jQuery("#sccontrols' . $id . '").hide();
   		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
                     jQuery("#sccontrols' . $id . '").hide();
                     jQuery(".wpvr_slider_nav").hide();
-                });
-                ';
-
-                $html .= '
-    		          var slide' . $id . ' = "down";
+                });';
+                $html .= 'var slide' . $id . ' = "down";
     		          jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-
     		            if (slide' . $id . ' == "up") {
     		              jQuery(".vrgctrl' . $id . '").empty();
     		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
@@ -2618,49 +2517,36 @@ class WPVR_Scene {
     		            }
                         jQuery(".wpvr_slider_nav").slideToggle();
     		            jQuery("#sccontrols' . $id . '").slideToggle();
-    		          });
-    		          ';
+    		          });';
             } else {
-                $html .= '
-                jQuery(document).ready(function($){
+                $html .= 'jQuery(document).ready(function($){
                   jQuery("#sccontrols' . $id . '").show();
                     jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
                     jQuery(".wpvr_slider_nav").show();
-                });
-                ';
-
-                $html .= '
-                var slide' . $id . ' = "down";
+                });';
+                $html .= 'var slide' . $id . ' = "down";
                 jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-
                   if (slide' . $id . ' == "up") {
                     jQuery(".vrgctrl' . $id . '").empty();
                     jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
                     slide' . $id . ' = "down";
-                  }
-                  else {
+                  } else {
                     jQuery(".vrgctrl' . $id . '").empty();
                     jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
                     slide' . $id . ' = "up";
                   }
                   jQuery(".wpvr_slider_nav").slideToggle();
                   jQuery("#sccontrols' . $id . '").slideToggle();
-                });
-                ';
+                });';
             }
         } else {
-            $html .= '
-		          jQuery(document).ready(function($){
+            $html .= 'jQuery(document).ready(function($){
 		              jQuery("#sccontrols' . $id . '").hide();
                       jQuery(".wpvr_slider_nav").hide();
 		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
-		          });
-		          ';
-
-            $html .= '
-		          var slide' . $id . ' = "down";
+		          });';
+            $html .= 'var slide' . $id . ' = "down";
 		          jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-
 		            if (slide' . $id . ' == "up") {
 		              jQuery(".vrgctrl' . $id . '").empty();
 		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
@@ -2673,16 +2559,10 @@ class WPVR_Scene {
 		            }
                     jQuery(".wpvr_slider_nav").slideToggle(); 
 		            jQuery("#sccontrols' . $id . '").slideToggle();
-		          });
-		          ';
+		          });';
         }
-
-
-
-
         if (!$autoload) {
-            $html .= '
-                jQuery(document).ready(function(){
+            $html .= 'jQuery(document).ready(function(){
                     jQuery("#controls' . $id . '").hide();
                     jQuery("#zoom-in-out-controls' . $id . '").hide();
                     jQuery("#adcontrol' . $id . '").hide();
@@ -2690,10 +2570,7 @@ class WPVR_Scene {
                     jQuery("#floor_map_button_' . $id . '").hide();
                     jQuery("#vrgcontrols' . $id . '").hide();
                     jQuery("#pano' . $id . '").find(".pnlm-panorama-info").hide();
-                });
-
-            ';
-
+                });';
             if ($vrgallery_display) {
                 $html .= 'var load_once = "true";';
                 $html .= 'panoshow' . $id . '.on("load", function (){
@@ -2703,7 +2580,6 @@ class WPVR_Scene {
                       }
               });';
             }
-
             $html .= 'panoshow' . $id . '.on("load", function (){
                     jQuery("#controls' . $id . '").show();
                     jQuery("#zoom-in-out-controls' . $id . '").show();
@@ -2721,8 +2597,7 @@ class WPVR_Scene {
         if (isset($postdata['previewtext']) && $postdata['previewtext'] != '') {
             $previeword = $postdata['previewtext'];
         }
-        $html .= '
-            jQuery(".elementor-tab-title").click(function(){
+        $html .= 'jQuery(".elementor-tab-title").click(function(){
                       var element_id;
                       var pano_id;
                       var element_id = this.id;
@@ -2744,18 +2619,14 @@ class WPVR_Scene {
                                   window.dispatchEvent(new Event("resize"));
                                   if (jQuery("#pano' . $id . '").children().children(".pnlm-panorama-info:visible").length > 0) {
                                        jQuery("#controls' . $id . '").css("bottom", "55px");
-                                   }
-                                   else {
+                                   } else {
                                      jQuery("#controls' . $id . '").css("bottom", "5px");
                                    }
-                                   
                           }, 200);
                         }
                       }
-            });
-        ';
-        $html .= '
-            jQuery(".geodir-tab-head dd, #vr-tour-tab").click(function(){
+            });';
+        $html .= 'jQuery(".geodir-tab-head dd, #vr-tour-tab").click(function(){
               jQuery("#pano' . $id . '").children(".pnlm-render-container").remove();
               jQuery("#pano' . $id . '").children(".pnlm-ui").remove();
               panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);
@@ -2769,18 +2640,14 @@ class WPVR_Scene {
                          jQuery("#controls' . $id . '").css("bottom", "5px");
                        }
               }, 200);
-            });
-        ';
+            });';
         if (isset($postdata['previewtext']) && $postdata['previewtext'] != '') {
             $html .= '
             jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $postdata['previewtext'] . '")
             ';
         }
-
         if ($default_global_zoom != '' || $max_global_zoom != '' || $min_global_zoom != '') {
-            $html .= '
-            jQuery(".globalzoom").val("on").change();
-            ';
+            $html .= 'jQuery(".globalzoom").val("on").change();';
         }
 
         $html .= 'jQuery("#pano' . $id . ' .pnlm-title-box").on("mouseenter", function(){
@@ -2792,7 +2659,6 @@ class WPVR_Scene {
         $html .= '});';
         $html .= '})(jQuery);';
         $html .= '</script>';
-
         $tour_data = [];
         if(defined("WPVR_PRO_VERSION")){
             $tour_data = array(
@@ -2802,7 +2668,10 @@ class WPVR_Scene {
                 'custom_control' => $custom_control ?? '',
             );
         }
-        return apply_filters('wpvr_generate_tour_layout_html', $html ,$postdata ,$id, $tour_data);
+        ob_start();
+        echo $html;
+        $output = ob_get_clean();
+        return apply_filters('wpvr_generate_tour_layout_html', $output ,$postdata ,$id, $tour_data);
     }
 
     function replace_callback($matches){

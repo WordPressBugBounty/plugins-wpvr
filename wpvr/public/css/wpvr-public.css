@@ -543,6 +543,10 @@
   border-radius: 3px;
 }
 
+.zoom-in-out-controls {
+  top: 37px;
+}
+
 .zoom-in-out-controls .ctrl {
   padding: 2px 0;
 }
@@ -775,6 +779,10 @@ div.pnlm-hotspot-base.fa-solid:before {
   width: 100%;
 }
 
+.wpvr_slider_nav  p {
+  margin: 0;
+}
+
 .wpvr_slider_nav .wpvr_owl_prev,
 .wpvr_slider_nav .wpvr_owl_next {
   position: absolute;
@@ -784,6 +792,7 @@ div.pnlm-hotspot-base.fa-solid:before {
   padding: 0px;
   height: 30px;
   width: 30px;
+  line-height: 1;
   border: none;
   outline: none !important;
   background: #28303d !important;
