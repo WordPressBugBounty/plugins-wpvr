@@ -351,6 +351,11 @@ class Wpvr_Ajax
     update_option('wpvr_video_script_control', $wpvr_video_script_control);
     update_option('wpvr_video_script_list', $wpvr_video_script_list);
 
+    if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )){
+        $dokan_vendor = isset( $_POST['dokan_vendor'] ) ? sanitize_text_field($_POST['dokan_vendor']) : false;
+        update_option('dokan_vendor_active', $dokan_vendor);
+    }
+
     //        update_option('wpvr_enable_woocommerce', $enable_woocommerce);
 
     $response = array(

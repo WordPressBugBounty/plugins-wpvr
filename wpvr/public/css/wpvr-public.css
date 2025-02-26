@@ -358,7 +358,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 2;
+  z-index: 4;
 }
 
 .wpvr-social-share-bg-box * {
@@ -798,6 +798,7 @@ div.pnlm-hotspot-base.fa-solid:before {
   background: #28303d !important;
   color: #fff !important;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .wpvr_slider_nav .wpvr_owl_prev:hover,
@@ -1549,7 +1550,8 @@ div.custom-ifram {
   }
 
   #cp-logo-controls .cp-logo-ctrl .cp-info {
-    width: 280px;
+    width: 240px;
+    font-size: 13px;
   }
 
   div.pnlm-hotspot-base.fas,

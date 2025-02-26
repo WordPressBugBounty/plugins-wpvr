@@ -30,13 +30,16 @@
      */
 
 })(jQuery);
-function wpvrhotspot(hotSpotDiv, args) {
-    var argst = args.replace(/\\/g, '');
-    jQuery(document).ready(function($) {
-        $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").find('.custom-ifram').html(argst);
-        $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").fadeToggle();
-        $(hotSpotDiv.target).parent().parent(".pano-wrap").toggleClass("show-modal");
-    });
+function wpvrhotspot(hotSpotDiv, hotspotData) {
+    let args = hotspotData.on_click_content;
+    if(args){
+        var argst = args.replace(/\\/g, '');
+        jQuery(document).ready(function($) {
+            $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").find('.custom-ifram').html(argst);
+            $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").fadeToggle();
+            $(hotSpotDiv.target).parent().parent(".pano-wrap").toggleClass("show-modal");
+        });
+    }
 }
 
 function wpvrtooltip(hotSpotDiv, args) {

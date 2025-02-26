@@ -20,62 +20,64 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  *
  * @src Inspired from Elementor roll back options
  */
-function rex_wpvr_get_roll_back_versions() {
-    $rollback_versions = get_transient( 'rex_wpvr_rollback_versions_' . WPVR_VERSION );
-    if ( false === $rollback_versions ) {
-        $max_versions = 5;
-        require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-        $plugin_information = plugins_api(
-            'plugin_information', [
-                'slug' => 'wpvr',
-            ]
-        );
-        if ( empty( $plugin_information->versions ) || ! is_array( $plugin_information->versions ) ) {
-            return [];
-        }
+function rex_wpvr_get_roll_back_versions()
+{
+    $max_number = 5;
+    $transient_key = 'rex_wpvr_rollback_versions_' . WPVR_VERSION;
 
-        krsort( $plugin_information->versions );
-
-        $rollback_versions = [];
-
-        $current_index = 0;
-        foreach ( $plugin_information->versions as $version => $download_link ) {
-            if ( $max_versions <= $current_index ) {
-                break;
-            }
-
-            $lowercase_version = strtolower( $version );
-            $is_valid_rollback_version = ! preg_match( '/(trunk|beta|rc|dev)/i', $lowercase_version );
-
-            /**
-             * Is rollback version is valid.
-             *
-             * Filters the check whether the rollback version is valid.
-             *
-             * @param bool $is_valid_rollback_version Whether the rollback version is valid.
-             */
-            $is_valid_rollback_version = apply_filters(
-                'rex_wpvr_is_valid_rollback_version',
-                $is_valid_rollback_version,
-                $lowercase_version
-            );
-
-            if ( ! $is_valid_rollback_version ) {
-                continue;
-            }
-
-            if ( version_compare( $version, WPVR_VERSION, '>=' ) ) {
-                continue;
-            }
-
-            $current_index++;
-            $rollback_versions[] = $version;
-        }
-
-        set_transient( 'rex_wpvr_rollback_versions_' . WPVR_VERSION, $rollback_versions, WEEK_IN_SECONDS );
+    // Check cached version
+    if ($rollback_versions = get_transient($transient_key)) {
+        return $rollback_versions;
     }
+
+    require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+    $plugin_information = plugins_api('plugin_information', ['slug' => 'wpvr']);
+
+    if (empty($plugin_information->versions) || !is_array($plugin_information->versions)) {
+        return [];
+    }
+
+    $latest_version = $plugin_information->versions;
+    unset($latest_version['trunk']);
+
+    $valid_versions = [];
+
+    foreach ($latest_version as $version => $download_link) {
+        $lowercase_version = strtolower($version);
+        $is_valid_rollback_version =
+            preg_match('/^\d+\.\d+\.\d+$/', $version) &&
+            !preg_match('/(beta|rc|dev)/i', $lowercase_version) &&
+            version_compare($version, WPVR_VERSION, '<');
+
+        /**
+         * Filters whether the rollback version is valid.
+         *
+         * @param bool   $is_valid_rollback_version Whether the rollback version is valid.
+         * @param string $lowercase_version         The lowercase version string.
+         */
+        $is_valid_rollback_version = apply_filters(
+            'rex_wpvr_is_valid_rollback_version',
+            $is_valid_rollback_version,
+            $lowercase_version
+        );
+
+        if ($is_valid_rollback_version) {
+            $valid_versions[] = $version;
+        }
+    }
+
+    usort($valid_versions, function ($a, $b) {
+        return version_compare($b, $a);
+    });
+
+    $rollback_versions = array_slice($valid_versions, 0, $max_number);
+
+    // Cache the results for a week
+    set_transient($transient_key, $rollback_versions, WEEK_IN_SECONDS);
+
     return $rollback_versions;
 }
+
 
 $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? rex_wpvr_get_roll_back_versions() : array();
 
@@ -135,6 +137,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                 $high_res_image = get_option('high_res_image');
                                 $dis_on_hover = get_option('dis_on_hover');
                                 $enable_woocommerce = get_option('wpvr_enable_woocommerce', false);
+                                $dokan_vendor_active = get_option('dokan_vendor_active', false);
                                 ?>
                                 <li>
                                     <p class="single-settings-title">
@@ -191,6 +194,36 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <p><?php echo __('Authors will be able to Create, Edit, Update, and Delete their own virtual tours only.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
+                                <?php if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )) { ?>
+                                <li>
+                                    <p class="single-settings-title">
+                                        <?php echo __("Allow Dokan Vendors of your site to Create, Edit, Update, and Delete virtual tours (They can access their own tours only):", "wpvr"); ?>
+                                    </p>
+
+                                    <span class="wpvr-switcher">
+                                        <?php
+                                        if ($dokan_vendor_active == "true") {
+                                            ?>
+                                            <input id="wpvr_dokan_vendor_active" type="checkbox" checked>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <input id="wpvr_dokan_vendor_active" type="checkbox">
+                                            <?php
+                                        }
+                                        ?>
+                                        <label for="wpvr_dokan_vendor_active"></label>
+                                    </span>
+
+                                    <span class="wpvr-tooltip">
+                                        <span class="icon">
+                                            <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
+                                        </span>
+                                        <p><?php echo __('Dokan vendor will be able to Create, Edit, Update, and Delete their own virtual tours only.', 'wpvr'); ?></p>
+                                    </span>
+                                </li>
+
+                                <?php } ?>
 
                                 <li>
                                     <p class="single-settings-title">

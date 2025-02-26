@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.18
+ * Version:           8.5.19
  * Tested up to:      6.7.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -33,12 +33,16 @@ if (!defined('WPINC')) {
 
 require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
 
+if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
+    require_once plugin_dir_path(__FILE__) . 'bricks/bricks.php';
+}
+
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.18');
+define('WPVR_VERSION', '8.5.19');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -784,6 +788,24 @@ function wpvr_block_render($attributes)
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
                         $hotspot_shape = isset($hotspot_data["hotspot-shape"]) ? $hotspot_data["hotspot-shape"] : 'round';
                     }
+
+                    $hotspot_data_for_on_click=[];
+                    if('info' === $hotspot_type && !empty($on_click_content)){
+                        $hotspot_data_for_on_click = [
+                            'on_click_content' => $on_click_content,
+                            'tour_id' => $id,
+                            'scene_id' => $panoscenes['scene-id'],
+                            'hotspot_id' => $hotspot_data['hotspot-title'],
+                        ];
+                    } elseif('info' === $hotspot_type && !empty($hotspot_data["hotspot-url"])){
+                        $hotspot_data_for_on_click = [
+                            'on_click_content' => '',
+                            'tour_id' => $id,
+                            'scene_id' => $panoscenes['scene-id'],
+                            'hotspot_id' => $hotspot_data['hotspot-title'],
+                        ];
+                    }
+
                     $hotspot_info = array(
                         'text' => $hotspot_data['hotspot-title'],
                         'pitch' => $hotspot_data['hotspot-pitch'],
@@ -792,7 +814,7 @@ function wpvr_block_render($attributes)
                         'cssClass' => $hotspot_data['hotspot-customclass'],
                         'URL' => $hotspot_data['hotspot-url'],
                         "wpvr_url_open" => $wpvr_url_open,
-                        "clickHandlerArgs" => $on_click_content,
+                        "clickHandlerArgs" => $hotspot_data_for_on_click,
                         //                    "clickHandlerArgs" => $hotspot_content,
                         //                    'createTooltipArgs' =>  $hotspot_data['hotspot-hover'],
                         'createTooltipArgs' => $on_hover_content,
@@ -1686,8 +1708,11 @@ function wpvr_block_render($attributes)
     $html .= 'for(var i in scenedata) {';
     $html .= 'var scenehotspot = scenedata[i].hotSpots;';
     $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
-    $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-    $html .= 'scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+    $html .= 'if(scenehotspot[i].type === "info") {';
+    $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+    $html .= '} else if(scenehotspot[i].type === "scene") {';
+    $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
+    $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspotscene;';
     $html .= '}';
     if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
     } else {
@@ -1835,6 +1860,101 @@ function wpvr_block_render($attributes)
                 screen.orientation.unlock();
                  
             }); 
+            
+            let onLoadAnalytics = false;
+            let sceneLoadAnalytics = false;
+            function storeAnalyticsData(data) {
+                jQuery.ajax({
+                    url: wpvrAnalyticsObj.ajaxUrl,
+                    type: "POST",
+                    data: {
+                        action: "store_scene_hotspot_data",
+                        scene_id: data.scene_id,
+                        tour_id: data.tour_id,
+                        type: data.type,
+                        hotspot_id: data.hotspot_id || "",
+                        user_agent: navigator.userAgent,
+                        device_type: getDeviceType() || "desktop",
+                        nonce: wpvrAnalyticsObj.nonce,
+                        session_id: wpvrAnalyticsObj.session_id,
+                    },
+                    success: function (response) {
+                        console.log("Data stored successfully");
+                    },
+                    error: function (error) {
+                        console.log("Error in storing data");
+                    }
+                });
+            }
+            
+            function getDeviceType() {
+                const userAgent = navigator.userAgent.toLowerCase();
+
+                if (/mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)) {
+                    return "mobile";
+                } else if (/tablet|ipad/i.test(userAgent)) {
+                     return "tablet";
+                } else {
+                    return "desktop";
+                }
+            }
+
+            panoshow' . $id . '.on("scenechange", function(scene) {
+                onLoadAnalytics = true;
+                sceneLoadAnalytics = true;
+                let scene_id = scene;
+                let tour_id = ' . $id . ';
+                let type = "scene";
+                let hotspot_id = "";
+                let user_agent = navigator.userAgent;
+                let device_type = getDeviceType() ? getDeviceType() : "desktop";
+                storeAnalyticsData({
+                    scene_id: scene_id,
+                    tour_id: tour_id,
+                    type: type,
+                    hotspot_id: hotspot_id,
+                    user_agent: user_agent,
+                    device_type: device_type,
+                });
+            });
+            
+            panoshow' . $id . '.on("load", function() {
+                let scene_id = panoshow' . $id . '.getScene();
+                let tour_id = ' . $id . ';
+                let type = "scene";
+                let hotspot_id = "";
+                let user_agent = navigator.userAgent;
+                let device_type = getDeviceType() ? getDeviceType() : "desktop";
+                if(!onLoadAnalytics && !sceneLoadAnalytics){
+                    storeAnalyticsData({
+                        scene_id: scene_id,
+                        tour_id: tour_id,
+                        type: type,
+                        hotspot_id: hotspot_id,
+                        user_agent: user_agent,
+                        device_type: device_type,
+                    });
+                }
+            });
+            
+            function wpvrhotspotscene(hotSpotDiv, args) {
+                onLoadAnalytics = true;
+                let scene_id = panoshow' . $id . '.getScene();
+                let tour_id = ' . $id . ';
+                let type = "hotspot";
+                let hotspot_id = args;
+                let user_agent = navigator.userAgent;
+                let device_type = getDeviceType() ? getDeviceType() : "desktop";
+                storeAnalyticsData({
+                    scene_id: scene_id,
+                    tour_id: tour_id,
+                    type: type,
+                    hotspot_id: hotspot_id,
+                    user_agent: user_agent,
+                    device_type: device_type
+                });
+            }
+            
             ';
 
         $html .= '
@@ -2753,6 +2873,34 @@ function wpvr_add_role_cap()
             $author->remove_cap('delete_wpvr_tour');
         }
     }
+
+    if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )){
+        $dokan_vendor_active = get_option('dokan_vendor_active');
+
+        if( 'true' === $dokan_vendor_active){
+            $seller = get_role('seller');
+            if ($seller) {
+                $seller->add_cap('read_wpvr_tour');
+                $seller->add_cap('edit_wpvr_tour');
+                $seller->add_cap('edit_wpvr_tours');
+                $seller->add_cap('publish_wpvr_tours');
+                $seller->add_cap('publish_wpvr_tour');
+                $seller->add_cap('delete_wpvr_tour');
+            }
+        } else{
+            $seller = get_role('seller');
+            if ($seller) {
+                $seller->remove_cap('read_wpvr_tour');
+                $seller->remove_cap('edit_wpvr_tour');
+                $seller->remove_cap('edit_wpvr_tours');
+                $seller->remove_cap('publish_wpvr_tours');
+                $seller->remove_cap('publish_wpvr_tour');
+                $seller->remove_cap('delete_wpvr_tour');
+            }
+        }
+    }
+
+
 }
 
 add_action('admin_init', 'wpvr_add_role_cap', 999);
@@ -2777,6 +2925,16 @@ function wpvr_role_management_from_post_type($args, $post_type)
         if (in_array('author', (array) $user->roles)) {
             $args['show_in_menu'] = true;
         }
+    }
+
+    if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )){
+        $dokan_vendor_active = get_option('dokan_vendor_active');
+        if( 'true' === $dokan_vendor_active){
+            if (in_array('seller', (array) $user->roles)) {
+                $args['show_in_menu'] = true;
+            }
+        }
+
     }
 
     return $args;

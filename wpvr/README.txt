@@ -1,11 +1,11 @@
 === WP VR - 360 Panorama and Free Virtual Tour Builder For WordPress ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive tour, 360, google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
+Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive virtual tour, 360, Google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.18
+Stable tag: 8.5.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Simply upload a 360 panorama image, and the plugin will help you transform it in
 WPVR gives you all the features needed to create a free virtual tour on your own.
 
 
-<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro)! 🔥</a> </h4>
+<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at 15% Off Today! 🔥</a> </h4>
 
 Learn how to create a free virtual tour in just a few minutes! 👇
 
@@ -430,6 +430,15 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.19 (26-02-2025) =
+* Fix: Hotspot on hover content issue on elementor widget
+* Fix: Updated pricing in the setup wizard
+* New: Bricks Builder Integration
+* New: User role support for Dokan — WooCommerce Multivendor Marketplace Solution
+* New: WPVR tour analytics
+* Fix: Explainer video button clicking issue
+* Fix: Modern layout issue
 
 = 8.5.18 (19-02-2025) =
 * Fix: Undefined array key "draggable" warning in scene preview

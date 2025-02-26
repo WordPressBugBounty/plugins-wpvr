@@ -498,4 +498,5 @@ class Wpvr_Admin
         }
         require_once plugin_dir_path(__FILE__) . 'partials/wpvr-review-request-body-content.php';
     }
+
 }

@@ -71,6 +71,12 @@ class WPVR_Admin_Page {
         add_submenu_page( 'wpvr', 'WP VR', __('Tours','wpvr'),'manage_options', 'edit.php?post_type=wpvr_item', NULL);
 
 		add_submenu_page( 'wpvr', 'WP VR', __('Add New Tour','wpvr'),'manage_options', 'post-new.php?post_type=wpvr_item', NULL);
+
+        /*
+         * Add Analytics page
+         * @since 8.5.16
+         */
+        do_action('wpvr_pro_analytics_page');
         do_action('wpvr_pro_before_guided_tour');
         add_submenu_page( 'wpvr', 'WP VR', __('Settings','wpvr'),'manage_options', 'wpvr-setting', array($this,'wpvr_setting_page'));
 
@@ -82,6 +88,7 @@ class WPVR_Admin_Page {
 
         add_submenu_page( 'wpvr', 'WP VR', __('Setup Wizard','wpvr'),'manage_options', 'rex-wpvr-setup-wizard', array( $this, 'wpvr_new_setup_wizard'));
         do_action('wpvr_pro_license_page');
+
 
 
         if(!is_plugin_active('wpvr-pro/wpvr-pro.php')){
