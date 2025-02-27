@@ -1910,7 +1910,9 @@ class WPVR_Scene {
         $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
         $html .= '} else if(scenehotspot[i].type === "scene") {';
         $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
+        $html .='if(wpvr_public.is_pro_active) {';
         $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspotscene;';
+        $html .='}';
         $html .= '}';
 
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
@@ -2051,27 +2053,29 @@ class WPVR_Scene {
             let onLoadAnalytics = false;
             let sceneLoadAnalytics = false;
             function storeAnalyticsData(data) {
-                jQuery.ajax({
-                    url: wpvrAnalyticsObj.ajaxUrl,
-                    type: "POST",
-                    data: {
-                        action: "store_scene_hotspot_data",
-                        scene_id: data.scene_id,
-                        tour_id: data.tour_id,
-                        type: data.type,
-                        hotspot_id: data.hotspot_id || "",
-                        user_agent: navigator.userAgent,
-                        device_type: getDeviceType() || "desktop",
-                        nonce: wpvrAnalyticsObj.nonce,
-                        session_id: wpvrAnalyticsObj.session_id,
-                    },
-                    success: function (response) {
-                        console.log("Data stored successfully");
-                    },
-                    error: function (error) {
-                        console.log("Error in storing data");
-                    }
-                });
+                if(wpvr_public.is_pro_active) {
+                    jQuery.ajax({
+                        url: wpvrAnalyticsObj.ajaxUrl,
+                        type: "POST",
+                        data: {
+                            action: "store_scene_hotspot_data",
+                            scene_id: data.scene_id,
+                            tour_id: data.tour_id,
+                            type: data.type,
+                            hotspot_id: data.hotspot_id || "",
+                            user_agent: navigator.userAgent,
+                            device_type: getDeviceType() || "desktop",
+                            nonce: wpvrAnalyticsObj.nonce,
+                            session_id: wpvrAnalyticsObj.session_id,
+                        },
+                        success: function (response) {
+                            console.log("Data stored successfully");
+                        },
+                        error: function (error) {
+                            console.log("Error in storing data");
+                        }
+                    });
+                }
             }
             function getDeviceType() {
                 const userAgent = navigator.userAgent.toLowerCase();

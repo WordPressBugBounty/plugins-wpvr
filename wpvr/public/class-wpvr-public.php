@@ -172,6 +172,7 @@ class Wpvr_Public {
                     wp_localize_script('wpvr', 'wpvr_public', array(
                         'notice_active' => $wpvr_frontend_notice,
                         'notice' => $notice,
+                        'is_pro_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
                     ));
                 }
             }
@@ -187,6 +188,7 @@ class Wpvr_Public {
             wp_localize_script('wpvr', 'wpvr_public', array(
                 'notice_active' => $wpvr_frontend_notice,
                 'notice' => $notice,
+                'is_pro_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
             ));
         }
 

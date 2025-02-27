@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.19
+ * Version:           8.5.20
  * Tested up to:      6.7.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.19');
+define('WPVR_VERSION', '8.5.20');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -1712,7 +1712,9 @@ function wpvr_block_render($attributes)
     $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
     $html .= '} else if(scenehotspot[i].type === "scene") {';
     $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
+    $html .='if(wpvr_public.is_pro_active) {';
     $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspotscene;';
+    $html .='}';
     $html .= '}';
     if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
     } else {
@@ -1864,6 +1866,7 @@ function wpvr_block_render($attributes)
             let onLoadAnalytics = false;
             let sceneLoadAnalytics = false;
             function storeAnalyticsData(data) {
+              if(wpvr_public.is_pro_active) {
                 jQuery.ajax({
                     url: wpvrAnalyticsObj.ajaxUrl,
                     type: "POST",
@@ -1885,6 +1888,7 @@ function wpvr_block_render($attributes)
                         console.log("Error in storing data");
                     }
                 });
+              }
             }
             
             function getDeviceType() {
