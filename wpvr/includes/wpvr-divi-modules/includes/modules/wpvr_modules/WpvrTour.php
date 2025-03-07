@@ -116,7 +116,7 @@ class WPVR_Tour extends ET_Builder_Module {
 	public function get_fields() {
 		return array(
 			'vr_id'                 => array(
-				'label'            => esc_html__( 'ID', 'wpvr' ),
+				'label'            => esc_html__( 'Select Tour', 'wpvr' ),
 				'description'      => esc_html__( 'WPVR Tour ID', 'wpvr' ),
 				'type'             => 'select',
 				'options'          => $this->get_all_tour(),
@@ -128,7 +128,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				'mobile_options'   => true,
 			),
 			'vr_width'              => array(
-				'label'            => __( 'Width', 'wpvr' ),
+				'label'            => __( 'Tour Width', 'wpvr' ),
 				'description'      => __( 'WPVR Width', 'wpvr' ),
 				'type'             => 'text',
 				'default'          => '600',
@@ -139,7 +139,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				),
 			),
 			'vr_width_unit'         => array(
-				'label'            => esc_html__( 'Width Unit', 'wpvr' ),
+				'label'            => esc_html__( 'Tour Width Unit', 'wpvr' ),
 				'description'      => esc_html__( 'Width Unit', 'wpvr' ),
 				'type'             => 'select',
 				'options'          => array(
@@ -157,7 +157,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				),
 			),
 			'vr_fullwidth'          => array(
-				'label'            => esc_html__( 'Fullwidth', 'wpvr' ),
+				'label'            => esc_html__( 'Tour Fullwidth', 'wpvr' ),
 				'description'      => esc_html__( 'Fullwidth', 'wpvr' ),
 				'type'             => 'select',
 				'options'          => array(
@@ -172,7 +172,7 @@ class WPVR_Tour extends ET_Builder_Module {
 			),
 
 			'vr_height'             => array(
-				'label'            => __( 'Height', 'wpvr' ),
+				'label'            => __( 'Tour Height', 'wpvr' ),
 				'description'      => __( 'WPVR Height', 'wpvr' ),
 				'type'             => 'text',
 				'default'          => '400',
@@ -180,7 +180,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				'toggle_slug'      => 'main_content',
 			),
 			'vr_height_unit'        => array(
-				'label'            => esc_html__( 'Height Unit', 'wpvr' ),
+				'label'            => esc_html__( 'Tour Height Unit', 'wpvr' ),
 				'description'      => esc_html__( 'Height Unit', 'wpvr' ),
 				'type'             => 'select',
 				'options'          => array(
@@ -193,9 +193,30 @@ class WPVR_Tour extends ET_Builder_Module {
 				'sub_toggle'       => 'ul',
 				'mobile_options'   => true,
 			),
+			'vr_mobile_height'      => array(
+				'label'            => __( 'Tour Mobile Height', 'wpvr' ),
+				'description'      => __( 'WPVR Mobile Height', 'wpvr' ),
+				'type'             => 'text',
+				'default'          => '300',
+				'default_on_front' => '300',
+				'toggle_slug'      => 'main_content',
+			),
+			'vr_mobile_height_unit' => array(
+				'label'            => esc_html__( 'Tour Mobile Height Unit', 'wpvr' ),
+				'description'      => esc_html__( 'Mobile Height Unit', 'wpvr' ),
+				'type'             => 'select',
+				'options'          => array(
+					'px' => __( 'px', 'wpvr' ),
+				),
+				'default'          => 'px',
+				'default_on_front' => 'px',
+				'toggle_slug'      => 'main_content',
+				'sub_toggle'       => 'ul',
+				'mobile_options'   => true,
+			),
 
 			'vr_radius'             => array(
-				'label'            => __( 'Radius', 'wpvr' ),
+				'label'            => __( 'Tour Radius', 'wpvr' ),
 				'description'      => __( 'WPVR Radius', 'wpvr' ),
 				'type'             => 'text',
 				'default'          => '0',
@@ -203,7 +224,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				'toggle_slug'      => 'main_content',
 			),
 			'vr_radius_unit'        => array(
-				'label'            => esc_html__( 'Radius Unit', 'wpvr' ),
+				'label'            => esc_html__( 'Tour Radius Unit', 'wpvr' ),
 				'description'      => esc_html__( 'Radius Unit', 'wpvr' ),
 				'type'             => 'select',
 				'options'          => array(
@@ -216,27 +237,7 @@ class WPVR_Tour extends ET_Builder_Module {
 				'mobile_options'   => true,
 			),
 
-			'vr_mobile_height'      => array(
-				'label'            => __( 'Mobile Height', 'wpvr' ),
-				'description'      => __( 'WPVR Mobile Height', 'wpvr' ),
-				'type'             => 'text',
-				'default'          => '300',
-				'default_on_front' => '300',
-				'toggle_slug'      => 'main_content',
-			),
-			'vr_mobile_height_unit' => array(
-				'label'            => esc_html__( 'Mobile Height Unit', 'wpvr' ),
-				'description'      => esc_html__( 'Mobile Height Unit', 'wpvr' ),
-				'type'             => 'select',
-				'options'          => array(
-					'px' => __( 'px', 'wpvr' ),
-				),
-				'default'          => 'px',
-				'default_on_front' => 'px',
-				'toggle_slug'      => 'main_content',
-				'sub_toggle'       => 'ul',
-				'mobile_options'   => true,
-			),
+			
 		);
 	}
 

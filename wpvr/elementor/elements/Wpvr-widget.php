@@ -10,9 +10,8 @@ use Elementor\Controls_Manager;
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * Elementor Doserx Search
- *
- * Elementor widget for doserx search.
+ * 
+ * Elementor widget for WPVR
  *
  * @since 1.0.0
  */
@@ -124,7 +123,7 @@ class Wpvr_Widget extends Widget_Base {
     protected function wpvr_shortcode_controls(){
 
         /**
-         * Nasim
+         * 
          * get all tour info and store in $wpvr_post
          */
         $the_posts = get_posts(array('post_type' => 'wpvr_item',
@@ -148,24 +147,25 @@ class Wpvr_Widget extends Widget_Base {
         );
 
         /**
-         * Nasim
+         * 
          * add a select type field instead of text field
          */
         $this->add_control(
             'vr_id',
             [
-                'label' => __( 'ID:', 'wpvr' ),
+                'label' => __( 'Select Tour:', 'wpvr' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $wpvr_post
             ]
         );
+
         $this->add_control(
             'vr_width',
             [
                 'label' => __( 'Width:', 'wpvr' ),
                 'type' => Controls_Manager::TEXT,
                 'input_type' => 'text',
-                'placeholder' => __( '', 'wpvr' ),
+                'placeholder' => __( 'Put value in PX', 'wpvr' ),
             ]
         );
 
@@ -175,7 +175,7 @@ class Wpvr_Widget extends Widget_Base {
                 'label' => __( 'Height:', 'wpvr' ),
                 'type' => Controls_Manager::TEXT,
                 'input_type' => 'text',
-                'placeholder' => __( 'Put value in (px)', 'wpvr' ),
+                'placeholder' => __( 'Put value in PX', 'wpvr' ),
             ]
         );
 
@@ -185,9 +185,19 @@ class Wpvr_Widget extends Widget_Base {
                 'label' => __( 'Radius:', 'wpvr' ),
                 'type' => Controls_Manager::TEXT,
                 'input_type' => 'text',
-                'placeholder' => __( '', 'wpvr' ),
+                'placeholder' => __( 'Put value in PX', 'wpvr' ),
             ]
         );
+
+        $this->add_control(
+            'vr_mobile',
+            [
+                'label' => __('Mobile Height', 'wpvr'),
+                'type' => Controls_Manager::TEXT,
+                'placeholder' => __( 'Put value in PX', 'wpvr' ),
+            ]
+        );
+        
 
         $this->end_controls_section();
 
@@ -203,31 +213,26 @@ class Wpvr_Widget extends Widget_Base {
      * @access protected
      */
     protected function render() {
-
         $settings = $this->get_settings_for_display();
-        $id = 0;
-        $width = "600px";
-        $height = "400px";
-        $radius = "0px";
-        $id = $settings['vr_id'];
-        $width = $settings['vr_width'];
-        $height = $settings['vr_height'];
-        $radius = $settings['vr_radius'];
-        if (empty($width)) {
-            $width = "600px";
+    
+        $id = $settings['vr_id'] ?? 0;
+        $width = $settings['vr_width'] ?? "600px";
+        $height = $settings['vr_height'] ?? "400px";
+        $radius = $settings['vr_radius'] ?? "0px";
+        $mobile_height = $settings['vr_mobile'] ?? "300px";
+    
+        // Ensure dimensions have 'px' if missing
+        foreach (['width', 'height', 'radius', 'mobile_height'] as $key) {
+            if (!empty($$key) && strpos($$key, 'px') === false) {
+                $$key .= 'px';
+            }
         }
-        if (empty($height)) {
-            $height = "400px";
-        }
-        if (empty($radius)) {
-            $radius = "0px";
-        }
-
+    
         if ($id) {
-            $shortcode = do_shortcode( shortcode_unautop( '[wpvr id="'.$id.'" width="'.$width.'" height="'.$height.'" radius="'.$radius.'"]'  ) );
-            echo $shortcode;
+            echo do_shortcode('[wpvr id="'.$id.'" width="'.$width.'" height="'.$height.'" radius="'.$radius.'" mobile_height="'.$mobile_height.'"]');
         }
     }
+    
 
     /**
      * Print element template.
@@ -271,6 +276,7 @@ class Wpvr_Widget extends Widget_Base {
         <script type="text/html" id="tmpl-elementor-<?php echo esc_attr( $this->get_name() ); ?>-content">
             <?php $this->print_template_content( $template_content ); ?>
         </script>
+        
         <?php
     }
     protected function _content_template() {

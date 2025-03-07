@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive virtual tour, 360, Google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.20
+Stable tag: 8.5.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -430,6 +430,18 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.21 (07-03-2025) =
+* New: Added a sample VR tour on the first activation
+* Fix: PHP warning for session_start() conflict in Divi frontend editor
+* Fix: Tour publishing issues in Arabic & Portuguese languages
+* Fix: Rollback option all versions after 8.5.9 were missing
+* Fix: WPVR Elementor Widget UX Issues
+* Fix: WPVR Gutenberg Block UX Issues
+* Fix: WP VR Divi module labels and order
+* Fix: Updated WP VR Oxygen element labels, order, and button text
+* Fix: Warning displayed in the console when the WPVR Pro version is installed
+
 
 = 8.5.20 (27-02-2025) =
 * Fix: Front-end tour error in WPVR 8.5.19

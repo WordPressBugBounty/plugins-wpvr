@@ -89,7 +89,7 @@ class WPVR_Shortcode {
                 return __('Invalid Wpvr slug attribute', $this->plugin_name);
             }
         }
-
+    
         if (empty($mobile_height)) {
             $mobile_height = "300px";
         }

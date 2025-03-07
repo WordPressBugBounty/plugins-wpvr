@@ -45,7 +45,6 @@ class WpvrElementor {
         add_action( 'elementor/frontend/after_register_scripts', function() {
             wp_register_script( 'Wpvr-elementor', 'script path', [ 'jquery' ], false, true );
         } );
-
         
     }
 

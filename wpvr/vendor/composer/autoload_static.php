@@ -27,6 +27,8 @@ class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
         'WPVR_Notification_Bar' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-sells-notification-bar.php',
         'WPVR_Post_Type' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-post-type.php',
         'WPVR_Rollback' => __DIR__ . '/../..' . '/admin/class-wpvr-rollback.php',
+        'WPVR_Sample_Tour' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-sample-tour.php',
+        'WPVR_Sample_Tour_Import' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-import-sample-tour.php',
         'WPVR_Scene' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-scene.php',
         'WPVR_Setup_Meta_Box' => __DIR__ . '/../..' . '/admin/classes/class-setup-meta-box.php',
         'WPVR_Setup_Wizard' => __DIR__ . '/../..' . '/includes/setup-wizard.php',

@@ -2066,7 +2066,6 @@ class WPVR_Scene {
                             user_agent: navigator.userAgent,
                             device_type: getDeviceType() || "desktop",
                             nonce: wpvrAnalyticsObj.nonce,
-                            session_id: wpvrAnalyticsObj.session_id,
                         },
                         success: function (response) {
                             console.log("Data stored successfully");

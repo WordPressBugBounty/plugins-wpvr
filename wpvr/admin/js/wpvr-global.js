@@ -101,4 +101,7 @@
 			current.find(".copy-shortcode-text").hide();
 		}, 2000 );
 	}
+
+	
 })( jQuery );
+

@@ -222,8 +222,82 @@ class Wpvr_Ajax
         $post_array['post_password'] = '';
       }
     }
+
+      $user_site_language = get_locale();
+      $language_mapping = [
+          'ar' => [  // Arabic
+              'نشر'    => 'Publish',   // nashr
+              'تحديث'  => 'Update'     // tahdith
+          ],
+          'pt_PT' => [  // Portuguese (Portugal)
+              'Publicar'   => 'Publish',
+              'Atualizar'  => 'Update'
+          ],
+          'es_ES' => [  // Spanish (Spain)
+              'Publicar'   => 'Publish',
+              'Actualizar' => 'Update'
+          ],
+          'he_IL' => [  // Hebrew (Israel)
+              'לפרסם'   => 'Publish',    // lefarsem
+              'לעדכן'    => 'Update'      // le'adken
+          ],
+          'af' => [  // Afrikaans
+              'Publiseer'  => 'Publish',
+              'Opdateer'   => 'Update'
+          ],
+          'cs_CZ' => [  // Czech (Czech Republic)
+              'Publikovat'  => 'Publish',
+              'Aktualizovat'=> 'Update'
+          ],
+          'da_DK' => [  // Danish (Denmark)
+              'Udgiv'       => 'Publish',
+              'Opdater'     => 'Update'
+          ],
+          'de_DE' => [  // German (Germany)
+              'Veröffentlichen' => 'Publish',
+              'Aktualisieren'   => 'Update'
+          ],
+          'fi' => [  // Finnish
+              'Julkaise'    => 'Publish',
+              'Päivitä'     => 'Update'
+          ],
+          'fr_FR' => [  // French (France)
+              'Publier'     => 'Publish',
+              'Mettre à jour' => 'Update'
+          ],
+          'hr' => [  // Croatian
+              'Objavi'      => 'Publish',
+              'Ažuriraj'    => 'Update'
+          ],
+          'it_IT' => [  // Italian (Italy)
+              'Pubblica'    => 'Publish',
+              'Aggiorna'    => 'Update'
+          ],
+          'ja' => [  // Japanese
+              '公開'        => 'Publish',    // こうかい (Kōkai)
+              '更新'        => 'Update'      // こうしん (Kōshin)
+          ],
+          'nl_NL' => [  // Dutch (Netherlands)
+              'Publiceren'  => 'Publish',
+              'Bijwerken'   => 'Update'
+          ],
+          'pl_PL' => [  // Polish (Poland)
+              'Opublikuj'   => 'Publish',
+              'Aktualizuj'  => 'Update'
+          ],
+          'ru_RU' => [  // Russian (Russia)
+              'Опубликовать' => 'Publish',    // Opublikovat'
+              'Обновить'       => 'Update'      // Obnovit'
+          ],
+          'sv_SE' => [  // Swedish (Sweden)
+              'Publicera'   => 'Publish',
+              'Uppdatera'   => 'Update'
+          ]
+      ];
+      
     if (isset($_POST['post_value'])) {
       $post_value = sanitize_text_field($_POST['post_value']);
+      $post_value = $language_mapping[$user_site_language][$post_value] ?? $post_value;
       if ($post_array['visibility'] == 'private') {
         $post_array['post_status'] = 'private';
       } elseif ($post_value === 'Publish') {

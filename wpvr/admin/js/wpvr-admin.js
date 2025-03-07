@@ -3,6 +3,8 @@
     var j = 1;
     var color = '#00b4ff';
     var scene_parent = '';
+
+    window.jQuery.migrateMute = true;
     /**
      * All of the code for your admin-facing JavaScript source
      * should reside in this file.
@@ -421,7 +423,11 @@
                             }, 500);
                         } else {
                             flag_ok = true;
-                            $("#publishing-action").prepend('<div class="success-message" id="wpvr-success-message"><p>Successfully Updated</p></div>');
+                            $("#publishing-action").prepend(
+                                `<div class="success-message" id="wpvr-success-message">
+                                <p>${wpvr_obj?.successfully_updated}</p>
+                            </div>`
+                            );
                             setTimeout(function(){
                                 $("#wpvr-success-message").remove();
                             }, 3000 );
@@ -444,10 +450,14 @@
                             }
                             var statusText = $("#post_status").val()
                             $("#post-status-display").text(statusText)
+                            let site_language = wpvr_obj?.site_language;
+                            let translatedText = wpvr_obj?.translated_languages?.[site_language] ?? {};
                             if(response.data.post_status == 'draft'){
-                                $('#publish').val('Publish');
+                                let publish_text = translatedText?.['Publish'] ?? 'Publish';
+                                $('#publish').val(publish_text);
                             }else{
-                                $('#publish').val('Update');
+                                let update_text = translatedText?.['Update'] ?? 'Update';
+                                $('#publish').val(update_text);
                             }
                             window.history.replaceState(null, '', url_info.admin_url+"post.php?"+"post="+postid+"&action=edit");
                         }

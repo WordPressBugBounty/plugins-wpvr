@@ -244,7 +244,10 @@ class Wpvr_Admin
 
             wp_localize_script($this->plugin_name, 'wpvr_obj', array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
-                'ajax_nonce' => wp_create_nonce('wpvr')
+                'ajax_nonce' => wp_create_nonce('wpvr'),
+                'translated_languages' => $this->get_translated_languages(),
+                'site_language' => get_locale(),
+                'successfully_updated' => __('Successfully Updated', 'wpvr'),
             ));
         }
 
@@ -499,4 +502,84 @@ class Wpvr_Admin
         require_once plugin_dir_path(__FILE__) . 'partials/wpvr-review-request-body-content.php';
     }
 
+    /**
+     * Get translated languages
+     *
+     * @return array
+     * @since 8.5.21
+     */
+    public function get_translated_languages(){
+        $language_mapping = [
+            'ar' => [  // Arabic
+                'Publish'  => 'نشر',     // nashr
+                'Update'   => 'تحديث'   // tahdith
+            ],
+            'pt_PT' => [  // Portuguese (Portugal)
+                'Publish'  => 'Publicar',
+                'Update'   => 'Atualizar'
+            ],
+            'es_ES' => [  // Spanish (Spain)
+                'Publish'  => 'Publicar',
+                'Update'   => 'Actualizar'
+            ],
+            'he_IL' => [  // Hebrew (Israel)
+                'Publish'  => 'לפרסם',   // lefarsem
+                'Update'   => 'לעדכן'    // le'adken
+            ],
+            'af' => [  // Afrikaans
+                'Publish'  => 'Publiseer',
+                'Update'   => 'Opdateer'
+            ],
+            'cs_CZ' => [  // Czech (Czech Republic)
+                'Publish'  => 'Publikovat',
+                'Update'   => 'Aktualizovat'
+            ],
+            'da_DK' => [  // Danish (Denmark)
+                'Publish'  => 'Udgiv',
+                'Update'   => 'Opdater'
+            ],
+            'de_DE' => [  // German (Germany)
+                'Publish'  => 'Veröffentlichen',
+                'Update'   => 'Aktualisieren'
+            ],
+            'fi' => [  // Finnish
+                'Publish'  => 'Julkaise',
+                'Update'   => 'Päivitä'
+            ],
+            'fr_FR' => [  // French (France)
+                'Publish'  => 'Publier',
+                'Update'   => 'Mettre à jour'
+            ],
+            'hr' => [  // Croatian
+                'Publish'  => 'Objavi',
+                'Update'   => 'Ažuriraj'
+            ],
+            'it_IT' => [  // Italian (Italy)
+                'Publish'  => 'Pubblica',
+                'Update'   => 'Aggiorna'
+            ],
+            'ja' => [  // Japanese
+                'Publish'  => '公開',
+                'Update'   => '更新'
+            ],
+            'nl_NL' => [  // Dutch (Netherlands)
+                'Publish'  => 'Publiceren',
+                'Update'   => 'Updaten'
+            ],
+            'pl_PL' => [  // Polish (Poland)
+                'Publish'  => 'Opublikuj',
+                'Update'   => 'Aktualizuj'
+            ],
+            'ru_RU' => [  // Russian (Russia)
+                'Publish'  => 'Опубликовать',
+                'Update'   => 'Обновить'
+            ],
+            'sv_SE' => [  // Swedish (Sweden)
+                'Publish'  => 'Publicera',
+                'Update'   => 'Uppdatera'
+            ]
+        ];
+
+        return $language_mapping;
+    }
 }

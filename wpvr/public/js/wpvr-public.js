@@ -89,3 +89,6 @@ jQuery(document).ready(function($) {
         $.cookie('wpvr_mobile_notice', 'true');
     });
 });
+
+
+

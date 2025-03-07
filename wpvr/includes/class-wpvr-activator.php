@@ -32,11 +32,20 @@ class Wpvr_Activator {
         self::set_wpvr_activation_transients();
         self::update_wpvr_version();
         self::update_installed_time();
+        if (!get_option('wpvr_plugin_installed')) {
+            global $wpdb;
+            $existing_items = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'wpvr_item'");
+            if ($existing_items == 0) {
+                self::create_wpvr_sample_tour();
+            }
+            update_option('wpvr_plugin_installed', time());
+        }
+
 	}
 
 
     /**
-     * Update WP Funnels version to current.
+     * Update WPVR version to current.
      *
      * @since 1.0.0
      */
@@ -61,7 +70,7 @@ class Wpvr_Activator {
     }
 
     /**
-     * Brand new install of wpfunnels
+     * Brand new install of WPVR
      *
      * @return bool
      * @since  1.0.0
@@ -74,7 +83,7 @@ class Wpvr_Activator {
 
 
     /**
-     * Retrieve the time when funnel is installed
+     * Retrieve the time when WPVR is installed
      *
      * @return int|mixed|void
      * @since  2.0.0
@@ -88,8 +97,23 @@ class Wpvr_Activator {
         return $installed_time;
     }
 
-
+    /**
+     * Update the time when WPVR is installed
+     *
+     * @since  2.0.0
+     */
     public static function update_installed_time() {
         self::get_installed_time();
+    }
+
+    /**
+     * Create a sample tour for the user
+     *
+     * @since  8.5.21
+     */
+    public static function create_wpvr_sample_tour(){
+        require_once WPVR_PLUGIN_DIR_PATH . 'admin/classes/class-wpvr-sample-tour.php';
+        $sample_tour_instance = new WPVR_Sample_Tour();
+        $sample_tour_instance->create_sample_tour();
     }
 }

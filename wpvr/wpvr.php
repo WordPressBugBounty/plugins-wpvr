@@ -16,8 +16,8 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.20
- * Tested up to:      6.7.1
+ * Version:           8.5.21
+ * Tested up to:      6.7.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
  * License:           GPL-2.0+
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.20');
+define('WPVR_VERSION', '8.5.21');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -267,7 +267,7 @@ function wpvr_block_render($attributes)
     }
     $border_style = '';
     if (isset($attributes['border_width'], $attributes['border_style'], $attributes['border_color'])) {
-        $border_style = $attributes['border_width'] . ' ' . $attributes['border_style'] . ' ' . $attributes['border_color'];
+        $border_style = $attributes['border_width'] . 'px ' . $attributes['border_style'] . ' ' . $attributes['border_color'];
     }
 
     if (isset($attributes['className'])) {
@@ -1033,6 +1033,7 @@ function wpvr_block_render($attributes)
                         $border_width = $hotspot['hotspot-border-width'];
                         $border_color = $hotspot['hotspot-border-color'];
                         $border_style = $hotspot['hotspot-border-style'];
+                        var_dump();
                         $hotspot_border = 'border: '.$border_width.'px '.$border_style.' '.$border_color.';';
                     }
                     $hotspot_background_color = 'background-color: ' . $hotspoticoncolor . ';';
@@ -1879,7 +1880,6 @@ function wpvr_block_render($attributes)
                         user_agent: navigator.userAgent,
                         device_type: getDeviceType() || "desktop",
                         nonce: wpvrAnalyticsObj.nonce,
-                        session_id: wpvrAnalyticsObj.session_id,
                     },
                     success: function (response) {
                         console.log("Data stored successfully");

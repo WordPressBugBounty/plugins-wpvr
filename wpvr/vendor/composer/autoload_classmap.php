@@ -26,6 +26,8 @@ return array(
     'WPVR_Notification_Bar' => $baseDir . '/admin/classes/class-wpvr-sells-notification-bar.php',
     'WPVR_Post_Type' => $baseDir . '/admin/classes/class-wpvr-post-type.php',
     'WPVR_Rollback' => $baseDir . '/admin/class-wpvr-rollback.php',
+    'WPVR_Sample_Tour' => $baseDir . '/admin/classes/class-wpvr-sample-tour.php',
+    'WPVR_Sample_Tour_Import' => $baseDir . '/admin/classes/class-wpvr-import-sample-tour.php',
     'WPVR_Scene' => $baseDir . '/admin/classes/class-wpvr-scene.php',
     'WPVR_Setup_Meta_Box' => $baseDir . '/admin/classes/class-setup-meta-box.php',
     'WPVR_Setup_Wizard' => $baseDir . '/includes/setup-wizard.php',
