@@ -58,7 +58,7 @@ class WPVR_Shortcode {
      * 
      * @param array $atts
      *
-     * @return array
+     * @return string
      * @since 8.0.0
      */
     public function wpvr_shortcode($atts)
@@ -100,6 +100,66 @@ class WPVR_Shortcode {
         if( post_password_required(  $id ) ){
             return get_the_password_form();
         }
+
+
+        $memberpress_active = defined('MEPR_VERSION');
+        $rcp_active = is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' );
+
+        if (($memberpress_active || $rcp_active ) && apply_filters('is_wpvr_pro_active', false)) {
+
+            if (!is_user_logged_in()) {
+                return esc_html__('You need to log in to access this content.', 'wpvr');
+            }
+
+            $user_id = get_current_user_id();
+            $allowed_access = false;
+
+            // Get saved membership levels from post meta
+            $allowed_membership_levels = get_post_meta($id, '_wpvr_allowed_roles_levels', true);
+            if ( isset($allowed_membership_levels) && 'none' !== $allowed_membership_levels ) {
+                if (!is_array($allowed_membership_levels)) {
+                    $allowed_membership_levels = array($allowed_membership_levels);
+                }
+
+                // Check MemberPress Access
+                if ($memberpress_active) {
+                    $user = new MeprUser($user_id);
+                    $active_memberships = $user->active_product_subscriptions();
+                    if (array_intersect($allowed_membership_levels, $active_memberships) ) {
+                        $allowed_access = true;
+                    }
+                }
+
+                // Check Restrict Content Pro Access
+                if ($rcp_active) {
+                    $customer = rcp_get_customer_by_user_id($user_id);
+
+                    if ($customer) { // Ensure customer exists
+                        $user_rcp_memberships = $customer->get_memberships(); // Use method on customer object
+
+                        if (!empty($user_rcp_memberships)) { // Ensure memberships exist
+                            foreach ($user_rcp_memberships as $membership) {
+                                $rcp_access_level = [$membership->get_object_id()];
+
+                                if (array_intersect($allowed_membership_levels, $rcp_access_level)) {
+                                    $allowed_access = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                // If no membership restriction is set, allow access by default
+                $allowed_access = true;
+            }
+
+            if (!$allowed_access) {
+                return esc_html__('You do not have access to this content.', 'wpvr');
+            }
+        }
+
         $postdata = get_post_meta($id, 'panodata', true);
         $panoid = 'pano'.$id;
 

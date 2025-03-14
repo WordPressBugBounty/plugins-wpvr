@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.21
+ * Version:           8.5.22
  * Tested up to:      6.7.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.21');
+define('WPVR_VERSION', '8.5.22');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -244,6 +244,59 @@ function wpvr_block_render($attributes)
     } else {
         $id = 0;
     }
+
+    $memberpress_active = defined('MEPR_VERSION');
+    $rcp_active = is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' );
+
+    if (($memberpress_active || $rcp_active ) && apply_filters('is_wpvr_pro_active', false)) {
+
+        if (!is_user_logged_in()) {
+            return esc_html__('You need to log in to access this content.', 'wpvr');
+        }
+
+        $user_id = get_current_user_id();
+        $allowed_access = false;
+
+        // Get saved membership levels from post meta
+        $allowed_membership_levels = get_post_meta($id, '_wpvr_allowed_roles_levels', true);
+        if ( isset($allowed_membership_levels) && 'none' !== $allowed_membership_levels ) {
+            if (!is_array($allowed_membership_levels)) {
+                $allowed_membership_levels = array($allowed_membership_levels);
+            }
+
+            // Check MemberPress Access
+            if ($memberpress_active) {
+                $user = new MeprUser($user_id);
+                $active_memberships = $user->active_product_subscriptions();
+                if (array_intersect($allowed_membership_levels, $active_memberships) ) {
+                    $allowed_access = true;
+                }
+            }
+
+            // Check Restrict Content Pro Access
+            if ($rcp_active) {
+                $user_rcp_memberships = rcp_get_customer_memberships($user_id);
+                foreach ($user_rcp_memberships as $membership) {
+                    $rcp_access_level = array(
+                        $membership->get_object_id()
+                    );
+                    if (array_intersect($allowed_membership_levels, $rcp_access_level) ) {
+                        $allowed_access = true;
+                        break;
+                    }
+                }
+            }
+        } else {
+            // If no membership restriction is set, allow access by default
+            $allowed_access = true;
+        }
+
+        if (!$allowed_access) {
+            return esc_html__('You do not have access to this content.', 'wpvr');
+        }
+    }
+
+
     if (isset($attributes['width'])) {
         $width = $attributes['width'];
     }

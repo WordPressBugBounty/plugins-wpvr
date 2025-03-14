@@ -1307,6 +1307,12 @@ li.export.export-pro-tag {
     justify-content: space-between;
 }
 
+.rex-pano-tab-content .general .inner-nav-content .single-settings select.wpvr-membership-access {
+    max-width: 250px;
+    height: 36px;
+}
+
+
 .rex-pano-tab-content .general .inner-nav-content .single-settings.preview-img-message input {
     padding: 2px 7px;
     height: 33px;

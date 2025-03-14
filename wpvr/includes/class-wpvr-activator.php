@@ -114,6 +114,10 @@ class Wpvr_Activator {
     public static function create_wpvr_sample_tour(){
         require_once WPVR_PLUGIN_DIR_PATH . 'admin/classes/class-wpvr-sample-tour.php';
         $sample_tour_instance = new WPVR_Sample_Tour();
+        $wpvr_is_run_in_wp_playground = $sample_tour_instance->wpvr_is_playground();
+        if ($wpvr_is_run_in_wp_playground) {
+            return;
+        }
         $sample_tour_instance->create_sample_tour();
     }
 }

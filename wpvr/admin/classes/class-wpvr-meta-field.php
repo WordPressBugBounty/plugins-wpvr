@@ -204,7 +204,7 @@ class WPVR_Meta_Field {
             $rotation = 1;
         }
 
-        return array(
+         $basic_setting_right_fields = array(
             'vr-tour-layout' => array(
                 'class' => 'single-settings vr-tour-layout '. (!defined('WPVR_PRO_VERSION') ? 'is_pro' : ''),
                 'title' => __('Choose tour layout','wpvr'),
@@ -245,6 +245,27 @@ class WPVR_Meta_Field {
                 'tooltip_text' => '',
             ),
         );
+
+         if (defined('MEPR_VERSION') || is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' )) {
+             $post_id = isset($postdata['panoid']) ? str_replace("pano", "", $postdata['panoid']) : null;
+
+             if(!empty($post_id)){
+                 $membership_access = get_post_meta($post_id, '_wpvr_allowed_roles_levels', true);
+                 $basic_setting_right_fields['membership-access'] = array(
+                    'class' =>'wpvr-membership-access',
+                    'title' => __('Control Access to this Tour','wpvr'),
+                    'type' => 'membership_access_name_select',
+                    'id' => 'wpvr_membership_access',
+                    'package' => 'pro',
+                    'value' => $membership_access ?? 'none',
+                    'placeholder' => null,
+                    'have_tooltip' => true,
+                    'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                );
+             }
+
+         }
+        return apply_filters( 'extend_basic_setting_right_fields', $basic_setting_right_fields, $postdata );
     }
 
         /**
@@ -3676,5 +3697,37 @@ class WPVR_Meta_Field {
         <?php
         ob_end_flush();
     }
+
+
+public static function render_membership_access_name_select($name, $val)
+{
+    extract($val);
+    ob_start(); // Start output buffering
+
+    $membership_access_control_types = apply_filters('get_membership_access_control_types', array(
+        'none' => __('All Membership Levels', 'wpvr'),
+    ));
+    ?>
+
+    <div class='single-settings'>
+        <span for="membership-access-name"><?= __($title .': ', 'wpvr'); ?></span>
+        <select class=<?= esc_attr($val['class']) ?> id="<?= esc_attr($val['id']) ?>" name="<?= esc_attr($name); ?>">
+            <?php
+            foreach ($membership_access_control_types as $key => $type) {
+                echo sprintf(
+                    "<option %s value='%s'>%s</option>\n",
+                    selected($key, $value, false),
+                    esc_attr($key),
+                    esc_html($type) // Use esc_html instead of esc_attr for text content
+                );
+            }
+            ?>
+        </select>
+    </div>
+
+    <?php
+    ob_end_flush();
+}
+
 
 }

@@ -11,6 +11,28 @@
 
 class WPVR_Sample_Tour {
 
+
+    /**
+     * Check if running in WordPress Playground.
+     *
+     * @return bool True if in Playground, false otherwise.
+     * @since 8.5.22
+     */
+    public function wpvr_is_playground() {
+        $host = $_SERVER['HTTP_HOST'] ?? '';
+        // Check for Playground domains
+        $playground_domains = [
+            'playground.wordpress.net', // Online Playground
+            'localhost:5400',           // Local Playground default port (adjust if needed)
+        ];
+        foreach ($playground_domains as $domain) {
+            if (strpos($host, $domain) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Create a sample virtual tour for the WPVR plugin.
      *
@@ -21,7 +43,20 @@ class WPVR_Sample_Tour {
      */
     public function create_sample_tour() {
 
-        WP_Filesystem();
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        // Initialize the Filesystem API
+        global $wp_filesystem;
+        if (!isset($wp_filesystem)) {
+            $filesystem_initialized = WP_Filesystem();
+            if (!$filesystem_initialized) {
+                wp_send_json_error(__('Failed to initialize WP_Filesystem', 'wpvr'));
+                return;
+            }
+        }
+
         $file_save_url = wp_upload_dir();
         $zip_file_path = WPVR_PLUGIN_DIR_PATH . 'sample_tour/wpvr_sample_tour.zip';
         $unzipfile = unzip_file($zip_file_path, $file_save_url['basedir'] . '/wpvr/temp/');
@@ -50,6 +85,10 @@ class WPVR_Sample_Tour {
 
         $new_title = $file_content['title'];
         $new_data = $file_content['data'];
+
+        if(empty($new_data)){
+            return;
+        }
 
         $new_post_id = wp_insert_post(array(
             'post_title'    => $new_title,
