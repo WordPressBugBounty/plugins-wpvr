@@ -350,8 +350,34 @@ class Wpvr_Ajax
       );
       wp_send_json($response);
     }
+
+    $file_name = '';
+
+      if ( isset( $_FILES['wpvr_import_file'] ) && ! empty( $_FILES['wpvr_import_file']['tmp_name'] ) ) {
+          $file = $_FILES['wpvr_import_file'];
+
+          // Get WordPress uploads directory
+          $upload_dir = wp_upload_dir();
+          $temp_folder = $upload_dir['basedir'] . '/wpvr_imported_temp';
+
+          // Create temp folder if it doesn't exist
+          if ( ! file_exists( $temp_folder ) ) {
+              wp_mkdir_p( $temp_folder );
+          }
+
+          $file_name = basename( $file['name'] );
+
+          // Define target file path inside temp folder
+          $target_file = $temp_folder . '/' . basename( $file['name'] );
+
+          move_uploaded_file( $file['tmp_name'], $target_file );
+
+      } else {
+          wp_send_json_error( array( 'message' => 'No file selected.' ) );
+      }
+
     //===Nonce check===//
-    WPVR_Import::prepare_tour_import_feature();
+    WPVR_Import::prepare_tour_import_feature($file_name);
   }
 
 

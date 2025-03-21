@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.22
+Stable tag: 8.5.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -182,6 +182,17 @@ Now you can activate the [VR headset support for your virtual tours](https://rex
 Visitors of your site can put on their Google Cardboard or VR Headset and experience a realistic virtual tour experience using their phones.
 
 https://www.youtube.com/watch?v=uKtNst1jehs
+
+==🌟 WPVR Analytics Support (Pro) 🌟==
+
+Now you can easily see how well your virtual tours are performing with advanced analytics.
+
+📈 **Track Individual Tour Views**: Identify which virtual tours got the most attention.
+
+
+🔥 **Analyze Hotspot Interactions**: You'll know which features your clients found most interesting.
+
+🗓️ **Customize Date Ranges**: Weekly, monthly, yearly, or even custom dates – everything will become crystal clear.
 
 ==🌟 Mobile First VR Approach 🌟==
 
@@ -431,10 +442,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 8.5.23 (21-03-2025) =
+* Enhancement: Tour import process
+
 = 8.5.22 (14-03-2025) =
 * Fix: WP Playground Live Preview failing
-* New: Restrict Content Pro Integration
-* New: MemberPress integration
+
 
 = 8.5.21 (07-03-2025) =
 * New: Added a sample VR tour on the first activation

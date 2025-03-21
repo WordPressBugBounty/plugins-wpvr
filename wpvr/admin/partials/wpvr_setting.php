@@ -92,25 +92,6 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                     <?php _e('General Settings', 'wpvr'); ?>
                 </a>
             </li>
-
-            <?php if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) { ?>
-                <li class="tab col s3 wpvr_tabs_row import">
-                    <div class='rex-import-disable'>
-                        <span class='is-pro'>Pro</span>
-                        <svg width="21" height="14" fill="none" viewBox="0 0 21 14" xmlns="http://www.w3.org/2000/svg"><path stroke="#ABB4C2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.5 1h13m-13 6h13m-13 6h13M1.5 1h.01M1.5 7h.01m-.01 6h.01"/></svg>
-                        <?php _e('Import', 'wpvr'); ?>
-                    </div>
-                </li>
-            <?php } ?>
-
-            <?php if (is_plugin_active('wpvr-pro/wpvr-pro.php')) { ?>
-                <li class="tab col s3 wpvr_tabs_row import">
-                    <a href="#tab2">
-                        <svg width="21" height="14" fill="none" viewBox="0 0 21 14" xmlns="http://www.w3.org/2000/svg"><path stroke="#ABB4C2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.5 1h13m-13 6h13m-13 6h13M1.5 1h.01M1.5 7h.01m-.01 6h.01"/></svg>
-                        <?php _e('Import', 'wpvr'); ?>
-                    </a>
-                </li>
-            <?php } ?>
         </ul>
 
         <div class="wpvr-global-settings-tab-content">
@@ -575,41 +556,6 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                     </button>
                 </div>
             </div>
-
-            <?php
-            if (is_plugin_active('wpvr-pro/wpvr-pro.php')) {
-                ?>
-                <div id="tab2" class="block-wrapper import-tab">
-                    <h3 class="tab-content-title"><?php _e('Import', 'wpvr'); ?></h3>
-                    <div class="rex-upgrade wpvr-settings">
-                        <div class="parent" style="width:100%;">
-                            <form id="wpvr_import_from">
-                                <a class="wpvr-import-btn" id="wpvr_button_upload">
-                                    <svg width="41" height="42" fill="none" viewBox="0 0 41 42" xmlns="http://www.w3.org/2000/svg"><circle cx="20.866" cy="21.001" r="20.116" fill="#3F04FE"/><path stroke="#fff" stroke-linecap="round" stroke-width="2" d="M20.75 14.885v12m6-6h-12"/></svg>
-                                    <?php echo __('Import Your File','wpvr')?>
-                                </a>
-
-                                <p class="vr-notice"><?php _e('Do not close or refresh the page during import process. It may take few minutes.', 'wpvr'); ?></p>
-
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" id="wpvr_file_url" type="text" value="" data-value="">
-                                    
-                                    <button class="wpvr-btn" type="submit" id="wpvr_button_submit">
-                                        <?php echo __('Submit','wpvr') ?>
-                                        <span class="wpvr-loader"></span>
-                                    </button>
-
-                                    <span class="wpvr-alert wpvr-success">
-                                        <?php echo __('Succesfully Saved', 'wpvr'); ?>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
         </div>
     </div>
 

@@ -20,8 +20,7 @@
  * @subpackage Wpvr/admin
  * @author     Rextheme <support@rextheme.com>
  */
-class Wpvr_Admin
-{
+class Wpvr_Admin {
 
     /**
      * The ID of this plugin.
@@ -97,8 +96,7 @@ class Wpvr_Admin
      * @param      string    $version    		The version of this plugin.
      * @param      string    $post_type			Post type of this plugin
      */
-    public function __construct($plugin_name, $version, $post_type)
-    {
+    public function __construct($plugin_name, $version, $post_type) {
 
         $this->plugin_name  = $plugin_name;
         $this->version         = $version;
@@ -109,6 +107,9 @@ class Wpvr_Admin
 
         add_action('admin_init', array($this, 'set_custom_meta_box'));
 
+        // // Add the import button to the All Tours page
+        add_action('admin_footer', array($this, 'add_import_button'));
+
         $this->plugin_admin_ajax     = new Wpvr_Ajax();
     }
 
@@ -117,8 +118,7 @@ class Wpvr_Admin
      *
      * @since    8.0.0
      */
-    public function enqueue_styles()
-    {
+    public function enqueue_styles() {
 
         /**
          * This function is provided for demonstration purposes only.
@@ -132,6 +132,7 @@ class Wpvr_Admin
          * class.
          */
         $screen = get_current_screen();
+
 
         if ($screen->id == "toplevel_page_wpvr" || $screen->id == "wp-vr_page_wpvr-setting") {
             wp_enqueue_style('materialize-css', plugin_dir_url(__FILE__) . 'css/materialize.min.css', array(), $this->version, 'all');
@@ -178,8 +179,7 @@ class Wpvr_Admin
      *
      * @since    8.0.0
      */
-    public function enqueue_scripts()
-    {
+    public function enqueue_scripts() {
 
         /**
          * This function is provided for demonstration purposes only.
@@ -192,6 +192,7 @@ class Wpvr_Admin
          * between the defined hooks and the functions defined in this
          * class.
          */
+
         $wpvr_list = array();
         $wpvr_list[] = array('value' => 0, 'label' => 'None');
         $args = array(
@@ -213,7 +214,7 @@ class Wpvr_Admin
         wp_enqueue_script('wp-api');
         $adscreen = get_current_screen();
         wp_enqueue_media();
-        if ($adscreen->id == "wpvr_item" || $adscreen->id == "toplevel_page_wpvr" || $adscreen->id == "wp-vr_page_wpvr-setting") {
+        if ($adscreen->id == "wpvr_item" || $adscreen->id == "toplevel_page_wpvr" || $adscreen->id == "wp-vr_page_wpvr-setting" || $adscreen->id == "edit-wpvr_item") {
             wp_enqueue_script('summernote', $asset_url . 'lib/summernote/summernote-lite.min.js', array('jquery'), true);
             wp_enqueue_script('wpvr-icon-picker', $asset_url . 'lib/jquery.fonticonpicker.min.js', array(), true);
             wp_enqueue_script('panellium-js', $asset_url . 'lib/pannellum/src/js/pannellum.js', array(), true);
@@ -248,12 +249,16 @@ class Wpvr_Admin
                 'translated_languages' => $this->get_translated_languages(),
                 'site_language' => get_locale(),
                 'successfully_updated' => __('Successfully Updated', 'wpvr'),
+                'importing_text' => __('Importing...', 'wpvr'),
+                'import_text' => __('Import Now', 'wpvr'),
+                'admin_url' => admin_url(),
             ));
         }
 
         if ($adscreen->id == "toplevel_page_wpvr" || $adscreen->id == "wp-vr_page_wpvr-setting") {
             wp_enqueue_script('materialize-js', $asset_url . 'js/materialize.min.js', array('jquery'), $this->version, false);
         }
+
         if ($adscreen->id == "wpvr_item") {
             wp_enqueue_script($this->plugin_name . '-shortcode', plugin_dir_url(__FILE__) . 'js/wpvr-shortcode.js', array('jquery'), $this->version, true);
         }
@@ -292,6 +297,7 @@ class Wpvr_Admin
             'hotspot_warning_text' => __('Please upload a scene before proceeding to set hotspot!', 'wpvr'),
             'negative_number_warning_text' =>__('Negative numbers are not allowed!', 'wpvr'),
         ));
+
         wp_localize_script('wpvr-global', 'wpvr_id_options', $wpvr_list);
     }
 
@@ -317,8 +323,7 @@ class Wpvr_Admin
      * 
      * @since 8.0.0
      */
-    public function set_custom_meta_box()
-    {
+    public function set_custom_meta_box() {
         $this->setup_metabox     = new WPVR_Setup_Meta_Box('setup', __('Setup', 'wpvr'), 'wpvr_item', 'normal', 'high');
 
         $this->preview_metabox  = new WPVR_Tour_Preview($this->post_type . '_builder__box', __('Tour Preview', 'wpvr'), $this->post_type, 'side', 'high');
@@ -352,6 +357,7 @@ class Wpvr_Admin
                 esc_html__('Go Pro', 'wpvr')
             );
         }
+
         return $actions;
     }
 
@@ -386,11 +392,10 @@ class Wpvr_Admin
      * @return void
      */
 
-    public function floor_plan_image_show_for_free_user()
-    {
+    public function floor_plan_image_show_for_free_user() {
         if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
-?>
+        ?>
             <div class="rex-pano-tab floor-plan" id="floorPlan">
 
                 <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png' ?>" alt="icon" />
@@ -398,13 +403,13 @@ class Wpvr_Admin
         <?php
         }
     }
+
     /**
      * Background Tour image Display
      * Display Pro feature demo in free user
      * @return void
      */
-    public function background_tour_image_show_for_free_user()
-    {
+    public function background_tour_image_show_for_free_user() {
         if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
         ?>
@@ -421,8 +426,8 @@ class Wpvr_Admin
      * Display Pro feature demo in free user
      * @return void
      */
-    public function street_view_image_show_for_free_user()
-    {
+
+    public function street_view_image_show_for_free_user() {
         if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
         ?>
@@ -434,8 +439,7 @@ class Wpvr_Admin
         }
     }
 
-    public function scene_pro_image_show_for_free_user($pano_scene)
-    {
+    public function scene_pro_image_show_for_free_user($pano_scene) {
         if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
         ?>
@@ -444,18 +448,14 @@ class Wpvr_Admin
         }
     }
 
-    public function empty_scene_pro_image_show_for_free_user()
-    {
-        if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
-        ?>
-            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'images/scene-pro-feature.png' ?>" alt="icon" />
-<?php
+    public function empty_scene_pro_image_show_for_free_user() {
+        if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
+            echo '<img loading="lazy" src="' . esc_url(WPVR_PLUGIN_DIR_URL . 'images/scene-pro-feature.png') . '" alt="WPVR Pro Feature" />';
         }
     }
-
-    public function show_review_request_markups()
-    {
+    
+    public function show_review_request_markups() {
         $show_review_request = get_option('wpvr_feed_review_request');
 
         if (empty($show_review_request)) {
@@ -468,8 +468,7 @@ class Wpvr_Admin
         }
     }
 
-    public function wpvr_trigger_based_review_helper()
-    {
+    public function wpvr_trigger_based_review_helper() {
         $show_review_request = get_option('wpvr_feed_review_request');
 
         if (!empty($show_review_request) && isset($show_review_request['show']) && $show_review_request['show']) {
@@ -491,14 +490,24 @@ class Wpvr_Admin
             }
         }
     }
-    public function wpvr_generate_review_request_section()
-    {
 
-        $screen                     = get_current_screen();
-        $promotional_notice_pages   = ['dashboard', 'plugins', 'wpvr_item', 'edit-wpvr_item', 'toplevel_page_wpvr', 'wp-vr_page_wpvr-setup-wizard'];
+    public function wpvr_generate_review_request_section() {
+        $screen = get_current_screen();
+
+        $promotional_notice_pages = [
+            'dashboard',
+            'plugins',
+            'wpvr_item',
+            'edit-wpvr_item',
+            'toplevel_page_wpvr',
+            'wp-vr_page_wpvr-setup-wizard'
+        ];
+
+        // Only proceed if the current screen ID matches the allowed pages.
         if (!in_array($screen->id, $promotional_notice_pages)) {
             return;
         }
+
         require_once plugin_dir_path(__FILE__) . 'partials/wpvr-review-request-body-content.php';
     }
 
@@ -582,4 +591,91 @@ class Wpvr_Admin
 
         return $language_mapping;
     }
+
+
+    /**
+     * Add import button to the WPVR All Tours page
+     *
+     * @since 8.5.22
+     */
+    public function add_import_button() {
+        $screen = get_current_screen();
+
+        // Only add button on the WPVR Tours admin page
+        if ($screen && property_exists($screen, 'id') && ($screen->id === 'edit-wpvr_item')) {
+            ?>
+            <script type="text/javascript">
+                jQuery(document).ready(function($) {
+
+                    // Check if user has WPVR Pro
+                    var isProUser = <?php echo json_encode(defined('WPVR_PRO_VERSION')); ?>;
+
+                    // Add the Import WPVR Tour button
+                    var importButton = $('<a href="#" class="page-title-action wpvr-import-button"><?php _e("Import Tour", "wpvr"); ?></a>');
+                    $('.wrap .page-title-action').after(importButton);
+
+                    // If Free Version, add 'Pro' label
+                    if (!isProUser) {
+                        importButton.append(" <span class='is-pro'>Pro</span>");
+                    }
+
+                    // If button wasn't added, try alternative placement
+                    if ($('.wpvr-import-button').length === 0) {
+                        $('.wrap h1.wp-heading-inline').after(importButton);
+                    }
+
+                    // Add the WPVR Import Form (hidden by default)
+                    var importForm = `
+                        <div id="wpvr-import-template-area">
+                            <div id="wpvr-import-template-title">Choose a .zip archive of a WPVR tour and add it to your website.</div>
+                            <form id="wpvr-import-template-form" method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>" enctype="multipart/form-data">
+                                <input type="hidden" name="action" value="wpvr_import_tour">
+                                <fieldset id="wpvr-import-template-form-inputs">
+                                    <input type="file" name="wpvr_import_tour_file" accept=".zip" required>
+                                    <input id="wpvr-import-template-action" type="button" class="button button-primary" value="${wpvr_obj?.import_text}">
+                                </fieldset>
+                            </form>
+                        </div>
+                    `;
+
+                    // Append the form after the Import button
+                    $('.wpvr-import-button').after(importForm);
+
+                    // Toggle form visibility on button click
+                    $(document).on('click', '.wpvr-import-button', function(e) {
+                        e.preventDefault();
+                        if (!isProUser) {
+                            // Open CRO Modal (Pro Upgrade)
+                            $("#wpvr_premium_feature_popup").show();
+                        } else {
+                            // Open WPVR Import Form
+                            $('#wpvr-import-template-area').toggle();
+                        }
+                    });
+
+                    // Close CRO Modal
+                    $(document).on("click", "#wpvr_premium_feature_close", function () {
+                        $("#wpvr_premium_feature_popup").hide();
+                    });
+
+                    var $importButton = $('#wpvr-import-template-action');
+                    var $fileInput = $('input[name="wpvr_import_tour_file"]');
+
+                    // Initially disable the import button
+                    $importButton.prop('disabled', true);
+
+                    // Enable button when a file is selected
+                    $fileInput.on('change', function() {
+                        if ($(this).val()) {
+                            $importButton.prop('disabled', false);
+                        } else {
+                            $importButton.prop('disabled', true);
+                        }
+                    });
+                });
+            </script>
+            <?php
+        }
+    }
+
 }

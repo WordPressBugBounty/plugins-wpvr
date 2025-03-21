@@ -487,20 +487,96 @@ class WPVR_Post_Type {
         }
     }
 
+    /**
+     * Get the scene image for the post
+     *
+     * @param $postdata array The post meta data
+     * @return string
+     * @since 8.5.22
+     */
     private function get_scene_image($postdata) {
         if (!empty($postdata['panodata']['scene-list'][1]['scene-type']) && $postdata['panodata']['scene-list'][1]['scene-type'] === 'equirectangular') {
             $image_src = $postdata['panodata']['scene-list'][1]['scene-attachment-url'] ?? '';
-            $attachment_id = attachment_url_to_postid($image_src);
-            if ($attachment_id) {
-                return wp_get_attachment_image_url($attachment_id, 'thumbnail');
+            $thumbnail = $this->wpvr_fetch_thumbnail($image_src);
+            if ($thumbnail) {
+                return $thumbnail;
             }
         }
-        $image_src_face = $postdata['panodata']['scene-list'][1]['scene-attachment-url-face0'] ?? '';;
-        $attachment_id_face = attachment_url_to_postid($image_src_face);
-        if ($attachment_id_face) {
-            return wp_get_attachment_image_url($attachment_id_face, 'thumbnail');
-        }
+
+        $image_src_face = $postdata['panodata']['scene-list'][1]['scene-attachment-url-face0'] ?? '';
+        return $this->wpvr_fetch_thumbnail($image_src_face);
     }
+
+    /**
+     * Fetches the thumbnail for the given image URL
+     *
+     * @param string $image_url The URL of the image
+     * @return string The URL of the thumbnail
+     * @since 8.5.22
+     */
+    private function wpvr_fetch_thumbnail($image_url) {
+        if (empty($image_url)) {
+            return '';
+        }
+
+        $attachment_id = attachment_url_to_postid($image_url);
+        if ($attachment_id) {
+            $thumb_url = wp_get_attachment_image_url($attachment_id, 'thumbnail');
+            if ($thumb_url) {
+                return $thumb_url;
+            }
+        }
+
+        $attachment_id = $this->wpvr_get_attachment_id_by_url($image_url);
+        if ($attachment_id) {
+            $thumb_url = wp_get_attachment_image_url($attachment_id, 'thumbnail');
+            if ($thumb_url) {
+                return $thumb_url;
+            }
+        }
+
+        return $this->wpvr_generate_thumbnail($image_url);
+    }
+
+    /**
+     * Get the attachment ID by URL
+     *
+     * @param string $image_url The URL of the image
+     * @return int The ID of the attachment
+     * @since 8.5.22
+     */
+    private function wpvr_get_attachment_id_by_url($image_url) {
+        global $wpdb;
+        return $wpdb->get_var($wpdb->prepare(
+            "SELECT ID FROM $wpdb->posts WHERE guid=%s AND post_type='attachment'",
+            $image_url
+        ));
+    }
+
+    /**
+     * Generates a thumbnail for the given image URL
+     *
+     * @param string $image_url The URL of the image
+     * @return string The URL of the thumbnail
+     * @since 8.5.22
+     */
+    private function wpvr_generate_thumbnail($image_url) {
+        $uploads_dir = wp_upload_dir();
+        $image_path = str_replace($uploads_dir['baseurl'], $uploads_dir['basedir'], $image_url);
+
+        if (file_exists($image_path)) {
+            $image = wp_get_image_editor($image_path);
+            if (!is_wp_error($image)) {
+                $thumb_path = dirname($image_path) . '/thumb-' . basename($image_path);
+                $image->resize(150, 150, true);
+                $image->save($thumb_path);
+                return str_replace($uploads_dir['basedir'], $uploads_dir['baseurl'], $thumb_path);
+            }
+        }
+
+        return $image_url;
+    }
+
 
     /**
      * Sets the messages for the custom post type
