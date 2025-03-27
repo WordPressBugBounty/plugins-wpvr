@@ -49,6 +49,20 @@
     wp_enqueue_media(); // add media
     wp_print_scripts(); // window.wp
     do_action('admin_footer');
+
+    $current_date = date('Y-m-d');
+    $start_date = '2025-03-24';
+    $end_date = '2025-04-07';
+    $discount_percentage = '';
+    $discount_price = '';
+    if ($current_date >= $start_date && $current_date <= $end_date) {
+        $discount_percentage = "Save 20%";
+        $discount_price = "$63.99";
+    } else {
+        $discount_percentage = "Save 15%";
+        $discount_price = "$67.99";
+    }
+
     $data = array(
         'stepOne' => array(
             'step_text' => __("Welcome", "wpvr"),
@@ -187,6 +201,11 @@
         ),
     );
 
+    $setup_wizard_price = array(
+            'discount_price'        => $discount_price,
+            'discount_percentage_text' => $discount_percentage
+    );
+
     $popular_industries = array(
         'real_estate'   => array(
             'name' => 'Real Estate',
@@ -215,6 +234,7 @@
         )
     );
     ?>
+
     <script type="text/javascript">
         const rex_wpvr_wizard_translate_string = <?php echo wp_json_encode($data); ?>;
         const logoUrl = <?php echo json_encode(esc_url(WPVR_ASSET_PATH . 'icon/setup-wizard-images/wpvr-logo.webp')); ?>;
@@ -225,6 +245,7 @@
         const setup_wizard_admin_url = <?php echo json_encode(esc_url(get_admin_url())); ?>;
 
         const popular_industries = <?php echo json_encode($popular_industries); ?>;
+        const discount_information = <?php echo wp_json_encode($setup_wizard_price)?>;
     </script>
     <script src="<?php echo WPVR_JS_PATH . 'setup-wizard/setup_wizard.js' ?>">
     </script>

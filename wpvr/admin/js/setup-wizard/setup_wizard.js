@@ -11,6 +11,7 @@
     let convertToWebP = false;
     let isWPVRActive = window?.wpvr_global_obj?.is_wpvr_active;
     let isToggleButtonChecked = true;
+    let discountPrice = discount_information;
 
     const prevToggle = () => {
         wizard.previousStep();
@@ -247,12 +248,12 @@
                   <div class="pro-text">
                   <p>
                   Starting at
-                  <span class="setup-wizard__pro-features-price-amount">$67.99</span>/year
+                  <span class="setup-wizard__pro-features-price-amount">${discountPrice?.discount_price}</span>/year
                   </p>
                   <p>Normally $79.99/year</p>
                   </div>
                 <div class="setup-wizard__pro-features-price-tag">
-                  Save 15%
+                  ${discountPrice?.discount_percentage_text}
                 </div>
               </div>
               <div class="setup-wizard__pro-feature-list-button-container">

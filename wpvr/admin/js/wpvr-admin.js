@@ -61,12 +61,32 @@
     });
 
     $(document).on("change", "input.vr-switcher-check", function (event) {
-        if (this.checked) {
-            $(this).val('on');
-        } else {
-            $(this).val('off');
-        }
+        updateCheckboxStates();
+        $(this).val(this.checked ? 'on' : 'off');
     });
+
+    updateCheckboxStates();
+    function updateCheckboxStates() {
+        // Check movement controls if wpvr_controls is checked
+        if ($('#wpvr_controls').prop('checked')) {
+            $('#wpvr-check-movement-controls').prop('checked', true);
+            $('#wpvr-check-movement-controls').closest('.wpvr-checklist-item').css('color', '#0E003C');
+        } else if (!$('#wpvr_controls').prop('checked')) {
+            $('#wpvr-check-movement-controls').prop('checked', false);
+            $('#wpvr-check-movement-controls').closest('.wpvr-checklist-item').css('color', '#73707D');
+        }
+
+        // Check zoom controls if either wpvr_mouseZoom or wpvr_keyboardzoom is checked
+        if (($('#wpvr_mouseZoom').prop('checked') || $('#wpvr_keyboardzoom').prop('checked'))) {
+            $('#wpvr-check-zoom-controls').prop('checked', true);
+            $('#wpvr-check-zoom-controls').closest('.wpvr-checklist-item').css('color', '#0E003C');
+        } else if (!$('#wpvr_mouseZoom').prop('checked') && !$('#wpvr_keyboardzoom').prop('checked')) {
+            $('#wpvr-check-zoom-controls').prop('checked', false);
+            $('#wpvr-check-zoom-controls').closest('.wpvr-checklist-item').css('color', '#73707D');
+        }
+
+        updateProgress();
+    }
 
 
     var specificeSceneID = ''
@@ -375,6 +395,26 @@
                     var panolist = '';
                 }
 
+
+                //get the checklist data
+                var checklistData = {};
+                var checklistKeys = [
+                    'scene',
+                    'media',
+                    'default',
+                    'hotspots',
+                    'movement-controls',
+                    'publish'
+                ];
+
+                if(wpvr_obj?.is_wpvr_pro_active){
+                    checklistKeys.push('zoom-controls');
+                }
+
+                checklistKeys.forEach(function (key) {
+                    checklistData['wpvr_check_' + key] = document.getElementById('wpvr-check-' + key).checked;
+                });
+
                 jQuery.ajax({
 
                     type: "POST",
@@ -406,6 +446,7 @@
                         post_password: post_password,
                         post_value: $('#publish').val(),
                         post_title: post_title,
+                        checklistData: checklistData,
                     },
 
                     success: function (response) {
@@ -422,6 +463,13 @@
                                 scrollTop: $("#error_occured").offset().top
                             }, 500);
                         } else {
+
+                            if(!$('#wpvr-check-publish').prop('checked')){
+                                $('#wpvr-check-publish').prop('checked', true);
+                                $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                            }
+                            updateProgress();
+
                             flag_ok = true;
                             $("#publishing-action").prepend(
                                 `<div class="success-message" id="wpvr-success-message">
@@ -516,6 +564,27 @@
                     var panolist = '';
                 }
 
+                //get the checklist data
+                var checklistData = {};
+                var checklistKeys = [
+                    'scene',
+                    'media',
+                    'default',
+                    'hotspots',
+                    'movement-controls',
+                    'publish'
+                ];
+
+                if(wpvr_localize?.is_wpvr_pro_active){
+                    checklistKeys.push('zoom-controls');
+                }
+
+                checklistKeys.forEach(function (key) {
+                    checklistData['wpvr_check_' + key] = document.getElementById('wpvr-check-' + key).checked;
+                });
+
+                updateProgress();
+
                 jQuery.ajax({
 
                     type: "POST",
@@ -537,6 +606,7 @@
                         autorotationinactivedelay: autorotationinactivedelay,
                         autorotationstopdelay: autorotationstopdelay,
                         scenefadeduration: scenefadeduration,
+                        checklistData: checklistData
                     },
 
                     success: function (response) {
@@ -552,6 +622,13 @@
                                 scrollTop: $("#error_occured").offset().top
                             }, 500);
                         } else {
+
+                            if(!$('#wpvr-check-publish').prop('checked')){
+                                $('#wpvr-check-publish').prop('checked', true);
+                                $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                            }
+                            updateProgress();
+
                             flag_ok = true;
                             $('#save-post').trigger('click');
                         }
@@ -739,6 +816,58 @@
                             $('#wpvr_active_scenes').val(1);
                         }
                         $('#wpvr_active_hotspot').val(1);
+
+
+                        setTimeout(function(){
+                            let sceneImageCount = $('.rex-pano-tab .single-scene .scene-left .scene-setting .form-group img')
+                                .filter(function() {
+                                    return $(this).attr('src') && $(this).attr('src').trim() !== '';
+                                })
+                                .length;
+
+                            let defaultScene = false;
+                            let hotspotCheck = false;
+
+                            let $sceneCheckbox = $('#wpvr-check-scene');
+                            let $mediaCheckbox = $('#wpvr-check-media');
+                            let $hotspotCheck = $('#wpvr-check-hotspots');
+                            let $defaultCheck = $('#wpvr-check-default');
+
+                            $('select').each(function() {
+                                if (/^scene-list\[\d+\]\[dscene\]$/.test($(this).attr('name'))) {
+                                    let selectedValue = $(this).val();
+                                    if('on' === selectedValue){
+                                        defaultScene = true;
+                                    }
+                                }
+                            });
+
+                            if (sceneImageCount === 0) {
+                                $sceneCheckbox.prop('checked', false);
+                                $mediaCheckbox.prop('checked', false);
+                                $sceneCheckbox.closest('.wpvr-checklist-item').css('color', '#73707D');
+                                $mediaCheckbox.closest('.wpvr-checklist-item').css('color', '#73707D');
+                            }
+
+                            if(!defaultScene){
+                                $defaultCheck.prop('checked', false);
+                                $defaultCheck.closest('.wpvr-checklist-item').css('color', '#73707D');
+                            }
+
+                            let pitchInputs = document.querySelectorAll('.hotspot-pitch');
+                            for (let pitchInput of pitchInputs) {
+                                if (pitchInput.value.trim() !== '') {
+                                    hotspotCheck = true;
+                                }
+                            }
+
+                            if(!hotspotCheck)
+                            {
+                                $hotspotCheck.prop('checked', false);
+                                $hotspotCheck.closest('.wpvr-checklist-item').css('color', '#73707D');
+                            }
+                            updateProgress();
+                        }, 500);
                     }
 
                 }
@@ -871,6 +1000,17 @@
                             } else {
                                 $('#wpvr_active_hotspot').val(1);
                             }
+
+                            setTimeout(function(){
+                                let hotspotCount = $('.rex-pano-tab-nav.rex-pano-nav-menu.hotspot-nav ul li span .fa-dot-circle').length;
+
+                                let $hotspotCheckbox = $('#wpvr-check-hotspots');
+                                if (hotspotCount <= 1) {
+                                    $hotspotCheckbox.prop('checked', false);
+                                    $hotspotCheckbox.closest('.wpvr-checklist-item').css('color', '#73707D');
+                                }
+                                updateProgress();
+                            },100);
                         }
                     }
                 },
@@ -915,9 +1055,24 @@
             var attachment = file_frame.state().get('selection').first().toJSON();
             parent.find('.scene-attachment-url').val(attachment.url);
             parent.find('img').attr('src', attachment.url).show();
+
             setTimeout(function () {
+                if (!$('#wpvr-check-scene').is(':checked')) {
+                    $('#wpvr-check-scene').prop('checked', true);
+                    $('#wpvr-check-scene').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                }
+
+                if (!$('#wpvr-check-media').is(':checked')) {
+                    $('#wpvr-check-media').prop('checked', true);
+                    $('#wpvr-check-media').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                }
+
+                updateProgress();
+
                 $('.panolenspreview').trigger('click');
-            },1000);
+            }, 1000);
+
+
         });
 
         file_frame.open();
@@ -1349,6 +1504,14 @@
 
     $(document).on("change", ".dscen", function () {
         var dscene = $(this).val();
+        if('on' === dscene){
+            $('#wpvr-check-default').prop('checked', true);
+            $('#wpvr-check-default').closest('.wpvr-checklist-item').css('color', '#0E003C');
+        }else{
+            $('#wpvr-check-default').prop('checked', false);
+            $('#wpvr-check-default').closest('.wpvr-checklist-item').css('color', '#73707D');
+        }
+        updateProgress()
         $(".dscen").not(this).each(function () {
             var oth_scene = $(this).val();
             if (dscene == 'on' && oth_scene == 'on') {
@@ -2117,6 +2280,13 @@
         }else{
             $(".rex-add-coordinates").removeClass('rex-hide-coordinates');
         }
+
+        if('streetview' === activeTab || 'video' === activeTab){
+            $('#wpvr_item_tour_checklist__box').css('display', 'none');
+        }else{
+            $('#wpvr_item_tour_checklist__box').css('display', 'block');
+        }
+
     }
 
     $(document).ready(function() {
@@ -2154,5 +2324,37 @@
             jQuery('.scene-gallery').show();
         }
     }
+
+
+    // Function to update the progress bar
+    function updateProgress() {
+        let totalItems = $('.wpvr-checklist-items').length; // Total number of checklist items
+        let checkedItems = $('.wpvr-checklist-items:checked').length; // Number of checked items
+
+        // Calculate progress percentage
+        let progress = Math.round((checkedItems / totalItems) * 100);
+
+        // Update progress bar
+        $('#wpvr-progress-bar').css('width', progress + '%');
+        $('#wpvr-progress-text').text(progress + '%');
+
+        // Change color of progress bar based on progress
+        if (progress === 100) {
+            $('#wpvr-progress-bar').css('background-color', 'green');
+            $('#wpvr-progress-text').css('color', 'white');
+        }else{
+            $('#wpvr-progress-text').css('color', '#3F04FE');
+        }
+    }
+
+    updateProgress();
+
+    $(document).on("click", ".toppitch", function () {
+        if (!$('#wpvr-check-hotspots').is(':checked')) {
+            $('#wpvr-check-hotspots').prop('checked', true);
+            $('#wpvr-check-hotspots').closest('.wpvr-checklist-item').css('color', '#0E003C');
+        }
+        updateProgress();
+    });
 
 })(jQuery);

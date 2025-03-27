@@ -36,6 +36,7 @@ class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
         'WPVR_Shortcode_TEST' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-shortcode.php',
         'WPVR_Special_Occasion_Banner' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-occasion-banner.php',
         'WPVR_StreetView' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-streetview.php',
+        'WPVR_Tour_Checklist_Meta_Box' => __DIR__ . '/../..' . '/admin/classes/class-tour-checklist-meta-box.php',
         'WPVR_Tour_Preview' => __DIR__ . '/../..' . '/admin/classes/class-tour-preview-meta-box.php',
         'WPVR_Tour_setting' => __DIR__ . '/../..' . '/admin/views/class-wpvr-tour-setting.php',
         'WPVR_Validator' => __DIR__ . '/../..' . '/admin/helpers/class-wpvr-validator.php',

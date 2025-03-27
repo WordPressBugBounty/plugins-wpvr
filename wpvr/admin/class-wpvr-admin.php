@@ -87,6 +87,14 @@ class Wpvr_Admin {
      */
     private $wpvr_post_type;
 
+    /**
+     * Instacne of WPVR_Tour_Preview class
+     *
+     * @var object
+     * @since 8.5.24
+     */
+    private $checklist_metabox;
+
 
     /**
      * Initialize the class and set its properties.
@@ -252,6 +260,7 @@ class Wpvr_Admin {
                 'importing_text' => __('Importing...', 'wpvr'),
                 'import_text' => __('Import Now', 'wpvr'),
                 'admin_url' => admin_url(),
+                'is_wpvr_pro_active' => apply_filters('is_wpvr_pro_active', false),
             ));
         }
 
@@ -327,6 +336,9 @@ class Wpvr_Admin {
         $this->setup_metabox     = new WPVR_Setup_Meta_Box('setup', __('Setup', 'wpvr'), 'wpvr_item', 'normal', 'high');
 
         $this->preview_metabox  = new WPVR_Tour_Preview($this->post_type . '_builder__box', __('Tour Preview', 'wpvr'), $this->post_type, 'side', 'high');
+
+        $this->checklist_metabox  = new WPVR_Tour_Checklist_Meta_Box($this->post_type . '_tour_checklist__box', __('Checklist', 'wpvr'), $this->post_type, 'side', 'high');
+
     }
 
 

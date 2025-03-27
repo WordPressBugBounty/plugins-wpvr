@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.23
+Stable tag: 8.5.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Simply upload a 360 panorama image, and the plugin will help you transform it in
 WPVR gives you all the features needed to create a free virtual tour on your own.
 
 
-<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at 15% Off Today! 🔥</a> </h4>
+<h4><a href="https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=eid-ul-fitr-2025" target="_blank">🔥 Get WPVR - Virtual Tour Creator For WordPress (Pro) at 20% Off Today! 🔥</a> </h4>
 
 Learn how to create a free virtual tour in just a few minutes! 👇
 
@@ -441,6 +441,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.24 (27-03-2025) =
+* New: Tour publish checklist
 
 = 8.5.23 (21-03-2025) =
 * Enhancement: Tour import process

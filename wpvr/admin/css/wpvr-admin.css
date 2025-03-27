@@ -3708,7 +3708,7 @@ p.wpvr-premium-feature__discount-price-label {
 }
 
 p.wpvr-premium-feature__discount-price-label:before {
-    content: "Save 15%";
+    content: "";
     position: absolute;
     background: #00b4ff;
     border-radius: 16px 16px 16px 0;
@@ -5722,3 +5722,148 @@ body.wp-vr_page_wpvr-setting {
 
 }
 /* ------------ wpvr global settings page style end ------------ */
+
+
+
+.wpvr-checklist-items {
+    pointer-events: none;
+}
+
+#wpvr_item_tour_checklist__box .inside {
+    margin: 15px 0 0;
+    padding: 0 20px 20px;
+}
+
+#wpvr-checklist .wpvr-progress-container {
+    position: relative;
+    height: 15px;
+    background: transparent;
+    border-radius: 40px;
+    overflow: hidden;
+    box-sizing: content-box;
+    background-clip: padding-box;
+    padding: 3px;
+}
+
+#wpvr-checklist .wpvr-progress-container:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    padding: 1px;
+    background: linear-gradient(90deg, #B097FF, #3F04FE);
+    -webkit-mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+#wpvr-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #B097FF, #3F04FE);
+    border-radius: 40px;
+    transition: width 0.3s ease-in-out;
+}
+
+#wpvr-progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: right;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #3F04FE;
+}
+
+
+.wpvr-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 ;
+}
+
+.wpvr-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #73707D;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.wpvr-checklist li .wpvr-custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.wpvr-checklist-items {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.wpvr-checklist li .checkmark {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: transparent;
+    border: 1px solid #C6BBEA;
+    border-radius: 50px;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.wpvr-checklist-items:checked + .checkmark {
+    background-color: #3F04FE;
+    border:1px solid transparent;
+}
+
+.wpvr-checklist-item input {
+    display: none;
+}
+
+.wpvr-checklist-item .checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
+.wpvr-checklist-items:checked + .checkmark::after {
+    display: block;
+}
+
+.wpvr-checklist-item .wpvr-tooltip {
+    margin-left: 0px ;
+}
+
+#wpvr-checklist-items .wpvr-tooltip a {
+    color: #3F04FE;
+    text-decoration: underline;
+}
+
+#wpvr-checklist-items .wpvr-tooltip p {
+    background: #ffff;
+    filter: drop-shadow(0px 5px 30px rgba(29, 4, 111, 0.20));
+    border-radius: 10px;
+    left:27px;
+    color: #0E003C;
+}
+
+#wpvr-checklist-items .wpvr-tooltip p:before {
+    background: #fff;
+}

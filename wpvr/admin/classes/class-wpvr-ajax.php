@@ -316,6 +316,11 @@ class Wpvr_Ajax
 
     do_action('wpvr_pro_update_street_view', $postid, $panoid);
 
+    if(isset( $_POST['checklistData'] ) && !empty($_POST['checklistData'])){
+        $checklist_data = array_map( 'sanitize_text_field', $_POST['checklistData'] );
+        update_post_meta($postid, 'wpvr_checklist', $checklist_data );
+    }
+
     if ($_POST['panovideo'] == "on") {
       $this->video->wpvr_update_meta_box($postid, $panoid);
     } else {
