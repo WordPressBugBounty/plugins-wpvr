@@ -144,8 +144,22 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Editors will be able to Create, Edit, Update, and Delete all virtual tours.', 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Enable editors to manage all virtual tours on your site, including those created by other users. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#1s')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
                                     </span>
+
                                 </li>
 
                                 <li>
@@ -172,7 +186,20 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Authors will be able to Create, Edit, Update, and Delete their own virtual tours only.', 'wpvr'); ?></p>
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Grant authors permission to manage only their own virtual tours without accessing others\' tours. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#2s')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
+
                                     </span>
                                 </li>
                                 <?php if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )) { ?>
@@ -230,8 +257,19 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
+
                                         <p>
-                                            <?php echo __('WP VR will not load Font Awesome library.', 'wpvr'); ?>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Turn off the Fontawesome icon library in WP VR if you prefer to use custom icons or other icon libraries. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#3s')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
                                         </p>
                                     </span>
                                 </li>
@@ -260,7 +298,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('WP VR will resize each scenes for mobile devices.', 'wpvr'); ?></p>
+                                        <p><?php echo __(' Automatically adjust media sizes for mobile devices to ensure optimal viewing performance.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
@@ -288,7 +326,22 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("WordPress's default large image handler for images larger than 2560px will be disabled for WP VR. So can create virtual tours with extremely high-quality images. Enabling it will also show high res image on mobile devices. Many devices may not support that resolution.", 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Prevent WordPress from resizing large images, keeping the original size for better quality in tours. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-disable-wordpress-large-image-handler/')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
+
+
                                     </span>
                                 </li>
 
@@ -316,7 +369,20 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("You can disable on hover content for mobile devices. As most of the devices are touch based.", 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Turn off hover-based content interactions on mobile devices to enhance usability on touch screens. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-auto-resize-images-mobile-devices/')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
                                     </span>
                                 </li>
 
@@ -344,7 +410,21 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("WP VR assets will be loaded on your allowed pages only. If you turn this on, you have to list the URL's of the pages with virtual tours on the 'List of allowed pages to load WP VR scripts' option", 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Load WP VR scripts only on pages with virtual tours, improving page load times on other pages. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#5s')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
+
                                     </span>
 
                                     <div class="inner-settings-wrapper enqueue-script wpvr_enqueue_script_list">
@@ -383,7 +463,21 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("WP VR assets will be loaded on your allowed pages only. If you turn this on, you have to list the URL's of the pages with virtual tours on the 'List of allowed pages to load WP VR scripts' option", 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Activate the Video.js library only on pages that contain virtual video tours, optimizing resources. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#5s')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
+
                                     </span>
 
                                     <div class="inner-settings-wrapper enqueue-video-script enqueue-script wpvr_enqueue_video_script_list">
@@ -432,7 +526,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("The notice will appear on the front end of the virtual tour if viewed from a mobile device.", 'wpvr'); ?></p>
+                                        <p><?php echo __("Display a message on the front end to inform mobile visitors about virtual tour capabilities or requirements.", 'wpvr'); ?></p>
                                     </span>
 
                                     <input type="text" id="wpvr_frontend_notice_area" class="materialize-textarea" placeholder="Add your notice here" value="<?php echo $wpvr_frontend_notice_area; ?>">
@@ -472,7 +566,20 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Will activate the VR Glass support on mobile devices. This is the Beta release. So, if you face any issues with it, please contact us at support@rextheme.com', 'wpvr'); ?></p>
+
+                                        <p>
+                                            <?php 
+                                                echo wp_kses(
+                                                    sprintf(
+                                                        __('Enable compatibility with VR glasses for immersive viewing of virtual tours on supported devices. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+                                                        esc_url('https://rextheme.com/docs/enable-vr-headset-for-phones-wordpress/')
+                                                    ),
+                                                    array(
+                                                        'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+                                                    )
+                                                ); 
+                                            ?>
+                                        </p>
                                     </span>
                                 </li>
 
@@ -513,7 +620,8 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Will convert any jpeg or png image to webp format during media upload. will decrease the image size with no quality compromise and help the site to load faster.', 'wpvr'); ?></p>
+
+                                        <p><?php echo __('Automatically convert JPEG or PNG images to the WebP format when uploading, improving load times and image quality.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 

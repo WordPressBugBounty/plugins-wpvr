@@ -244,6 +244,27 @@ class Wpvr
 							<input id="wpvr_floor_plan_enabler" class="vr-switcher-check wpvr_floor_plan_enabler" name="wpvr_floor_plan_enabler" disabled type="checkbox"/>
 							<label for="wpvr_floor_plan_enabler"></label>
                 		</span>
+
+
+						<div class="field-tooltip">
+                    		<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+							<span>
+								<?php 
+									echo wp_kses(
+										sprintf(
+											__('Activate the floor plan view for your virtual tour. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+											esc_url('https://rextheme.com/docs/virtual-floor-plans-inside-tours/#0-toc-title')
+										),
+										array(
+											'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+										)
+									); 
+								?>
+							</span>
+                		</div>
+
+
                     </div>
 
                 </div>
@@ -267,13 +288,34 @@ class Wpvr
                     <!-- bg tour on/off -->
                     <div class="single-settings inline-style">
                         <span> <?= __('Enable Background Tour: ', 'wpvr') ?> </span>
+						
                         <span class="wpvr-switcher">
-                    <input id="wpvr_bg_tour_enabler" class="vr-switcher-check wpvr_bg_tour_enabler" name="wpvr_bg_tour_enabler" type="checkbox" disabled />
-                    <label for="wpvr_bg_tour_enabler"></label>
-                </span>
+							<input id="wpvr_bg_tour_enabler" class="vr-switcher-check wpvr_bg_tour_enabler" name="wpvr_bg_tour_enabler" type="checkbox" disabled />
+							<label for="wpvr_bg_tour_enabler"></label>
+                		</span>
+
+						<div class="field-tooltip">
+                    		<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+							<span>
+								<?php 
+									echo wp_kses(
+										sprintf(
+											__('When enabled, a title and subtitle will appear at the top of the tour. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
+											esc_url('https://rextheme.com/docs/360-panorama-background-virtual-tour/')
+										),
+										array(
+											'a' => array('href' => array(), 'target' => array(), 'rel' => array())
+										)
+									); 
+								?>
+							</span>
+                		</div>
+						
                     </div>
                 </div>
             </div>
+
         </div>
 
         <?php

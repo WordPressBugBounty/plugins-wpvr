@@ -116,8 +116,6 @@ class WPVR_Tour_Checklist_Meta_Box extends WPVR_Meta_Box {
         $saved_checklist = get_post_meta($post->ID, 'wpvr_checklist', true);
         $pano_data = get_post_meta($post->ID, 'panodata', true);
 
-        error_log(print_r($pano_data, true));
-
         $wpvr_check_scene = isset($saved_checklist['wpvr_check_scene']) && $saved_checklist['wpvr_check_scene'] === 'true' ? true : false;
         $wpvr_check_media = isset($saved_checklist['wpvr_check_media']) && $saved_checklist['wpvr_check_media'] === 'true' ? true : false;
         $wpvr_check_default = isset($saved_checklist['wpvr_check_default']) && $saved_checklist['wpvr_check_default'] === 'true' ? true : false;

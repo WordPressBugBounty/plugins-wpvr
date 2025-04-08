@@ -2324,8 +2324,7 @@
             jQuery('.scene-gallery').show();
         }
     }
-
-
+    
     // Function to update the progress bar
     function updateProgress() {
         let totalItems = $('.wpvr-checklist-items').length; // Total number of checklist items

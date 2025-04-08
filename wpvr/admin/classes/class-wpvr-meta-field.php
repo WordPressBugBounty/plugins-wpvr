@@ -121,7 +121,6 @@ class WPVR_Meta_Field {
         return apply_filters( 'extend_rex_pano_nav_menu', $fields );
     }
 
-
     /**
      * Initialise Basic Setting Left Field
      * @param mixed $preview
@@ -139,13 +138,24 @@ class WPVR_Meta_Field {
                 'class' => 'single-settings preview-setting',
                 'type' => 'preview_image',
                 'value' => $postdata['preview'],
-                'title' => __('Set a Tour Preview Image','wpvr')
+                'title' => __('Set a Tour Preview Image','wpvr'),
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Upload an image that will be shown as the preview before the tour starts.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wpvr-add-a-preview-image-virtual-tour-wpvr/' 
+                ),
             ),
             'previewtext' => array(
                 'class' => 'single-settings preview-img-message',
                 'type' => 'preview_image_msg',
                 'value' => $postdata['previewtext'],
-                'title' => __('Preview Image Message','wpvr')
+                'have_tooltip' => true,
+                'title' => __('Preview Image Message','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Add a custom message that appears alongside the tour preview image.', 'wpvr'),
+                    'url'  => '' 
+                ),
+
             ),
             'autoload' => array(
                 'class' => 'single-settings autoload',
@@ -153,7 +163,10 @@ class WPVR_Meta_Field {
                 'title' => __('Tour Autoload','wpvr'),
                 'id' => 'wpvr_autoload',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Tour Preview Image will not appear if this is turned on.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Automatically start the tour when the page is loaded without displaying the preview image.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#3-toc-title' 
+                ),
                 'checked' => $postdata['autoLoad'],
             ),
             'controls' => array(
@@ -162,12 +175,14 @@ class WPVR_Meta_Field {
                 'title' => __('Basic Control Buttons','wpvr'),
                 'id' => 'wpvr_controls',
                 'have_tooltip' => true,
-                'tooltip_text' => __('This option will display Zoom In, Zoom Out and Full Screen buttons on the tour.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Enable basic navigation buttons like play, pause, and reset for easier control of the tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#4-toc-title' 
+                ),
                 'checked' => $postdata['showControls'],
             ),
         );
     }
-
 
     /**
      * Initialize fields render method
@@ -221,7 +236,10 @@ class WPVR_Meta_Field {
                 'value' => $postdata['scenefadeduration'],
                 'placeholder' => null,
                 'have_tooltip' => true,
-                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Set the duration (in milliseconds) for the fade effect between scenes.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#5-toc-title' 
+                ),
             ),
             'scene-animation' => array(
                 'class' => 'single-settings scene-animation',
@@ -233,7 +251,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['sceneAnimation']) ? $postdata['sceneAnimation'] : 'off',
                 'placeholder' => null,
                 'have_tooltip' => true,
-                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Turn on this option to apply a fade effect between scenes with customizable transition duration.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/how-to-set-scene-transition-scene-entrance-animation/' 
+                ),
             ),
             'autorotation' => array(
                 'class' => 'single-settings autoload',
@@ -241,8 +262,11 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_autorotation',
                 'type' => 'basic_setting_checkbox',
                 'checked' => $rotation,
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Enable automatic rotation of the tour for continuous movement without user interaction.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#6-toc-title' 
+                ),
             ),
         );
 
@@ -292,7 +316,10 @@ class WPVR_Meta_Field {
                 'type' => 'generic_form_checkbox',
                 'checked' => $genericform,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Disable keyboard control to use the form.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Enable this to add a form to the tour for user interaction.', 'wpvr'),
+                    'url'  => '' 
+                ),
             )
         );
     }
@@ -321,7 +348,10 @@ class WPVR_Meta_Field {
                 'type' => 'call_to_form_checkbox',
                 'checked' => $calltoaction,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Enable the call to action, it will render under the tour.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Add a call-to-action button that prompts users to take action during the tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/' 
+                ),
             )
         );
     }
@@ -350,7 +380,10 @@ class WPVR_Meta_Field {
                 'type' => 'custom_css_form_checkbox',
                 'checked' => $customcss_enable,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Write your custom css','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Add your own custom CSS styles to further personalize the look and feel of the tour.', 'wpvr'),
+                    'url'  => '' 
+                ),
             )
         );
     }
@@ -421,8 +454,6 @@ class WPVR_Meta_Field {
                 self::{ 'render_' . $val['type'] }( $name, $val );
             }
         }
-
-
     }
 
 
@@ -445,7 +476,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['autoRotate']) ? $postdata['autoRotate'] : -5,
                 'placeholder' => -5,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Set a value to determine the speed of rotation. The higher the number, the faster it will rotate. Positive values will make it rotate anti clockwise and negative values will make it rotate clockwise','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Set the rotation speed, with positive values for anti-clockwise rotation and negative values for clockwise rotation.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-enable-auto-rotation-virtual-tour/' 
+                ),
             ),
             'auto-rotation-inactive-delay' => array(
                 'class' => 'single-settings autorotationdata',
@@ -454,7 +488,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['autoRotateInactivityDelay']) ? $postdata['autoRotateInactivityDelay'] : null,
                 'placeholder' => 2000,
                 'have_tooltip' => true,
-                'tooltip_text' => __('When someone clicks on the tour, auto-rotation stops. Here, set a time after which auto rotation will start again. Assign in milliseconds, where 1000 milliseconds = 1 second.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Define the time (in milliseconds) after which auto-rotation will resume once the user clicks on the tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-enable-auto-rotation-virtual-tour/' 
+                ),
             ),
             'auto-rotation-stop-delay' => array(
                 'class' => 'single-settings autorotationdata',
@@ -463,7 +500,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['autoRotateStopDelay']) ? $postdata['autoRotateStopDelay'] : null,
                 'placeholder' => 2000,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Set a time after which auto rotation will stop. Assign in milliseconds, where 1000 milliseconds = 1 second.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Set the time (in milliseconds) after which the auto-rotation will stop automatically.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-enable-auto-rotation-virtual-tour/' 
+                ),
             ),
         );
     }
@@ -501,7 +541,11 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['sceneAnimationTransitionDuration']) ? $postdata['sceneAnimationTransitionDuration'] : '500',
                 'placeholder' => null,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Set the duration for scene transition animations in milliseconds (default: 500 ms).','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Set the duration for scene transition animations in milliseconds (default: 500 ms).', 'wpvr'),
+                    'url'  => '' 
+                ),
+
             ),
             'scene-animation-transition-delay' => array(
                 'class' => 'single-settings autorotationdata scene-animation-transition-delay',
@@ -512,7 +556,11 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['sceneAnimationTransitionDelay']) ? $postdata['sceneAnimationTransitionDelay'] : '0',
                 'placeholder' => null,
                 'have_tooltip' => true,
-                'tooltip_text' => __('Set the delay before the scene transition animation starts (default: 0 ms).','wpvr'),
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Set the delay before the scene transition animation starts (default: 0 ms).', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
         );
     }
@@ -527,7 +575,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['genericformshortcode']) ? $postdata['genericformshortcode'] : "",
                 'placeholder' => "",
                 'have_tooltip' => true,
-                'tooltip_text' => __('Print the forms shortcode you want to show.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Insert the shortcode for the form you want to display in the tour.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
         );
     }
@@ -543,7 +594,11 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['buttontext']) ? $postdata['buttontext'] : "Click Here",
                 'placeholder' => "",
                 'have_tooltip' => true,
-                'tooltip_text' => __('Call to action button text','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Customize the text displayed on the call-to-action button.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/' 
+                ),
+
             ),'buttonurl' => array(
                 'class' => 'single-settings buttonurl',
                 'title' => __('Button URL','wpvr'),
@@ -551,7 +606,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['buttonurl']) ? $postdata['buttonurl'] : "",
                 'placeholder' => "",
                 'have_tooltip' => true,
-                'tooltip_text' => 'Call to action URl',
+                'tooltip_text' => array(
+                    'text' => __('Set the link the call-to-action button will direct users to when clicked.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/' 
+                ),
             ),
             'button_configuration' => array(
                 'class' => 'single-settings button_configuration',
@@ -566,7 +624,6 @@ class WPVR_Meta_Field {
 
         );
     }
-
 
     public static function get_custom_css_associate_fields($postdata)
     {
@@ -768,40 +825,55 @@ class WPVR_Meta_Field {
                 'class' => 'single-settings compass',
                 'title' => __('Keyboard Movement Control','wpvr'),
                 'id'    => 'wpvr_diskeyboard',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Use arrow keys or WASD keys to move through the virtual tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-limit-keyboard-controls-for-navigation-and-zoom/#0-toc-title' 
+                ),
                 'type' => 'checkbox'
             ),
             'keyboardzoom' => array(
                 'class' => 'single-settings',
                 'title' => __('Keyboard Zoom Control','wpvr'),
                 'id'    => 'wpvr_keyboardzoom',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Zoom in and out of the virtual tour using keyboard shortcuts.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-limit-keyboard-controls-for-navigation-and-zoom/#4-toc-title' 
+                ),
                 'type' => 'checkbox'
             ),
             'draggable' => array(
                 'class' => 'single-settings',
                 'title' => __('Mouse Drag Control','wpvr'),
                 'id' => 'wpvr_draggable',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Click and drag with your mouse to look around and navigate the virtual tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-limit-mouse-scroll-to-zoom-drag-to-move/#8-toc-title' 
+                ),
                 'type' => 'checkbox'
             ),
             'mouseZoom' => array(
                 'class' => 'single-settings',
                 'title' => __('Mouse Zoom Control','wpvr'),
                 'id' => 'wpvr_mouseZoom',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Use your mouse wheel to zoom in and out smoothly within the virtual tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-limit-mouse-scroll-to-zoom-drag-to-move/#1-toc-title' 
+                ),
                 'type' => 'checkbox'
             ),
             'gyro' => array(
                 'class' => 'single-settings gyro',
                 'title' => __('Gyroscope Control','wpvr'),
                 'id' => 'wpvr_gyro',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Move your mobile device to explore the tour using built-in motion sensors.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-gyroscope-support/' 
+                ),
                 'type' => 'checkbox'
             ),
             'deviceorientationcontrol' => array(
@@ -809,15 +881,21 @@ class WPVR_Meta_Field {
                 'title' => __('Auto Gyroscope Support','wpvr'),
                 'id' => 'wpvr_deviceorientationcontrol',
                 'have_tooltip' => true,
-                'tooltip_text' => __('If set to true, device orientation control will be used when the panorama is loaded, if the device supports it. If false, device orientation control needs to be activated by pressing a button. Defaults to false. Will work if gyroscope is enabled','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Automatically activate device orientation control if enabled, or manually trigger it with a button.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-gyroscope-support/' 
+                ),
                 'type' => 'checkbox'
             ),
             'compass' => array(
                 'class' => 'single-settings compass',
                 'title' => __('Compass','wpvr'),
                 'id' => 'wpvr_compass',
-                'have_tooltip' => false,
-                'tooltip_text' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Display a directional guide to keep track of your orientation while navigating the virtual tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#11-toc-title' 
+                ),
                 'type' => 'checkbox'
             ),
         );
@@ -839,7 +917,10 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_vrgallery',
                 'type' => 'checkbox',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Turning it On will display a gallery with all the scenes on your tour. By double clicking on a scene thumbnail on the gallery, you can move to that specific scene. The gallery will only show up on the front end and not on the preview.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Show a gallery of all scenes, allowing users to easily navigate by clicking on thumbnails.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-scene-gallery/' 
+                ),
             ),
             'vrgallery_title' => array(
                 'class' => 'single-settings',
@@ -847,30 +928,42 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_vrgallery_title',
                 'type' => 'checkbox',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Turning it on will display scene titles on each scene thumbnail inside the Scene Gallery. The Scene IDs will be used as the Scene Title.','wpvr')
+                'tooltip_text' => array(
+                    'text' => __('Display scene titles on each thumbnail in the Scene Gallery for better identification.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-scene-gallery/' 
+                ),
             ),
             'vrscene_navigation' => array(
                 'class' => 'single-settings scene-navigation',
-                'title' => __('Scene Navigation Menu','wpvr'),
+                'title' => __('Scene Navigation Menu:','wpvr'),
                 'id' => 'wpvr_scene_navigation',
                 'type' => 'checkbox',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Turning this on will display a navigation menu with all the scenes of the tour. By clicking on a menu item, you can move to the specific scene. The navigation will only appear on the front end and not in the preview.','wpvr')
+                'tooltip_text' => array(
+                    'text' => __('Enable a menu to navigate through all scenes, allowing users to jump to a specific scene.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
             'bg_music' => array(
                 'class' => 'single-settings',
                 'title' => __('Tour Background Music','wpvr'),
                 'id' => 'wpvr_bg_music',
                 'type' => 'checkbox',
-                'have_tooltip' => false,
-                'tooltip_text' => ''
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add background music to your tour to enhance the user experience.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-background-music-virtual-tours/' 
+                ),
             ),
             'explainerSwitch'   => array(
                 'class' => 'single-settings company-info',
                 'title' => __('Enable explainer video','wpvr'),
                 'id'    => 'wpvr_explainerSwitch',
-                'have_tooltip'  => false,
-                'tooltip_text'  => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add an explainer video to the tour, providing additional context or details for users.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/set-explainer-videos-inside-virtual-tours/' 
+                ),
                 'type'  => 'checkbox',
             ),
             'globalzoom'  => array(
@@ -878,7 +971,10 @@ class WPVR_Meta_Field {
                 'title' => __('Set Zoom Preferences','wpvr'),
                 'id'    => 'wpvr_globalzoom',
                 'have_tooltip' => true,
-                'tooltip_text' => __('Zoom interval is 50 to 120 degree. You can put any value between 50 to 120. As an example, if you set 100, the scene will display with zoom in 100 degree on each load.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Customize the zoom level for your tour, with options to adjust the view between 50 to 120 degrees.', 'wpvr'),
+                    'url'  => '' 
+                ),
                 'type' => 'checkbox',
             ),
             'cpLogoSwitch' => array(
@@ -886,8 +982,11 @@ class WPVR_Meta_Field {
                 'title' => __('Add Company Information','wpvr'),
                 'id' => 'wpvr_cpLogoSwitch',
                 'type' => 'checkbox',
-                'have_tooltip' => false,
-                'tooltip_text' => ''
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Include your company logo and details within the tour to brand the experience.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-your-company-logo-virtual-tour/' 
+                ),
             )
 
         );
@@ -1045,19 +1144,34 @@ class WPVR_Meta_Field {
                 'type' => 'text',
                 'value' => 'equirectangular',
                 'disabled' => 'disabled',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose the type of scene, such as Equirectangular or Cubemap.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
             'scene-attachment-url' => array(
                 'title' => __('Scene Upload','wpvr'),
                 'type' => 'upload',
                 'value' => $pano_scene['scene-attachment-url'],
-                'display' => 'block'
+                'display' => 'block',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Upload an image to be used as the scene media (video is not supported).', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-a-scene-virtual-tour/' 
+                ),
             ),
             'dscene' => array(
                 'class' => 'scene-setting dscene',
                 'title' => __('Set as Default','wpvr'),
                 'type' => 'select',
                 'select_class' => 'dscen',
-                'selected' => $pano_scene['dscene']
+                'selected' => $pano_scene['dscene'],
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Make this scene the first one that appears when the tour loads.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-a-scene-virtual-tour/' 
+                ),
             ),
             'scene-id' => array(
                 'label_for' => 'scene-id',
@@ -1066,6 +1180,11 @@ class WPVR_Meta_Field {
                 'type' => 'text',
                 'value' => $pano_scene['scene-id'],
                 'disabled' => 'disabled',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Unique identifier for the scene, auto-generated if left empty.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
         );
 
@@ -1087,28 +1206,49 @@ class WPVR_Meta_Field {
                 'value' => $pano_hotspot['hotspot-title'],
                 'type' => 'text',
                 'input_class' => '',
-                'input_id' => 'hotspot-title'
+                'input_id' => 'hotspot-title',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('A unique identifier for the hotspot, auto-generated if left empty.', 'wpvr'),
+                    'url'  => '' 
+                ),
+
             ),
             'hotspot-pitch' => array(
                 'title' => __('Pitch','wpvr'),
                 'value' => $pano_hotspot['hotspot-pitch'],
                 'type' => 'text',
                 'input_class' => 'hotspot-pitch',
-                'input_id' => ''
+                'input_id' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Set the pitch angle for the hotspot’s vertical position in the scene.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
             'hotspot-yaw' => array(
                 'title' => __('Yaw','wpvr'),
                 'value' => $pano_hotspot['hotspot-yaw'],
                 'type' => 'text',
                 'input_class' => 'hotspot-yaw',
-                'input_id' => ''
+                'input_id' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Set the yaw angle for the hotspot’s horizontal position in the scene.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
             'hotspot-customclass' => array(
                 'title' => __('Hotspot Custom Icon Class','wpvr'),
                 'value' => $pano_hotspot['hotspot-customclass'],
                 'type' => 'text',
                 'input_class' => '',
-                'input_id' => 'hotspot-customclass'
+                'input_id' => 'hotspot-customclass',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add a custom CSS class for the hotspot icon.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/how-to-use-the-custom-icon-class/' 
+                ),
             ),
         );
         return apply_filters( 'modify_hotspot_left_fields', $fields, $pano_hotspot );
@@ -1133,33 +1273,63 @@ class WPVR_Meta_Field {
                 'type' => 'info_url',
                 'value' => '',
                 'display' => 'block',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Provide a URL that the hotspot will link to when clicked.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'wpvr_url_open' => array(
                 'title' => __('Open in same tab','wpvr'),
                 'type'  => 'same_tab_checkbox',
                 'value' => 'off',
-                'display'   => 'flex'
+                'display'   => 'flex',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose whether the URL opens in the same tab or a new tab.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-content' => array(
                 'class' => 'hotspot-content',
                 'title' => __('On Click Content','wpvr'),
                 'type' => 'textarea',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add custom content or actions that occur when the hotspot is clicked.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-hover' => array(
                 'class' => 'hotspot-hover',
                 'title' => __('On Hover Content','wpvr'),
-                'type' => 'textarea'
+                'type' => 'textarea',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add custom content or actions that appear when the user hovers over the hotspot.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-scene-list' => array(
                 'title' => __('Select Target Scene from List','wpvr'),
                 'type' => 'scene_select',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose the target scene for the hotspot to navigate to.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-set-default-scene-face/#3-toc-title' 
+                ),
             ),
             'hotspot-scene' => array(
                 'title' => __('Target Scene ID','wpvr'),
                 'display' => 'none',
                 'input_class' => 'hotspotsceneinfodata',
                 'type' => 'disabled_text',
-                'value' => ''
+                'value' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Provide the unique ID of the target scene.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-set-default-scene-face/#3-toc-title' 
+                ),
             )
         );
         return apply_filters( 'modify_hotspot_right_fields', $fields );
@@ -1189,12 +1359,22 @@ class WPVR_Meta_Field {
                 'type' => 'info_url',
                 'value' => $pano_hotspot['hotspot-url'],
                 'display' => 'block',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Provide a URL that the hotspot will link to when clicked.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'wpvr_url_open' => array(
                 'title' => __('Open in same tab','wpvr'),
                 'type'  => 'same_tab_checkbox',
                 'value' => isset($pano_hotspot['wpvr_url_open'][0]) ? $pano_hotspot['wpvr_url_open'][0] : 'off',
                 'display' => 'flex',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose whether the URL opens in the same tab or a new tab.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-content' => array(
                 'class' => 'hotspot-content',
@@ -1202,25 +1382,46 @@ class WPVR_Meta_Field {
                 'type' => 'info_textarea',
                 'value' => $pano_hotspot['hotspot-content'],
                 'display' => 'block',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add custom content or actions that occur when the hotspot is clicked.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-hover' => array(
-                'class' => 'hotspot-hover',
+                'class' => 'hotspot-hover tip',
                 'title' => __('On Hover Content','wpvr'),
                 'type' => 'info_textarea',
                 'value' => $pano_hotspot['hotspot-hover'],
                 'display' => 'block',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Add custom content or actions that appear when the user hovers over the hotspot.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/' 
+                ),
             ),
             'hotspot-scene-list' => array(
                 'title' => __('Select Target Scene from List','wpvr'),
                 'type' => 'scene_list',
                 'display' => 'none',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose the target scene for the hotspot to navigate to.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-set-default-scene-face/#3-toc-title' 
+                ),
             ),
             'hotspot-scene' => array(
                 'title' => __('Target Scene ID','wpvr'),
                 'display' => 'none',
                 'input_class' => 'hotspotsceneinfodata',
                 'type' => 'disabled_text',
-                'value' => ''
+                'value' => '',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Provide the unique ID of the target scene.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-set-default-scene-face/#3-toc-title' 
+                ),
+                
             )
         );
         return apply_filters( 'modify_hotspot_right_fields', $fields );
@@ -1774,7 +1975,33 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <label><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label><?= __($title .': ', 'wpvr'); ?></label>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <select class="<?= $select_class; ?>" name="<?= $name; ?>">
                 <option value="on" <?php selected( $selected, 'on' ); ?> > <?php echo __('Yes','wpvr') ?> </option>
                 <option value="off" <?php selected( $selected, 'off' ); ?> > <?php echo __('No','wpvr') ?></option>
@@ -1800,7 +2027,33 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="scene-setting">
-            <label for="scene-type"><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label for="scene-type"><?= __($title .': ', 'wpvr'); ?></label>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+            
             <select class="wpvr-pro-select-scene-type" name="scene-type" id="">
                 <option value="equirectangular" <?= $selected == 'equirectangular' ? 'selected' : '' ?> > <?php echo __('Equirectangular','wpvr')  ?></option>
                 <option value="cubemap" <?= $selected == 'cubemap' ? 'selected' : '' ?> > <?php echo __('Cubemap','wpvr') ?></option>
@@ -1825,8 +2078,37 @@ class WPVR_Meta_Field {
         ob_start();
         if($label_for === 'scene-type') {
             ?>
-                 <div class=scene-setting>
-                     <label for="<?= $label_for; ?>"><?= __($title .': ', 'wpvr'); ?></label>
+                 <div class="scene-setting">
+                    <div class="wpvr-global-tooltip-area">
+
+                        <label for="<?= $label_for; ?>"><?= __($title .': ', 'wpvr'); ?></label>
+
+                        <?php if(!empty($have_tooltip)) { ?>
+                            <div class="field-tooltip">
+                                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                                <span>
+                                    <?php 
+                                        // Ensure tooltip_text text is set
+                                        if (!empty($tooltip_text['text'])) {
+                                            echo esc_html($tooltip_text['text']);
+
+                                            // Check if URL exists before rendering the link
+                                            if (!empty($tooltip_text['url'])) {
+                                                printf(
+                                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                                    esc_url($tooltip_text['url']),
+                                                    __('View Doc', 'wpvr')
+                                                );
+                                            }
+                                        }
+                                    ?>
+                                </span>
+                            </div>
+                        <?php } ?>
+
+                    </div>
+
                     <select class="disable-scene-type">
                         <option value="" selected=""> Equirectangular</option>
                         <option value="" disabled> Cubemap (Pro)</option>
@@ -1837,10 +2119,40 @@ class WPVR_Meta_Field {
             ob_end_flush();
         }else{
             ?>
-        <div class=scene-setting>
+
+        <div class="scene-setting">
+
+        <div class="wpvr-global-tooltip-area">
             <label for="<?= $label_for; ?>"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+        </div>
             <input type="text" class="<?= $input_class; ?>" name="<?= $name; ?>" value="<?= $value; ?>" />
         </div>
+
         <?php }
         ob_end_flush();
     }
@@ -1859,8 +2171,34 @@ class WPVR_Meta_Field {
         extract($val);
         ob_start();
         ?>
-        <div class=scene-setting>
-            <label for="scene-upload"><?= __($title .': ', 'wpvr'); ?></label>
+        <div class="scene-setting">
+            <div class="wpvr-global-tooltip-area">
+                <label for="scene-upload"><?= __($title .': ', 'wpvr'); ?></label>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <div class="form-group">
                 <img loading="lazy" src="<?= $value; ?>" style="display: <?= $display; ?>;"><br>
                 <input type="button" class="scene-upload" data-info="" value="Upload"/>
@@ -1913,12 +2251,27 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="equirectangular-upload" style="display:<?= $display?>;">
-            <label for="scene-upload"><?= __('Scene Upload: ', 'wpvr')?></label>
-            
-            <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-                <span><?= __('You can use any image size but maximum image upload size recommended to support all device is 4096x2000 px for perfect responsive view. To check 360 view, click on preview button and check tour preview metabox.', 'wpvr') ?></span>
+            <div class="wpvr-global-tooltip-area">
+                <label for="scene-upload"><?= __('Scene Upload:', 'wpvr')?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Upload an image to be used as the scene media (video is not supported).', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-add-a-scene-virtual-tour/'; 
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+
             </div>
+        
 
             <div class="form-group">
                 <img loading="lazy" src="<?= $value?>" style="display: <?= $img_display?>;"><br>
@@ -1949,18 +2302,42 @@ class WPVR_Meta_Field {
             <?php
             foreach($cubemaps as $cubemap){ extract($cubemap) ?>
                 <div class="<?= $class ?>">
-                <label for="scene-upload"><?= __($title , 'wpvr-pro') ?></label>
-                <div class="form-group">
-                    <img loading="lazy" src="<?= $value ?>" style="display: block;">
-                    <input type="button" class="scene-upload" data-info="" value="Upload"/>
-                    <input type="hidden" name="<?= $name ?>" class="scene-attachment-url" value="<?= $value ?>">
-                </div>
 
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                    <span><?= __('You can use any image size but maximum image upload size recommended to support all device is 4096x2000 px for perfect responsive view. To check 360 view, click on preview button and check tour preview metabox.', 'wpvr') ?></span>
+                    <div class="wpvr-global-tooltip-area">
+                        <label for="scene-upload"><?= __($title , 'wpvr-pro') ?></label>
+                        <?php if(!empty($have_tooltip)) { ?>
+                            <div class="field-tooltip">
+                                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                                <span>
+                                    <?php 
+                                        // Ensure tooltip_text text is set
+                                        if (!empty($tooltip_text['text'])) {
+                                            echo esc_html($tooltip_text['text']);
+
+                                            // Check if URL exists before rendering the link
+                                            if (!empty($tooltip_text['url'])) {
+                                                printf(
+                                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                                    esc_url($tooltip_text['url']),
+                                                    __('View Doc', 'wpvr')
+                                                );
+                                            }
+                                        }
+                                    ?>
+                                </span>
+                            </div>
+                        <?php } ?>
+                    </div>
+
+                    <div class="form-group">
+                        <img loading="lazy" src="<?= $value ?>" style="display: block;">
+                        <input type="button" class="scene-upload" data-info="" value="Upload"/>
+                        <input type="hidden" name="<?= $name ?>" class="scene-attachment-url" value="<?= $value ?>">
+                    </div>
+
+                
                 </div>
-            </div>
             <?php }
             ?>
         </div>
@@ -2083,11 +2460,30 @@ class WPVR_Meta_Field {
                 <input id="<?= $id;?>" class="vr-switcher-check" value="off" name="<?= $name;?>" type="checkbox" disabled />
                 <label for="<?= $id;?>" title="Pro Feature"></label>
             </span>
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+
+            <?php if(!empty($have_tooltip)) {?>
+
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
         </div>
         <?php
@@ -2116,10 +2512,28 @@ class WPVR_Meta_Field {
                 <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
                 <label for="<?= $id; ?>"></label>
             </span>
-            <?php if($have_tooltip) { ?>
+
+            <?php if(!empty($have_tooltip)) { ?>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                    <span><?= __($tooltip_text, 'wpvr'); ?></span>
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
                 </div>
             <?php } ?>
         </div>
@@ -2167,11 +2581,28 @@ class WPVR_Meta_Field {
                     <label for="<?= $id; ?>"></label>
                 </span>
 
-                <?php if($have_tooltip) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                    <span><?= __($tooltip_text, 'wpvr'); ?></span>
-                </div>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
                 <?php } ?>
             </div>
         </div>
@@ -2291,10 +2722,29 @@ class WPVR_Meta_Field {
             <span><?= __($title .': ', 'wpvr'); ?></span>
             <input type="text" class="<?= $input_class ?>" name="<?= $name ?>" placeholder="<?= $placeholder ?>" value="<?= $value ?>" />
 
+            
             <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
+                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                <span>
+                    <?php 
+                        // Ensure tooltip_text text is set
+                        if (!empty($tooltip_text['text'])) {
+                            echo esc_html($tooltip_text['text']);
+
+                            // Check if URL exists before rendering the link
+                            if (!empty($tooltip_text['url'])) {
+                                printf(
+                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                    esc_url($tooltip_text['url']),
+                                    __('View Doc', 'wpvr')
+                                );
+                            }
+                        }
+                    ?>
+                </span>
             </div>
+         
         </div>
         <?php
         ob_end_flush();
@@ -2396,7 +2846,35 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.' : ', 'wpvr'); ?></span>
+            <div class="wpvr-set-pre-img">
+                <span><?= __($title.' : ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
+
             <div class="form-group">
                 <input type="text" name="<?= $name; ?>" class="preview-attachment-url" value="<?= $value;?>">
                 <input type="button" class="preview-upload" id="vr-preview-img" data-info="" value="Upload"/>
@@ -2431,8 +2909,35 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+            <div class="wpvr-pre-img">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <input class="previewtext" type="text" name="<?= $name; ?>" value="<?= $value; ?>"/>
+
         </div>
         <?php
         ob_end_flush();
@@ -2463,12 +2968,30 @@ class WPVR_Meta_Field {
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
+
         </div>
         <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
                 <div class="scene-animation-settings-wrapper">
@@ -2503,11 +3026,28 @@ class WPVR_Meta_Field {
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
         </div>
         <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
@@ -2532,12 +3072,30 @@ class WPVR_Meta_Field {
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
+
         </div>
         <?php
         ob_end_flush();
@@ -2561,12 +3119,30 @@ class WPVR_Meta_Field {
             <span><?= __($title.': ', 'wpvr'); ?></span>
             <input type="number" name="<?= $name; ?>" min="0" value="<?= $value; ?>" placeholder="<?= $placeholder;?>" />
 
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
+
         </div>
         <?php
         ob_end_flush();
@@ -2639,12 +3215,30 @@ class WPVR_Meta_Field {
             <span><?= __($title.': ', 'wpvr'); ?></span>
             <input type="text" name="<?= $name; ?>" value='<?= $value; ?>' placeholder="<?= $placeholder;?>" />
 
-            <?php if($have_tooltip) {?>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
-                <span><?= __($tooltip_text, 'wpvr'); ?></span>
-            </div>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
             <?php } ?>
+
         </div>
         <?php
         ob_end_flush();
@@ -2666,7 +3260,36 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting">
-            <label for="<?= $input_id;?>"><?= __($title.': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="<?= $input_id;?>"><?= __($title.': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
+
             <input type="text" id="<?= $input_id;?>" value="<?= $value;?>" class="<?= $input_class;?>" name="<?= $name;?>"/>
         </div>
 
@@ -2691,7 +3314,36 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="single-settings s_tab" style="display:<?= $display ?>;">
-            <span><?= __($title.': ', 'wpvr'); ?></span> 
+
+            <div class="wpvr-global-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span> 
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
+
             <label class="wpvr-switcher-v2">
                 <input type="checkbox" class="wpvr_url_open" name="<?= $name;?>" value="<?= $value;?>" <?php if($value == 'on') { echo 'checked'; } ?> >
                 <span class="switcher-box"></span>
@@ -2717,8 +3369,36 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
 
-        <div class="hotspot-scene" style="display:none;" >
-            <label for="<?= $name;?>"><?= __($title.': ', 'wpvr'); ?></label>
+        <div class="hotspot-scene" style="display:none;">
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="<?= $name;?>"><?= __($title.': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <input class="<?= $name;?>" type="text" name="<?= $name;?>"/>
         </div>
 
@@ -2743,6 +3423,31 @@ class WPVR_Meta_Field {
 
         <div class="hotspot-scene" style="display:block;" >
             <label for="<?= $name;?>"><?= __($title.': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
             <input class="<?= $name;?>" type="text" name="<?= $name;?>" value="<?= $value ?>" />
         </div>
 
@@ -2769,7 +3474,27 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
 
-        <label for="hotspot-type"><?= __($title .': ', 'wpvr'); ?></label>
+        <div class="wpvr-global-tooltip-area">
+            <label for="hotspot-type"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="field-tooltip">
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                <span>
+                    <?= __('Choose the type of hotspot: Info (displays information) or Scene (links to another scene).', 'wpvr') ?>
+
+                    <?php 
+                        $tooltip_url = 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/#0-toc-title'; // Replace with the actual documentation link
+                        if (!empty($tooltip_url)) :
+                    ?>
+                        <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                            <?= __('View Doc', 'wpvr'); ?>
+                        </a>
+                    <?php endif; ?>
+                </span>
+            </div>
+
+        </div>  
+    
         <select name="<?= $name;?>">
         <?php
         $hotspot_type = 'info';
@@ -2832,7 +3557,35 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-url" style="display:<?= $display;?>;">
-            <label for="hotspot-url"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-url"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <input type="url" name="<?= $name;?>" value="<?= $value;?>" />
         </div>
 
@@ -2856,7 +3609,35 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="<?= $class;?>">
-            <label for="hotspot-content"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-content"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <textarea name="<?= $name;?>"></textarea>
         </div>
 
@@ -2879,10 +3660,40 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
 
-        <div class="<?= $class;?>" style="display:<?= $display;?>;">
-            <label for="hotspot-content"><?= __($title .': ', 'wpvr'); ?></label>
-            <textarea name="<?= $name;?>"><?= $value;?></textarea>
-        </div>
+
+        <div class="<?= $class;?> " style="display:<?= $display;?>;">
+
+                <div class="wpvr-global-tooltip-area">
+                    <label for="hotspot-content"><?= __($title .': ', 'wpvr'); ?></label>
+
+                        <?php if(!empty($have_tooltip)) { ?>
+                            <div class="field-tooltip">
+                                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                                <span>
+                                    <?php 
+                                        // Ensure tooltip_text text is set
+                                        if (!empty($tooltip_text['text'])) {
+                                            echo esc_html($tooltip_text['text']);
+
+                                            // Check if URL exists before rendering the link
+                                            if (!empty($tooltip_text['url'])) {
+                                                printf(
+                                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                                    esc_url($tooltip_text['url']),
+                                                    __('View Doc', 'wpvr')
+                                                );
+                                            }
+                                        }
+                                    ?>
+                                </span>
+                            </div>
+                        <?php } ?>
+
+                </div>
+
+                <textarea name="<?= $name;?>"><?= $value;?></textarea>
+            </div>
 
         <?php
         ob_end_flush();
@@ -2927,7 +3738,34 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-scene" style="display:none;" >
-            <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <select class="hotspotscene" name="<?= $name;?>">
                 <option value="none" selected> None</option>
             </select>
@@ -2952,7 +3790,33 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-scene" style="display:<?= $display;?>;" >
-            <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
             <select class="hotspotscene" name="<?= $name;?>">
                 <option value="none" selected> None</option>
             </select>
@@ -2978,7 +3842,34 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-scene" style="display:<?= $display;?>;" >
-            <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-scene"><?= __($title .': ', 'wpvr'); ?></label>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <input class="<?= $input_class;?>" type="text" value="<?= $value;?>" name="<?= $name;?>" disabled/>
         </div>
 
@@ -3002,7 +3893,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting custom-icon">
-            <label for="hotspot-customclass-pro"><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-customclass-pro"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Select a custom icon for the hotspot.', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-customize-hotspot-icons-and-color/'; 
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+
+            </div>
+
             <select class="hotspot-customclass-pro-select" name="<?= $name;?>">
                 <?php  
                 foreach ($custom_icons as $cikey => $civalue) {
@@ -3014,11 +3925,10 @@ class WPVR_Meta_Field {
                 }
                 ?>
             </select>
+
             <span class="change-icon"><i class="<?= $hotspot_custom_class_pro ?>"></i></span>
-            <div class="field-tooltip">
-                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                <span><?= __('Custom icons will only show on frontend. Hotspot custom icons only works with fontawesome 5. If you are using any different version of fontawesome under theme or any plugin, you may deactivate fontawesome from WP VR. Go to "Get Started menu" and select "Role" and check fontawesome disable switch. Now put your desired any icon class under "Hotspot custom icon class" field. It will appear on the frontend.', 'wpvr') ?></span>
-            </div>
+            
+
         </div>
 
         <?php
@@ -3041,7 +3951,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting hotspot-icon">
-            <label for="hotspot-customclass-color"><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-customclass-color"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Set a custom background color for the hotspot.', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-customize-hotspot-icons-and-color/'; // Replace with the actual documentation link
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+
+            </div>
+
             <input type="color" class="hotspot-customclass-color" name="hotspot-customclass-color" value="<?= $value;?>" />
             <input type="hidden" class="hotspot-customclass-color-icon-value" name="<?= $name;?>" value="<?= $value;?>" />
         </div>
@@ -3064,7 +3994,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting hotspot-icon">
-            <label for="hotspot-custom-color"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-custom-color"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Set a custom color for the hotspot icon.', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-customize-hotspot-icons-and-color/'; // Replace with the actual documentation link
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+            </div>
+
             <input type="color" class="hotspot-custom-color" name="hotspot-customc-color" value="<?= $value;?>" />
             <input type="hidden" class="hotspot-custom-icon-color-value" name="<?= $name;?>" value="<?= $value;?>" />
         </div>
@@ -3089,7 +4039,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting">
-            <label for="hotspot-blink"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-blink"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Enable an animation for the hotspot.', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/individual-hotspot-icon-color-animation-panorama/#0-toc-title'; // Replace with the actual documentation link
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+            </div>
+
             <select name="<?= $name;?>" class="hotspot-blink" >
                 <option value="on" <?php if($selected == 'on') { echo 'selected'; } ?> > On</option>
                 <option value="off" <?php if($selected == 'off') { echo 'selected'; } ?> > Off</option>
@@ -3115,7 +4085,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting">
-            <label for="hotspot-border"><?= __($title .': ', 'wpvr'); ?></label>
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-border"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Add a border around the hotspot with customizable color, style, and thickness.', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-customize-hotspot-icons-and-color/'; // Replace with the actual documentation link
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+            </div>
+
+
             <select name="<?= $name;?>" class="hotspot-border" >
                 <option value="on" <?php if($selected == 'on') { echo 'selected'; } ?> > On</option>
                 <option value="off" <?php if($selected == 'off') { echo 'selected'; } ?> > Off</option>
@@ -3205,7 +4195,27 @@ class WPVR_Meta_Field {
         ?>
 
         <div class="hotspot-setting">
-            <label for="hotspot-shape"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="wpvr-global-tooltip-area">
+                <label for="hotspot-shape"><?= __($title .': ', 'wpvr'); ?></label>
+
+                <div class="field-tooltip">
+                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                    <span>
+                        <?= __('Select the shape of the hotspot (e.g., Rounded, square, and Hexagon).', 'wpvr') ?>
+
+                        <?php 
+                            $tooltip_url = 'https://rextheme.com/docs/wp-vr-customize-hotspot-icons-and-color/'; // Replace with the actual documentation link
+                            if (!empty($tooltip_url)) :
+                        ?>
+                            <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?= __('View Doc', 'wpvr'); ?>
+                            </a>
+                        <?php endif; ?>
+                    </span>
+                </div>
+            </div>
+
             <select name="<?= $name;?>" class="hotspot-shape" >
                 <option value="round" <?php if($selected == 'round') { echo 'selected'; } ?> > Rounded</option>
                 <option value="square" <?php if($selected == 'square') { echo 'selected'; } ?> > Square</option>
@@ -3234,7 +4244,26 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
 
-        <label for="hotspot-type"><?= __($title .': ', 'wpvr'); ?></label>
+        <div class="wpvr-global-tooltip-area">
+            <label for="hotspot-type"><?= __($title .': ', 'wpvr'); ?></label>
+
+            <div class="field-tooltip">
+                <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
+                <span>
+                    <?= __('Choose the type of hotspot: Info (displays information) or Scene (links to another scene).', 'wpvr') ?>
+
+                    <?php 
+                        $tooltip_url = 'https://rextheme.com/docs/wp-vr-hotspots-to-show-information-images-videos/#0-toc-title'; // Replace with the actual documentation link
+                        if (!empty($tooltip_url)) :
+                    ?>
+                        <a href="<?= esc_url($tooltip_url); ?>" target="_blank" rel="noopener noreferrer">
+                            <?= __('View Doc', 'wpvr'); ?>
+                        </a>
+                    <?php endif; ?>
+                </span>
+            </div>
+        </div>
+
         <select name="<?= $name;?>">
             <?php
             $hotspot_type = 'fluent_form';
@@ -3308,6 +4337,7 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
+
             <span><?= __($title.': ', 'wpvr'); ?></span>
 
             <span class="wpvr-switcher">
@@ -3315,12 +4345,30 @@ class WPVR_Meta_Field {
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if($have_tooltip) {?>
+            <?php if(!empty($have_tooltip)) { ?>
                 <div class="field-tooltip">
-                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                    <span><?= __($tooltip_text, 'wpvr'); ?></span>
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
                 </div>
             <?php } ?>
+
         </div>
         <?php
         ob_end_flush();
@@ -3333,7 +4381,7 @@ class WPVR_Meta_Field {
         ?>
         <div class="<?= $class; ?>">
             <div id="<?= $code_mirror_id ?>" ></div>
-<!--            --><?php //if($have_tooltip) {?>
+<!--            --><?php //if(!empty($have_tooltip)) {?>
 <!--                <div class="field-tooltip">-->
 <!--                    <img src="--><?php //= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?><!--" alt="icon" />-->
 <!--                    <span>--><?php //= __($tooltip_text, 'wpvr'); ?><!--</span>-->
@@ -3366,12 +4414,31 @@ class WPVR_Meta_Field {
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if($have_tooltip) {?>
+            <?php if(!empty($have_tooltip)) { ?>
                 <div class="field-tooltip">
-                    <img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
-                    <span><?= __($tooltip_text, 'wpvr'); ?></span>
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
                 </div>
             <?php } ?>
+
+
         </div>
         <?php
         ob_end_flush();
@@ -3606,7 +4673,7 @@ class WPVR_Meta_Field {
             <span class="wpvr-switcher">
                 <input id="<?= $id; ?>" class="vr-switcher-radio" value="<?= $value?>" name="vr_scene_navigation_content_type" type="radio" <?php  echo $checked  ?> />
             </span>
-            <?php if($have_tooltip) { ?>
+            <?php if(!empty($have_tooltip)) { ?>
                 <div class="field-tooltip">
                     <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
                     <span><?= __($tooltip_text, 'wpvr'); ?></span>
@@ -3718,7 +4785,7 @@ public static function render_membership_access_name_select($name, $val)
                     "<option %s value='%s'>%s</option>\n",
                     selected($key, $value, false),
                     esc_attr($key),
-                    esc_html($type) // Use esc_html instead of esc_attr for text content
+                    esc_html($type) 
                 );
             }
             ?>

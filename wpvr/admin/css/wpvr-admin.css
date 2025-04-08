@@ -275,7 +275,7 @@ img.scctrl.upload-form-scene-gallery {
     font-size: 14px;
     font-weight: 600;
     position: absolute;
-    top: 1px;
+    top: 4px;
     left: 26px;
 }
 
@@ -1173,6 +1173,23 @@ li.export.export-pro-tag {
     padding-left: 15px;
 }
 
+.rex-pano-tab-content .wpvr-pre-img,
+.rex-pano-tab-content .wpvr-set-pre-img {
+    display: flex;
+    align-items: center;
+}
+
+.rex-pano-tab-content .wpvr-set-pre-img {
+    margin-bottom: 10px;
+}
+
+.rex-pano-tab-content .wpvr-pre-img span,
+.rex-pano-tab-content .wpvr-set-pre-img span {
+    font-size: 15px;
+    color: #494b51;
+    font-weight: 500;
+}
+
 
 /* ------img preview------- */
 
@@ -1305,6 +1322,7 @@ li.export.export-pro-tag {
     flex-flow: row;
     align-items: center;
     justify-content: space-between;
+    line-height: 1;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings select.wpvr-membership-access {
@@ -1316,6 +1334,7 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .single-settings.preview-img-message input {
     padding: 2px 7px;
     height: 33px;
+    max-width: 170px;
 }
 
 .rex-pano-tab-content .floor-plan .single-settings .wpvr-switcher,
@@ -1453,10 +1472,6 @@ li.export.export-pro-tag {
 
 .rex-pano-tab-content .general .advanced-settings-content .single-settings .wpvr-switcher {
     margin-left: auto;
-}
-
-.rex-pano-tab-content .general .advanced-settings-content .single-settings .field-tooltip {
-    top: 4px;
 }
 
 .rex-pano-tab-content .general .advanced-settings-content .gallery_title {
@@ -1935,16 +1950,25 @@ li.export.export-pro-tag {
     margin-bottom: 30px;
 }
 
+.rex-pano-tab .single-settings.s_tab {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 .rex-pano-tab .single-settings:last-child {
     margin-bottom: 0px;
 }
 
 .rex-pano-tab .single-settings>span {
     min-width: 170px;
-    font-size: 16px;
+    font-size: 15px;
     display: block;
     color: #494b51;
     font-weight: 500;
+    line-height: 1;
 }
 
 .rex-pano-tab.general .single-settings>span {
@@ -1999,6 +2023,10 @@ li.export.export-pro-tag {
 
 
 /*------------input field tooltip-----------*/
+.rex-pano-tab .single-scene .scene-setting .wpvr-global-tooltip-area .field-tooltip,
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip,
+.rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip,
+.rex-pano-tab .single-settings.inline-style .field-tooltip,
 .rex-pano-tab.floor-plan h4 .field-tooltip,
 .rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip,
 .rex-pano-tab.backgroundTour .single-settings .field-tooltip,
@@ -2008,25 +2036,18 @@ li.export.export-pro-tag {
     padding-left: 10px;
 }
 
-.single-scene .scene-setting .field-tooltip {
-    position: absolute;
-    right: -25px;
-    bottom: 13px;
+
+.rex-pano-tab .single-scene .scene-setting .wpvr-global-tooltip-area  {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
     line-height: 1;
 }
 
-.hotspot-setup .hotspot-setting.custom-icon .field-tooltip {
-    position: absolute;
-    left: 112px;
-    bottom: 13px;
+.rex-pano-tab .single-scene .scene-setting .wpvr-global-tooltip-area label {
+    margin-bottom: 0;
 }
 
-.single-scene .scene-content .scene-setting.scene-upload-wrapper .field-tooltip {
-    right: initial;
-    left: 120px;
-    bottom: inherit;
-    top: 5px;
-}
 
 .rex-pano-tab.floor-plan h4 .field-tooltip i,
 .rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip i,
@@ -2039,6 +2060,9 @@ li.export.export-pro-tag {
     cursor: help;
 }
 
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span,
+.rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span,
+.rex-pano-tab .single-settings.inline-style .field-tooltip span,
 .rex-pano-tab.floor-plan h4 .field-tooltip span,
 .rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip span,
 .rex-pano-tab.streetview .single-settings .field-tooltip span,
@@ -2048,20 +2072,21 @@ li.export.export-pro-tag {
 .rex-pano-tab.general .single-settings .field-tooltip span {
     position: absolute;
     top: 50%;
-    font-weight: 300;
-    background: #444;
-    color: #fff;
+    font-weight: 400;
+    background: #fff;
+    color: #363b4e;
     display: inline-block;
     min-width: 240px;
     max-width: 280px;
-    padding: 7px 8px;
-    font-size: 14px;
-    left: 30px;
+    padding: 10px 15px;
+    font-size: 13px;
+    left: 35px;
     line-height: 20px;
     border-radius: 3px;
     z-index: 11;
     opacity: 0;
     visibility: hidden;
+    filter: drop-shadow(0px 5px 30px rgba(29, 4, 111, 0.2));
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -2074,6 +2099,9 @@ li.export.export-pro-tag {
     transition: all 0.5s ease;
 }
 
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span:before,
+.rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span:before,
+.rex-pano-tab .single-settings.inline-style .field-tooltip span:before,
 .rex-pano-tab.floor-plan h4 .field-tooltip span:before,
 .rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip span:before,
 .rex-pano-tab.streetview .single-settings .field-tooltip span:before,
@@ -2088,7 +2116,7 @@ li.export.export-pro-tag {
     width: 0;
     height: 0;
     border-top: 6px solid transparent;
-    border-right: 9px solid #444;
+    border-right: 9px solid #fff;
     border-bottom: 6px solid transparent;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
@@ -2097,7 +2125,9 @@ li.export.export-pro-tag {
     transform: translateY(-50%);
 }
 
-
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip:hover span,
+.rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip:hover span,
+.rex-pano-tab .single-settings.inline-style .field-tooltip:hover span,
 .rex-pano-tab.floor-plan h4 .field-tooltip:hover span,
 .rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip:hover span,
 .rex-pano-tab.streetview .single-settings .field-tooltip:hover span,
@@ -2107,6 +2137,21 @@ li.export.export-pro-tag {
 .rex-pano-tab.general .single-settings .field-tooltip:hover span {
     opacity: 1;
     visibility: visible;
+}
+
+
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span a,
+.rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span a,
+.rex-pano-tab .single-settings.inline-style .field-tooltip span a,
+.rex-pano-tab.floor-plan h4 .field-tooltip span a,
+.rex-pano-tab.floor-plan .floot-plan-setting .field-tooltip span a,
+.rex-pano-tab.streetview .single-settings .field-tooltip span a,
+.rex-pano-tab.backgroundTour .single-settings .field-tooltip span a,
+.single-scene .scene-setting .field-tooltip span a,
+.hotspot-setup .hotspot-setting.custom-icon .field-tooltip span a ,
+.rex-pano-tab.general .single-settings .field-tooltip span a {
+    color: #3F04FE;
+    text-decoration: underline;
 }
 
 
@@ -2448,6 +2493,8 @@ li.export.export-pro-tag {
     display: block;
     margin-bottom: 10px;
 }
+
+
 .floorPlanData .floot-plan-setting label{
     display: flex;
 }
@@ -2577,6 +2624,24 @@ li.export.export-pro-tag {
     clear: both;
 }
 
+
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area label {
+    margin-bottom: 0;
+}
+
+.rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #494b51;
+}
+
 .hotspot-setup .rex-pano-tab-nav {
     padding: 20px 0px 30px;
 }
@@ -2688,12 +2753,29 @@ button.delete-scene {
     display: block;
     margin-bottom: 20px;
 }
+
 .rex-pano-tab-content .background-tour .single-settings:not(.inline-style) > span {
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+
 }
 .rex-pano-tab-content .background-tour .single-settings:not(.inline-style) > input {
     max-width: 100%;
     margin: 0;
+}
+
+.rex-pano-tab .background-tour-left .single-setting-tooltip-area {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.rex-pano-tab .background-tour-left .single-setting-tooltip-area span {
+    font-size: 16px;
+    display: block;
+    color: #494b51;
+    font-weight: 500;
 }
 
 
@@ -3324,14 +3406,7 @@ button.delete-scene {
     .rex-pano-sub-tabs .rex-pano-tab-content {
         padding: 20px 20px;
     }
-    /* .hotspot-setup .single-hotspot > .wrapper,
-    .hotspot-setup .single-hotspot .hotspot-type {
-        float: none;
-        width: 100%;
-    } */
-    /* .hotspot-setup .single-hotspot > .wrapper {
-        padding-right: 0;
-    } */
+
     .hotspot-setup .rex-pano-tab-content {
         padding: 30px 0px 0;
     }
@@ -3382,6 +3457,20 @@ button.delete-scene {
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper {
         display: block;
     }
+
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
+        font-size: 12px;
+        gap: 5px;
+    }
+
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span img {
+        margin-right: 0;
+    }
+
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li {
+        margin-right: 10px;
+    }
+
 
     .wpvr-embaded-share-wrapper {
         display: block;
@@ -4612,8 +4701,9 @@ a:focus.wpvr-premium-feature__btn {
 /*-----------wpvr-tooltip style------- */
 
 .wpvr-tooltip {
-    margin-left: 25px;
     position: relative;
+    margin-left: 25px;
+    display: inline-block;
 }
 
 .wpvr-tooltip .icon {
@@ -4633,7 +4723,8 @@ a:focus.wpvr-premium-feature__btn {
     line-height: 24px;
     color: #363b4e;
     font-weight: 400;
-    background: #f8f5fd;
+    background: #fff;
+    filter: drop-shadow(0px 5px 30px rgba(29, 4, 111, 0.2));
     padding: 10px 15px;
     border-radius: 5px;
     width: 230px;
@@ -4650,7 +4741,7 @@ a:focus.wpvr-premium-feature__btn {
     top: 50%;
     width: 10px;
     height: 10px;
-    background: #f8f5fd;
+    background: #fff;
     transform: translateY(-50%) rotate(45deg);
     transform-origin: center;
 }
@@ -4659,6 +4750,7 @@ a:focus.wpvr-premium-feature__btn {
     opacity: 1;
     visibility: visible;
 }
+
 #et-boc .et-l div.pnlm-tooltip span, div.pnlm-tooltip span{
     display: none;
 }
@@ -5329,6 +5421,10 @@ body.wp-vr_page_wpvr-setting {
     width: calc(100% - 48px);
 }
 
+.wpvr-global-settings .wpvr-settings p a {
+    color: #3F04FE;
+    text-decoration: underline;
+}
 
 /* ---------wpvr-settings tab style------------ */
 .wpvr-global-settings .wpvr-settings h4 {
@@ -5421,6 +5517,11 @@ body.wp-vr_page_wpvr-setting {
     transform: inherit;
     font-size: 13px;
     line-height: 1.5;
+}
+
+.wpvr-global-settings .wpvr-tooltip:hover p {
+    visibility: visible;
+    opacity: 1;
 }
 
 .wpvr-global-settings .wpvr-tooltip p:before {
@@ -5701,6 +5802,10 @@ body.wp-vr_page_wpvr-setting {
     }
     .wpvr-global-settings .wpvr-settings .settings-ul li {
         padding: 12px 12px;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .single-settings.preview-img-message {
+        gap: 10px;
     }
 
 }
