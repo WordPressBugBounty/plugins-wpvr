@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.25
+Stable tag: 8.5.26
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -442,8 +442,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 8.5.26 (11-04-2025) =
+* Fix: Tooltip alignment issue
+
 = 8.5.25 (08-04-2025) =
-*Improvement: Tooltip texts update
+* Improvement: Tooltip texts update
 
 = 8.5.24 (27-03-2025) =
 * New: Tour publish checklist

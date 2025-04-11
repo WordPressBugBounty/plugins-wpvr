@@ -1096,19 +1096,35 @@ class WPVR_Meta_Field {
                 'type' => 'text',
                 'value' => 'equirectangular',
                 'disabled' => 'disabled',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Choose the type of scene, such as Equirectangular or Cubemap.', 'wpvr-pro'),
+                    'url'  => '' 
+                ),
+
             ),
             'scene-attachment-url' => array(
                 'title' => __('Scene Upload','wpvr'),
                 'type' => 'upload',
                 'value' => '',
-                'display' => 'none'
+                'display' => 'none',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Upload an image to be used as the scene media (video is not supported).', 'wpvr-pro'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-a-scene-virtual-tour/' 
+                ),
             ),
             'dscene' => array(
                 'class' => 'scene-setting dscene',
                 'title' => __('Set as Default','wpvr'),
                 'type' => 'select',
                 'select_class' => 'dscen',
-                'selected' => 'off'
+                'selected' => 'off',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Make this scene the first one that appears when the tour loads.', 'wpvr-pro'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-add-a-scene-virtual-tour/' 
+                ),
             ),
             'scene-id' => array(
                 'label_for' => 'scene-id',
@@ -1117,6 +1133,11 @@ class WPVR_Meta_Field {
                 'type' => 'text',
                 'value' => '',
                 'disabled' => 'disabled',
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Unique identifier for the scene, auto-generated if left empty.', 'wpvr-pro'),
+                    'url'  => '' 
+                ),
             )
         );
 
