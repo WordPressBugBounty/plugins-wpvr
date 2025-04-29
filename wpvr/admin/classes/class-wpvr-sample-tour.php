@@ -19,17 +19,37 @@ class WPVR_Sample_Tour {
      * @since 8.5.22
      */
     public function wpvr_is_playground() {
+
+        if (get_option('wpvr_is_playground') === '1') {
+            return true;
+        }
+
+        // Check if HTTP_HOST is set
         $host = $_SERVER['HTTP_HOST'] ?? '';
+
         // Check for Playground domains
         $playground_domains = [
             'playground.wordpress.net', // Online Playground
-            'localhost:5400',           // Local Playground default port (adjust if needed)
+            '.wordpress.net',           // Any WordPress.net subdomain
+            'localhost:5400',           // Local Playground default port
         ];
+
         foreach ($playground_domains as $domain) {
             if (strpos($host, $domain) !== false) {
                 return true;
             }
         }
+
+        // Check for specific environment variables that might be set in Playground
+        if (defined('IS_WORDPRESS_PLAYGROUND') && IS_WORDPRESS_PLAYGROUND) {
+            return true;
+        }
+
+        // Check for specific file structures that might indicate Playground
+        if (file_exists('/wordpress-playground') || file_exists('/wp-playground')) {
+            return true;
+        }
+
         return false;
     }
 

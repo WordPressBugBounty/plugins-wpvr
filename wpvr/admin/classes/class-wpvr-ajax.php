@@ -355,11 +355,18 @@ class Wpvr_Ajax
       );
       wp_send_json($response);
     }
-
     $file_name = '';
 
       if ( isset( $_FILES['wpvr_import_file'] ) && ! empty( $_FILES['wpvr_import_file']['tmp_name'] ) ) {
           $file = $_FILES['wpvr_import_file'];
+
+          // Validate file type - check if it's a ZIP file
+          $file_type = wp_check_filetype($file['name']);
+          $file_ext = strtolower($file_type['ext']);
+          if ($file_ext !== 'zip') {
+              wp_send_json_error(array('message' => 'Invalid file format. Only ZIP files are allowed.'));
+              return;
+          }
 
           // Get WordPress uploads directory
           $upload_dir = wp_upload_dir();
