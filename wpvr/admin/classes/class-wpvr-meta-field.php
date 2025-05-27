@@ -169,18 +169,7 @@ class WPVR_Meta_Field {
                 ),
                 'checked' => $postdata['autoLoad'],
             ),
-            'controls' => array(
-                'class' => 'single-settings controls',
-                'type' => 'basic_setting_checkbox',
-                'title' => __('Basic Control Buttons','wpvr'),
-                'id' => 'wpvr_controls',
-                'have_tooltip' => true,
-                'tooltip_text' => array(
-                    'text' => __('Enable basic navigation buttons like play, pause, and reset for easier control of the tour.', 'wpvr'),
-                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#4-toc-title' 
-                ),
-                'checked' => $postdata['showControls'],
-            ),
+            
         );
     }
 
@@ -220,14 +209,17 @@ class WPVR_Meta_Field {
         }
 
          $basic_setting_right_fields = array(
-            'vr-tour-layout' => array(
-                'class' => 'single-settings vr-tour-layout '. (!defined('WPVR_PRO_VERSION') ? 'is_pro' : ''),
-                'title' => __('Choose tour layout','wpvr'),
-                'type' => 'tour_layout_select',
-                'value' => isset($postdata['tourLayout']) ? $postdata['tourLayout']: array( 'layout' => 'default', 'layout_icon_bg_color' => '#5a536e','layout_icon_color' => '#ffffff', ),
-                'placeholder' => null,
+            'controls' => array(
+                'class' => 'single-settings controls',
+                'type' => 'basic_setting_checkbox',
+                'title' => __('Basic Control Buttons','wpvr'),
+                'id' => 'wpvr_controls',
                 'have_tooltip' => true,
-                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('Enable basic navigation buttons like play, pause, and reset for easier control of the tour.', 'wpvr'),
+                    'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#4-toc-title' 
+                ),
+                'checked' => $postdata['showControls'],
             ),
             'scene-fade-duration' => array(
                 'class' => 'single-settings scene-fade-duration',
@@ -241,23 +233,8 @@ class WPVR_Meta_Field {
                     'url'  => 'https://rextheme.com/docs/wp-vr-exclusive-features-general-settings/#5-toc-title' 
                 ),
             ),
-            'scene-animation' => array(
-                'class' => 'single-settings scene-animation',
-                'title' => __('Enable Scene Transition','wpvr'),
-                'type' => 'basic_setting_checkbox_for_scene_animation',
-                'id' => 'wpvr_scene_animation',
-                'package' => 'pro',
-                'checked' => isset($postdata['sceneAnimation']) ? 1 : 0,
-                'value' => isset($postdata['sceneAnimation']) ? $postdata['sceneAnimation'] : 'off',
-                'placeholder' => null,
-                'have_tooltip' => true,
-                'tooltip_text' => array(
-                    'text' => __('Turn on this option to apply a fade effect between scenes with customizable transition duration.', 'wpvr'),
-                    'url'  => 'https://rextheme.com/docs/how-to-set-scene-transition-scene-entrance-animation/' 
-                ),
-            ),
             'autorotation' => array(
-                'class' => 'single-settings autoload',
+                'class' => 'single-settings autoload has-children',
                 'title' => __('Auto Rotation','wpvr'),
                 'id' => 'wpvr_autorotation',
                 'type' => 'basic_setting_checkbox',
@@ -310,7 +287,7 @@ class WPVR_Meta_Field {
 
         return array(
             'genericform' => array(
-                'class' => 'single-settings genericform',
+                'class' => 'single-settings genericform has-children',
                 'title' => __('Generic Form','wpvr'),
                 'id' => 'wpvr_generic_form',
                 'type' => 'generic_form_checkbox',
@@ -342,7 +319,7 @@ class WPVR_Meta_Field {
 
         return array(
             'calltoaction' => array(
-                'class' => 'single-settings calltoaction',
+                'class' => 'single-settings calltoaction has-children',
                 'title' => __('Call To Action ','wpvr'),
                 'id' => 'wpvr_cal_to_action_form',
                 'type' => 'call_to_form_checkbox',
@@ -374,7 +351,7 @@ class WPVR_Meta_Field {
 
         return array(
             'customcss' => array(
-                'class' => 'single-settings customcss-switcher',
+                'class' => 'single-settings customcss-switcher has-children',
                 'title' => __('Custom CSS ','wpvr'),
                 'id' => 'wpvr_custom_css',
                 'type' => 'custom_css_form_checkbox',
@@ -530,7 +507,10 @@ class WPVR_Meta_Field {
                 'value' => isset($postdata['sceneAnimationName']) ? $postdata['sceneAnimationName'] : 'none',
                 'placeholder' => null,
                 'have_tooltip' => true,
-                'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                'tooltip_text' => array(
+                    'text' => __('This will set the scene fade effect and execution time.', 'wpvr'),
+                    'url'  => '' 
+                ),
             ),
             'scene-animation-transition-duration' => array(
                 'class' => 'single-settings autorotationdata scene-animation-transition-duration',
@@ -604,7 +584,7 @@ class WPVR_Meta_Field {
                 'title' => __('Button URL','wpvr'),
                 'type' => 'text_field',
                 'value' => isset($postdata['buttonurl']) ? $postdata['buttonurl'] : "",
-                'placeholder' => "",
+                'placeholder' => "Button URL",
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Set the link the call-to-action button will direct users to when clicked.', 'wpvr'),
@@ -833,7 +813,7 @@ class WPVR_Meta_Field {
                 'type' => 'checkbox'
             ),
             'keyboardzoom' => array(
-                'class' => 'single-settings',
+                'class' => 'single-settings keyboard-zoom',
                 'title' => __('Keyboard Zoom Control','wpvr'),
                 'id'    => 'wpvr_keyboardzoom',
                 'have_tooltip' => true,
@@ -935,7 +915,7 @@ class WPVR_Meta_Field {
             ),
             'vrscene_navigation' => array(
                 'class' => 'single-settings scene-navigation',
-                'title' => __('Scene Navigation Menu:','wpvr'),
+                'title' => __('Scene Navigation Menu','wpvr'),
                 'id' => 'wpvr_scene_navigation',
                 'type' => 'checkbox',
                 'have_tooltip' => true,
@@ -991,92 +971,6 @@ class WPVR_Meta_Field {
 
         );
         return apply_filters( 'modify_advanced_control_right_fields', $fields, $postdata );
-    }
-
-
-    /**
-    * Initialise Control Button Left Fields
-    * @return array
-    * @since 8.0.0
-    */
-    public static function get_control_button_left_fields($postdata) {
-        $fields = array(
-           'panupControl' => array(
-                'title' => __('Move Up','wpvr'),
-                'icon' => 'move-up.jpg',
-                'id' => 'wpvr_panupControl',
-                'type' => 'checkbox'
-            ),
-           'panDownControl' => array(
-                'title' => __('Move Down','wpvr'),
-                'icon' => 'move-down.jpg',
-                'id' => 'wpvr_panDownControl',
-                'type' => 'checkbox'
-            ),
-           'panLeftControl' => array(
-                'title' => __('Move Left','wpvr'),
-                'icon' => 'move-left.jpg',
-                'id' => 'wpvr_panLeftControl',
-                'type' => 'checkbox'
-            ),
-           'panRightControl' => array(
-                'title' => __('Move Right','wpvr'),
-                'icon' => 'move-right.jpg',
-                'id' => 'wpvr_panRightControl',
-                'type' => 'checkbox'
-            ),
-           'panZoomInControl' => array(
-                'title' => __('Zoom In','wpvr'),
-                'icon' => 'zoom-in.jpg',
-                'id' => 'wpvr_panZoomInControl',
-                'type' => 'checkbox'
-            ),
-        );
-        return apply_filters( 'modify_control_button_left_fields', $fields, $postdata );
-    }
-
-
-    /**
-    * Initialise Control Button Left Fields
-    * @return array
-    * @since 8.0.0
-    */
-    public static function get_control_button_right_fields($postdata) 
-    {
-        $fields = array(
-            'panZoomOutControl' => array(
-                 'title' => __('Zoom Out','wpvr'),
-                 'icon' => 'zoom-out.jpg',
-                 'id' => 'wpvr_panZoomOutControl',
-                 'type' => 'checkbox'
-             ),
-            'panFullscreenControl' => array(
-                 'title' => __('Full Screen','wpvr'),
-                 'icon' => 'full-screen.jpg',
-                 'id' => 'wpvr_panFullscreenControl',
-                 'type' => 'checkbox'
-             ),
-            'gyroscope' => array(
-                 'title' => __('Gyroscope','wpvr'),
-                 'icon' => 'gryscop.jpg',
-                 'id' => 'wpvr_gyroscope',
-                 'type' => 'checkbox'
-             ),
-            'backToHome' => array(
-                 'title' => __('Home','wpvr'),
-                 'icon' => 'home.jpg',
-                 'id' => 'wpvr_backToHome',
-                 'type' => 'checkbox'
-            ),
-
-            'explainer'  => array(
-                'title' => __('Explainer','wpvr'),
-                'icon'  => 'explainer-vedio.png',
-                'id'    => 'wpvr_explainer',
-                'type'  => 'checkbox',
-            )
-        );
-        return apply_filters( 'modify_control_button_right_fields', $fields, $postdata );
     }
 
 
@@ -1655,8 +1549,8 @@ class WPVR_Meta_Field {
                 'active' => 'active',
                 'href' => 'gen-basic',
                 'isPro' => false,
-                'regular_icon' => 'admin/icon/basic-settings-regular.png',
-                'hover_icon' => 'admin/icon/basic-settings-hover.png',
+                'regular_icon' => 'admin/icon/basic-settings-regular.svg',
+                'hover_icon' => 'admin/icon/basic-settings-hover.svg',
                 'title' => __('Basic Settings','wpvr')
             ),
             array(
@@ -1664,19 +1558,10 @@ class WPVR_Meta_Field {
                 'active' => '',
                 'href' => 'gen-advanced',
                 'isPro' => true,
-                'regular_icon' => 'admin/icon/advance-control-regular.png',
-                'hover_icon' => 'admin/icon/advance-control-hover.png',
+                'regular_icon' => 'admin/icon/advance-control-regular.svg',
+                'hover_icon' => 'admin/icon/advance-control-hover.svg',
                 'title' => __('Advanced Controls','wpvr')
             ),
-            array(
-                'class' => 'gen-control',
-                'active' => '',
-                'href' => 'gen-control',
-                'isPro' => true,
-                'regular_icon' => 'admin/icon/control-buttons-regular.png',
-                'hover_icon' => 'admin/icon/control-buttons-hover.png',
-                'title' => __('Control Buttons','wpvr')
-            )
         );
 
         return apply_filters( 'make_is_pro_false', $fields );
@@ -1704,7 +1589,7 @@ class WPVR_Meta_Field {
                 <span data-href="#<?php echo $field['href']; ?>">
                 <?php if($field['isPro'] == true) { ?>
                 <span class="pro-tag">pro</span>
-                <?php } ?>    
+                <?php } ?>   
                 <img loading="lazy" src="<?php echo WPVR_PLUGIN_DIR_URL . $field['regular_icon']; ?>" alt="icon" class="regular" />
                 <img loading="lazy" src="<?php echo WPVR_PLUGIN_DIR_URL. $field['hover_icon']; ?>" alt="icon" class="hover" />
                 <?php echo __($field['title'], 'wpvr');?></span>
@@ -1713,7 +1598,15 @@ class WPVR_Meta_Field {
             <?php  } ?>
 
             <li class="vr-documentation">
-                <a href="https://rextheme.com/docs-category/wp-vr/" target="_blank"><?php echo __('Documentation ', 'wpvr'); ?></a>
+                <a href="https://rextheme.com/docs-category/wp-vr/" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none" class="doc-icon">
+                        <path d="M15.8398 7.5V11.25C15.8398 15 14.3398 16.5 10.5898 16.5H6.08984C2.33984 16.5 0.839844 15 0.839844 11.25V6.75C0.839844 3 2.33984 1.5 6.08984 1.5H9.83984" stroke="#73707D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15.8398 7.5H12.8398C10.5898 7.5 9.83984 6.75 9.83984 4.5V1.5L15.8398 7.5Z" stroke="#73707D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.58984 9.75H9.08984" stroke="#73707D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.58984 12.75H7.58984" stroke="#73707D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <?php echo __('Documentation ', 'wpvr'); ?>
+                </a>
             </li>
 
         </ul>
@@ -1868,7 +1761,21 @@ class WPVR_Meta_Field {
     {
         $fields = self::get_advanced_settings_left_fields($postdata);
         foreach($fields as $name => $val) {
-            self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+             if( 'advanced_setting_checkbox_for_keyboard_control' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if('advanced_key_board_zoom_control' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            }else if('advanced_gyro_control' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if('advanced_setting_scene_gallery' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if('pro_inner_scene_gallery_icon_size' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if($val['type'] === 'tour_layout_select'){
+                self::{ 'render_' . $val['type'] }( $name, $val );
+            } else{
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+            }
         }
     }
 
@@ -1882,36 +1789,21 @@ class WPVR_Meta_Field {
     {
         $fields = self::get_advanced_settings_right_fields($postdata);
         foreach($fields as $name => $val) {
-            self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+            if(in_array($name, array('explainer','backToHome', 'panFullscreenControl'))){
+                self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+            }else if('basic_setting_checkbox_for_scene_animation' === $val['type']){
+                self::{ 'render_' . $val['type'] }( $name, $val, $postdata );
+            } else if('advanced_setting_explainer_video' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if('advanced_setting_explainer_video' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else if('advanced_setting_set_zoom_preference' === $val['type']){
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
+            } else{
+                self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+            }
         }
-    }
-
-
-    /**
-    * Initialize fields render method
-    * @return void
-    * @since 8.0.0
-    */
-    public static function render_control_button_left_fields($postdata)
-    {
-        $fields = self::get_control_button_left_fields($postdata);
-        foreach($fields as $name => $val) {
-            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
-        }
-    }
-
-
-    /**
-    * Initialize fields render method
-    * @return void
-    * @since 8.0.0
-    */
-    public static function render_control_button_right_fields($postdata)
-    {
-        $fields = self::get_control_button_right_fields($postdata);
-        foreach($fields as $name => $val) {
-            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
-        }
+         self::render_other_fields($postdata);
     }
 
 
@@ -2475,37 +2367,43 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class;?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) {?>
+
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" value="off" name="<?= $name;?>" type="checkbox" disabled />
                 <label for="<?= $id;?>" title="Pro Feature"></label>
             </span>
 
-            <?php if(!empty($have_tooltip)) {?>
-
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+          
         </div>
         <?php
         ob_end_flush();
@@ -2527,36 +2425,42 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title .': ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
                 <label for="<?= $id; ?>"></label>
             </span>
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+            
         </div>
         <?php
         ob_end_flush();
@@ -2593,40 +2497,47 @@ class WPVR_Meta_Field {
         extract($val);
         ob_start();
         ?>
-        <div class="<?= $root_class; ?>">
+        <!-- <div class="<?= $root_class; ?>">
+           
+        </div> -->
+
             <div class="<?= $class; ?>">
-                <span><?= __($title .': ', 'wpvr'); ?></span>
+                <div class="wpvr-tooltip-area">
+                    <span><?= __($title .': ', 'wpvr'); ?></span>
+
+                    <?php if(!empty($have_tooltip)) { ?>
+                        <div class="field-tooltip">
+                            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                            <span>
+                                <?php 
+                                    // Ensure tooltip_text text is set
+                                    if (!empty($tooltip_text['text'])) {
+                                        echo esc_html($tooltip_text['text']);
+
+                                        // Check if URL exists before rendering the link
+                                        if (!empty($tooltip_text['url'])) {
+                                            printf(
+                                                ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                                esc_url($tooltip_text['url']),
+                                                __('View Doc', 'wpvr')
+                                            );
+                                        }
+                                    }
+                                ?>
+                            </span>
+                        </div>
+                    <?php } ?>
+
+                </div>
 
                 <span class="wpvr-switcher">
                     <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value; ?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo 'checked'; } else { echo ''; } ?> />
                     <label for="<?= $id; ?>"></label>
                 </span>
 
-                <?php if(!empty($have_tooltip)) { ?>
-                    <div class="field-tooltip">
-                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                        <span>
-                            <?php 
-                                // Ensure tooltip_text text is set
-                                if (!empty($tooltip_text['text'])) {
-                                    echo esc_html($tooltip_text['text']);
-
-                                    // Check if URL exists before rendering the link
-                                    if (!empty($tooltip_text['url'])) {
-                                        printf(
-                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                            esc_url($tooltip_text['url']),
-                                            __('View Doc', 'wpvr')
-                                        );
-                                    }
-                                }
-                            ?>
-                        </span>
-                    </div>
-                <?php } ?>
             </div>
-        </div>
+
         <?php
         ob_end_flush();
     }
@@ -2673,10 +2584,12 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="single-settings audio-setting">
-            <span><?= __($title .': ', 'wpvr'); ?></span>
+            <!-- <span><?= __($title .': ', 'wpvr'); ?></span> -->
             <img loading="lazy" class="audio-img" src="<?= $value; ?>" style="display: none;">
-            <input type="text" name="<?= $name; ?>" class="audio-attachment-url" value="<?= $value; ?>">
-            <button type="button" class="audio-upload" data-info=""><img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/upload.png' ?>" alt="icon" /></button>
+            <input type="text" name="<?= $name; ?>" placeholder="Paste URL" class="audio-attachment-url" value="<?= $value; ?>">
+          
+            <button type="button" class="audio-upload" data-info="">  <span><?php echo __('Upload','wpvr')?></span><img src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/upload.svg' ?>" alt="icon" /></button>
+
         </div>
         <?php
         ob_end_flush();
@@ -2708,10 +2621,13 @@ class WPVR_Meta_Field {
                     <input type="button" class="cp-logo-upload" id="cp-logo-upload" data-info="" value="Upload"/>
 
                     <div class="logo-upload-frame" >
-                    <label for="cp-logo-upload">
-                    <img loading="lazy" class="cp-logo-img" src="<?= $value ?>">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/uplad-icon.png' ?>" class="placeholder-icon" alt="icon" style="display: <?php if($value != null) { echo 'none'; }  ?>;" />
-                    </label>
+                        <label for="cp-logo-upload">
+                            <img loading="lazy" class="cp-logo-img" src="<?= $value ?>">
+                            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/upload-icon.svg' ?>" class="placeholder-icon" alt="icon" style="display: <?php if($value != null) { echo 'none'; }  ?>;" />
+                            <span class="vr-upload-text">
+                                Click to <strong>Upload an Image</strong>
+                            </span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -2740,37 +2656,40 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class ?>" >
-            <span><?= __($title .': ', 'wpvr'); ?></span>
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title .': ', 'wpvr'); ?></span>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            </div>
+
             <input type="text" class="<?= $input_class ?>" name="<?= $name ?>" placeholder="<?= $placeholder ?>" value="<?= $value ?>" />
 
             
-            <div class="field-tooltip">
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                <span>
-                    <?php 
-                        // Ensure tooltip_text text is set
-                        if (!empty($tooltip_text['text'])) {
-                            echo esc_html($tooltip_text['text']);
-
-                            // Check if URL exists before rendering the link
-                            if (!empty($tooltip_text['url'])) {
-                                printf(
-                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                    esc_url($tooltip_text['url']),
-                                    __('View Doc', 'wpvr')
-                                );
-                            }
-                        }
-                    ?>
-                </span>
-            </div>
+           
          
         </div>
         <?php
         ob_end_flush();
     }
-
 
 
     /**
@@ -2822,13 +2741,21 @@ class WPVR_Meta_Field {
         <div class="single-settings controls custom-data-set">
             <span><?= __($title . ': ', 'wpvr'); ?></span>
 
+            <span class="wpvr-switcher">
+                <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value ?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo 'checked'; } ?> />
+                <label for="<?= $id; ?>"></label>
+            </span>
+
             <div class="color-icon">
                 <div class="colors">
+                    <span><?php echo __('Color','wpvr')?></span>
+                   
                     <input type="color" class="<?= $color_name; ?>" name="<?= $color_name; ?>" value="<?= $color_value; ?>" />
                     <input type="hidden" class="<?= $icon_name ?> icon-found-value" name="<?= $icon_name ?>" value="<?= $color_value; ?>" />
                 </div>
 
                 <div class="icons">
+                    <span><?php echo __('Icon','wpvr')?></span>
                     <select class="<?= $icon_select_class ?>" name="<?= $icon_select_name ?>">
                         <?php
                         foreach ($custom_icons as $cikey => $civalue) {
@@ -2843,10 +2770,6 @@ class WPVR_Meta_Field {
                 </div>
             </div>
 
-            <span class="wpvr-switcher">
-                <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value ?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo 'checked'; } ?> />
-                <label for="<?= $id; ?>"></label>
-            </span>
         </div>
         <?php
         ob_end_flush();
@@ -2864,6 +2787,7 @@ class WPVR_Meta_Field {
     public static function render_preview_image($name, $val)
     {
         extract( $val );
+        error_log(print_r($val, true));
         ob_start();
         ?>
         <div class="<?= $class; ?>">
@@ -2896,20 +2820,24 @@ class WPVR_Meta_Field {
 
             </div>
 
-            <div class="form-group">
-                <input type="text" name="<?= $name; ?>" class="preview-attachment-url" value="<?= $value;?>">
-                <input type="button" class="preview-upload" id="vr-preview-img" data-info="" value="Upload"/>
-                <div class="img-upload-frame <?php if(!empty($value)) { echo 'img-uploaded'; } ?>" style="background-image: url(<?= $value; ?>)">
-                    <span class="remove-attachment">x</span>
-                    <label for="vr-preview-img">
-                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/uplad-icon.png'; ?>" alt="preview img" />
-                        <span><?= __('Click to Upload an Image ', 'wpvr'); ?></span>
-                    </label>
+            <div class="wpvr-set-pre-img-area">
+
+                <div class="form-group">
+                    <input type="text" name="<?= $name; ?>" class="preview-attachment-url" value="<?= $value;?>">
+                    <input type="button" class="preview-upload" id="vr-preview-img" data-info="" value="Upload"/>
+                    <div class="img-upload-frame <?php if(!empty($value)) { echo 'img-uploaded'; } ?>" style="background-image: url(<?= $value; ?>)">
+                        <span class="remove-attachment">x</span>
+                        <label for="vr-preview-img">
+                            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/upload-icon.svg'; ?>" alt="<?= esc_attr__('Upload icon', 'wpvr'); ?>" loading="lazy"/>
+                            <span class="vr-upload-text">
+                                <?= __('Click to', 'wpvr'); ?> <strong><?= __('Upload an Image', 'wpvr'); ?></strong>
+                            </span>
+                        </label>
+                    </div>
                 </div>
+                <span class="hints"><?= __('This option will not work if the "Tour Autoload" is turned on.', 'wpvr'); ?></span>
             </div>
-            <?php if(!empty($value)) { ?>
-            <span class="hints"><?= __('This option will not work if the "Tour Autoload" is turned on.', 'wpvr'); ?></span>
-            <?php } ?>
+
         </div>
         <?php
         ob_end_flush();
@@ -2982,36 +2910,40 @@ class WPVR_Meta_Field {
             <?php if(isset($val['package']) && $val['package'] == 'pro' && !defined('WPVR_PRO_VERSION')){?>
                 <div class="basic-setting-checkbox-pro-tag">pro</div>
             <?php } ?>
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="1" <?php checked( $checked, 1 ); ?> />
                 <label for="<?= $id;?>"></label>
             </span>
-
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
 
         </div>
         <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
@@ -3040,36 +2972,40 @@ class WPVR_Meta_Field {
             <?php if(isset($val['package']) && $val['package'] == 'pro' && !defined('WPVR_PRO_VERSION')){?>
                 <div class="basic-setting-checkbox-pro-tag">pro</div>
             <?php } ?>
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="1" <?php checked( $checked, 1 ); ?> />
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+            
         </div>
         <?php if(isset($val['id']) && $val['id'] === 'wpvr_scene_animation') { ?>
                 <div class="scene-animation-settings-wrapper">
@@ -3086,36 +3022,40 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+            
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+           
 
         </div>
         <?php
@@ -3137,32 +3077,36 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+                
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
             <input type="number" name="<?= $name; ?>" min="0" value="<?= $value; ?>" placeholder="<?= $placeholder;?>" />
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
 
         </div>
         <?php
@@ -3183,8 +3127,33 @@ class WPVR_Meta_Field {
                 echo '<div class="tour-layout-pro-tag">pro</div>';
             }?>
             <div class="wpvr-layout">
+                <div class="wpvr-tooltip-area">
+                    <span lass="wpvr-layout__label"><?= __($title.': ', 'wpvr'); ?></span>
+                    <?php if(!empty($have_tooltip)) { ?>
+                        <div class="field-tooltip">
+                            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
 
-                <span class="wpvr-layout__label"><?php echo __('Choose tour layout:','wpvr')?></span>
+                            <span>
+                                <?php 
+                                    // Ensure tooltip_text text is set
+                                    if (!empty($tooltip_text['text'])) {
+                                        echo esc_html($tooltip_text['text']);
+
+                                        // Check if URL exists before rendering the link
+                                        if (!empty($tooltip_text['url'])) {
+                                            printf(
+                                                ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                                esc_url($tooltip_text['url']),
+                                                __('View Doc', 'wpvr')
+                                            );
+                                        }
+                                    }
+                                ?>
+                            </span>
+                        </div>
+                    <?php } ?>
+            
+                </div>
 
                 <div class="wpvr-layout__container">
                     <input type="hidden" id="layout_icon_bg_color" name="layout_icon_bg_color" value=<?php echo $value['layout_icon_bg_color'] ?> >
@@ -3192,22 +3161,31 @@ class WPVR_Meta_Field {
 
                     <div class="wpvr-layout__radio-container">
                         <input type="radio" id="default" name="tourLayout" value="default" <?php echo $value['layout'] =='default'? 'checked' : ''  ?>>
-                        <label for="default" class="wpvr-layout__radio-label" data-layout='default' data-preview-image=<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/default-layout-preview.png' ?>>
-                            <img src="<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/default-layout.png' ?>" alt="Default" class="wpvr-layout__radio-image">
-                            <?php  echo $preview; ?>
-                        <span class="layout__radio-text <?php echo $value['layout'] =='default'? 'active' : ''  ?>"><?php echo __('Classic','wpvr')?></span>
+                        <div class="wpvr-layout__img">
+                            <label for="default" class="wpvr-layout__radio-label" data-layout='default' data-preview-image=<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/default-layout-preview.png' ?>>
+                                <img src="<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/default-layout.png' ?>" alt="Default" class="wpvr-layout__radio-image <?php echo $value['layout'] =='default'? 'active' : ''  ?>">
+                                <?php  echo $preview; ?>
+                            </label>
+                            <span class="wpvr-layout__radio-text"><?php echo __('Classic Layout','wpvr')?></span>
+                        </div>
                     </div>
 
                     <div class="wpvr-layout__radio-container">
                         <input type="radio" id="layout1" name="tourLayout" value="layout1" <?php echo $value['layout'] =='layout1'? 'checked' : ''  ?>>
-                        <label for="layout1" class="wpvr-layout__radio-label" data-layout='layout1' data-bg-color='<?php echo $value['layout_icon_bg_color']  ?>' data-icon-color='<?php echo $value['layout_icon_color']  ?>'>
-                            <img src="<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/layout-1.png' ?>" alt="Layout 1" class="wpvr-layout__radio-image">
-                            <?php  echo $preview; ?>
-                        </label>
 
-                        <span class="layout__radio-text <?php echo $value['layout'] =='layout1'? 'active' : ''  ?>"><?php echo __('Modern','wpvr')?></span>
+                        <div class="wpvr-layout__img">
+                            <label for="layout1" class="wpvr-layout__radio-label" data-layout='layout1' data-bg-color='<?php echo $value['layout_icon_bg_color']  ?>' data-icon-color='<?php echo $value['layout_icon_color']  ?>'>
+                                <img src="<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/layout-1.png' ?>" alt="Layout 1" class="wpvr-layout__radio-image <?php echo $value['layout'] =='layout1'? 'active' : ''  ?>">
+                                <?php  echo $preview; ?>
+                            </label>
+
+                            <span class="wpvr-layout__radio-text"><?php echo __('Modern Layout','wpvr')?></span>
+                        </div>
+                        
                     </div>
-<!---->
+
+
+                    <!---->
 <!--                    <div class="wpvr-layout__radio-container">-->
 <!--                        <input type="radio" id="comingsoon" name="tourLayout" value="comingsoon" disabled>-->
 <!--                        <label for="comingsoon" class="wpvr-layout__radio-label">-->
@@ -3233,32 +3211,36 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
-            <input type="text" name="<?= $name; ?>" value='<?= $value; ?>' placeholder="<?= $placeholder;?>" />
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
 
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
 
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
                                 }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+            
+            <input type="text" name="<?= $name; ?>" value='<?= $value; ?>' placeholder="<?= $placeholder;?>" />
 
         </div>
         <?php
@@ -4358,37 +4340,40 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
 
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
                 <label for="<?= $id;?>"></label>
             </span>
 
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
+            
 
         </div>
         <?php
@@ -4428,37 +4413,38 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title.': ', 'wpvr'); ?></span>
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title.': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
 
             <span class="wpvr-switcher">
                 <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
                 <label for="<?= $id;?>"></label>
             </span>
-
-            <?php if(!empty($have_tooltip)) { ?>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                    <span>
-                        <?php 
-                            // Ensure tooltip_text text is set
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
-
-                                // Check if URL exists before rendering the link
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
-                            }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
-
 
         </div>
         <?php
@@ -4495,7 +4481,6 @@ class WPVR_Meta_Field {
         ?>
         <div class="<?= $class; ?>">
 
-            <span>Button Style</span>
             <div class="button-style-configaration">
                 <div class="single-cta-control new-tab">
                     <span class="wpvr-switcher">
@@ -4506,22 +4491,31 @@ class WPVR_Meta_Field {
                 </div>
                 
                 <div class="single-cta-control bg-color color-box">
-                    <label class="control-title"><?php echo __('Background Color','wpvr') ?></label>
-                    <input type="color" name="button_background_color" value="<?php echo $selectedBgColor; ?>">
+                    <label class="control-title"><?php echo __('Background Color :','wpvr') ?></label>
+                    <div class="colors">
+                        <span><?php echo __('Color','wpvr')?></span>
+                        <input type="color" name="button_background_color" value="<?php echo $selectedBgColor; ?>">
+                    </div>
+                    
                 </div>
                 
                 <div class="single-cta-control font-color color-box">
-                    <label class="control-title"><?php echo __('Font color','wpvr') ?></label>
-                    <input type="color" name="button_font_color" value="<?php echo $selectedColor; ?>">
+                    <label class="control-title"><?php echo __('Font color :','wpvr') ?></label>
+
+                    <div class="colors">
+                        <span><?php echo __('Color','wpvr')?></span>
+                        <input type="color" name="button_font_color" value="<?php echo $selectedColor; ?>">
+                    </div>
+                    
                 </div>
 
                 <div class="single-cta-control font-size">
-                    <label class="control-title"><?php echo __('Font Size (px)','wpvr') ?></label>
+                    <label class="control-title"><?php echo __('Font Size (px) :','wpvr') ?></label>
                     <input type="number" name="button_font_size" value="<?php echo $selectedFontSize; ?>" min="0">
                 </div>
 
                 <div class="single-cta-control font-weight">
-                    <label class="control-title"><?php echo __('Font Weight','wpvr') ?></label>
+                    <label class="control-title"><?php echo __('Font Weight :','wpvr') ?></label>
                     <select name="button_font_weight" id="button_font_weight">
                         <option value="400" <?php echo ($selectedFontWeight == '400') ? 'selected' : ''; ?>>400</option>
                         <option value="500" <?php echo ($selectedFontWeight == '500') ? 'selected' : ''; ?>>500</option>
@@ -4533,12 +4527,12 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="single-cta-control line-height">
-                    <label class="control-title"><?php echo __('Line Height','wpvr') ?></label>
+                    <label class="control-title"><?php echo __('Line Height :','wpvr') ?></label>
                     <input type="number" name="button_line_height" value="<?php echo $selectedLineHeight; ?>" min="0">
                 </div>
 
                 <div class="single-cta-control text-decoration">
-                    <label class="control-title"><?php echo __('Text Decoration','wpvr') ?></label>
+                    <label class="control-title"><?php echo __('Text Decoration :','wpvr') ?></label>
                     <select name="button_text_decoration" id="button_text_decoration">
                         <option value="none" <?php echo ($selectedTextDecoration == 'none') ? 'selected' : ''; ?>><?php echo __('None','wpvr') ?></option>
                         <option value="underline" <?php echo ($selectedTextDecoration == 'underline') ? 'selected' : ''; ?>> <?php echo __('Underline','wpvr') ?></option>
@@ -4548,7 +4542,7 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="single-cta-control text-transform">
-                    <label class="control-title"><?php echo __('Text Transform','wpvr') ?></label>
+                    <label class="control-title"><?php echo __('Text Transform :','wpvr') ?></label>
                     <select name="button_transform" id="button_transform">
                         <option value="none" <?php echo ($selectedTransform == 'none') ? 'selected' : ''; ?>><?php echo __('None','wpvr') ?></option>
                         <option value="uppercase" <?php echo ($selectedTransform == 'uppercase') ? 'selected' : ''; ?>><?php echo __('Uppercase','wpvr') ?></option>
@@ -4558,7 +4552,7 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="single-cta-control text-align">
-                    <label class="control-title"> <?php echo __('Button Alignment','wpvr') ?></label>
+                    <label class="control-title"> <?php echo __('Button Alignment :','wpvr') ?></label>
                     <select name="button_alignment" id="button_alignment">
                         <option value="left" <?php echo ($selectedAlignment == 'left') ? 'selected' : ''; ?>> <?php echo __('Left','wpvr') ?></option>
                         <option value="right" <?php echo ($selectedAlignment == 'right') ? 'selected' : ''; ?>> <?php echo __('Right','wpvr') ?></option>
@@ -4568,7 +4562,7 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="single-cta-control font-style">
-                    <label class="control-title"> <?php echo __('Font Style','wpvr') ?></label>
+                    <label class="control-title"> <?php echo __('Font Style :','wpvr') ?></label>
                     <select name="button_text_style" id="button_text_style">
                         <option value="normal" <?php echo ($selectedFontStyle == 'normal') ? 'selected' : ''; ?>> <?php echo __('Normal','wpvr') ?></option>
                         <option value="italic" <?php echo ($selectedFontStyle == 'italic') ? 'selected' : ''; ?>> <?php echo __('Italic','wpvr') ?></option>
@@ -4577,67 +4571,72 @@ class WPVR_Meta_Field {
                 </div>
 
                 <div class="single-cta-control letter-spacing">
-                    <label class="control-title"> <?php echo __('Letter Spacing (px)','wpvr') ?></label>
+                    <label class="control-title"> <?php echo __('Letter Spacing (px) :','wpvr') ?></label>
                     <input type="number" name="button_letter_spacing" value="<?php echo $selectedLetterSpacing; ?>" min="0">
                 </div>
                 
                 <div class="single-cta-control word-spacing">
-                    <label class="control-title"> <?php echo __('Word Spacing (px)','wpvr') ?></label>
+                    <label class="control-title"> <?php echo __('Word Spacing (px) :','wpvr') ?></label>
                     <input type="number" name="button_word_spacing" value="<?php echo $selectedWordSpacing; ?>" min="0">
                 </div>
 
                 <div class="single-cta-control border-radius">
-                    <label class="control-title"> <?php echo __('Border Radius (px)','wpvr') ?></label>
+                    <label class="control-title"> <?php echo __('Border Radius (px) :','wpvr') ?></label>
                     <input type="number" name="button_border_radius" value="<?php echo $selectedBorderRadius; ?>" min="0">
                 </div>
 
                 <div class="single-cta-control control-group border">
-                    <label class="control-title"> <?php echo __('Border','wpvr') ?></label>
-                    
-                    <div class="border-property border-width">
-                        <label class="control-inner-title"> <?php echo __('Width (px)','wpvr') ?></label>
-                        <input type="number" name="button_border_width" value="<?php echo $selectedBorderWidth; ?>" min="0">
+                    <label class="control-title"> <?php echo __('Border :','wpvr') ?></label>
+                    <div class="border-property-area">
+                        <div class="border-property border-width">
+                            <label class="control-inner-title"> <?php echo __('Width (px)','wpvr') ?></label>
+                            <input type="number" name="button_border_width" value="<?php echo $selectedBorderWidth; ?>" min="0">
+                        </div>
+                        
+                        <div class="border-property border-style">
+                            <label class="control-inner-title"> <?php echo __('Style','wpvr') ?></label>
+                            <select name="button_border_style" id="button_border_style">
+                                <option value="solid" <?php echo ($selectedBorderStyle == 'solid') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Solid</option>
+                                <option value="dashed" <?php echo ($selectedBorderStyle == 'dashed') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Dashed</option>
+                                <option value="dotted" <?php echo ($selectedBorderStyle == 'dotted') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Dotted</option>
+                                <option value="double" <?php echo ($selectedBorderStyle == 'double') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Double</option>
+                                <option value="none" <?php echo ($selectedBorderStyle == 'none') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>None</option>
+                            </select>
+                        </div>
+                        
+                        <div class="border-property border-color color-box">
+                            <label class="control-inner-title"> <?php echo __('Color','wpvr') ?></label>
+                            <input type="color" name="button_border_color" value="<?php echo $selectedBorderColor; ?>">
+                        </div>
+
                     </div>
-                    
-                    <div class="border-property border-style">
-                        <label class="control-inner-title"> <?php echo __('Style','wpvr') ?></label>
-                        <select name="button_border_style" id="button_border_style">
-                            <option value="solid" <?php echo ($selectedBorderStyle == 'solid') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Solid</option>
-                            <option value="dashed" <?php echo ($selectedBorderStyle == 'dashed') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Dashed</option>
-                            <option value="dotted" <?php echo ($selectedBorderStyle == 'dotted') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Dotted</option>
-                            <option value="double" <?php echo ($selectedBorderStyle == 'double') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>Double</option>
-                            <option value="none" <?php echo ($selectedBorderStyle == 'none') ? 'selected' : ''; ?>> <?php echo __('','wpvr') ?>None</option>
-                        </select>
-                    </div>
-                    
-                    <div class="border-property border-color color-box">
-                        <label class="control-inner-title"> <?php echo __('Color','wpvr') ?></label>
-                        <input type="color" name="button_border_color" value="<?php echo $selectedBorderColor; ?>">
-                    </div>
+
                 </div>
 
                 <div class="single-cta-control control-group padding">
-                    <label class="control-title"> <?php echo __('Padding (px)','wpvr') ?></label>
-                    
-                    <div class="padding-property padding-top">
-                        <label class="control-inner-title"> <?php echo __('Top','wpvr') ?></label>
-                        <input type="number" name="button_pt" value="<?php echo $selectedPaddingTop; ?>" min="0">
+                    <label class="control-title"> <?php echo __('Padding (px) :','wpvr') ?></label>
+                    <div class="border-property-area">
+                        <div class="padding-property padding-top">
+                            <label class="control-inner-title"> <?php echo __('Top','wpvr') ?></label>
+                            <input type="number" name="button_pt" value="<?php echo $selectedPaddingTop; ?>" min="0">
+                        </div>
+                        
+                        <div class="padding-property padding-right">
+                            <label class="control-inner-title"> <?php echo __('Right','wpvr') ?></label>
+                            <input type="number" name="button_pr" value="<?php echo $selectedPaddingRight; ?>">
+                        </div>
+                        
+                        <div class="padding-property padding-bottom">
+                            <label class="control-inner-title"> <?php echo __('Bottom','wpvr') ?></label>
+                            <input type="number" name="button_pb" value="<?php echo $selectedPaddingBottom; ?>">
+                        </div>
+                        
+                        <div class="padding-property padding-left">
+                            <label class="control-inner-title"> <?php echo __('Left','wpvr') ?></label>
+                            <input type="number" name="button_pl" value="<?php echo $selectedPaddingLeft; ?>">
+                        </div>
                     </div>
-                    
-                    <div class="padding-property padding-right">
-                        <label class="control-inner-title"> <?php echo __('Right','wpvr') ?></label>
-                        <input type="number" name="button_pr" value="<?php echo $selectedPaddingRight; ?>">
-                    </div>
-                    
-                    <div class="padding-property padding-bottom">
-                        <label class="control-inner-title"> <?php echo __('Bottom','wpvr') ?></label>
-                        <input type="number" name="button_pb" value="<?php echo $selectedPaddingBottom; ?>">
-                    </div>
-                    
-                    <div class="padding-property padding-left">
-                        <label class="control-inner-title"> <?php echo __('Left','wpvr') ?></label>
-                        <input type="number" name="button_pl" value="<?php echo $selectedPaddingLeft; ?>">
-                    </div>
+
                 </div>
                 
             </div>
@@ -4689,11 +4688,13 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title .': ', 'wpvr'); ?></span>
+            <span><?= __($title .'', 'wpvr'); ?></span>
 
-            <span class="wpvr-switcher">
+            <span class="wpvr-switchers">
                 <input id="<?= $id; ?>" class="vr-switcher-radio" value="<?= $value?>" name="vr_scene_navigation_content_type" type="radio" <?php  echo $checked  ?> />
+                <label for="<?= $id; ?>" class="custom-radio-label"></label>
             </span>
+
             <?php if(!empty($have_tooltip)) { ?>
                 <div class="field-tooltip">
                     <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ?>" alt="icon" />
@@ -4773,7 +4774,33 @@ class WPVR_Meta_Field {
 
         <div class='single-settings'>
 
-            <span for="scene-animation-name"><?= __($title .': ', 'wpvr'); ?></span>
+            <div class="wpvr-tooltip-area">
+                <span for="scene-animation-name"><?= __($title .': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
             <select class='scene-animation-name' name="<?= $name;?>">
                 <?php
                 foreach ($default_type as $key => $type) {
@@ -4817,5 +4844,752 @@ public static function render_membership_access_name_select($name, $val)
     ob_end_flush();
 }
 
+/**
+ * Render other fields
+ *
+ * @param mixed $postdata
+ *
+ * @return void
+ * @since 8.5.27
+ */
+public static function render_other_fields($postdata){
+        ?>
+            <?php WPVR_Meta_Field::render_basic_setting_generic_form_fields($postdata);?>
+            <div class="generic-form-associates">
+                <?php WPVR_Meta_Field::render_generic_form_associate_fields($postdata) ;?>
+            </div>
+
+            <?php WPVR_Meta_Field::render_basic_setting_call_to_action_fields($postdata);?>
+            <div class="call-to-action">
+                <?php WPVR_Meta_Field::render_call_to_action_associate_fields($postdata) ;?>
+            </div>
+
+            <?php WPVR_Meta_Field::render_basic_setting_custom_css_fields($postdata);?>
+            <div class="custom-css-field">
+                <?php WPVR_Meta_Field::render_custom_css_associate_fields($postdata) ;?>
+            </div>
+        <?php
+}
+
+
+/**
+ * Renders a checkbox field for keyboard control settings in the advanced settings section
+ *
+ * This method renders a checkbox with an optional tooltip. If the checkbox ID is 'wpvr_diskeyboard',
+ * it also renders additional keyboard control settings.
+ *
+ * @param string $name    The name attribute for the checkbox input field
+ * @param array  $val     Array of field attributes including:
+ *                        - class: CSS class for the wrapper div
+ *                        - id: HTML ID for the checkbox input
+ *                        - title: Text to display as the field label
+ *                        - value: Current value of the checkbox ('on' or 'off')
+ *                        - have_tooltip: Whether to show tooltip
+ *                        - tooltip_text: Array with 'text' and optional 'url' for tooltip content
+ * @param array  $postdata The post data for rendering additional fields
+ *
+ * @return void Outputs HTML directly
+ * @since 8.5.27
+ */
+ public static function render_advanced_setting_checkbox_for_keyboard_control_field($name, $val, $postdata)
+    {
+        extract( $val );
+        ob_start();
+        ?>
+        <div class="<?= $class; ?>">
+
+            <div class="wpvr-tooltip-area">
+                <span><?= __($title .': ', 'wpvr'); ?></span>
+
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+
+            </div>
+
+            <span class="wpvr-switcher">
+                <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+                <label for="<?= $id; ?>"></label>
+            </span>
+        </div>
+        <?php if(isset($val['id']) && $val['id'] === 'wpvr_diskeyboard') { ?>
+                <div class="keyboard-control-settings-wrapper">
+                    <?php WPVR_Meta_Field::render_keyboard_control_data_wrapper_fields($postdata) ;?>
+                </div>
+        <?php } ?>
+        <?php
+        ob_end_flush();
+    }
+
+/**
+ * Renders keyboard control related fields wrapped in a container
+ *
+ * This method fetches keyboard control fields using get_keyboard_control_data_wrapper_fields method
+ * and renders each field using the appropriate rendering method based on field type.
+ * Each field is rendered with an icon using the render_[field_type]_with_icon method.
+ *
+ * @param array $postdata Post data containing field values and configurations
+ *
+ * @return void Outputs HTML directly
+ * @since 8.5.27
+ */
+public static function render_keyboard_control_data_wrapper_fields($postdata)
+{
+    $fields = self::get_keyboard_control_data_wrapper_fields($postdata);
+
+    foreach($fields as $name => $val) {
+        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+    }
+}
+
+/**
+ * Get keyboard control data wrapper fields
+ *
+ * Retrieves the fields related to keyboard control settings by applying a filter.
+ * This function is used to gather all the keyboard control options that can be modified.
+ *
+ * @param array $postdata The post data containing the current settings
+ *
+ * @return array Filtered array of keyboard control fields and their settings
+ * @since 8.5.27
+ */
+public static function get_keyboard_control_data_wrapper_fields($postdata){
+    return apply_filters('update_keyboard_control_options', $postdata);
+}
+
+
+/**
+ * Render Advanced Keyboard Zoom Control Field
+ *
+ * This function renders a checkbox toggle for keyboard zoom control with tooltip and
+ * additional settings when enabled.
+ *
+ * @param string $name The name attribute for the input field
+ * @param array $val Array of values containing field attributes and settings
+ * @param array $postdata Post data containing all panorama settings
+ *
+ * @return void Outputs HTML for the keyboard zoom control field
+ * @since 8.5.27
+ */
+public static function render_advanced_key_board_zoom_control_field($name, $val, $postdata)
+{
+    extract( $val );
+    ob_start();
+    ?>
+    <div class="<?= $class; ?>">
+
+        <div class="wpvr-tooltip-area">
+            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+
+        </div>
+
+        <span class="wpvr-switcher">
+            <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+            <label for="<?= $id; ?>"></label>
+        </span>
+
+        
+    </div>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_keyboardzoom') { ?>
+            <div class="keyboard-zoom-control-settings-wrapper">
+                <?php WPVR_Meta_Field::render_keyboard_zoom_control_data_wrapper_fields($postdata) ;?>
+            </div>
+    <?php } ?>
+    <?php
+    ob_end_flush();
+}
+
+/**
+ * Render Advanced Keyboard Zoom Control Field
+ *
+ * This method renders a toggle switch for controlling keyboard zoom functionality in the VR panorama.
+ * When enabled, it displays additional keyboard zoom control settings through the
+ * render_keyboard_zoom_control_data_wrapper_fields method.
+ *
+ * @param string $name     The HTML name attribute for the input field
+ * @param array  $val      Array containing field configuration values including:
+ *                         - class: CSS class for the field wrapper
+ *                         - id: HTML ID for the input element
+ *                         - title: Display title for the field
+ *                         - value: Current value of the field ('on' or 'off')
+ *                         - have_tooltip: Whether field has tooltip
+ *                         - tooltip_text: Array with tooltip text and URL
+ * @param array  $postdata Complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the keyboard zoom control field and its settings
+ * @since 8.5.27
+ */
+public static function render_keyboard_zoom_control_data_wrapper_fields($postdata)
+{
+    $fields = self::get_render_keyboard_zoom_control_data_wrapper_fields_fields($postdata);
+
+    foreach($fields as $name => $val) {
+        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+    }
+}
+
+/**
+ * Get keyboard zoom control fields configuration
+ *
+ * Retrieves the fields configuration for keyboard zoom control settings by applying
+ * the 'updated_key_board_zoom_control_options' filter to the panorama post data.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return array An array of keyboard zoom control field configurations
+ * @since 8.5.27
+ */
+public static function get_render_keyboard_zoom_control_data_wrapper_fields_fields($postdata)
+{
+    return apply_filters('updated_key_board_zoom_control_options', $postdata);
+}
+
+/**
+ * Render Advanced Gyroscope Control Field
+ *
+ * This method renders a toggle switch for enabling/disabling gyroscope controls in VR panoramas.
+ * When enabled, it displays additional gyroscope-specific settings through the
+ * render_wpvr_gyro_data_wrapper_fields method.
+ *
+ * @param string $name     The HTML name attribute for the input field
+ * @param array  $val      Array of field configuration values including:
+ *                         - class: CSS class for the field wrapper
+ *                         - id: HTML ID for the input element
+ *                         - title: Display title for the field
+ *                         - value: Current value of the field ('on' or 'off')
+ *                         - have_tooltip: Whether field has tooltip
+ *                         - tooltip_text: Array with tooltip text and URL
+ * @param array  $postdata Complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the gyroscope control field and its settings
+ * @since 8.5.27
+ */
+public static function render_advanced_gyro_control_field($name, $val, $postdata)
+{
+    extract( $val );
+    ob_start();
+    ?>
+    <div class="<?= $class; ?>">
+
+        <div class="wpvr-tooltip-area">
+            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+
+        </div>
+
+        <span class="wpvr-switcher">
+            <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+            <label for="<?= $id; ?>"></label>
+        </span>
+
+        
+    </div>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_gyro') { ?>
+            <div class="zyro-settings-wrapper">
+                <?php WPVR_Meta_Field::render_wpvr_gyro_data_wrapper_fields($postdata) ;?>
+            </div>
+    <?php } ?>
+    <?php
+    ob_end_flush();
+}
+
+/**
+ * Renders gyroscope control settings fields
+ *
+ * This method fetches the gyroscope control configuration fields using
+ * get_render_wpvr_gyro_data_wrapper_fields_data_wrapper_fields and renders each field
+ * using the appropriate render method based on the field type.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return void Outputs HTML for the gyroscope control settings fields
+ * @since 8.5.27
+ */
+public static function render_wpvr_gyro_data_wrapper_fields($postdata)
+{
+    $fields = self::get_render_wpvr_gyro_data_wrapper_fields_data_wrapper_fields($postdata);
+    foreach($fields as $name => $val) {
+        if('pro_checkbox' === $val['type']){
+            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+        }else{
+            self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+        }
+
+    }
+}
+
+/**
+ * Get gyroscope control fields configuration data
+ *
+ * Retrieves the fields configuration for gyroscope control settings by applying
+ * the 'updated_gyro_control_options' filter to the panorama post data.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return array An array of gyroscope control field configurations
+ * @since 8.5.27
+ */
+public static function get_render_wpvr_gyro_data_wrapper_fields_data_wrapper_fields($postdata)
+{
+    return apply_filters('updated_gyro_control_options', $postdata);
+}
+
+/**
+ * Render Advanced Scene Gallery Control Field
+ *
+ * This method renders a toggle switch for enabling/disabling scene gallery in VR panoramas.
+ * When enabled, it displays additional scene gallery settings through the
+ * render_wpvr_scene_gallery_data_wrapper_fields method.
+ *
+ * @param string $name     The HTML name attribute for the input field
+ * @param array  $val      Array of field configuration values including:
+ *                         - class: CSS class for the field wrapper
+ *                         - id: HTML ID for the input element
+ *                         - title: Display title for the field
+ *                         - value: Current value of the field ('on' or 'off')
+ *                         - have_tooltip: Whether field has tooltip
+ *                         - tooltip_text: Array with tooltip text and URL
+ * @param array  $postdata Complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the scene gallery control field and its settings
+ * @since 8.5.27
+ */
+public static function render_advanced_setting_scene_gallery_field($name, $val, $postdata)
+{
+    extract( $val );
+    ob_start();
+    ?>
+    <div class="<?= $class; ?>">
+
+        <div class="wpvr-tooltip-area">
+            <span><?= __($title .': ', 'wpvr'); ?></span>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+        </div>   
+
+        <span class="wpvr-switcher">
+            <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+            <label for="<?= $id; ?>"></label>
+        </span>
+
+
+    </div>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_vrgallery') { ?>
+            <div class="scene-gallery-settings-wrapper">
+                <?php WPVR_Meta_Field::render_wpvr_scene_gallery_data_wrapper_fields($postdata) ;?>
+            </div>
+    <?php } ?>
+    <?php
+    ob_end_flush();
+}
+
+/**
+ * Renders scene gallery control settings fields
+ *
+ * This method retrieves the scene gallery configuration fields and renders each field
+ * using the appropriate render method based on the field type.
+ *
+ * @param array $postdata The complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the scene gallery settings fields
+ * @since 8.5.27
+ */
+public static function render_wpvr_scene_gallery_data_wrapper_fields($postdata)
+{
+    $fields = self::get_render_wpvr_scene_gallery_data_wrapper_fields($postdata);
+    foreach($fields as $name => $val) {
+        self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+    }
+}
+
+/**
+ * Get scene gallery control fields configuration
+ *
+ * Retrieves the fields configuration for scene gallery settings by applying
+ * the 'updated_scene_gallery_control_options' filter to the panorama post data.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return array An array of scene gallery control field configurations
+ * @since 8.5.27
+ */
+public static function get_render_wpvr_scene_gallery_data_wrapper_fields($postdata)
+{
+    return apply_filters('updated_scene_gallery_control_options', $postdata);
+}
+
+/**
+ * Render Advanced Explainer Video Control Field
+ *
+ * This method renders a toggle switch for enabling/disabling explainer video in VR panoramas.
+ * When enabled, it displays additional explainer video settings through the
+ * render_advanced_setting_explainer_video_data_wrapper_fields method.
+ *
+ * @param string $name     The HTML name attribute for the input field
+ * @param array  $val      Array of field configuration values including:
+ *                         - class: CSS class for the field wrapper
+ *                         - id: HTML ID for the input element
+ *                         - title: Display title for the field
+ *                         - value: Current value of the field ('on' or 'off')
+ *                         - have_tooltip: Whether field has tooltip
+ *                         - tooltip_text: Array with tooltip text and URL
+ * @param array  $postdata Complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the explainer video control field and its settings
+ * @since 8.5.27
+ */
+public static function render_advanced_setting_explainer_video_field($name, $val, $postdata)
+{
+    extract( $val );
+    ob_start();
+    ?>
+    <div class="<?= $class; ?>">
+
+        <div class="wpvr-tooltip-area">
+            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+
+        </div>   
+
+        <span class="wpvr-switcher">
+            <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+            <label for="<?= $id; ?>"></label>
+        </span>
+
+       
+
+    </div>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_explainerSwitch') { ?>
+            <div class="explainer-video-settings-wrapper">
+                <?php WPVR_Meta_Field::render_advanced_setting_explainer_video_data_wrapper_fields($postdata) ;?>
+            </div>
+    <?php } ?>
+    <?php
+    ob_end_flush();
+}
+
+/**
+ * Renders explainer video control settings fields
+ *
+ * This method retrieves the explainer video configuration fields and renders each field
+ * using the appropriate render method based on the field type.
+ *
+ * @param array $postdata The complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the explainer video settings fields
+ * @since 8.5.27
+ */
+public static function render_advanced_setting_explainer_video_data_wrapper_fields($postdata)
+{
+    $fields = self::get_render_advanced_setting_explainer_video_data_wrapper_fields($postdata);
+    foreach($fields as $name => $val) {
+        if('pro_checkbox' == $val['type']){
+            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+        }else{
+            self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+        }
+    }
+}
+
+/**
+ * Get explainer video control fields configuration
+ *
+ * Retrieves the fields configuration for explainer video settings by applying
+ * the 'updated_explainer_video_control_options' filter to the panorama post data.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return array An array of explainer video control field configurations
+ * @since 8.5.27
+ */
+public static function get_render_advanced_setting_explainer_video_data_wrapper_fields($postdata)
+{
+    return apply_filters('updated_explainer_video_control_options', $postdata);
+}
+
+/**
+ * Render Advanced Set Zoom Preference Control Field
+ *
+ * This method renders a toggle switch for enabling/disabling zoom preference in VR panoramas.
+ * When enabled, it displays additional zoom preference settings through the
+ * render_wpvr_set_zoom_control_data_wrapper_fields method.
+ *
+ * @param string $name     The HTML name attribute for the input field
+ * @param array  $val      Array of field configuration values including:
+ *                         - class: CSS class for the field wrapper
+ *                         - id: HTML ID for the input element
+ *                         - title: Display title for the field
+ *                         - value: Current value of the field ('on' or 'off')
+ *                         - have_tooltip: Whether field has tooltip
+ *                         - tooltip_text: Array with tooltip text and URL
+ * @param array  $postdata Complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the set zoom preference control field and its settings
+ * @since 8.5.27
+ */
+public static function render_advanced_setting_set_zoom_preference_field($name, $val, $postdata)
+{
+    extract( $val );
+    ob_start();
+    ?>
+    <div class="<?= $class; ?>">
+        <div class="wpvr-tooltip-area">
+            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+
+
+        </div>
+
+        <span class="wpvr-switcher">
+            <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
+            <label for="<?= $id; ?>"></label>
+        </span>
+
+
+       
+    </div>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_globalzoom') { ?>
+            <div class="set-zoom-perference-control-settings-wrapper">
+                <?php WPVR_Meta_Field::render_wpvr_set_zoom_control_data_wrapper_fields($postdata) ;?>
+            </div>
+    <?php } ?>
+    <?php
+    ob_end_flush();
+}
+
+/**
+ * Renders set zoom preference control settings fields
+ *
+ * This method retrieves the set zoom preference configuration fields and renders each field
+ * using the appropriate render method based on the field type.
+ *
+ * @param array $postdata The complete panorama post data containing all settings
+ *
+ * @return void Outputs HTML for the set zoom preference settings fields
+ * @since 8.5.27
+ */
+public static function render_wpvr_set_zoom_control_data_wrapper_fields($postdata)
+{
+    $fields = self::get_render_wpvr_set_zoom_control_data_wrapper_fields($postdata);
+    foreach($fields as $name => $val) {
+        self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
+    }
+}
+
+/**
+ * Get set zoom preference control fields configuration
+ *
+ * Retrieves the fields configuration for set zoom preference settings by applying
+ * the 'updated_set_zoom_preference_control_options' filter to the panorama post data.
+ *
+ * @param array $postdata The post data containing all panorama settings
+ *
+ * @return array An array of set zoom preference control field configurations
+ * @since 8.5.27
+ */
+public static function get_render_wpvr_set_zoom_control_data_wrapper_fields($postdata)
+{
+    return apply_filters('updated_zoom_control_options', $postdata);
+}
+
+/**
+ * Render Pro Inner Scene Gallery Icon Size Field
+ *
+ * This method renders a toggle switch for enabling/disabling the large/small icon size for the inner scene gallery.
+ *
+ * @param string $name The HTML name attribute for the input field
+ * @param array  $val  Array of field configuration values including:
+ *                     - class: CSS class for the field wrapper 
+ *                     - id: HTML ID for the input element
+ *                     - title: Display title for the field
+ *                     - value: Current value of the field ('on' or 'off')
+ *                     - have_tooltip: Whether field has tooltip
+ *                     - tooltip_text: Array with tooltip text and URL
+ *
+ * @return void Outputs HTML for the pro inner scene gallery icon size field
+ * @since 8.5.27
+ */
+public static function render_pro_inner_scene_gallery_icon_size_field($name, $val){
+    extract($val);
+    ob_start();
+    $default_type = array(
+        'on'                  => __('Large', 'wpvr-pro'),
+        'off'                   => __('Small', 'wpvr-pro'),
+    );
+    ?>
+
+    <div class='single-settings'>
+        <div class="wpvr-tooltip-area">
+            <span for="scene-gallery-icon-size-name"><?= __($title .': ', 'wpvr'); ?></span>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+        </div>
+
+        <select class='scene-gallery-icon-size-name' name="<?= $name;?>">
+            <?php
+            foreach ($default_type as $key => $type) {
+                echo sprintf("<option %s value='%s'>%s</option>\n", selected($key, $value, true), esc_attr($key), esc_attr($type));
+            } ?>
+        </select>
+    </div>
+
+    <?php
+    ob_end_flush();
+}
 
 }

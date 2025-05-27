@@ -101,11 +101,11 @@ class WPVR_Special_Occasion_Banner
                         <div class="rex-notification-counter__content">
 
                             <figure class="rex-notification-counter__figure-logo">
-                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-mubarak.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special offer logo', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-anniversary.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special offer logo', 'wpvr'); ?>" class="rex-notification-counter__img" >
                             </figure>
 
                             <figure class="rex-notification-counter__biggest-sale">
-                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-ul-fitr-twenty.webp'); ?>" alt="<?php esc_attr_e('Biggest sale of the year!', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-annniversary-twenty-two-percent-discount.webp'); ?>" alt="<?php esc_attr_e('Biggest sale of the year!', 'wpvr'); ?>" class="rex-notification-counter__img" >
                             </figure>
 
 
@@ -133,7 +133,7 @@ class WPVR_Special_Occasion_Banner
 
                             <div class="rex-notification-counter__btn-area">
                                 <a 
-                                    href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=plugin-notification-bar-CTA&utm_medium=free-plugin-notification-bar&utm_campaign=eid-sale2025' ); ?>"
+                                    href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=website&utm_medium=plugin-ban-wpvr&utm_campaign=wpanniv25' ); ?>"
                                     class="rex-notification-counter__btn"
                                     target="_blank"
                                 >
@@ -298,7 +298,7 @@ class WPVR_Special_Occasion_Banner
                 background-color: #05041E;
                 width: calc(100% - 20px);
                 margin: 50px 0 20px;
-                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-mubarak-bg.webp'; ?>);
+                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-anniversary-banner-bg.webp'; ?>);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -334,10 +334,10 @@ class WPVR_Special_Occasion_Banner
                 gap: 20px;
             }
             .wpvr-banner .rex-notification-counter__biggest-sale {
-                max-width: 210px;
+                max-width: 180px;
             }
             .wpvr-banner .rex-notification-counter__figure-logo {
-                max-width: 226px;
+                max-width: 220px;
             }
             .wpvr-banner .rex-notification-counter__figure-percentage {
                 max-width: 108px;
@@ -512,19 +512,9 @@ class WPVR_Special_Occasion_Banner
             
 
             @media only screen and (max-width: 1599px) {
-                .wpvr-banner .rex-notification-counter__figure-logo {
-                    max-width: 200px;
-                }
                 .wpvr-banner .rex-notification-counter__container {
                     max-width: 1170px;
                 }
-                .wpvr-banner .rex-notification-counter__biggest-sale {
-                    max-width: 190px;
-                }
-                .wpvr-banner .rex-notification-counter__figure-percentage {
-                    max-width: 90px;
-                }
-
                 .wpvr-banner .rex-notification-counter__btn {
                     font-size: 16px;
                 }
@@ -544,13 +534,10 @@ class WPVR_Special_Occasion_Banner
                 }
 
                 .wpvr-banner .rex-notification-counter__biggest-sale {
-                    max-width: 170px;
-                }
-                .wpvr-banner .rex-notification-counter__figure-logo {
                     max-width: 160px;
                 }
-                .wpvr-banner .rex-notification-counter__figure-percentage {
-                    max-width: 85px;
+                .wpvr-banner .rex-notification-counter__figure-logo {
+                    max-width: 220px;
                 }
 
                 .wpvr-banner .rex-notification-counter__list {
@@ -615,10 +602,6 @@ class WPVR_Special_Occasion_Banner
                 }
                 .wpvr-banner .rex-notification-counter__stroke-font {
                     font-size: 20px;
-                }
-
-                .wpvr-banner .rex-notification-counter__content {
-                    padding: 5px 0;
                 }
 
             }

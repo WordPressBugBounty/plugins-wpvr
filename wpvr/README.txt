@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.27
+Stable tag: 8.5.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,15 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.28 (27-05-2025) =
+* Fix: Block width and unit input issue to accept only valid CSS values
+* Fix: Tour publishing issues in the French language
+* Fix: Tooltip alignment issue
+* Fix: Resolved video tour playback warning issue on iPhones to ensure compatibility across all devices
+* Enhancement: Added documentation link to the error message for HTTP/HTTPS mixed content issues
+* Fix: Removed unwanted empty space at the end of the scene gallery
+* Enhancement: Updated backend to support redesigned tour settings page with improved data handling and compatibility
 
 = 8.5.27 (29-04-2025) =
 * Fix: Tour import vulnerability issue

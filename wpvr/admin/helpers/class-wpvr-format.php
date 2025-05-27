@@ -566,9 +566,7 @@ class WPVR_Format
         $explodeid = explode("=", $postdata['vidurl']);
 
         $foundid = '';
-        
         $muted = '&mute=1';
-
         $autoplay = ($autoplay == 'on') ? '&autoplay=1' : '';
         $loop = ($loop == 'on') ? '&loop=1' : '';
 
@@ -586,12 +584,258 @@ class WPVR_Format
 
         $html = '';
         $html .= '<div style="text-align:center; max-width:100%; width:' . $width . '; height:' . $height . '; border-radius: ' . $radius . '; margin: 0 auto;">';
-        $html .= '<iframe src="https://www.youtube.com/embed/' . $expdata . '?rel=0&modestbranding=1' . $loop . '&autohide=1' . $muted . '&showinfo=0&controls=1' . $autoplay . ''.$playlist.'" width="100%" height="100%" style="border-radius: ' . $radius . ';" frameborder="0" allowfullscreen></iframe>';
+
+        // Add browser compatibility detection script
+        $html .= '<script>
+        function wpvr_check_360_support() {
+            var support = {
+                supported: false,
+                fullySupported: false,
+                webgl: false,
+                orientation: false,
+                gyroscope: false,
+                touch: false,
+                browser: "unknown",
+                isMobile: false,
+                details: []
+            };
+
+            // Detect mobile devices
+            support.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (support.isMobile) {
+                support.details.push("Mobile device detected");
+            }
+
+            // Browser detection
+            var ua = navigator.userAgent;
+            if (/^((?!chrome|android).)*safari/i.test(ua)) {
+                support.browser = "safari";
+                support.details.push("Safari browser detected");
+            } else if (ua.indexOf("Chrome") > -1) {
+                support.browser = "chrome";
+                support.details.push("Chrome browser detected");
+            } else if (ua.indexOf("Firefox") > -1) {
+                support.browser = "firefox";
+                support.details.push("Firefox browser detected");
+            } else if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1) {
+                support.browser = "ie";
+                support.details.push("Internet Explorer detected");
+            } else if (ua.indexOf("Edge") > -1 || ua.indexOf("Edg") > -1) {
+                support.browser = "edge";
+                support.details.push("Edge browser detected");
+            } else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) {
+                support.browser = "opera";
+                support.details.push("Opera browser detected");
+            }
+
+            // Check WebGL support
+            try {
+                var canvas = document.createElement("canvas");
+                support.webgl = !!(window.WebGLRenderingContext &&
+                    (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+
+                if (support.webgl) {
+                    support.details.push("WebGL supported");
+                } else {
+                    support.details.push("WebGL not supported");
+                }
+            } catch (e) {
+                support.webgl = false;
+                support.details.push("WebGL detection error: " + e.message);
+            }
+
+            // Check device orientation support
+            support.orientation = !!(window.DeviceOrientationEvent);
+            if (support.orientation) {
+                support.details.push("Device Orientation API supported");
+            } else {
+                support.details.push("Device Orientation API not supported");
+            }
+
+            // Check for gyroscope
+            if (window.Gyroscope) {
+                support.gyroscope = true;
+                support.details.push("Gyroscope supported");
+            } else {
+                support.details.push("Gyroscope not supported");
+            }
+
+            // Check touch support for mobile interaction
+            support.touch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+            if (support.touch) {
+                support.details.push("Touch supported");
+            } else {
+                support.details.push("Touch not supported");
+            }
+
+            // Overall support determination
+            support.supported = support.webgl;
+            
+            // Full support means WebGL + orientation on mobile or WebGL on desktop
+            support.fullySupported = support.webgl && 
+                ((support.isMobile && support.orientation) || !support.isMobile);
+
+            // Browser-specific warnings
+            if (support.browser === "safari" && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                support.browserWarning = "iPhone has limited support for 360 videos in browser. The experience may not be optimal.";
+                support.fullySupported = false;
+            } else if (support.browser === "ie") {
+                support.browserWarning = "Internet Explorer has limited support for 360 videos. The experience may not be optimal.";
+                support.fullySupported = false;
+            } else if (!support.supported) {
+                support.browserWarning = "Your browser does not fully support 360° videos. For the best experience, please use a modern browser with WebGL support.";
+            }
+
+            return support;
+        }
+    </script>';
+
+        $random_id = 'video-container-' . rand(10000, 99999);
+        $html .= '<div id="' . $random_id . '-container" style="position:relative; width:100%; height:100%;">';
+
+        // First, always check browser compatibility before showing anything
+        $html .= '<div id="' . $random_id . '-compatibility-check" style="position:none; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:#f9f9f9; border-radius:' . $radius . ';">
+                    <div style="margin-bottom:20px; text-align:center;">
+                        <div class="wpvr-loading-spinner" style="border:5px solid #f3f3f3; border-top:5px solid #3498db; border-radius:50%; width:50px; height:50px; margin:0 auto 15px; animation:wpvr-spin 1s linear infinite;"></div>
+                        <p style="margin:0;">Checking browser compatibility...</p>
+                    </div>
+                   </div>';
+
+        // Add animation for spinner
+        $html .= '<style>@keyframes wpvr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
+
+        // Add the iframe (initially hidden)
+        $html .= '<div id="' . esc_attr( $random_id . '-frame' ) . '" style="text-align:center; max-width:100%; width:' . esc_attr( $width ) . '; height:' . esc_attr( $height ) . '; border-radius:' . esc_attr( $radius ) . '; margin: 0 auto; display:none;">';
+        $html .= '<iframe id="' . esc_attr( $random_id . '-iframe' ) . '" src="https://www.youtube.com/embed/' . rawurlencode( sanitize_text_field( $expdata ) ) . '?rel=0&modestbranding=1' . $loop . '&autohide=1' . $muted . '&showinfo=0&controls=1' . $autoplay . $playlist . '&enablejsapi=1" width="100%" height="100%" style="border-radius:' . esc_attr( $radius ) . ';" frameborder="0" allowfullscreen allow="accelerometer; gyroscope; picture-in-picture"></iframe>';
         $html .= '</div>';
+
+        // Add permission request button (hidden by default) - Only shown for fully supported devices
+        $html .= '<div id="' . $random_id . '-permission-request" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
+        $html .= '<p style="font-size:16px; margin:0 20px 15px;">For the best 360° video experience on mobile</p>';
+        $html .= '<button id="' . $random_id . '-permission-button" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Allow motion and orientation access</button>';
+        $html .= '</div>';
+
+        // Add browser compatibility warning message
+        $html .= '<div id="' . $random_id . '-browser-warning" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
+        $html .= '<p id="' . $random_id . '-warning-text" style="font-size:16px; margin:0 20px 5px;"></p>';
+        $html .= '<p style="font-size:14px; margin:5px 20px 15px;">For the best experience, consider using Chrome or Firefox.</p>';
+        $html .= '<button id="' . $random_id . '-browser-continue" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Continue Anyway</button>';
+        $html .= '</div>';
+
+        // Main script for handling compatibility and permissions
+        $html .= '<script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check compatibility first
+            var supportInfo = wpvr_check_360_support();
+            let compatibilityCheck = document.getElementById("' . $random_id . '-compatibility-check");
+           if(supportInfo.isMobile && !supportInfo.fullySupported) {
+                compatibilityCheck.style.display = "flex";
+           }
+            // Hide the compatibility check screen after a short delay
+            setTimeout(function() {
+                document.getElementById("' . $random_id . '-compatibility-check").style.display = "none";
+                // If browser doesn\'t support 360 videos well, show warning
+                if (!supportInfo.supported || supportInfo.browserWarning) {
+                    document.getElementById("' . $random_id . '-warning-text").textContent = 
+                        supportInfo.browserWarning || "Your browser may not fully support 360° videos.";
+                    document.getElementById("' . $random_id . '-browser-warning").style.display = "flex";
+                    
+                    // Add continue anyway button handler
+                    document.getElementById("' . $random_id . '-browser-continue").addEventListener("click", function() {
+                        document.getElementById("' . $random_id . '-browser-warning").style.display = "none";
+                        document.getElementById("' . $random_id . '-frame").style.display = "block";
+                        initializeYouTubePlayer();
+                    });
+                } 
+                // If browser fully supports 360 and is mobile, show permission request
+                else if (supportInfo.fullySupported && supportInfo.isMobile) {
+                    document.getElementById("' . $random_id . '-permission-request").style.display = "flex";
+                    
+                    // Add permission request button handler
+                    document.getElementById("' . $random_id . '-permission-button").addEventListener("click", function() {
+                        requestDevicePermissions();
+                    });
+                } 
+                // Otherwise just show the video
+                else {
+                    document.getElementById("' . $random_id . '-frame").style.display = "block";
+                    initializeYouTubePlayer();
+                }
+            }, 1000); // Show compatibility check for at least 1 second
+
+            // Function to request device permissions on supported mobile devices
+            function requestDevicePermissions() {
+                try {
+                    if (typeof DeviceOrientationEvent !== "undefined" && 
+                        typeof DeviceOrientationEvent.requestPermission === "function") {
+                        
+                        DeviceOrientationEvent.requestPermission()
+                            .then(function(response) {
+                                if (response === "granted") {
+                                    // Also request motion permission if available
+                                    if (typeof DeviceMotionEvent !== "undefined" && 
+                                        typeof DeviceMotionEvent.requestPermission === "function") {
+                                        
+                                        DeviceMotionEvent.requestPermission()
+                                            .then(function() {
+                                                showVideo();
+                                            })
+                                            .catch(function() {
+                                                showVideo();
+                                            });
+                                    } else {
+                                        showVideo();
+                                    }
+                                } else {
+                                    showVideo();
+                                }
+                            })
+                            .catch(function() {
+                                showVideo();
+                            });
+                    } else {
+                        showVideo();
+                    }
+                } catch (error) {
+                    showVideo();
+                }
+            }
+
+            // Helper function to show video after permissions
+            function showVideo() {
+                document.getElementById("' . $random_id . '-permission-request").style.display = "none";
+                document.getElementById("' . $random_id . '-frame").style.display = "block";
+                initializeYouTubePlayer();
+            }
+
+            // Function to initialize YouTube player
+            function initializeYouTubePlayer() {
+                if (window.YT) {
+                    initPlayer();
+                } else {
+                    var tag = document.createElement("script");
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    var firstScriptTag = document.getElementsByTagName("script")[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                    window.onYouTubeIframeAPIReady = initPlayer;
+                }
+
+                function initPlayer() {
+                    var player = new YT.Player("' . $random_id . '-iframe", {
+                        events: {
+                            "onReady": function(event) {
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>';
+        $html .= '</div>'; // Close container
+        $html .= '</div>'; // Close outer container
         return $html;
     }
-
-
     /**
      * Prepare shortcode data for Vimeo url
      * 
@@ -679,9 +923,9 @@ class WPVR_Format
 
     /**
      * Prepare scene data for shortcode
-     * 
+     *
      * @param array $panodata
-     * 
+     *
      * @return array
      * @since 8.0.0
      */
@@ -699,9 +943,9 @@ class WPVR_Format
 
     /**
      * Prepare scene lists data for shortcode
-     * 
+     *
      * @param array $panodata
-     * 
+     *
      * @return array
      * @since 8.0.0
      */
@@ -724,9 +968,9 @@ class WPVR_Format
 
     /**
      * Prepare hotspots list for shortcode
-     * 
+     *
      * @param array $hotspot_datas
-     * 
+     *
      * @return array
      * @since 8.0.0
      */
@@ -745,11 +989,11 @@ class WPVR_Format
 
     /**
      * Return hotspot info array to hotspot list
-     * 
+     *
      * @param array $hotspot_data
      * @param string $hotspot_type
      * @param string $hotspot_content
-     * 
+     *
      * @return array
      * @since 8.0.0
      */
@@ -784,11 +1028,11 @@ class WPVR_Format
 
     /**
      * Return scene info array for scene list
-     * 
+     *
      * @param array $panoscenes
      * @param array $hotspots
      * @param string $device_scene
-     * 
+     *
      * @return array
      * @since 8.0.0
      */

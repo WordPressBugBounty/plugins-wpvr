@@ -59,30 +59,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
                     <?php WPVR_Meta_Field::render_autorotation_data_wrapper_fields($postdata) ;?>
                 </div>
 
-                <?php 
-                    if(is_plugin_active('wpvr-pro/wpvr-pro.php')) {
-                        if ($status !== false && $status == 'valid') {
-                            ?>
-                            <?php WPVR_Meta_Field::render_basic_setting_generic_form_fields($postdata);?>
-                            <div class="generic-form-associates">
-                                <?php WPVR_Meta_Field::render_generic_form_associate_fields($postdata) ;?>
-                            </div>
-
-                            <?php WPVR_Meta_Field::render_basic_setting_call_to_action_fields($postdata);?>
-                            <div class="call-to-action">
-                                <?php WPVR_Meta_Field::render_call_to_action_associate_fields($postdata) ;?>
-                            </div>
-
-                            <?php WPVR_Meta_Field::render_basic_setting_custom_css_fields($postdata);?>
-                            <div class="custom-css-field">
-                                <?php WPVR_Meta_Field::render_custom_css_associate_fields($postdata) ;?>
-                            </div>
-                            <?php
-                        }
-                    }                
-                ?>
             </div>
-
         </div>
         <?php
         ob_end_flush();

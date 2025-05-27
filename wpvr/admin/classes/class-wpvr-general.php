@@ -28,19 +28,9 @@ class WPVR_General extends WPVR_Tour_setting {
      */
     private $basic_setting;
 
-    /**
-     * Instance of WPVR_Control_Button class
-     * 
-     * @var object
-     * @since 8.0.0
-     */
-    private $control_button;
-
     function __construct()
     {
         $this->advanced_control = WPVR_Advanced_Control::get_instance();
-
-        $this->control_button   = WPVR_Control_Button::get_instance();
 
         $this->basic_setting = new WPVR_Basic_Setting();
 
@@ -76,8 +66,6 @@ class WPVR_General extends WPVR_Tour_setting {
                 <?php $this->basic_setting->render_basic_setting($postdata); ?>
 
                 <?php WPVR_Advanced_Control::render($postdata); ?>
-
-                <?php WPVR_Control_Button::render($postdata); ?>
 
             </div>
             <!-- end inner tab content -->

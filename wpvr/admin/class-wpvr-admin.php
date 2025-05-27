@@ -567,10 +567,6 @@ class Wpvr_Admin {
                 'Publish'  => 'Julkaise',
                 'Update'   => 'Päivitä'
             ],
-            'fr_FR' => [  // French (France)
-                'Publish'  => 'Publier',
-                'Update'   => 'Mettre à jour'
-            ],
             'hr' => [  // Croatian
                 'Publish'  => 'Objavi',
                 'Update'   => 'Ažuriraj'
@@ -598,7 +594,67 @@ class Wpvr_Admin {
             'sv_SE' => [  // Swedish (Sweden)
                 'Publish'  => 'Publicera',
                 'Update'   => 'Uppdatera'
-            ]
+            ],
+            'fr_FR' => [  // French (France)
+                'Publish'  => 'Publier',
+                'Update'   => 'Mettre à jour'
+            ],
+            'fr_CA' => [  // French (Canada)
+                'Publish'       => 'Publier',
+                'Update'        => 'Mettre à jour',
+            ],
+            'fr_BE' => [  // French (Belgium)
+                'Publish'       => 'Publier',
+                'Update'        => 'Mettre à jour',
+            ],
+            'fr_CH' => [  // Switzerland
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_LU' => [  // Luxembourg
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_MC' => [  // Monaco
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_CM' => [  // Cameroon
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_DZ' => [  // Algeria
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_MA' => [  // Morocco
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_TN' => [  // Tunisia
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_SN' => [  // Senegal
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_HT' => [  // Haiti
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_RW' => [  // Rwanda
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_CD' => [  // DR Congo
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
+            'fr_CI' => [  // Côte d’Ivoire
+                'Publish' => 'Publier',
+                'Update'  => 'Mettre à jour',
+            ],
         ];
 
         return $language_mapping;

@@ -261,10 +261,6 @@ class Wpvr_Ajax
               'Julkaise'    => 'Publish',
               'Päivitä'     => 'Update'
           ],
-          'fr_FR' => [  // French (France)
-              'Publier'     => 'Publish',
-              'Mettre à jour' => 'Update'
-          ],
           'hr' => [  // Croatian
               'Objavi'      => 'Publish',
               'Ažuriraj'    => 'Update'
@@ -292,7 +288,67 @@ class Wpvr_Ajax
           'sv_SE' => [  // Swedish (Sweden)
               'Publicera'   => 'Publish',
               'Uppdatera'   => 'Update'
-          ]
+          ],
+          'fr_FR' => [  // French (France)
+              'Publier'     => 'Publish',
+              'Mettre à jour' => 'Update'
+          ],
+          'fr_CA' => [  // French (Canada)
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update', // or 'Actualiser'
+          ],
+          'fr_BE' => [  // French (Belgium)
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_CH' => [  // Switzerland
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_LU' => [  // Luxembourg
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_MC' => [  // Monaco
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_CM' => [  // Cameroon
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_DZ' => [  // Algeria
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_MA' => [  // Morocco
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_TN' => [  // Tunisia
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_SN' => [  // Senegal
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_HT' => [  // Haiti
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_RW' => [  // Rwanda
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_CD' => [  // DR Congo
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
+          'fr_CI' => [  // Côte d’Ivoire
+              'Publier'        => 'Publish',
+              'Mettre à jour'  => 'Update',
+          ],
       ];
       
     if (isset($_POST['post_value'])) {

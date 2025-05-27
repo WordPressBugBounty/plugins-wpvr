@@ -15,7 +15,6 @@ return array(
     'WPVR_Admin_Page' => $baseDir . '/admin/classes/class-wpvr-admin-pages.php',
     'WPVR_Advanced_Control' => $baseDir . '/admin/classes/class-wpvr-advanced-control.php',
     'WPVR_Basic_Setting' => $baseDir . '/admin/classes/class-wpvr-basic-setting.php',
-    'WPVR_Control_Button' => $baseDir . '/admin/classes/class-wpvr-control-button.php',
     'WPVR_Create_Contact' => $baseDir . '/includes/class-wpvr-create-contact.php',
     'WPVR_Format' => $baseDir . '/admin/helpers/class-wpvr-format.php',
     'WPVR_General' => $baseDir . '/admin/classes/class-wpvr-general.php',

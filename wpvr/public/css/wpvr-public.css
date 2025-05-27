@@ -179,7 +179,7 @@
   position: absolute;
   bottom: 15px;
   right: 45px;
-  z-index: 9999;
+  z-index: 3;
   text-align: center;
   width: 50px;
 }
@@ -187,7 +187,7 @@
   position: absolute;
   bottom: 15px;
   right: 10px;
-  z-index: 9999;
+  z-index: 2;
   text-align: center;
   width: 50px;
 }
@@ -758,7 +758,7 @@ div.pnlm-hotspot-base.fa-solid:before {
 #et-boc .et-l .vrgcontrols,
 .vrgcontrols {
   position: absolute;
-  z-index: 3;
+  z-index: 6;
   width: 20px;
   bottom: 0;
   height: 30px;
@@ -770,7 +770,7 @@ div.pnlm-hotspot-base.fa-solid:before {
 #et-boc .et-l .wpvr_slider_nav,
 .wpvr_slider_nav {
   position: absolute;
-  z-index: 3;
+  z-index: 6;
   bottom: 15px;
   height: 30px;
   cursor: pointer;
@@ -831,6 +831,7 @@ div.pnlm-hotspot-base.fa-solid:before {
   padding: 0;
 }
 
+
 .scene-gallery ul li {
   list-style: none;
   font-size: 13px;
@@ -841,15 +842,17 @@ div.pnlm-hotspot-base.fa-solid:before {
 .scene-gallery ul li img {
   margin-top: 3px !important;
 }
+
 .et-db #et-boc .scene-gallery .owl-stage {
   margin: 0 auto;
 }
+
 
 #et-boc .et-l .scene-gallery,
 .scene-gallery {
   position: absolute;
   bottom: 0;
-  z-index: 2;
+  z-index: 4;
   text-align: center;
   width: 100%;
   padding: 10px 15px;
@@ -1600,15 +1603,27 @@ div.custom-ifram {
   .wpvr-product-container .wpvr-pr-right-block .add_to_cart_inline {
     text-align: center;
   }
+
+  .wpvr_slider_nav .wpvr_owl_prev {
+    
+    top: -12px;
+  }
+
+  .wpvr_slider_nav .wpvr_owl_next {
+    top: -12px;
+  }
+  
 }
 
 .vrowl-carousel .owl-stage {
   margin: 0 auto;
 }
 
+
 .vrowl-carousel .owl-item img {
   margin: 0;
 }
+
 
 /* --------hamburger menu style--------- */
 /*.et-db #et-boc,*/

@@ -9,6 +9,30 @@
     justify-content: space-between;
 }
 
+
+.rex-pano-tab .inner-nav-content input[type=radio] {
+    border-radius: 50%;
+    border: 1px solid #E0D7FF;
+    background: #F3EFFF;
+    margin: 0;
+}
+
+.rex-pano-tab .inner-nav-content input[type=radio]:focus {
+    border-color: #3F04FE;
+    box-shadow: 0 0 0 1px #3F04FE;
+    outline: 1px solid transparent;
+}
+
+.rex-pano-tab .inner-nav-content input[type=radio]:checked::before {
+    content: "";
+    border-radius: 50%;
+    width: .5rem;
+    height: .5rem;
+    margin: .1875rem;
+    background-color: #3F04FE;
+    line-height: 1.14285714;
+}
+
 .wpvr_halloween_dismiss {
     cursor: pointer;
     border: 1px solid red;
@@ -295,6 +319,7 @@ img.scctrl.upload-form-scene-gallery {
     width: 30px;
     background: url('../images/icon.png') no-repeat center center / 100% 100%;
 }
+
 
 .scene-gallery {
     border-radius: 6px;
@@ -721,7 +746,7 @@ div.custom-tooltip:hover span:after {
 .post-type-wpvr_item #post-body #postbox-container-1 {
     float: none;
     margin-right: 0;
-    width: 650px;
+    width: 550px;
     order: 2;
 }
 
@@ -735,7 +760,7 @@ div.custom-tooltip:hover span:after {
 
 .post-type-wpvr_item #post-body #postbox-container-2 {
     order: 1;
-    width: calc(100% - 670px);
+    width: calc(100% - 570px);
     margin-right: 20px;
 }
 
@@ -763,13 +788,12 @@ div.custom-tooltip:hover span:after {
     position: relative;
     cursor: pointer;
     outline: none;
-    border-radius: 80px;
     user-select: none;
     width: 44px;
     height: 24px;
     border-radius: 14px;
-    background-color: #f7f7fa;
-    border: 1px solid #e6e6ec;
+    background-color: #F3EFFF;
+    border: 1px solid #F3EFFF;
     transition: all 0.3s ease;
 }
 
@@ -782,7 +806,7 @@ div.custom-tooltip:hover span:after {
     width: 16px!important;
     height: 16px!important;
     border-radius: 9px!important;
-    filter: drop-shadow(0px 2px 1px rgba(193, 193, 218, 0.45));
+    filter: box-shadow: 0px 1px 2px 0px rgba(63, 4, 254, 0.25);
     background-color: #fff;
     border-radius: 100%!important;
     position: absolute!important;
@@ -1020,7 +1044,7 @@ div.custom-tooltip:hover span:after {
 .rex-pano-tab-content .rex-pano-tab.video,
 .rex-pano-tab-content .rex-pano-tab.export,
 .rex-pano-tab-content .rex-pano-tab.general {
-    padding: 20px;
+    padding: 28px;
 }
 
 
@@ -1067,12 +1091,12 @@ li.export.export-pro-tag {
 /* ----general inner tab style----- */
 
 .rex-pano-tab-content .general .general-inner-tab .inner-nav {
-    margin: 0 0 25px 0;
-    padding: 0;
-    list-style: none;
     display: flex;
     flex-flow: row;
     align-items: center;
+    margin: 0 0 20px 0;
+    padding: 0;
+    list-style: none;
 }
 
 .rex-pano-tab-content .general .general-inner-tab .inner-nav li {
@@ -1085,15 +1109,12 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
-    border-radius: 5px;
-    filter: drop-shadow(0px 2px 2px rgba(223, 223, 249, 0.42));
-    background-color: #ffffff;
-    font-size: 14px;
-    color: #a8a7be;
+    position: relative;
+    font-size: 15px;
+    color: #73707D;
     font-weight: 500;
     text-transform: capitalize;
-    padding: 10px 15px;
-    position: relative;
+    padding: 11px 20px;
     display: flex;
     flex-flow: row;
     gap: 10px;
@@ -1101,6 +1122,9 @@ li.export.export-pro-tag {
     justify-content: center;
     transition: all 0.3s ease;
     cursor: pointer;
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0px 1px 2px 0px rgba(63, 4, 254, 0.15);
 }
 
 
@@ -1117,7 +1141,7 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .general-inner-tab .inner-nav li.active>span {
-    background: #004efa;
+    background: #3F04FE;
     color: #fff;
 }
 
@@ -1131,18 +1155,34 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a {
-    border-radius: 5px;
-    background-color: rgb(32, 28, 254);
-    height: 39px;
-    line-height: 39px;
-    font-size: 15px;
-    color: #fff;
-    display: inline-block;
-    padding: 0 20px;
-    box-shadow: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
     margin-top: auto;
-    transition: all 0.3s ease;
+    border-radius: 6px;
+    background: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(63, 4, 254, 0.15);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.07;
+    color: #73707D;
     text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a:hover {
+    background-color: #3F04FE;
+    color:#fff;
+}
+
+.rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a:hover svg path {
+    stroke: #fff;
+}
+
+.rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a svg {
+    width:15px;
+    height: 15px;
 }
 
 
@@ -1159,18 +1199,33 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper {
     display: flex;
     flex-flow: row wrap;
-    border-bottom: 1px solid #e4e4e4;
+}
+
+.rex-pano-tab-content .general .general-inner-tab .inner-nav-content {
+    position: relative;
+    border-radius: 6px;
+    border: 1px solid #EAE4FF;
+    padding: 20px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left {
     width: 50%;
-    padding-right: 15px;
-    border-right: 1px solid #e4e4e4;
+    padding-right: 20px;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 1px;
+    height: 100%;         
+    background-color: #EAE4FF;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
     width: 50%;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 
 .rex-pano-tab-content .wpvr-pre-img,
@@ -1180,13 +1235,21 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .wpvr-set-pre-img {
-    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    line-height: 1;
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: 1px solid #F2EFFE;
+    padding: 15px 16px;
+    background-color: #ffffff;
 }
 
 .rex-pano-tab-content .wpvr-pre-img span,
 .rex-pano-tab-content .wpvr-set-pre-img span {
     font-size: 15px;
-    color: #494b51;
+    color: #0E003C;
     font-weight: 500;
 }
 
@@ -1198,19 +1261,38 @@ li.export.export-pro-tag {
     margin-bottom: 20px;
 }
 
+.rex-pano-tab-content .general .single-settings .wpvr-set-pre-img-area {
+    border-radius: 0 0 6px 6px;
+    background-color: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
+    padding: 14px 20px;
+}
+
 .rex-pano-tab-content .general .single-settings.preview-setting .hints {
     display: block;
     font-weight: 400;
     font-style: italic;
     font-size: 14px;
+    line-height: 1;
     padding: 0;
     width: 100%;
-    margin-top: 4px;
-    color: #aaa;
+    margin-top: 14px;
+    color: #73707D;
 }
 
 .rex-pano-tab-content .general .single-settings.preview-setting>span {
     margin-bottom: 10px;
+}
+
+.rex-pano-tab-content .general .single-settings.preview-setting .vr-upload-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #73707D;
+    margin-top: 10px;
+}
+
+.rex-pano-tab-content .general .single-settings.preview-setting .vr-upload-text strong {
+    font-weight: 500;
 }
 
 .rex-pano-tab .floorPlanData .floot-plan-setting .floor-plan-upload,
@@ -1222,9 +1304,9 @@ li.export.export-pro-tag {
 .rex-pano-tab .floorPlanData .floot-plan-setting .img-upload-frame,
 .rex-pano-tab-content .general .single-settings.preview-setting .img-upload-frame {
     width: 100%;
-    height: 220px;
-    border-radius: 5px;
-    background-color: #ffffff;
+    height: 210px;
+    border-radius: 8px;
+    border: 1px dashed #D2CAEC;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -1243,8 +1325,7 @@ li.export.export-pro-tag {
     justify-content: center;
 }
 
-.rex-pano-tab .floorPlanData .floot-plan-setting .img-upload-frame label span,
-.rex-pano-tab-content .general .single-settings.preview-setting .img-upload-frame label span {
+.rex-pano-tab .floorPlanData .floot-plan-setting .img-upload-frame label span {
     font-size: 14px;
     color: #363b4e;
     font-weight: 400;
@@ -1314,16 +1395,18 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .background-tour .single-settings.inline-style,
 .rex-pano-tab-content .general .inner-nav-content .single-settings:not(.preview-setting) {
     width: 100%;
-    padding: 14px 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    background-color: #ffffff;
     display: flex;
     flex-flow: row;
     align-items: center;
     justify-content: space-between;
     line-height: 1;
+    border-radius: 6px;
+    border-bottom: 1px solid #F2EFFE;
+    padding: 15px 16px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
 }
+
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings select.wpvr-membership-access {
     max-width: 250px;
@@ -1347,49 +1430,301 @@ li.export.export-pro-tag {
 }
 
 /* ---scene-fade-duration--- */
-
+.rex-pano-tab-content .general .inner-nav-content .single-settings.autorotationdata input,
 .rex-pano-tab-content .general .inner-nav-content .single-settings.scene-fade-duration input {
     width: 70px;
     padding: 2px 7px;
-    height: 33px;
-    margin-left: auto;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #EAE4FF;
+    background: #FCFCFF;
+    margin: -6px 0;
 }
 
 /* ---autorotationdata--- */
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.autorotationdata input {
-    width: 70px;
-    padding: 2px 7px;
-    height: 33px;
-    margin-left: auto;
-}
-.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper select {
-    width: 175px;
-    padding: 2px 7px;
-    height: 33px;
-    margin-left: auto;
+    margin: 0;
 }
 
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper select {
+    width: 180px;
+    padding: 2px 7px;
+    height: 33px;
+    margin-left: auto;
+    background-color: transparent;
+}
+
+
+
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings span {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings .wpvr-tooltip-area span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.1
+    color: #0E003C;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content {
+    display: flex;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 6px 6px;
+    background-color: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings {
+    position: relative;
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings .vr-switcher-radio {
+    display: none;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings .custom-radio-label::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #E0D7FF;
+    background: #F3EFFF;
+    border-radius: 50%;
+    top: 0%;
+    left: 0px;
+    transition: border-color 400ms ease;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings .custom-radio-label::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #3F04FE;
+    border: 1px solid #3F04FE;
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transform: scale(0);
+    transition: transform 400ms ease;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings .vr-switcher-radio:checked + .custom-radio-label::before {
+    border-color: #3F04FE;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings .vr-switcher-radio:checked + .custom-radio-label::after {
+    transform: scale(0.55);
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings > span:first-of-type {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #0E003C;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 6px 6px;
+    background-color: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
+}
+
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper .explainer-info-wrapper {
+    padding-bottom:15px;
+    border-bottom: 1px solid #F2EFFE;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings .CodeMirror {
+    background-color: transparent;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates,
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper {
     width: 100%;
-    padding: 25px 20px;
-    border-radius: 5px;
-    background-color: #ffffff;
+    padding: 15px;
     display: none;
-    margin-top: -18px;
     margin-bottom: 20px;
+    border-radius: 0px 0px 6px 6px;
+    background-color: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
 }
 
-.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings ,
+
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings {
-    padding: 0;
     border-radius: 0;
+    margin-bottom: 0;
+    padding: 15px 0;
+    background-color: transparent;
 }
+
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings:first-child ,
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings:first-child ,
+.rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings:first-child {
+    padding-top: 0;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings:last-child ,
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings:last-child ,
+.rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings  span,
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings .wpvr-tooltip-area span,
+.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper .single-settings>span,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings .wpvr-tooltip-area span,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper .single-settings .wpvr-tooltip-area span,
+.rex-pano-tab-content .general .inner-nav-content .explainer-video-settings-wrapper .single-settings>span,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings .wpvr-tooltip-area span,
+.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings>span,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings .wpvr-tooltip-area span,
+.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings.controls>span,
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings .wpvr-tooltip-area span ,
+.rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings .wpvr-tooltip-area span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.14;
+    color: #0E003C;
+}
+
+
+.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings span,
+.rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings .wpvr-tooltip-area .field-tooltip span,
+.rex-pano-tab-content .general .inner-nav-content .set-zoom-perference-control-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span {
+    color: #363b4e;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .generic-form-associates .single-settings input[type="text"] {
+    max-width: 200px;
+    background-color: transparent;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings input[type="text"] {
+    max-width: 240px;
+    height: 38px;
+    color: #0E003C;
+    background-color: transparent;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .call-to-action .single-settings input::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #0E003C;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .scene-gallery-icon-size-name {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #73707D;
+    border-radius: 6px;
+    border: 1px solid #EAE4FF;
+    max-width: 114px;
+    height: 30px;
+    padding: 6px 10px;
+    appearance: none;
+    background-color: #FCFCFF;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5' fill='none'%3E%3Cpath d='M0 0L4.5 4.5L9 0' fill='%23A49FB6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 13px 12px;
+    cursor: pointer;
+}
+
+  
+.rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .scene-gallery-icon-size-name:focus {
+    border-color: #EAE4FF;
+    outline: none;
+    box-shadow: none;
+}
+
 
 .rex-pano-tab-content .general .inner-nav-content .gyro-orientation {
     display: none;
     margin-bottom: 20px;
+}
+
+.single-settings.margin-bottom-remove {
+    margin-bottom: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 /* ---icon control settings--- */
@@ -1406,30 +1741,30 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .inner-nav-content .inner-single-content .color-icon {
-    margin-left: auto;
+    margin-left: 25px;
     display: flex;
     flex-flow: row;
     align-items: center;
-    height: 32px;
-    border-right: 1px solid #ececf5;
+    height: 30px;
+    /* border-right: 1px solid #ececf5;
     padding-right: 15px;
-    margin-right: 15px;
+    margin-right: 15px; */
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons {
-    position: relative;
-    top: 6px;
+    display: flex;
+    align-items: center;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons-selector .selector {
-    border: 1px solid #e5e8f3;
-    height: 32px;
-    background-color: #f7f7fa;
-    border-radius: 3px;
+    border: 1px solid #E6E2F5;
+    height: 30px;
+    background-color: #FFF;
+    border-radius: 4px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons-selector .selected-icon {
-    width: 40px;
+    width: 29px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons-selector .selected-icon i {
@@ -1438,8 +1773,9 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons-selector .selector-button {
-    width: 32px;
-    border-left: 1px solid #e5e8f3;
+    width: 29px;
+    border-left: none;
+    background-color: transparent;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .icons-selector .selector-button i {
@@ -1451,6 +1787,17 @@ li.export.export-pro-tag {
     margin-right: 13px;
     position: relative;
     top: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .color-icon .icons>span,
+.rex-pano-tab-content .general .inner-nav-content .color-icon .colors>span {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: #73707D;
+    margin-right: 8px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .color-icon .colors input[type="color"] {
@@ -1458,9 +1805,9 @@ li.export.export-pro-tag {
     padding: 0;
     box-shadow: none;
     margin: 0;
-    height: 36px;
+    height: 30px;
     display: block;
-    width: 36px;
+    width: 30px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .icons-selector .selector-popup {
@@ -1476,24 +1823,23 @@ li.export.export-pro-tag {
 
 .rex-pano-tab-content .general .advanced-settings-content .gallery_title {
     display: none;
-    margin-bottom: 20px;
 }
 
 /* -----audio setting style----- */
 
-.rex-pano-tab-content .general .inner-nav-content .inner-single-content .bg-music-content {
+/* .rex-pano-tab-content .general .inner-nav-content .inner-single-content .bg-music-content {
     width: 100%;
     padding: 25px 20px;
     border-radius: 5px;
     background-color: #ffffff;
     margin-top: -18px;
     margin-bottom: 20px;
-}
+} */
 
-.rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings {
+/* .rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings {
     padding: 0;
     border-radius: 0;
-}
+} */
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting {
     display: block;
@@ -1505,49 +1851,57 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting input[type="text"] {
-    padding: 6px 60px 6px 14px;
+    padding: 6px 94px 6px 12px;
     max-width: 100%;
+    background-color: transparent;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting .audio-upload span {
+    color: #73707D;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 16px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting .audio-upload {
-    padding: 9px 15px;
-    background: #004efa;
+    display: flex;
+    align-items: center;
+    gap:5px;
     border: none;
     position: absolute;
-    right: 5px;
-    bottom: 5px;
+    right: 6px;
+    bottom: 8px;
     border-radius: 5px;
     cursor: pointer;
+    background-color: transparent;
 }
+
+.rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting .audio-upload img {
+    padding: 5px 10px;
+    background-color: #201CFE;
+    border-radius: 5px;
+}
+
+.rex-pano-tab-content .general .inner-nav-content .single-settings .audio-attachment-url::placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #73707D;
+}
+
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting .audio-upload:focus {
     outline: none;
 }
-/* -----------logo upload style-------- */
 
 
 /*----company-info style-----*/
-.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper {
-    width: 100%;
-    padding: 25px 20px;
-    border-radius: 5px;
-    background-color: #ffffff;
-    margin-top: -18px;
-    margin-bottom: 20px;
-}
-
-.rex-pano-tab-content .general .inner-nav-content .company-info-wrapper .single-settings {
-    padding: 0;
-    border-radius: 0;
-}
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area {
     flex-wrap: wrap;
-    margin-bottom: 2px;
-}
-
-.rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-title {
-    width: calc(100% - 125px);
+    flex-direction: column;
+    gap:15px;
+    align-items: flex-start;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .cp-logo-upload {
@@ -1558,12 +1912,16 @@ li.export.export-pro-tag {
     display: none;
 }
 
-.rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame {
-    width: 120px;
-    height: 90px;
-    border: 1px dashed #dae3fd;
-    border-radius: 5px;
+.rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .form-group {
+    width: 100%;
 }
+
+.rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame {
+    height: 140px;
+    border-radius: 8px;
+    border: 1px dashed #D2CAEC;
+}
+
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame label {
     height: 100%;
@@ -1575,15 +1933,23 @@ li.export.export-pro-tag {
     text-align: center;
 }
 
+.rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame label .vr-upload-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #73707D;
+    margin-top: 10px;
+}
+
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame img {
     max-width: 100px;
     max-height: 70px;
     display: block;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame img.placeholder-icon {
-    width: 32px;
+    width: 67px;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame.img-uploaded img.placeholder-icon {
@@ -1597,8 +1963,8 @@ li.export.export-pro-tag {
     font-size: 14px;
     padding: 0;
     width: 100%;
-    margin-top: 2px;
-    color: #aaa;
+    margin-top: 13px;
+    color: #73707D;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-details {
@@ -1606,7 +1972,7 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-details span {
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     padding: 0;
     min-width: auto;
 }
@@ -1615,6 +1981,7 @@ li.export.export-pro-tag {
     border: 1px solid #dae3fd;
     width: 100%;
     box-shadow: none;
+    background-color: transparent;
 }
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-details textarea:focus {
@@ -1628,6 +1995,7 @@ li.export.export-pro-tag {
     padding: 2px 7px;
     height: 33px;
     margin-left: auto;
+    background-color: transparent;
 }
 
 /* --------------end general inner tab style--------------- */
@@ -1654,7 +2022,7 @@ li.export.export-pro-tag {
 .wpvr-use-shortcode {
     background: #fff;
     border-radius: 5px;
-    margin-top: 0px;
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -1669,7 +2037,6 @@ li.export.export-pro-tag {
 }
 
 .wpvr-use-shortcode .shortcode-wrapper {
-    /* padding: 0 20px 20px 20px; */
     display: flex;
     flex-flow: row wrap;
 }
@@ -1856,6 +2223,11 @@ li.export.export-pro-tag {
     margin: 0;
 }
 
+.rex-pano-tab.video .single-settings>span,
+.rex-pano-tab.streetview  .single-settings>span {
+    min-width: 170px;
+}
+
 .rex-pano-tab .styled-radio {
     position: absolute;
     opacity: 0;
@@ -1932,11 +2304,14 @@ li.export.export-pro-tag {
     visibility: visible;
 }
 
-
 .rex-pano-tab-content .general .inner-nav-content .single-settings #code-mirror-editor-custom-css {
     overflow: hidden;
     width: 100%;
     position: relative;
+    padding: 15px;
+    border-radius: 0px 0px 6px 6px;
+    background-color: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
 }
 
 
@@ -1963,16 +2338,28 @@ li.export.export-pro-tag {
 }
 
 .rex-pano-tab .single-settings>span {
-    min-width: 170px;
+    /* min-width: 170px; */
     font-size: 15px;
     display: block;
-    color: #494b51;
+    color: #0E003C;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.rex-pano-tab .single-settings .wpvr-tooltip-area {
+    display: flex;
+    align-items: center;
+}
+
+.rex-pano-tab .single-settings .wpvr-tooltip-area>span {
+    font-size: 15px;
+    display: block;
+    color: #0E003C;
     font-weight: 500;
     line-height: 1;
 }
 
 .rex-pano-tab.general .single-settings>span {
-    min-width: 200px;
     padding-right: 20px;
 }
 
@@ -2033,7 +2420,7 @@ li.export.export-pro-tag {
 .rex-pano-tab.general .single-settings .field-tooltip {
     position: relative;
     top: 2px;
-    padding-left: 10px;
+    padding-left: 12px;
 }
 
 
@@ -2138,7 +2525,6 @@ li.export.export-pro-tag {
     opacity: 1;
     visibility: visible;
 }
-
 
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span a,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span a,
@@ -2284,7 +2670,6 @@ li.export.export-pro-tag {
     margin-right: 0;
 }
 
-
 /*-----------sub tab content style-----------*/
 
 .rex-pano-sub-tabs .rex-pano-tab-content {
@@ -2375,6 +2760,7 @@ li.export.export-pro-tag {
         -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
     }
 }
+
 @keyframes pulse {
     0% {
         -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.7);
@@ -2434,7 +2820,6 @@ li.export.export-pro-tag {
     font-size: 19px;
 }
 
-
 .floor-plan-pointer-list .floor-plan-pointer-list-title {
     font-size: 18px;
     color: #262626;
@@ -2445,6 +2830,7 @@ li.export.export-pro-tag {
     align-items: center;
 
 }
+
 .floor-plan-pointer-list ul li {
     background: #fff;
     display: flex;
@@ -2453,6 +2839,7 @@ li.export.export-pro-tag {
     margin: 0 0 9px 0;
     border-radius: 5px;
 }
+
 .floor-plan-pointer-list ul li label {
     color: #494b51;
     font-size: 16px;
@@ -2461,6 +2848,7 @@ li.export.export-pro-tag {
     width: 120px;
     padding-right: 12px;
 }
+
 .floor-plan-pointer-list ul li select {
     border: 1px solid #dae3fd;
     box-shadow: none;
@@ -2472,6 +2860,7 @@ li.export.export-pro-tag {
     border-radius: 5px;
     margin-right: 11px;
 }
+
 .floor-plan-pointer-list ul li .plan-delete {
     color: #e93747;
     background: #f8d7da;
@@ -2483,7 +2872,6 @@ li.export.export-pro-tag {
     margin-left: auto;
 }
 
-
 .floorPlanData .floot-plan-setting label,
 .single-hotspot .hotspot-setting label,
 .single-scene .scene-setting label {
@@ -2493,7 +2881,6 @@ li.export.export-pro-tag {
     display: block;
     margin-bottom: 10px;
 }
-
 
 .floorPlanData .floot-plan-setting label{
     display: flex;
@@ -2524,6 +2911,7 @@ li.export.export-pro-tag {
     width: 50px!important;
     cursor: pointer;
 }
+
 .single-hotspot .hotspot-setting input[type="color"]::-webkit-color-swatch {
     border: none;
 }
@@ -2531,12 +2919,14 @@ li.export.export-pro-tag {
 .single-hotspot .hotspot-setting select {
     padding: 0px 20px;
 }
+
 .hotspot-setting.hotspot-border-setting {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
 }
+
 .hotspot-border-setting .hotspot-border-style,
 .hotspot-border-setting .hotspot-border-color,
 .hotspot-border-setting .hotspot-setting-border-width {
@@ -2571,7 +2961,6 @@ li.export.export-pro-tag {
     padding: 10px 20px;
     border-radius: 4px;
 }
-
 
 .rex-pano-tab .wpvr_continue_guide {
     margin-top: 13px;
@@ -2614,7 +3003,6 @@ li.export.export-pro-tag {
     clear: both;
 }
 
-
 /*--------------------hotspot style-------------------*/
 
 .clearfix::before,
@@ -2623,7 +3011,6 @@ li.export.export-pro-tag {
     display: table;
     clear: both;
 }
-
 
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area {
     display: flex;
@@ -2723,11 +3110,9 @@ button.delete-scene {
     right: 52px;
 }
 
-
 .active_scene_id p {
     margin: 0;
 }
-
 
 /* ---------background tour style---------- */
 .rex-pano-tab-content .background-tour .content-wrapper {
@@ -2760,6 +3145,7 @@ button.delete-scene {
     align-items: center;
 
 }
+
 .rex-pano-tab-content .background-tour .single-settings:not(.inline-style) > input {
     max-width: 100%;
     margin: 0;
@@ -2777,7 +3163,6 @@ button.delete-scene {
     color: #494b51;
     font-weight: 500;
 }
-
 
 /* -------product------- */
 .single-hotspot .hotspot-products {
@@ -2841,17 +3226,18 @@ button.delete-scene {
     margin: 4px 0 0 4px;
 }
 
-
 /* ---insert link modal style----  */
 .hotspot-setting .note-modal-footer {
     height: auto;
     padding: 10px 30px 30px;
     text-align: left;
 }
+
 .note-editor.note-airframe .note-editing-area .note-editable,
 .note-editor.note-frame .note-editing-area .note-editable {
     background: #fff;
 }
+
 .hotspot-setting .note-modal-footer input.btn {
     float: none;
     text-align: left;
@@ -2862,7 +3248,6 @@ button.delete-scene {
     padding: 11px 22px;
     border-radius: 5px;
 }
-
 
 /*--------preview-btn-area---------*/
 
@@ -2955,15 +3340,18 @@ button.delete-scene {
 .pano-error-color .pano-error-wrapper {
     border-left-color: #F13637;
 }
+
 .pano-error-color .pano-error-wrapper .icon rect,
 .pano-error-color .pano-error-wrapper .icon path {
     fill: #F13637;
 }
+
 .pano-error-wrapper .pano-error-body {
     position: relative;
     padding: 40px;
     text-align: center;
 }
+
 .pano-error-wrapper .pano-error-body .cross {
     display: block;
     position: absolute;
@@ -3000,6 +3388,7 @@ button.delete-scene {
     border-top: 1px solid #E6E6EF;
     padding: 14px 14px 15px;
 }
+
 .pano-error-wrapper .pano-error-footer ul {
     display: flex;
     flex-flow: row wrap;
@@ -3008,10 +3397,12 @@ button.delete-scene {
     margin: 0;
     padding: 0;
 }
+
 .pano-error-wrapper .pano-error-footer ul li {
     margin: 0 10px;
     padding: 0;
 }
+
 .pano-error-wrapper .pano-error-footer ul li a,
 .pano-error-wrapper .pano-error-footer ul li button {
     background: #004EFA;
@@ -3045,7 +3436,6 @@ button.delete-scene {
     display: none;
 }
 
-
 /* ----------------- */
 
 .single-scene .scene-content {
@@ -3062,7 +3452,6 @@ button.delete-scene {
     width: 50%;
     padding-left: 15px;
 }
-
 
 /* ---------woocomerce product hotspot style--------- */
 
@@ -3171,6 +3560,7 @@ button.delete-scene {
 /*-----------------responsive style------------------*/
 
 @media (max-width: 1760px) and (min-width: 1701px) {
+
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .color-icon img {
         width: 96px;
     }
@@ -3188,9 +3578,39 @@ button.delete-scene {
     .rex-pano-tab-content .general .inner-nav-content .color-icon .colors {
         margin-right: 3px;
     }
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left {
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
+        display: none;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span {
+        top: initial;
+        left: 0;
+        right: 0;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span:before {
+        left: 15px;
+    }
+
+
 }
 
+
 @media (max-width: 1700px) {
+
     .rex-pano-tab-content {
         border-radius: 10px;
     }
@@ -3215,12 +3635,11 @@ button.delete-scene {
         right: 20px;
     }
     .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
-        flex-flow: column;
+        flex-flow: row;
         text-align: center;
     }
     .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span img {
         margin-right: 0;
-        margin-bottom: 5px;
     }
     .rex-pano-tab-content .background-tour .content-wrapper,
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper {
@@ -3232,7 +3651,6 @@ button.delete-scene {
         width: 100%;
         padding-right: 0;
         border-right: none;
-        margin-bottom: 20px;
     }
     .rex-pano-tab-content .background-tour .background-tour-right,
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
@@ -3245,17 +3663,18 @@ button.delete-scene {
     .rex-pano-tab.general .control-settings-content .single-settings>span {
         min-width: 120px;
     }
-    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .color-icon {
-        padding-right: 12px;
-        margin-right: 12px;
-    }
+
+
     .rex-pano-tab-content .general .inner-nav-content .single-settings.audio-setting>span {
         min-width: auto;
         padding-right: 20px;
     }
+    
+   
 }
 
 @media (max-width: 1499px) {
+
     .post-type-wpvr_item #post-body #postbox-container-1 {
         width: 500px;
     }
@@ -3307,6 +3726,32 @@ button.delete-scene {
     .rex-pano-tab-content {
         width: 100%;
     }
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left {
+        width: 100%;
+        padding-left: 0px;
+    }
+    
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
+        width: 100%;
+        padding-right: 0px;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
+        display: none;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span {
+        top: initial;
+        left: 0;
+        right: 0;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span:before {
+        left: 15px;
+    }
+
+
 }
 
 @media (max-width: 1399px) {
@@ -3337,21 +3782,27 @@ button.delete-scene {
         flex-flow: row;
     }
     .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span img {
-        margin-right: 10px;
         margin-bottom: 0;
     }
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper {
         display: flex;
     }
-    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left {
-        width: 50%;
-        padding-right: 15px;
-        border-right: 1px solid #e4e4e4;
+
+    .rex-pano-tab .single-settings .wpvr-tooltip-area>span,
+    .rex-pano-tab-content .wpvr-pre-img span,
+    .rex-pano-tab-content .wpvr-set-pre-img span,
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
+        font-size: 14px;
     }
-    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
-        width: 50%;
-        padding-left: 15px;
+
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a {
+        font-size: 14px;
     }
+
+    .rex-pano-tab-content .wpvr-set-pre-img span {
+        font-size: 14px;
+    }
+
     /* ----------scene tab tooltip----- */
     .single-scene .scene-content .scene-right .field-tooltip span {
         bottom: calc(100% + 13px);
@@ -3427,6 +3878,7 @@ button.delete-scene {
         right: 5px;
         top: 35px;
     }
+
     /* ----------------- */
     .single-scene .scene-content .scene-left {
         width: 48%;
@@ -3451,6 +3903,7 @@ button.delete-scene {
         max-width: 70px;
         max-height: 50px;
     }
+
 }
 
 @media only screen and (max-width: 991px) {
@@ -3458,8 +3911,13 @@ button.delete-scene {
         display: block;
     }
 
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a {
+        font-size: 13px;
+        padding: 12px 20px;
+    }
+
     .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
-        font-size: 12px;
+        font-size: 13px;
         gap: 5px;
     }
 
@@ -3491,20 +3949,40 @@ button.delete-scene {
         width: 100%;
         padding-left: 0;
     }
+
     .rex-pano-tab-content .general .inner-nav-content .left .field-tooltip span {
         bottom: calc(100% + 13px);
         top: initial;
-        left: initial;
-        right: -20px;
+        left: 0px;
+        right: 0px;
         transform: translateY(0);
     }
     .rex-pano-tab-content .general .inner-nav-content .left .field-tooltip span:before {
-        left: inherit;
+        left: 14px;
         right: 24px;
         top: initial;
         bottom: -10px;
         transform: translateY(0) rotate(-92deg);
     }
+
+    /* .rex-pano-tab-content .floor-plan .single-settings.inline-style,
+    .rex-pano-tab-content .background-tour .single-settings.inline-style,
+    .rex-pano-tab-content .general .inner-nav-content .single-settings:not(.custom-data-set),
+    .rex-pano-tab-content .general .inner-nav-content .single-settings:not(.autorotationdata) {
+        margin-bottom: 15px;
+    } */
+
+    .rex-pano-tab-content .wpvr-set-pre-img span {
+        font-size: 13px;
+    }
+
+    .rex-pano-tab .single-settings .wpvr-tooltip-area>span,
+    .rex-pano-tab-content .wpvr-pre-img span,
+    .rex-pano-tab-content .wpvr-set-pre-img span,
+    .rex-pano-tab-content .general .general-inner-tab .inner-nav li>span {
+        font-size: 13px;
+    }
+
 }
 
 @media (max-width: 1470px) {
@@ -4253,6 +4731,7 @@ a:focus.wpvr-premium-feature__btn {
     background: #00B4FF;
     border-radius: 9px 9px 9px 0px;
 }
+
 .basic-settings-content .single-settings{
     position: relative;
 }
@@ -4267,19 +4746,22 @@ a:focus.wpvr-premium-feature__btn {
 
 .wpvr-layout__container {
     display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
     justify-content: center;
+    padding: 15px;
+    max-width: 320px;
 }
 
 .wpvr-layout__radio-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-align: center;
+   
 }
 
-.wpvr-layout__radio-container input[type="radio"] {
-    display: none;
-}
 
 .wpvr-layout__radio-label {
     position: relative;
@@ -4291,16 +4773,13 @@ a:focus.wpvr-premium-feature__btn {
     border: 2px solid #00f; 
 }
 
-.wpvr-layout__radio-container .layout__radio-text.active {
-    font-weight: 600;
-    color: #00f;
-}
 
 .wpvr-layout__radio-image {
     width: 100%;
     max-width: 100%;
     height: auto;
     border: 2px solid transparent; 
+    border-radius: 2px;
     transition: border 0.3s;
 }
 
@@ -4324,9 +4803,100 @@ a:focus.wpvr-premium-feature__btn {
 
 .wpvr-layout__radio-text {
     display: block;
-    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+    line-height: 1;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 30px;
+    color: #0E003C;
+    transition: all 0.4s ease;
 }
 
+.wpvr-layout__radio-container input[type="radio"] {
+    display: none;
+}
+  
+.wpvr-layout__radio-label {
+    margin-left: 30px;
+}
+  
+.wpvr-layout__radio-label::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #E0D7FF;
+    background: #F3EFFF;
+    border-radius: 50%;
+    top: 24px;
+    left: -30px;
+    transform: translateY(0);
+    transition: border-color 400ms ease;
+}
+  
+.wpvr-layout__radio-label::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #3F04FE;
+    border: 1px solid #3F04FE;
+    border-radius: 50%;
+    top: 25px;
+    left: -29px;
+    transform: translateY(0) scale(0);
+    transition: transform 400ms ease;
+}
+  
+  .wpvr-layout__radio-image {
+    width: 100px;
+    height: auto;
+  }
+  
+  .wpvr-layout__hover-text {
+    font-size: 13px;
+    color: #fff;
+  }
+
+
+.wpvr-layout__radio-container input[type="radio"]:checked + .wpvr-layout__img .wpvr-layout__radio-label::before {
+    border-color: #3F04FE;
+}
+
+
+.wpvr-layout__radio-container input[type="radio"]:checked + .wpvr-layout__img img {
+    border-color: #3F04FE;
+}
+
+  
+.wpvr-layout__radio-container input[type="radio"]:checked + .wpvr-layout__img .wpvr-layout__radio-label::after {
+    transform: translateY(0) scale(0.55);
+}
+
+
+.rex-pano-tab.general .inner-nav-content .single-settings.vr-tour-layout .wpvr-tooltip-area {
+    display: flex;
+    align-items: center;
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: 1px solid #F2EFFE;
+    background: #FFF;
+    padding: 15px;
+}
+
+.rex-pano-tab.general .inner-nav-content .single-settings.vr-tour-layout {
+    border-radius: 6px 6px 6px 6px;
+    background: #FCFCFF;
+    box-shadow: 0px 1px 1px 0px rgba(63, 4, 254, 0.08);
+    padding: 0;
+}
+  
+.wpvr-layout__radio-label:hover {
+    border-color: #3F04FE;
+    background-color: #f9f9ff;
+    box-shadow: 0 4px 15px rgba(63, 4, 254, 0.1);
+}
 
 /* ----------image popup layout style---------- */
 
@@ -5077,8 +5647,6 @@ a:focus.wpvr-premium-feature__btn {
 .button-style-configaration {
     display: flex;
     flex-flow: row wrap;
-    gap: 15px;
-    margin-top: 15px;
 }
 
 .button-style-configaration select {
@@ -5086,15 +5654,41 @@ a:focus.wpvr-premium-feature__btn {
     box-shadow: none!important;
     border-color: #dae3fd!important;
 }
+
 .button-style-configaration .single-cta-control {
-    width: calc(100% / 2 - 8px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #F2EFFE;
 }
 
-.button-style-configaration .single-cta-control input {
-    max-width: 100%!important;
+
+.button-style-configaration .single-cta-control:first-child {
+    padding-top: 0;
+} 
+
+.button-style-configaration .single-cta-control:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+
+.button-style-configaration .single-cta-control select,
+.button-style-configaration .single-cta-control input[type="number"]{
+    max-width: 110px !important;
+    height: 30px;
+    padding: 5px 9px;
+    background-color: transparent !important;
 }
 
 .button-style-configaration .single-cta-control.new-tab {
+    width: 100%;
+}
+
+.button-style-configaration .single-cta-control.new-tab .wpvr-switcher {
+    margin-left: 0;
     width: 100%;
 }
 
@@ -5106,16 +5700,16 @@ a:focus.wpvr-premium-feature__btn {
 }
 
 .button-style-configaration .single-cta-control .control-title {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.14;
+    color: #0E003C;
     display: block;
 }
 
 .button-style-configaration .single-cta-control .wpvr-switcher .control-title {
     margin-bottom: 0;
 }
-
 
 
 /* ---color box style---- */
@@ -5126,9 +5720,15 @@ a:focus.wpvr-premium-feature__btn {
     gap: 10px;
     width: 100%;
     justify-content: space-between;
-    border: 1px solid #dae3fd;
-    padding: 10px 10px;
-    border-radius: 6px;
+}
+
+.button-style-configaration .color-box, .button-style-configaration .color-box .colors {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #73707D;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .button-style-configaration .color-box label,
@@ -5158,16 +5758,24 @@ a:focus.wpvr-premium-feature__btn {
 /* -----control group style------ */
 .button-style-configaration .control-group {
     display: flex;
-    flex-flow: row wrap;
     column-gap: 12px;
     width: 100%;
 }
+
+.button-style-configaration .control-group .border-property-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 270px;
+}
+
+
 .button-style-configaration .control-group input {
     padding: 10px 10px!important;
 }
 
 .button-style-configaration .control-group .control-title {
-    width: 100%;
+    width: 50%;
 }
 
 .button-style-configaration .control-group .control-inner-title {
@@ -5185,9 +5793,9 @@ a:focus.wpvr-premium-feature__btn {
 }
 
 .button-style-configaration .border .color-box input[type="color"] {
-    width: 46px;
-    height: 46px;
-    padding: 8px!important;
+    width: 36px;
+    height: 36px;
+    padding: 4px !important;
 }
 
 .button-style-configaration .border .border-property {
@@ -5808,6 +6416,10 @@ body.wp-vr_page_wpvr-setting {
         gap: 10px;
     }
 
+    .rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings {
+        justify-content: flex-end;
+    }
+
 }
 
 @media screen and (max-width: 991px) {
@@ -5823,6 +6435,19 @@ body.wp-vr_page_wpvr-setting {
     }
     .wpvr-global-settings .import-tab .wpvr-import-btn {
         height: 146px;
+    }
+
+    .button-style-configaration .control-group .control-title {
+        width: 62%;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .wpvr-scene-navigation-content .single-settings {
+        justify-content: flex-end;
+    }
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .color-icon {
+        margin-right: 0;
+        padding-right: 0;
     }
 
 }

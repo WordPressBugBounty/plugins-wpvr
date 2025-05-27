@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.27
+ * Version:           8.5.28
  * Tested up to:      6.7.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.27');
+define('WPVR_VERSION', '8.5.28');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -99,9 +99,9 @@ function run_wpvr()
 
     // black friday banner class initialization
     new WPVR_Special_Occasion_Banner(
-        'eid_ul_fitr_deal_2025',
-        '2025-03-24 00:00:00',
-        '2025-04-07 23:59:59'
+        'wp_anniversary_deal_2025',
+        '2025-05-26 00:00:01',
+        '2025-05-30 23:59:59'
     );
 
     // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
@@ -405,35 +405,216 @@ function wpvr_block_render($attributes)
             $playlist = '&playlist=' . $expdata;
             $playlist = str_replace("?feature=shared", "", $playlist);
 
+
             $html = '';
-            $html = '<div class="' . esc_attr($className) . '" style="text-align:center; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; border-radius: ' . esc_attr($radius) . '; margin: 0 auto;">';
+            $html .= '<div class="' . esc_attr($className) . '" style="text-align:center; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; border-radius: ' . esc_attr($radius) . '; margin: 0 auto;">';
 
-            $html .= '
-            <iframe src="https://www.youtube.com/embed/' . $expdata . '?rel=0&modestbranding=1' . esc_attr($loop) . '&autohide=1' . esc_attr($muted) . '&showinfo=0&controls=1' . esc_attr($autoplay) . '' . esc_attr($playlist) . '"  width="100%" height="100%" style="border-radius: ' . esc_attr($radius) . ';" frameborder="0" allowfullscreen></iframe>
-        ';
-            $html .= '</div>';
-        } elseif (strpos($videourl, 'vimeo') > 0) {
-            $explodeid = '';
-            $explodeid = explode("/", $videourl);
-            $foundid = '';
-
-            if ($autoplay == 'on') {
-                $autoplay = '&autoplay=1&muted=1';
-            } else {
-                $autoplay = '';
+            // Compatibility check script
+            $html .= '<script>
+            function wpvr_check_360_support() {
+                var support = {
+                    supported: false,
+                    fullySupported: false,
+                    webgl: false,
+                    orientation: false,
+                    gyroscope: false,
+                    touch: false,
+                    browser: "unknown",
+                    isMobile: false,
+                    isIPhone: false,
+                    details: []
+                };
+            
+                support.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                support.isIPhone = /iPhone/i.test(navigator.userAgent);
+                if (support.isMobile) support.details.push("Mobile device detected");
+                if (support.isIPhone) support.details.push("iPhone detected");
+            
+                var ua = navigator.userAgent;
+                if (/^((?!chrome|android).)*safari/i.test(ua)) {
+                    support.browser = "safari";
+                    support.details.push("Safari browser detected");
+                } else if (ua.indexOf("Chrome") > -1) {
+                    support.browser = "chrome";
+                    support.details.push("Chrome browser detected");
+                } else if (ua.indexOf("Firefox") > -1) {
+                    support.browser = "firefox";
+                    support.details.push("Firefox browser detected");
+                } else if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1) {
+                    support.browser = "ie";
+                    support.details.push("Internet Explorer detected");
+                } else if (ua.indexOf("Edge") > -1 || ua.indexOf("Edg") > -1) {
+                    support.browser = "edge";
+                    support.details.push("Edge browser detected");
+                } else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) {
+                    support.browser = "opera";
+                    support.details.push("Opera browser detected");
+                }
+            
+                try {
+                    var canvas = document.createElement("canvas");
+                    support.webgl = !!(window.WebGLRenderingContext &&
+                        (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+                    support.details.push(support.webgl ? "WebGL supported" : "WebGL not supported");
+                } catch (e) {
+                    support.webgl = false;
+                    support.details.push("WebGL detection error: " + e.message);
+                }
+            
+                support.orientation = !!(window.DeviceOrientationEvent);
+                support.details.push(support.orientation ? "Device Orientation API supported" : "Device Orientation API not supported");
+            
+                support.gyroscope = !!window.Gyroscope;
+                support.details.push(support.gyroscope ? "Gyroscope supported" : "Gyroscope not supported");
+            
+                support.touch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+                support.details.push(support.touch ? "Touch supported" : "Touch not supported");
+            
+                support.supported = support.webgl;
+                support.fullySupported = support.webgl && ((support.isMobile && support.orientation) || !support.isMobile);
+            
+                if (support.browser === "safari" && support.isIPhone) {
+                    support.browserWarning = "iPhone has limited support for 360 videos in browser. The experience may not be optimal.";
+                    support.fullySupported = false;
+                } else if (support.browser === "ie") {
+                    support.browserWarning = "Internet Explorer has limited support for 360 videos.";
+                    support.fullySupported = false;
+                } else if (!support.supported) {
+                    support.browserWarning = "Your browser does not support 360° videos. Use Chrome or Firefox with WebGL.";
+                }
+            
+                return support;
             }
+            </script>';
 
-            if ($loop == 'on') {
-                $loop = '&loop=1';
-            } else {
-                $loop = '';
-            }
+            $random_id = 'video-container-' . rand(10000, 99999);
+            $html .= '<div id="' . $random_id . '-container" style="position:relative; width:100%; height:100%;">';
 
-            $foundid = $explodeid[3] . '?' . $autoplay . $loop;
-            $html = '';
-            $html .= '<div class="' . esc_attr($className) . '" style="text-align:center; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; margin: 0 auto;">';
-            $html .= '<iframe src="https://player.vimeo.com/video/' . $foundid . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" style="border-radius: ' . esc_attr($radius) . ';" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+            // Compatibility check screen (initially hidden for all, will show only for iPhone)
+            $html .= '<div id="' . $random_id . '-compatibility-check" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:#f9f9f9; border-radius:' . $radius . ';">
+                        <div style="margin-bottom:20px; text-align:center;">
+                            <div class="wpvr-loading-spinner" style="border:5px solid #f3f3f3; border-top:5px solid #3498db; border-radius:50%; width:50px; height:50px; margin:0 auto 15px; animation:wpvr-spin 1s linear infinite;"></div>
+                            <p style="margin:0;">Checking browser compatibility...</p>
+                        </div>
+                       </div>';
+
+            // Spinner animation
+            $html .= '<style>@keyframes wpvr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
+
+            // Iframe (initial display set to block)
+            $html .= '<div id="' . $random_id . '-frame" class="' . esc_attr($className) . '" style="display:block; max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height:' . esc_attr($height) . esc_attr($height_unit) . '; border-radius: ' . esc_attr($radius) . '; margin: 0 auto;">';
+            $html .= '<iframe id="' . $random_id . '-iframe" src="https://www.youtube.com/embed/' . rawurlencode(sanitize_text_field($expdata)) . '?rel=0&modestbranding=1' . esc_attr($loop) . '&autohide=1' . esc_attr($muted) . '&showinfo=0&controls=1' . esc_attr($autoplay) . esc_attr($playlist) . '&enablejsapi=1" width="100%" height="100%" style="border-radius: ' . esc_attr($radius) . ';" frameborder="0" allowfullscreen allow="accelerometer; gyroscope; picture-in-picture"></iframe>';
             $html .= '</div>';
+
+            // Permission request (mobile only)
+            $html .= '<div id="' . $random_id . '-permission-request" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
+            $html .= '<p style="font-size:16px; margin:0 20px 15px;">For the best 360° video experience on mobile</p>';
+            $html .= '<button id="' . $random_id . '-permission-button" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Allow motion and orientation access</button>';
+            $html .= '</div>';
+
+            // Browser warning
+            $html .= '<div id="' . $random_id . '-browser-warning" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
+            $html .= '<p id="' . $random_id . '-warning-text" style="font-size:16px; margin:0 20px 5px;"></p>';
+            $html .= '<p style="font-size:14px; margin:5px 20px 15px;">For the best experience, use Chrome or Firefox.</p>';
+            $html .= '<button id="' . $random_id . '-browser-continue" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Continue Anyway</button>';
+            $html .= '</div>';
+
+            // Main script
+            $html .= '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var supportInfo = wpvr_check_360_support();
+                var compatibilityCheck = document.getElementById("' . $random_id . '-compatibility-check");
+                var frameContainer = document.getElementById("' . $random_id . '-frame");
+                var warning = document.getElementById("' . $random_id . '-browser-warning");
+                var warningText = document.getElementById("' . $random_id . '-warning-text");
+                var continueBtn = document.getElementById("' . $random_id . '-browser-continue");
+                
+                // Only show compatibility check and warning for iPhone
+                if (supportInfo.isIPhone) {
+                    // Hide the iframe initially for iPhone
+                    frameContainer.style.display = "none";
+                    
+                    // Show compatibility check for iPhone
+                    compatibilityCheck.style.display = "flex";
+                    
+                    // After delay, hide compatibility check and show warning
+                    setTimeout(function() {
+                        compatibilityCheck.style.display = "none";
+                        warningText.textContent = supportInfo.browserWarning || "Your browser may not fully support 360° videos.";
+                        warning.style.display = "flex";
+            
+                        continueBtn.addEventListener("click", function() {
+                            warning.style.display = "none";
+            
+                            if (supportInfo.fullySupported && supportInfo.isMobile) {
+                                document.getElementById("' . $random_id . '-permission-request").style.display = "flex";
+                                document.getElementById("' . $random_id . '-permission-button").addEventListener("click", function() {
+                                    requestDevicePermissions();
+                                });
+                            } else {
+                                showVideo();
+                            }
+                        });
+                    }, 1000);
+                } else {
+                    // For non-iPhone devices, directly initialize the player
+                    initializeYouTubePlayer();
+                }
+            
+                function requestDevicePermissions() {
+                    try {
+                        if (typeof DeviceOrientationEvent !== "undefined" && 
+                            typeof DeviceOrientationEvent.requestPermission === "function") {
+                            DeviceOrientationEvent.requestPermission().then(function(response) {
+                                if (response === "granted") {
+                                    if (typeof DeviceMotionEvent !== "undefined" && 
+                                        typeof DeviceMotionEvent.requestPermission === "function") {
+                                        DeviceMotionEvent.requestPermission().then(showVideo).catch(showVideo);
+                                    } else {
+                                        showVideo();
+                                    }
+                                } else {
+                                    showVideo();
+                                }
+                            }).catch(showVideo);
+                        } else {
+                            showVideo();
+                        }
+                    } catch (e) {
+                        showVideo();
+                    }
+                }
+            
+                function showVideo() {
+                    document.getElementById("' . $random_id . '-permission-request").style.display = "none";
+                    frameContainer.style.display = "block";
+                    initializeYouTubePlayer();
+                }
+            
+                function initializeYouTubePlayer() {
+                    if (window.YT) {
+                        initPlayer();
+                    } else {
+                        var tag = document.createElement("script");
+                        tag.src = "https://www.youtube.com/iframe_api";
+                        var firstScriptTag = document.getElementsByTagName("script")[0];
+                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                        window.onYouTubeIframeAPIReady = initPlayer;
+                    }
+            
+                    function initPlayer() {
+                        new YT.Player("' . $random_id . '-iframe", {
+                            events: {
+                                "onReady": function(event) {}
+                            }
+                        });
+                    }
+                }
+            });
+            </script>';
+
+            $html .= '</div>'; // Close container
+            $html .= '</div>'; // Close outer wrapper
         } else {
             $html = '';
             $html .= '<div id="pano' . esc_attr($id) . '" class="pano-wrap ' . esc_attr($className) . '" style="max-width:100%; width:' . esc_attr($width) . esc_attr($width_unit) . '; height: ' . esc_attr($height) . esc_attr($height_unit) . '; border-radius:' . esc_attr($radius) . '; margin: 0 auto;">';
@@ -1531,7 +1712,7 @@ function wpvr_block_render($attributes)
                     $thumbnail = $img_src_url;
                 }
 
-                $html .= '<ul style="width:150px;"><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                $html .= '<ul><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
             }
         }
         $html .= '</div>';

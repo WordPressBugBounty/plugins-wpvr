@@ -1053,6 +1053,46 @@
         file_frame.on('select', function () {
 
             var attachment = file_frame.state().get('selection').first().toJSON();
+
+            var imageUrl = attachment.url;
+            var siteProtocol = window.location.protocol;
+            var imageProtocol = new URL(imageUrl).protocol;
+
+            $('.rex-add-coordinates .mixed-content-warning, .rex-add-coordinates .mixed-content-doc-link').remove();
+
+            if (siteProtocol !== imageProtocol) {
+
+                // Create warning message
+                var $warningBox = $('<div>', {
+                    text: "You're loading an image over " + imageProtocol.replace(':', '').toUpperCase() +
+                        " on a site using " + siteProtocol.replace(':', '').toUpperCase() +
+                        ". This may cause a mixed content issue.",
+                    class: 'mixed-content-warning',
+                    css: {
+                        color: 'red',
+                        marginTop: '35px',
+                    }
+                });
+
+                // Create doc link
+                var $docLink = $('<a>', {
+                    href: 'https://rextheme.com/docs/wp-vr-tour-not-displaying/',
+                    text: 'View fix guide',
+                    target: '_blank',
+                    class: 'mixed-content-doc-link',
+                    css: {
+                        display: 'block',
+                        color: '#0073aa',
+                        textDecoration: 'underline'
+                    }
+                }).on('click', function () {
+                    $(this).blur(); // Remove focus after click
+                });
+
+                // Prepend warning and link to the top of the container
+                $('.rex-add-coordinates').prepend($warningBox, $docLink);
+            }
+
             parent.find('.scene-attachment-url').val(attachment.url);
             parent.find('img').attr('src', attachment.url).show();
 
@@ -1619,6 +1659,8 @@
         } else {
             $('.autorotationdata-wrapper').show();
         }
+
+
     });
 
     $(document).on("change", "input[name='autorotation']", function (event) {
@@ -2222,6 +2264,7 @@
         // toggle the 'show-dropdown' class on its siblings.
         $(this).siblings().toggleClass("show-dropdown");
     });
+
     $(document).on("click", ".wpvr-layout__radio-container", function () {
         let findLayout = $(this).find('.wpvr-layout__radio-label').data('layout');
         if(findLayout == 'layout1'){
@@ -2355,5 +2398,119 @@
         }
         updateProgress();
     });
+
+
+    $(document).ready(function() {
+        $(".rex-pano-tab .inner-nav-content .single-settings.has-children .vr-switcher-check").each(function() {
+            if ($(this).is(':checked')) {
+                $(this).parents('.single-settings').addClass('margin-bottom-remove');
+            } else {
+                $(this).parents('.single-settings').removeClass('margin-bottom-remove');
+            }
+        });
+    });
+    
+
+
+    $('.rex-pano-tab .inner-nav-content .single-settings.has-children .vr-switcher-check').on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).parents('.single-settings').addClass('margin-bottom-remove');
+        } else {
+            $(this).parents('.single-settings').removeClass('margin-bottom-remove');
+        }
+    });
+
+     // Function to handle visibility toggle based on checkbox state
+     function toggleKeyboardZoom() {
+        var isChecked = $("input[name='keyboardzoom']").is(':checked');
+        $('.keyboard-zoom-control-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleKeyboardZoom();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='keyboardzoom']").on("change", toggleKeyboardZoom);
+    
+
+
+
+
+    // Function to handle visibility toggle based on checkbox state
+    function toggleKeyboardSettings() {
+        var isChecked = $("input[name='diskeyboard']").is(':checked');
+        $('.keyboard-control-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleKeyboardSettings();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='diskeyboard']").on("change", toggleKeyboardSettings);
+
+
+
+
+     // Function to handle visibility toggle based on checkbox state
+     function toggleGallerySettings() {
+        var isChecked = $("input[name='vrgallery']").is(':checked');
+        $('.scene-gallery-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleGallerySettings();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='vrgallery']").on("change", toggleGallerySettings);
+
+
+    
+
+    // Function to handle visibility toggle based on checkbox state
+    function toggleGyroSettings() {
+        var isChecked = $("input[name='gyro']").is(':checked');
+        $('.zyro-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleGyroSettings();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='gyro']").on("change", toggleGyroSettings);
+
+
+     // Function to handle visibility toggle based on checkbox state
+     function toggleExplainerSwitch() {
+        var isChecked = $("input[name='explainerSwitch']").is(':checked');
+        $('.explainer-video-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleExplainerSwitch();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='explainerSwitch']").on("change", toggleExplainerSwitch);
+
+
+    // Function to handle visibility toggle based on checkbox state
+    function toggleZoomSwitch() {
+        var isChecked = $("input[name='globalzoom']").is(':checked');
+        $('.set-zoom-perference-control-settings-wrapper').toggle(isChecked);
+    }
+    
+    // Initial state setup on page load
+    toggleZoomSwitch();
+    
+    // Event listener for checkbox changes using more specific selector
+    $("input[name='globalzoom']").on("change", toggleZoomSwitch);
+
+
+    
+
+
+
+
+
+
 
 })(jQuery);

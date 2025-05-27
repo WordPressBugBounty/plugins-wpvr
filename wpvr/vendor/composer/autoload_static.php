@@ -16,7 +16,6 @@ class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
         'WPVR_Admin_Page' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-admin-pages.php',
         'WPVR_Advanced_Control' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-advanced-control.php',
         'WPVR_Basic_Setting' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-basic-setting.php',
-        'WPVR_Control_Button' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-control-button.php',
         'WPVR_Create_Contact' => __DIR__ . '/../..' . '/includes/class-wpvr-create-contact.php',
         'WPVR_Format' => __DIR__ . '/../..' . '/admin/helpers/class-wpvr-format.php',
         'WPVR_General' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-general.php',

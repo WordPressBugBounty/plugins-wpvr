@@ -1634,7 +1634,7 @@ class WPVR_Scene {
                         $thumbnail = $img_src_url;
                     }
 
-                    $html .= '<ul style="width:150px;"><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    $html .= '<ul><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
                 }
             }
 
