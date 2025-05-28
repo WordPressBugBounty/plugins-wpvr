@@ -86,22 +86,37 @@ function WpvrEdit({ attributes, setAttributes }) {
 
     // Handle width unit change
     const handleWidthUnitChange = (value) => {
-        if (value === 'fullwidth') {
+
+        if (value === 'fullwidth' && attributes.width === 'fullwidth') {
             setAttributes({ 
                 width: 'fullwidth',
                 width_unit: ''
             });
         } else {
-            setAttributes({ width_unit: value });
+
+            if( value === 'fullwidth' ){
+                setAttributes({ 
+                    width: 'fullwidth',
+                    width_unit: ''
+                });
+            }else {
+                setAttributes({ 
+                    width: attributes.width_unit === '' ? '600' : attributes.width,
+                    width_unit: value
+                });
+            }
+
+            
         }
+
+        console.log(attributes.width, value);
     };
 
     // Get block props with custom styles
     const blockProps = useBlockProps({
         className: 'wpvr-block-preview',
         style: {
-            width: attributes.width_unit ? `${attributes.width}${attributes.width_unit}` : 
-                  (attributes.width === 'fullwidth' ? '100%' : undefined),
+            width: attributes.width_unit ? `${attributes.width}${attributes.width_unit}` : (attributes.width === 'fullwidth' ? '100%' : undefined),
             height: `${attributes.height}${attributes.height_unit}`,
             borderRadius: attributes.radius ? `${attributes.radius}${attributes.radius_unit}` : undefined,
             borderStyle: attributes.border_style,
@@ -109,6 +124,7 @@ function WpvrEdit({ attributes, setAttributes }) {
             borderWidth: attributes.border_width ? `${attributes.border_width}px` : undefined,
         }
     });
+
 
     return (
         <>
@@ -124,7 +140,7 @@ function WpvrEdit({ attributes, setAttributes }) {
                     <div className="wpvr-dimension-control">
                         <p>{__('Tour Width', 'wpvr')}</p>
                         <div className="wpvr-dimension-inputs">
-                            <TextControl
+                            <NumberControl
                                 value={attributes.width}
                                 onChange={(value) => setAttributes({ width: value })}
                                 disabled={attributes.width === 'fullwidth'}

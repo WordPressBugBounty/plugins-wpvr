@@ -644,12 +644,14 @@ div.pnlm-hotspot-base.fa-solid:before {
   top: 50%;
   z-index: -1;
   transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
 }
 
 .pnlm-hotspot-base .hexagon-wrapper svg {
   display: block;
-  width: 34px;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .wpvr-pluse-effect {

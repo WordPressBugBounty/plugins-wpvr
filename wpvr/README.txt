@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.28
+Stable tag: 8.5.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.29 (28-05-2025) =
+* Enhancement: Display notification banner conditionally
+* Fix: Incorrect sizing of custom hotspot icons on frontend.
+* Fix: UI issue where floor plan, video, and music icons overlapped the scene gallery
 
 = 8.5.28 (27-05-2025) =
 * Fix: Block width and unit input issue to accept only valid CSS values
