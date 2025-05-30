@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.29
+ * Version:           8.5.30
  * Tested up to:      6.7.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.29');
+define('WPVR_VERSION', '8.5.30');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -349,7 +349,7 @@ function wpvr_block_render($attributes)
         $streetviewurl = $postdata['streetviewurl'];
         $html = '';
         $html .= '<div class="vr-streetview ' . esc_attr( $className ) . '" style="text-align: center; max-width:100%; width:' . esc_attr( $width ) . esc_attr( $width_unit ) . '; height:' . esc_attr( $height ) . esc_attr( $height_unit ) . '; margin: 0 auto;">';
-        $html .= '<iframe src="' . $streetviewurl . '" frameborder="0" style="border:0; width:100px; height:100%;" allowfullscreen=""></iframe>';
+        $html .= '<iframe src="' . esc_url( $streetviewurl ) . '" frameborder="0" style="border:0; width:100px; height:100%;" allowfullscreen=""></iframe>';
         $html .= '</div>';
 
         return $html;
@@ -491,7 +491,7 @@ function wpvr_block_render($attributes)
             $html .= '<div id="' . $random_id . '-container" style="position:relative; width:100%; height:100%;">';
 
             // Compatibility check screen (initially hidden for all, will show only for iPhone)
-            $html .= '<div id="' . $random_id . '-compatibility-check" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:#f9f9f9; border-radius:' . $radius . ';">
+            $html .= '<div id="' . $random_id . '-compatibility-check" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; justify-content:center; align-items:center; background-color:#f9f9f9; border-radius:' . esc_attr( $radius ) . ';">
                         <div style="margin-bottom:20px; text-align:center;">
                             <div class="wpvr-loading-spinner" style="border:5px solid #f3f3f3; border-top:5px solid #3498db; border-radius:50%; width:50px; height:50px; margin:0 auto 15px; animation:wpvr-spin 1s linear infinite;"></div>
                             <p style="margin:0;">Checking browser compatibility...</p>
@@ -1291,11 +1291,11 @@ function wpvr_block_render($attributes)
                         if(isset($hotspot['hotspot-custom-icon-color-value']) && !empty($hotspot['hotspot-custom-icon-color-value'])){
                             $foreground_color = $hotspot['hotspot-custom-icon-color-value'];
                         }
-                        $html .= '#' . $panoid . ' div.pnlm-hotspot-base.fas.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                          #' . $panoid . ' div.pnlm-hotspot-base.fab.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                          #' . $panoid . ' div.pnlm-hotspot-base.fa.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                          #' . $panoid . ' div.pnlm-hotspot-base.fa-solid.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                          #' . $panoid . ' div.pnlm-hotspot-base.far.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
+                        $html .= '#' . esc_attr( $panoid ). ' div.pnlm-hotspot-base.fas.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                          #' . esc_attr( $panoid ). ' div.pnlm-hotspot-base.fab.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                          #' . esc_attr( $panoid ). ' div.pnlm-hotspot-base.fa.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                          #' . esc_attr( $panoid ). ' div.pnlm-hotspot-base.fa-solid.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                          #' . esc_attr( $panoid ). ' div.pnlm-hotspot-base.far.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
                               display: block !important;
                              '.$hotspot_background_color.'
                               color: ' . $foreground_color . ';
@@ -1308,11 +1308,11 @@ function wpvr_block_render($attributes)
                         }';
                         if($hotspot_shape === 'hexagon'){
 
-                            $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' .hexagon-wrapper svg path {
+                            $html .= '#' . esc_attr( $panoid ) . ' .custom-' . esc_attr( $id ) . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' .hexagon-wrapper svg path {
                                 fill: ' . $hotspoticoncolor . ';
                              }';
 
-                            $html .= '#' . $panoid . ' .custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . '.pnlm-tooltip:after{
+                            $html .= '#' . esc_attr( $panoid ) . ' .custom-' . esc_attr( $id ) . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . '.pnlm-tooltip:after{
                                 content: "";
                                 position: absolute;
                                 left: 50%;
@@ -1320,45 +1320,45 @@ function wpvr_block_render($attributes)
                                 transform: translate(-50%, -50%);
                                 width: 85%;
                                 height: 85%;
-                                animation: icon-pulse' . $panoid . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' 1.5s infinite cubic-bezier(.25, 0, 0, 1);
+                                animation: icon-pulse' . esc_attr( $panoid ) . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' 1.5s infinite cubic-bezier(.25, 0, 0, 1);
                                 border-radius: 100%;
                                 z-index: -2;
                              }';
 
                         }
-                        $html .= '#' . $panoid2 . ' div.pnlm-hotspot-base.fas.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                              #' . $panoid2 . ' div.pnlm-hotspot-base.fab.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                              #' . $panoid2 . ' div.pnlm-hotspot-base.fa-solid.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                              #' . $panoid2 . ' div.pnlm-hotspot-base.fa.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
-                              #' . $panoid2 . ' div.pnlm-hotspot-base.far.custom-' . $id . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
+                        $html .= '#' . esc_attr( $panoid2 ). ' div.pnlm-hotspot-base.fas.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                              #' . esc_attr( $panoid2 ). ' div.pnlm-hotspot-base.fab.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                              #' . esc_attr( $panoid2 ). ' div.pnlm-hotspot-base.fa-solid.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                              #' . esc_attr( $panoid2) . ' div.pnlm-hotspot-base.fa.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ',
+                              #' . esc_attr( $panoid2 ). ' div.pnlm-hotspot-base.far.custom-' . esc_attr( $id ). '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
                               display: block !important;
-                             '.$hotspot_background_color.'
-                              color: ' . $foreground_color . ';
-                              '.$border_radius.'
+                             '.esc_attr( $hotspot_background_color).'
+                              color: ' . esc_attr( $foreground_color) . ';
+                              '.esc_attr( $border_radius).'
                               width: 30px;
                               height: 30px;
                               font-size: 16px;
                               line-height: 30px;
-                              '.$hotspot_animation.'
+                              '.esc_attr( $hotspot_animation).'
                       }';
                     }
                     if (isset($hotspot['hotspot-blink'])) {
                         $hotspotblink = $hotspot['hotspot-blink'];
                         if ($hotspotblink == 'on') {
-                            $html .= '@-webkit-keyframes icon-pulse' . $panoid . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
+                            $html .= '@-webkit-keyframes icon-pulse' . esc_attr( $panoid) . '-' . $panoscenes['scene-id'] . '-' . $hotspot['hotspot-title'] . ' {
                 0% {
-                    box-shadow: 0 0 0 0px rgba(' . $pulse_color[0] . ', 1);
+                    box-shadow: 0 0 0 0px rgba(' . esc_attr( $pulse_color[0]) . ', 1);
                 }
                 100% {
-                    box-shadow: 0 0 0 10px rgba(' . $pulse_color[0] . ', 0);
+                    box-shadow: 0 0 0 10px rgba(' . esc_attr( $pulse_color[0]) . ', 0);
                 }
             }
-            @keyframes icon-pulse' . $panoid . ' {
+            @keyframes icon-pulse' . esc_attr( $panoid) . ' {
                 0% {
-                    box-shadow: 0 0 0 0px rgba(' . $pulse_color[0] . ', 1);
+                    box-shadow: 0 0 0 0px rgba(' . esc_attr( $pulse_color[0]) . ', 1);)
                 }
                 100% {
-                    box-shadow: 0 0 0 10px rgba(' . $pulse_color[0] . ', 0);
+                    box-shadow: 0 0 0 10px rgba(' . esc_attr( $pulse_color[0] ). ', 0);
                 }
             }';
                         }
@@ -1371,12 +1371,12 @@ function wpvr_block_render($attributes)
     $status  = get_option('wpvr_edd_license_status');
     if ($status !== false && $status == 'valid') {
         if (!$gyro) {
-            $html .= '#' . $panoid . ' div.pnlm-orientation-button {
+            $html .= '#' . esc_attr( $panoid ). ' div.pnlm-orientation-button {
                     display: none;
                 }';
         }
     } else {
-        $html .= '#' . $panoid . ' div.pnlm-orientation-button {
+        $html .= '#' . esc_attr( $panoid ). ' div.pnlm-orientation-button {
                     display: none;
                 }';
     }
@@ -1391,36 +1391,35 @@ function wpvr_block_render($attributes)
         }
         $html .= '
             .wpvr-floor-map .floor-plan-pointer.add-pulse:before {
-                border: 17px solid ' . $floor_plan_custom_color . ';
+                border: 17px solid ' . esc_attr( $floor_plan_custom_color ) . ';
             }
             @-webkit-keyframes pulse {
                 0% {
-                    -webkit-box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0.7);
+                    -webkit-box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0.7);
                 }
                 70% {
-                    -webkit-box-shadow: 0 0 0 10px rgba(' . $pointer_pulse[0] . ', 0);
+                    -webkit-box-shadow: 0 0 0 10px rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
                 }
                 100% {
-                    -webkit-box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0);
+                    -webkit-box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
                 }
             }
             @keyframes pulse {
                 0% {
-                    -moz-box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0.7);
-                    box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0.7);
+                    -moz-box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0.7);
+                    box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0.7);
                 }
                 70% {
-                    -moz-box-shadow: 0 0 0 10px rgba(' . $pointer_pulse[0] . ', 0);
-                    box-shadow: 0 0 0 10px rgba(' . $pointer_pulse[0] . ', 0);
+                    -moz-box-shadow: 0 0 0 10px rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
+                    box-shadow: 0 0 0 10px rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
                 }
                 100% {
-                    -moz-box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0);
-                    box-shadow: 0 0 0 0 rgba(' . $pointer_pulse[0] . ', 0);
+                    -moz-box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
+                    box-shadow: 0 0 0 0 rgba(' . esc_attr( $pointer_pulse[0] ) . ', 0);
                 }
             }';
     }
     $html .= '</style>';
-
 
     $scene_animation = isset($postdata['sceneAnimation']) ? $postdata['sceneAnimation'] : 'off';
 
@@ -1433,9 +1432,9 @@ function wpvr_block_render($attributes)
     }
 
     if (wpvr_isMobileDevice()) {
-        $html .= '<div id="master-container" class="wpvr-cardboard ' . $className . ' ' . $enable_cardboard . ' " style="max-width:' . $width . $width_unit . '; width: 100%; height: ' . $mobile_height . $mobile_height_unit . '; border-radius:' . $radius . '; direction:ltr; border : ' . $border_style . ' ">';
+        $html .= '<div id="master-container" class="wpvr-cardboard ' . esc_attr( $className ) . ' ' . esc_attr( $enable_cardboard ) . ' " style="max-width:' . esc_attr( $width ) . esc_attr( $width_unit ) . '; width: 100%; height: ' . esc_attr( $mobile_height ) . esc_attr( $mobile_height_unit ) . '; border-radius:' . esc_attr( $radius ) . '; direction:ltr; border : ' . esc_attr( $border_style ) . ' ">';
     } else {
-        $html .= '<div id="master-container" class="wpvr-cardboard ' . $className . ' ' . $enable_cardboard . '" style="max-width:' . $width . $width_unit . '; width: 100%; height: ' . $height . $height_unit . '; border-radius:' . $radius . '; direction:ltr; border : ' . $border_style . '">';
+        $html .= '<div id="master-container" class="wpvr-cardboard ' . esc_attr( $className ) . ' ' . esc_attr( $enable_cardboard ) . '" style="max-width:' . esc_attr( $width ) . esc_attr( $width_unit ) . '; width: 100%; height: ' . esc_attr( $height ) . esc_attr( $height_unit ) . '; border-radius:' . esc_attr( $radius ) . '; direction:ltr; border : ' . esc_attr( $border_style ) . '">';
     }
     $status  = get_option('wpvr_edd_license_status');
     $is_cardboard = get_option('wpvr_cardboard_disable');
@@ -1463,31 +1462,30 @@ function wpvr_block_render($attributes)
     if ($width == 'fullwidth') {
         if (wpvr_isMobileDevice()) {
             $html .= '<div class="cardboard-vrfullwidth vrfullwidth">';
-            $html .= '<div id="pano2' . $id . '" class="pano-wrap  pano-left cardboard-half" style="width: 49%!important; border-radius:' . $radius . ' ;text-align:center; direction:ltr;" ><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
-            $html .= '<div id="pano' . $id . '" class="pano-wrap  pano-right" style="width: 100%; text-align:center; direction:ltr; border-radius:' . $radius . '" >';
+            $html .= '<div id="pano2' . esc_attr( $id ) . '" class="pano-wrap  pano-left cardboard-half" style="width: 49%!important; border-radius:' . esc_attr( $radius  ). ' ;text-align:center; direction:ltr;" ><div id="center-pointer2' . esc_attr( $id ). '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+            $html .= '<div id="pano' . esc_attr( $id ) . '" class="pano-wrap  pano-right" style="width: 100%; text-align:center; direction:ltr; border-radius:' . esc_attr( $radius ) . '" >';
         } else {
-            $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . $radius . ';"><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
-            $html .= '<div id="pano' . $id . '" class="pano-wrap vrfullwidth" style=" text-align:center; height: ' . $height . $height_unit . '; border-radius:' . $radius . '; direction:ltr;" >';
+            $html .= '<div id="pano2' . esc_attr( $id ) . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . esc_attr( $radius ) . ';"><div id="center-pointer2' . esc_attr( $id  ). '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+            $html .= '<div id="pano' . esc_attr( $id ) . '" class="pano-wrap vrfullwidth" style=" text-align:center; height: ' . esc_attr( $height ) . esc_attr( $height_unit ) . '; border-radius:' . esc_attr( $radius ) . '; direction:ltr;" >';
         }
     } else {
         if (wpvr_isMobileDevice()) {
-            $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left cardboard-half" style="width: 49%; border-radius:' . $radius . ';">
-                        <div id="center-pointer2' . $id . '" class="vr-pointer-container">
+            $html .= '<div id="pano2' . esc_attr( $id ) . '" class="pano-wrap pano-left cardboard-half" style="width: 49%; border-radius:' . esc_attr( $radius ) . ';">
+                        <div id="center-pointer2' . esc_attr( $id ) . '" class="vr-pointer-container">
                             <span class="center-pointer"></span>
                         </div>
                        </div>';
-
-            $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style=" width: 100%; border-radius:' . $radius . ';">';
+            $html .= '<div id="pano' . esc_attr( $id ) . '" class="pano-wrap pano-right" style=" width: 100%; border-radius:' . esc_attr( $radius ) . ';">';
         } else {
 
-            $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . $radius . ';"><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+            $html .= '<div id="pano2' . esc_attr( $id ) . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . esc_attr( $radius ) . ';"><div id="center-pointer2' . esc_attr( $id ) . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
 
-            $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style="width: 100%; border-radius:' . $radius . ';">';
+            $html .= '<div id="pano' . esc_attr( $id ) . '" class="pano-wrap pano-right" style="width: 100%; border-radius:' . esc_attr( $radius ) . ';">';
         }
     }
     // Vr mode transction scene to scene
     if ($status !== false &&  'valid' == $status  && $is_pro &&  wpvr_isMobileDevice() && $is_cardboard == 'true') {
-        $html .= '<div id="center-pointer' . $id . '" class="vr-pointer-container" style="display:none"><span class="center-pointer"></span></div>';
+        $html .= '<div id="center-pointer' . esc_attr( $id ) . '" class="vr-pointer-container" style="display:none"><span class="center-pointer"></span></div>';
     }
 
 
@@ -1499,11 +1497,11 @@ function wpvr_block_render($attributes)
             $html .= '<div id="cp-logo-controls">';
             $html .= '<div class="cp-logo-ctrl" id="cp-logo">';
             if ($cpLogoImg) {
-                $html .= '<img loading="lazy" src="' . $cpLogoImg . '" alt="Company Logo">';
+                $html .= '<img loading="lazy" src="' . esc_attr( $cpLogoImg ) . '" alt="Company Logo">';
             }
 
             if ($cpLogoContent) {
-                $html .= '<div class="cp-info">' . $cpLogoContent . '</div>';
+                $html .= '<div class="cp-info">' . esc_attr( $cpLogoContent ) . '</div>';
             }
             $html .= '</div>';
             $html .= '</div>';
@@ -1530,12 +1528,12 @@ function wpvr_block_render($attributes)
                     foreach ($primaryNav as $primaryNav_key => $primaryNav_value) {
                         if ($primaryNav_value->menu_item_parent == "0") {
                             $html .= '<li>';
-                            $html .= '<a href="' . $primaryNav_value->url . '">' . $primaryNav_value->title . '</a>';
+                            $html .= '<a href="' . esc_url( $primaryNav_value->url ) . '">' . esc_attr( $primaryNav_value->title ) . '</a>';
                             $html .= '<ul class="wpvr-navbar-dropdown">';
                             foreach ($primaryNav as $pm_key => $pm_value) {
                                 if ($pm_value->menu_item_parent == $primaryNav_value->ID) {
                                     $html .= '<li>';
-                                    $html .= '<a href="' . $pm_value->url . '">' . $pm_value->title . '</a>';
+                                    $html .= '<a href="' . esc_url( $pm_value->url ) . '">' . esc_attr( $pm_value->title ) . '</a>';
                                     $html .= '</li>';
                                 }
                             }
@@ -1548,8 +1546,8 @@ function wpvr_block_render($attributes)
             }
 
             $html .= '<div class="wpvr-home-content">';
-            $html .= '<div class="wpvr-home-title">' . $bg_tour_title . '</div>';
-            $html .= '<div class="wpvr-home-subtitle">' . $bg_tour_subtitle . '</div>';
+            $html .= '<div class="wpvr-home-title">' . esc_attr( $bg_tour_title ) . '</div>';
+            $html .= '<div class="wpvr-home-subtitle">' . esc_attr( $bg_tour_subtitle ) . '</div>';
             $html .= '</div>';
         }
     }
@@ -1558,22 +1556,22 @@ function wpvr_block_render($attributes)
     //===Custom Control===//
     if (isset($custom_control)) {
         if ($custom_control['panZoomInSwitch'] == "on" || $custom_control['panZoomOutSwitch'] == "on" || $custom_control['gyroscopeSwitch'] == "on" || $custom_control['backToHomeSwitch'] == "on") {
-            $html .= '<div id="zoom-in-out-controls' . $id . '" class="zoom-in-out-controls">';
+            $html .= '<div id="zoom-in-out-controls' . esc_attr( $id ) . '" class="zoom-in-out-controls">';
 
             if ($custom_control['backToHomeSwitch'] == "on") {
-                $html .= '<div class="ctrl" id="backToHome' . $id . '"><i class="' . $custom_control['backToHomeIcon'] . '" style="color:' . $custom_control['backToHomeColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl" id="backToHome' . esc_attr( $id ) . '"><i class="' . $custom_control['backToHomeIcon'] . '" style="color:' . esc_attr( $custom_control['backToHomeColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panZoomInSwitch'] == "on") {
-                $html .= '<div class="ctrl" id="zoom-in' . $id . '"><i class="' . $custom_control['panZoomInIcon'] . '" style="color:' . $custom_control['panZoomInColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl" id="zoom-in' . esc_attr( $id ) . '"><i class="' . $custom_control['panZoomInIcon'] . '" style="color:' . esc_attr( $custom_control['panZoomInColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panZoomOutSwitch'] == "on") {
-                $html .= '<div class="ctrl" id="zoom-out' . $id . '"><i class="' . $custom_control['panZoomOutIcon'] . '" style="color:' . $custom_control['panZoomOutColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl" id="zoom-out' . esc_attr( $id ) . '"><i class="' . $custom_control['panZoomOutIcon'] . '" style="color:' . esc_attr( $custom_control['panZoomOutColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['gyroscopeSwitch'] == "on") {
-                $html .= '<div class="ctrl" id="gyroscope' . $id . '"><i class="' . $custom_control['gyroscopeIcon'] . '" style="color:' . $custom_control['gyroscopeColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl" id="gyroscope' . esc_attr( $id ) . '"><i class="' . $custom_control['gyroscopeIcon'] . '" style="color:' . esc_attr( $custom_control['gyroscopeColor'] ) . ';"></i></div>';
             }
 
             $html .= '</div>';
@@ -1583,26 +1581,26 @@ function wpvr_block_render($attributes)
         if ($custom_control['panupSwitch'] == "on" || $custom_control['panDownSwitch'] == "on" || $custom_control['panLeftSwitch'] == "on" || $custom_control['panRightSwitch'] == "on" || $custom_control['panFullscreenSwitch'] == "on") {
 
             //===Custom Control===//
-            $html .= '<div class="controls" id="controls' . $id . '">';
+            $html .= '<div class="controls" id="controls' . esc_attr( $id ) . '">';
 
             if ($custom_control['panupSwitch'] == "on") {
-                $html .= '<div class="ctrl pan-up" id="pan-up' . $id . '"><i class="' . $custom_control['panupIcon'] . '" style="color:' . $custom_control['panupColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl pan-up" id="pan-up' . esc_attr( $id ) . '"><i class="' . $custom_control['panupIcon'] . '" style="color:' . esc_attr( $custom_control['panupColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panDownSwitch'] == "on") {
-                $html .= '<div class="ctrl pan-down" id="pan-down' . $id . '"><i class="' . $custom_control['panDownIcon'] . '" style="color:' . $custom_control['panDownColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl pan-down" id="pan-down' . esc_attr( $id ) . '"><i class="' . $custom_control['panDownIcon'] . '" style="color:' . esc_attr( $custom_control['panDownColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panLeftSwitch'] == "on") {
-                $html .= '<div class="ctrl pan-left" id="pan-left' . $id . '"><i class="' . $custom_control['panLeftIcon'] . '" style="color:' . $custom_control['panLeftColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl pan-left" id="pan-left' . esc_attr( $id ) . '"><i class="' . $custom_control['panLeftIcon'] . '" style="color:' . esc_attr( $custom_control['panLeftColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panRightSwitch'] == "on") {
-                $html .= '<div class="ctrl pan-right" id="pan-right' . $id . '"><i class="' . $custom_control['panRightIcon'] . '" style="color:' . $custom_control['panRightColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl pan-right" id="pan-right' . esc_attr( $id ) . '"><i class="' . $custom_control['panRightIcon'] . '" style="color:' . esc_attr( $custom_control['panRightColor'] ) . ';"></i></div>';
             }
 
             if ($custom_control['panFullscreenSwitch'] == "on") {
-                $html .= '<div class="ctrl fullscreen" id="fullscreen' . $id . '"><i class="' . $custom_control['panFullscreenIcon'] . '" style="color:' . $custom_control['panFullscreenColor'] . ';"></i></div>';
+                $html .= '<div class="ctrl fullscreen" id="fullscreen' . esc_attr( $id ) . '"><i class="' . $custom_control['panFullscreenIcon'] . '" style="color:' . esc_attr( $custom_control['panFullscreenColor'] ) . ';"></i></div>';
             }
             $html .= '</div>';
         }
@@ -1614,8 +1612,8 @@ function wpvr_block_render($attributes)
         }
         if ($custom_control['explainerSwitch'] == "on") {
             $explainer_style = empty($postdata['explainerContent']) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )? 'pointer-events: none; opacity: 0.5;' : '';
-            $html .= '<div class="explainer_button" id="explainer_button_' . $id . '" style="right:' . $explainer_right . '; ' . $explainer_style . '">';
-            $html .= '<div class="ctrl" id="explainer_target_' . $id . '"><i class="' . $custom_control['explainerIcon'] . '" style="color:' . $custom_control['explainerColor'] . ';"></i></div>';
+            $html .= '<div class="explainer_button" id="explainer_button_' . esc_attr( $id ) . '" style="right:' . esc_attr( $explainer_right ) . '; ' . esc_attr( $explainer_style ) . '">';
+            $html .= '<div class="ctrl" id="explainer_target_' . esc_attr( $id ) . '"><i class="' . $custom_control['explainerIcon'] . '" style="color:' . esc_attr( $custom_control['explainerColor'] ) . ';"></i></div>';
             $html .= '</div>';
         }
 
@@ -1637,11 +1635,11 @@ function wpvr_block_render($attributes)
                     top: 37px;
                 }
             </style>';
-        $html .= '<div id="custom-scene-navigation' . $id . '" class="custom-scene-navigation">
+        $html .= '<div id="custom-scene-navigation' . esc_attr( $id ) . '" class="custom-scene-navigation">
                 <span class="hamburger-menu"><svg width="16" height="10" fill="none" viewBox="0 0 22 15" xmlns="http://www.w3.org/2000/svg"><rect width="21.177" height="2.647" fill="#f7fffb" rx="1.324"/><rect width="21.177" height="2.647" y="6.177" fill="#f7fffb" rx="1.324"/><rect width="21.177" height="2.647" y="12.352" fill="#f7fffb" rx="1.324"/></svg></span> 
               </div>
               
-              <div id="custom-scene-navigation-nav' . $id . '" class="custom-scene-navigation-nav">
+              <div id="custom-scene-navigation-nav' . esc_attr( $id ) . '" class="custom-scene-navigation-nav">
                   <ul></ul>
               </div> 
               ';
@@ -1652,11 +1650,11 @@ function wpvr_block_render($attributes)
     //=====custom generic form=====//
     if (isset($postdata["genericform"]) && $postdata["genericform"] == 'on') {
         $shortcode_val = isset($postdata["genericformshortcode"]) && $postdata["genericformshortcode"] !== "" ? do_shortcode($postdata["genericformshortcode"]) : "No shortcode found";
-        $html .= '<div class="generic_form_button" id="generic_form_button_' . $id . '">';
-        $html .= '<div class="ctrl" id="generic_form_target_' . $id . '"><i class="fab fa-wpforms" style="color:#f7fffb;"></i></div>';
+        $html .= '<div class="generic_form_button" id="generic_form_button_' . esc_attr( $id ) . '">';
+        $html .= '<div class="ctrl" id="generic_form_target_' . esc_attr( $id ) . '"><i class="fab fa-wpforms" style="color:#f7fffb;"></i></div>';
         $html .= '</div>';
 
-        $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . $id . '" style="display: none">';
+        $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . esc_attr( $id ) . '" style="display: none">';
         $html .= '<span class="close-generic-form"><i class="fa fa-times"></i></span>';
         $html .= '<div class="generic-form-container">' . $shortcode_val . '</div>';
         $html .= '</div>';
@@ -1667,8 +1665,8 @@ function wpvr_block_render($attributes)
     $status  = get_option('wpvr_edd_license_status');
     if ($status !== false &&  'valid' == $status  && $is_pro) {
         if ($floor_plan_enable == "on" && !empty($floor_plan_image)) {
-            $html .= '<div class="floor_map_button" id="floor_map_button_' . $id . '" style="right:' . $floor_map_right . '">';
-            $html .= '<div class="ctrl" id="floor_map_target_' . $id . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
+            $html .= '<div class="floor_map_button" id="floor_map_button_' . esc_attr( $id ) . '" style="right:' . esc_attr( $floor_map_right ) . '">';
+            $html .= '<div class="ctrl" id="floor_map_target_' . esc_attr( $id ) . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
             $html .= '</div>';
         }
     }
@@ -1680,13 +1678,13 @@ function wpvr_block_render($attributes)
         if ($vrgallery_icon_size) {
             $size = 'vrg-icon-size-large';
         }
-        $html .= '<div id="vrgcontrols' . $id . '" class="vrgcontrols">';
+        $html .= '<div id="vrgcontrols' . esc_attr( $id ) . '" class="vrgcontrols">';
 
-        $html .= '<div class="vrgctrl' . $id . ' vrbounce ' . $size . '">';
+        $html .= '<div class="vrgctrl' . esc_attr( $id ) . ' vrbounce ' . esc_attr( $size ) . '">';
         $html .= '</div>';
         $html .= '</div>';
 
-        $html .= '<div id="sccontrols' . $id . '" class="scene-gallery vrowl-carousel owl-theme">';
+        $html .= '<div id="sccontrols' . esc_attr( $id ) . '" class="scene-gallery vrowl-carousel owl-theme">';
         if (isset($panodata["scene-list"])) {
             foreach ($panodata["scene-list"] as $panoscenes) {
                 $scene_key = $panoscenes['scene-id'];
@@ -1712,7 +1710,7 @@ function wpvr_block_render($attributes)
                     $thumbnail = $img_src_url;
                 }
 
-                $html .= '<ul><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                $html .= '<ul><li title="Double click to view scene">' . esc_attr( $scene_key_title ) . '<img loading="lazy" class="scctrl" id="' . esc_attr( $scene_key ) . '_gallery_' . esc_attr( $id ) . '" src="' . esc_attr( $thumbnail ) . '"></li></ul>';
             }
         }
         $html .= '</div>';
@@ -1740,12 +1738,12 @@ function wpvr_block_render($attributes)
         }
 
         if ($bg_music == 'on') {
-            $html .= '<div id="adcontrol' . $id . '" class="adcontrol" style="right:' . $audio_right . '">';
-            $html .= '<audio class="vrAudioDefault" id="vrAudio' . $id . '" data-autoplay="' . $autoplay_bg_music . '"  onended="audionEnd' . $id . '()" ' . $bg_loop . '>
-                    <source src="' . $bg_music_url . '" type="audio/mpeg">
+            $html .= '<div id="adcontrol' . esc_attr( $id ) . '" class="adcontrol" style="right:' . esc_attr( $audio_right ) . '">';
+            $html .= '<audio class="vrAudioDefault" id="vrAudio' . esc_attr( $id ) . '" data-autoplay="' . esc_attr( $autoplay_bg_music ) . '"  onended="audionEnd' . esc_attr( $id ) . '()" ' . esc_attr( $bg_loop ) . '>
+                    <source src="' . esc_url( $bg_music_url ) . '" type="audio/mpeg">
                     Your browser does not support the audio element.
                   </audio>
-                  <button onclick="playPause' . $id . '()" class="ctrl audio_control" data-play="' . $autoplay_bg_music . '" id="audio_control' . $id . '"><i id="vr-volume' . $id . '" class="wpvrvolumeicon' . $id . ' fas fa-volume-up" style="color:#fff;"></i></button>
+                  <button onclick="playPause' . esc_attr( $id ) . '()" class="ctrl audio_control" data-play="' . esc_attr( $autoplay_bg_music ) . '" id="audio_control' . esc_attr( $id ) . '"><i id="vr-volume' . esc_attr( $id ) . '" class="wpvrvolumeicon' . esc_attr( $id ) . ' fas fa-volume-up" style="color:#fff;"></i></button>
                   ';
             $html .= '</div>';
         }
@@ -1756,9 +1754,9 @@ function wpvr_block_render($attributes)
     if (isset($postdata['explainerContent'])) {
         $explainerContent = $postdata['explainerContent'];
     }
-    $html .= '<div class="explainer" id="explainer' . $id . '" style="display: none">';
+    $html .= '<div class="explainer" id="explainer' . esc_attr( $id ) . '" style="display: none">';
     $html .= '<span class="close-explainer-video"><i class="fa fa-times"></i></span>';
-    $html .= '' . $explainerContent . '';
+    $html .= '' . esc_attr( $explainerContent ) . '';
     $html .= '</div>';
     //===Explainer video section End===//
 
@@ -1779,18 +1777,18 @@ function wpvr_block_render($attributes)
     $html .= '<img loading="lazy" src="' . $floor_map_image . '">';
 
     foreach ($floor_map_pointer as $key => $pointer_position) {
-        $html .= '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" scene_id = "' . $floor_map_scene_id[$key]->value . '" id="' . $pointer_position->id . '" data-top="' . $pointer_position->data_top . '" data-left="' . $pointer_position->data_left . '" style="' . $pointer_position->style . '">                        
+        $html .= '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" scene_id = "' . esc_attr( $floor_map_scene_id[$key]->value ) . '" id="' . esc_attr( $pointer_position->id ) . '" data-top="' . esc_attr( $pointer_position->data_top ) . '" data-left="' . esc_attr( $pointer_position->data_left ) . '" style="' . esc_attr( $pointer_position->style ) . '">                        
                                     
                                     <svg class="floor-pointer-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="12" cy="12" r="11.5" stroke="' . $floor_plan_custom_color . '"/>
-                                        <circle cx="12" cy="12" r="5" fill="' . $foreground_color_pointer . '"/>
+                                        <circle cx="12" cy="12" r="11.5" stroke="' . esc_attr( $floor_plan_custom_color ) . '"/>
+                                        <circle cx="12" cy="12" r="5" fill="' . esc_attr( $foreground_color_pointer ) . '"/>
                                     </svg>
                                     <svg class="floor-pointer-flash" width="54" height="35" viewBox="0 0 54 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0.454054 1.32433L11.7683 34.3243C11.9069 34.7285 12.287 35 12.7143 35H41.2857C41.713 35 42.0931 34.7285 42.2317 34.3243L53.5459 1.32432C53.7685 0.675257 53.2862 0 52.6 0H1.4C0.713843 0 0.231517 0.675258 0.454054 1.32433Z" fill="url(#paint0_linear_1_10)"/>
                                         <defs>
                                         <linearGradient id="paint0_linear_1_10" x1="27" y1="4.59807e-08" x2="26.5" y2="28" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="' . $floor_plan_custom_color . '" stop-opacity="0"/>
-                                        <stop offset="1" stop-color="' . $floor_plan_custom_color . '"/>
+                                        <stop stop-color="' . esc_attr( $floor_plan_custom_color ) . '" stop-opacity="0"/>
+                                        <stop offset="1" stop-color="' . esc_attr( $floor_plan_custom_color ) . '"/>
                                         </linearGradient>
                                         </defs>
                                     </svg>
@@ -1801,7 +1799,7 @@ function wpvr_block_render($attributes)
     //===Floor plan section===//
 
     $html .= '<div class="wpvr-hotspot-tweak-contents-wrapper" style="display: none">';
-    $html .= '<i class="fa fa-times cross" data-id="' . $id . '"></i>';
+    $html .= '<i class="fa fa-times cross" data-id="' . esc_attr( $id ) . '"></i>';
     $html .= '<div class="wpvr-hotspot-tweak-contents-flex">';
     $html .= '<div class="wpvr-hotspot-tweak-contents">';
     ob_start();
@@ -1813,7 +1811,7 @@ function wpvr_block_render($attributes)
     $html .= '</div>';
 
     $html .= '<div class="custom-ifram-wrapper" style="display: none;">';
-    $html .= '<i class="fa fa-times cross" data-id="' . $id . '"></i>';
+    $html .= '<i class="fa fa-times cross" data-id="' . esc_attr( $id ) . '"></i>';
     $html .= '<div class="custom-ifram-flex">';
     $html .= '<div class="custom-ifram">';
     $html .= '</div>';
@@ -1861,24 +1859,24 @@ function wpvr_block_render($attributes)
             if ($button_open_new_tab == 'on') {
                 $target = '_blank';
             }
-            $style = 'background-color: ' . $background_color . ';
-                      color: ' . $color . ';
-                      font-size: ' . $font_size . 'px;
-                      font-weight: ' . $font_weight . ';
+            $style = 'background-color: ' . esc_attr( $background_color ) . ';
+                      color: ' . esc_attr( $color ) . ';
+                      font-size: ' . esc_attr( $font_size ) . 'px;
+                      font-weight: ' . esc_attr( $font_weight ) . ';
                       text-align: center;
                       display: inline-block;
-                      text-transform: ' . $text_transform . ';
-                      font-style: ' . $font_style . ';
-                      text-decoration: ' . $text_decoration . ';
-                      line-height: ' . $line_height . ';
-                      letter-spacing: ' . $letter_spacing . 'px;
-                      word-spacing: ' . $word_spacing . 'px;
-                      border: ' . $border_width . 'px ' . $border_style . ' ' . $border_color . ';
-                      border-radius: ' . $border_radius . 'px;
-                      padding: ' . $button_pt . 'px ' . $button_pr . 'px ' . $button_pb . 'px ' . $button_pl . 'px;
+                      text-transform: ' . esc_attr( $text_transform ) . ';
+                      font-style: ' . esc_attr( $font_style ) . ';
+                      text-decoration: ' . esc_attr( $text_decoration ) . ';
+                      line-height: ' . esc_attr( $line_height ) . ';
+                      letter-spacing: ' . esc_attr( $letter_spacing ) . 'px;
+                      word-spacing: ' . esc_attr( $word_spacing ) . 'px;
+                      border: ' . esc_attr( $border_width ) . 'px ' . esc_attr( $border_style ) . ' ' . esc_attr( $border_color ) . ';
+                      border-radius: ' . esc_attr(  $border_radius ). 'px;
+                      padding: ' . esc_attr( $button_pt ) . 'px ' . esc_attr( $button_pr ) . 'px ' . esc_attr( $button_pb ) . 'px ' . esc_attr( $button_pl ) . 'px;
                      ';
-            $html .= '<div class="wpvr-call-to-action-button position-' . $text_align . '" style="max-width:' . $width . $width_unit . '">
-                        <a href="' . $buttonurl . '" style="' . $style . '" target="' . $target . '">' . $buttontext . '</a>
+            $html .= '<div class="wpvr-call-to-action-button position-' . esc_attr( $text_align ) . '" style="max-width:' . esc_attr( $width ) . esc_attr( $width_unit ) . '">
+                        <a href="' . esc_url( $buttonurl ) . '" style="' . esc_attr( $style ) . '" target="' . esc_attr( $target ) . '">' . esc_attr( $buttontext ) . '</a>
                       </div>';
         }
     }
