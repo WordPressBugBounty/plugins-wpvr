@@ -1615,17 +1615,20 @@ class WPVR_Scene {
             if (isset($panodata["scene-list"])) {
                 foreach ($panodata["scene-list"] as $panoscenes) {
                     $scene_key = $panoscenes['scene-id'];
+
                     if ($vrgallery_title == 'on') {
                         $scene_key_title = $panoscenes['scene-ititle'];
                         // $scene_key_title = $panoscenes['scene-id'];
                     } else {
                         $scene_key_title = "";
                     }
+
                     if ($panoscenes['scene-type'] == 'cubemap') {
                         $img_src_url = $panoscenes['scene-attachment-url-face0'];
                     } else {
                         $img_src_url = $panoscenes['scene-attachment-url'];
                     }
+
                     $src_to_id = attachment_url_to_postid($img_src_url);
                     $thumbnail_array = wp_get_attachment_image_src($src_to_id, 'thumbnail');
                     if ($thumbnail_array) {
@@ -1634,7 +1637,7 @@ class WPVR_Scene {
                         $thumbnail = $img_src_url;
                     }
 
-                    $html .= '<ul><li title="Double click to view scene">' . $scene_key_title . '<img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
                 }
             }
 
@@ -1653,6 +1656,7 @@ class WPVR_Scene {
 
             //===Carousal setup end===//
         }
+        
         //===Call TO  action Button===//
         $autoplay_bg_music = isset($postdata['bg_music']) ? $postdata['bg_music'] : "off";
         if (isset($postdata['bg_music'])) {

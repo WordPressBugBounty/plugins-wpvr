@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.7.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.30
+Stable tag: 8.5.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.31 (03-06-2025) =
+* Fix: Hotspot icon preview not rendering issue
+* Fix: Full width select option not working in WPVR block
 
 = 8.5.30 (30-05-2025) =
 * Fix: Stored XSS issue in WPVR block resolved

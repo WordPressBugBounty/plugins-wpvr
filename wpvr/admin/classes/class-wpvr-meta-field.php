@@ -824,7 +824,7 @@ class WPVR_Meta_Field {
                 'type' => 'checkbox'
             ),
             'draggable' => array(
-                'class' => 'single-settings',
+                'class' => 'single-settings has-children',
                 'title' => __('Mouse Drag Control','wpvr'),
                 'id' => 'wpvr_draggable',
                 'have_tooltip' => true,
@@ -1761,9 +1761,9 @@ class WPVR_Meta_Field {
     {
         $fields = self::get_advanced_settings_left_fields($postdata);
         foreach($fields as $name => $val) {
-             if( 'advanced_setting_checkbox_for_keyboard_control' === $val['type']){
+             if( 'advanced_setting_checkbox_for_mouse_dragg_control' === $val['type']){
                 self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
-            } else if('advanced_key_board_zoom_control' === $val['type']){
+            } else if('advanced_mouse_zoom_control' === $val['type']){
                 self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
             }else if('advanced_gyro_control' === $val['type']){
                 self::{ 'render_' . $val['type'] . '_field' }( $name, $val, $postdata );
@@ -2787,7 +2787,6 @@ class WPVR_Meta_Field {
     public static function render_preview_image($name, $val)
     {
         extract( $val );
-        error_log(print_r($val, true));
         ob_start();
         ?>
         <div class="<?= $class; ?>">
@@ -4891,7 +4890,7 @@ public static function render_other_fields($postdata){
  * @return void Outputs HTML directly
  * @since 8.5.27
  */
- public static function render_advanced_setting_checkbox_for_keyboard_control_field($name, $val, $postdata)
+ public static function render_advanced_setting_checkbox_for_mouse_dragg_control_field($name, $val, $postdata)
     {
         extract( $val );
         ob_start();
@@ -4932,9 +4931,9 @@ public static function render_other_fields($postdata){
                 <label for="<?= $id; ?>"></label>
             </span>
         </div>
-        <?php if(isset($val['id']) && $val['id'] === 'wpvr_diskeyboard') { ?>
-                <div class="keyboard-control-settings-wrapper">
-                    <?php WPVR_Meta_Field::render_keyboard_control_data_wrapper_fields($postdata) ;?>
+        <?php if(isset($val['id']) && $val['id'] === 'wpvr_draggable') { ?>
+                <div class="mouse-dragable-control-settings-wrapper">
+                    <?php WPVR_Meta_Field::render_mouse_dragable_control_data_wrapper_fields($postdata) ;?>
                 </div>
         <?php } ?>
         <?php
@@ -4953,9 +4952,9 @@ public static function render_other_fields($postdata){
  * @return void Outputs HTML directly
  * @since 8.5.27
  */
-public static function render_keyboard_control_data_wrapper_fields($postdata)
+public static function render_mouse_dragable_control_data_wrapper_fields($postdata)
 {
-    $fields = self::get_keyboard_control_data_wrapper_fields($postdata);
+    $fields = self::get_mouse_dragable_control_data_wrapper_fields($postdata);
 
     foreach($fields as $name => $val) {
         self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
@@ -4973,8 +4972,8 @@ public static function render_keyboard_control_data_wrapper_fields($postdata)
  * @return array Filtered array of keyboard control fields and their settings
  * @since 8.5.27
  */
-public static function get_keyboard_control_data_wrapper_fields($postdata){
-    return apply_filters('update_keyboard_control_options', $postdata);
+public static function get_mouse_dragable_control_data_wrapper_fields($postdata){
+    return apply_filters('update_mouse_dragable_control_options', $postdata);
 }
 
 
@@ -4991,7 +4990,7 @@ public static function get_keyboard_control_data_wrapper_fields($postdata){
  * @return void Outputs HTML for the keyboard zoom control field
  * @since 8.5.27
  */
-public static function render_advanced_key_board_zoom_control_field($name, $val, $postdata)
+public static function render_advanced_mouse_zoom_control_field($name, $val, $postdata)
 {
     extract( $val );
     ob_start();
@@ -5034,9 +5033,9 @@ public static function render_advanced_key_board_zoom_control_field($name, $val,
 
         
     </div>
-    <?php if(isset($val['id']) && $val['id'] === 'wpvr_keyboardzoom') { ?>
-            <div class="keyboard-zoom-control-settings-wrapper">
-                <?php WPVR_Meta_Field::render_keyboard_zoom_control_data_wrapper_fields($postdata) ;?>
+    <?php if(isset($val['id']) && $val['id'] === 'wpvr_mouseZoom') { ?>
+            <div class="mouse-zoom-control-settings-wrapper">
+                <?php WPVR_Meta_Field::render_mouse_zoom_control_data_wrapper_fields($postdata) ;?>
             </div>
     <?php } ?>
     <?php
@@ -5063,9 +5062,9 @@ public static function render_advanced_key_board_zoom_control_field($name, $val,
  * @return void Outputs HTML for the keyboard zoom control field and its settings
  * @since 8.5.27
  */
-public static function render_keyboard_zoom_control_data_wrapper_fields($postdata)
+public static function render_mouse_zoom_control_data_wrapper_fields($postdata)
 {
-    $fields = self::get_render_keyboard_zoom_control_data_wrapper_fields_fields($postdata);
+    $fields = self::get_render_mouse_zoom_control_data_wrapper_fields_fields($postdata);
 
     foreach($fields as $name => $val) {
         self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
@@ -5083,9 +5082,9 @@ public static function render_keyboard_zoom_control_data_wrapper_fields($postdat
  * @return array An array of keyboard zoom control field configurations
  * @since 8.5.27
  */
-public static function get_render_keyboard_zoom_control_data_wrapper_fields_fields($postdata)
+public static function get_render_mouse_zoom_control_data_wrapper_fields_fields($postdata)
 {
-    return apply_filters('updated_key_board_zoom_control_options', $postdata);
+    return apply_filters('updated_mouse_zoom_control_options', $postdata);
 }
 
 /**

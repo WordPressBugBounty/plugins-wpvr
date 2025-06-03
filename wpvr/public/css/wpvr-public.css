@@ -841,6 +841,11 @@ div.pnlm-hotspot-base.fa-solid:before {
   margin: 0;
 }
 
+.scene-gallery ul li .scene-title {
+    display: block;
+    min-height: 16px;
+}
+
 .scene-gallery ul li img {
   margin-top: 3px !important;
 }
@@ -1620,7 +1625,6 @@ div.custom-ifram {
 .vrowl-carousel .owl-stage {
   margin: 0 auto;
 }
-
 
 .vrowl-carousel .owl-item img {
   margin: 0;

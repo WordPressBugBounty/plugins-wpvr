@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.30
+ * Version:           8.5.31
  * Tested up to:      6.7.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.30');
+define('WPVR_VERSION', '8.5.31');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -99,9 +99,9 @@ function run_wpvr()
 
     // black friday banner class initialization
     new WPVR_Special_Occasion_Banner(
-        'wp_anniversary_deal_2025',
-        '2025-05-26 00:00:01',
-        '2025-05-30 23:59:59'
+        'eid_ul_adha_deal_2025',
+        '2025-06-04 00:00:01',
+        '2025-06-15 23:59:59'
     );
 
     // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
@@ -1709,7 +1709,6 @@ function wpvr_block_render($attributes)
                 } else {
                     $thumbnail = $img_src_url;
                 }
-
                 $html .= '<ul><li title="Double click to view scene">' . esc_attr( $scene_key_title ) . '<img loading="lazy" class="scctrl" id="' . esc_attr( $scene_key ) . '_gallery_' . esc_attr( $id ) . '" src="' . esc_attr( $thumbnail ) . '"></li></ul>';
             }
         }

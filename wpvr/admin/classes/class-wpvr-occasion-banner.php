@@ -76,159 +76,145 @@ class WPVR_Special_Occasion_Banner
      */
     public function display_banner()
     {
-        if( ! defined( 'REX_SPECIAL_OCCASION_BANNER_SHOWN' )) {
-            define('REX_SPECIAL_OCCASION_BANNER_SHOWN', true);
+        $screen = get_current_screen();
+        $plugin_banner_constant = 'REX_SPECIAL_OCCASION_BANNER_SHOWN_WPVR';
 
-            $screen                     = get_current_screen();
-            $promotional_notice_pages   = ['dashboard', 'plugins', 'edit-wpvr_item', 'toplevel_page_wpvr', 'wp-vr_page_wpvr-setup-wizard', 'wpvr_item', 'wp-vr_page_wpvr-addons'];
-            $current_date_time          = current_time('timestamp');
+        $promotional_notice_pages = ['dashboard', 'plugins', 'edit-wpvr_item', 'toplevel_page_wpvr', 'wp-vr_page_wpvr-setup-wizard', 'wpvr_item', 'wp-vr_page_wpvr-addons', 'wp-vr_page_wpvr-setting'];
+        $current_date_time = current_time('timestamp');
 
-            if (!in_array($screen->id, $promotional_notice_pages)) {
-                return;
+        if (!($current_date_time >= $this->start_date && $current_date_time <= $this->end_date)) {
+            return;
+        }
+
+        if (!in_array($screen->id, $promotional_notice_pages)) {
+            return;
+        }
+
+        $should_show_banner = false;
+
+        if ($screen->base === 'plugins' || $screen->base === 'dashboard') {
+            if (!defined('REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL')) {
+                $should_show_banner = true;
+                define('REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true);
             }
+        } else {
+            if (!defined($plugin_banner_constant)) {
+                $should_show_banner = true;
+                define($plugin_banner_constant, true);
+            }
+        }
 
-            if ( $current_date_time >= $this->start_date && $current_date_time <= $this->end_date ) {
-                echo '<input type="hidden" id="rex_wpvr_special_occasion" name="rex_wpvr_special_occasion" value="'.$this->occasion.'">';
+        if ($should_show_banner) {
+            echo '<input type="hidden" id="rex_wpvr_special_occasion" name="rex_wpvr_special_occasion" value="'.$this->occasion.'">';
+            $time_remaining = $this->end_date - $current_date_time;
+            $countdown = $this->rex_get_halloween_countdown();
+            ?>
 
-                // Calculate the time remaining in seconds
-                $time_remaining = $this->end_date - $current_date_time;
+            <div class="rex-feed-tb__notification wpvr-banner" id="rex_wpvr_deal_notification">
+                <div class="banner-overflow">
+                    <div class="rex-notification-counter">
+                        <div class="rex-notification-counter__container">
+                            <div class="rex-notification-counter__content">
 
-                $countdown = $this->rex_get_halloween_countdown();
-                ?>
+                                <figure class="rex-notification-counter__figure-logo">
+                                    <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-mubarak.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special offer logo', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                </figure>
 
-                <div class="rex-feed-tb__notification wpvr-banner" id="rex_wpvr_deal_notification">
+                                <figure class="rex-notification-counter__biggest-sale">
+                                    <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-adha-twenty-percent-discount.webp'); ?>" alt="<?php esc_attr_e('Biggest sale of the year!', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                </figure>
 
-                    <div class="banner-overflow">
-                        <div class="rex-notification-counter">
-                            <div class="rex-notification-counter__container">
-                                <div class="rex-notification-counter__content">
+                                <figure class="rex-notification-counter__figure-percentage">
+                                    <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wpvr-logo.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special discount', 'wpvr'); ?>" class="rex-notification-counter__img" >
+                                </figure>
 
-                                    <figure class="rex-notification-counter__figure-logo">
-                                        <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-anniversary.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special offer logo', 'wpvr'); ?>" class="rex-notification-counter__img" >
-                                    </figure>
-
-                                    <figure class="rex-notification-counter__biggest-sale">
-                                        <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-annniversary-twenty-two-percent-discount.webp'); ?>" alt="<?php esc_attr_e('Biggest sale of the year!', 'wpvr'); ?>" class="rex-notification-counter__img" >
-                                    </figure>
-
-
-                                    <figure class="rex-notification-counter__figure-percentage">
-                                        <img src="<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wpvr-logo.webp'); ?>" alt="<?php esc_attr_e('Eid Mubarak special discount', 'wpvr'); ?>" class="rex-notification-counter__img" >
-                                    </figure>
-
-                                    <div id="rex-halloween-countdown" class="rex-notification-counter__countdown" aria-live="polite">
+                                <div id="rex-halloween-countdown" class="rex-notification-counter__countdown" aria-live="polite">
                                 <span class="screen-reader-text">
                                     <?php esc_html_e('Offer Countdown', 'wpvr'); ?>
                                 </span>
-                                        <ul class="rex-notification-counter__list">
-                                            <?php foreach (['days', 'hours', 'mins','secs'] as $unit): ?>
-                                                <li class="rex-notification-counter__item">
+                                    <ul class="rex-notification-counter__list">
+                                        <?php foreach (['days', 'hours', 'mins','secs'] as $unit): ?>
+                                            <li class="rex-notification-counter__item">
                                             <span id="rex-wpvr-halloween-<?php echo esc_attr($unit); ?>" class="rex-notification-counter__time">
                                                 <?php echo esc_html($countdown[$unit]); ?>
                                             </span>
-                                                    <span class="rex-notification-counter__label">
+                                                <span class="rex-notification-counter__label">
                                                 <?php echo esc_html($unit); ?>
                                             </span>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
 
-                                    <div class="rex-notification-counter__btn-area">
-                                        <a
-                                                href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=website&utm_medium=plugin-ban-wpvr&utm_campaign=wpanniv25' ); ?>"
-                                                class="rex-notification-counter__btn"
-                                                target="_blank"
-                                        >
-
+                                <div class="rex-notification-counter__btn-area">
+                                    <a href="<?php echo esc_url( 'https://rextheme.com/wpvr/wpvr-pricing/?utm_source=website&utm_medium=plugin-ban-wpvr&utm_campaign=wpanniv25' ); ?>" class="rex-notification-counter__btn" target="_blank">
                                     <span class="screen-reader-text">
                                         <?php esc_html_e('Click to view Eid Mubarak sale products', 'wpvr'); ?>
                                     </span>
-
-                                            <?php esc_html_e('Get The Deal Now', 'wpvr'); ?>
-                                            <!-- <strong class="rex-notification-counter__stroke-font">30%</strong>  -->
-                                            <?php //esc_html_e('OFF', 'wpvr'); ?>
-                                        </a>
-                                    </div>
+                                        <?php esc_html_e('Get The Deal Now', 'wpvr'); ?>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <a class="close-promotional-banner wpvr-black-friday-close-promotional-banner rex-feed-tb__cross-top" type="button" aria-label="close banner" id="wpvr-black-friday-close-button">
-                        <svg width="12" height="13" fill="none" viewBox="0 0 12 13" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke="#7A8B9A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 1.97L1 11.96m0-9.99l10 9.99" />
-                        </svg>
-                    </a>
-
                 </div>
-                <!-- .rex-feed-tb-notification end -->
 
-                <script>
-                    rexfeed_deal_countdown_handler();
-                    /**
-                     * Handles count down on deal notice
-                     *
-                     * @since 7.3.18
-                     */
-                    function rexfeed_deal_countdown_handler() {
-                        // Pass the calculated time remaining to JavaScript
-                        let timeRemaining = <?php echo $time_remaining; ?>;
+                <a class="close-promotional-banner wpvr-black-friday-close-promotional-banner rex-feed-tb__cross-top" type="button" aria-label="close banner" id="wpvr-black-friday-close-button">
+                    <svg width="12" height="13" fill="none" viewBox="0 0 12 13" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="#7A8B9A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 1.97L1 11.96m0-9.99l10 9.99" />
+                    </svg>
+                </a>
+            </div>
 
-                        // Update the countdown every second
-                        setInterval(function() {
-                            const daysElement = document.getElementById('rex-wpvr-halloween-days');
-                            const hoursElement = document.getElementById('rex-wpvr-halloween-hours');
-                            const minutesElement = document.getElementById('rex-wpvr-halloween-mins');
-                            const secondsElement = document.getElementById('rex-wpvr-halloween-secs');
+            <script>
+                rexfeed_deal_countdown_handler();
 
-                            timeRemaining--;
+                function rexfeed_deal_countdown_handler() {
+                    let timeRemaining = <?php echo $time_remaining; ?>;
 
-                            if (daysElement && hoursElement && minutesElement) {
-                                // Decrease the remaining time
+                    setInterval(function() {
+                        const daysElement = document.getElementById('rex-wpvr-halloween-days');
+                        const hoursElement = document.getElementById('rex-wpvr-halloween-hours');
+                        const minutesElement = document.getElementById('rex-wpvr-halloween-mins');
+                        const secondsElement = document.getElementById('rex-wpvr-halloween-secs');
 
-                                // Calculate new days, hours, minutes, and seconds
-                                let days = Math.floor(timeRemaining / (60 * 60 * 24)).toString().padStart(2, '0');
-                                let hours = Math.floor((timeRemaining % (60 * 60 * 24)) / (60 * 60)).toString().padStart(2, '0');
-                                let minutes = Math.floor((timeRemaining % (60 * 60)) / 60).toString().padStart(2, '0');
-                                let seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                        timeRemaining--;
 
-                                // Update the HTML
-                                daysElement.textContent = days;
-                                hoursElement.textContent = hours;
-                                minutesElement.textContent = minutes;
-                                secondsElement.textContent = seconds;
-                            }
-                            // Check if the countdown has ended
-                            if (timeRemaining <= 0) {
-                                rexfeed_hide_deal_notice();
-                            }
-                        }, 1000); // Update every second
-                    }
+                        if (daysElement && hoursElement && minutesElement && secondsElement) {
+                            let days = Math.floor(timeRemaining / (60 * 60 * 24)).toString().padStart(2, '0');
+                            let hours = Math.floor((timeRemaining % (60 * 60 * 24)) / (60 * 60)).toString().padStart(2, '0');
+                            let minutes = Math.floor((timeRemaining % (60 * 60)) / 60).toString().padStart(2, '0');
+                            let seconds = (timeRemaining % 60).toString().padStart(2, '0');
 
-                    document.getElementById('wpvr-black-friday-close-button').addEventListener('click', rexfeed_hide_deal_notice);
+                            daysElement.textContent = days;
+                            hoursElement.textContent = hours;
+                            minutesElement.textContent = minutes;
+                            secondsElement.textContent = seconds;
+                        }
 
-                    /**
-                     * Hide deal notice and save parameter to keep it hidden for future
-                     *
-                     * @since 7.3.2
-                     */
-                    function rexfeed_hide_deal_notice() {
-                        document.getElementById('rex_wpvr_deal_notification').style.display = 'none';
+                        if (timeRemaining <= 0) {
+                            rexfeed_hide_deal_notice();
+                        }
+                    }, 1000);
+                }
 
-                        jQuery.ajax({
-                            type: "POST",
-                            url: wpvr_global_obj?.ajaxurl,
-                            data: {
-                                action: "rex_wpvr_hide_deal_notice",
-                                nonce : wpvr_global_obj.ajax_nonce,
-                                occasion: document.getElementById('rex_wpvr_special_occasion')?.value
-                            },
-                        });
-                    }
-                </script>
-                <?php
-            }
+                document.getElementById('wpvr-black-friday-close-button').addEventListener('click', rexfeed_hide_deal_notice);
+
+                function rexfeed_hide_deal_notice() {
+                    document.getElementById('rex_wpvr_deal_notification').style.display = 'none';
+
+                    jQuery.ajax({
+                        type: "POST",
+                        url: wpvr_global_obj?.ajaxurl,
+                        data: {
+                            action: "rex_wpvr_hide_deal_notice",
+                            nonce : wpvr_global_obj.ajax_nonce,
+                            occasion: document.getElementById('rex_wpvr_special_occasion')?.value
+                        },
+                    });
+                }
+            </script>
+            <?php
         }
     }
 
@@ -302,7 +288,7 @@ class WPVR_Special_Occasion_Banner
                 background-color: #05041E;
                 width: calc(100% - 20px);
                 margin: 50px 0 20px;
-                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/wordpress-anniversary-banner-bg.webp'; ?>);
+                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/eid-adha-banner-bg.webp'; ?>);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -338,10 +324,10 @@ class WPVR_Special_Occasion_Banner
                 gap: 20px;
             }
             .wpvr-banner .rex-notification-counter__biggest-sale {
-                max-width: 180px;
+                max-width: 228px;
             }
             .wpvr-banner .rex-notification-counter__figure-logo {
-                max-width: 220px;
+                max-width: 175px;
             }
             .wpvr-banner .rex-notification-counter__figure-percentage {
                 max-width: 108px;
@@ -513,7 +499,7 @@ class WPVR_Special_Occasion_Banner
                 align-items: center;
                 justify-content: center;
             }
-            
+
 
             @media only screen and (max-width: 1599px) {
                 .wpvr-banner .rex-notification-counter__container {
@@ -538,10 +524,10 @@ class WPVR_Special_Occasion_Banner
                 }
 
                 .wpvr-banner .rex-notification-counter__biggest-sale {
-                    max-width: 160px;
+                    max-width: 210px;
                 }
                 .wpvr-banner .rex-notification-counter__figure-logo {
-                    max-width: 220px;
+                    max-width: 160px;
                 }
 
                 .wpvr-banner .rex-notification-counter__list {
@@ -580,14 +566,14 @@ class WPVR_Special_Occasion_Banner
                 }
 
                 .rex-feed-tb__notification.wpvr-banner {
-                    background-position: right;
+                    background-position: bottom center;
                 }
 
                 .wpvr-banner .rex-notification-counter__biggest-sale {
-                    max-width: 110px;
+                    max-width: 140px;
                 }
                 .wpvr-banner .rex-notification-counter__figure-logo {
-                    max-width: 130px;
+                    max-width: 105px;
                 }
                 .wpvr-banner .rex-notification-counter__figure-percentage {
                     max-width: 60px;
@@ -603,6 +589,7 @@ class WPVR_Special_Occasion_Banner
                 }
                 .wpvr-banner .rex-notification-counter__btn {
                     font-size: 13px;
+                    padding: 12px 20px;
                 }
                 .wpvr-banner .rex-notification-counter__stroke-font {
                     font-size: 20px;
@@ -612,16 +599,16 @@ class WPVR_Special_Occasion_Banner
 
             @media only screen and (max-width: 991px) {
                 .wpvr-banner .rex-notification-counter__biggest-sale {
-                    max-width: 100px;
+                    max-width: 130px;
                 }
 
 
                 .rex-feed-tb__notification.wpvr-banner {
                     margin: 65px 0 20px;
                 }
-                
+
                 .wpvr-banner .rex-notification-counter__figure-logo {
-                    max-width: 110px;
+                    max-width: 100px;
                 }
 
                 .wpvr-banner .rex-notification-counter__item {
@@ -631,9 +618,9 @@ class WPVR_Special_Occasion_Banner
                 .wpvr-banner .rex-notification-counter__time {
                     height: 28px;
                 }
-                .wpvr-banner .rex-notification-counter__figure-percentage {
-                    max-width: 50px;
-                }
+                /* .wpvr-banner .rex-notification-counter__figure-percentage {
+                    max-width: 60px;
+                } */
 
                 .wpvr-banner .rex-notification-counter__btn {
                     padding: 10px 14px;

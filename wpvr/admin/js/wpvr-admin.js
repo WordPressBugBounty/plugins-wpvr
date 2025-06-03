@@ -2422,15 +2422,15 @@
 
      // Function to handle visibility toggle based on checkbox state
      function toggleKeyboardZoom() {
-        var isChecked = $("input[name='keyboardzoom']").is(':checked');
-        $('.keyboard-zoom-control-settings-wrapper').toggle(isChecked);
+        var isChecked = $("input[name='mouseZoom']").is(':checked');
+        $('.mouse-zoom-control-settings-wrapper').toggle(isChecked);
     }
     
     // Initial state setup on page load
     toggleKeyboardZoom();
     
     // Event listener for checkbox changes using more specific selector
-    $("input[name='keyboardzoom']").on("change", toggleKeyboardZoom);
+    $("input[name='mouseZoom']").on("change", toggleKeyboardZoom);
     
 
 
@@ -2438,15 +2438,15 @@
 
     // Function to handle visibility toggle based on checkbox state
     function toggleKeyboardSettings() {
-        var isChecked = $("input[name='diskeyboard']").is(':checked');
-        $('.keyboard-control-settings-wrapper').toggle(isChecked);
+        var isChecked = $("input[name='draggable']").is(':checked');
+        $('.mouse-dragable-control-settings-wrapper').toggle(isChecked);
     }
     
     // Initial state setup on page load
     toggleKeyboardSettings();
     
     // Event listener for checkbox changes using more specific selector
-    $("input[name='diskeyboard']").on("change", toggleKeyboardSettings);
+    $("input[name='draggable']").on("change", toggleKeyboardSettings);
 
 
 

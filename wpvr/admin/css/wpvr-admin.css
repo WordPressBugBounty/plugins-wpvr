@@ -1567,8 +1567,8 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .bg-music-content,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .mouse-zoom-control-settings-wrapper,
+.rex-pano-tab-content .general .inner-nav-content .mouse-dragable-control-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper {
     width: 100%;
@@ -1591,8 +1591,8 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings,
 .rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings,
 .rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .mouse-zoom-control-settings-wrapper .single-settings,
+.rex-pano-tab-content .general .inner-nav-content .mouse-dragable-control-settings-wrapper .single-settings,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings {
     border-radius: 0;
@@ -1611,8 +1611,8 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings:first-child,
 .rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings:first-child,
 .rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings:first-child,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings:first-child,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings:first-child ,
+.rex-pano-tab-content .general .inner-nav-content .mouse-zoom-control-settings-wrapper .single-settings:first-child,
+.rex-pano-tab-content .general .inner-nav-content .mouse-dragable-control-settings-wrapper .single-settings:first-child ,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings:first-child ,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings:first-child {
     padding-top: 0;
@@ -1628,8 +1628,8 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings:last-child,
 .rex-pano-tab-content .general .inner-nav-content .custom-css-field .single-settings:last-child,
 .rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings:last-child,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings:last-child,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings:last-child ,
+.rex-pano-tab-content .general .inner-nav-content .mouse-zoom-control-settings-wrapper .single-settings:last-child,
+.rex-pano-tab-content .general .inner-nav-content .mouse-dragable-control-settings-wrapper .single-settings:last-child ,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings:last-child ,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings:last-child {
     margin-bottom: 0;
@@ -1647,7 +1647,7 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings .wpvr-tooltip-area span,
 .rex-pano-tab-content .general .inner-nav-content .bg-music-content .single-settings>span,
 .rex-pano-tab-content .general .inner-nav-content .scene-gallery-settings-wrapper .single-settings .wpvr-tooltip-area span,
-.rex-pano-tab-content .general .inner-nav-content .keyboard-control-settings-wrapper .single-settings.controls>span,
+.rex-pano-tab-content .general .inner-nav-content .mouse-dragable-control-settings-wrapper .single-settings.controls>span,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings .wpvr-tooltip-area span ,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings .wpvr-tooltip-area span {
     font-size: 14px;
@@ -1657,7 +1657,7 @@ li.export.export-pro-tag {
 }
 
 
-.rex-pano-tab-content .general .inner-nav-content .keyboard-zoom-control-settings-wrapper .single-settings span,
+.rex-pano-tab-content .general .inner-nav-content .mouse-zoom-control-settings-wrapper .single-settings span,
 .rex-pano-tab-content .general .inner-nav-content .autorotationdata-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
 .rex-pano-tab-content .general .inner-nav-content .scene-animation-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
 .rex-pano-tab-content .general .inner-nav-content .zyro-settings-wrapper .single-settings .wpvr-tooltip-area .field-tooltip span,
