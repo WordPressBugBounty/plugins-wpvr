@@ -1767,3 +1767,12 @@ div.custom-ifram {
     max-height: 100%;
   }
 }
+
+/* vr popups active scene */
+.owl-item.active.clicked ul li {
+  color: #3f04fe;
+}
+
+.owl-item.active.clicked ul li img {
+  border: 2px solid #3f04fe;
+}

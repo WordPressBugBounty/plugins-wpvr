@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive virtual tour, 360, Google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
-Tested up to: 6.7.2
+Tested up to: 6.8.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.31
+Stable tag: 8.5.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.32 (19-06-2025) =
+* Fix: The company logo image is not rendering on the tour edit window
+* Fix: Fixed checklist not updating after hotspot deletion
+* Fix: Hide checklist in video tour edit mode
+
 
 = 8.5.31 (03-06-2025) =
 * Fix: Hotspot icon preview not rendering issue

@@ -16,8 +16,8 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.31
- * Tested up to:      6.7.2
+ * Version:           8.5.32
+ * Tested up to:      6.8.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
  * License:           GPL-2.0+
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.31');
+define('WPVR_VERSION', '8.5.32');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -1709,7 +1709,11 @@ function wpvr_block_render($attributes)
                 } else {
                     $thumbnail = $img_src_url;
                 }
-                $html .= '<ul><li title="Double click to view scene">' . esc_attr( $scene_key_title ) . '<img loading="lazy" class="scctrl" id="' . esc_attr( $scene_key ) . '_gallery_' . esc_attr( $id ) . '" src="' . esc_attr( $thumbnail ) . '"></li></ul>';
+                if( isset($postdata['tourLayout']['layout']) && 'layout1' !== $postdata['tourLayout']['layout']) {
+                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                }else {
+                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                }
             }
         }
         $html .= '</div>';
@@ -1883,7 +1887,6 @@ function wpvr_block_render($attributes)
     //script started
 
     $html .= '<script>';
-
 
 
     if (isset($postdata['bg_music'])) {

@@ -1611,7 +1611,7 @@ class WPVR_Scene {
             $html .= '</div>';
             $html .= '</div>';
 
-            $html .= '<div id="sccontrols' . $id . '" class="scene-gallery vrowl-carousel owl-theme">';
+            $html .= '<div id="sccontrols' . $id . '" class="scene-gallery vrowl-carousel owl-theme ">';
             if (isset($panodata["scene-list"])) {
                 foreach ($panodata["scene-list"] as $panoscenes) {
                     $scene_key = $panoscenes['scene-id'];
@@ -1637,7 +1637,11 @@ class WPVR_Scene {
                         $thumbnail = $img_src_url;
                     }
 
-                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    if( isset($postdata['tourLayout']['layout']) && 'layout1' !== $postdata['tourLayout']['layout']) {
+                        $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    }else {
+                        $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    }
                 }
             }
 

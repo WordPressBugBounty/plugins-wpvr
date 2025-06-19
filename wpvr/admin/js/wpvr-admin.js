@@ -1002,15 +1002,35 @@
                             }
 
                             setTimeout(function(){
-                                let hotspotCount = $('.rex-pano-tab-nav.rex-pano-nav-menu.hotspot-nav ul li span .fa-dot-circle').length;
+                                let yawInputs = $('.hotspot-yaw');
+                                let pitchInputs = $('.hotspot-pitch');
+                                let hasYawValue = false;
+                                let hasPitchValue = false;
+
+                                yawInputs.each(function() {
+                                    if ($(this).val() && $(this).val().trim() !== '') {
+                                        hasYawValue = true;
+                                        return false; // break loop
+                                    }
+                                });
+                                pitchInputs.each(function() {
+                                    if ($(this).val() && $(this).val().trim() !== '') {
+                                        hasPitchValue = true;
+                                        return false; // break loop
+                                    }
+                                });
 
                                 let $hotspotCheckbox = $('#wpvr-check-hotspots');
-                                if (hotspotCount <= 1) {
+
+                                if (!hasYawValue && !hasPitchValue) {
                                     $hotspotCheckbox.prop('checked', false);
                                     $hotspotCheckbox.closest('.wpvr-checklist-item').css('color', '#73707D');
+                                } else {
+                                    $hotspotCheckbox.prop('checked', true);
+                                    $hotspotCheckbox.closest('.wpvr-checklist-item').css('color', '#0E003C');
                                 }
                                 updateProgress();
-                            },100);
+                            },500);
                         }
                     }
                 },
@@ -1028,18 +1048,11 @@
         $(".scene-upload").trigger("click");
     })
 
-    var file_frame;
-    var parent;
-    $(document).on("click", ".scene-upload", function (event) {
+        $(document).on("click", ".scene-upload", function (event) {
         event.preventDefault();
-        parent = $(this).parent('.form-group');
+        var parent = $(this).parent('.form-group');
 
-        if (file_frame) {
-            file_frame.open();
-            return;
-        }
-
-        file_frame = wp.media.frames.file_frame = wp.media({
+        var scene_uploader = wp.media({
             title: $(this).data('uploader_title'),
             button: {
                 text: $(this).data('uploader_button_text'),
@@ -1050,9 +1063,9 @@
             multiple: false
         });
 
-        file_frame.on('select', function () {
+        scene_uploader.on('select', function () {
 
-            var attachment = file_frame.state().get('selection').first().toJSON();
+            var attachment = scene_uploader.state().get('selection').first().toJSON();
 
             var imageUrl = attachment.url;
             var siteProtocol = window.location.protocol;
@@ -1115,21 +1128,15 @@
 
         });
 
-        file_frame.open();
+        scene_uploader.open();
     });
 
-    var file_frames;
     $(document).on("click", ".video-upload", function (event) {
         event.preventDefault();
 
-        parent = $(this).parent('.form-group');
+        var parent = $(this).parent('.form-group');
 
-        if (file_frames) {
-            file_frames.open();
-            return;
-        }
-
-        file_frames = wp.media.frames.file_frames = wp.media({
+        var video_uploader = wp.media({
             title: $(this).data('uploader_title'),
             button: {
                 text: $(this).data('uploader_button_text'),
@@ -1140,26 +1147,19 @@
             multiple: false
         });
 
-        file_frames.on('select', function () {
-            var attachment = file_frames.state().get('selection').first().toJSON();
+        video_uploader.on('select', function () {
+            var attachment = video_uploader.state().get('selection').first().toJSON();
             parent.find('.video-attachment-url').val(attachment.url);
         });
 
-        file_frames.open();
+        video_uploader.open();
     });
-
-    var file_fram;
 
     $(document).on("click", ".preview-upload", function (event) {
         event.preventDefault();
-        parent = $(this).parent('.form-group');
+        var parent = $(this).parent('.form-group');
 
-        if (file_fram) {
-            file_fram.open();
-            return;
-        }
-
-        file_fram = wp.media.frames.file_fram = wp.media({
+        var preview_uploader = wp.media({
             title: $(this).data('uploader_title'),
             button: {
                 text: $(this).data('uploader_button_text'),
@@ -1170,15 +1170,15 @@
             multiple: false
         });
 
-        file_fram.on('select', function () {
-            var attachment = file_fram.state().get('selection').first().toJSON();
+        preview_uploader.on('select', function () {
+            var attachment = preview_uploader.state().get('selection').first().toJSON();
             parent.find('.preview-attachment-url').val(attachment.url);
             parent.find('.img-upload-frame').css('background-image', 'url(' + attachment.url + ')');
             parent.find('.img-upload-frame').addClass('img-uploaded');
             parent.find('.remove-attachment').show();
         });
 
-        file_fram.open();
+        preview_uploader.open();
     });
 
     //----remove tour preview image----
@@ -2324,7 +2324,7 @@
             $(".rex-add-coordinates").removeClass('rex-hide-coordinates');
         }
 
-        if('streetview' === activeTab || 'video' === activeTab){
+        if( 'streetview' === activeTab || 'video' === activeTab || $('.videos.active').length ) {
             $('#wpvr_item_tour_checklist__box').css('display', 'none');
         }else{
             $('#wpvr_item_tour_checklist__box').css('display', 'block');

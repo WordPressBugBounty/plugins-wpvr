@@ -501,14 +501,6 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         unset($scene_info['minYaw']);
                     }
 
-                    // if (isset($panoscenes["czscene"])) {
-                    //   if ($panoscenes["czscene"] == "off") {
-                    //       unset($scene_info['hfov']);
-                    //       unset($scene_info['maxHfov']);
-                    //       unset($scene_info['minHfov']);
-                    //     }
-                    // }
-
                     $scene_array = array();
                     $scene_array = array(
                         $panoscenes["scene-id"] => $scene_info
