@@ -71,7 +71,7 @@ class WPVR_Validator {
 
         if (!empty($scene_id_validate)) {
 
-          $scene_id_validated = preg_replace('/[^0-9a-zA-Z_]/', "", $scene_id_validate);
+          $scene_id_validated = preg_replace('/[^0-9a-zA-Z_]/', "", $scene_id_validate ?? '');
           if ($scene_id_validated != $scene_id_validate) {
             $this->add_error('invalid_scene_id', '<span class="pano-error-title">Invalid Scene ID</span> <p>Scene ID can\'t contain spaces and special characters. <br/>Please assign a unique Scene ID with letters and numbers where Scene ID is : ' . $scene_id_validate . '</p>');
           }
@@ -195,7 +195,7 @@ class WPVR_Validator {
   {
     if (!empty($scenes_val["scene-zoom"])) {
       $validate_default_zoom = $scenes_val["scene-zoom"];
-      $validated_default_zoom = preg_replace('/[^0-9-]/', '', $validate_default_zoom);
+      $validated_default_zoom = preg_replace('/[^0-9-]/', '', $validate_default_zoom ?? '');
       if ($validated_default_zoom != $validate_default_zoom) {
          $this->add_error('invalid_default_zoom', '<span class="pano-error-title">Invalid Default Zoom Value</span><p> You can only set Default Zoom in Degree values from 50 to 120 where Scene ID: ' . $scene_id_validate . '</p>');
       }
@@ -220,7 +220,7 @@ class WPVR_Validator {
   {
     if (!empty($scenes_val["scene-maxzoom"])) {
       $validate_max_zoom = $scenes_val["scene-maxzoom"];
-      $validated_max_zoom = preg_replace('/[^0-9-]/', '', $validate_max_zoom);
+      $validated_max_zoom = preg_replace('/[^0-9-]/', '', $validate_max_zoom ?? '');
       if ($validated_max_zoom != $validate_max_zoom) {
          $this->add_error('invalid_max_zoom', '<span class="pano-error-title">Invalid Max-zoom Value:</span><p> You can only set Max-zoom in degree values (50-120) where Scene ID: ' . $scene_id_validate . '</p>');
       }
@@ -249,7 +249,7 @@ class WPVR_Validator {
   {
     if (!empty($scenes_val["scene-minzoom"])) {
       $validate_min_zoom = $scenes_val["scene-minzoom"];
-      $validated_min_zoom = preg_replace('/[^0-9-]/', '', $validate_min_zoom);
+      $validated_min_zoom = preg_replace('/[^0-9-]/', '', $validate_min_zoom ?? '');
       if ($validated_min_zoom != $validate_min_zoom) {
         $this->add_error('invalid_min_zomm', '<span class="pano-error-title">Invalid Min-zoom Value</span><p> You can only set Min-zoom in degree values (50-120) where Scene ID: ' . $scene_id_validate . '</p>');
       }
@@ -316,7 +316,7 @@ class WPVR_Validator {
   {
     if (!empty($scenes_val["scene-pitch"])) {
       $validate_scene_pitch = $scenes_val["scene-pitch"];
-      $validated_scene_pitch = preg_replace('/[^0-9.-]/', '', $validate_scene_pitch);
+      $validated_scene_pitch = preg_replace('/[^0-9.-]/', '', $validate_scene_pitch ?? '');
       if ($validated_scene_pitch != $validate_scene_pitch) {
          $this->add_error('invalid_pitch', '<span class="pano-error-title">Invalid Pitch Value</span><p> The Pitch Value can only contain float numbers where Scene ID: ' . $scene_id_validate . '</p>');
       }
@@ -324,7 +324,7 @@ class WPVR_Validator {
 
     if (!empty($scenes_val["scene-yaw"])) {
       $validate_scene_yaw = $scenes_val["scene-yaw"];
-      $validated_scene_yaw = preg_replace('/[^0-9.-]/', '', $validate_scene_yaw);
+      $validated_scene_yaw = preg_replace('/[^0-9.-]/', '', $validate_scene_yaw ?? '');
       if ($validated_scene_yaw != $validate_scene_yaw) {
          $this->add_error('invalid_yaw', '<span class="pano-error-title">Invalid Yaw Value</span><p> The Yaw Value can only contain float numbers where Scene ID: ' . $scene_id_validate . '</p>');
        }
@@ -349,7 +349,7 @@ class WPVR_Validator {
       $this->add_error('pitch_required', '<p><span>Warning:</span> Hotspot pitch is required for every hotspot where scene id: ' . $scene_id_validate . ' and hotspot id : ' . $hotspot_title_validate . '</p>');
     }
     if (!empty($hotspot_pitch_validate)) {
-      $hotspot_pitch_validated = preg_replace('/[^0-9.-]/', '', $hotspot_pitch_validate);
+      $hotspot_pitch_validated = preg_replace('/[^0-9.-]/', '', $hotspot_pitch_validate ?? '');
       if ($hotspot_pitch_validated != $hotspot_pitch_validate) {
         $this->add_error('invalid_pitch', '<span class="pano-error-title">Invalid Pitch Value</span> <p>The Pitch Value can only contain float numbers where Scene ID: ' . $scene_id_validate . ' Hotspot ID is: ' . $hotspot_title_validate . '</p>');
       }
@@ -374,7 +374,7 @@ class WPVR_Validator {
       $this->add_error('yaw_required', '<p><span>Warning:</span> Hotspot yaw is required for every hotspot where scene id: ' . $scene_id_validate . ' and hotspot id : ' . $hotspot_title_validate . '</p>');
     }
     if (!empty($hotspot_yaw_validate)) {
-      $hotspot_yaw_validated = preg_replace('/[^0-9.-]/', '', $hotspot_yaw_validate);
+      $hotspot_yaw_validated = preg_replace('/[^0-9.-]/', '', $hotspot_yaw_validate ?? '');
       if ($hotspot_yaw_validated != $hotspot_yaw_validate) {
         $this->add_error('invalid_yaw', '<span class="pano-error-title">Invalid Yaw Value</span> <p>The Yaw Value can only contain float numbers where Scene ID: ' . $scene_id_validate . ' Hotspot ID is: ' . $hotspot_title_validate . '</p>');
       }
@@ -505,7 +505,7 @@ class WPVR_Validator {
    */
   private function hotspot_id_validation($scene_id_validate, $hotspot_title_validate)
   {
-    $hotspot_title_validated = preg_replace('/[^0-9a-zA-Z_]/', "", $hotspot_title_validate);
+    $hotspot_title_validated = preg_replace('/[^0-9a-zA-Z_]/', "", $hotspot_title_validate ?? '');
     if ($hotspot_title_validated != $hotspot_title_validate) {
       $this->add_error('invalid_hotspot_id', '<span class="pano-error-title">Invalid Hotspot ID</span> <p>Hotspot ID can\'t contain spaces and special characters.<br/> Please assign a unique Hotspot ID with letters and numbers where Scene id: ' . $scene_id_validate . ' and hotspot id : ' . $hotspot_title_validate . '</p>');
     }

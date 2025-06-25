@@ -662,7 +662,7 @@
 
     function wpvrtooltip(hotSpotDiv, args) {
         hotSpotDiv.classList.add('custom-tooltip');
-        var span = document.createElement('span');
+        var span = document.createElement('p');
         args = args.replace(/\\/g, "");
         span.innerHTML = args;
         hotSpotDiv.appendChild(span);
@@ -733,6 +733,93 @@
                         ['insert', ['link', 'picture', 'video']],
                         ['view', ['codeview', 'help']],
                     ],
+                    fontNames: ['Arial', 'Helvetica', 'Tahoma', 'Courier New', 'Verdana', 'Impact', 'Times New Roman', 'system-ui', 'Helvetica Neue'],
+                    callbacks: {
+                        onInit: function() {
+                            var $editor = $(this);
+
+                            // Override font name dropdown click handler for this specific editor
+                            $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
+                                e.preventDefault();
+                                var fontName = $(this).data('value') || $(this).text();
+
+                                // Focus on the current editor
+                                $editor.summernote('focus');
+
+                                // Use Summernote's built-in method to apply font
+                                try {
+                                    // First, clear any existing font formatting
+                                    var range = $editor.summernote('createRange');
+                                    if (range && !range.isCollapsed()) {
+                                        // Get selected text
+                                        var selectedText = range.toString();
+
+                                        // Use Summernote's insertHTML to replace content
+                                        var fontHtml = '<span style="font-family: ' + fontName + ';">' + selectedText + '</span>';
+                                        $editor.summernote('insertHTML', fontHtml);
+                                    } else {
+                                        // No selection, use execCommand for typing
+                                        $editor.summernote('focus');
+                                        document.execCommand('fontName', false, fontName);
+                                    }
+                                } catch (error) {
+                                    console.log('Font application error, using fallback method');
+                                    // Fallback method
+                                    document.execCommand('fontName', false, fontName);
+                                }
+
+                                // Update dropdown button text for this editor
+                                $(this).closest('.note-editor').find('.note-current-fontname').text(fontName);
+
+                                // Close dropdown
+                                var $dropdownMenu = $(this).closest('.dropdown-menu');
+                                $dropdownMenu.removeClass('show').hide();
+                                $dropdownMenu.prev('.dropdown-toggle').removeClass('show').attr('aria-expanded', 'false');
+
+                                // Trigger change event
+                                setTimeout(function() {
+                                    $editor.trigger('summernote.change');
+                                }, 100);
+                            });
+                        },
+
+                        // Clean up the content after any change
+                        onChange: function(contents, $editable) {
+                            // Debounce the cleanup to avoid conflicts
+                            clearTimeout(this.cleanupTimeout);
+                            this.cleanupTimeout = setTimeout(function() {
+                                // Remove all font-family styles from elements that shouldn't have them
+                                $editable.find('*:not(span)').each(function() {
+                                    if (this.style && this.style.fontFamily) {
+                                        this.style.fontFamily = '';
+                                    }
+                                });
+
+                                // Clean up empty spans
+                                $editable.find('span').each(function() {
+                                    var $span = $(this);
+                                    var text = $span.text().replace(/[\uFEFF\u200B-\u200D\u2060]/g, '').trim();
+
+                                    if (!text) {
+                                        $span.remove();
+                                    } else {
+                                        // If span has other styles besides font-family, keep only font-family
+                                        var fontFamily = $span.css('font-family');
+                                        if (fontFamily && fontFamily !== 'inherit') {
+                                            $span.attr('style', 'font-family: ' + fontFamily + ';');
+                                        } else if (!fontFamily || fontFamily === 'inherit') {
+                                            $span.contents().unwrap();
+                                        }
+                                    }
+                                });
+
+                                // Remove nested spans with font-family
+                                $editable.find('span[style*="font-family"] span[style*="font-family"]').each(function() {
+                                    $(this).contents().unwrap();
+                                });
+                            }, 200);
+                        }
+                    }
                 });
                 if ($(this).parents(".scene-setup").attr("data-limit").length > 0) {
                     lastChildClicked = true;
@@ -917,6 +1004,93 @@
                             ['insert', ['link', 'picture', 'video']],
                             ['view', ['codeview', 'help']],
                         ],
+                        fontNames: ['Arial', 'Helvetica', 'Tahoma', 'Courier New', 'Verdana', 'Impact', 'Times New Roman', 'system-ui', 'Helvetica Neue'],
+                        callbacks: {
+                            onInit: function() {
+                                var $editor = $(this);
+
+                                // Override font name dropdown click handler for this specific editor
+                                $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
+                                    e.preventDefault();
+                                    var fontName = $(this).data('value') || $(this).text();
+
+                                    // Focus on the current editor
+                                    $editor.summernote('focus');
+
+                                    // Use Summernote's built-in method to apply font
+                                    try {
+                                        // First, clear any existing font formatting
+                                        var range = $editor.summernote('createRange');
+                                        if (range && !range.isCollapsed()) {
+                                            // Get selected text
+                                            var selectedText = range.toString();
+
+                                            // Use Summernote's insertHTML to replace content
+                                            var fontHtml = '<span style="font-family: ' + fontName + ';">' + selectedText + '</span>';
+                                            $editor.summernote('insertHTML', fontHtml);
+                                        } else {
+                                            // No selection, use execCommand for typing
+                                            $editor.summernote('focus');
+                                            document.execCommand('fontName', false, fontName);
+                                        }
+                                    } catch (error) {
+                                        console.log('Font application error, using fallback method');
+                                        // Fallback method
+                                        document.execCommand('fontName', false, fontName);
+                                    }
+
+                                    // Update dropdown button text for this editor
+                                    $(this).closest('.note-editor').find('.note-current-fontname').text(fontName);
+
+                                    // Close dropdown
+                                    var $dropdownMenu = $(this).closest('.dropdown-menu');
+                                    $dropdownMenu.removeClass('show').hide();
+                                    $dropdownMenu.prev('.dropdown-toggle').removeClass('show').attr('aria-expanded', 'false');
+
+                                    // Trigger change event
+                                    setTimeout(function() {
+                                        $editor.trigger('summernote.change');
+                                    }, 100);
+                                });
+                            },
+
+                            // Clean up the content after any change
+                            onChange: function(contents, $editable) {
+                                // Debounce the cleanup to avoid conflicts
+                                clearTimeout(this.cleanupTimeout);
+                                this.cleanupTimeout = setTimeout(function() {
+                                    // Remove all font-family styles from elements that shouldn't have them
+                                    $editable.find('*:not(span)').each(function() {
+                                        if (this.style && this.style.fontFamily) {
+                                            this.style.fontFamily = '';
+                                        }
+                                    });
+
+                                    // Clean up empty spans
+                                    $editable.find('span').each(function() {
+                                        var $span = $(this);
+                                        var text = $span.text().replace(/[\uFEFF\u200B-\u200D\u2060]/g, '').trim();
+
+                                        if (!text) {
+                                            $span.remove();
+                                        } else {
+                                            // If span has other styles besides font-family, keep only font-family
+                                            var fontFamily = $span.css('font-family');
+                                            if (fontFamily && fontFamily !== 'inherit') {
+                                                $span.attr('style', 'font-family: ' + fontFamily + ';');
+                                            } else if (!fontFamily || fontFamily === 'inherit') {
+                                                $span.contents().unwrap();
+                                            }
+                                        }
+                                    });
+
+                                    // Remove nested spans with font-family
+                                    $editable.find('span[style*="font-family"] span[style*="font-family"]').each(function() {
+                                        $(this).contents().unwrap();
+                                    });
+                                }, 200);
+                            }
+                        }
                     });
                     if ($(this).parents(".hotspot-setup").attr("data-limit").length > 0) {
 
@@ -2235,6 +2409,93 @@
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['codeview', 'help']],
             ],
+            fontNames: ['Arial', 'Helvetica', 'Tahoma', 'Courier New', 'Verdana', 'Impact', 'Times New Roman', 'system-ui', 'Helvetica Neue'],
+            callbacks: {
+                onInit: function() {
+                    var $editor = $(this);
+
+                    // Override font name dropdown click handler for this specific editor
+                    $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
+                        e.preventDefault();
+                        var fontName = $(this).data('value') || $(this).text();
+
+                        // Focus on the current editor
+                        $editor.summernote('focus');
+
+                        // Use Summernote's built-in method to apply font
+                        try {
+                            // First, clear any existing font formatting
+                            var range = $editor.summernote('createRange');
+                            if (range && !range.isCollapsed()) {
+                                // Get selected text
+                                var selectedText = range.toString();
+
+                                // Use Summernote's insertHTML to replace content
+                                var fontHtml = '<span style="font-family: ' + fontName + ';">' + selectedText + '</span>';
+                                $editor.summernote('insertHTML', fontHtml);
+                            } else {
+                                // No selection, use execCommand for typing
+                                $editor.summernote('focus');
+                                document.execCommand('fontName', false, fontName);
+                            }
+                        } catch (error) {
+                            console.log('Font application error, using fallback method');
+                            // Fallback method
+                            document.execCommand('fontName', false, fontName);
+                        }
+
+                        // Update dropdown button text for this editor
+                        $(this).closest('.note-editor').find('.note-current-fontname').text(fontName);
+
+                        // Close dropdown
+                        var $dropdownMenu = $(this).closest('.dropdown-menu');
+                        $dropdownMenu.removeClass('show').hide();
+                        $dropdownMenu.prev('.dropdown-toggle').removeClass('show').attr('aria-expanded', 'false');
+
+                        // Trigger change event
+                        setTimeout(function() {
+                            $editor.trigger('summernote.change');
+                        }, 100);
+                    });
+                },
+
+                // Clean up the content after any change
+                onChange: function(contents, $editable) {
+                    // Debounce the cleanup to avoid conflicts
+                    clearTimeout(this.cleanupTimeout);
+                    this.cleanupTimeout = setTimeout(function() {
+                        // Remove all font-family styles from elements that shouldn't have them
+                        $editable.find('*:not(span)').each(function() {
+                            if (this.style && this.style.fontFamily) {
+                                this.style.fontFamily = '';
+                            }
+                        });
+
+                        // Clean up empty spans
+                        $editable.find('span').each(function() {
+                            var $span = $(this);
+                            var text = $span.text().replace(/[\uFEFF\u200B-\u200D\u2060]/g, '').trim();
+
+                            if (!text) {
+                                $span.remove();
+                            } else {
+                                // If span has other styles besides font-family, keep only font-family
+                                var fontFamily = $span.css('font-family');
+                                if (fontFamily && fontFamily !== 'inherit') {
+                                    $span.attr('style', 'font-family: ' + fontFamily + ';');
+                                } else if (!fontFamily || fontFamily === 'inherit') {
+                                    $span.contents().unwrap();
+                                }
+                            }
+                        });
+
+                        // Remove nested spans with font-family
+                        $editable.find('span[style*="font-family"] span[style*="font-family"]').each(function() {
+                            $(this).contents().unwrap();
+                        });
+                    }, 200);
+                }
+            }
         });
     });
 
@@ -2450,7 +2711,6 @@
 
 
 
-
      // Function to handle visibility toggle based on checkbox state
      function toggleGallerySettings() {
         var isChecked = $("input[name='vrgallery']").is(':checked');
@@ -2464,7 +2724,6 @@
     $("input[name='vrgallery']").on("change", toggleGallerySettings);
 
 
-    
 
     // Function to handle visibility toggle based on checkbox state
     function toggleGyroSettings() {
@@ -2504,12 +2763,64 @@
     // Event listener for checkbox changes using more specific selector
     $("input[name='globalzoom']").on("change", toggleZoomSwitch);
 
-
-    
-
+ 
 
 
 
+    // Get initial checkbox value and convert to boolean
+    var callToAction = $("input[name='calltoaction']").val();
+    callToAction = callToAction == 'on' ? true : false;
+
+    // Show or hide the call-to-action section on page load
+    if (callToAction) {
+        $('.call-to-action').show();
+    } else {
+        $('.call-to-action').hide();
+    }
+
+    // Toggle visibility of the call-to-action section on checkbox change
+    $(document).on("change", "input[name='calltoaction']", function () {
+        var calltoactionbutton = $(this).is(':checked') ? 'on' : 'off';
+        if (calltoactionbutton == 'on') {
+            $('.call-to-action').show();
+        } else {
+            $('.call-to-action').hide();
+        }
+    });
+
+
+    // Toggle visibility of the ".custom-css-field" section based on the "customcss" checkbox state.
+
+    // 1. On page load:
+    //    - Get the current value of the "customcss" input.
+    //    - Convert 'on' to boolean true.
+    //    - Show or hide the ".custom-css-field" section accordingly.
+
+    var customCssEnable = $("input[name='customcss']").val();
+    customCssEnable = customCssEnable == 'on' ? true : false;
+
+    if (customCssEnable) {
+        $('.custom-css-field').show();
+    } else {
+        $('.custom-css-field').hide();
+    }
+
+    // 2. On checkbox state change:
+    //    - Detect changes to the "customcss" checkbox.
+    //    - Use .is(':checked') to determine current state.
+    //    - Alert the value ('on' or 'off').
+    //    - Show or hide the ".custom-css-field" section accordingly.
+
+    $(document).on("change", "input[name='customcss']", function () {
+        var custom_css_field = $(this).is(':checked') ? 'on' : 'off';
+        alert(custom_css_field);
+
+        if (custom_css_field == 'on') {
+            $('.custom-css-field').show();
+        } else {
+            $('.custom-css-field').hide();
+        }
+    });
 
 
 

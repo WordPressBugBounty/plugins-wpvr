@@ -44,12 +44,12 @@ function wpvrhotspot(hotSpotDiv, hotspotData) {
 
 function wpvrtooltip(hotSpotDiv, args) {
     hotSpotDiv.classList.add('custom-tooltip');
-    var span = document.createElement('span');
+    var p = document.createElement('p');
     args = args.replace(/\\/g, "");
-    span.innerHTML = args;
-    hotSpotDiv.appendChild(span);
-    span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
-    span.style.marginTop = -span.scrollHeight - 12 + 'px';
+    p.innerHTML = args;
+    hotSpotDiv.appendChild(p);
+    p.style.marginLeft = -(p.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+    p.style.marginTop = -p.scrollHeight - 12 + 'px';
 }
 
 

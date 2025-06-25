@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.32
+ * Version:           8.5.33
  * Tested up to:      6.8.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.32');
+define('WPVR_VERSION', '8.5.33');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -1016,8 +1016,26 @@ function wpvr_block_render($attributes)
                     } else {
                         $wpvr_url_open = "off";
                     }
-                    $on_hover_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_data['hotspot-hover']);
-                    $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content);
+                    $on_hover_content = preg_replace_callback(
+                        '/<p>\s*(<img[^>]*>)\s*<br>\s*<\/p>/i',
+                        function ($matches) {
+                            return $matches[1];
+                        },
+                        $hotspot_data['hotspot-hover'] ?? ''
+                    );
+                    $allowed_tags = [
+                        'a' => ['href' => [], 'title' => []],
+                        'img' => ['src' => [], 'alt' => [], 'title' => [], 'width' => [], 'height' => []],
+                        'br' => [],
+                        'em' => [],
+                        'strong' => [],
+                        'p' => [],
+                        'span' => ['style' => []],
+                        'b' => [],
+                        'i' => [],
+                    ];
+                    $on_hover_content = wp_kses($on_hover_content, $allowed_tags);
+                    $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $hotspot_shape = 'round';
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
                         $hotspot_shape = isset($hotspot_data["hotspot-shape"]) ? $hotspot_data["hotspot-shape"] : 'round';
@@ -1049,8 +1067,6 @@ function wpvr_block_render($attributes)
                         'URL' => $hotspot_data['hotspot-url'],
                         "wpvr_url_open" => $wpvr_url_open,
                         "clickHandlerArgs" => $hotspot_data_for_on_click,
-                        //                    "clickHandlerArgs" => $hotspot_content,
-                        //                    'createTooltipArgs' =>  $hotspot_data['hotspot-hover'],
                         'createTooltipArgs' => $on_hover_content,
                         "sceneId" => $hotspot_data["hotspot-scene"],
                         "targetPitch" => (float)$hotspot_scene_pitch,

@@ -279,6 +279,8 @@ class WPVR_Meta_Field {
      */
     public static function get_basic_setting_generic_form_fields($postdata)
     {
+        $is_disable = apply_filters('is_wpvr_pro_active', false);
+       
         if(!isset($postdata['genericform'])){
             $genericform = "off";
         }else{
@@ -292,6 +294,7 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_generic_form',
                 'type' => 'generic_form_checkbox',
                 'checked' => $genericform,
+                'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Enable this to add a form to the tour for user interaction.', 'wpvr'),
@@ -311,6 +314,7 @@ class WPVR_Meta_Field {
      */
     public static function get_basic_setting_call_to_action_fields($postdata)
     {
+        $is_disable = apply_filters('is_wpvr_pro_active', false);
         if(!isset($postdata['calltoaction'])){
             $calltoaction = "off";
         }else{
@@ -324,6 +328,7 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_cal_to_action_form',
                 'type' => 'call_to_form_checkbox',
                 'checked' => $calltoaction,
+                'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Add a call-to-action button that prompts users to take action during the tour.', 'wpvr'),
@@ -343,6 +348,8 @@ class WPVR_Meta_Field {
      */
     public static function get_basic_setting_custom_css_fields($postdata)
     {
+        $is_disable = apply_filters('is_wpvr_pro_active', false);
+
         if(!isset($postdata['customcss_enable'])){
             $customcss_enable = "off";
         }else{
@@ -356,6 +363,7 @@ class WPVR_Meta_Field {
                 'id' => 'wpvr_custom_css',
                 'type' => 'custom_css_form_checkbox',
                 'checked' => $customcss_enable,
+                'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Add your own custom CSS styles to further personalize the look and feel of the tour.', 'wpvr'),
@@ -3050,11 +3058,9 @@ class WPVR_Meta_Field {
             </div>
 
             <span class="wpvr-switcher">
-                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
+                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?>  <?= !$is_disable ? 'disabled' : '' ?>/>
                 <label for="<?= $id;?>"></label>
             </span>
-
-           
 
         </div>
         <?php
@@ -3656,50 +3662,43 @@ class WPVR_Meta_Field {
      * @return void
      * @since 8.0.0
      */
-    public static function render_hotspot_info_textarea_field($name, $val)
-    {
-        extract($val);
-        ob_start();
-        ?>
+public static function render_hotspot_info_textarea_field($name, $val)
+{
+    extract($val);
+    ob_start();
+    ?>
+    <div class="<?= esc_attr($class); ?>" style="display:<?= esc_attr($display); ?>;">
+        <div class="wpvr-global-tooltip-area">
+            <label for="hotspot-content"><?= esc_html__($title . ': ', 'wpvr'); ?></label>
 
+            <?php if (!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'); ?>" alt="icon" />
+                    <span>
+                        <?php
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
 
-        <div class="<?= $class;?> " style="display:<?= $display;?>;">
-
-                <div class="wpvr-global-tooltip-area">
-                    <label for="hotspot-content"><?= __($title .': ', 'wpvr'); ?></label>
-
-                        <?php if(!empty($have_tooltip)) { ?>
-                            <div class="field-tooltip">
-                                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
-
-                                <span>
-                                    <?php 
-                                        // Ensure tooltip_text text is set
-                                        if (!empty($tooltip_text['text'])) {
-                                            echo esc_html($tooltip_text['text']);
-
-                                            // Check if URL exists before rendering the link
-                                            if (!empty($tooltip_text['url'])) {
-                                                printf(
-                                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                                    esc_url($tooltip_text['url']),
-                                                    __('View Doc', 'wpvr')
-                                                );
-                                            }
-                                        }
-                                    ?>
-                                </span>
-                            </div>
-                        <?php } ?>
-
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
                 </div>
+            <?php } ?>
+        </div>
 
-                <textarea name="<?= $name;?>"><?= $value;?></textarea>
-            </div>
+        <textarea name="<?= esc_attr($name); ?>"><?= esc_textarea(wp_kses($value, wp_kses_allowed_html('post'))); ?></textarea>
+    </div>
+    <?php
+    ob_end_flush();
+}
 
-        <?php
-        ob_end_flush();
-    }
 
 
     /**
@@ -4368,7 +4367,7 @@ class WPVR_Meta_Field {
             </div>
 
             <span class="wpvr-switcher">
-                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
+                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?>   <?= !$is_disable  ? 'disabled' : '' ?>/>
                 <label for="<?= $id;?>"></label>
             </span>
 
@@ -4441,7 +4440,7 @@ class WPVR_Meta_Field {
             </div>
 
             <span class="wpvr-switcher">
-                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?> />
+                <input id="<?= $id;?>" class="vr-switcher-check" name="<?= $name; ?>" type="checkbox" value="<?= $val['checked']; ?>" <?php echo $val['checked']=='on'? 'checked' : '' ?>  <?= !$is_disable  ? 'disabled' : '' ?>/>
                 <label for="<?= $id;?>"></label>
             </span>
 
@@ -5477,7 +5476,6 @@ public static function render_advanced_setting_set_zoom_preference_field($name, 
             <input id="<?= $id; ?>" class="vr-switcher-check" value="<?= $value?>" name="<?= $name; ?>" type="checkbox" <?php if($value == 'on') { echo'checked'; } ?> />
             <label for="<?= $id; ?>"></label>
         </span>
-
 
        
     </div>

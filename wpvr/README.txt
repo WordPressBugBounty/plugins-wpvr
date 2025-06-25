@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.8.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.32
+Stable tag: 8.5.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.33 (25-06-2025) =
+* Fix: XSS vulnerability issue for hotspot on hover content
+* Fix: Summernote font styling issue that split hotspot content into multiple blocks
+* Fix: Restricted Advanced Control options and fixed related UI issues in free version
+* Fix: Advanced Controls layout issue on Retina displays at 90% browser zoom
 
 = 8.5.32 (19-06-2025) =
 * Fix: The company logo image is not rendering on the tour edit window

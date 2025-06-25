@@ -698,7 +698,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
                 function wpvrtooltip(hotSpotDiv, args) {
                     hotSpotDiv.classList.add('custom-tooltip');
-                    var span = document.createElement('span');
+                    var span = document.createElement('p');
                     if (args != null) {
                         args = args.replace(/\\/g, "");
                     }

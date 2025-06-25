@@ -957,9 +957,21 @@ class WPVR_Scene {
                         function ($matches) {
                             return $matches[1];
                         },
-                        $hotspot_data['hotspot-hover']
+                        $hotspot_data['hotspot-hover'] ?? ''
                     );
-                    $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content);
+                    $allowed_tags = [
+                        'a' => ['href' => [], 'title' => []],
+                        'img' => ['src' => [], 'alt' => [], 'title' => [], 'width' => [], 'height' => []],
+                        'br' => [],
+                        'em' => [],
+                        'strong' => [],
+                        'p' => [],
+                        'span' => ['style' => []],
+                        'b' => [],
+                        'i' => [],
+                    ];
+                    $on_hover_content = wp_kses($on_hover_content, $allowed_tags);
+                    $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $hotspot_shape = 'round';
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
                         $hotspot_shape = isset($hotspot_data["hotspot-shape"]) ? $hotspot_data["hotspot-shape"] : 'round';
@@ -2427,7 +2439,6 @@ class WPVR_Scene {
         }
         $html .= 'const node = document.querySelector(".add-pulse");
         panoshow' . $id . '.on("compasschange", function (data){
-            console.log(data);
             // const node = document.querySelector(".add-pulse");
             // node.style.transform = data;
             // jQuery(".add-pulse").css({"transform":data});

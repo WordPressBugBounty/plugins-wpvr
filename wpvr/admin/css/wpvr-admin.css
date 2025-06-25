@@ -401,7 +401,7 @@ img.scctrl.upload-form-scene-gallery {
     color: #ccc;
 }
 
-div.custom-tooltip span {
+div.custom-tooltip p {
     visibility: hidden;
     position: absolute;
     border-radius: 3px;
@@ -422,11 +422,12 @@ div.custom-tooltip:hover {
     z-index: 3;
 }
 
-div.custom-tooltip:hover span {
+div.custom-tooltip:hover p {
     visibility: visible;
+    width: 300px;
 }
 
-div.custom-tooltip:hover span:after {
+div.custom-tooltip:hover p:after {
     content: '';
     position: absolute;
     width: 0;
@@ -3591,9 +3592,7 @@ button.delete-scene {
         padding-left: 0;
     }
 
-    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
-        display: none;
-    }
+  
 
     .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span {
         top: initial;
@@ -3605,11 +3604,19 @@ button.delete-scene {
         left: 15px;
     }
 
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
+        display: none;
+    }
+
 
 }
 
 
 @media (max-width: 1700px) {
+
+    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
+        display: none;
+    }
 
     .rex-pano-tab-content {
         border-radius: 10px;
@@ -3669,7 +3676,6 @@ button.delete-scene {
         min-width: auto;
         padding-right: 20px;
     }
-    
    
 }
 
@@ -3735,10 +3741,6 @@ button.delete-scene {
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .right {
         width: 100%;
         padding-right: 0px;
-    }
-
-    .rex-pano-tab-content .general .inner-nav-content .inner-single-content .content-wrapper .left::before {
-        display: none;
     }
 
     .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span {
