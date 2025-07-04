@@ -549,7 +549,7 @@
                 var compass = $("input[name='compass']:checked").val();
                 var defaultscene = $("input[name='default-scene-id']").val();
                 var preview = $("input[name='preview-attachment-url']").val();
-                var rotation = $("input[name='autorotation']").val();
+                var rotation = $("input[name='autorotation']").is(':checked') ? 'on' : 'off';
                 var autorotation = $("input[name='auto-rotation']").val();
                 var autorotationinactivedelay = $("input[name='auto-rotation-inactive-delay']").val();
                 var autorotationstopdelay = $("input[name='auto-rotation-stop-delay']").val();
@@ -708,16 +708,21 @@
                     ],
                     callbacks: {
                         onKeyup: function(e) {
-                            var getHotspotContent = $(this).val();
-                            var getParent        =  $(this).parent();
-                            var getMainParent    = getParent.parent()
-                            var getClickContent  =  getMainParent.find('.hotspot-url')
-                            if(getHotspotContent.length > 0){
-                                getClickContent.find('input[name*=hotspot-url').val('')
-                                getClickContent.find('input[name*=hotspot-url').attr('placeholder','You can set either a URL or an On-click content')
-                                getClickContent.find('input[name*=hotspot-url]').attr("disabled",true)
-                            }else{
-                                getClickContent.find('input[name*=hotspot-url]').attr("disabled",false)
+                            var getHotspotContent = $(this).summernote('code').trim();
+                            var tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = getHotspotContent;
+                            var plainText = tempDiv.textContent || tempDiv.innerText || '';
+                            plainText = plainText.replace(/\u00a0/g, '').trim();
+                            var getParent     = $(this).parent();
+                            var getMainParent = getParent.parent();
+                            var getClickContent = getMainParent.find('.hotspot-url');
+
+                            if (plainText.length > 0) {
+                                getClickContent.find('input[name*=hotspot-url]').val('');
+                                getClickContent.find('input[name*=hotspot-url]').attr('placeholder', 'You can set either a URL or an On-click content');
+                                getClickContent.find('input[name*=hotspot-url]').attr("disabled", true);
+                            } else {
+                                getClickContent.find('input[name*=hotspot-url]').attr("disabled", false);
                             }
                         }
                     }
@@ -979,16 +984,21 @@
                         ],
                         callbacks: {
                             onKeyup: function(e) {
-                                var getHotspotContent = $(this).val();
-                                var getParent        =  $(this).parent();
-                                var getMainParent    = getParent.parent()
-                                var getClickContent  =  getMainParent.find('.hotspot-url')
-                                if(getHotspotContent.length > 0){
-                                    getClickContent.find('input[name*=hotspot-url').val('')
-                                    getClickContent.find('input[name*=hotspot-url').attr('placeholder','You can set either a URL or an On-click content')
-                                    getClickContent.find('input[name*=hotspot-url]').attr("disabled",true)
-                                }else{
-                                    getClickContent.find('input[name*=hotspot-url]').attr("disabled",false)
+                                var getHotspotContent = $(this).summernote('code').trim();
+                                var tempDiv = document.createElement('div');
+                                tempDiv.innerHTML = getHotspotContent;
+                                var plainText = tempDiv.textContent || tempDiv.innerText || '';
+                                plainText = plainText.replace(/\u00a0/g, '').trim();
+                                var getParent     = $(this).parent();
+                                var getMainParent = getParent.parent();
+                                var getClickContent = getMainParent.find('.hotspot-url');
+
+                                if (plainText.length > 0) {
+                                    getClickContent.find('input[name*=hotspot-url]').val('');
+                                    getClickContent.find('input[name*=hotspot-url]').attr('placeholder', 'You can set either a URL or an On-click content');
+                                    getClickContent.find('input[name*=hotspot-url]').attr("disabled", true);
+                                } else {
+                                    getClickContent.find('input[name*=hotspot-url]').attr("disabled", false);
                                 }
                             }
                         }
@@ -1411,7 +1421,10 @@
         })
 
         $(document).on("keyup","textarea[name*=hotspot-content]",function (){
-            var getHotspotContent = $(this).val();
+            var getHotspotContent = $(this).summernote('code').trim();
+            if (getHotspotContent === '<br>' || getHotspotContent === '<p><br></p>') {
+                getHotspotContent = '';
+            }
             var getParent        =  $(this).parent();
             var getMainParent    = getParent.parent()
             var getClickContent  =  getMainParent.find('.hotspot-url')
@@ -2384,16 +2397,21 @@
             ],
             callbacks: {
                 onKeyup: function(e) {
-                    var getHotspotContent = $(this).val();
-                    var getParent        =  $(this).parent();
-                    var getMainParent    = getParent.parent()
-                    var getClickContent  =  getMainParent.find('.hotspot-url')
-                    if(getHotspotContent.length > 0){
-                        getClickContent.find('input[name*=hotspot-url').val('')
-                        getClickContent.find('input[name*=hotspot-url').attr('placeholder','You can set either a URL or an On-click content')
-                        getClickContent.find('input[name*=hotspot-url]').attr("disabled",true)
-                    }else{
-                        getClickContent.find('input[name*=hotspot-url]').attr("disabled",false)
+                    var getHotspotContent = $(this).summernote('code').trim();
+                    var tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = getHotspotContent;
+                    var plainText = tempDiv.textContent || tempDiv.innerText || '';
+                    plainText = plainText.replace(/\u00a0/g, '').trim();
+                    var getParent     = $(this).parent();
+                    var getMainParent = getParent.parent();
+                    var getClickContent = getMainParent.find('.hotspot-url');
+
+                    if (plainText.length > 0) {
+                        getClickContent.find('input[name*=hotspot-url]').val('');
+                        getClickContent.find('input[name*=hotspot-url]').attr('placeholder', 'You can set either a URL or an On-click content');
+                        getClickContent.find('input[name*=hotspot-url]').attr("disabled", true);
+                    } else {
+                        getClickContent.find('input[name*=hotspot-url]').attr("disabled", false);
                     }
                 }
             }

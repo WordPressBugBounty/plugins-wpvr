@@ -32,15 +32,6 @@
 
 	  	$( '#wpvr-gopro-submenu' ).parent().attr( 'target', '_blank' );
 
-		$('.setup-wizard-carousel').owlCarousel({
-			loop:false,
-			items:1,
-			dots: false,
-			mouseDrag: false,
-			touchDrag: false,
-			navText: ['Previous','Next'],
-		});
-
 		$(".choose-tour input[type='radio']").on('click', function(){
 			var val = $(this).val();
 			$('#'+val).show();

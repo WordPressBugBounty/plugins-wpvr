@@ -1406,8 +1406,8 @@ class WPVR_Format
         // JQuery scripts for on-click content for vr tour tab //
         $html = $this->render_vr_tour_tab_click_content($html, $id, $default_scene);
 
-        if (isset($postdata['previewtext']) && $postdata['previewtext'] != '') {
-            $html .= 'jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $postdata['previewtext'] . '")';
+        if (isset($previeword ) && $previeword  != '') {
+            $html .= 'jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword  . '")';
         }
 
         $html .= '});';

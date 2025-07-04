@@ -94,6 +94,14 @@ class WPVR_Shortcode {
             $mobile_height = "300px";
         }
         $get_post = get_post_status($id);
+
+        if (empty($get_post)) {
+            return wp_kses(
+                __('Oops! It seems that the entered tour doesn\'t exist. Please enter correct shortcode.<br>', 'wpvr'),
+                ['br' => []]
+            );
+        }
+
         if ( $get_post !== 'publish' ) {
             return esc_html__('Oops! It seems like this post isn\'t published yet. Stay tuned for updates!', 'wpvr') ;
         }

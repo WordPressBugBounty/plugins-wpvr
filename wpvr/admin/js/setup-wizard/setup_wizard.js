@@ -75,7 +75,7 @@
 
                 <!-- setup wizard buttons -->
                 <div class="setup-wizard__main-buttons">
-                    <a href="#" class="setup-wizard__button-left create-your-first-tour" id="create_first_tour">
+                    <a href="${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1" class="setup-wizard__button-left create-your-first-tour" id="create_first_tour">
                     ${stepOne?.welcome_section_button_text[0]}
                     </a>
                     <a href="https://rextheme.com/docs/wp-vr/" target="_blank" class="setup-wizard__button-right">
@@ -273,7 +273,7 @@
           
             <!-- setup wizard buttons -->
         <section class="setup-wizard__footer-buttons">
-            <a href="#" class="setup-wizard__button-left create-your-first-tour" id="create_your_tour_second">
+            <a href="${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1" class="setup-wizard__button-left create-your-first-tour" id="create_your_tour_second">
               ${stepOne.footer_section_button_text[0]}
             </a>
             <a href="#" class="setup-wizard__button-right next-step-button" id="setup_wizard_button_right"> ${stepOne.footer_section_button_text[1]} </a>
@@ -420,7 +420,7 @@
 
             <!-- setup wizard buttons -->
             <section class="setup-wizard__footer-buttons">
-                <a href="#" class="setup-wizard__button-left create-your-first-tour">
+                <a href="${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1" class="setup-wizard__button-left create-your-first-tour">
                 ${stepTwo.footer_section_button_text[0]}
                 </a>
                 <a href="#" class="setup-wizard__button-right next-step-button" id="second_step_next_btn"> ${stepTwo.footer_section_button_text[1]} </a>
@@ -486,7 +486,7 @@
 
         <!-- setup wizard buttons -->
           <section class="setup-wizard__footer-buttons">
-            <a href="#" class="setup-wizard__button-left create-your-first-tour last-step">
+            <a href="${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1" class="setup-wizard__button-left create-your-first-tour last-step">
             ${stepThree.footer_section_button_text[0]}
             </a>
             <a href="https://rextheme.com/wpvr/wpvr-pricing/" target="_blank" class="setup-wizard__button-right" id="wpvr-upgrade-to-pro">
@@ -726,16 +726,6 @@
     });
 
     /**
-     * Handles the click event on the element with the ID 'create_first_tour'.
-     * When the element is clicked, it redirects the user to the page for creating a new WPVR item.
-     *
-     * @since 8.4.10
-     */
-    // $(document).on('click','#create_first_tour', function(){
-    //     window.location = 'post-new.php?post_type=wpvr_item';
-    // });
-
-    /**
      * Handles the click event on elements with the class 'setup-wizard__button-left'.
      * When an element is clicked, it prevents the default action, constructs a URL for creating a new WPVR item,
      * sets the href attribute of the clicked element to this URL, and redirects the browser to the URL.
@@ -745,6 +735,7 @@
      */
     $(document).on('click', '.create-your-first-tour', function (e){
         e.preventDefault();
+        alert('hello');
         // const domain = window.location.origin;
         const url = `${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1`;
         $(this).attr('href', url);

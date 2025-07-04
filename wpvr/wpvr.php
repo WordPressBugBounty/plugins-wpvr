@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.33
+ * Version:           8.5.34
  * Tested up to:      6.8.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.33');
+define('WPVR_VERSION', '8.5.34');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -99,9 +99,9 @@ function run_wpvr()
 
     // black friday banner class initialization
     new WPVR_Special_Occasion_Banner(
-        'eid_ul_adha_deal_2025',
-        '2025-06-04 00:00:01',
-        '2025-06-15 23:59:59'
+        '4th_of_july_deal_2025',
+        '2025-07-02 00:00:01',
+        '2025-07-14 23:59:59'
     );
 
     // if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_notification_bar', 'no')) {
@@ -238,7 +238,6 @@ add_action('init', 'wpvr_block');
 
 function wpvr_block_render($attributes)
 {
-
     if (isset($attributes['id'])) {
         $id = $attributes['id'];
     } else {
@@ -338,7 +337,12 @@ function wpvr_block_render($attributes)
     $postdata = get_post_meta($id, 'panodata', true);
     $panoid = 'pano' . $id;
     $panoid2 = 'pano2' . $id;
-
+    if (!isset($postdata) || empty($postdata)) {
+        return wp_kses(
+            __('Oops! It seems that you have not selected any tour yet. Please select a tour from the dropdown of WPVR block.<br>', 'wpvr'),
+            ['br' => []]
+        );
+    }
     if (isset($postdata['streetviewdata'])) {
         if (empty($width)) {
             $width = '600px';
@@ -1034,7 +1038,7 @@ function wpvr_block_render($attributes)
                         'b' => [],
                         'i' => [],
                     ];
-                    $on_hover_content = wp_kses($on_hover_content, $allowed_tags);
+                    $on_hover_content = wp_kses($on_hover_content ?? '', $allowed_tags);
                     $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $hotspot_shape = 'round';
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
@@ -1530,9 +1534,9 @@ function wpvr_block_render($attributes)
 
         $bg_tour_enabler = $postdata['bg_tour_enabler'];
         if ($bg_tour_enabler == 'on') {
-            $bg_tour_navmenu = $postdata['bg_tour_navmenu'];
-            $bg_tour_title = $postdata['bg_tour_title'];
-            $bg_tour_subtitle = $postdata['bg_tour_subtitle'];
+            $bg_tour_navmenu = $postdata['bg_tour_navmenu'] ?? 'off';
+            $bg_tour_title = $postdata['bg_tour_title'] ?? '';
+            $bg_tour_subtitle = $postdata['bg_tour_subtitle'] ?? '';
 
             if ($bg_tour_navmenu == 'on') {
                 $menuLocations = get_nav_menu_locations();
@@ -1746,26 +1750,26 @@ function wpvr_block_render($attributes)
         //===Carousal setup end===//
     }
 
-    if (isset($postdata['bg_music'])) {
-        $bg_music = $postdata['bg_music'];
-        $bg_music_url = $postdata['bg_music_url'];
-        $autoplay_bg_music = $postdata['autoplay_bg_music'];
-        $loop_bg_music = $postdata['loop_bg_music'];
-        $bg_loop = '';
-        if ($loop_bg_music == 'on') {
-            $bg_loop = 'loop';
-        }
+    $bg_music           = isset($postdata['bg_music']) ? $postdata['bg_music'] : 'off';
+    $bg_music_url       = isset($postdata['bg_music_url']) ? $postdata['bg_music_url'] : '';
+    $autoplay_bg_music  = isset($postdata['autoplay_bg_music']) ? $postdata['autoplay_bg_music'] : 'off';
+    $loop_bg_music      = isset($postdata['loop_bg_music']) ? $postdata['loop_bg_music'] : 'off';
 
-        if ($bg_music == 'on') {
-            $html .= '<div id="adcontrol' . esc_attr( $id ) . '" class="adcontrol" style="right:' . esc_attr( $audio_right ) . '">';
-            $html .= '<audio class="vrAudioDefault" id="vrAudio' . esc_attr( $id ) . '" data-autoplay="' . esc_attr( $autoplay_bg_music ) . '"  onended="audionEnd' . esc_attr( $id ) . '()" ' . esc_attr( $bg_loop ) . '>
-                    <source src="' . esc_url( $bg_music_url ) . '" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                  </audio>
-                  <button onclick="playPause' . esc_attr( $id ) . '()" class="ctrl audio_control" data-play="' . esc_attr( $autoplay_bg_music ) . '" id="audio_control' . esc_attr( $id ) . '"><i id="vr-volume' . esc_attr( $id ) . '" class="wpvrvolumeicon' . esc_attr( $id ) . ' fas fa-volume-up" style="color:#fff;"></i></button>
-                  ';
-            $html .= '</div>';
-        }
+    $bg_loop = ($loop_bg_music === 'on') ? 'loop' : '';
+    $autoplay_attr = ($autoplay_bg_music === 'on') ? 'autoplay' : '';
+    $audio_muted_attr = ($autoplay_bg_music === 'on') ? 'muted' : '';
+    $audio_icon_class = 'fa-volume-mute'; // Always start with mute icon
+
+    if ($bg_music === 'on') {
+        $html .= '<div id="adcontrol' . esc_attr( $id ) . '" class="adcontrol" style="right:' . esc_attr( $audio_right ) . '">';
+        $html .= '<audio id="vrAudio' . esc_attr($id) . '" class="vrAudioDefault" data-autoplay="' . esc_attr($autoplay_bg_music) . '" onended="audionEnd' . esc_attr($id) . '()" ' . $autoplay_attr . ' ' . $audio_muted_attr . ' ' . $bg_loop . '>
+                        <source src="' . esc_url($bg_music_url) . '" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>';
+        $html .= '<button onclick="playPause' . esc_attr($id) . '()" class="ctrl audio_control" id="audio_control' . esc_attr($id) . '">
+                        <i id="vr-volume' . esc_attr($id) . '" class="wpvrvolumeicon' . esc_attr($id) . ' fas ' . esc_attr($audio_icon_class) . '" style="color:#fff;"></i>
+                    </button>';
+        $html .= '</div>';
     }
 
     //===Explainer video section===//
@@ -1775,7 +1779,7 @@ function wpvr_block_render($attributes)
     }
     $html .= '<div class="explainer" id="explainer' . esc_attr( $id ) . '" style="display: none">';
     $html .= '<span class="close-explainer-video"><i class="fa fa-times"></i></span>';
-    $html .= '' . esc_attr( $explainerContent ) . '';
+    $html .= '' . $explainerContent . '';
     $html .= '</div>';
     //===Explainer video section End===//
 
@@ -1903,52 +1907,159 @@ function wpvr_block_render($attributes)
     //script started
 
     $html .= '<script>';
-
-
-    if (isset($postdata['bg_music'])) {
-        if ($bg_music == 'on') {
-            $html .= '
+    if (isset($postdata['bg_music']) && $bg_music == 'on') {
+        $html .= '
             var x' . $id . ' = document.getElementById("vrAudio' . $id . '");
-
             var playing' . $id . ' = false;
-
-              function playPause' . $id . '() {
-
+            var autoplaySupported' . $id . ' = false;
+            var alertShown' . $id . ' = false;
+            var autoplayChecked' . $id . ' = false;
+        
+            function playPause' . $id . '() {
                 if (playing' . $id . ') {
-                  jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up");
-                  jQuery("#vr-volume' . $id . '").addClass("fas fa-volume-mute");
-                  x' . $id . '.pause();
-                  jQuery("#audio_control' . $id . '").attr("data-play", "off");
-                  playing' . $id . ' = false;
-
+                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                    x' . $id . '.pause();
+                    jQuery("#audio_control' . $id . '").attr("data-play", "off");
+                    playing' . $id . ' = false;
+                } else {
+                    x' . $id . '.muted = false;
+                    x' . $id . '.play().then(function() {
+                        jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                        jQuery("#audio_control' . $id . '").attr("data-play", "on");
+                        playing' . $id . ' = true;
+                    }).catch(function(e) {
+                        console.log("Play failed:", e);
+                    });
                 }
-                else {
-                  jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute");
-                  jQuery("#vr-volume' . $id . '").addClass("fas fa-volume-up");
-                  jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                  x' . $id . '.play();
-                  playing' . $id . ' = true;
-                }
-              }
-
-              function audionEnd' . $id . '() {
+            }
+        
+            function audionEnd' . $id . '() {
                 playing' . $id . ' = false;
-                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up");
-                jQuery("#vr-volume' . $id . '").addClass("fas fa-volume-mute");
+                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
                 jQuery("#audio_control' . $id . '").attr("data-play", "off");
-              }
-              ';
+            }
+        
+            x' . $id . '.addEventListener("ended", audionEnd' . $id . ');';
 
-            if ($autoplay_bg_music == 'on') {
-                $html .= '
-                document.getElementById("pano' . $id . '").addEventListener("click", musicPlay' . $id . ');
-                function musicPlay' . $id . '() {
+        if ($autoplay_bg_music == 'on') {
+            $html .= '
+        
+                x' . $id . '.addEventListener("loadeddata", function() {
+                    if (!autoplayChecked' . $id . ') {
+                        checkAutoplayStatus' . $id . '();
+                    }
+                });
+        
+                x' . $id . '.addEventListener("canplay", function() {
+                    if (!autoplayChecked' . $id . ') {
+                        checkAutoplayStatus' . $id . '();
+                    }
+                });
+        
+                x' . $id . '.addEventListener("canplaythrough", function() {
+                    if (!autoplayChecked' . $id . ') {
+                        checkAutoplayStatus' . $id . '();
+                    }
+                });
+        
+                setTimeout(function() {
+                    if (!autoplayChecked' . $id . ') {
+                        checkAutoplayStatus' . $id . '();
+                    }
+                }, 1000);
+        
+                x' . $id . '.addEventListener("play", function() {
+                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                    jQuery("#audio_control' . $id . '").attr("data-play", "on");
                     playing' . $id . ' = true;
-                    document.getElementById("vrAudio' . $id . '").play();
+                });
+        
+                x' . $id . '.addEventListener("pause", function() {
+                    if (!playing' . $id . ') {
+                        jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                        jQuery("#audio_control' . $id . '").attr("data-play", "off");
+                    }
+                });
+        
+                function checkAutoplayStatus' . $id . '() {
+                    autoplayChecked' . $id . ' = true;
+        
+                    x' . $id . '.muted = true;
+                    var playPromise = x' . $id . '.play();
+        
+                    if (playPromise !== undefined) {
+                        playPromise.then(function () {
+                            if (x' . $id . '.muted || x' . $id . '.volume === 0) {
+                                handleAutoplayBlocked' . $id . '();
+                            } else {
+                                autoplaySupported' . $id . ' = true;
+                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
+                                playing' . $id . ' = true;
+                            }
+                        }).catch(function () {
+                            handleAutoplayBlocked' . $id . '();
+                        });
+                    } else {
+                        setTimeout(function () {
+                            if (x' . $id . '.paused || x' . $id . '.currentTime === 0) {
+                                handleAutoplayBlocked' . $id . '();
+                            } else {
+                                autoplaySupported' . $id . ' = true;
+                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
+                                playing' . $id . ' = true;
+                            }
+                        }, 300);
+                    }
+                }
+        
+                function handleAutoplayBlocked' . $id . '() {
+                    autoplaySupported' . $id . ' = false;
+                    if (!alertShown' . $id . ') {
+                        alert("Autoplay is not supported in your browser. Please click the audio button to play music.");
+                        alertShown' . $id . ' = true;
+                    }
+        
+                    x' . $id . '.pause();
+                    x' . $id . '.currentTime = 0;
+                    x' . $id . '.muted = true;
+        
+                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                    jQuery("#audio_control' . $id . '").attr("data-play", "off");
+        
+                    document.getElementById("pano' . $id . '").addEventListener("click", musicPlay' . $id . ');
+                    document.addEventListener("touchstart", musicPlay' . $id . ', { once: true });
+                    document.addEventListener("click", musicPlay' . $id . ', { once: true });
+                }
+        
+                function musicPlay' . $id . '() {
+                    x' . $id . '.muted = false;
+                    var playPromise = x' . $id . '.play();
+        
+                    if (playPromise !== undefined) {
+                        playPromise.then(function () {
+                            jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                            jQuery("#audio_control' . $id . '").attr("data-play", "on");
+                            playing' . $id . ' = true;
+                        }).catch(function(e) {
+                            console.log("Play failed:", e);
+                        });
+                    } else {
+                        setTimeout(function () {
+                            if (!x' . $id . '.paused) {
+                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
+                                playing' . $id . ' = true;
+                            }
+                        }, 100);
+                    }
+        
                     document.getElementById("pano' . $id . '").removeEventListener("click", musicPlay' . $id . ');
+                    document.removeEventListener("touchstart", musicPlay' . $id . ');
+                    document.removeEventListener("click", musicPlay' . $id . ');
                 }
                 ';
-            }
         }
     }
     $html .= 'jQuery(document).ready(function() {';
@@ -2773,14 +2884,16 @@ function wpvr_block_render($attributes)
                 jQuery(".vrgctrl' . $id . '").empty();
                 jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
                 slide' . $id . ' = "down";
+                jQuery(".wpvr_slider_nav").slideToggle();
+    		    jQuery("#sccontrols' . $id . '").slideToggle();
               }
               else {
                 jQuery(".vrgctrl' . $id . '").empty();
                 jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
                 slide' . $id . ' = "up";
+                jQuery(".wpvr_slider_nav").slideToggle();
+    		    jQuery("#sccontrols' . $id . '").slideToggle();
               }
-              jQuery(".wpvr_slider_nav").slideToggle();
-              jQuery("#sccontrols' . $id . '").slideToggle();
             });
             ';
         } else {
@@ -2862,6 +2975,7 @@ function wpvr_block_render($attributes)
                     if (load_once == "true") {
                       load_once = "false";
                       jQuery("#sccontrols' . $id . '").slideToggle();
+                      jQuery(".wpvr_slider_nav").slideToggle();
                     }
             });';
         }
@@ -2878,10 +2992,10 @@ function wpvr_block_render($attributes)
           });';
     }
 
-
-    if (isset($postdata['previewtext'])) {
+    $previewText = $postdata['previewtext'] ?? 'Click To Load Panorama';
+    if ($previewText) {
         $html .= '
-        jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $postdata['previewtext'] . '")
+        jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previewText. '")
         ';
     } else {
         $html .= '
@@ -2904,10 +3018,10 @@ function wpvr_block_render($attributes)
     $tour_data = [];
     if(defined("WPVR_PRO_VERSION")){
         $tour_data = array(
-            'explainerControlSwitch' => $explainerControlSwitch,
-            'floor_plan_enable' => $floor_plan_enable,
-            'floor_plan_image' => $floor_plan_image,
-            'custom_control' => $custom_control,
+            'explainerControlSwitch' => $explainerControlSwitch ?? false,
+            'floor_plan_enable' => $floor_plan_enable ?? false,
+            'floor_plan_image' => $floor_plan_image ?? '',
+            'custom_control' => $custom_control ?? [],
         );
     }
 

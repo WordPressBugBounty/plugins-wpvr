@@ -839,6 +839,9 @@ div.pnlm-hotspot-base.fa-solid:before {
   font-size: 13px;
   line-height: 1.2;
   margin: 0;
+  width: 100%;
+  text-align: center;
+  max-width: 200px;
 }
 
 .scene-gallery ul li .scene-title {
@@ -865,6 +868,7 @@ div.pnlm-hotspot-base.fa-solid:before {
   padding: 10px 15px;
   background-color: rgba(0, 0, 0, 0.35);
   color: #fff;
+  
 }
 
 .scctrl {
@@ -927,8 +931,8 @@ div.pnlm-hotspot-base.fa-solid:before {
   bottom: 0;
 }
 
-#et-boc .et-l div.custom-tooltip p,
-div.custom-tooltip p {
+#et-boc .et-l div.custom-tooltip > p,
+div.custom-tooltip > p {
   visibility: hidden;
   position: absolute;
   border-radius: 3px;
@@ -946,19 +950,19 @@ div.custom-tooltip p {
   font-weight: 400;
 }
 
-#et-boc .et-l div.custom-tooltip p p,
-div.custom-tooltip p p {
+#et-boc .et-l div.custom-tooltip > p p,
+div.custom-tooltip > p p {
   max-height: 250px;
   overflow: auto;
 }
 
-#et-boc .et-l div.custom-tooltip p a,
-div.custom-tooltip p a {
+#et-boc .et-l div.custom-tooltip > p a,
+div.custom-tooltip > p a {
   transition: inherit;
 }
 
-#et-boc .et-l div.custom-tooltip p img,
-div.custom-tooltip p img {
+#et-boc .et-l div.custom-tooltip > p img,
+div.custom-tooltip > p img {
   max-width: inherit;
   height: 225px;
   width: 400px;
@@ -1571,9 +1575,6 @@ input[type="checkbox"]:checked
     width: 100%;
   }
 
-  .custom-tooltip p {
-    width: 200px;
-  }
 
   #cp-logo-controls .cp-logo-ctrl .cp-info {
     width: 240px;

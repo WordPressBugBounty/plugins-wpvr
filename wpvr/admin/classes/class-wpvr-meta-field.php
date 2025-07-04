@@ -3693,7 +3693,7 @@ public static function render_hotspot_info_textarea_field($name, $val)
             <?php } ?>
         </div>
 
-        <textarea name="<?= esc_attr($name); ?>"><?= esc_textarea(wp_kses($value, wp_kses_allowed_html('post'))); ?></textarea>
+        <textarea name="<?= esc_attr($name); ?>"><?= esc_textarea(wp_kses($value ?? '', wp_kses_allowed_html('post'))); ?></textarea>
     </div>
     <?php
     ob_end_flush();

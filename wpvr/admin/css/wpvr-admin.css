@@ -401,7 +401,7 @@ img.scctrl.upload-form-scene-gallery {
     color: #ccc;
 }
 
-div.custom-tooltip p {
+div.custom-tooltip > p {
     visibility: hidden;
     position: absolute;
     border-radius: 3px;
@@ -426,6 +426,7 @@ div.custom-tooltip:hover p {
     visibility: visible;
     width: 300px;
 }
+
 
 div.custom-tooltip:hover p:after {
     content: '';
@@ -546,15 +547,15 @@ div.custom-tooltip:hover p:after {
     line-height: 24px;
 }
 
-.custom-tooltip p {
-    background-color: #fff;
-    padding: 10px 0;
-    margin: auto;
-    border-radius: 5px;
-    width: 500px;
-    font-size: 16px;
-    line-height: 26px;
-}
+/*.custom-tooltip p {*/
+/*    background-color: #fff;*/
+/*    padding: 10px 0;*/
+/*    margin: auto;*/
+/*    border-radius: 5px;*/
+/*    width: 500px;*/
+/*    font-size: 16px;*/
+/*    line-height: 26px;*/
+/*}*/
 
 #custom-ifram img {
     max-width: 100%;
@@ -1301,6 +1302,7 @@ li.export.export-pro-tag {
 .rex-pano-tab-content .general .single-settings.preview-setting .preview-upload {
     display: none;
 }
+
 
 .rex-pano-tab .floorPlanData .floot-plan-setting .img-upload-frame,
 .rex-pano-tab-content .general .single-settings.preview-setting .img-upload-frame {
@@ -5328,85 +5330,6 @@ a:focus.wpvr-premium-feature__btn {
 }
 .note-group-select-from-files {
     display: none;
-}
-
-/*-----------setup wizard style-----------*/
-
-.setup-wizard-carousel .owl-nav {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.setup-wizard-carousel .owl-nav button.owl-prev,
-.setup-wizard-carousel .owl-nav button.owl-next {
-    border: none;
-    background: #1fb3fb !important;
-    display: inline-block;
-    padding: 12px 20px !important;
-    color: #fff;
-    margin: 0 3px;
-    border-radius: 5px;
-    font-size: 18px;
-}
-
-.setup-wizard-carousel .owl-nav button.owl-prev.disabled,
-.setup-wizard-carousel .owl-nav button.owl-next.disabled {
-    display: none;
-}
-
-.setup-wizard-carousel .single-setup h2 {
-    font-size: 40px;
-    font-weight: 500;
-    margin: 0 0 20px 0;
-}
-
-.setup-wizard-carousel .single-setup p {
-    font-size: 18px;
-}
-
-.setup-wizard-carousel .single-setup .input-group {
-    margin-bottom: 15px;
-}
-
-.setup-wizard-carousel .single-setup .input-group label {
-    font-size: 18px;
-    line-height: normal;
-    color: #333;
-    font-weight: 500;
-    position: relative;
-    padding-left: 35px;
-}
-
-.setup-wizard-carousel .single-setup .input-group label:before {
-    content: "";
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border: 2px solid #1fb3fb;
-    top: -3px;
-    left: 0;
-    border-radius: 100%;
-}
-
-.setup-wizard-carousel .single-setup .input-group label:after {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    background: #1fb3fb;
-    top: 2px;
-    left: 5px;
-    transform: scale(0);
-    border-radius: 100%;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.setup-wizard-carousel .single-setup .input-group input:checked~label:after {
-    transform: scale(1);
 }
 
 
