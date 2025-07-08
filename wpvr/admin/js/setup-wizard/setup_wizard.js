@@ -735,8 +735,6 @@
      */
     $(document).on('click', '.create-your-first-tour', function (e){
         e.preventDefault();
-        alert('hello');
-        // const domain = window.location.origin;
         const url = `${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1`;
         $(this).attr('href', url);
         if($('#wpvr-opt-in-toggle-button').is(':checked') && $( this ).hasClass( 'last-step' ) ) {

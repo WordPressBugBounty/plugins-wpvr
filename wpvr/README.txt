@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.8.1
 Requires PHP: 7.0.0
-Stable tag: 8.5.34
+Stable tag: 8.5.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -462,6 +462,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 8.5.35 (08-07-2025) =
+* Fix: Setup wizard redirect issue
+
 = 8.5.34 (04-07-2025) =
 * Fix: Scene gallery disappearing on last scene click in Modern Layout
 * Fix: Floor plan, Tour Background Music, and Explainer Video features not triggering
@@ -472,6 +475,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Fix: Resolved deprecated preg_replace() warning in content editor for null values
 * Fix: Enabled scene display after clicking the Tour Preview Image with Autoload disabled
 * Fix: Hotspot content no longer splits when custom font is applied via visual editor
+* Fix: Prevented PHP warnings and improved message when no tour is selected in the WPVR block
 
 = 8.5.33 (25-06-2025) =
 * Fix: XSS vulnerability issue for hotspot on hover content
