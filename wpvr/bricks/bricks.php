@@ -57,7 +57,7 @@ class Manager {
      * @access public
      */
     public function __construct() {
-        add_action('init', array($this, 'init'));
+        add_action('init', array($this, 'init'), 11);
     }
 
 

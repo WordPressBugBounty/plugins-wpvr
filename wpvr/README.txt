@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, real estate tour, panorama, panorama viewer, 360 panorama, interactive virtual tour, 360, Google Streetview, virtual reality, 360 video, virtual, vr, interactive VR tour, 360 view, equirectangular, google street view, panoramas, 360 panoramic image, 360 degree virtual tour, 360 virtual tour, wordpress 360 viewer, 360 VR Creator, free virtual tour, 360 image, virtual tour plugin
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 5.0
-Tested up to: 6.8.1
+Tested up to: 6.8.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.35
+Stable tag: 8.5.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -461,6 +461,14 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.36 (23-07-2025) =
+* Fix: iOS motion/orientation permission prompt added to enable gyroscope
+* Fix: Background tour not working when tour preview image is enabled
+* Fix: Compatibility issue with Bricks Builder 2.0
+* Fix: Company image and menu button incorrectly appearing on the frontend tour preview page
+* Fix: Frontend hover content now preserves chosen font, bullet points, and line breaks exactly as in preview
+* Fix: Prevented blank hover and click boxes from appearing when no content is entered in hotspot fields
 
 = 8.5.35 (08-07-2025) =
 * Fix: Setup wizard redirect issue

@@ -293,12 +293,12 @@ class WPVR_Meta_Field {
                 'title' => __('Generic Form','wpvr'),
                 'id' => 'wpvr_generic_form',
                 'type' => 'generic_form_checkbox',
-                'checked' => $genericform,
+                'checked' => $is_disable ? $genericform : 'off',
                 'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Enable this to add a form to the tour for user interaction.', 'wpvr'),
-                    'url'  => '' 
+                    'url'  => ''
                 ),
             )
         );
@@ -327,12 +327,12 @@ class WPVR_Meta_Field {
                 'title' => __('Call To Action ','wpvr'),
                 'id' => 'wpvr_cal_to_action_form',
                 'type' => 'call_to_form_checkbox',
-                'checked' => $calltoaction,
+                'checked' => $is_disable ? $calltoaction : 'off',
                 'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Add a call-to-action button that prompts users to take action during the tour.', 'wpvr'),
-                    'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/' 
+                    'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/'
                 ),
             )
         );
@@ -362,7 +362,7 @@ class WPVR_Meta_Field {
                 'title' => __('Custom CSS ','wpvr'),
                 'id' => 'wpvr_custom_css',
                 'type' => 'custom_css_form_checkbox',
-                'checked' => $customcss_enable,
+                'checked' => $is_disable ? $customcss_enable : 'off',
                 'is_disable' => $is_disable,
                 'have_tooltip' => true,
                 'tooltip_text' => array(

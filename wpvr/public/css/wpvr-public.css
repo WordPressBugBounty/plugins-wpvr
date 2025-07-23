@@ -32,10 +32,23 @@
 
 .generic_form_button {
   position: absolute;
-  top: 50%;
-  right: 0;
+  top: 110px;
+  right: 10px;
   z-index: 9;
   text-align: center;
+}
+
+.generic_form_button .generic-form-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  
+}
+
+.generic_form_button .generic-form-icon i {
+  font-size: 20px;
 }
 
 .close-generic-form {
@@ -272,21 +285,23 @@
   color: #fff;
 }
 
+.wpvr-home-content * {
+  box-sizing: border-box;
+}
+
 .wpvr-home-content {
   color: #fff;
   position: absolute;
   top: 50%;
   left: 50%;
-  z-index: 3;
+  z-index: 1;
   transform: translate(-50%, -50%);
   width: 100%;
   padding: 0 15px;
   box-sizing: border-box;
 }
 
-.wpvr-home-content * {
-  box-sizing: border-box;
-}
+
 
 .wpvr-home-title {
   font-size: calc(24px + (60 - 24) * ((100vw - 320px) / (1920 - 320)));
@@ -939,7 +954,6 @@ div.custom-tooltip > p {
   background-color: #fff;
   color: #000;
   font-size: 16px;
-  text-align: center;
   padding: 5px 10px;
   cursor: default;
   margin: 0 !important;
@@ -1491,6 +1505,13 @@ input[type="checkbox"]:checked
     flex-direction: column;
   }
 
+
+  .cp-logo-ctrl img {
+    max-width: 50px !important;
+    margin-left: auto;
+    display: block; 
+  }
+
   div.custom-tooltip span img {
     height: 240px;
     width: 420px;
@@ -1516,6 +1537,10 @@ input[type="checkbox"]:checked
   }
   .wpvr-cardboard.enable-cardboard .pnlm-compass {
     right: 74px !important;
+  }
+
+  .generic_form_button {
+    top: 70px;
   }
 
   .et-db #et-boc .wpvr-floor-map,

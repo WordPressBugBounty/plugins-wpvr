@@ -16,8 +16,8 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.35
- * Tested up to:      6.8.1
+ * Version:           8.5.36
+ * Tested up to:      6.8.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
  * License:           GPL-2.0+
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.35');
+define('WPVR_VERSION', '8.5.36');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -1027,18 +1027,7 @@ function wpvr_block_render($attributes)
                         },
                         $hotspot_data['hotspot-hover'] ?? ''
                     );
-                    $allowed_tags = [
-                        'a' => ['href' => [], 'title' => []],
-                        'img' => ['src' => [], 'alt' => [], 'title' => [], 'width' => [], 'height' => []],
-                        'br' => [],
-                        'em' => [],
-                        'strong' => [],
-                        'p' => [],
-                        'span' => ['style' => []],
-                        'b' => [],
-                        'i' => [],
-                    ];
-                    $on_hover_content = wp_kses($on_hover_content ?? '', $allowed_tags);
+                    $on_hover_content = sanitize_content_preserve_styles($on_hover_content ?? '');
                     $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $hotspot_shape = 'round';
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
@@ -1071,7 +1060,7 @@ function wpvr_block_render($attributes)
                         'URL' => $hotspot_data['hotspot-url'],
                         "wpvr_url_open" => $wpvr_url_open,
                         "clickHandlerArgs" => $hotspot_data_for_on_click,
-                        'createTooltipArgs' => $on_hover_content,
+                        'createTooltipArgs' => !empty(trim($on_hover_content)) ? trim($on_hover_content) : '',
                         "sceneId" => $hotspot_data["hotspot-scene"],
                         "targetPitch" => (float)$hotspot_scene_pitch,
                         "targetYaw" => (float)$hotspot_scene_yaw,
@@ -1234,7 +1223,7 @@ function wpvr_block_render($attributes)
     $response = array();
     $response = array($pano_id_array, $pano_response);
     if (!empty($response)) {
-        $response = json_encode($response);
+        $response = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
     if (empty($width)) {
         $width = '600';
@@ -1667,16 +1656,37 @@ function wpvr_block_render($attributes)
 
     //===Scene navigation  Control===//
 
-    //=====custom generic form=====//
-    if (isset($postdata["genericform"]) && $postdata["genericform"] == 'on') {
-        $shortcode_val = isset($postdata["genericformshortcode"]) && $postdata["genericformshortcode"] !== "" ? do_shortcode($postdata["genericformshortcode"]) : "No shortcode found";
+    /**
+     * Generic Form Handler
+     * Renders a generic form with modal functionality if enabled in post data
+     * 
+     * @param array $postdata Array containing form configuration data
+     * @param string $id Unique identifier for the form instance
+     * @return string $html Generated HTML content
+     */
+
+    // Check if generic form is enabled and validate the setting
+    if (isset($postdata["genericform"]) && $postdata["genericform"] === 'on') {
+
+        // $shortcode_val = isset($postdata["genericformshortcode"]) && $postdata["genericformshortcode"] !== "" ? do_shortcode($postdata["genericformshortcode"]) : "No shortcode found or shortcode is empty";
+
+        // Process shortcode with fallback handling
+        $shortcode_content = '';
+        if (isset($postdata["genericformshortcode"]) && !empty(trim($postdata["genericformshortcode"]))) {
+            $shortcode_content = do_shortcode($postdata["genericformshortcode"]);
+        } else {
+            $shortcode_content = '<p class="error-message">No shortcode found.</p>';
+        }
+
+        // Generate the form trigger button
         $html .= '<div class="generic_form_button" id="generic_form_button_' . esc_attr( $id ) . '">';
-        $html .= '<div class="ctrl" id="generic_form_target_' . esc_attr( $id ) . '"><i class="fab fa-wpforms" style="color:#f7fffb;"></i></div>';
+        $html .= '<div class="generic-form-icon" title ="Generic Form" id="generic_form_target_' . esc_attr( $id ) . '"><i class="fab fa-wpforms" style="color:#f7fffb;"></i></div>';
         $html .= '</div>';
 
+        // Generate the modal form container
         $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . esc_attr( $id ) . '" style="display: none">';
         $html .= '<span class="close-generic-form"><i class="fa fa-times"></i></span>';
-        $html .= '<div class="generic-form-container">' . $shortcode_val . '</div>';
+        $html .= '<div class="generic-form-container">' . $shortcode_content . '</div>';
         $html .= '</div>';
     }
     //=====custom generic form=====//
@@ -2094,7 +2104,7 @@ function wpvr_block_render($attributes)
     $response2 = json_decode($response);
     $response2[1]->compass = false;
     $response2[1]->autoRotate = false;
-    $response = json_encode($response2);
+    $response = json_encode($response2, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     $html .= 'var response_duplicate = ' . $response . ';';
     $html .= 'var scenes_duplicate = response_duplicate[1];';
 
@@ -2514,17 +2524,20 @@ function wpvr_block_render($attributes)
            jQuery(this).addClass("add-pulse")
     });';
 
-    if($scene_animation == 'on'){
+    if ($scene_animation == 'on') {
         $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
-        $html .= $animation_js;
-        $html .= 'panoshow' . $id . '.on("load", function (scene){
-				if (typeof changeScene === "function") {
-					changeScene();
-				} else {
-					console.warn("changeScene function is not defined.");
-				}
-			});';
+        if (!empty($animation_js)) {
+            $html .= $animation_js;
+            $html .= 'panoshow' . $id . '.on("load", function (scene){
+                if (typeof changeScene === "function") {
+                    changeScene();
+                } else {
+                    console.warn("changeScene function is not defined.");
+                }
+            });';
+        }
     }
+
 
     $html .= '
     panoshow' . $id . '.on("mousemove", function (data){
@@ -2750,55 +2763,89 @@ function wpvr_block_render($attributes)
 
         if ($custom_control['gyroscopeSwitch'] == "on") {
             $html .= '
-            var element = document.getElementById("gyroscope' . $id . '");
-            var gyroSwitch = true;
-            panoshow' . $id . '.on("load", function (){
-                if(gyroSwitch == false) {
-                    panoshow' . $id . '.stopOrientation();
-                    element.children[0].style.color = "red";
-                }
-                else {
-                    panoshow' . $id . '.startOrientation();
-                    element.children[0].style.color = "' . $custom_control['gyroscopeColor'] . '";
-                }
-            });
-            panoshow' . $id . '.on("scenechange", function (){
-                if (panoshow' . $id . '.isOrientationActive()) {
-                    element.children[0].style.color = "' . $custom_control['gyroscopeColor'] . '";
-                }
-                else {
-                    element.children[0].style.color = "red";
-                }
-            });
+    var element = document.getElementById("gyroscope' . $id . '");
+    var gyroSwitch = true;
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    var permissionGranted = false;
 
-            panoshow' . $id . '.on("touchstart", function (){
+    function requestOrientationPermission() {
+        if (isIOS) {
+            if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                DeviceOrientationEvent.requestPermission()
+                    .then(function(state) {
+                        if (state === "granted") {
+                            permissionGranted = true;
+                            startOrientation();
+                        } else {
+                            element.children[0].style.color = "red";
+                            gyroSwitch = false;
+                            alert("Permission to use motion sensors was denied.");
+                        }
+                    })
+                    .catch(function(error) {
+                        element.children[0].style.color = "red";
+                        gyroSwitch = false;
+                        console.error("Error requesting device orientation permission:", error);
+                    });
+            }
+        } else {
+            startOrientation();
+        }
+    }
+
+    function startOrientation() {
+        panoshow' . $id . '.startOrientation();
+        element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
+        gyroSwitch = true;
+    }
+
+    panoshow' . $id . '.on("load", function() {
+        if (!isIOS || permissionGranted) {
+            if (gyroSwitch) {
+                startOrientation();
+            } else {
+                panoshow' . $id . '.stopOrientation();
+                element.children[0].style.color = "red";
+            }
+        }
+    });
+
+    panoshow' . $id . '.on("scenechange", function() {
+        if (!isIOS || permissionGranted) {
+            if (panoshow' . $id . '.isOrientationActive()) {
+                element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
+            } else {
+                element.children[0].style.color = "red";
+            }
+        }
+    });
+    
+    panoshow' . $id . '.on("touchstart", function() {
+        if (!isIOS || permissionGranted) {
             if (panoshow' . $id . '.isOrientationActive()) {
                 gyroSwitch = true;
-                element.children[0].style.color = "' . $custom_control['gyroscopeColor'] . '";
-            }
-            else {
+                element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
+            } else {
                 gyroSwitch = false;
                 element.children[0].style.color = "red";
             }
-            });
-            ';
-            $html .= 'document.getElementById("gyroscope' . $id . '").addEventListener("click", function(e) {';
-            $html .= '
-                var element = document.getElementById("gyroscope' . $id . '");
-                if (panoshow' . $id . '.isOrientationActive()) {
-                    
-                  panoshow' . $id . '.stopOrientation();
-                  gyroSwitch = false;
-                  element.children[0].style.color = "red";
-                }
-                else {
-                  panoshow' . $id . '.startOrientation();
-                  gyroSwitch = true;
-                  element.children[0].style.color = "' . $custom_control['gyroscopeColor'] . '";
-                }
+        }
+    });';
 
-              ';
-            $html .= '});';
+            $html .= 'document.getElementById("gyroscope' . $id . '").addEventListener("click", function(e) {
+        var element = document.getElementById("gyroscope' . $id . '");
+        if (isIOS && typeof DeviceOrientationEvent.requestPermission === "function" && !permissionGranted) {
+            requestOrientationPermission();
+        } else {
+            if (panoshow' . $id . '.isOrientationActive()) {
+                panoshow' . $id . '.stopOrientation();
+                gyroSwitch = false;
+                element.children[0].style.color = "red";
+            } else {
+                startOrientation();
+            }
+        }
+    });';
         }
     }
 
@@ -2832,7 +2879,7 @@ function wpvr_block_render($attributes)
     //===Explainer Script End===//
 
     //===generic form script===//
-    if (isset($postdata["genericform"]) && $postdata["genericform"] == 'on') {
+    if (isset($postdata["genericform"]) && $postdata["genericform"] === 'on') {
         $html .= '
         jQuery(document).on("click","#generic_form_button_' . $id . '",function() {
           jQuery("#wpvr-generic-form' . $id . '").fadeToggle();
@@ -2843,6 +2890,7 @@ function wpvr_block_render($attributes)
         });
         ';
     }
+
     //===generic from script===//
 
     //===Floor map  Script===//
@@ -2964,6 +3012,8 @@ function wpvr_block_render($attributes)
                 jQuery("#generic_form_button_' . $id . '").hide();
                 jQuery("#floor_map_button_' . $id . '").hide();
                 jQuery("#vrgcontrols' . $id . '").hide();
+                jQuery("#cp-logo-controls").hide();
+                jQuery(".custom-scene-navigation").hide();
                 jQuery("#pano' . $id . '").find(".pnlm-panorama-info").hide();
           });
 
@@ -2988,6 +3038,8 @@ function wpvr_block_render($attributes)
               jQuery("#generic_form_button_' . $id . '").show();
               jQuery("#floor_map_button_' . $id . '").show();
               jQuery("#vrgcontrols' . $id . '").show();
+              jQuery("#cp-logo-controls").show();
+              jQuery(".custom-scene-navigation").show();
               jQuery("#pano' . $id . '").find(".pnlm-panorama-info").show();
           });';
     }
@@ -3028,6 +3080,87 @@ function wpvr_block_render($attributes)
     return apply_filters('wpvr_generate_tour_layout_html', $html ,$postdata ,$id, $tour_data);
 }
 
+function sanitize_content_preserve_styles($content) {
+    // Remove script tags completely
+    $content = preg_replace('/<script\b[^>]*>.*?<\/script>/si', '', $content);
+
+    // Remove dangerous protocols
+    $content = preg_replace('/javascript:/i', '', $content);
+    $content = preg_replace('/vbscript:/i', '', $content);
+    $content = preg_replace('/data:/i', '', $content);
+    $content = preg_replace('/about:/i', '', $content);
+
+    // Remove all event handlers (onclick, onload, etc.)
+    $content = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/i', '', $content);
+    $content = preg_replace('/\s*on\w+\s*=\s*[^>\s]+/i', '', $content);
+
+    // Remove dangerous tags that can execute code
+    $content = preg_replace('/<(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)\b[^>]*>/i', '', $content);
+    $content = preg_replace('/<\/(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+
+    // Sanitize CSS in style attributes - remove dangerous CSS functions
+    $content = preg_replace_callback('/style\s*=\s*["\']([^"\']*)["\']/', function($matches) {
+        $style = $matches[1];
+
+        // Remove dangerous CSS functions
+        $style = preg_replace('/expression\s*\(/i', '', $style);
+        $style = preg_replace('/javascript:/i', '', $style);
+        $style = preg_replace('/vbscript:/i', '', $style);
+        $style = preg_replace('/data:/i', '', $style);
+        $style = preg_replace('/about:/i', '', $style);
+        $style = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $style);
+        $style = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $style);
+        $style = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $style);
+        $style = preg_replace('/import\s*["\']?\s*javascript:/i', '', $style);
+        $style = preg_replace('/behavior\s*:/i', '', $style);
+        $style = preg_replace('/-moz-binding\s*:/i', '', $style);
+
+        return 'style="' . $style . '"';
+    }, $content);
+
+    // Sanitize CSS in style tags
+    $content = preg_replace_callback('/<style\b[^>]*>(.*?)<\/style>/si', function($matches) {
+        $css = $matches[1];
+
+        // Remove dangerous CSS functions
+        $css = preg_replace('/expression\s*\(/i', '', $css);
+        $css = preg_replace('/javascript:/i', '', $css);
+        $css = preg_replace('/vbscript:/i', '', $css);
+        $css = preg_replace('/data:/i', '', $css);
+        $css = preg_replace('/about:/i', '', $css);
+        $css = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $css);
+        $css = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $css);
+        $css = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $css);
+        $css = preg_replace('/import\s*["\']?\s*javascript:/i', '', $css);
+        $css = preg_replace('/behavior\s*:/i', '', $css);
+        $css = preg_replace('/-moz-binding\s*:/i', '', $css);
+
+        return '<style>' . $css . '</style>';
+    }, $content);
+
+    // Remove dangerous attributes from any tag
+    $content = preg_replace('/\s*srcdoc\s*=\s*["\'][^"\']*["\']/i', '', $content);
+    $content = preg_replace('/\s*formaction\s*=\s*["\'][^"\']*["\']/i', '', $content);
+    $content = preg_replace('/\s*action\s*=\s*["\'][^"\']*["\']/i', '', $content);
+
+    // Clean up malformed HTML that might bypass filters
+    $content = preg_replace('/<[^>]*script[^>]*>/i', '', $content);
+    $content = preg_replace('/<[^>]*on\w+[^>]*>/i', '', $content);
+
+    // Remove comments that might contain dangerous code
+    $content = preg_replace('/<!--.*?-->/s', '', $content);
+
+    // Remove any remaining dangerous patterns
+    $content = preg_replace('/\beval\s*\(/i', '', $content);
+    $content = preg_replace('/\bsetTimeout\s*\(/i', '', $content);
+    $content = preg_replace('/\bsetInterval\s*\(/i', '', $content);
+
+    // Final cleanup - remove any orphaned closing tags from removed elements
+    $content = preg_replace('/<\/(script|object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+    error_log(wp_kses_post($content));
+    // Final pass with wp_kses_post for additional security
+    return wp_kses_post($content);
+}
 
 function wpvr_hex2rgb($colour)
 {

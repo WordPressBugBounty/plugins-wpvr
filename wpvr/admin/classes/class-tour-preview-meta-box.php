@@ -615,10 +615,16 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 if (scenes) {
                     jQuery.each(scenes.scenes, function(i) {
                         jQuery.each(scenes.scenes[i]['hotSpots'], function(key, val) {
-                            if (val["clickHandlerArgs"] != "") {
+                            if (
+                                val["clickHandlerArgs"] &&
+                                val["clickHandlerArgs"].replace(/<[^>]*>/g, '').trim() !== ''
+                            ) {
                                 val["clickHandlerFunc"] = wpvrhotspot;
                             }
-                            if (val["createTooltipArgs"] != "") {
+                            if (
+                                val["createTooltipArgs"] &&
+                                val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== ''
+                            ) {
                                 val["createTooltipFunc"] = wpvrtooltip;
                             }
                         });
@@ -639,6 +645,14 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
                 if (response[1]['scenes'] != "") {
                     var panoshow = pannellum.viewer(response[0]["panoid"], scenes);
+                    var autoLoad = <?php echo json_encode($autoload); ?>;
+                    if (!autoLoad) {
+                        jQuery('.pnlm-controls-container').hide();
+                    }
+
+                    panoshow.on('load', function(){
+                        jQuery('.pnlm-controls-container').show();
+                    });
 
                     if (scenes.autoRotate) {
                         panoshow.on('load', function() {
@@ -706,6 +720,15 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                     hotSpotDiv.appendChild(span);
                     span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
                     span.style.marginTop = -span.scrollHeight - 12 + 'px';
+                    const style = document.createElement('style');
+                    style.textContent = `
+                      .table, .table td, .table th {
+                        border: 1px solid #dee2e6;
+                        border-collapse: collapse;
+                        padding: 8px;
+                      }
+                    `;
+                    document.head.appendChild(style);
                 }
 
                 jQuery(document).ready(function($) {
@@ -818,31 +841,6 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                     jQuery( this).children(".plan-delete").attr('data-id',number);
                 });
             });
-
-                //jQuery(document).ready(function (){
-                //    var codeMirro = jQuery(".CodeMirror.cm-s-default.CodeMirror-wrap").length
-                //    if( !codeMirro){
-                //        var editorContainer = document.querySelector('#code-mirror-editor')
-                //        // buttonEditor =  CodeMirror.fromTextArea(document.getElementById("code-mirror-editor"), {
-                //        var buttonEditor = CodeMirror(editorContainer, {
-                //            lineNumbers: true,
-                //            mode: "htmlmixed",
-                //            theme: "default",
-                //            styleActiveLine: true,
-                //            styleSelectedText: true,
-                //            lineWrapping: true,
-                //            width: "500px",
-                //            height: "300px",
-                //            'viewportMargin': Infinity,
-                //        });
-                //        buttonEditor.setValue('shahin');
-                //
-                //        buttonEditor.setCursor({ line: 10, ch: 10 });
-                //        buttonEditor.setValue(`<?php //= $calltoactionbutton_css; ?>//`);
-                //    }
-                //})
-
-
 
             </script>
         <?php } ?>

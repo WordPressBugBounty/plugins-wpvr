@@ -180,10 +180,16 @@
                             if (scenes) {
                                 $.each(scenes.scenes, function (i) {
                                     $.each(scenes.scenes[i]['hotSpots'], function (key, val) {
-                                        if (val["clickHandlerArgs"] != "") {
+                                        if (
+                                            val["clickHandlerArgs"] &&
+                                            val["clickHandlerArgs"].replace(/<[^>]*>/g, '').trim() !== ''
+                                        ) {
                                             val["clickHandlerFunc"] = wpvrhotspot;
                                         }
-                                        if (val["createTooltipArgs"] != "") {
+                                        if (
+                                            val["createTooltipArgs"] &&
+                                            val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== ''
+                                        ) {
                                             val["createTooltipFunc"] = wpvrtooltip;
                                         }
                                     });
@@ -206,7 +212,17 @@
                                 var get_owl_target = $('#scene-' + active_owl_target).find('input.sceneid').val();
                                 $('.owl' + get_owl_target).parents('.owl-item').addClass('marked');
                             }
+
+                            if(!scenes.autoLoad){
+                                jQuery('.pnlm-controls-container').hide();
+                            }
+
                             var panoshow = pannellum.viewer(response.data[0]["panoid"], scenes);
+
+                            panoshow.on('load', function(){
+                                jQuery('.pnlm-controls-container').show();
+                            });
+
                             if (scenes.autoRotate) {
                                 panoshow.on('load', function () {
                                     setTimeout(function () {

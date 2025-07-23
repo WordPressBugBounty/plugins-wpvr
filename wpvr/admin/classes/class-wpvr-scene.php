@@ -963,18 +963,7 @@ class WPVR_Scene {
                         },
                         $hotspot_data['hotspot-hover'] ?? ''
                     );
-                    $allowed_tags = [
-                        'a' => ['href' => [], 'title' => []],
-                        'img' => ['src' => [], 'alt' => [], 'title' => [], 'width' => [], 'height' => []],
-                        'br' => [],
-                        'em' => [],
-                        'strong' => [],
-                        'p' => [],
-                        'span' => ['style' => []],
-                        'b' => [],
-                        'i' => [],
-                    ];
-                    $on_hover_content = wp_kses($on_hover_content ?? '', $allowed_tags);
+                    $on_hover_content = $this->sanitize_content_preserve_styles($on_hover_content ?? '');
                     $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $hotspot_shape = 'round';
                     if (isset($hotspot_data["hotspot-customclass-pro"]) && $hotspot_data["hotspot-customclass-pro"] != 'none') {
@@ -1165,7 +1154,7 @@ class WPVR_Scene {
         $response = array();
         $response = array($pano_id_array, $pano_response);
         if (!empty($response)) {
-            $response = json_encode($response);
+            $response = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
 
@@ -2442,20 +2431,23 @@ class WPVR_Scene {
            jQuery(".floor-plan-pointer").removeClass("add-pulse")
            jQuery(this).addClass("add-pulse")
         });';
-        if($scene_animation == 'on'){
+        if ($scene_animation == 'on') {
             $animation_type = $postdata['sceneAnimationName'] ?? 'none';
             $animationDuration = $postdata['sceneAnimationTransitionDuration'] ?? '500ms';
             $animationDelay = $postdata['sceneAnimationTransitionDelay'] ?? '0ms';
             $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
-            $html .= $animation_js;
-            $html .= 'panoshow' . $id . '.on("load", function (scene){
-				if (typeof changeScene === "function") {
-					changeScene();
-				} else {
-					console.warn("changeScene function is not defined.");
-				}
-			});';
+            if (!empty($animation_js)) {
+                $html .= $animation_js;
+                $html .= 'panoshow' . $id . '.on("load", function (scene){
+                    if (typeof changeScene === "function") {
+                        changeScene();
+                    } else {
+                        console.warn("changeScene function is not defined.");
+                    }
+                });';
+            }
         }
+
         $html .= 'panoshow' . $id . '.on("mousemove", function (data){
             jQuery(".add-pulse").css({"transform":"rotate("+data.yaw+"deg)"});
         });
@@ -2653,48 +2645,89 @@ class WPVR_Scene {
             }
             if ($custom_control['gyroscopeSwitch'] == "on") {
                 $html .= '
-                var element = document.getElementById("gyroscope' . $id . '");
-                var gyroSwitch = true;
-                panoshow' . $id . '.on("load", function (){
-                    if(gyroSwitch == false) {
-                        panoshow' . $id . '.stopOrientation();
-                        element.children[0].style.color = "red";
-                    }
-                    else {
-                        panoshow' . $id . '.startOrientation();
-                        element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
-                    }
-                });
-                panoshow' . $id . '.on("scenechange", function (){
+                        var element = document.getElementById("gyroscope' . $id . '");
+                        var gyroSwitch = true;
+                        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                        var permissionGranted = false;
+    
+                        function requestOrientationPermission() {
+                            if (isIOS) {
+                                if (typeof DeviceOrientationEvent.requestPermission === "function") {
+                                    DeviceOrientationEvent.requestPermission()
+                                        .then(function(state) {
+                                            if (state === "granted") {
+                                                permissionGranted = true;
+                                                startOrientation();
+                                            } else {
+                                                element.children[0].style.color = "red";
+                                                gyroSwitch = false;
+                                                alert("Permission to use motion sensors was denied.");
+                                            }
+                                        })
+                                        .catch(function(error) {
+                                            element.children[0].style.color = "red";
+                                            gyroSwitch = false;
+                                            console.error("Error requesting device orientation permission:", error);
+                                        });
+                                }
+                            } else {
+                                startOrientation();
+                            }
+                        }
+    
+                        function startOrientation() {
+                            panoshow' . $id . '.startOrientation();
+                            element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
+                            gyroSwitch = true;
+                        }
+    
+                        panoshow' . $id . '.on("load", function() {
+                            if (!isIOS || permissionGranted) {
+                                if (gyroSwitch) {
+                                    startOrientation();
+                                } else {
+                                    panoshow' . $id . '.stopOrientation();
+                                    element.children[0].style.color = "red";
+                                }
+                            }
+            });
+    
+            panoshow' . $id . '.on("scenechange", function() {
+                if (!isIOS || permissionGranted) {
                     if (panoshow' . $id . '.isOrientationActive()) {
                         element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
-                    }
-                    else {
+                    } else {
                         element.children[0].style.color = "red";
                     }
-                });
-                panoshow' . $id . '.on("touchstart", function (){
+                }
+            });
+            
+        panoshow' . $id . '.on("touchstart", function() {
+            if (!isIOS || permissionGranted) {
                 if (panoshow' . $id . '.isOrientationActive()) {
                     gyroSwitch = true;
                     element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
-                }
-                else {
+                } else {
                     gyroSwitch = false;
                     element.children[0].style.color = "red";
                 }
-                });';
-                $html .= 'document.getElementById("gyroscope' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'var element = document.getElementById("gyroscope' . $id . '");
-                    if (panoshow' . $id . '.isOrientationActive()) {
-                      panoshow' . $id . '.stopOrientation();
-                      gyroSwitch = false;
-                      element.children[0].style.color = "red";
-                    } else {
-                      panoshow' . $id . '.startOrientation();
-                      gyroSwitch = true;
-                      element.children[0].style.color = "'.$custom_control['gyroscopeColor'].'";
-                    }';
-                $html .= '});';
+            }
+        });';
+
+                $html .= 'document.getElementById("gyroscope' . $id . '").addEventListener("click", function(e) {
+        var element = document.getElementById("gyroscope' . $id . '");
+        if (isIOS && typeof DeviceOrientationEvent.requestPermission === "function" && !permissionGranted) {
+            requestOrientationPermission();
+        } else {
+            if (panoshow' . $id . '.isOrientationActive()) {
+                panoshow' . $id . '.stopOrientation();
+                gyroSwitch = false;
+                element.children[0].style.color = "red";
+            } else {
+                startOrientation();
+            }
+        }
+    });';
             }
         }
         $angle_up = '<i class="fa fa-angle-up"></i>';
@@ -2823,6 +2856,8 @@ class WPVR_Scene {
                     jQuery("#explainer_button_' . $id . '").hide();
                     jQuery("#floor_map_button_' . $id . '").hide();
                     jQuery("#vrgcontrols' . $id . '").hide();
+                    jQuery("#cp-logo-controls").hide();
+                    jQuery(".custom-scene-navigation").hide();
                     jQuery("#pano' . $id . '").find(".pnlm-panorama-info").hide();
                 });';
             if ($vrgallery_display) {
@@ -2842,6 +2877,8 @@ class WPVR_Scene {
                     jQuery("#explainer_button_' . $id . '").show();
                     jQuery("#floor_map_button_' . $id . '").show();
                     jQuery("#vrgcontrols' . $id . '").show();
+                    jQuery("#cp-logo-controls").show();
+                    jQuery(".custom-scene-navigation").show();
                     jQuery("#pano' . $id . '").find(".pnlm-panorama-info").show();
             });';
         }
@@ -2934,5 +2971,87 @@ class WPVR_Scene {
             return str_replace('<img','<img decoding="async"',$match);
         }
 
+    }
+
+    private function sanitize_content_preserve_styles($content) {
+        // Remove script tags completely
+        $content = preg_replace('/<script\b[^>]*>.*?<\/script>/si', '', $content);
+
+        // Remove dangerous protocols
+        $content = preg_replace('/javascript:/i', '', $content);
+        $content = preg_replace('/vbscript:/i', '', $content);
+        $content = preg_replace('/data:/i', '', $content);
+        $content = preg_replace('/about:/i', '', $content);
+
+        // Remove all event handlers (onclick, onload, etc.)
+        $content = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/i', '', $content);
+        $content = preg_replace('/\s*on\w+\s*=\s*[^>\s]+/i', '', $content);
+
+        // Remove dangerous tags that can execute code
+        $content = preg_replace('/<(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)\b[^>]*>/i', '', $content);
+        $content = preg_replace('/<\/(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+
+        // Sanitize CSS in style attributes - remove dangerous CSS functions
+        $content = preg_replace_callback('/style\s*=\s*["\']([^"\']*)["\']/', function($matches) {
+            $style = $matches[1];
+
+            // Remove dangerous CSS functions
+            $style = preg_replace('/expression\s*\(/i', '', $style);
+            $style = preg_replace('/javascript:/i', '', $style);
+            $style = preg_replace('/vbscript:/i', '', $style);
+            $style = preg_replace('/data:/i', '', $style);
+            $style = preg_replace('/about:/i', '', $style);
+            $style = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $style);
+            $style = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $style);
+            $style = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $style);
+            $style = preg_replace('/import\s*["\']?\s*javascript:/i', '', $style);
+            $style = preg_replace('/behavior\s*:/i', '', $style);
+            $style = preg_replace('/-moz-binding\s*:/i', '', $style);
+
+            return 'style="' . $style . '"';
+        }, $content);
+
+        // Sanitize CSS in style tags
+        $content = preg_replace_callback('/<style\b[^>]*>(.*?)<\/style>/si', function($matches) {
+            $css = $matches[1];
+
+            // Remove dangerous CSS functions
+            $css = preg_replace('/expression\s*\(/i', '', $css);
+            $css = preg_replace('/javascript:/i', '', $css);
+            $css = preg_replace('/vbscript:/i', '', $css);
+            $css = preg_replace('/data:/i', '', $css);
+            $css = preg_replace('/about:/i', '', $css);
+            $css = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $css);
+            $css = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $css);
+            $css = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $css);
+            $css = preg_replace('/import\s*["\']?\s*javascript:/i', '', $css);
+            $css = preg_replace('/behavior\s*:/i', '', $css);
+            $css = preg_replace('/-moz-binding\s*:/i', '', $css);
+
+            return '<style>' . $css . '</style>';
+        }, $content);
+
+        // Remove dangerous attributes from any tag
+        $content = preg_replace('/\s*srcdoc\s*=\s*["\'][^"\']*["\']/i', '', $content);
+        $content = preg_replace('/\s*formaction\s*=\s*["\'][^"\']*["\']/i', '', $content);
+        $content = preg_replace('/\s*action\s*=\s*["\'][^"\']*["\']/i', '', $content);
+
+        // Clean up malformed HTML that might bypass filters
+        $content = preg_replace('/<[^>]*script[^>]*>/i', '', $content);
+        $content = preg_replace('/<[^>]*on\w+[^>]*>/i', '', $content);
+
+        // Remove comments that might contain dangerous code
+        $content = preg_replace('/<!--.*?-->/s', '', $content);
+
+        // Remove any remaining dangerous patterns
+        $content = preg_replace('/\beval\s*\(/i', '', $content);
+        $content = preg_replace('/\bsetTimeout\s*\(/i', '', $content);
+        $content = preg_replace('/\bsetInterval\s*\(/i', '', $content);
+
+        // Final cleanup - remove any orphaned closing tags from removed elements
+        $content = preg_replace('/<\/(script|object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+        error_log(wp_kses_post($content));
+        // Final pass with wp_kses_post for additional security
+        return wp_kses_post($content);
     }
 }
