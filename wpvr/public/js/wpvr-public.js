@@ -31,31 +31,60 @@
 
 })(jQuery);
 function wpvrhotspot(hotSpotDiv, hotspotData) {
-    let args = hotspotData.on_click_content;
-    if(args && args.replace(/<[^>]*>/g, '').trim() !== '') {
-        var argst = args.replace(/\\/g, '');
-        jQuery(document).ready(function($) {
-            $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").find('.custom-ifram').html(argst);
-            $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper").fadeToggle();
-            $(hotSpotDiv.target).parent().parent(".pano-wrap").toggleClass("show-modal");
-        });
+    const args = hotspotData.on_click_content;
+
+    if (args) {
+        const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
+        const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+        const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+
+        if (hasTextContent || hasMediaContent || hasOtherContent) {
+            const cleanArgs = args.replace(/\\/g, '');
+
+            jQuery(document).ready(function ($) {
+                const $wrapper = $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper");
+                $wrapper.find('.custom-ifram').html(cleanArgs);
+                $wrapper.fadeToggle();
+                $(hotSpotDiv.target).closest(".pano-wrap").toggleClass("show-modal");
+            });
+        }
     }
 }
 
 function wpvrtooltip(hotSpotDiv, args) {
-    if (
-        args &&
-        args.replace(/<[^>]*>/g, '').trim() !== ''
-    ){
-        hotSpotDiv.classList.add('custom-tooltip');
-        var p = document.createElement('p');
-        args = args.replace(/\\/g, "");
-        p.innerHTML = args;
-        hotSpotDiv.appendChild(p);
-        p.style.marginLeft = -(p.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
-        p.style.marginTop = -p.scrollHeight - 12 + 'px';
+    if (args) {
+        const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
+        const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+        const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+
+        if (hasTextContent || hasMediaContent || hasOtherContent) {
+            const cleanArgs = args.replace(/\\/g, '');
+
+            hotSpotDiv.classList.add('custom-tooltip');
+            const p = document.createElement('p');
+            p.innerHTML = cleanArgs;
+            hotSpotDiv.appendChild(p);
+
+            p.style.marginLeft = -(p.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+            p.style.marginTop = -p.scrollHeight - 12 + 'px';
+
+            // Optional: inject style once
+            if (!document.getElementById('wpvr-tooltip-style')) {
+                const style = document.createElement('style');
+                style.id = 'wpvr-tooltip-style';
+                style.textContent = `
+                    .table, .table td, .table th {
+                        border: 1px solid #dee2e6;
+                        border-collapse: collapse;
+                        padding: 8px;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
     }
 }
+
 
 function wpvrSanitizeHTML(html) {
     if (!html || typeof html !== 'string') {

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP VR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-11 10:17+0000\n"
-"PO-Revision-Date: 2024-03-05 03:28+0000\n"
+"PO-Revision-Date: 2025-08-20 07:11+0000\n"
 "Last-Translator: devadmin <tipu@coderex.co>\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -16,29 +16,36 @@ msgstr ""
 "X-Loco-Version: 2.3.1; wp-5.2.5"
 
 #: admin/classes/class-wpvr-meta-field.php:2256
+#: production/admin/classes/class-wpvr-meta-field.php:2256
 msgid " : "
-msgstr ""
+msgstr ":"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:77
+#: production/oxygen/elements/Wpvr_Tour_Element.php:77
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: admin/partials/wpvr_setup_wizard.php:51
+#: production/admin/partials/wpvr_setup_wizard.php:51
 msgid "360 Degree Panorama"
-msgstr ""
+msgstr "360stupňové panorama"
 
 #: admin/partials/wpvr_setup_wizard.php:87
+#: production/admin/partials/wpvr_setup_wizard.php:87
 msgid "360 Degree Video"
-msgstr ""
+msgstr "360stupňové video"
 
-#: admin/partials/wpvr_documentation.php:472
+#: admin/partials/wpvr_documentation.php:488
+#: production/admin/partials/wpvr_documentation.php:488
 msgid "360 Video Support"
-msgstr ""
+msgstr "Podpora videa 360"
 
-#: admin/partials/wpvr_documentation.php:444
+#: admin/partials/wpvr_documentation.php:460
+#: production/admin/partials/wpvr_documentation.php:460
 msgid "900+ Icons & RGB Color Support for Hotspots"
-msgstr ""
+msgstr "900+ ikon a podpora barev RGB pro hotspoty"
 
 #: admin/classes/class-wpvr-meta-field.php:1648
 #: admin/classes/class-wpvr-meta-field.php:1674
@@ -81,289 +88,422 @@ msgstr ""
 #: admin/classes/class-wpvr-meta-field.php:2890
 #: admin/classes/class-wpvr-meta-field.php:2922
 #: admin/classes/class-wpvr-meta-field.php:2973
+#: production/admin/classes/class-wpvr-meta-field.php:1648
+#: production/admin/classes/class-wpvr-meta-field.php:1674
+#: production/admin/classes/class-wpvr-meta-field.php:1699
+#: production/admin/classes/class-wpvr-meta-field.php:1721
+#: production/admin/classes/class-wpvr-meta-field.php:1844
+#: production/admin/classes/class-wpvr-meta-field.php:1876
+#: production/admin/classes/class-wpvr-meta-field.php:1909
+#: production/admin/classes/class-wpvr-meta-field.php:1937
+#: production/admin/classes/class-wpvr-meta-field.php:1970
+#: production/admin/classes/class-wpvr-meta-field.php:1995
+#: production/admin/classes/class-wpvr-meta-field.php:2020
+#: production/admin/classes/class-wpvr-meta-field.php:2081
+#: production/admin/classes/class-wpvr-meta-field.php:2107
+#: production/admin/classes/class-wpvr-meta-field.php:2148
+#: production/admin/classes/class-wpvr-meta-field.php:2177
+#: production/admin/classes/class-wpvr-meta-field.php:2209
+#: production/admin/classes/class-wpvr-meta-field.php:2291
+#: production/admin/classes/class-wpvr-meta-field.php:2313
+#: production/admin/classes/class-wpvr-meta-field.php:2337
+#: production/admin/classes/class-wpvr-meta-field.php:2370
+#: production/admin/classes/class-wpvr-meta-field.php:2390
+#: production/admin/classes/class-wpvr-meta-field.php:2420
+#: production/admin/classes/class-wpvr-meta-field.php:2445
+#: production/admin/classes/class-wpvr-meta-field.php:2472
+#: production/admin/classes/class-wpvr-meta-field.php:2496
+#: production/admin/classes/class-wpvr-meta-field.php:2523
+#: production/admin/classes/class-wpvr-meta-field.php:2556
+#: production/admin/classes/class-wpvr-meta-field.php:2586
+#: production/admin/classes/class-wpvr-meta-field.php:2610
+#: production/admin/classes/class-wpvr-meta-field.php:2634
+#: production/admin/classes/class-wpvr-meta-field.php:2658
+#: production/admin/classes/class-wpvr-meta-field.php:2681
+#: production/admin/classes/class-wpvr-meta-field.php:2706
+#: production/admin/classes/class-wpvr-meta-field.php:2732
+#: production/admin/classes/class-wpvr-meta-field.php:2756
+#: production/admin/classes/class-wpvr-meta-field.php:2795
+#: production/admin/classes/class-wpvr-meta-field.php:2820
+#: production/admin/classes/class-wpvr-meta-field.php:2848
+#: production/admin/classes/class-wpvr-meta-field.php:2890
+#: production/admin/classes/class-wpvr-meta-field.php:2922
+#: production/admin/classes/class-wpvr-meta-field.php:2973
 msgid ": "
-msgstr ""
+msgstr ":"
 
 #: admin/partials/wpvr_license.php:28 admin/partials/wpvr_license.php:38
+#: production/admin/partials/wpvr_license.php:28
+#: production/admin/partials/wpvr_license.php:38
 msgid "Activate License"
-msgstr "Aktivujte licenci"
+msgstr "aktivovat licenci"
 
-#: admin/classes/class-tour-guide-translation.php:43
+#: admin/partials/wpvr_documentation.php:781
+#: production/admin/partials/wpvr_documentation.php:781
+msgid "add"
+msgstr "přidat"
+
+#: admin/classes/class-tour-guide-translation.php:44
+#: production/admin/classes/class-tour-guide-translation.php:44
 msgid ""
 "Add a Hotspot inside your tour to show additional information like Paragraph,"
 " Heading, Image, Video, or multiple content."
 msgstr ""
+"Přidejte do své prohlídky hotspot, který zobrazí další informace, jako je "
+"odstavec, nadpis, obrázek, video nebo více obsahu."
 
 #: admin/classes/class-wpvr-meta-field.php:757
+#: production/admin/classes/class-wpvr-meta-field.php:757
 msgid "Add Company Information"
-msgstr ""
+msgstr "Přidat informace o společnosti"
 
 #: admin/classes/class-wpvr-meta-field.php:427
+#: production/admin/classes/class-wpvr-meta-field.php:427
 msgid "Add Form Shortcode"
-msgstr ""
+msgstr "Přidejte krátký kód formuláře"
 
 #: admin/classes/class-wpvr-admin-pages.php:73
+#: production/admin/classes/class-wpvr-admin-pages.php:73
 msgid "Add New Tour"
-msgstr ""
+msgstr "Přidat novou prohlídku"
 
-#: admin/classes/class-tour-guide-translation.php:16
+#: admin/classes/class-tour-guide-translation.php:17
+#: production/admin/classes/class-tour-guide-translation.php:17
 msgid "Add Scene ID "
-msgstr ""
+msgstr "Přidat ID scény"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Add-ons"
-msgstr ""
+msgstr "zbytky"
+
+#: admin/class-wpvr-admin.php:216
+msgid "Adding Hotspots on Scene"
+msgstr "Přidávání hotspotů na scénu"
 
 #: admin/classes/class-wpvr-meta-field.php:1318
+#: production/admin/classes/class-wpvr-meta-field.php:1318
 msgid "Advanced Controls"
-msgstr ""
+msgstr "Pokročilé ovládání"
 
-#: admin/partials/wpvr_documentation.php:831
+#: admin/partials/wpvr_documentation.php:847
+#: production/admin/partials/wpvr_documentation.php:847
 msgid ""
 "Allow the Authors of your site to Create, Edit, Update, and Delete virtual "
 "tours (They can access their own tours only):"
 msgstr ""
+"Umožněte autorům vašeho webu vytvářet, upravovat, aktualizovat a mazat "
+"virtuální prohlídky (mají přístup pouze ke svým vlastním prohlídkám):"
 
-#: admin/partials/wpvr_documentation.php:806
+#: admin/partials/wpvr_documentation.php:822
+#: production/admin/partials/wpvr_documentation.php:822
 msgid ""
 "Allow the Editors of your site to Create, Edit, Update, and Delete virtual "
 "tours (They can access other users' tours):"
 msgstr ""
+"Umožněte editorům vašeho webu vytvářet, upravovat, aktualizovat a mazat "
+"virtuální prohlídky (mají přístup k prohlídkám jiných uživatelů):"
 
-#: admin/classes/class-tour-guide-translation.php:54
+#: admin/classes/class-tour-guide-translation.php:55
+#: production/admin/classes/class-tour-guide-translation.php:55
 msgid "Assign Pitch & Yaw"
-msgstr ""
+msgstr "Přiřadit Pitch & Yaw"
 
-#: admin/partials/wpvr_documentation.php:852
+#: admin/partials/wpvr_documentation.php:868
+#: production/admin/partials/wpvr_documentation.php:868
 msgid ""
 "Authors will be able to Create, Edit, Update, and Delete their own virtual "
 "tours only."
 msgstr ""
+"Autoři budou moci vytvářet, upravovat, aktualizovat a mazat pouze své "
+"vlastní virtuální prohlídky."
 
 #: admin/classes/class-wpvr-meta-field.php:680
+#: production/admin/classes/class-wpvr-meta-field.php:680
 msgid "Auto Gyroscope Support"
-msgstr ""
+msgstr "Podpora automatického gyroskopu"
 
 #: admin/classes/class-wpvr-meta-field.php:218
+#: production/admin/classes/class-wpvr-meta-field.php:218
 msgid "Auto Rotation"
-msgstr ""
+msgstr "automatická rotace"
 
-#: admin/partials/wpvr_documentation.php:742
+#: admin/partials/wpvr_documentation.php:758
+#: production/admin/partials/wpvr_documentation.php:758
 msgid "Autoload & Autoplay Video Tours."
-msgstr ""
+msgstr "Automatické načítání a automatické přehrávání Video prohlídky."
 
-#: admin/partials/wpvr_documentation.php:540
+#: admin/partials/wpvr_documentation.php:556
+#: production/admin/partials/wpvr_documentation.php:556
 msgid "Autoload Tours"
-msgstr ""
+msgstr "Automatické zájezdy"
 
 #: admin/partials/wpvr_setup_wizard.php:8
+#: production/admin/partials/wpvr_setup_wizard.php:8
 msgid "Back to WPVR Dashboard"
-msgstr ""
+msgstr "Zpět na řídicí panel WPVR"
 
 #: admin/partials/wpvr_setup_wizard.php:169
+#: production/admin/partials/wpvr_setup_wizard.php:169
 msgid "Background Audio"
-msgstr ""
+msgstr "audio na pozadí"
 
 #: admin/classes/class-wpvr-meta-field.php:3032
+#: production/admin/classes/class-wpvr-meta-field.php:3032
 msgid "Background Color"
-msgstr ""
+msgstr "barva pozadí"
 
-#: admin/partials/wpvr_documentation.php:677
+#: admin/partials/wpvr_documentation.php:693
+#: production/admin/partials/wpvr_documentation.php:693
 msgid "Background Panoramas"
-msgstr ""
+msgstr "Panoramata pozadí"
 
 #: admin/classes/class-wpvr-meta-field.php:160
+#: production/admin/classes/class-wpvr-meta-field.php:160
 msgid "Basic Control Buttons"
-msgstr ""
+msgstr "Základní ovládací tlačítka"
 
 #: admin/classes/class-wpvr-meta-field.php:1309
+#: production/admin/classes/class-wpvr-meta-field.php:1309
 msgid "Basic Settings"
-msgstr ""
+msgstr "Základní nastavení"
 
-#: admin/partials/wpvr_documentation.php:203
+#: admin/partials/wpvr_documentation.php:206
+#: production/admin/partials/wpvr_documentation.php:206
 msgid ""
 "Before You start, you can check our Documentation to get familiar with WP VR "
 "- 360 Panorama and virtual tour creator for WordPress."
 msgstr ""
-"Než začnete, můžete si přečíst naši dokumentaci, abyste se seznámili s "
-"programem WP VR - 360 Panorama a tvůrcem virtuální prohlídky pro WordPress."
+"Než začnete, můžete se podívat na naši dokumentaci, abyste se seznámili s WP "
+"VR - 360 Panorama a Virtual Tour Creator pro WordPress."
 
 #: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
 msgid "Best WordPress Plugin"
-msgstr ""
+msgstr "Nejlepší plugin WordPress"
 
 #: admin/classes/class-wpvr-meta-field.php:3118
+#: production/admin/classes/class-wpvr-meta-field.php:3118
 msgid "Border"
-msgstr ""
+msgstr "hranice"
 
 #: admin/classes/class-wpvr-meta-field.php:3113
+#: production/admin/classes/class-wpvr-meta-field.php:3113
 msgid "Border Radius (px)"
-msgstr ""
+msgstr "Poloměr okraje (PX)"
 
 #: admin/classes/class-wpvr-meta-field.php:3156
+#: production/admin/classes/class-wpvr-meta-field.php:3156
 msgid "Bottom"
-msgstr ""
+msgstr "zadek"
 
 #: admin/classes/class-wpvr-meta-field.php:3084
+#: production/admin/classes/class-wpvr-meta-field.php:3084
 msgid "Button Alignment"
-msgstr ""
+msgstr "zarovnání tlačítek"
 
 #: admin/classes/class-wpvr-meta-field.php:460
+#: production/admin/classes/class-wpvr-meta-field.php:460
 msgid "Button Style"
-msgstr ""
+msgstr "Styl knoflí"
 
 #: admin/classes/class-wpvr-meta-field.php:443
+#: production/admin/classes/class-wpvr-meta-field.php:443
 msgid "Button Text"
-msgstr ""
+msgstr "knoflík"
 
 #: admin/classes/class-wpvr-meta-field.php:451
+#: production/admin/classes/class-wpvr-meta-field.php:451
 msgid "Button URL"
-msgstr ""
+msgstr "URL tlačítka"
 
 #: admin/classes/class-wpvr-meta-field.php:276
+#: production/admin/classes/class-wpvr-meta-field.php:276
 msgid "Call To Action "
-msgstr ""
+msgstr "výzva k akci"
 
 #: admin/classes/class-wpvr-meta-field.php:448
+#: production/admin/classes/class-wpvr-meta-field.php:448
 msgid "Call to action button text"
-msgstr ""
+msgstr "Text tlačítka volání k akci"
 
-#: admin/partials/wpvr_documentation.php:212
+#: admin/partials/wpvr_documentation.php:218
+#: production/admin/partials/wpvr_documentation.php:218
 msgid ""
 "Can't find solution on with our documentation? Just Post a ticket on Support "
 "forum. We are to solve your issue."
 msgstr ""
-"Nemůžete najít řešení v naší dokumentaci? Stačí vložit lístek na fóru "
-"podpory. Váš problém vyřešíme."
+"Nemůžete najít řešení s naší dokumentací? Stačí poslat vstupenku na fórum "
+"podpory. Máme vyřešit váš problém."
 
 #: admin/classes/class-wpvr-meta-field.php:3079
+#: production/admin/classes/class-wpvr-meta-field.php:3079
 msgid "Capitalize"
-msgstr ""
+msgstr "kapitalizovat"
 
-#: admin/partials/wpvr_documentation.php:243
+#: admin/partials/wpvr_documentation.php:256
+#: production/admin/partials/wpvr_documentation.php:256
 msgid "Cart Lift"
-msgstr ""
+msgstr "vozík s výtahem"
 
 #: admin/classes/class-wpvr-meta-field.php:3088
+#: production/admin/classes/class-wpvr-meta-field.php:3088
 msgid "Center"
-msgstr ""
+msgstr "centr"
 
-#: admin/partials/wpvr_documentation.php:228
+#: admin/partials/wpvr_documentation.php:237
+#: production/admin/partials/wpvr_documentation.php:237
 msgid "Check out our other amazing free plugins!"
-msgstr ""
+msgstr "Podívejte se na naše další úžasné bezplatné pluginy!"
 
 #: admin/partials/wpvr_setup_wizard.php:189
+#: production/admin/partials/wpvr_setup_wizard.php:189
 msgid "Checkout All Features"
-msgstr ""
+msgstr "Podívejte se na všechny funkce"
 
-#: admin/classes/class-tour-guide-translation.php:50
+#: admin/classes/class-tour-guide-translation.php:51
+#: production/admin/classes/class-tour-guide-translation.php:51
 msgid "Choose The Spot"
-msgstr ""
+msgstr "Vyberte si místo"
 
-#: admin/classes/class-tour-guide-translation.php:75
+#: admin/classes/class-tour-guide-translation.php:76
+#: production/admin/classes/class-tour-guide-translation.php:76
 msgid "Click on Preview to see how the content is appearing for the hotspot."
-msgstr ""
+msgstr "Kliknutím na náhled zobrazíte, jak se obsah zobrazuje pro hotspot."
 
-#: admin/classes/class-tour-guide-translation.php:26
+#: admin/classes/class-tour-guide-translation.php:27
+#: production/admin/classes/class-tour-guide-translation.php:27
 msgid ""
 "Click on the Preview button to view your uploaded panorama in virtual tour "
 "mode."
 msgstr ""
+"Kliknutím na tlačítko Náhled zobrazíte nahrané panorama v režimu virtuální "
+"prohlídky."
 
-#: admin/classes/class-tour-guide-translation.php:79
+#: admin/classes/class-tour-guide-translation.php:80
+#: production/admin/classes/class-tour-guide-translation.php:80
 msgid ""
 "Click on the Update button to save your work. And just like that, you can "
 "create an unlimited number of virtual tours and add your customization to "
 "them."
 msgstr ""
+"Kliknutím na tlačítko Aktualizovat uložíte svou práci. A stejně tak můžete "
+"vytvořit neomezený počet virtuálních prohlídek a přidat k nim své "
+"přizpůsobení."
 
-#: admin/classes/class-tour-guide-translation.php:21
+#: admin/classes/class-tour-guide-translation.php:22
+#: production/admin/classes/class-tour-guide-translation.php:22
 msgid "Click on the Upload button to upload your panorama image."
-msgstr ""
+msgstr "Kliknutím na tlačítko Nahrát nahrajete svůj obrázek Panorama."
 
-#: admin/classes/class-tour-guide-translation.php:34
+#: admin/classes/class-tour-guide-translation.php:35
+#: production/admin/classes/class-tour-guide-translation.php:35
 msgid ""
 "Click on this Publish button to save this as a tour. You can always find it "
 "in your tour list."
 msgstr ""
+"Kliknutím na toto tlačítko publikování to uložíte jako prohlídku. Vždy ho "
+"najdete ve svém seznamu zájezdů."
 
 #: admin/classes/class-wpvr-meta-field.php:2264
+#: production/admin/classes/class-wpvr-meta-field.php:2264
 msgid "Click to Upload an Image "
-msgstr ""
+msgstr "Kliknutím nahrajete obrázek"
 
 #: admin/classes/class-wpvr-meta-field.php:3137
+#: production/admin/classes/class-wpvr-meta-field.php:3137
 msgid "Color"
-msgstr ""
+msgstr "barva"
 
-#: admin/partials/wpvr_documentation.php:593
+#: admin/partials/wpvr_documentation.php:609
+#: production/admin/partials/wpvr_documentation.php:609
 msgid "Company Logo & Description"
-msgstr ""
+msgstr "Logo a popis společnosti"
 
 #: admin/classes/class-wpvr-meta-field.php:688
+#: production/admin/classes/class-wpvr-meta-field.php:688
 msgid "Compass"
-msgstr ""
+msgstr "kompas"
 
 #: admin/partials/wpvr_setup_wizard.php:217
+#: production/admin/partials/wpvr_setup_wizard.php:217
 msgid "Contact Our Support"
-msgstr ""
+msgstr "Kontaktujte naši podporu"
 
-#: admin/classes/class-tour-guide-translation.php:23
+#: admin/classes/class-tour-guide-translation.php:24
+#: production/admin/classes/class-tour-guide-translation.php:24
 msgid "Continue to guide"
-msgstr ""
+msgstr "Pokračujte v průvodci"
 
 #: admin/classes/class-wpvr-meta-field.php:1327
+#: production/admin/classes/class-wpvr-meta-field.php:1327
 msgid "Control Buttons"
-msgstr ""
+msgstr "ovládací tlačítka"
 
-#: admin/partials/wpvr_documentation.php:635
+#: admin/partials/wpvr_documentation.php:651
+#: production/admin/partials/wpvr_documentation.php:651
 msgid "Control Horizontal & Vertical View of Panorama Images"
-msgstr ""
+msgstr "Ovládejte horizontální a vertikální pohled na snímky panorama"
 
-#: admin/partials/wpvr_documentation.php:1105
+#: admin/partials/wpvr_documentation.php:1121
+#: production/admin/partials/wpvr_documentation.php:1121
 msgid "Convert any jpeg or png format image to webp on media upload:"
 msgstr ""
+"Převeďte libovolný obrázek ve formátu JPEG nebo PNG na webp při nahrávání "
+"médií:"
 
 #: admin/classes/class-wpvr-general.php:138
+#: production/admin/classes/class-wpvr-general.php:138
 msgid "Create a tour use this QR code"
-msgstr ""
+msgstr "Vytvořte prohlídku Použijte tento QR kód"
 
-#: admin/partials/wpvr_documentation.php:234
+#: admin/partials/wpvr_documentation.php:245
+#: production/admin/partials/wpvr_documentation.php:245
 msgid ""
 "Create high-converting slaes funnels on a visual drag & drop funnel builder "
 "canvas and increase your online sales from today."
 msgstr ""
+"Vytvářejte vysoce konverzní cesty SLAES na vizuálním plátně pro stavitele "
+"nálevky a zvyšte svůj online prodej ode dneška."
 
 #: admin/classes/class-wpvr-meta-field.php:1677
+#: production/admin/classes/class-wpvr-meta-field.php:1677
 msgid "Cubemap"
-msgstr ""
+msgstr "kóje"
 
-#: admin/partials/wpvr_documentation.php:499
+#: admin/partials/wpvr_documentation.php:515
+#: production/admin/partials/wpvr_documentation.php:515
 msgid "Cubemap Image Support"
-msgstr ""
+msgstr "Podpora obrazu Cubemap"
 
 #: admin/partials/wpvr_setup_wizard.php:75
+#: production/admin/partials/wpvr_setup_wizard.php:75
 msgid "Cubemap Images"
-msgstr ""
+msgstr "obrázky kóje"
 
 #: admin/partials/wpvr_setup_wizard.php:155
-#, fuzzy
+#: production/admin/partials/wpvr_setup_wizard.php:155
 #| msgid "Custom control buttons"
 msgid "Custom Control Buttons"
 msgstr "Vlastní ovládací tlačítka"
 
 #: admin/classes/class-wpvr-meta-field.php:478
+#: production/admin/classes/class-wpvr-meta-field.php:478
 msgid "Custom CSS"
-msgstr ""
+msgstr "vlastní CSS"
 
 #: admin/classes/class-wpvr-meta-field.php:305
+#: production/admin/classes/class-wpvr-meta-field.php:305
 msgid "Custom CSS "
-msgstr ""
+msgstr "vlastní CSS"
 
-#: admin/partials/wpvr_documentation.php:430
+#: admin/partials/wpvr_documentation.php:446
+#: production/admin/partials/wpvr_documentation.php:446
 msgid "Custom Icon & Color for Hotspots (Using CSS)"
-msgstr ""
+msgstr "Vlastní ikona a barva pro hotspoty (pomocí CSS)"
 
 #: admin/classes/class-wpvr-meta-field.php:2771
+#: production/admin/classes/class-wpvr-meta-field.php:2771
 msgid ""
 "Custom icons will only show on frontend. Hotspot custom icons only works "
 "with fontawesome 5. If you are using any different version of fontawesome "
@@ -372,359 +512,488 @@ msgid ""
 "switch. Now put your desired any icon class under \"Hotspot custom icon "
 "class\" field. It will appear on the frontend."
 msgstr ""
+"Vlastní ikony se zobrazí pouze na frontendu. Vlastní ikony hotspotu fungují "
+"pouze s Fontawesome 5. Pokud používáte jakoukoli jinou verzi FontAwesome pod "
+"tématem nebo jakýmkoliv pluginem, můžete FontAwesome z WP VR deaktivovat. "
+"Přejděte do „Nabídka Začínáme“ a vyberte „Role“ a zaškrtněte Fontawesome "
+"Zakázat přepínač. Nyní vložte požadovanou třídu ikon do pole „HotSpot Custom "
+"Icon Class“. objeví se na frontendu."
 
-#: admin/partials/wpvr_documentation.php:663
+#: admin/partials/wpvr_documentation.php:679
+#: production/admin/partials/wpvr_documentation.php:679
 msgid "Custom Panorama Loading Face"
-msgstr ""
+msgstr "Vlastní panoramatické nakládací plocha"
 
-#: admin/partials/wpvr_documentation.php:579
+#: admin/partials/wpvr_documentation.php:595
+#: production/admin/partials/wpvr_documentation.php:595
 msgid "Custom Preview Image & Text"
-msgstr ""
+msgstr "Vlastní náhledový obrázek a text"
 
-#: admin/partials/wpvr_documentation.php:553
+#: admin/partials/wpvr_documentation.php:569
+#: production/admin/partials/wpvr_documentation.php:569
 msgid "Custom Rotation Settings"
-msgstr ""
+msgstr "Vlastní nastavení rotace"
 
-#: admin/partials/wpvr_documentation.php:649
+#: admin/partials/wpvr_documentation.php:665
+#: production/admin/partials/wpvr_documentation.php:665
 msgid "Custom Zoom Settings"
-msgstr ""
+msgstr "Vlastní nastavení zoomu"
 
-#: admin/partials/wpvr_documentation.php:738
+#: admin/partials/wpvr_documentation.php:754
+#: production/admin/partials/wpvr_documentation.php:754
 msgid "Customize Icon & Logo of Control Buttons."
-msgstr ""
+msgstr "Přizpůsobte ikonu a logo ovládacích tlačítek."
 
 #: admin/partials/wpvr_license.php:34
+#: production/admin/partials/wpvr_license.php:34
 msgid "Deactivate License"
-msgstr "Deaktivujte licenci"
+msgstr "deaktivovat licenci"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Decisions"
-msgstr ""
+msgstr "rozhodnutí"
 
-#: admin/partials/wpvr_documentation.php:857
+#: admin/partials/wpvr_documentation.php:873
+#: production/admin/partials/wpvr_documentation.php:873
 msgid "Disable Fontawesome from WP VR:"
-msgstr ""
+msgstr "Zakázat FontAwesome z WP VR:"
 
 #: admin/classes/class-wpvr-meta-field.php:252
+#: production/admin/classes/class-wpvr-meta-field.php:252
 msgid "Disable keyboard control to use the form."
-msgstr ""
+msgstr "Zakázat ovládání klávesnice pro použití formuláře."
 
-#: admin/partials/wpvr_documentation.php:935
+#: admin/partials/wpvr_documentation.php:951
+#: production/admin/partials/wpvr_documentation.php:951
 msgid "Disable On Hover Content for Mobile:"
-msgstr ""
+msgstr "Zakázat obsah Hover pro mobilní zařízení:"
 
-#: admin/partials/wpvr_documentation.php:909
+#: admin/partials/wpvr_documentation.php:925
+#: production/admin/partials/wpvr_documentation.php:925
 msgid "Disable WordPress Large Image Handler on WP VR:"
-msgstr ""
+msgstr "Zakázat obslužnou rutinu velkého obrazu WordPress na WP VR:"
 
-#: admin/partials/wpvr_documentation.php:766
+#: admin/partials/wpvr_documentation.php:782
+#: production/admin/partials/wpvr_documentation.php:782
 msgid ""
 "Do not close or refresh the page during import process. It may take few "
 "minutes."
 msgstr ""
-"Během importu stránku nezavírejte ani neobnovujte. Může to trvat několik "
-"minut."
+"Během procesu importu stránku nezavírejte ani nepravojmenujte. Může to trvat "
+"několik minut."
 
-#: admin/class-wpvr-admin.php:282 admin/partials/wpvr_documentation.php:202
-#: admin/partials/wpvr_documentation.php:204
+#: admin/class-wpvr-admin.php:291 admin/partials/wpvr_documentation.php:203
+#: admin/partials/wpvr_documentation.php:207
+#: production/admin/class-wpvr-admin.php:290
+#: production/admin/partials/wpvr_documentation.php:203
+#: production/admin/partials/wpvr_documentation.php:207
 msgid "Documentation"
-msgstr "Dokumentace"
+msgstr "dokumentace"
 
 #: admin/classes/class-wpvr-meta-field.php:1365
+#: production/admin/classes/class-wpvr-meta-field.php:1365
 msgid "Documentation "
-msgstr ""
+msgstr "dokumentace"
 
-#: admin/partials/wpvr_documentation.php:621
+#: admin/classes/class-tour-guide-translation.php:10
+#: production/admin/classes/class-tour-guide-translation.php:10
+msgid "Done"
+msgstr "hotový"
+
+#: admin/classes/class-wpvr-general.php:143
+#: production/admin/classes/class-wpvr-general.php:143
+msgid "Download QR Code"
+msgstr "Stáhněte si QR kód"
+
+#: admin/partials/wpvr_documentation.php:637
+#: production/admin/partials/wpvr_documentation.php:637
 msgid "Duplicate Tours with One Click"
-msgstr ""
+msgstr "Duplikujte prohlídky jedním kliknutím"
 
-#: admin/partials/wpvr_documentation.php:826
+#: admin/partials/wpvr_documentation.php:842
+#: production/admin/partials/wpvr_documentation.php:842
 msgid ""
 "Editors will be able to Create, Edit, Update, and Delete all virtual tours."
 msgstr ""
+"Redaktoři budou moci vytvářet, upravovat, aktualizovat a mazat všechny "
+"virtuální prohlídky."
 
 #: admin/classes/class-wpvr-meta-field.php:741
+#: production/admin/classes/class-wpvr-meta-field.php:741
 msgid "Enable explainer video"
-msgstr ""
+msgstr "Povolit vysvětlující video"
 
-#: admin/partials/wpvr_documentation.php:883
+#: admin/partials/wpvr_documentation.php:899
+#: production/admin/partials/wpvr_documentation.php:899
 msgid "Enable mobile media resizer:"
-msgstr ""
+msgstr "Povolit mobilní média:"
 
-#: admin/partials/wpvr_documentation.php:710
+#: admin/partials/wpvr_documentation.php:726
+#: production/admin/partials/wpvr_documentation.php:726
 msgid "Enable or Disable Keyboard Movement Control."
-msgstr ""
+msgstr "Povolit nebo zakázat ovládání pohybu klávesnice."
 
-#: admin/partials/wpvr_documentation.php:714
+#: admin/partials/wpvr_documentation.php:730
+#: production/admin/partials/wpvr_documentation.php:730
 msgid "Enable or Disable Keyboard Zoom Control."
-msgstr ""
+msgstr "Povolit nebo zakázat ovládání přiblížení klávesnice."
 
-#: admin/partials/wpvr_documentation.php:718
+#: admin/partials/wpvr_documentation.php:734
+#: production/admin/partials/wpvr_documentation.php:734
 msgid "Enable or Disable Mouse Drag Control."
-msgstr ""
+msgstr "Povolit nebo zakázat ovládání přetažením myši."
 
-#: admin/partials/wpvr_documentation.php:722
+#: admin/partials/wpvr_documentation.php:738
+#: production/admin/partials/wpvr_documentation.php:738
 msgid "Enable or Disable Mouse Zoom control."
-msgstr ""
+msgstr "Povolit nebo zakázat ovládání zoomu myši."
 
-#: admin/partials/wpvr_documentation.php:962
+#: admin/partials/wpvr_documentation.php:978
+#: production/admin/partials/wpvr_documentation.php:978
 msgid ""
 "Enable script control (It will load the WP VR scripts on the pages with "
 "virtual tours only):"
 msgstr ""
+"Povolte ovládání skriptu (načte skripty WP VR na stránkách pouze s "
+"virtuálními prohlídkami):"
 
 #: admin/classes/class-wpvr-general.php:121
+#: production/admin/classes/class-wpvr-general.php:121
 msgid "Enable Social Media Share"
-msgstr ""
+msgstr "Povolit sdílení na sociálních sítích"
 
 #: admin/classes/class-wpvr-meta-field.php:281
+#: production/admin/classes/class-wpvr-meta-field.php:281
 msgid "Enable the call to action, it will render under the tour."
-msgstr ""
+msgstr "Povolte výzvu k akci, v rámci prohlídky se vydá."
 
 #: admin/classes/class-wpvr-meta-field.php:1583
+#: production/admin/classes/class-wpvr-meta-field.php:1583
 msgid "Enable Video"
-msgstr ""
+msgstr "Povolit video"
 
-#: admin/partials/wpvr_documentation.php:1002
+#: admin/partials/wpvr_documentation.php:1018
+#: production/admin/partials/wpvr_documentation.php:1018
 msgid ""
 "Enable Video JS control (It will load the WP VR Video JS library in the "
 "listed pages only):"
 msgstr ""
+"Povolte ovládání Video JS (načte knihovnu WP VR Video JS pouze na uvedených "
+"stránkách):"
 
-#: admin/classes/class-tour-guide-translation.php:10
+#: admin/classes/class-tour-guide-translation.php:11
+#: production/admin/classes/class-tour-guide-translation.php:11
 msgid "End Tour"
-msgstr ""
+msgstr "konec prohlídky"
 
 #: admin/partials/wpvr_license.php:22
+#: production/admin/partials/wpvr_license.php:22
 msgid "Enter your license key, save changes and activate."
-msgstr "Zadejte licenční klíč, uložte změny a aktivujte."
+msgstr "Zadejte svůj licenční klíč, uložte změny a aktivujte."
 
 #: admin/classes/class-wpvr-meta-field.php:1676
+#: production/admin/classes/class-wpvr-meta-field.php:1676
 msgid "Equirectangular"
-msgstr ""
+msgstr "rovnoprávný"
 
 #: admin/classes/class-wpvr-meta-field.php:845
+#: production/admin/classes/class-wpvr-meta-field.php:845
 msgid "Explainer"
-msgstr ""
+msgstr "vysvětlovač"
 
-#: admin/partials/wpvr_documentation.php:374
+#: admin/partials/wpvr_documentation.php:390
 #: admin/partials/wpvr_setup_wizard.php:176
+#: production/admin/partials/wpvr_documentation.php:390
+#: production/admin/partials/wpvr_setup_wizard.php:176
 msgid "Explainer Video"
-msgstr ""
+msgstr "Vysvětlující video"
 
-#: admin/partials/wpvr_documentation.php:285
+#: admin/classes/class-wpvr-meta-field.php:618
+#: production/admin/classes/class-wpvr-meta-field.php:618
+msgid "Export"
+msgstr "vývoz"
+
+#: admin/partials/wpvr_documentation.php:301
+#: production/admin/partials/wpvr_documentation.php:301
 msgid "features"
-msgstr ""
+msgstr "rysy"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Features That Can"
-msgstr ""
+msgstr "funkce, které mohou"
 
-#: admin/partials/wpvr_documentation.php:1048
+#: admin/partials/wpvr_documentation.php:1064
+#: production/admin/partials/wpvr_documentation.php:1064
 msgid "Flip the phone to landscape mode for a better experience of the tour."
-msgstr ""
+msgstr "Přepněte telefon do režimu na šířku pro lepší zážitek z prohlídky."
 
-#: admin/partials/wpvr_documentation.php:526
+#: admin/partials/wpvr_documentation.php:542
+#: production/admin/partials/wpvr_documentation.php:542
 msgid "Fluent Forms Add-on"
-msgstr ""
+msgstr "Doplněk Fluent Forms"
 
 #: admin/partials/wpvr_setup_wizard.php:11
+#: production/admin/partials/wpvr_setup_wizard.php:11
 msgid "Follow the Guided Wizard and Learn How it Works."
-msgstr ""
+msgstr "Postupujte podle průvodce průvodcem a zjistěte, jak to funguje."
 
 #: admin/classes/class-wpvr-meta-field.php:3037
+#: production/admin/classes/class-wpvr-meta-field.php:3037
 msgid "Font color"
-msgstr ""
+msgstr "barva písma"
 
 #: admin/classes/class-wpvr-meta-field.php:3042
+#: production/admin/classes/class-wpvr-meta-field.php:3042
 msgid "Font Size (px)"
-msgstr ""
+msgstr "Velikost písma (PX)"
 
 #: admin/classes/class-wpvr-meta-field.php:3094
+#: production/admin/classes/class-wpvr-meta-field.php:3094
 msgid "Font Style"
-msgstr ""
+msgstr "styl písma"
 
 #: admin/classes/class-wpvr-meta-field.php:3047
+#: production/admin/classes/class-wpvr-meta-field.php:3047
 msgid "Font Weight"
-msgstr ""
+msgstr "váha písma"
 
 #: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
 msgid "for Choosing"
-msgstr ""
+msgstr "za výběr"
 
 #: admin/classes/class-wpvr-shortcode.php:36
-#, fuzzy
+#: production/admin/classes/class-wpvr-shortcode.php:36
 #| msgid "For classic editor:"
 msgid "For Classic Editor:"
 msgstr "Pro klasický editor:"
 
 #: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
 msgid "for unlimited virtual tours."
-msgstr ""
+msgstr "Pro neomezené virtuální prohlídky."
 
 #: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
 msgid "for Virtual Tours, Viewing Panoramas, and 360 Degree Content"
-msgstr ""
+msgstr "Pro virtuální prohlídky, prohlížení panoramat a 360stupňový obsah"
 
-#: admin/partials/wpvr_documentation.php:286
+#: admin/partials/wpvr_documentation.php:302
+#: production/admin/partials/wpvr_documentation.php:302
 msgid "free"
-msgstr ""
+msgstr "zdarma"
 
 #: admin/partials/wpvr_documentation.php:121
+#: production/admin/partials/wpvr_documentation.php:121
 msgid "Free vs Pro"
-msgstr ""
+msgstr "Zdarma vs pro"
 
-#: admin/partials/wpvr_documentation.php:1051
+#: admin/partials/wpvr_documentation.php:1067
+#: production/admin/partials/wpvr_documentation.php:1067
 msgid "Front-End Notice for Mobile Visitors:"
-msgstr ""
+msgstr "Přední oznámení pro mobilní návštěvníky:"
 
-#: admin/partials/wpvr_documentation.php:566
+#: admin/partials/wpvr_documentation.php:582
+#: production/admin/partials/wpvr_documentation.php:582
 msgid "Full Page Virtual Tours"
-msgstr ""
+msgstr "Celostránkové virtuální prohlídky"
 
 #: admin/classes/class-wpvr-meta-field.php:826
+#: production/admin/classes/class-wpvr-meta-field.php:826
 msgid "Full Screen"
-msgstr ""
+msgstr "Celá obrazovka"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
 msgid "Fullwidth"
-msgstr ""
+msgstr "plná šířka"
 
 #: admin/classes/class-wpvr-meta-field.php:106
+#: production/admin/classes/class-wpvr-meta-field.php:106
 msgid "General"
-msgstr "Všeobecné"
+msgstr "všeobecný"
 
-#: admin/partials/wpvr_documentation.php:784
+#: admin/partials/wpvr_documentation.php:800
+#: production/admin/partials/wpvr_documentation.php:800
 msgid "General Setup Options"
-msgstr ""
+msgstr "Obecné možnosti nastavení"
 
 #: admin/classes/class-wpvr-meta-field.php:247
+#: production/admin/classes/class-wpvr-meta-field.php:247
 msgid "Generic Form"
-msgstr ""
+msgstr "generická forma"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Get Access to "
-msgstr ""
+msgstr "získat přístup k"
 
-#: admin/partials/wpvr_documentation.php:236
-#: admin/partials/wpvr_documentation.php:246
+#: admin/partials/wpvr_documentation.php:247
+#: admin/partials/wpvr_documentation.php:262
+#: production/admin/partials/wpvr_documentation.php:247
+#: production/admin/partials/wpvr_documentation.php:262
 msgid "Get It Now"
-msgstr ""
+msgstr "Získejte to hned"
 
 #: admin/partials/wpvr_setup_wizard.php:197
+#: production/admin/partials/wpvr_setup_wizard.php:197
 msgid "Get Pro Now"
-msgstr ""
+msgstr "Získejte pro"
 
-#: admin/class-wpvr-admin.php:277 admin/classes/class-wpvr-admin-pages.php:68
+#: admin/class-wpvr-admin.php:286 admin/classes/class-wpvr-admin-pages.php:68
 #: admin/classes/class-wpvr-admin-pages.php:76
+#: production/admin/class-wpvr-admin.php:285
+#: production/admin/classes/class-wpvr-admin-pages.php:68
+#: production/admin/classes/class-wpvr-admin-pages.php:76
 msgid "Get Started"
-msgstr ""
+msgstr "začít"
 
-#: admin/classes/class-tour-guide-translation.php:13
+#: admin/classes/class-tour-guide-translation.php:14
+#: production/admin/classes/class-tour-guide-translation.php:14
 msgid "Give a name to your virtual tour."
-msgstr ""
+msgstr "Pojmenujte svou virtuální prohlídku."
 
-#: admin/class-wpvr-admin.php:289 admin/classes/class-wpvr-admin-pages.php:84
+#: admin/class-wpvr-admin.php:298 admin/classes/class-wpvr-admin-pages.php:84
+#: production/admin/class-wpvr-admin.php:297
+#: production/admin/classes/class-wpvr-admin-pages.php:84
 msgid "Go Pro"
-msgstr ""
+msgstr "jít pro"
 
-#: admin/partials/wpvr_documentation.php:486
+#: admin/partials/wpvr_documentation.php:502
 #: admin/partials/wpvr_setup_wizard.php:99
+#: production/admin/partials/wpvr_documentation.php:502
+#: production/admin/partials/wpvr_setup_wizard.php:99
 msgid "Google Street View"
-msgstr ""
+msgstr "Google Street View"
 
 #: admin/classes/class-wpvr-admin-pages.php:75
+#: production/admin/classes/class-wpvr-admin-pages.php:75
 msgid "Guided Tour"
-msgstr ""
+msgstr "prohlídka s průvodcem"
 
 #: admin/classes/class-wpvr-meta-field.php:832
+#: production/admin/classes/class-wpvr-meta-field.php:832
 msgid "Gyroscope"
-msgstr ""
+msgstr "gyroskop"
 
 #: admin/partials/wpvr_setup_wizard.php:183
+#: production/admin/partials/wpvr_setup_wizard.php:183
 msgid "Gyroscope & Mobile Notices"
-msgstr ""
+msgstr "Gyroskop a mobilní upozornění"
 
 #: admin/classes/class-wpvr-meta-field.php:672
+#: production/admin/classes/class-wpvr-meta-field.php:672
 msgid "Gyroscope Control"
-msgstr ""
+msgstr "ovládání gyroskopu"
 
-#: admin/partials/wpvr_documentation.php:347
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:363
+#: production/admin/partials/wpvr_documentation.php:363
 #| msgid "Gyroscope support"
 msgid "Gyroscope Support"
-msgstr "Podpora gyroskopu"
+msgstr "podpora gyroskopu"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
 msgid "Height"
-msgstr ""
+msgstr "výška"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:51
+#: production/oxygen/elements/Wpvr_Tour_Element.php:51
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
 msgid "Height Unit"
-msgstr ""
+msgstr "výška jednotky"
 
 #: elementor/elements/Wpvr-widget.php:175
+#: production/elementor/elements/Wpvr-widget.php:175
 msgid "Height:"
 msgstr "Výška:"
 
-#: admin/classes/class-tour-guide-translation.php:30
+#: admin/classes/class-tour-guide-translation.php:31
+#: production/admin/classes/class-tour-guide-translation.php:31
 msgid ""
 "Here is a preview of your panorama image in tour mode. You can control it "
 "and mode around to see it in 360 degree view."
 msgstr ""
+"Zde je náhled vašeho panoramatického obrázku v režimu prohlídky. Můžete jej "
+"ovládat a upravit, abyste jej viděli v 360stupňovém zobrazení."
 
-#: admin/classes/class-tour-guide-translation.php:59
-#: admin/classes/class-tour-guide-translation.php:63
+#: admin/classes/class-tour-guide-translation.php:60
+#: admin/classes/class-tour-guide-translation.php:64
+#: production/admin/classes/class-tour-guide-translation.php:60
+#: production/admin/classes/class-tour-guide-translation.php:64
 msgid "Here you can see the Pitch & Yaw has been set for the hotspot."
-msgstr ""
+msgstr "Zde můžete vidět, že Pitch & Yaw byl nastaven pro hotspot."
 
-#: admin/classes/class-tour-guide-translation.php:67
-#: admin/classes/class-tour-guide-translation.php:71
+#: admin/classes/class-tour-guide-translation.php:68
+#: admin/classes/class-tour-guide-translation.php:72
+#: production/admin/classes/class-tour-guide-translation.php:68
+#: production/admin/classes/class-tour-guide-translation.php:72
 msgid ""
 "Here, you can set what content your viewer will see after clicking on the "
 "Hotspot. You can either set an URL or any other content using this editor. "
 "To learn more, follow this guide to set content using editor"
 msgstr ""
+"Zde můžete nastavit, jaký obsah uvidí váš divák po kliknutí na hotspot. "
+"Pomocí tohoto editoru můžete nastavit buď URL nebo jakýkoli jiný obsah. "
+"Chcete-li se dozvědět více, postupujte podle tohoto průvodce a nastavte "
+"obsah pomocí editoru"
 
 #: admin/classes/class-wpvr-meta-field.php:838
+#: production/admin/classes/class-wpvr-meta-field.php:838
 msgid "Home"
-msgstr ""
+msgstr "domov"
 
-#: admin/partials/wpvr_documentation.php:698
+#: admin/partials/wpvr_documentation.php:714
+#: production/admin/partials/wpvr_documentation.php:714
 msgid "Home Button to visit Default Scene"
-msgstr ""
+msgstr "Tlačítko Domů pro návštěvu výchozí scény"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Hook"
-msgstr ""
+msgstr "háček"
 
 #: admin/classes/class-wpvr-meta-field.php:97
+#: production/admin/classes/class-wpvr-meta-field.php:97
 msgid "Hotspot"
-msgstr ""
+msgstr "hoří"
 
 #: admin/classes/class-wpvr-meta-field.php:978
+#: production/admin/classes/class-wpvr-meta-field.php:978
 msgid "Hotspot Custom Icon Class"
-msgstr ""
+msgstr "Třída vlastní ikony hotspotu"
 
 #: admin/classes/class-wpvr-meta-field.php:957
+#: production/admin/classes/class-wpvr-meta-field.php:957
 msgid "Hotspot ID"
-msgstr ""
+msgstr "Hotspot ID"
 
 #: admin/classes/class-wpvr-hotspot.php:109
 #: admin/classes/class-wpvr-hotspot.php:169
+#: production/admin/classes/class-wpvr-hotspot.php:109
+#: production/admin/classes/class-wpvr-hotspot.php:169
 msgid "Hotspot Setting"
-msgstr ""
+msgstr "Nastavení hotspotu"
 
 #: admin/classes/class-wpvr-meta-field.php:999
 #: admin/classes/class-wpvr-meta-field.php:1055
 #: admin/classes/class-wpvr-meta-field.php:1116
 #: admin/classes/class-wpvr-meta-field.php:1182
 #: admin/classes/class-wpvr-meta-field.php:1248
+#: production/admin/classes/class-wpvr-meta-field.php:999
+#: production/admin/classes/class-wpvr-meta-field.php:1055
+#: production/admin/classes/class-wpvr-meta-field.php:1116
+#: production/admin/classes/class-wpvr-meta-field.php:1182
+#: production/admin/classes/class-wpvr-meta-field.php:1248
 msgid "Hotspot-Type"
-msgstr ""
+msgstr "hotspot-typ"
 
 #. Author URI of the plugin
 msgid "http://rextheme.com/"
@@ -735,563 +1004,771 @@ msgid "https://rextheme.com/wpvr/"
 msgstr "https://rextheme.com/wpvr/"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
 msgid "ID"
-msgstr ""
+msgstr "identifikace"
 
 #: elementor/elements/Wpvr-widget.php:157
+#: production/elementor/elements/Wpvr-widget.php:157
 msgid "ID:"
 msgstr "ID:"
 
 #: admin/classes/class-wpvr-meta-field.php:683
+#: production/admin/classes/class-wpvr-meta-field.php:683
 msgid ""
 "If set to true, device orientation control will be used when the panorama is "
 "loaded, if the device supports it. If false, device orientation control "
 "needs to be activated by pressing a button. Defaults to false. Will work if "
 "gyroscope is enabled"
 msgstr ""
+"Pokud je nastaveno na hodnotu TRUE, při načtení panoramatu bude použito "
+"ovládání orientace zařízení, pokud jej zařízení podporuje. Pokud je FALSE, "
+"je třeba aktivovat ovládání orientace zařízení stisknutím tlačítka. Výchozí "
+"hodnota je false. bude fungovat, pokud je povolen gyroskop"
 
 #: admin/partials/wpvr_documentation.php:137
+#: production/admin/partials/wpvr_documentation.php:137
 msgid "Import"
-msgstr "Import"
+msgstr "importovat"
 
-#: admin/partials/wpvr_documentation.php:607
+#: admin/partials/wpvr_documentation.php:623
+#: production/admin/partials/wpvr_documentation.php:623
 msgid "Import & Export Virtual Tours"
-msgstr ""
+msgstr "Import a export virtuálních prohlídek"
 
-#: admin/partials/wpvr_documentation.php:762
+#: admin/partials/wpvr_documentation.php:778
+#: production/admin/partials/wpvr_documentation.php:778
 msgid "Import tour file: "
-msgstr "Import souboru prohlídky:"
+msgstr "Import souboru zájezdu:"
 
-#: admin/classes/class-tour-guide-translation.php:51
+#: admin/classes/class-tour-guide-translation.php:52
+#: production/admin/classes/class-tour-guide-translation.php:52
 msgid ""
 "In this Preview, drag to your desired location and click on it, exactly "
 "where you want to set the hotspot"
 msgstr ""
+"V tomto náhledu přetáhněte na požadované místo a klikněte na něj, přesně tam,"
+" kde chcete nastavit hotspot"
 
 #: admin/partials/wpvr_documentation.php:97
+#: production/admin/partials/wpvr_documentation.php:97
 msgid "Info"
-msgstr ""
+msgstr "info"
 
-#: admin/partials/wpvr_documentation.php:402
+#: admin/partials/wpvr_documentation.php:418
+#: production/admin/partials/wpvr_documentation.php:418
 msgid "Info-type Hotspots (Heading, Image, Text, Video, Gif, Links)"
-msgstr ""
+msgstr "Info-type hotspoty (nadpis, obrázek, text, video, gif, odkazy)"
 
 #: admin/classes/class-wpvr-meta-field.php:3097
+#: production/admin/classes/class-wpvr-meta-field.php:3097
 msgid "Italic"
-msgstr ""
+msgstr "kurzívní"
 
 #: admin/classes/class-wpvr-meta-field.php:3089
+#: production/admin/classes/class-wpvr-meta-field.php:3089
 msgid "Justified"
-msgstr ""
+msgstr "odůvodněný"
 
 #: admin/classes/class-wpvr-meta-field.php:640
+#: production/admin/classes/class-wpvr-meta-field.php:640
 msgid "Keyboard Movement Control"
-msgstr ""
+msgstr "ovládání pohybu klávesnice"
 
 #: admin/classes/class-wpvr-meta-field.php:648
+#: production/admin/classes/class-wpvr-meta-field.php:648
 msgid "Keyboard Zoom Control"
-msgstr ""
+msgstr "ovládání zoomu klávesnice"
 
 #: admin/partials/wpvr_setup_wizard.php:54
 #: admin/partials/wpvr_setup_wizard.php:66
 #: admin/partials/wpvr_setup_wizard.php:78
 #: admin/partials/wpvr_setup_wizard.php:90
 #: admin/partials/wpvr_setup_wizard.php:102
+#: production/admin/partials/wpvr_setup_wizard.php:54
+#: production/admin/partials/wpvr_setup_wizard.php:66
+#: production/admin/partials/wpvr_setup_wizard.php:78
+#: production/admin/partials/wpvr_setup_wizard.php:90
+#: production/admin/partials/wpvr_setup_wizard.php:102
 msgid "Learn more"
-msgstr ""
+msgstr "dozvědět se více"
 
 #: admin/classes/class-wpvr-meta-field.php:3086
 #: admin/classes/class-wpvr-meta-field.php:3161
+#: production/admin/classes/class-wpvr-meta-field.php:3086
+#: production/admin/classes/class-wpvr-meta-field.php:3161
 msgid "Left"
-msgstr ""
+msgstr "levice"
 
-#: admin/classes/class-tour-guide-translation.php:42
+#: admin/classes/class-tour-guide-translation.php:43
+#: production/admin/classes/class-tour-guide-translation.php:43
 msgid "Let's add a Hotspot"
-msgstr ""
+msgstr "Přidáme hotspot"
 
 #: admin/classes/class-wpvr-meta-field.php:3103
+#: production/admin/classes/class-wpvr-meta-field.php:3103
 msgid "Letter Spacing (px)"
-msgstr ""
+msgstr "Rozteč písmen (PX)"
 
 #: admin/partials/wpvr_license.php:18
+#: production/admin/partials/wpvr_license.php:18
 msgid "License Key"
-msgstr "Licenční klíč"
+msgstr "licenční klíč"
 
 #: admin/classes/class-wpvr-meta-field.php:3059
+#: production/admin/classes/class-wpvr-meta-field.php:3059
 msgid "Line Height"
-msgstr ""
+msgstr "výška čáry"
 
 #: admin/classes/class-wpvr-meta-field.php:3069
+#: production/admin/classes/class-wpvr-meta-field.php:3069
 msgid "Line Through"
-msgstr ""
+msgstr "propojit"
 
-#: admin/partials/wpvr_documentation.php:988
+#: admin/partials/wpvr_documentation.php:1004
+#: production/admin/partials/wpvr_documentation.php:1004
 msgid ""
 "List of allowed pages to load WP VR scripts (The URLs of the pages on your "
 "site with virtual tours):"
 msgstr ""
+"Seznam povolených stránek pro načítání skriptů WP VR (adresy URL stránek na "
+"vašem webu s virtuálními prohlídkami):"
 
-#: admin/partials/wpvr_documentation.php:1028
+#: admin/partials/wpvr_documentation.php:1044
+#: production/admin/partials/wpvr_documentation.php:1044
 msgid ""
 "List of allowed pages to load WP VR Video JS library (The URLs of the pages "
 "on your site, You want to load Video JS):"
 msgstr ""
+"Seznam povolených stránek pro načítání WP VR Video JS Library (adresy URL "
+"stránek na vašem webu, chcete načíst video JS):"
 
-#: admin/partials/wpvr_documentation.php:1034
+#: admin/partials/wpvr_documentation.php:1050
+#: production/admin/partials/wpvr_documentation.php:1050
 msgid ""
 "List the pages like this: https://example.com/tour1/, https://example."
 "com/tour2/"
 msgstr ""
+"Uveďte stránky takto: https://example.com/tour1/, https://example.com/tour2/"
 
-#: admin/partials/wpvr_documentation.php:994
+#: admin/partials/wpvr_documentation.php:1010
+#: production/admin/partials/wpvr_documentation.php:1010
 msgid ""
 "List the pages with virtual tours like this: https://example.com/tour1/, "
 "https://example.com/tour2/"
 msgstr ""
+"Uveďte stránky s virtuálními prohlídkami, jako je tato: https://example."
+"com/tour1/, https://example.com/tour2/"
 
 #: admin/classes/class-wpvr-meta-field.php:3078
+#: production/admin/classes/class-wpvr-meta-field.php:3078
 msgid "Lowercase"
-msgstr ""
+msgstr "malá písmena"
 
-#: admin/partials/wpvr_documentation.php:220
+#: admin/partials/wpvr_documentation.php:227
+#: production/admin/partials/wpvr_documentation.php:227
 msgid "Make WPVR Popular"
-msgstr "Make WPVR populární"
+msgstr "udělat wpvr populární"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
 msgid "Mobile Height"
-msgstr ""
+msgstr "mobilní výška"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:118
+#: production/oxygen/elements/Wpvr_Tour_Element.php:118
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
 msgid "Mobile Height Unit"
-msgstr ""
+msgstr "mobilní výšková jednotka"
 
 #: admin/partials/wpvr_setup_wizard.php:63
+#: production/admin/partials/wpvr_setup_wizard.php:63
 msgid "Mobile Panorama"
-msgstr ""
+msgstr "mobilní panorama"
 
-#: admin/partials/wpvr_documentation.php:694
+#: admin/partials/wpvr_documentation.php:710
+#: production/admin/partials/wpvr_documentation.php:710
 msgid "More Pro Features"
-msgstr ""
+msgstr "Další profesionální funkce"
 
-#: admin/partials/wpvr_documentation.php:726
+#: admin/partials/wpvr_documentation.php:742
+#: production/admin/partials/wpvr_documentation.php:742
 msgid "Mouse Control."
-msgstr ""
+msgstr "ovládání myší."
 
 #: admin/classes/class-wpvr-meta-field.php:656
+#: production/admin/classes/class-wpvr-meta-field.php:656
 msgid "Mouse Drag Control"
-msgstr ""
+msgstr "ovládání přetažením myši"
 
 #: admin/classes/class-wpvr-meta-field.php:664
+#: production/admin/classes/class-wpvr-meta-field.php:664
 msgid "Mouse Zoom Control"
-msgstr ""
+msgstr "ovládání zoomu myši"
 
 #: admin/classes/class-wpvr-meta-field.php:783
+#: production/admin/classes/class-wpvr-meta-field.php:783
 msgid "Move Down"
-msgstr ""
+msgstr "posunout se"
 
 #: admin/classes/class-wpvr-meta-field.php:789
+#: production/admin/classes/class-wpvr-meta-field.php:789
 msgid "Move Left"
-msgstr ""
+msgstr "přesunout doleva"
 
 #: admin/classes/class-wpvr-meta-field.php:795
+#: production/admin/classes/class-wpvr-meta-field.php:795
 msgid "Move Right"
-msgstr ""
+msgstr "pohnout doprava"
 
 #: admin/classes/class-wpvr-meta-field.php:777
+#: production/admin/classes/class-wpvr-meta-field.php:777
 msgid "Move Up"
-msgstr ""
+msgstr "posunout se nahoru"
 
 #: admin/partials/wpvr_setup_wizard.php:148
+#: production/admin/partials/wpvr_setup_wizard.php:148
 msgid "Multiple Content on Hotspots"
-msgstr ""
+msgstr "Více obsahu na hotspotech"
 
 #: admin/classes/class-tour-guide-translation.php:8
+#: production/admin/classes/class-tour-guide-translation.php:8
 msgid "Next"
-msgstr ""
+msgstr "zase"
 
 #: admin/classes/class-wpvr-meta-field.php:1651
 #: admin/partials/wpvr_confirmation_alert.php:26
+#: production/admin/classes/class-wpvr-meta-field.php:1651
+#: production/admin/partials/wpvr_confirmation_alert.php:26
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
 msgid "No"
-msgstr ""
+msgstr "ne"
 
 #: admin/classes/class-wpvr-meta-field.php:3066
 #: admin/classes/class-wpvr-meta-field.php:3076
+#: production/admin/classes/class-wpvr-meta-field.php:3066
+#: production/admin/classes/class-wpvr-meta-field.php:3076
 msgid "None"
-msgstr ""
+msgstr "žádný"
 
 #: admin/classes/class-wpvr-meta-field.php:3096
+#: production/admin/classes/class-wpvr-meta-field.php:3096
 msgid "Normal"
+msgstr "normálem"
+
+#: admin/classes/class-wpvr-general.php:101
+#: production/admin/classes/class-wpvr-general.php:101
+msgid ""
+"Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on "
+"embedded tours."
 msgstr ""
+"Poznámka: Hotspoty WooCommerce & Fluent Forms nebudou na vestavěných "
+"zájezdech podporovány."
 
 #: admin/classes/class-wpvr-meta-field.php:3098
+#: production/admin/classes/class-wpvr-meta-field.php:3098
 msgid "Oblique"
-msgstr ""
+msgstr "šikmý"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:89
+#: production/oxygen/elements/Wpvr_Tour_Element.php:89
 msgid "OFF"
-msgstr ""
+msgstr "postranní"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:88
+#: production/oxygen/elements/Wpvr_Tour_Element.php:88
 msgid "ON"
-msgstr ""
+msgstr "na"
 
 #: admin/classes/class-wpvr-meta-field.php:1016
 #: admin/classes/class-wpvr-meta-field.php:1072
 #: admin/classes/class-wpvr-meta-field.php:1139
 #: admin/classes/class-wpvr-meta-field.php:1205
 #: admin/classes/class-wpvr-meta-field.php:1265
+#: production/admin/classes/class-wpvr-meta-field.php:1016
+#: production/admin/classes/class-wpvr-meta-field.php:1072
+#: production/admin/classes/class-wpvr-meta-field.php:1139
+#: production/admin/classes/class-wpvr-meta-field.php:1205
+#: production/admin/classes/class-wpvr-meta-field.php:1265
 msgid "On Click Content"
-msgstr ""
+msgstr "Na Click Content"
 
 #: admin/classes/class-wpvr-meta-field.php:1021
 #: admin/classes/class-wpvr-meta-field.php:1079
 #: admin/classes/class-wpvr-meta-field.php:1146
 #: admin/classes/class-wpvr-meta-field.php:1212
 #: admin/classes/class-wpvr-meta-field.php:1271
+#: production/admin/classes/class-wpvr-meta-field.php:1021
+#: production/admin/classes/class-wpvr-meta-field.php:1079
+#: production/admin/classes/class-wpvr-meta-field.php:1146
+#: production/admin/classes/class-wpvr-meta-field.php:1212
+#: production/admin/classes/class-wpvr-meta-field.php:1271
 msgid "On Hover Content"
-msgstr ""
+msgstr "Na obsahu Hover"
 
-#: admin/partials/wpvr_documentation.php:730
+#: admin/partials/wpvr_documentation.php:746
+#: production/admin/partials/wpvr_documentation.php:746
 msgid "On Screen Compass."
-msgstr ""
+msgstr "na obrazovce kompas."
 
-#: admin/classes/class-tour-guide-translation.php:55
+#: admin/classes/class-tour-guide-translation.php:56
+#: production/admin/classes/class-tour-guide-translation.php:56
 msgid ""
 "Once you see the Pitch & Yaw value for the spot, click on this Arrow. It'll "
 "be set as the coordinate for your hotspot"
 msgstr ""
+"Jakmile uvidíte hodnotu Pitch & Yaw pro místo, klikněte na tuto šipku. bude "
+"nastaven jako souřadnice pro váš hotspot"
 
-#: wpvr.php:261 public/classes/class-wpvr-shortcode.php:98
+#: wpvr.php:261 production/wpvr.php:261
+#: public/classes/class-wpvr-shortcode.php:98
+#: production/public/classes/class-wpvr-shortcode.php:98
 msgid ""
 "Oops! It seems like this post isn't published yet. Stay tuned for updates!"
 msgstr ""
+"Jejda! Zdá se, že tento příspěvek ještě není zveřejněn. Zůstaňte naladěni na "
+"aktualizace!"
 
 #: admin/classes/class-wpvr-meta-field.php:3025
+#: production/admin/classes/class-wpvr-meta-field.php:3025
 msgid "Open in new tab"
-msgstr ""
+msgstr "Otevřete v nové kartě"
 
 #: admin/classes/class-wpvr-meta-field.php:1009
 #: admin/classes/class-wpvr-meta-field.php:1065
 #: admin/classes/class-wpvr-meta-field.php:1132
 #: admin/classes/class-wpvr-meta-field.php:1198
 #: admin/classes/class-wpvr-meta-field.php:1258
+#: production/admin/classes/class-wpvr-meta-field.php:1009
+#: production/admin/classes/class-wpvr-meta-field.php:1065
+#: production/admin/classes/class-wpvr-meta-field.php:1132
+#: production/admin/classes/class-wpvr-meta-field.php:1198
+#: production/admin/classes/class-wpvr-meta-field.php:1258
 msgid "Open in same tab"
-msgstr ""
+msgstr "Otevřete na stejné kartě"
 
 #: admin/classes/class-wpvr-meta-field.php:3068
+#: production/admin/classes/class-wpvr-meta-field.php:3068
 msgid "Overline"
-msgstr ""
+msgstr "překlopit"
 
 #: admin/classes/class-wpvr-meta-field.php:3143
+#: production/admin/classes/class-wpvr-meta-field.php:3143
 msgid "Padding (px)"
-msgstr ""
+msgstr "vycpávka (px)"
 
-#: admin/partials/wpvr_documentation.php:361
+#: admin/partials/wpvr_documentation.php:377
 #: admin/partials/wpvr_setup_wizard.php:134
+#: production/admin/partials/wpvr_documentation.php:377
+#: production/admin/partials/wpvr_setup_wizard.php:134
 msgid "Panorama Scene Gallery"
-msgstr ""
+msgstr "galerie panoramatických scén"
 
-#: admin/partials/wpvr_documentation.php:458
+#: admin/partials/wpvr_documentation.php:474
+#: production/admin/partials/wpvr_documentation.php:474
 msgid "Partial Panorama / Mobile Panorama Support"
-msgstr ""
+msgstr "Částečné panoramatické / mobilní panoramatické podpora"
 
 #: admin/classes/class-wpvr-meta-field.php:1606
+#: production/admin/classes/class-wpvr-meta-field.php:1606
 msgid "Paste Youtube or Vimeo link or upload"
-msgstr ""
+msgstr "Vložte odkaz na YouTube nebo Vimeo nebo nahrajte"
 
 #: admin/classes/class-wpvr-ajax.php:375
+#: production/admin/classes/class-wpvr-ajax.php:375
 msgid "Permission check failed"
-msgstr ""
+msgstr "Kontrola oprávnění se nez"
 
 #: admin/partials/wpvr_setup_wizard.php:126
+#: production/admin/partials/wpvr_setup_wizard.php:126
 msgid "Personalize your virtual tours, in the way you want."
-msgstr ""
+msgstr "Přizpůsobte si své virtuální prohlídky tak, jak chcete."
 
 #: admin/classes/class-wpvr-meta-field.php:964
+#: production/admin/classes/class-wpvr-meta-field.php:964
 msgid "Pitch"
-msgstr ""
+msgstr "smola"
 
-#: admin/classes/class-tour-guide-translation.php:58
-#: admin/classes/class-tour-guide-translation.php:62
+#: admin/classes/class-tour-guide-translation.php:59
+#: admin/classes/class-tour-guide-translation.php:63
+#: production/admin/classes/class-tour-guide-translation.php:59
+#: production/admin/classes/class-tour-guide-translation.php:63
 msgid "Pitch & Yaw is Set"
-msgstr ""
+msgstr "Pitch & Yaw je nastaven"
 
-#: admin/partials/wpvr_documentation.php:213
+#: admin/partials/wpvr_documentation.php:219
+#: production/admin/partials/wpvr_documentation.php:219
 msgid "Post a Ticket"
-msgstr "Vložte lístek"
+msgstr "poslat lístek"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Premium Features"
-msgstr ""
+msgstr "Prémiové funkce"
 
 #: admin/classes/class-tour-preview-meta-box.php:853
+#: production/admin/classes/class-tour-preview-meta-box.php:853
 msgid "Preview"
-msgstr ""
+msgstr "předpremiéra"
 
 #: admin/classes/class-wpvr-meta-field.php:146
+#: production/admin/classes/class-wpvr-meta-field.php:146
 msgid "Preview Image Message"
-msgstr ""
+msgstr "náhled obrázku"
 
-#: admin/classes/class-tour-guide-translation.php:25
+#: admin/classes/class-tour-guide-translation.php:26
+#: production/admin/classes/class-tour-guide-translation.php:26
 msgid "Preview The Image in Tour Mode"
-msgstr ""
+msgstr "náhled obrázku v režimu prohlídky"
 
-#: admin/classes/class-tour-guide-translation.php:74
+#: admin/classes/class-tour-guide-translation.php:75
+#: production/admin/classes/class-tour-guide-translation.php:75
 msgid "Preview Your Hotspot Content"
-msgstr ""
+msgstr "Náhled obsahu hotspotu"
 
 #: admin/classes/class-tour-guide-translation.php:9
+#: production/admin/classes/class-tour-guide-translation.php:9
 msgid "Previous"
-msgstr ""
+msgstr "předchozí"
 
 #: admin/classes/class-wpvr-meta-field.php:432
 #: admin/classes/class-wpvr-meta-field.php:466
+#: production/admin/classes/class-wpvr-meta-field.php:432
+#: production/admin/classes/class-wpvr-meta-field.php:466
 msgid "Print the forms shortcode you want to show."
-msgstr ""
+msgstr "Vytiskněte si krátký kód formulářů, který chcete zobrazit."
 
-#: admin/partials/wpvr_documentation.php:287
+#: admin/partials/wpvr_documentation.php:303
+#: production/admin/partials/wpvr_documentation.php:303
 msgid "pro"
-msgstr ""
+msgstr "profesionál"
 
-#: admin/partials/wpvr_documentation.php:319
+#: admin/partials/wpvr_documentation.php:335
+#: production/admin/partials/wpvr_documentation.php:335
 msgid "Publish Tours Anywhere (Embed Add-on)"
-msgstr ""
+msgstr "Publish Tours Anywhere (doplněk vložený)"
 
-#: admin/classes/class-tour-guide-translation.php:37
+#: admin/classes/class-tour-guide-translation.php:38
+#: production/admin/classes/class-tour-guide-translation.php:38
 msgid "Publish Your Tour"
-msgstr ""
+msgstr "Zveřejněte svou prohlídku"
 
 #: elementor/elements/Wpvr-widget.php:178
+#: production/elementor/elements/Wpvr-widget.php:178
 msgid "Put value in (px)"
-msgstr "Vložte hodnotu v (px)"
+msgstr "Vložte hodnotu (px)"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:56
 #: oxygen/elements/Wpvr_Tour_Element.php:76
 #: oxygen/elements/Wpvr_Tour_Element.php:106
 #: oxygen/elements/Wpvr_Tour_Element.php:123
+#: production/oxygen/elements/Wpvr_Tour_Element.php:56
+#: production/oxygen/elements/Wpvr_Tour_Element.php:76
+#: production/oxygen/elements/Wpvr_Tour_Element.php:106
+#: production/oxygen/elements/Wpvr_Tour_Element.php:123
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
 msgid "Radius"
-msgstr ""
+msgstr "rádius"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:101
+#: production/oxygen/elements/Wpvr_Tour_Element.php:101
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
 msgid "Radius Unit"
-msgstr ""
+msgstr "poloměr"
 
 #: elementor/elements/Wpvr-widget.php:185
+#: production/elementor/elements/Wpvr-widget.php:185
 msgid "Radius:"
-msgstr "Poloměr:"
+msgstr "poloměr:"
 
-#: admin/partials/wpvr_documentation.php:222
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:231
+#: production/admin/partials/wpvr_documentation.php:231
 #| msgid "Rate Us! "
 msgid "Rate Us "
-msgstr "Ohodnoťte nás!"
+msgstr "Ohodnoťte nás"
 
 #: admin/partials/wpvr_setup_wizard.php:218
+#: production/admin/partials/wpvr_setup_wizard.php:218
 msgid "Read Documentations"
-msgstr ""
+msgstr "Přečtěte si dokumentaci"
 
 #: admin/partials/wpvr_setup_wizard.php:219
+#: production/admin/partials/wpvr_setup_wizard.php:219
 msgid "Read Our Complete Guides"
-msgstr ""
+msgstr "Přečtěte si naše kompletní průvodce"
 
-#: admin/partials/wpvr_documentation.php:244
+#: admin/partials/wpvr_documentation.php:260
+#: production/admin/partials/wpvr_documentation.php:260
 msgid ""
 "Recover abandoned carts with automated email drip campaigns. Start getting "
 "back lost sales on your online store."
 msgstr ""
+"Obnovte opuštěné vozíky pomocí automatických e-mailových odkapávacích "
+"kampaní. Začněte získat zpět ztracené prodeje ve svém internetovém obchodě."
 
 #: admin/classes/class-wpvr-meta-field.php:403
+#: production/admin/classes/class-wpvr-meta-field.php:403
 msgid "Resume Auto-rotation after"
-msgstr ""
+msgstr "Po obnovení automatického otáčení"
 
 #. Author of the plugin
 msgid "Rextheme"
-msgstr "Rextheme"
+msgstr "rextheme"
 
 #: admin/classes/class-wpvr-meta-field.php:3087
 #: admin/classes/class-wpvr-meta-field.php:3151
+#: production/admin/classes/class-wpvr-meta-field.php:3087
+#: production/admin/classes/class-wpvr-meta-field.php:3151
 msgid "Right"
-msgstr ""
+msgstr "vpravo"
 
 #: admin/classes/class-wpvr-meta-field.php:394
+#: production/admin/classes/class-wpvr-meta-field.php:394
 msgid "Rotation Speed and Direction"
-msgstr ""
+msgstr "Rychlost otáčení a směr"
 
-#: admin/partials/wpvr_documentation.php:1156
+#: admin/partials/wpvr_documentation.php:1172
+#: production/admin/partials/wpvr_documentation.php:1172
 msgid "Save"
-msgstr ""
+msgstr "šetřit"
 
-#: admin/classes/class-tour-guide-translation.php:78
+#: admin/classes/class-tour-guide-translation.php:79
+#: production/admin/classes/class-tour-guide-translation.php:79
 msgid "Save Your Progress"
-msgstr ""
+msgstr "Uložte svůj pokrok"
 
-#: admin/classes/class-tour-guide-translation.php:33
+#: admin/classes/class-tour-guide-translation.php:34
+#: production/admin/classes/class-tour-guide-translation.php:34
 msgid "Save Your Tour"
-msgstr ""
+msgstr "Uložte si prohlídku"
 
-#: admin/partials/wpvr_documentation.php:706
+#: admin/partials/wpvr_documentation.php:722
+#: production/admin/partials/wpvr_documentation.php:722
 msgid "Scene Author with URL"
-msgstr ""
+msgstr "Autor scény s URL"
 
 #: admin/classes/class-wpvr-meta-field.php:209
+#: production/admin/classes/class-wpvr-meta-field.php:209
 msgid "Scene Fade Duration"
-msgstr ""
+msgstr "Doba vyblednutí scény"
 
 #: admin/classes/class-wpvr-meta-field.php:709
+#: production/admin/classes/class-wpvr-meta-field.php:709
 msgid "Scene Gallery"
-msgstr ""
+msgstr "galerie"
 
 #: admin/classes/class-wpvr-meta-field.php:873
 #: admin/classes/class-wpvr-meta-field.php:921
+#: production/admin/classes/class-wpvr-meta-field.php:873
+#: production/admin/classes/class-wpvr-meta-field.php:921
 msgid "Scene ID"
-msgstr ""
+msgstr "ID scény"
 
 #: admin/classes/class-wpvr-meta-field.php:725
+#: production/admin/classes/class-wpvr-meta-field.php:725
 msgid "Scene Navigation Menu"
-msgstr ""
+msgstr "Nabídka navigace"
 
 #: admin/classes/class-wpvr-scene.php:233
 #: admin/classes/class-wpvr-scene.php:262
+#: production/admin/classes/class-wpvr-scene.php:233
+#: production/admin/classes/class-wpvr-scene.php:262
 msgid "Scene Setting"
-msgstr ""
+msgstr "scéna"
 
-#: admin/partials/wpvr_documentation.php:702
+#: admin/partials/wpvr_documentation.php:718
+#: production/admin/partials/wpvr_documentation.php:718
 msgid "Scene Title"
-msgstr ""
+msgstr "název"
 
 #: admin/classes/class-wpvr-meta-field.php:717
+#: production/admin/classes/class-wpvr-meta-field.php:717
 msgid "Scene Titles on Gallery"
-msgstr ""
+msgstr "Názvy scén v galerii"
 
-#: admin/partials/wpvr_documentation.php:734
+#: admin/partials/wpvr_documentation.php:750
+#: production/admin/partials/wpvr_documentation.php:750
 msgid "Scene Titles on Gallery."
-msgstr ""
+msgstr "Názvy scén na galerii."
 
 #: admin/classes/class-wpvr-meta-field.php:881
 #: admin/classes/class-wpvr-meta-field.php:929
+#: production/admin/classes/class-wpvr-meta-field.php:881
+#: production/admin/classes/class-wpvr-meta-field.php:929
 msgid "Scene Type"
-msgstr ""
+msgstr "Typ scény"
 
 #: admin/classes/class-wpvr-meta-field.php:888
 #: admin/classes/class-wpvr-meta-field.php:936
+#: production/admin/classes/class-wpvr-meta-field.php:888
+#: production/admin/classes/class-wpvr-meta-field.php:936
 msgid "Scene Upload"
-msgstr ""
+msgstr "Nahrání scény"
 
-#: admin/partials/wpvr_documentation.php:416
+#: admin/classes/class-wpvr-meta-field.php:1774
+#: production/admin/classes/class-wpvr-meta-field.php:1774
+msgid "Scene Upload: "
+msgstr "Nahrání scény:"
+
+#: admin/partials/wpvr_documentation.php:432
+#: production/admin/partials/wpvr_documentation.php:432
 msgid "Scene-type Hotspots (Connect Panoramas)"
-msgstr ""
+msgstr "Hotspoty typu scény (připojit panoramata)"
 
 #: admin/classes/class-wpvr-meta-field.php:88
+#: production/admin/classes/class-wpvr-meta-field.php:88
 msgid "Scenes"
-msgstr ""
+msgstr "kulisy"
 
-#: admin/partials/wpvr_documentation.php:1134
+#: admin/partials/wpvr_documentation.php:1150
+#: production/admin/partials/wpvr_documentation.php:1150
 msgid "Select a Version to Rollback"
-msgstr ""
+msgstr "Vyberte verzi pro vrácení zpět"
 
 #: admin/classes/class-wpvr-meta-field.php:1025
 #: admin/classes/class-wpvr-meta-field.php:1085
 #: admin/classes/class-wpvr-meta-field.php:1152
 #: admin/classes/class-wpvr-meta-field.php:1218
 #: admin/classes/class-wpvr-meta-field.php:1277
+#: production/admin/classes/class-wpvr-meta-field.php:1025
+#: production/admin/classes/class-wpvr-meta-field.php:1085
+#: production/admin/classes/class-wpvr-meta-field.php:1152
+#: production/admin/classes/class-wpvr-meta-field.php:1218
+#: production/admin/classes/class-wpvr-meta-field.php:1277
 msgid "Select Target Scene from List"
-msgstr ""
+msgstr "Vyberte cílovou scénu ze seznamu"
 
 #: admin/classes/class-wpvr-meta-field.php:1120
 #: admin/classes/class-wpvr-meta-field.php:1186
+#: production/admin/classes/class-wpvr-meta-field.php:1120
+#: production/admin/classes/class-wpvr-meta-field.php:1186
 msgid "Select your form"
-msgstr ""
+msgstr "Vyberte svůj formulář"
 
 #: admin/partials/wpvr_setup_wizard.php:141
+#: production/admin/partials/wpvr_setup_wizard.php:141
 msgid "Sell WooCommerce Products"
-msgstr ""
+msgstr "Prodávejte produkty WooCommerce"
 
 #: admin/classes/class-wpvr-meta-field.php:417
+#: production/admin/classes/class-wpvr-meta-field.php:417
 msgid ""
 "Set a time after which auto rotation will stop. Assign in milliseconds, "
 "where 1000 milliseconds = 1 second."
 msgstr ""
+"Nastavte čas, po kterém se automatické otáčení zastaví. Přiřaďte v "
+"milisekundách, kde 1000 milisekund = 1 sekunda."
 
-#: admin/classes/class-tour-guide-translation.php:12
+#: admin/classes/class-tour-guide-translation.php:13
+#: production/admin/classes/class-tour-guide-translation.php:13
 msgid "Set a Title to Your Virtual Tour"
-msgstr ""
+msgstr "Nastavte název své virtuální prohlídky"
 
 #: admin/classes/class-wpvr-meta-field.php:140
+#: production/admin/classes/class-wpvr-meta-field.php:140
 msgid "Set a Tour Preview Image"
-msgstr ""
+msgstr "Nastavte náhledový obrázek"
 
 #: admin/classes/class-wpvr-meta-field.php:399
+#: production/admin/classes/class-wpvr-meta-field.php:399
 msgid ""
 "Set a value to determine the speed of rotation. The higher the number, the "
 "faster it will rotate. Positive values will make it rotate clockwise and "
 "negative values will make it rotate anti clockwise"
 msgstr ""
+"Nastavte hodnotu pro určení rychlosti otáčení. Čím vyšší číslo, tím rychleji "
+"se bude otáčet. Kladné hodnoty způsobí, že se bude otáčet ve směru "
+"hodinových ručiček a záporné hodnoty způsobí, že se bude otáčet proti směru "
+"hodinových ru"
 
-#: admin/classes/class-tour-guide-translation.php:47
+#: admin/classes/class-tour-guide-translation.php:48
+#: production/admin/classes/class-tour-guide-translation.php:48
 msgid ""
 "Set an unique Hotspot ID to each of your Hotspots. Avoid Spaces & special "
 "characters. Set it like H1 or 01"
 msgstr ""
+"Nastavte jedinečné ID hotspotu pro každý ze svých hotspotů. Vyhněte se "
+"mezerám a speciálním znakům. Nastavte to jako H1 nebo 01"
 
 #: admin/classes/class-wpvr-meta-field.php:866
 #: admin/classes/class-wpvr-meta-field.php:914
+#: production/admin/classes/class-wpvr-meta-field.php:866
+#: production/admin/classes/class-wpvr-meta-field.php:914
 msgid "Set as Default"
-msgstr ""
+msgstr "nastavit jako výchozí"
 
 #: admin/partials/wpvr_setup_wizard.php:162
+#: production/admin/partials/wpvr_setup_wizard.php:162
 msgid "Set Contact Form"
-msgstr ""
+msgstr "nastavit kontaktní formulář"
 
-#: admin/classes/class-tour-guide-translation.php:46
+#: admin/classes/class-tour-guide-translation.php:47
+#: production/admin/classes/class-tour-guide-translation.php:47
 msgid "Set Hotspot ID"
-msgstr ""
+msgstr "Nastavte ID hotspotu"
 
-#: admin/classes/class-tour-guide-translation.php:66
-#: admin/classes/class-tour-guide-translation.php:70
+#: admin/classes/class-tour-guide-translation.php:67
+#: admin/classes/class-tour-guide-translation.php:71
+#: production/admin/classes/class-tour-guide-translation.php:67
+#: production/admin/classes/class-tour-guide-translation.php:71
 msgid "Set The Content for Click Action"
-msgstr ""
+msgstr "Nastavte obsah pro akci kliknutí"
 
-#: admin/classes/class-tour-guide-translation.php:17
+#: admin/classes/class-tour-guide-translation.php:18
+#: production/admin/classes/class-tour-guide-translation.php:18
 msgid ""
 "Set the Scene ID for your first panorama image. The Scene ID has to be "
 "unique for each scene and without any spaces or special characters. You can "
 "set it as Scene1, S1, or simply 01."
 msgstr ""
+"Nastavte ID scény pro svůj první panoramatický obrázek. ID scény musí být "
+"jedinečné pro každou scénu a bez mezer nebo speciálních postav. Můžete jej "
+"nastavit jako Scene1, S1 nebo jednoduše 01."
 
 #: admin/classes/class-wpvr-meta-field.php:749
+#: production/admin/classes/class-wpvr-meta-field.php:749
 msgid "Set Zoom Preferences"
-msgstr ""
+msgstr "Nastavte předvolby zoomu"
 
 #: admin/partials/wpvr_documentation.php:150
+#: production/admin/partials/wpvr_documentation.php:150
 msgid "Settings"
-msgstr ""
+msgstr "antologie"
 
-#: admin/class-wpvr-admin.php:259
+#: admin/class-wpvr-admin.php:268 production/admin/class-wpvr-admin.php:267
 msgid "Setup"
-msgstr ""
+msgstr "aranžmá"
 
 #: admin/partials/wpvr_documentation.php:174
+#: production/admin/partials/wpvr_documentation.php:174
 msgid "Share On"
-msgstr "Sdílet na"
+msgstr "mít podíl na"
 
 #: admin/classes/class-wpvr-general.php:116
+#: production/admin/classes/class-wpvr-general.php:116
 msgid "Share your tour"
-msgstr ""
+msgstr "Sdílejte svou prohlídku"
 
-#: wpvr.php:2645
+#: wpvr.php:2647 production/wpvr.php:2647
 msgid ""
 "Since you have updated the plugin, please clear the browser cache for smooth "
 "functioning. Follow these steps if you are using <a href=\"https://support."
@@ -1303,275 +1780,391 @@ msgid ""
 "us/help/10607/microsoft-edge-view-delete-browser-history\" target=\"_blank\">"
 "Microsoft Edge</a>"
 msgstr ""
+"Protože jste aktualizovali plugin, vymažte prosím mezipaměť prohlížeče pro "
+"hladké fungování. "
+"TAGSHÁSHÁSHÁSHÁSHÁSHÁSHÁSÁSHÁSLOGÁSLOGÁSLOGÁSLOGESÁTÁGÁSY/32050 "
+"VZÁZÁVĚSMÁTORSKÁTŮM."
 
 #: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
 msgid "Starts from only"
-msgstr ""
+msgstr "začíná pouze z"
 
 #: admin/classes/class-wpvr-meta-field.php:412
+#: production/admin/classes/class-wpvr-meta-field.php:412
 msgid "Stop Auto-rotation after"
-msgstr ""
+msgstr "Po zastavení automatického otáčení"
 
 #: admin/classes/class-wpvr-meta-field.php:3126
+#: production/admin/classes/class-wpvr-meta-field.php:3126
 msgid "Style"
-msgstr ""
+msgstr "rydlo"
 
-#: admin/partials/wpvr_documentation.php:211
+#: admin/partials/wpvr_documentation.php:789
+#: production/admin/partials/wpvr_documentation.php:789
+msgid "Submit"
+msgstr "předložit"
+
+#: admin/partials/wpvr_documentation.php:215
+#: production/admin/partials/wpvr_documentation.php:215
 msgid "Support"
-msgstr "Podpora"
+msgstr "podpora"
 
 #: admin/partials/wpvr_setup_wizard.php:15
 #: admin/partials/wpvr_setup_wizard.php:205
+#: production/admin/partials/wpvr_setup_wizard.php:15
+#: production/admin/partials/wpvr_setup_wizard.php:205
 msgid "Take The Tour"
-msgstr ""
+msgstr "vyrazit na prohlídku"
 
 #: admin/classes/class-wpvr-meta-field.php:1029
 #: admin/classes/class-wpvr-meta-field.php:1090
 #: admin/classes/class-wpvr-meta-field.php:1157
 #: admin/classes/class-wpvr-meta-field.php:1223
 #: admin/classes/class-wpvr-meta-field.php:1282
+#: production/admin/classes/class-wpvr-meta-field.php:1029
+#: production/admin/classes/class-wpvr-meta-field.php:1090
+#: production/admin/classes/class-wpvr-meta-field.php:1157
+#: production/admin/classes/class-wpvr-meta-field.php:1223
+#: production/admin/classes/class-wpvr-meta-field.php:1282
 msgid "Target Scene ID"
-msgstr ""
+msgstr "ID cílové scény"
 
 #: admin/classes/class-wpvr-meta-field.php:3064
+#: production/admin/classes/class-wpvr-meta-field.php:3064
 msgid "Text Decoration"
-msgstr ""
+msgstr "dekorace textu"
 
 #: admin/classes/class-wpvr-meta-field.php:3074
+#: production/admin/classes/class-wpvr-meta-field.php:3074
 msgid "Text Transform"
-msgstr ""
+msgstr "Textová transform"
 
 #: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
 msgid "Thank you"
-msgstr ""
+msgstr "děkuji"
 
-#: admin/partials/wpvr_documentation.php:1072
+#: admin/partials/wpvr_documentation.php:1088
+#: production/admin/partials/wpvr_documentation.php:1088
 msgid ""
 "The notice will appear on the front end of the virtual tour if viewed from a "
 "mobile device."
 msgstr ""
+"Oznámení se objeví na přední straně virtuální prohlídky, pokud je prohlíženo "
+"z mobilního zařízení."
 
 #: admin/classes/class-wpvr-meta-field.php:163
+#: production/admin/classes/class-wpvr-meta-field.php:163
 msgid ""
 "This option will display Zoom In, Zoom Out and Full Screen buttons on the "
 "tour."
 msgstr ""
+"Tato možnost zobrazí na turné přiblížení, oddálení a tlačítka na celou "
+"obrazovku."
 
 #: admin/classes/class-wpvr-meta-field.php:2269
+#: production/admin/classes/class-wpvr-meta-field.php:2269
 msgid "This option will not work if the \"Tour Autoload\" is turned on."
-msgstr ""
+msgstr "Tato možnost nebude fungovat, pokud je zapnuto \"Autoload Tour\"."
 
 #: admin/classes/class-wpvr-meta-field.php:214
+#: production/admin/classes/class-wpvr-meta-field.php:214
 msgid "This will set the scene fade effect and execution time."
-msgstr ""
+msgstr "Tím se nastaví efekt slábnutí scény a čas provedení."
 
 #: admin/classes/class-wpvr-general.php:95
+#: production/admin/classes/class-wpvr-general.php:95
 msgid "To Embed on External Page:"
-msgstr ""
+msgstr "Vložení na externí stránku:"
 
 #: admin/classes/class-wpvr-shortcode.php:39
-#, fuzzy
+#: production/admin/classes/class-wpvr-shortcode.php:39
 #| msgid ""
 #| "To use this Wpvr tour in your posts or pages use the following shortcode:"
 msgid ""
 "To use this WP VR tour in your posts or pages use the following shortcode "
 msgstr ""
-"Chcete-li použít tuto prohlídku WPVR ve svých příspěvcích nebo stránkách, "
-"použijte následující zkratku:"
+"Chcete-li použít tuto WP VR Tour ve svých příspěvcích nebo stránkách, "
+"použijte následující krátký kód"
 
 #: admin/classes/class-wpvr-meta-field.php:3146
+#: production/admin/classes/class-wpvr-meta-field.php:3146
 msgid "Top"
-msgstr ""
+msgstr "hlava"
 
 #: admin/classes/class-wpvr-meta-field.php:151
+#: production/admin/classes/class-wpvr-meta-field.php:151
 msgid "Tour Autoload"
-msgstr ""
+msgstr "autonaložení zájezdu"
 
-#: admin/partials/wpvr_documentation.php:388
+#: admin/partials/wpvr_documentation.php:404
+#: production/admin/partials/wpvr_documentation.php:404
 msgid "Tour Background Audio"
-msgstr ""
+msgstr "prohlídka audio"
 
 #: admin/classes/class-wpvr-meta-field.php:733
+#: production/admin/classes/class-wpvr-meta-field.php:733
 msgid "Tour Background Music"
-msgstr ""
+msgstr "turné hudba na pozadí"
 
-#: admin/class-wpvr-admin.php:261
+#: admin/class-wpvr-admin.php:270 production/admin/class-wpvr-admin.php:269
 msgid "Tour Preview"
-msgstr ""
+msgstr "náhled na prohlídku"
 
 #: admin/classes/class-wpvr-meta-field.php:154
+#: production/admin/classes/class-wpvr-meta-field.php:154
 msgid "Tour Preview Image will not appear if this is turned on."
-msgstr ""
+msgstr "Pokud je zapnutý, obrázek náhledu zájezdu se nezobrazí."
 
 #: admin/classes/class-wpvr-admin-pages.php:71
+#: production/admin/classes/class-wpvr-admin-pages.php:71
 msgid "Tours"
-msgstr ""
+msgstr "zájezd"
 
 #: admin/classes/class-wpvr-meta-field.php:713
 #: admin/classes/class-wpvr-meta-field.php:729
+#: production/admin/classes/class-wpvr-meta-field.php:713
+#: production/admin/classes/class-wpvr-meta-field.php:729
 msgid ""
 "Turning it On will display a gallery with all the scenes on your tour. By "
 "double clicking on a scene thumbnail on the gallery, you can move to that "
 "specific scene. The gallery will only show up on the front end and not on "
 "the preview."
 msgstr ""
+"Zapnutím se zobrazí galerie se všemi scénami na vaší prohlídce. Dvojitým "
+"kliknutím na miniaturu scény v galerii můžete přejít na konkrétní scénu. "
+"Galerie se zobrazí pouze na přední straně a ne na náhledu."
 
 #: admin/classes/class-wpvr-meta-field.php:721
+#: production/admin/classes/class-wpvr-meta-field.php:721
 msgid ""
 "Turning it on will display scene titles on each scene thumbnail inside the "
 "Scene Gallery. The Scene IDs will be used as the Scene Title."
 msgstr ""
+"Zapnutím se zobrazí názvy scén na každé miniaturě scény v galerii scény. "
+"Jako název scény budou použity ID scény."
+
+#: admin/class-wpvr-admin.php:215 production/admin/class-wpvr-admin.php:215
+msgid ""
+"Turning On The StreetView Option Will Erase Your Virtual Tour Data. Are You "
+"Sure?"
+msgstr ""
+"Zapnutím možnosti Streetview vymažete data virtuální prohlídky. Jsi si jistý?"
+
+#: admin/class-wpvr-admin.php:214 production/admin/class-wpvr-admin.php:214
+msgid ""
+"Turning On The Video Option Will Erase Your Virtual Tour Data. Are You Sure?"
+msgstr ""
+"Zapnutím možnosti Video vymažete data virtuální prohlídky. Jsi si jistý?"
 
 #: admin/classes/class-wpvr-meta-field.php:3067
+#: production/admin/classes/class-wpvr-meta-field.php:3067
 msgid "Underline"
-msgstr ""
+msgstr "podtrhnout"
 
-#: admin/partials/wpvr_documentation.php:305
+#: admin/partials/wpvr_documentation.php:321
+#: production/admin/partials/wpvr_documentation.php:321
 msgid "Unlimited Hotspots (Up to to 5 for a scene in free)"
-msgstr ""
+msgstr "Neomezené početní místa (až 5 pro scénu zdarma)"
 
-#: admin/partials/wpvr_documentation.php:291
+#: admin/partials/wpvr_documentation.php:307
+#: production/admin/partials/wpvr_documentation.php:307
 msgid "Unlimited Scenes (Up to 5 in Free)"
-msgstr ""
+msgstr "Neomezené scény (až 5 zdarma)"
 
 #: admin/partials/wpvr_setup_wizard.php:112
+#: production/admin/partials/wpvr_setup_wizard.php:112
 msgid "Unlock all these options by upgrading to Premium version"
-msgstr ""
+msgstr "Odemkněte všechny tyto možnosti upgradem na prémiovou verzi"
 
 #: admin/partials/wpvr_setup_wizard.php:113
+#: production/admin/partials/wpvr_setup_wizard.php:113
 msgid "Upgrade Now"
-msgstr ""
+msgstr "Upgradujte nyní"
 
-#: admin/partials/wpvr_documentation.php:280
-#: admin/partials/wpvr_documentation.php:749
+#: admin/partials/wpvr_documentation.php:296
+#: admin/partials/wpvr_documentation.php:765
+#: production/admin/partials/wpvr_documentation.php:296
+#: production/admin/partials/wpvr_documentation.php:765
 msgid "Upgrade to Pro"
-msgstr "Upgradujte na Pro"
+msgstr "upgradovat na pro"
 
 #: admin/partials/wpvr_documentation.php:169
-#: admin/partials/wpvr_documentation.php:263
-#: admin/partials/wpvr_documentation.php:1162
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:279
+#: admin/partials/wpvr_documentation.php:1178
+#: production/admin/partials/wpvr_documentation.php:169
+#: production/admin/partials/wpvr_documentation.php:279
+#: production/admin/partials/wpvr_documentation.php:1178
 #| msgid "Upgrade to pro"
 msgid "Upgrade to Pro "
-msgstr "Upgradujte na prof"
+msgstr "upgradovat na pro"
 
 #: admin/classes/class-wpvr-meta-field.php:1605
+#: production/admin/classes/class-wpvr-meta-field.php:1605
 msgid "Upload or Add Link"
-msgstr ""
+msgstr "Nahrajte nebo přidejte odkaz"
 
-#: admin/classes/class-tour-guide-translation.php:20
+#: admin/classes/class-tour-guide-translation.php:21
+#: production/admin/classes/class-tour-guide-translation.php:21
 msgid "Upload Panorama Image"
-msgstr ""
+msgstr "Nahrajte obrázek panorama"
 
 #: admin/classes/class-wpvr-meta-field.php:3077
+#: production/admin/classes/class-wpvr-meta-field.php:3077
 msgid "Uppercase"
-msgstr ""
+msgstr "velká písmena"
 
 #: admin/classes/class-wpvr-meta-field.php:1003
 #: admin/classes/class-wpvr-meta-field.php:1059
 #: admin/classes/class-wpvr-meta-field.php:1126
 #: admin/classes/class-wpvr-meta-field.php:1192
 #: admin/classes/class-wpvr-meta-field.php:1252
+#: production/admin/classes/class-wpvr-meta-field.php:1003
+#: production/admin/classes/class-wpvr-meta-field.php:1059
+#: production/admin/classes/class-wpvr-meta-field.php:1126
+#: production/admin/classes/class-wpvr-meta-field.php:1192
+#: production/admin/classes/class-wpvr-meta-field.php:1252
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: admin/classes/class-wpvr-general.php:99
+#: production/admin/classes/class-wpvr-general.php:99
 msgid "Use the iframe below to share this tour on an external page."
 msgstr ""
+"Pomocí níže uvedeného iframe sdílejte tuto prohlídku na externí stránce."
 
 #: admin/classes/class-wpvr-general.php:89
 #: admin/classes/class-wpvr-shortcode.php:32
+#: production/admin/classes/class-wpvr-general.php:89
+#: production/admin/classes/class-wpvr-shortcode.php:32
 msgid "Using this Tour"
-msgstr ""
+msgstr "Pomocí této prohlídky"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:57
+#: production/oxygen/elements/Wpvr_Tour_Element.php:57
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
 msgid "vh"
-msgstr ""
+msgstr "VH"
 
 #: admin/classes/class-wpvr-meta-field.php:115
+#: production/admin/classes/class-wpvr-meta-field.php:115
 msgid "Video"
-msgstr ""
+msgstr "video"
 
 #: admin/classes/class-wpvr-video.php:46
+#: production/admin/classes/class-wpvr-video.php:46
 msgid "Video Settings : "
-msgstr ""
+msgstr "Nastavení videa:"
 
 #: admin/partials/wpvr_documentation.php:109
+#: production/admin/partials/wpvr_documentation.php:109
 msgid "Video Tutorials"
-msgstr "Video návody"
+msgstr "Videonávody"
 
-#: admin/partials/wpvr_documentation.php:512
+#: admin/partials/wpvr_documentation.php:528
+#: production/admin/partials/wpvr_documentation.php:528
 msgid "VR Glass Support for Video Tours"
-msgstr ""
+msgstr "Skleněná podpora VR pro videoprohlídky"
 
-#: admin/partials/wpvr_documentation.php:1079
+#: admin/partials/wpvr_documentation.php:1095
+#: production/admin/partials/wpvr_documentation.php:1095
 msgid "VR GLass Support:"
-msgstr ""
+msgstr "Skleněná podpora VR:"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:78
+#: production/oxygen/elements/Wpvr_Tour_Element.php:78
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
 msgid "vw"
-msgstr ""
+msgstr "vw"
 
 #: admin/classes/class-wpvr-meta-field.php:408
+#: production/admin/classes/class-wpvr-meta-field.php:408
 msgid ""
 "When someone clicks on the tour, auto-rotation stops. Here, set a time after "
 "which auto rotation will start again. Assign in milliseconds, where 1000 "
 "milliseconds = 1 second."
 msgstr ""
+"Když někdo klikne na prohlídku, automatické otáčení se zastaví. Zde nastavte "
+"čas, po kterém se automatické otáčení spustí znovu. Přiřaďte v milisekundách,"
+" kde 1000 milisekund = 1 sekunda."
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
 msgid "Width"
-msgstr ""
+msgstr "šířka"
 
 #: admin/classes/class-wpvr-meta-field.php:3121
+#: production/admin/classes/class-wpvr-meta-field.php:3121
 msgid "Width (px)"
-msgstr ""
+msgstr "Šířka (PX)"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:83
+#: production/oxygen/elements/Wpvr_Tour_Element.php:83
 msgid "Width Fullwidth"
-msgstr ""
+msgstr "Šířka plná šířka"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:70
+#: production/oxygen/elements/Wpvr_Tour_Element.php:70
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
 msgid "Width Unit"
-msgstr ""
+msgstr "šířka jednotky"
 
 #: elementor/elements/Wpvr-widget.php:165
+#: production/elementor/elements/Wpvr-widget.php:165
 msgid "Width:"
 msgstr "Šířka:"
 
-#: admin/partials/wpvr_documentation.php:1100
+#: admin/partials/wpvr_documentation.php:1116
+#: production/admin/partials/wpvr_documentation.php:1116
 msgid ""
 "Will activate the VR Glass support on mobile devices. This is the Beta "
 "release. So, if you face any issues with it, please contact us at "
 "support@rextheme.com"
 msgstr ""
+"aktivuje podporu VR Glass na mobilních zařízeních. Toto je beta vydání. "
+"Pokud s ním tedy máte nějaké problémy, kontaktujte nás na adrese "
+"support@rextheme.com"
 
-#: admin/partials/wpvr_documentation.php:1126
+#: admin/partials/wpvr_documentation.php:1142
+#: production/admin/partials/wpvr_documentation.php:1142
 msgid ""
 "Will convert any jpeg or png image to webp format during media upload. will "
 "decrease the image size with no quality compromise and help the site to load "
 "faster."
 msgstr ""
+"Během nahrávání média převede jakýkoli obrázek JPEG nebo PNG do formátu WebP."
+" Sníží velikost obrázku bez kompromisů v kvalitě a pomůže webu rychleji se "
+"načítat."
 
-#: admin/partials/wpvr_documentation.php:333
+#: admin/partials/wpvr_documentation.php:349
+#: production/admin/partials/wpvr_documentation.php:349
 msgid "WooCommerce Add-on"
-msgstr ""
+msgstr "doplněk woocommerce"
 
 #: admin/classes/class-wpvr-meta-field.php:3108
+#: production/admin/classes/class-wpvr-meta-field.php:3108
 msgid "Word Spacing (px)"
-msgstr ""
+msgstr "Rozmístění slov (px)"
 
-#: admin/partials/wpvr_documentation.php:930
+#: admin/partials/wpvr_documentation.php:946
+#: production/admin/partials/wpvr_documentation.php:946
 msgid ""
 "WordPress's default large image handler for images larger than 2560px will "
 "be disabled for WP VR. So can create virtual tours with extremely high-"
 "quality images. Enabling it will also show high res image on mobile devices. "
 "Many devices may not support that resolution."
 msgstr ""
+"Výchozí velká obslužná rutina obrázků WordPress pro obrázky větší než 2560 "
+"px bude pro WP VR zakázána. Může tedy vytvářet virtuální prohlídky s "
+"extrémně kvalitními obrázky. Povolením se také zobrazí obraz ve vysokém "
+"rozlišení na mobilních zařízeních. Mnoho zařízení nemusí toto rozlišení "
+"podporovat."
 
 #. Name of the plugin
 msgid "WP VR"
@@ -1582,128 +2175,170 @@ msgid ""
 "WP VR - 360 Panorama and virtual tour creator for WordPress is a customized "
 "panaroma & virtual builder tool for WordPress Website."
 msgstr ""
-"WP VR - 360 Panorama a tvůrce virtuální prohlídky pro WordPress je "
-"přizpůsobený nástroj pro tvorbu panoramat a virtuálních webů pro web "
-"WordPress."
+"WP VR - 360 Panorama a Virtual Tour Creator pro WordPress je přizpůsobený "
+"nástroj Panaroma & Virtual Builder pro web WordPress."
 
-#: admin/partials/wpvr_documentation.php:983
-#: admin/partials/wpvr_documentation.php:1023
+#: admin/partials/wpvr_documentation.php:999
+#: admin/partials/wpvr_documentation.php:1039
+#: production/admin/partials/wpvr_documentation.php:999
+#: production/admin/partials/wpvr_documentation.php:1039
 msgid ""
 "WP VR assets will be loaded on your allowed pages only. If you turn this on, "
 "you have to list the URL's of the pages with virtual tours on the 'List of "
 "allowed pages to load WP VR scripts' option"
 msgstr ""
+"Aktiva WP VR se načtou pouze na vaše povolené stránky. Pokud toto zapnete, "
+"musíte uvést adresy URL stránek s virtuálními prohlídkami v možnosti „Seznam "
+"povolených stránek pro načítání skriptů WP VR“."
 
 #: admin/class-wpvr-rollback.php:160
+#: production/admin/class-wpvr-rollback.php:160
 msgid "WP VR Plugin Rollback"
-msgstr ""
+msgstr "WP VR Plugin Rollback"
 
-#: admin/partials/wpvr_documentation.php:878
+#: admin/partials/wpvr_documentation.php:894
+#: production/admin/partials/wpvr_documentation.php:894
 msgid "WP VR will not load Font Awesome library."
-msgstr ""
+msgstr "WP VR nenačte knihovnu úžasných písem."
 
-#: admin/partials/wpvr_documentation.php:904
+#: admin/partials/wpvr_documentation.php:920
+#: production/admin/partials/wpvr_documentation.php:920
 msgid "WP VR will resize each scenes for mobile devices."
-msgstr ""
+msgstr "WP VR změní velikost každé scény pro mobilní zařízení."
 
-#: admin/partials/wpvr_documentation.php:233
+#: admin/partials/wpvr_documentation.php:243
+#: production/admin/partials/wpvr_documentation.php:243
 msgid "WPFunnels"
-msgstr ""
+msgstr "WPFunnels"
 
 #: elementor/elements/Wpvr-widget.php:44
+#: production/elementor/elements/Wpvr-widget.php:44
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
-#, fuzzy
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
 #| msgid "Wpvr"
 msgid "WPVR"
 msgstr "WPVR"
 
-#: admin/partials/wpvr_documentation.php:278
+#: admin/partials/wpvr_documentation.php:294
+#: production/admin/partials/wpvr_documentation.php:294
 msgid "WPVR Feature Comparison"
-msgstr ""
+msgstr "Porovnání funkcí WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
 msgid "WPVR Height"
-msgstr ""
+msgstr "Výška WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
 msgid "WPVR Mobile Height"
-msgstr ""
+msgstr "Mobilní výška WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
 msgid "WPVR Radius"
-msgstr ""
+msgstr "Poloměr WPVR"
 
 #: elementor/elements/Wpvr-widget.php:146
-#, fuzzy
+#: production/elementor/elements/Wpvr-widget.php:146
 #| msgid "Wpvr Setup"
 msgid "WPVR Setup"
 msgstr "Nastavení WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
 msgid "WPVR Tour ID"
-msgstr ""
+msgstr "ID turné WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
 msgid "WPVR Width"
-msgstr ""
+msgstr "Šířka WPVR"
+
+#: admin/class-wpvr-admin.php:213 production/admin/class-wpvr-admin.php:213
+msgid "Write your css here"
+msgstr "Sem napište své CSS"
 
 #: admin/classes/class-wpvr-meta-field.php:310
+#: production/admin/classes/class-wpvr-meta-field.php:310
 msgid "Write your custom css"
-msgstr ""
+msgstr "Napište svůj vlastní CSS"
 
 #: admin/classes/class-wpvr-meta-field.php:971
+#: production/admin/classes/class-wpvr-meta-field.php:971
 msgid "Yaw"
-msgstr ""
+msgstr "vybočit"
 
 #: admin/classes/class-wpvr-meta-field.php:1650
 #: admin/partials/wpvr_confirmation_alert.php:29
+#: production/admin/classes/class-wpvr-meta-field.php:1650
+#: production/admin/partials/wpvr_confirmation_alert.php:29
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
 msgid "Yes"
-msgstr ""
+msgstr "ano"
 
-#: admin/partials/wpvr_documentation.php:956
+#: admin/partials/wpvr_documentation.php:972
+#: production/admin/partials/wpvr_documentation.php:972
 msgid ""
 "You can disable on hover content for mobile devices. As most of the devices "
 "are touch based."
 msgstr ""
+"můžete zakázat obsah Hover pro mobilní zařízení. Protože většina zařízení je "
+"založena na dotyku."
 
 #: admin/classes/class-wpvr-meta-field.php:1783
 #: admin/classes/class-wpvr-meta-field.php:1818
+#: production/admin/classes/class-wpvr-meta-field.php:1783
+#: production/admin/classes/class-wpvr-meta-field.php:1818
 msgid ""
 "You can use any image size but maximum image upload size recommended to "
 "support all device is 4096x2000 px for perfect responsive view. To check 360 "
 "view, click on preview button and check tour preview metabox."
 msgstr ""
+"Můžete použít jakoukoli velikost obrázku, ale maximální velikost nahrávání "
+"obrázku doporučená pro podporu všech zařízení je 4096x2000 px pro perfektní "
+"responzivní zobrazení. Chcete-li zkontrolovat zobrazení 360, klikněte na "
+"tlačítko Náhled a zaškrtněte políčko Náhled prohlídky."
 
-#: admin/classes/class-tour-guide-translation.php:29
+#: admin/classes/class-tour-guide-translation.php:30
+#: production/admin/classes/class-tour-guide-translation.php:30
 msgid "Your Image In Tour Mode"
-msgstr ""
+msgstr "Váš obrázek v režimu Tour"
 
-#: admin/partials/wpvr_documentation.php:221
+#: admin/partials/wpvr_documentation.php:230
+#: production/admin/partials/wpvr_documentation.php:230
 msgid ""
 "Your rating and feedback matters to us. If you are happy with WP VR - 360 "
 "Panorama and virtual tour creator for WordPress give us a rating."
 msgstr ""
-"Vaše hodnocení a zpětná vazba jsou pro nás důležité. Pokud jste spokojeni s "
-"WP VR - 360 Panorama a tvůrcem virtuální prohlídky pro WordPress, dejte nám "
-"hodnocení."
+"Na vašem hodnocení a zpětné vazbě nám záleží. Pokud jste spokojeni s WP VR - "
+"360 Panorama a Virtual Tour Creator pro WordPress, dejte nám hodnocení."
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Your Viewers - And Make Them Take"
-msgstr ""
+msgstr "vaše diváky – a přimějte je, aby to vzali"
 
 #: admin/classes/class-wpvr-meta-field.php:801
+#: production/admin/classes/class-wpvr-meta-field.php:801
 msgid "Zoom In"
-msgstr ""
+msgstr "přiblížit se"
 
 #: admin/classes/class-wpvr-meta-field.php:752
+#: production/admin/classes/class-wpvr-meta-field.php:752
 msgid ""
 "Zoom interval is 50 to 120 degree. You can put any value between 50 to 120. "
 "As an example, if you set 100, the scene will display with zoom in 100 "
 "degree on each load."
 msgstr ""
+"Interval zoomu je 50 až 120 stupňů. Můžete vložit libovolnou hodnotu mezi 50 "
+"až 120. Pokud například nastavíte 100, scéna se zobrazí se zoomem 100 stupňů "
+"při každém zatížení."
 
 #: admin/classes/class-wpvr-meta-field.php:820
+#: production/admin/classes/class-wpvr-meta-field.php:820
 msgid "Zoom Out"
-msgstr ""
+msgstr "oddálit"

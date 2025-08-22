@@ -199,12 +199,16 @@ class Wpvr_Ajax
     $panoid = 'pano' . $postid;
 
     $post_status = get_post_status($postid);
+
+    do_action('wpvr_tour_status', $postid, $post_status);
+
     if ($post_status != 'publish') {
       wp_update_post(array(
         'ID' => $postid,
         'post_status' => 'publish'
       ));
     }
+
 
     $post_array = [];
     if (isset($_POST['post_status'])) {
@@ -603,6 +607,7 @@ class Wpvr_Ajax
       $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
       $industry = filter_input(INPUT_POST, 'industry', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
       $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+      $opt_in = filter_input(INPUT_POST, 'opt_in', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
       $name = !empty($name) ? $name: '';
       $industry = !empty($industry ) ? $industry : '';
@@ -616,6 +621,9 @@ class Wpvr_Ajax
 
         $create_contact_instance = new WPVR_Create_Contact( $email, $name, $industry );
         $response = $create_contact_instance->create_contact_via_webhook();
+
+        update_option('wpvr_posthog_access_enabled', $opt_in);
+
 
         if ( $response ) {
             wp_send_json_success( array( 'message' => __('Contact created successfully', 'wpvr') ), 200 );

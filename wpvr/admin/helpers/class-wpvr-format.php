@@ -1128,7 +1128,7 @@ class WPVR_Format
         $response = array();
         $response = array($pano_id_array, $pano_response);
         if (!empty($response)) {
-            $response = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $response = json_encode($response);
         }
         return $response;
     }

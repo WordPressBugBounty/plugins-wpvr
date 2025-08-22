@@ -10,6 +10,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .center-pointer {
   height: 10px;
   width: 10px;
@@ -110,6 +111,7 @@
   background: transparent;
   object-fit: contain;
 }
+
 .et-db #et-boc .wpvr-floor-map .floor-plan-pointer,
 .wpvr-floor-map .floor-plan-pointer {
   position: absolute;
@@ -132,6 +134,7 @@
 .wpvr-floor-map .floor-plan-pointer.add-pulse {
   animation: pulse 1s infinite;
 }
+
 .wpvr-floor-map .floor-plan-pointer.add-pulse:before {
   content: "";
   position: absolute;
@@ -152,6 +155,7 @@
   position: relative;
   z-index: 1;
 }
+
 .wpvr-floor-map .floor-pointer-flash {
   position: absolute;
   width: 22px;
@@ -161,6 +165,7 @@
   visibility: hidden;
   opacity: 0;
 }
+
 .wpvr-floor-map .add-pulse .floor-pointer-flash {
   visibility: visible;
   opacity: 1;
@@ -175,6 +180,7 @@
   height: 100%;
   border-radius: 5px
 }
+
 .et-db #et-boc .wpvr-floor-map img {
   border-radius: 5px !important;
 }
@@ -190,15 +196,16 @@
 #et-boc .et-l .explainer_button,
 .explainer_button {
   position: absolute;
-  bottom: 15px;
+  bottom: 46px;
   right: 45px;
   z-index: 3;
   text-align: center;
   width: 50px;
 }
+
 .floor_map_button {
   position: absolute;
-  bottom: 15px;
+  bottom: 45px;
   right: 10px;
   z-index: 2;
   text-align: center;
@@ -225,6 +232,7 @@
   z-index: 9;
   font-size: 14px;
 }
+
 
 @media only screen and (max-width: 575px) {
   .explainer {
@@ -300,8 +308,6 @@
   padding: 0 15px;
   box-sizing: border-box;
 }
-
-
 
 .wpvr-home-title {
   font-size: calc(24px + (60 - 24) * ((100vw - 320px) / (1920 - 320)));
@@ -520,6 +526,11 @@
   position: absolute;
   bottom: 15px;
   z-index: 3;
+}
+
+button.audio_control {
+  outline: none;
+  box-shadow: none;
 }
 
 .audio_control {
@@ -856,17 +867,22 @@ div.pnlm-hotspot-base.fa-solid:before {
   margin: 0;
   width: 100%;
   text-align: center;
-  max-width: 200px;
 }
 
 .scene-gallery ul li .scene-title {
   display: block;
   min-height: 16px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; 
 }
 
 .scene-gallery ul li img {
   margin-top: 3px !important;
 }
+
 
 .et-db #et-boc .scene-gallery .owl-stage {
   margin: 0 auto;
@@ -883,6 +899,11 @@ div.pnlm-hotspot-base.fa-solid:before {
   padding: 10px 15px;
   background-color: rgba(0, 0, 0, 0.35);
   color: #fff;
+
+  max-width: 690px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
   
 }
 
@@ -897,6 +918,7 @@ div.pnlm-hotspot-base.fa-solid:before {
 
 .scctrl:hover {
   background: rgba(200, 200, 200, 1);
+
 }
 
 #master-container .vrfullwidth {
@@ -944,6 +966,27 @@ div.pnlm-hotspot-base.fa-solid:before {
 .pnlm-panorama-info {
   left: 0;
   bottom: 0;
+  background-color: rgb(0, 0, 0,0.8);
+  border-radius: 0 5px 5px 0;
+  padding-right: 10px;
+  padding: 8px 14px;
+  color: #fff;
+  text-align: left;
+}
+
+.pnlm-panorama-info .pnlm-title-box {
+  font-size: 14px;
+  padding-left: 5px;
+  margin-bottom: 3px;
+  line-height: 1.2;
+  width: 349px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #FFF;
+  font-weight: 500;
 }
 
 #et-boc .et-l div.custom-tooltip > p,
@@ -975,12 +1018,12 @@ div.custom-tooltip > p a {
   transition: inherit;
 }
 
-#et-boc .et-l div.custom-tooltip > p img,
-div.custom-tooltip > p img {
-  max-width: inherit;
-  height: 225px;
-  width: 400px;
-}
+/*#et-boc .et-l div.custom-tooltip > p img,*/
+/*div.custom-tooltip > p img {*/
+/*  max-width: inherit;*/
+/*  height: 225px;*/
+/*  width: 400px;*/
+/*}*/
 
 #et-boc .et-l div.pnlm-tooltip span,
 div.pnlm-tooltip span {

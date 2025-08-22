@@ -653,38 +653,55 @@
             }
         });
     });
-    // $("#custom-ifram").css({
-    //     "height": "auto",
-    //     "width": "auto",
-    //     "max-width": "60%",
-    //     "max-height": "80%",
-    //     "text-align": "center",
-    //     "padding": "8px",
-    //     "overflow": "auto",
-    // });
-
-
-
-
-
 
     function wpvrhotspot(hotSpotDiv, args) {
-        var argst = args.replace(/\\/g, '');
-        $("#custom-ifram").html(argst);
-        $("#custom-ifram").fadeToggle();
-        $(".iframe-wrapper").toggleClass("show-modal");
+        if (args) {
+            const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
+            const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+            const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
 
+            if (hasTextContent || hasMediaContent || hasOtherContent) {
+                const cleanArgs = args.replace(/\\/g, '');
+                $("#custom-ifram").html(cleanArgs);
+                $("#custom-ifram").fadeToggle();
+                $(".iframe-wrapper").toggleClass("show-modal");
+            }
+        }
     }
 
     function wpvrtooltip(hotSpotDiv, args) {
-        hotSpotDiv.classList.add('custom-tooltip');
-        var span = document.createElement('p');
-        args = args.replace(/\\/g, "");
-        span.innerHTML = args;
-        hotSpotDiv.appendChild(span);
-        span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
-        span.style.marginTop = -span.scrollHeight - 12 + 'px';
+        if (args) {
+            const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
+            const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+            const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+
+            if (hasTextContent || hasMediaContent || hasOtherContent) {
+                const cleanArgs = args.replace(/\\/g, '');
+                hotSpotDiv.classList.add('custom-tooltip');
+
+                const span = document.createElement('p');
+                span.innerHTML = cleanArgs;
+                hotSpotDiv.appendChild(span);
+
+                span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+                span.style.marginTop = -span.scrollHeight - 12 + 'px';
+
+                if (!document.getElementById('wpvr-tooltip-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'wpvr-tooltip-style';
+                    style.textContent = `
+                    .table, .table td, .table th {
+                        border: 1px solid #dee2e6;
+                        border-collapse: collapse;
+                        padding: 8px;
+                    }
+                `;
+                    document.head.appendChild(style);
+                }
+            }
+        }
     }
+
 
     jQuery(document).ready(function ($) {
         $("#cross").on("click", function (e) {
@@ -2856,6 +2873,65 @@
         }
     });
 
+    // Run when the DOM is fully loaded
+    $(document).ready(function() {
+        // Only apply on admin panel
+        if ($('body').hasClass('post-type-wpvr_item')) {
+            // Apply fixes after preview is loaded
+            $(document).on('click', '.panolenspreview', function() {
+                setTimeout(fixFloorplanPointers, 2000);
+            });
+
+            // Also apply when document is ready
+            setTimeout(fixFloorplanPointers, 1000);
+        }
+    });
+
+    /**
+     * Fix floorplan pointers to stay within image boundaries
+     */
+    function fixFloorplanPointers() {
+        // Find all floorplan pointers in admin preview
+        $('.wpvr-floor-map .floor-plan-pointer').each(function() {
+            var $pointer = $(this);
+            var $container = $pointer.closest('.wpvr-floor-map');
+
+            if ($container.length) {
+                var containerWidth = $container.width();
+                var containerHeight = $container.height();
+                var pointerWidth = $pointer.outerWidth();
+                var pointerHeight = $pointer.outerHeight();
+
+                // Get current position
+                var currentLeft = parseInt($pointer.css('left'), 10);
+                var currentTop = parseInt($pointer.css('top'), 10);
+
+                // Calculate safe boundaries
+                var maxLeft = containerWidth - pointerWidth;
+                var maxTop = containerHeight - pointerHeight;
+
+                // Store original position as custom properties for CSS clamp()
+                $pointer.css('--x-pos', currentLeft + 'px');
+                $pointer.css('--y-pos', currentTop + 'px');
+
+                // Ensure pointer stays within boundaries
+                if (currentLeft < 0) {
+                    $pointer.css('left', '9px');
+                } else if (currentLeft > maxLeft) {
+                    $pointer.css('left', (maxLeft - 9) + 'px');
+                }
+
+                if (currentTop < 0) {
+                    $pointer.css('top', '9px');
+                } else if (currentTop > maxTop) {
+                    $pointer.css('top', (maxTop - 9) + 'px');
+                }
+            }
+        });
+    }
+
+    // Check for floorplan pointers periodically in case they're added dynamically
+    setInterval(fixFloorplanPointers, 3000);
 
 
 })(jQuery);

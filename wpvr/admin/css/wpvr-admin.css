@@ -10,6 +10,30 @@
 }
 
 
+.iframe-wrapper .pnlm-panorama-info {
+    background-color: rgb(0, 0, 0,0.8);
+    border-radius: 0 5px 5px 0;
+    padding-right: 10px;
+    padding: 9px 14px;
+    color: #fff;
+    text-align: left;
+}
+
+.iframe-wrapper .pnlm-panorama-info .pnlm-title-box {
+    font-size: 14px;
+    padding-left: 5px;
+    margin-bottom: 3px;
+    line-height: 1.2;
+    width: 349px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #FFF;
+    font-weight: 500;
+}
+
 .rex-pano-tab .inner-nav-content input[type=radio] {
     border-radius: 50%;
     border: 1px solid #E0D7FF;
@@ -37,6 +61,7 @@
     cursor: pointer;
     border: 1px solid red;
 }
+
 .wpvr_gt_settings_ruler {
     content: "";
     display: block;
@@ -407,7 +432,6 @@ div.custom-tooltip > p {
     border-radius: 3px;
     background-color: #fff;
     color: #000;
-    text-align: center;
     padding: 5px 10px;
     cursor: default;
     margin: 0 0px 0px 12px !important;
@@ -2793,15 +2817,14 @@ li.export.export-pro-tag {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
 }
+
 
 .wpvr-floor-preview img {
     max-width: 100%;
     max-height: 100%;
     width: 100%;
+    height: 100%;
     display: block;
     margin: 0 auto;
     border-radius: 8px;
@@ -6534,3 +6557,66 @@ body.wp-vr_page_wpvr-setting {
     list-style: disc;
     margin-left: 20px;
 }
+
+
+/*
+* Fix for floorplan pointers in admin panel preview
+*/
+
+/* Ensure the floorplan container has proper positioning */
+.wpvr-floor-map {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Fix pointer position in admin preview */
+.post-type-wpvr_item .wpvr-floor-map .floor-plan-pointer {
+    position: absolute;
+    /* Prevent pointers from going outside the container */
+    max-width: 100%;
+    max-height: 100%;
+    /* Clamp pointer positions to stay within boundaries */
+    left: clamp(9px, var(--x-pos, 50%), calc(100% - 9px)) !important;
+    top: clamp(9px, var(--y-pos, 50%), calc(100% - 9px)) !important;
+    transform-origin: center;
+    z-index: 99;
+}
+
+/* Scale the floorplan container properly in admin preview */
+.post-type-wpvr_item .iframe-wrapper .wpvr-floor-map {
+    transform-origin: center;
+    transform: scale(1);
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure image maintains proper aspect ratio and containment */
+.post-type-wpvr_item .iframe-wrapper .wpvr-floor-map img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+/* Add JavaScript fix to ensure pointers stay within boundaries */
+@media only screen and (min-width: 768px) {
+    .post-type-wpvr_item .wpvr-floor-map {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+}
+
+/* Additional fix for admin preview container */
+.post-type-wpvr_item #wpvr_item_builder__box .inside {
+    overflow: hidden;
+}
+
+
+
+
+
+
+

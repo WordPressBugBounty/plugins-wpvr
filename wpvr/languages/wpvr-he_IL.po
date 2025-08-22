@@ -1,0 +1,2305 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP VR\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-12 08:45+0000\n"
+"PO-Revision-Date: 2025-08-20 07:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: Hebrew\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.3.8\n"
+"X-Domain: wpvr"
+
+#: admin/classes/class-wpvr-meta-field.php:2256
+#: production/admin/classes/class-wpvr-meta-field.php:2256
+msgid " : "
+msgstr ":"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:77
+#: production/oxygen/elements/Wpvr_Tour_Element.php:77
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
+msgid "%"
+msgstr "%"
+
+#: admin/partials/wpvr_setup_wizard.php:51
+#: production/admin/partials/wpvr_setup_wizard.php:51
+msgid "360 Degree Panorama"
+msgstr "פנורמה של 360 מעלות"
+
+#: admin/partials/wpvr_setup_wizard.php:87
+#: production/admin/partials/wpvr_setup_wizard.php:87
+msgid "360 Degree Video"
+msgstr "סרטון 360 מעלות"
+
+#: admin/partials/wpvr_documentation.php:488
+#: production/admin/partials/wpvr_documentation.php:488
+msgid "360 Video Support"
+msgstr "תמיכת וידאו 360"
+
+#: admin/partials/wpvr_documentation.php:460
+#: production/admin/partials/wpvr_documentation.php:460
+msgid "900+ Icons & RGB Color Support for Hotspots"
+msgstr "900+ אייקונים ותמיכה בצבע RGB עבור נקודות חמות"
+
+#: admin/classes/class-wpvr-meta-field.php:1648
+#: admin/classes/class-wpvr-meta-field.php:1674
+#: admin/classes/class-wpvr-meta-field.php:1699
+#: admin/classes/class-wpvr-meta-field.php:1721
+#: admin/classes/class-wpvr-meta-field.php:1844
+#: admin/classes/class-wpvr-meta-field.php:1876
+#: admin/classes/class-wpvr-meta-field.php:1909
+#: admin/classes/class-wpvr-meta-field.php:1937
+#: admin/classes/class-wpvr-meta-field.php:1970
+#: admin/classes/class-wpvr-meta-field.php:1995
+#: admin/classes/class-wpvr-meta-field.php:2020
+#: admin/classes/class-wpvr-meta-field.php:2081
+#: admin/classes/class-wpvr-meta-field.php:2107
+#: admin/classes/class-wpvr-meta-field.php:2148
+#: admin/classes/class-wpvr-meta-field.php:2177
+#: admin/classes/class-wpvr-meta-field.php:2209
+#: admin/classes/class-wpvr-meta-field.php:2291
+#: admin/classes/class-wpvr-meta-field.php:2313
+#: admin/classes/class-wpvr-meta-field.php:2337
+#: admin/classes/class-wpvr-meta-field.php:2370
+#: admin/classes/class-wpvr-meta-field.php:2390
+#: admin/classes/class-wpvr-meta-field.php:2420
+#: admin/classes/class-wpvr-meta-field.php:2445
+#: admin/classes/class-wpvr-meta-field.php:2472
+#: admin/classes/class-wpvr-meta-field.php:2496
+#: admin/classes/class-wpvr-meta-field.php:2523
+#: admin/classes/class-wpvr-meta-field.php:2556
+#: admin/classes/class-wpvr-meta-field.php:2586
+#: admin/classes/class-wpvr-meta-field.php:2610
+#: admin/classes/class-wpvr-meta-field.php:2634
+#: admin/classes/class-wpvr-meta-field.php:2658
+#: admin/classes/class-wpvr-meta-field.php:2681
+#: admin/classes/class-wpvr-meta-field.php:2706
+#: admin/classes/class-wpvr-meta-field.php:2732
+#: admin/classes/class-wpvr-meta-field.php:2756
+#: admin/classes/class-wpvr-meta-field.php:2795
+#: admin/classes/class-wpvr-meta-field.php:2820
+#: admin/classes/class-wpvr-meta-field.php:2848
+#: admin/classes/class-wpvr-meta-field.php:2890
+#: admin/classes/class-wpvr-meta-field.php:2922
+#: admin/classes/class-wpvr-meta-field.php:2973
+#: production/admin/classes/class-wpvr-meta-field.php:1648
+#: production/admin/classes/class-wpvr-meta-field.php:1674
+#: production/admin/classes/class-wpvr-meta-field.php:1699
+#: production/admin/classes/class-wpvr-meta-field.php:1721
+#: production/admin/classes/class-wpvr-meta-field.php:1844
+#: production/admin/classes/class-wpvr-meta-field.php:1876
+#: production/admin/classes/class-wpvr-meta-field.php:1909
+#: production/admin/classes/class-wpvr-meta-field.php:1937
+#: production/admin/classes/class-wpvr-meta-field.php:1970
+#: production/admin/classes/class-wpvr-meta-field.php:1995
+#: production/admin/classes/class-wpvr-meta-field.php:2020
+#: production/admin/classes/class-wpvr-meta-field.php:2081
+#: production/admin/classes/class-wpvr-meta-field.php:2107
+#: production/admin/classes/class-wpvr-meta-field.php:2148
+#: production/admin/classes/class-wpvr-meta-field.php:2177
+#: production/admin/classes/class-wpvr-meta-field.php:2209
+#: production/admin/classes/class-wpvr-meta-field.php:2291
+#: production/admin/classes/class-wpvr-meta-field.php:2313
+#: production/admin/classes/class-wpvr-meta-field.php:2337
+#: production/admin/classes/class-wpvr-meta-field.php:2370
+#: production/admin/classes/class-wpvr-meta-field.php:2390
+#: production/admin/classes/class-wpvr-meta-field.php:2420
+#: production/admin/classes/class-wpvr-meta-field.php:2445
+#: production/admin/classes/class-wpvr-meta-field.php:2472
+#: production/admin/classes/class-wpvr-meta-field.php:2496
+#: production/admin/classes/class-wpvr-meta-field.php:2523
+#: production/admin/classes/class-wpvr-meta-field.php:2556
+#: production/admin/classes/class-wpvr-meta-field.php:2586
+#: production/admin/classes/class-wpvr-meta-field.php:2610
+#: production/admin/classes/class-wpvr-meta-field.php:2634
+#: production/admin/classes/class-wpvr-meta-field.php:2658
+#: production/admin/classes/class-wpvr-meta-field.php:2681
+#: production/admin/classes/class-wpvr-meta-field.php:2706
+#: production/admin/classes/class-wpvr-meta-field.php:2732
+#: production/admin/classes/class-wpvr-meta-field.php:2756
+#: production/admin/classes/class-wpvr-meta-field.php:2795
+#: production/admin/classes/class-wpvr-meta-field.php:2820
+#: production/admin/classes/class-wpvr-meta-field.php:2848
+#: production/admin/classes/class-wpvr-meta-field.php:2890
+#: production/admin/classes/class-wpvr-meta-field.php:2922
+#: production/admin/classes/class-wpvr-meta-field.php:2973
+msgid ": "
+msgstr ":"
+
+#: admin/partials/wpvr_license.php:28 admin/partials/wpvr_license.php:38
+#: production/admin/partials/wpvr_license.php:28
+#: production/admin/partials/wpvr_license.php:38
+msgid "Activate License"
+msgstr "הפעל רישיון"
+
+#: admin/partials/wpvr_documentation.php:781
+#: production/admin/partials/wpvr_documentation.php:781
+msgid "add"
+msgstr "לְחַ"
+
+#: admin/classes/class-tour-guide-translation.php:44
+#: production/admin/classes/class-tour-guide-translation.php:44
+msgid ""
+"Add a Hotspot inside your tour to show additional information like Paragraph,"
+" Heading, Image, Video, or multiple content."
+msgstr ""
+"הוסף נקודה חמה בתוך הסיור שלך כדי להציג מידע נוסף כמו פסקה, כותרת, תמונה, "
+"וידאו או תוכן מרובה."
+
+#: admin/classes/class-wpvr-meta-field.php:757
+#: production/admin/classes/class-wpvr-meta-field.php:757
+msgid "Add Company Information"
+msgstr "הוסף מידע על החברה"
+
+#: admin/classes/class-wpvr-meta-field.php:427
+#: production/admin/classes/class-wpvr-meta-field.php:427
+msgid "Add Form Shortcode"
+msgstr "הוסף קוד קצר של טופס"
+
+#: admin/classes/class-wpvr-admin-pages.php:73
+#: production/admin/classes/class-wpvr-admin-pages.php:73
+msgid "Add New Tour"
+msgstr "הוסף סיור חדש"
+
+#: admin/classes/class-tour-guide-translation.php:17
+#: production/admin/classes/class-tour-guide-translation.php:17
+msgid "Add Scene ID "
+msgstr "הוסף מזהה סצנה"
+
+#: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
+msgid "Add-ons"
+msgstr "תִתוֹק"
+
+#: admin/class-wpvr-admin.php:216
+msgid "Adding Hotspots on Scene"
+msgstr "הוספת נקודות חמות במקום"
+
+#: admin/classes/class-wpvr-meta-field.php:1318
+#: production/admin/classes/class-wpvr-meta-field.php:1318
+msgid "Advanced Controls"
+msgstr "בקרות מתקדמות"
+
+#: admin/partials/wpvr_documentation.php:847
+#: production/admin/partials/wpvr_documentation.php:847
+msgid ""
+"Allow the Authors of your site to Create, Edit, Update, and Delete virtual "
+"tours (They can access their own tours only):"
+msgstr ""
+"אפשר למחברי האתר שלך ליצור, לערוך, לעדכן ולמחוק סיורים וירטואליים (הם יכולים "
+"לגשת לסיורים משלהם בלבד):"
+
+#: admin/partials/wpvr_documentation.php:822
+#: production/admin/partials/wpvr_documentation.php:822
+msgid ""
+"Allow the Editors of your site to Create, Edit, Update, and Delete virtual "
+"tours (They can access other users' tours):"
+msgstr ""
+"אפשר לעורכי האתר שלך ליצור, לערוך, לעדכן ולמחוק סיורים וירטואליים (הם יכולים "
+"לגשת לסיורים של משתמשים אחרים):"
+
+#: admin/classes/class-tour-guide-translation.php:55
+#: production/admin/classes/class-tour-guide-translation.php:55
+msgid "Assign Pitch & Yaw"
+msgstr "הקצה פיץ' ו-Yaw"
+
+#: admin/partials/wpvr_documentation.php:868
+#: production/admin/partials/wpvr_documentation.php:868
+msgid ""
+"Authors will be able to Create, Edit, Update, and Delete their own virtual "
+"tours only."
+msgstr ""
+"מחברים יוכלו ליצור, לערוך, לעדכן ולמחוק את הסיורים הווירטואליים שלהם בלבד."
+
+#: admin/classes/class-wpvr-meta-field.php:680
+#: production/admin/classes/class-wpvr-meta-field.php:680
+msgid "Auto Gyroscope Support"
+msgstr "תמיכה בג'ירוסקופ אוטומטי"
+
+#: admin/classes/class-wpvr-meta-field.php:218
+#: production/admin/classes/class-wpvr-meta-field.php:218
+msgid "Auto Rotation"
+msgstr "סיבוב אוטומטי"
+
+#: admin/partials/wpvr_documentation.php:758
+#: production/admin/partials/wpvr_documentation.php:758
+msgid "Autoload & Autoplay Video Tours."
+msgstr "טעינה אוטומטית והפעלה אוטומטית של סיורי וידאו."
+
+#: admin/partials/wpvr_documentation.php:556
+#: production/admin/partials/wpvr_documentation.php:556
+msgid "Autoload Tours"
+msgstr "סיורים בטעינה אוטומטית"
+
+#: admin/partials/wpvr_setup_wizard.php:8
+#: production/admin/partials/wpvr_setup_wizard.php:8
+msgid "Back to WPVR Dashboard"
+msgstr "חזרה ללוח המחוונים של WPVR"
+
+#: admin/partials/wpvr_setup_wizard.php:169
+#: production/admin/partials/wpvr_setup_wizard.php:169
+msgid "Background Audio"
+msgstr "רקע אודיו"
+
+#: admin/classes/class-wpvr-meta-field.php:3032
+#: production/admin/classes/class-wpvr-meta-field.php:3032
+msgid "Background Color"
+msgstr "צבע רקע"
+
+#: admin/partials/wpvr_documentation.php:693
+#: production/admin/partials/wpvr_documentation.php:693
+msgid "Background Panoramas"
+msgstr "פנורמות רקע"
+
+#: admin/classes/class-wpvr-meta-field.php:160
+#: production/admin/classes/class-wpvr-meta-field.php:160
+msgid "Basic Control Buttons"
+msgstr "כפתורי בקרה בסיסיים"
+
+#: admin/classes/class-wpvr-meta-field.php:1309
+#: production/admin/classes/class-wpvr-meta-field.php:1309
+msgid "Basic Settings"
+msgstr "הגדרות בסיסיות"
+
+#: admin/partials/wpvr_documentation.php:206
+#: production/admin/partials/wpvr_documentation.php:206
+msgid ""
+"Before You start, you can check our Documentation to get familiar with WP VR "
+"- 360 Panorama and virtual tour creator for WordPress."
+msgstr ""
+"לפני שתתחיל, תוכל לבדוק את התיעוד שלנו כדי להכיר את WP VR - 360 Panorama ו-"
+"Virtual Tour Creator עבור וורדפרס."
+
+#: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
+msgid "Best WordPress Plugin"
+msgstr "התוסף הטוב ביותר של וורדפרס"
+
+#: admin/classes/class-wpvr-meta-field.php:3118
+#: production/admin/classes/class-wpvr-meta-field.php:3118
+msgid "Border"
+msgstr "לִגבּ"
+
+#: admin/classes/class-wpvr-meta-field.php:3113
+#: production/admin/classes/class-wpvr-meta-field.php:3113
+msgid "Border Radius (px)"
+msgstr "רדיוס גבול (PX)"
+
+#: admin/classes/class-wpvr-meta-field.php:3156
+#: production/admin/classes/class-wpvr-meta-field.php:3156
+msgid "Bottom"
+msgstr "תַחתִ"
+
+#: admin/classes/class-wpvr-meta-field.php:3084
+#: production/admin/classes/class-wpvr-meta-field.php:3084
+msgid "Button Alignment"
+msgstr "יישור כפתורים"
+
+#: admin/classes/class-wpvr-meta-field.php:460
+#: production/admin/classes/class-wpvr-meta-field.php:460
+msgid "Button Style"
+msgstr "סגנון כפתור"
+
+#: admin/classes/class-wpvr-meta-field.php:443
+#: production/admin/classes/class-wpvr-meta-field.php:443
+msgid "Button Text"
+msgstr "טקסט כפתור"
+
+#: admin/classes/class-wpvr-meta-field.php:451
+#: production/admin/classes/class-wpvr-meta-field.php:451
+msgid "Button URL"
+msgstr "כתובת אתר לחצן"
+
+#: admin/classes/class-wpvr-meta-field.php:276
+#: production/admin/classes/class-wpvr-meta-field.php:276
+msgid "Call To Action "
+msgstr "קריאה לפעולה"
+
+#: admin/classes/class-wpvr-meta-field.php:448
+#: production/admin/classes/class-wpvr-meta-field.php:448
+msgid "Call to action button text"
+msgstr "טקסט כפתור קריאה לפעולה"
+
+#: admin/partials/wpvr_documentation.php:218
+#: production/admin/partials/wpvr_documentation.php:218
+msgid ""
+"Can't find solution on with our documentation? Just Post a ticket on Support "
+"forum. We are to solve your issue."
+msgstr ""
+"לא מוצא פתרון עם התיעוד שלנו? פשוט פרסם כרטיס בפורום תמיכה. אנחנו צריכים "
+"לפתור את הבעיה שלך."
+
+#: admin/classes/class-wpvr-meta-field.php:3079
+#: production/admin/classes/class-wpvr-meta-field.php:3079
+msgid "Capitalize"
+msgstr "לְהַצִ"
+
+#: admin/partials/wpvr_documentation.php:256
+#: production/admin/partials/wpvr_documentation.php:256
+msgid "Cart Lift"
+msgstr "מַעֲבָר"
+
+#: admin/classes/class-wpvr-meta-field.php:3088
+#: production/admin/classes/class-wpvr-meta-field.php:3088
+msgid "Center"
+msgstr "לְמַ"
+
+#: admin/partials/wpvr_documentation.php:237
+#: production/admin/partials/wpvr_documentation.php:237
+msgid "Check out our other amazing free plugins!"
+msgstr "בדוק את התוספים המדהימים החינמיים האחרים שלנו!"
+
+#: admin/partials/wpvr_setup_wizard.php:189
+#: production/admin/partials/wpvr_setup_wizard.php:189
+msgid "Checkout All Features"
+msgstr "בדוק את כל התכונות"
+
+#: admin/classes/class-tour-guide-translation.php:51
+#: production/admin/classes/class-tour-guide-translation.php:51
+msgid "Choose The Spot"
+msgstr "בחר את המקום"
+
+#: admin/classes/class-tour-guide-translation.php:76
+#: production/admin/classes/class-tour-guide-translation.php:76
+msgid "Click on Preview to see how the content is appearing for the hotspot."
+msgstr "לחץ על תצוגה מקדימה כדי לראות כיצד התוכן מופיע עבור הנקודה החמה."
+
+#: admin/classes/class-tour-guide-translation.php:27
+#: production/admin/classes/class-tour-guide-translation.php:27
+msgid ""
+"Click on the Preview button to view your uploaded panorama in virtual tour "
+"mode."
+msgstr ""
+"לחץ על כפתור התצוגה המקדימה כדי להציג את הפנורמה שהועלתה במצב סיור וירטואלי."
+
+#: admin/classes/class-tour-guide-translation.php:80
+#: production/admin/classes/class-tour-guide-translation.php:80
+msgid ""
+"Click on the Update button to save your work. And just like that, you can "
+"create an unlimited number of virtual tours and add your customization to "
+"them."
+msgstr ""
+"לחץ על כפתור העדכון כדי לשמור את עבודתך. ובדיוק ככה, אתה יכול ליצור מספר "
+"בלתי מוגבל של סיורים וירטואליים ולהוסיף להם את ההתאמה האישית שלך."
+
+#: admin/classes/class-tour-guide-translation.php:22
+#: production/admin/classes/class-tour-guide-translation.php:22
+msgid "Click on the Upload button to upload your panorama image."
+msgstr "לחץ על כפתור ההעלאה כדי להעלות את תמונת הפנורמה שלך."
+
+#: admin/classes/class-tour-guide-translation.php:35
+#: production/admin/classes/class-tour-guide-translation.php:35
+msgid ""
+"Click on this Publish button to save this as a tour. You can always find it "
+"in your tour list."
+msgstr ""
+"לחץ על כפתור פרסום זה כדי לשמור זאת כסיור. אתה תמיד יכול למצוא אותו ברשימת "
+"הסיורים שלך."
+
+#: admin/classes/class-wpvr-meta-field.php:2264
+#: production/admin/classes/class-wpvr-meta-field.php:2264
+msgid "Click to Upload an Image "
+msgstr "לחץ כדי להעלות תמונה"
+
+#: admin/classes/class-wpvr-meta-field.php:3137
+#: production/admin/classes/class-wpvr-meta-field.php:3137
+msgid "Color"
+msgstr "לִצְ"
+
+#: admin/partials/wpvr_documentation.php:609
+#: production/admin/partials/wpvr_documentation.php:609
+msgid "Company Logo & Description"
+msgstr "לוגו ותיאור החברה"
+
+#: admin/classes/class-wpvr-meta-field.php:688
+#: production/admin/classes/class-wpvr-meta-field.php:688
+msgid "Compass"
+msgstr "מִסגֶ"
+
+#: admin/partials/wpvr_setup_wizard.php:217
+#: production/admin/partials/wpvr_setup_wizard.php:217
+msgid "Contact Our Support"
+msgstr "צור קשר עם התמיכה שלנו"
+
+#: admin/classes/class-tour-guide-translation.php:24
+#: production/admin/classes/class-tour-guide-translation.php:24
+msgid "Continue to guide"
+msgstr "המשך להדריך"
+
+#: admin/classes/class-wpvr-meta-field.php:1327
+#: production/admin/classes/class-wpvr-meta-field.php:1327
+msgid "Control Buttons"
+msgstr "כפתורי שליטה"
+
+#: admin/partials/wpvr_documentation.php:651
+#: production/admin/partials/wpvr_documentation.php:651
+msgid "Control Horizontal & Vertical View of Panorama Images"
+msgstr "שליטה בתצוגה אופקית ואנכית של תמונות פנורמה"
+
+#: admin/partials/wpvr_documentation.php:1121
+#: production/admin/partials/wpvr_documentation.php:1121
+msgid "Convert any jpeg or png format image to webp on media upload:"
+msgstr "המר כל תמונה בפורמט JPEG או PNG ל-WebP בהעלאת מדיה:"
+
+#: admin/classes/class-wpvr-general.php:138
+#: production/admin/classes/class-wpvr-general.php:138
+msgid "Create a tour use this QR code"
+msgstr "צור סיור השתמש בקוד QR זה"
+
+#: admin/partials/wpvr_documentation.php:245
+#: production/admin/partials/wpvr_documentation.php:245
+msgid ""
+"Create high-converting slaes funnels on a visual drag & drop funnel builder "
+"canvas and increase your online sales from today."
+msgstr ""
+"צור משפכי SLAES בעלי המרה גבוהה על בד בונה משפך גרירה ושחרור חזותית והגדל את "
+"המכירות המקוונות שלך מהיום."
+
+#: admin/classes/class-wpvr-meta-field.php:1677
+#: production/admin/classes/class-wpvr-meta-field.php:1677
+msgid "Cubemap"
+msgstr "מַתַיִם"
+
+#: admin/partials/wpvr_documentation.php:515
+#: production/admin/partials/wpvr_documentation.php:515
+msgid "Cubemap Image Support"
+msgstr "תמיכה בתמונה CubeMap"
+
+#: admin/partials/wpvr_setup_wizard.php:75
+#: production/admin/partials/wpvr_setup_wizard.php:75
+msgid "Cubemap Images"
+msgstr "תמונות Cubemap"
+
+#: admin/partials/wpvr_setup_wizard.php:155
+#: production/admin/partials/wpvr_setup_wizard.php:155
+msgid "Custom Control Buttons"
+msgstr "כפתורי שליטה מותאמים אישית"
+
+#: admin/classes/class-wpvr-meta-field.php:478
+#: production/admin/classes/class-wpvr-meta-field.php:478
+msgid "Custom CSS"
+msgstr "CSS מותאם אישית"
+
+#: admin/classes/class-wpvr-meta-field.php:305
+#: production/admin/classes/class-wpvr-meta-field.php:305
+msgid "Custom CSS "
+msgstr "CSS מותאם אישית"
+
+#: admin/partials/wpvr_documentation.php:446
+#: production/admin/partials/wpvr_documentation.php:446
+msgid "Custom Icon & Color for Hotspots (Using CSS)"
+msgstr "סמל וצבע מותאמים אישית עבור נקודות חמות (באמצעות CSS)"
+
+#: admin/classes/class-wpvr-meta-field.php:2771
+#: production/admin/classes/class-wpvr-meta-field.php:2771
+msgid ""
+"Custom icons will only show on frontend. Hotspot custom icons only works "
+"with fontawesome 5. If you are using any different version of fontawesome "
+"under theme or any plugin, you may deactivate fontawesome from WP VR. Go to "
+"\"Get Started menu\" and select \"Role\" and check fontawesome disable "
+"switch. Now put your desired any icon class under \"Hotspot custom icon "
+"class\" field. It will appear on the frontend."
+msgstr ""
+"סמלים מותאמים אישית יופיעו רק ב-frontend. סמלים מותאמים אישית של HotSpot "
+"עובד רק עם FontAwesome 5. אם אתה משתמש בגרסה אחרת של FontAwesome תחת ערכת "
+"נושא או כל תוסף, אתה עלול לבטל את FontAwesome מ-WP VR. עבור אל \"תפריט "
+"התחל\" ובחר \"תפקיד\" וסמן את מתג ההשבתה של FontAwesome. כעת שים את כל מחלקת "
+"הסמלים הרצויה לך בשדה \"Hotspot Custom Icon Class\". זה יופיע בחזית."
+
+#: admin/partials/wpvr_documentation.php:679
+#: production/admin/partials/wpvr_documentation.php:679
+msgid "Custom Panorama Loading Face"
+msgstr "פנורמה מותאמת אישית לטעינת פנים"
+
+#: admin/partials/wpvr_documentation.php:595
+#: production/admin/partials/wpvr_documentation.php:595
+msgid "Custom Preview Image & Text"
+msgstr "תצוגה מקדימה מותאמת אישית וטקסט"
+
+#: admin/partials/wpvr_documentation.php:569
+#: production/admin/partials/wpvr_documentation.php:569
+msgid "Custom Rotation Settings"
+msgstr "הגדרות סיבוב מותאמות אישית"
+
+#: admin/partials/wpvr_documentation.php:665
+#: production/admin/partials/wpvr_documentation.php:665
+msgid "Custom Zoom Settings"
+msgstr "הגדרות זום מותאמות אישית"
+
+#: admin/partials/wpvr_documentation.php:754
+#: production/admin/partials/wpvr_documentation.php:754
+msgid "Customize Icon & Logo of Control Buttons."
+msgstr "התאם אישית את הסמל והלוגו של לחצני השליטה."
+
+#: admin/partials/wpvr_license.php:34
+#: production/admin/partials/wpvr_license.php:34
+msgid "Deactivate License"
+msgstr "בטל את הרישיון"
+
+#: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
+msgid "Decisions"
+msgstr "הַחלָ"
+
+#: admin/partials/wpvr_documentation.php:873
+#: production/admin/partials/wpvr_documentation.php:873
+msgid "Disable Fontawesome from WP VR:"
+msgstr "השבת את FontAwesome מ-WP VR:"
+
+#: admin/classes/class-wpvr-meta-field.php:252
+#: production/admin/classes/class-wpvr-meta-field.php:252
+msgid "Disable keyboard control to use the form."
+msgstr "השבת את בקרת המקלדת כדי להשתמש בטופס."
+
+#: admin/partials/wpvr_documentation.php:951
+#: production/admin/partials/wpvr_documentation.php:951
+msgid "Disable On Hover Content for Mobile:"
+msgstr "השבת תוכן ריחוף לנייד:"
+
+#: admin/partials/wpvr_documentation.php:925
+#: production/admin/partials/wpvr_documentation.php:925
+msgid "Disable WordPress Large Image Handler on WP VR:"
+msgstr "השבת את מטפל התמונות הגדול של WordPress ב-WP VR:"
+
+#: admin/partials/wpvr_documentation.php:782
+#: production/admin/partials/wpvr_documentation.php:782
+msgid ""
+"Do not close or refresh the page during import process. It may take few "
+"minutes."
+msgstr "אין לסגור או לרענן את הדף במהלך תהליך הייבוא. זה עשוי לקחת כמה דקות."
+
+#: admin/class-wpvr-admin.php:291 admin/partials/wpvr_documentation.php:203
+#: admin/partials/wpvr_documentation.php:207
+#: production/admin/class-wpvr-admin.php:290
+#: production/admin/partials/wpvr_documentation.php:203
+#: production/admin/partials/wpvr_documentation.php:207
+msgid "Documentation"
+msgstr "תִעוּ"
+
+#: admin/classes/class-wpvr-meta-field.php:1365
+#: production/admin/classes/class-wpvr-meta-field.php:1365
+msgid "Documentation "
+msgstr "תִעוּ"
+
+#: admin/classes/class-tour-guide-translation.php:10
+#: production/admin/classes/class-tour-guide-translation.php:10
+msgid "Done"
+msgstr "נַע�"
+
+#: admin/classes/class-wpvr-general.php:143
+#: production/admin/classes/class-wpvr-general.php:143
+msgid "Download QR Code"
+msgstr "הורד קוד QR"
+
+#: admin/partials/wpvr_documentation.php:637
+#: production/admin/partials/wpvr_documentation.php:637
+msgid "Duplicate Tours with One Click"
+msgstr "שכפול סיורים בלחיצה אחת"
+
+#: admin/partials/wpvr_documentation.php:842
+#: production/admin/partials/wpvr_documentation.php:842
+msgid ""
+"Editors will be able to Create, Edit, Update, and Delete all virtual tours."
+msgstr "עורכים יוכלו ליצור, לערוך, לעדכן ולמחוק את כל הסיורים הווירטואליים."
+
+#: admin/classes/class-wpvr-meta-field.php:741
+#: production/admin/classes/class-wpvr-meta-field.php:741
+msgid "Enable explainer video"
+msgstr "אפשר סרטון הסבר"
+
+#: admin/partials/wpvr_documentation.php:899
+#: production/admin/partials/wpvr_documentation.php:899
+msgid "Enable mobile media resizer:"
+msgstr "אפשר שינוי גודל מדיה נייד:"
+
+#: admin/partials/wpvr_documentation.php:726
+#: production/admin/partials/wpvr_documentation.php:726
+msgid "Enable or Disable Keyboard Movement Control."
+msgstr "הפעל או השבת את בקרת תנועת המקלדת."
+
+#: admin/partials/wpvr_documentation.php:730
+#: production/admin/partials/wpvr_documentation.php:730
+msgid "Enable or Disable Keyboard Zoom Control."
+msgstr "הפעל או השבת את בקרת זום המקלדת."
+
+#: admin/partials/wpvr_documentation.php:734
+#: production/admin/partials/wpvr_documentation.php:734
+msgid "Enable or Disable Mouse Drag Control."
+msgstr "הפעל או השבת את בקרת הגרירה של העכבר."
+
+#: admin/partials/wpvr_documentation.php:738
+#: production/admin/partials/wpvr_documentation.php:738
+msgid "Enable or Disable Mouse Zoom control."
+msgstr "הפעל או השבת את בקרת הזום של העכבר."
+
+#: admin/partials/wpvr_documentation.php:978
+#: production/admin/partials/wpvr_documentation.php:978
+msgid ""
+"Enable script control (It will load the WP VR scripts on the pages with "
+"virtual tours only):"
+msgstr ""
+"אפשר בקרת סקריפט (הוא יטען את סקריפטים של WP VR על הדפים עם סיורים "
+"וירטואליים בלבד):"
+
+#: admin/classes/class-wpvr-general.php:121
+#: production/admin/classes/class-wpvr-general.php:121
+msgid "Enable Social Media Share"
+msgstr "אפשר שיתוף מדיה חברתית"
+
+#: admin/classes/class-wpvr-meta-field.php:281
+#: production/admin/classes/class-wpvr-meta-field.php:281
+msgid "Enable the call to action, it will render under the tour."
+msgstr "אפשר את הקריאה לפעולה, זה יוצג מתחת לסיור."
+
+#: admin/classes/class-wpvr-meta-field.php:1583
+#: production/admin/classes/class-wpvr-meta-field.php:1583
+msgid "Enable Video"
+msgstr "אפשר וידאו"
+
+#: admin/partials/wpvr_documentation.php:1018
+#: production/admin/partials/wpvr_documentation.php:1018
+msgid ""
+"Enable Video JS control (It will load the WP VR Video JS library in the "
+"listed pages only):"
+msgstr ""
+"אפשר בקרת וידאו JS (הוא יטען את ספריית WP VR Video JS בדפים הרשומים בלבד):"
+
+#: admin/classes/class-tour-guide-translation.php:11
+#: production/admin/classes/class-tour-guide-translation.php:11
+msgid "End Tour"
+msgstr "סיים סיור"
+
+#: admin/partials/wpvr_license.php:22
+#: production/admin/partials/wpvr_license.php:22
+msgid "Enter your license key, save changes and activate."
+msgstr "הזן את מפתח הרישיון שלך, שמור שינויים והפעל."
+
+#: admin/classes/class-wpvr-meta-field.php:1676
+#: production/admin/classes/class-wpvr-meta-field.php:1676
+msgid "Equirectangular"
+msgstr "שְׁוֵה כֹּ"
+
+#: admin/classes/class-wpvr-meta-field.php:845
+#: production/admin/classes/class-wpvr-meta-field.php:845
+msgid "Explainer"
+msgstr "מְבָא�"
+
+#: admin/partials/wpvr_documentation.php:390
+#: admin/partials/wpvr_setup_wizard.php:176
+#: production/admin/partials/wpvr_documentation.php:390
+#: production/admin/partials/wpvr_setup_wizard.php:176
+msgid "Explainer Video"
+msgstr "סרטון הסבר"
+
+#: admin/classes/class-wpvr-meta-field.php:618
+#: production/admin/classes/class-wpvr-meta-field.php:618
+msgid "Export"
+msgstr "יְצוּ"
+
+#: admin/partials/wpvr_documentation.php:301
+#: production/admin/partials/wpvr_documentation.php:301
+msgid "features"
+msgstr "מָשָ"
+
+#: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
+msgid "Features That Can"
+msgstr "תכונות שיכולות"
+
+#: admin/partials/wpvr_documentation.php:1064
+#: production/admin/partials/wpvr_documentation.php:1064
+msgid "Flip the phone to landscape mode for a better experience of the tour."
+msgstr "הפוך את הטלפון למצב נוף לחוויה טובה יותר של הסיור."
+
+#: admin/partials/wpvr_documentation.php:542
+#: production/admin/partials/wpvr_documentation.php:542
+msgid "Fluent Forms Add-on"
+msgstr "תוסף טפסים שוטפים"
+
+#: admin/partials/wpvr_setup_wizard.php:11
+#: production/admin/partials/wpvr_setup_wizard.php:11
+msgid "Follow the Guided Wizard and Learn How it Works."
+msgstr "עקוב אחר האשף המודרך ולמד כיצד זה עובד."
+
+#: admin/classes/class-wpvr-meta-field.php:3037
+#: production/admin/classes/class-wpvr-meta-field.php:3037
+msgid "Font color"
+msgstr "צבע פונט"
+
+#: admin/classes/class-wpvr-meta-field.php:3042
+#: production/admin/classes/class-wpvr-meta-field.php:3042
+msgid "Font Size (px)"
+msgstr "גודל גופן (PX)"
+
+#: admin/classes/class-wpvr-meta-field.php:3094
+#: production/admin/classes/class-wpvr-meta-field.php:3094
+msgid "Font Style"
+msgstr "סגנון פונט"
+
+#: admin/classes/class-wpvr-meta-field.php:3047
+#: production/admin/classes/class-wpvr-meta-field.php:3047
+msgid "Font Weight"
+msgstr "אֶבֶ"
+
+#: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
+msgid "for Choosing"
+msgstr "לבחירה"
+
+#: admin/classes/class-wpvr-shortcode.php:36
+#: production/admin/classes/class-wpvr-shortcode.php:36
+msgid "For Classic Editor:"
+msgstr "לעורך קלאסי:"
+
+#: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
+msgid "for unlimited virtual tours."
+msgstr "לסיורים וירטואליים ללא הגבלה."
+
+#: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
+msgid "for Virtual Tours, Viewing Panoramas, and 360 Degree Content"
+msgstr "לסיורים וירטואליים, צפייה בפנורמות ותוכן של 360 מעלות"
+
+#: admin/partials/wpvr_documentation.php:302
+#: production/admin/partials/wpvr_documentation.php:302
+msgid "free"
+msgstr "פָּנו"
+
+#: admin/partials/wpvr_documentation.php:121
+#: production/admin/partials/wpvr_documentation.php:121
+msgid "Free vs Pro"
+msgstr "חינם לעומת פרו"
+
+#: admin/partials/wpvr_documentation.php:1067
+#: production/admin/partials/wpvr_documentation.php:1067
+msgid "Front-End Notice for Mobile Visitors:"
+msgstr "הודעה חזיתית למבקרים בנייד:"
+
+#: admin/partials/wpvr_documentation.php:582
+#: production/admin/partials/wpvr_documentation.php:582
+msgid "Full Page Virtual Tours"
+msgstr "סיורים וירטואליים בעמוד שלם"
+
+#: admin/classes/class-wpvr-meta-field.php:826
+#: production/admin/classes/class-wpvr-meta-field.php:826
+msgid "Full Screen"
+msgstr "מסך מלא"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
+msgid "Fullwidth"
+msgstr "רוחב מלא"
+
+#: admin/classes/class-wpvr-meta-field.php:106
+#: production/admin/classes/class-wpvr-meta-field.php:106
+msgid "General"
+msgstr "כְּל"
+
+#: admin/partials/wpvr_documentation.php:800
+#: production/admin/partials/wpvr_documentation.php:800
+msgid "General Setup Options"
+msgstr "אפשרויות הגדרה כלליות"
+
+#: admin/classes/class-wpvr-meta-field.php:247
+#: production/admin/classes/class-wpvr-meta-field.php:247
+msgid "Generic Form"
+msgstr "טַרחָב"
+
+#: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
+msgid "Get Access to "
+msgstr "קבל גישה ל"
+
+#: admin/partials/wpvr_documentation.php:247
+#: admin/partials/wpvr_documentation.php:262
+#: production/admin/partials/wpvr_documentation.php:247
+#: production/admin/partials/wpvr_documentation.php:262
+msgid "Get It Now"
+msgstr "קבל את זה עכשיו"
+
+#: admin/partials/wpvr_setup_wizard.php:197
+#: production/admin/partials/wpvr_setup_wizard.php:197
+msgid "Get Pro Now"
+msgstr "קבל מקצוען עכשיו"
+
+#: admin/class-wpvr-admin.php:286 admin/classes/class-wpvr-admin-pages.php:68
+#: admin/classes/class-wpvr-admin-pages.php:76
+#: production/admin/class-wpvr-admin.php:285
+#: production/admin/classes/class-wpvr-admin-pages.php:68
+#: production/admin/classes/class-wpvr-admin-pages.php:76
+msgid "Get Started"
+msgstr "התחל"
+
+#: admin/classes/class-tour-guide-translation.php:14
+#: production/admin/classes/class-tour-guide-translation.php:14
+msgid "Give a name to your virtual tour."
+msgstr "תן שם לסיור הוירטואלי שלך."
+
+#: admin/class-wpvr-admin.php:298 admin/classes/class-wpvr-admin-pages.php:84
+#: production/admin/class-wpvr-admin.php:297
+#: production/admin/classes/class-wpvr-admin-pages.php:84
+msgid "Go Pro"
+msgstr "Go Pro"
+
+#: admin/partials/wpvr_documentation.php:502
+#: admin/partials/wpvr_setup_wizard.php:99
+#: production/admin/partials/wpvr_documentation.php:502
+#: production/admin/partials/wpvr_setup_wizard.php:99
+msgid "Google Street View"
+msgstr "Google Street View"
+
+#: admin/classes/class-wpvr-admin-pages.php:75
+#: production/admin/classes/class-wpvr-admin-pages.php:75
+msgid "Guided Tour"
+msgstr "סיור מודרך"
+
+#: admin/classes/class-wpvr-meta-field.php:832
+#: production/admin/classes/class-wpvr-meta-field.php:832
+msgid "Gyroscope"
+msgstr "ג'ִירוֹסקוֹפּ"
+
+#: admin/partials/wpvr_setup_wizard.php:183
+#: production/admin/partials/wpvr_setup_wizard.php:183
+msgid "Gyroscope & Mobile Notices"
+msgstr "ג'ירוסקופ והודעות ניידות"
+
+#: admin/classes/class-wpvr-meta-field.php:672
+#: production/admin/classes/class-wpvr-meta-field.php:672
+msgid "Gyroscope Control"
+msgstr "עֲצִירָה גִירוֹפּו"
+
+#: admin/partials/wpvr_documentation.php:363
+#: production/admin/partials/wpvr_documentation.php:363
+msgid "Gyroscope Support"
+msgstr "תמיכה בג'ירוסקופ"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
+msgid "Height"
+msgstr "גַבהו"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:51
+#: production/oxygen/elements/Wpvr_Tour_Element.php:51
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
+msgid "Height Unit"
+msgstr "מְעַל�"
+
+#: elementor/elements/Wpvr-widget.php:175
+#: production/elementor/elements/Wpvr-widget.php:175
+msgid "Height:"
+msgstr "גובה:"
+
+#: admin/classes/class-tour-guide-translation.php:31
+#: production/admin/classes/class-tour-guide-translation.php:31
+msgid ""
+"Here is a preview of your panorama image in tour mode. You can control it "
+"and mode around to see it in 360 degree view."
+msgstr ""
+"הנה תצוגה מקדימה של תמונת הפנורמה שלך במצב סיור. אתה יכול לשלוט בו ולבצע מצב "
+"מסביב כדי לראות אותו בתצוגה של 360 מעלות."
+
+#: admin/classes/class-tour-guide-translation.php:60
+#: admin/classes/class-tour-guide-translation.php:64
+#: production/admin/classes/class-tour-guide-translation.php:60
+#: production/admin/classes/class-tour-guide-translation.php:64
+msgid "Here you can see the Pitch & Yaw has been set for the hotspot."
+msgstr "כאן אתה יכול לראות את המגרש והפיתול הוגדר לנקודה החמה."
+
+#: admin/classes/class-tour-guide-translation.php:68
+#: admin/classes/class-tour-guide-translation.php:72
+#: production/admin/classes/class-tour-guide-translation.php:68
+#: production/admin/classes/class-tour-guide-translation.php:72
+msgid ""
+"Here, you can set what content your viewer will see after clicking on the "
+"Hotspot. You can either set an URL or any other content using this editor. "
+"To learn more, follow this guide to set content using editor"
+msgstr ""
+"כאן, אתה יכול להגדיר את התוכן שהצופה שלך יראה לאחר לחיצה על הנקודה החמה. אתה "
+"יכול להגדיר כתובת URL או כל תוכן אחר באמצעות עורך זה. למידע נוסף, עקוב אחר "
+"מדריך זה כדי להגדיר תוכן באמצעות עורך"
+
+#: admin/classes/class-wpvr-meta-field.php:838
+#: production/admin/classes/class-wpvr-meta-field.php:838
+msgid "Home"
+msgstr "מִש�"
+
+#: admin/partials/wpvr_documentation.php:714
+#: production/admin/partials/wpvr_documentation.php:714
+msgid "Home Button to visit Default Scene"
+msgstr "כפתור הבית כדי לבקר בסצנת ברירת המחדל"
+
+#: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
+msgid "Hook"
+msgstr "מַכַ"
+
+#: admin/classes/class-wpvr-meta-field.php:97
+#: production/admin/classes/class-wpvr-meta-field.php:97
+msgid "Hotspot"
+msgstr "חָרִיר"
+
+#: admin/classes/class-wpvr-meta-field.php:978
+#: production/admin/classes/class-wpvr-meta-field.php:978
+msgid "Hotspot Custom Icon Class"
+msgstr "מחלקת אייקון מותאמת אישית של נקודה חמה"
+
+#: admin/classes/class-wpvr-meta-field.php:957
+#: production/admin/classes/class-wpvr-meta-field.php:957
+msgid "Hotspot ID"
+msgstr "מזהה נקודה חמה"
+
+#: admin/classes/class-wpvr-hotspot.php:109
+#: admin/classes/class-wpvr-hotspot.php:169
+#: production/admin/classes/class-wpvr-hotspot.php:109
+#: production/admin/classes/class-wpvr-hotspot.php:169
+msgid "Hotspot Setting"
+msgstr "הגדרת נקודה חמה"
+
+#: admin/classes/class-wpvr-meta-field.php:999
+#: admin/classes/class-wpvr-meta-field.php:1055
+#: admin/classes/class-wpvr-meta-field.php:1116
+#: admin/classes/class-wpvr-meta-field.php:1182
+#: admin/classes/class-wpvr-meta-field.php:1248
+#: production/admin/classes/class-wpvr-meta-field.php:999
+#: production/admin/classes/class-wpvr-meta-field.php:1055
+#: production/admin/classes/class-wpvr-meta-field.php:1116
+#: production/admin/classes/class-wpvr-meta-field.php:1182
+#: production/admin/classes/class-wpvr-meta-field.php:1248
+msgid "Hotspot-Type"
+msgstr "סוג של נקודה חמה"
+
+#. Author URI of the plugin
+msgid "http://rextheme.com/"
+msgstr "http://rextheme.com/"
+
+#. URI of the plugin
+msgid "https://rextheme.com/wpvr/"
+msgstr "https://rextheme.com/wpvr/"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
+msgid "ID"
+msgstr "תְעוּ"
+
+#: elementor/elements/Wpvr-widget.php:157
+#: production/elementor/elements/Wpvr-widget.php:157
+msgid "ID:"
+msgstr "מזהה:"
+
+#: admin/classes/class-wpvr-meta-field.php:683
+#: production/admin/classes/class-wpvr-meta-field.php:683
+msgid ""
+"If set to true, device orientation control will be used when the panorama is "
+"loaded, if the device supports it. If false, device orientation control "
+"needs to be activated by pressing a button. Defaults to false. Will work if "
+"gyroscope is enabled"
+msgstr ""
+"אם מוגדר כ-true, ישמש בקרת כיוון התקן כאשר הפנורמה נטענת, אם ההתקן תומך בכך. "
+"אם FALSE, יש להפעיל את בקרת כיוון המכשיר על ידי לחיצה על כפתור. ברירת המחדל "
+"היא FALSE. יעבוד אם הג'ירוסקופ מופעל"
+
+#: admin/partials/wpvr_documentation.php:137
+#: production/admin/partials/wpvr_documentation.php:137
+msgid "Import"
+msgstr "לְיַ"
+
+#: admin/partials/wpvr_documentation.php:623
+#: production/admin/partials/wpvr_documentation.php:623
+msgid "Import & Export Virtual Tours"
+msgstr "ייבוא וייצוא סיורים וירטואליים"
+
+#: admin/partials/wpvr_documentation.php:778
+#: production/admin/partials/wpvr_documentation.php:778
+msgid "Import tour file: "
+msgstr "ייבוא קובץ סיור:"
+
+#: admin/classes/class-tour-guide-translation.php:52
+#: production/admin/classes/class-tour-guide-translation.php:52
+msgid ""
+"In this Preview, drag to your desired location and click on it, exactly "
+"where you want to set the hotspot"
+msgstr ""
+"בתצוגה מקדימה זו, גרור למיקום הרצוי ולחץ עליו, בדיוק היכן ברצונך להגדיר את "
+"הנקודה החמה"
+
+#: admin/partials/wpvr_documentation.php:97
+#: production/admin/partials/wpvr_documentation.php:97
+msgid "Info"
+msgstr "מוּסָ"
+
+#: admin/partials/wpvr_documentation.php:418
+#: production/admin/partials/wpvr_documentation.php:418
+msgid "Info-type Hotspots (Heading, Image, Text, Video, Gif, Links)"
+msgstr "נקודות חמות מסוג מידע (כותרת, תמונה, טקסט, וידאו, GIF, קישורים)"
+
+#: admin/classes/class-wpvr-meta-field.php:3097
+#: production/admin/classes/class-wpvr-meta-field.php:3097
+msgid "Italic"
+msgstr "מוֹקִית"
+
+#: admin/classes/class-wpvr-meta-field.php:3089
+#: production/admin/classes/class-wpvr-meta-field.php:3089
+msgid "Justified"
+msgstr "מוּצדָק"
+
+#: admin/classes/class-wpvr-meta-field.php:640
+#: production/admin/classes/class-wpvr-meta-field.php:640
+msgid "Keyboard Movement Control"
+msgstr "בקרת תנועת מקלדת"
+
+#: admin/classes/class-wpvr-meta-field.php:648
+#: production/admin/classes/class-wpvr-meta-field.php:648
+msgid "Keyboard Zoom Control"
+msgstr "בקרת זום מקלדת"
+
+#: admin/partials/wpvr_setup_wizard.php:54
+#: admin/partials/wpvr_setup_wizard.php:66
+#: admin/partials/wpvr_setup_wizard.php:78
+#: admin/partials/wpvr_setup_wizard.php:90
+#: admin/partials/wpvr_setup_wizard.php:102
+#: production/admin/partials/wpvr_setup_wizard.php:54
+#: production/admin/partials/wpvr_setup_wizard.php:66
+#: production/admin/partials/wpvr_setup_wizard.php:78
+#: production/admin/partials/wpvr_setup_wizard.php:90
+#: production/admin/partials/wpvr_setup_wizard.php:102
+msgid "Learn more"
+msgstr "למידע נוסף"
+
+#: admin/classes/class-wpvr-meta-field.php:3086
+#: admin/classes/class-wpvr-meta-field.php:3161
+#: production/admin/classes/class-wpvr-meta-field.php:3086
+#: production/admin/classes/class-wpvr-meta-field.php:3161
+msgid "Left"
+msgstr "שְׂ"
+
+#: admin/classes/class-tour-guide-translation.php:43
+#: production/admin/classes/class-tour-guide-translation.php:43
+msgid "Let's add a Hotspot"
+msgstr "בואו נוסיף נקודה חמה"
+
+#: admin/classes/class-wpvr-meta-field.php:3103
+#: production/admin/classes/class-wpvr-meta-field.php:3103
+msgid "Letter Spacing (px)"
+msgstr "מרווח אותיות (PX)"
+
+#: admin/partials/wpvr_license.php:18
+#: production/admin/partials/wpvr_license.php:18
+msgid "License Key"
+msgstr "מַפתֵח"
+
+#: admin/classes/class-wpvr-meta-field.php:3059
+#: production/admin/classes/class-wpvr-meta-field.php:3059
+msgid "Line Height"
+msgstr "גובה קו"
+
+#: admin/classes/class-wpvr-meta-field.php:3069
+#: production/admin/classes/class-wpvr-meta-field.php:3069
+msgid "Line Through"
+msgstr "קו דרך"
+
+#: admin/partials/wpvr_documentation.php:1004
+#: production/admin/partials/wpvr_documentation.php:1004
+msgid ""
+"List of allowed pages to load WP VR scripts (The URLs of the pages on your "
+"site with virtual tours):"
+msgstr ""
+"רשימת הדפים המותרים לטעינת סקריפטים של WP VR (כתובות האתרים של הדפים באתר "
+"שלך עם סיורים וירטואליים):"
+
+#: admin/partials/wpvr_documentation.php:1044
+#: production/admin/partials/wpvr_documentation.php:1044
+msgid ""
+"List of allowed pages to load WP VR Video JS library (The URLs of the pages "
+"on your site, You want to load Video JS):"
+msgstr ""
+"רשימת הדפים המותרים לטעינת WP VR Video JS (כתובות האתרים של הדפים באתר שלך, "
+"אתה רוצה לטעון וידאו JS):"
+
+#: admin/partials/wpvr_documentation.php:1050
+#: production/admin/partials/wpvr_documentation.php:1050
+msgid ""
+"List the pages like this: https://example.com/tour1/, https://example."
+"com/tour2/"
+msgstr ""
+"רשום את הדפים כך: https://example.com/tour1/, https://example.com/tour2/"
+
+#: admin/partials/wpvr_documentation.php:1010
+#: production/admin/partials/wpvr_documentation.php:1010
+msgid ""
+"List the pages with virtual tours like this: https://example.com/tour1/, "
+"https://example.com/tour2/"
+msgstr ""
+"רשום את הדפים עם סיורים וירטואליים כמו זה: https://example.com/tour1/, https:"
+"//example.com/tour2/"
+
+#: admin/classes/class-wpvr-meta-field.php:3078
+#: production/admin/classes/class-wpvr-meta-field.php:3078
+msgid "Lowercase"
+msgstr "אוֹתִיו"
+
+#: admin/partials/wpvr_documentation.php:227
+#: production/admin/partials/wpvr_documentation.php:227
+msgid "Make WPVR Popular"
+msgstr "הפוך את WPVR לפופולרי"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
+msgid "Mobile Height"
+msgstr "גובה נייד"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:118
+#: production/oxygen/elements/Wpvr_Tour_Element.php:118
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
+msgid "Mobile Height Unit"
+msgstr "יחידת גובה ניידת"
+
+#: admin/partials/wpvr_setup_wizard.php:63
+#: production/admin/partials/wpvr_setup_wizard.php:63
+msgid "Mobile Panorama"
+msgstr "פנורמה ניידת"
+
+#: admin/partials/wpvr_documentation.php:710
+#: production/admin/partials/wpvr_documentation.php:710
+msgid "More Pro Features"
+msgstr "תכונות מקצועיות נוספות"
+
+#: admin/partials/wpvr_documentation.php:742
+#: production/admin/partials/wpvr_documentation.php:742
+msgid "Mouse Control."
+msgstr "בקרת עכבר."
+
+#: admin/classes/class-wpvr-meta-field.php:656
+#: production/admin/classes/class-wpvr-meta-field.php:656
+msgid "Mouse Drag Control"
+msgstr "בקרת גרירה של עכבר"
+
+#: admin/classes/class-wpvr-meta-field.php:664
+#: production/admin/classes/class-wpvr-meta-field.php:664
+msgid "Mouse Zoom Control"
+msgstr "בקרת זום עכבר"
+
+#: admin/classes/class-wpvr-meta-field.php:783
+#: production/admin/classes/class-wpvr-meta-field.php:783
+msgid "Move Down"
+msgstr "לְהִתְ"
+
+#: admin/classes/class-wpvr-meta-field.php:789
+#: production/admin/classes/class-wpvr-meta-field.php:789
+msgid "Move Left"
+msgstr "זז שמאלה"
+
+#: admin/classes/class-wpvr-meta-field.php:795
+#: production/admin/classes/class-wpvr-meta-field.php:795
+msgid "Move Right"
+msgstr "לַעֲזו"
+
+#: admin/classes/class-wpvr-meta-field.php:777
+#: production/admin/classes/class-wpvr-meta-field.php:777
+msgid "Move Up"
+msgstr "לְהַע�"
+
+#: admin/partials/wpvr_setup_wizard.php:148
+#: production/admin/partials/wpvr_setup_wizard.php:148
+msgid "Multiple Content on Hotspots"
+msgstr "מספר תוכן בנקודות חמות"
+
+#: admin/classes/class-tour-guide-translation.php:8
+#: production/admin/classes/class-tour-guide-translation.php:8
+msgid "Next"
+msgstr "הַבָ"
+
+#: admin/classes/class-wpvr-meta-field.php:1651
+#: admin/partials/wpvr_confirmation_alert.php:26
+#: production/admin/classes/class-wpvr-meta-field.php:1651
+#: production/admin/partials/wpvr_confirmation_alert.php:26
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
+msgid "No"
+msgstr "לֹא"
+
+#: admin/classes/class-wpvr-meta-field.php:3066
+#: admin/classes/class-wpvr-meta-field.php:3076
+#: production/admin/classes/class-wpvr-meta-field.php:3066
+#: production/admin/classes/class-wpvr-meta-field.php:3076
+msgid "None"
+msgstr "אַף ל"
+
+#: admin/classes/class-wpvr-meta-field.php:3096
+#: production/admin/classes/class-wpvr-meta-field.php:3096
+msgid "Normal"
+msgstr "תִקנ"
+
+#: admin/classes/class-wpvr-general.php:101
+#: production/admin/classes/class-wpvr-general.php:101
+msgid ""
+"Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on "
+"embedded tours."
+msgstr ""
+"הערה: WooCommerce &amp; Fluent Forms Hotspots לא ייתמכו בסיורים משובצים."
+
+#: admin/classes/class-wpvr-meta-field.php:3098
+#: production/admin/classes/class-wpvr-meta-field.php:3098
+msgid "Oblique"
+msgstr "אֲלַכסו�"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:89
+#: production/oxygen/elements/Wpvr_Tour_Element.php:89
+msgid "OFF"
+msgstr "מִנ�"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:88
+#: production/oxygen/elements/Wpvr_Tour_Element.php:88
+msgid "ON"
+msgstr "עַל פ"
+
+#: admin/classes/class-wpvr-meta-field.php:1016
+#: admin/classes/class-wpvr-meta-field.php:1072
+#: admin/classes/class-wpvr-meta-field.php:1139
+#: admin/classes/class-wpvr-meta-field.php:1205
+#: admin/classes/class-wpvr-meta-field.php:1265
+#: production/admin/classes/class-wpvr-meta-field.php:1016
+#: production/admin/classes/class-wpvr-meta-field.php:1072
+#: production/admin/classes/class-wpvr-meta-field.php:1139
+#: production/admin/classes/class-wpvr-meta-field.php:1205
+#: production/admin/classes/class-wpvr-meta-field.php:1265
+msgid "On Click Content"
+msgstr "על תוכן לחץ"
+
+#: admin/classes/class-wpvr-meta-field.php:1021
+#: admin/classes/class-wpvr-meta-field.php:1079
+#: admin/classes/class-wpvr-meta-field.php:1146
+#: admin/classes/class-wpvr-meta-field.php:1212
+#: admin/classes/class-wpvr-meta-field.php:1271
+#: production/admin/classes/class-wpvr-meta-field.php:1021
+#: production/admin/classes/class-wpvr-meta-field.php:1079
+#: production/admin/classes/class-wpvr-meta-field.php:1146
+#: production/admin/classes/class-wpvr-meta-field.php:1212
+#: production/admin/classes/class-wpvr-meta-field.php:1271
+msgid "On Hover Content"
+msgstr "על תוכן ריחוף"
+
+#: admin/partials/wpvr_documentation.php:746
+#: production/admin/partials/wpvr_documentation.php:746
+msgid "On Screen Compass."
+msgstr "מצפן על המסך."
+
+#: admin/classes/class-tour-guide-translation.php:56
+#: production/admin/classes/class-tour-guide-translation.php:56
+msgid ""
+"Once you see the Pitch & Yaw value for the spot, click on this Arrow. It'll "
+"be set as the coordinate for your hotspot"
+msgstr ""
+"לאחר שתראה את ערך ה-Pitch & Yaw עבור הנקודה, לחץ על החץ הזה. זה יוגדר "
+"כקואורדינטה לנקודה החמה שלך"
+
+#: wpvr.php:261 production/wpvr.php:261
+#: public/classes/class-wpvr-shortcode.php:98
+#: production/public/classes/class-wpvr-shortcode.php:98
+msgid ""
+"Oops! It seems like this post isn't published yet. Stay tuned for updates!"
+msgstr "אופס! נראה שהפוסט הזה עדיין לא פורסם. הישארו מעודכנים לעדכונים!"
+
+#: admin/classes/class-wpvr-meta-field.php:3025
+#: production/admin/classes/class-wpvr-meta-field.php:3025
+msgid "Open in new tab"
+msgstr "פתח בכרטיסייה חדשה"
+
+#: admin/classes/class-wpvr-meta-field.php:1009
+#: admin/classes/class-wpvr-meta-field.php:1065
+#: admin/classes/class-wpvr-meta-field.php:1132
+#: admin/classes/class-wpvr-meta-field.php:1198
+#: admin/classes/class-wpvr-meta-field.php:1258
+#: production/admin/classes/class-wpvr-meta-field.php:1009
+#: production/admin/classes/class-wpvr-meta-field.php:1065
+#: production/admin/classes/class-wpvr-meta-field.php:1132
+#: production/admin/classes/class-wpvr-meta-field.php:1198
+#: production/admin/classes/class-wpvr-meta-field.php:1258
+msgid "Open in same tab"
+msgstr "פתח באותה כרטיסייה"
+
+#: admin/classes/class-wpvr-meta-field.php:3068
+#: production/admin/classes/class-wpvr-meta-field.php:3068
+msgid "Overline"
+msgstr "לְרַק�"
+
+#: admin/classes/class-wpvr-meta-field.php:3143
+#: production/admin/classes/class-wpvr-meta-field.php:3143
+msgid "Padding (px)"
+msgstr "ריפוד (PX)"
+
+#: admin/partials/wpvr_documentation.php:377
+#: admin/partials/wpvr_setup_wizard.php:134
+#: production/admin/partials/wpvr_documentation.php:377
+#: production/admin/partials/wpvr_setup_wizard.php:134
+msgid "Panorama Scene Gallery"
+msgstr "גלריית סצנת פנורמה"
+
+#: admin/partials/wpvr_documentation.php:474
+#: production/admin/partials/wpvr_documentation.php:474
+msgid "Partial Panorama / Mobile Panorama Support"
+msgstr "תמיכת פנורמה חלקית / פנורמה ניידת"
+
+#: admin/classes/class-wpvr-meta-field.php:1606
+#: production/admin/classes/class-wpvr-meta-field.php:1606
+msgid "Paste Youtube or Vimeo link or upload"
+msgstr "הדבק קישור יוטיוב או Vimeo או העלה"
+
+#: admin/classes/class-wpvr-ajax.php:375
+#: production/admin/classes/class-wpvr-ajax.php:375
+msgid "Permission check failed"
+msgstr "בדיקת ההרשאה נכשלה"
+
+#: admin/partials/wpvr_setup_wizard.php:126
+#: production/admin/partials/wpvr_setup_wizard.php:126
+msgid "Personalize your virtual tours, in the way you want."
+msgstr "התאם אישית את הסיורים הווירטואליים שלך, בצורה שאתה רוצה."
+
+#: admin/classes/class-wpvr-meta-field.php:964
+#: production/admin/classes/class-wpvr-meta-field.php:964
+msgid "Pitch"
+msgstr "לְהַ"
+
+#: admin/classes/class-tour-guide-translation.php:59
+#: admin/classes/class-tour-guide-translation.php:63
+#: production/admin/classes/class-tour-guide-translation.php:59
+#: production/admin/classes/class-tour-guide-translation.php:63
+msgid "Pitch & Yaw is Set"
+msgstr "Pitch & Yaw מוגדר"
+
+#: admin/partials/wpvr_documentation.php:219
+#: production/admin/partials/wpvr_documentation.php:219
+msgid "Post a Ticket"
+msgstr "פרסם כרטיס"
+
+#: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
+msgid "Premium Features"
+msgstr "תכונות פרימיום"
+
+#: admin/classes/class-tour-preview-meta-box.php:853
+#: production/admin/classes/class-tour-preview-meta-box.php:853
+msgid "Preview"
+msgstr "הַצָגָ"
+
+#: admin/classes/class-wpvr-meta-field.php:146
+#: production/admin/classes/class-wpvr-meta-field.php:146
+msgid "Preview Image Message"
+msgstr "הודעת תמונה בתצוגה מקדימה"
+
+#: admin/classes/class-tour-guide-translation.php:26
+#: production/admin/classes/class-tour-guide-translation.php:26
+msgid "Preview The Image in Tour Mode"
+msgstr "תצוגה מקדימה של התמונה במצב סיור"
+
+#: admin/classes/class-tour-guide-translation.php:75
+#: production/admin/classes/class-tour-guide-translation.php:75
+msgid "Preview Your Hotspot Content"
+msgstr "הצג תצוגה מקדימה של תוכן הנקודה החמה שלך"
+
+#: admin/classes/class-tour-guide-translation.php:9
+#: production/admin/classes/class-tour-guide-translation.php:9
+msgid "Previous"
+msgstr "קוֹד"
+
+#: admin/classes/class-wpvr-meta-field.php:432
+#: admin/classes/class-wpvr-meta-field.php:466
+#: production/admin/classes/class-wpvr-meta-field.php:432
+#: production/admin/classes/class-wpvr-meta-field.php:466
+msgid "Print the forms shortcode you want to show."
+msgstr "הדפס את הקוד הקצר של הטפסים שברצונך להציג."
+
+#: admin/partials/wpvr_documentation.php:303
+#: production/admin/partials/wpvr_documentation.php:303
+msgid "pro"
+msgstr "מִקצו"
+
+#: admin/partials/wpvr_documentation.php:335
+#: production/admin/partials/wpvr_documentation.php:335
+msgid "Publish Tours Anywhere (Embed Add-on)"
+msgstr "פרסם סיורים בכל מקום (תוסף הטבעה)"
+
+#: admin/classes/class-tour-guide-translation.php:38
+#: production/admin/classes/class-tour-guide-translation.php:38
+msgid "Publish Your Tour"
+msgstr "פרסם את הסיור שלך"
+
+#: elementor/elements/Wpvr-widget.php:178
+#: production/elementor/elements/Wpvr-widget.php:178
+msgid "Put value in (px)"
+msgstr "שים ערך ב-(PX)"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:56
+#: oxygen/elements/Wpvr_Tour_Element.php:76
+#: oxygen/elements/Wpvr_Tour_Element.php:106
+#: oxygen/elements/Wpvr_Tour_Element.php:123
+#: production/oxygen/elements/Wpvr_Tour_Element.php:56
+#: production/oxygen/elements/Wpvr_Tour_Element.php:76
+#: production/oxygen/elements/Wpvr_Tour_Element.php:106
+#: production/oxygen/elements/Wpvr_Tour_Element.php:123
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
+msgid "px"
+msgstr "פִּסגָ"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
+msgid "Radius"
+msgstr "רַדִיוּס"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:101
+#: production/oxygen/elements/Wpvr_Tour_Element.php:101
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
+msgid "Radius Unit"
+msgstr "אֶצְבַּע ה"
+
+#: elementor/elements/Wpvr-widget.php:185
+#: production/elementor/elements/Wpvr-widget.php:185
+msgid "Radius:"
+msgstr "רדיוס:"
+
+#: admin/partials/wpvr_documentation.php:231
+#: production/admin/partials/wpvr_documentation.php:231
+msgid "Rate Us "
+msgstr "דרג אותנו"
+
+#: admin/partials/wpvr_setup_wizard.php:218
+#: production/admin/partials/wpvr_setup_wizard.php:218
+msgid "Read Documentations"
+msgstr "קרא תיעוד"
+
+#: admin/partials/wpvr_setup_wizard.php:219
+#: production/admin/partials/wpvr_setup_wizard.php:219
+msgid "Read Our Complete Guides"
+msgstr "קרא את המדריכים המלאים שלנו"
+
+#: admin/partials/wpvr_documentation.php:260
+#: production/admin/partials/wpvr_documentation.php:260
+msgid ""
+"Recover abandoned carts with automated email drip campaigns. Start getting "
+"back lost sales on your online store."
+msgstr ""
+"שחזר עגלות נטושות עם מסעות פרסום אוטומטיים בטפטוף דוא\"ל. התחל לקבל בחזרה "
+"מכירות אבודות בחנות המקוונת שלך."
+
+#: admin/classes/class-wpvr-meta-field.php:403
+#: production/admin/classes/class-wpvr-meta-field.php:403
+msgid "Resume Auto-rotation after"
+msgstr "המשך סיבוב אוטומטי לאחר מכן"
+
+#. Author of the plugin
+msgid "Rextheme"
+msgstr "REXTHEMED"
+
+#: admin/classes/class-wpvr-meta-field.php:3087
+#: admin/classes/class-wpvr-meta-field.php:3151
+#: production/admin/classes/class-wpvr-meta-field.php:3087
+#: production/admin/classes/class-wpvr-meta-field.php:3151
+msgid "Right"
+msgstr "יָמִ"
+
+#: admin/classes/class-wpvr-meta-field.php:394
+#: production/admin/classes/class-wpvr-meta-field.php:394
+msgid "Rotation Speed and Direction"
+msgstr "מהירות סיבוב וכיוון"
+
+#: admin/partials/wpvr_documentation.php:1172
+#: production/admin/partials/wpvr_documentation.php:1172
+msgid "Save"
+msgstr "לַח�"
+
+#: admin/classes/class-tour-guide-translation.php:79
+#: production/admin/classes/class-tour-guide-translation.php:79
+msgid "Save Your Progress"
+msgstr "שמור את ההתקדמות שלך"
+
+#: admin/classes/class-tour-guide-translation.php:34
+#: production/admin/classes/class-tour-guide-translation.php:34
+msgid "Save Your Tour"
+msgstr "שמור את הסיור שלך"
+
+#: admin/partials/wpvr_documentation.php:722
+#: production/admin/partials/wpvr_documentation.php:722
+msgid "Scene Author with URL"
+msgstr "מחבר סצנה עם כתובת URL"
+
+#: admin/classes/class-wpvr-meta-field.php:209
+#: production/admin/classes/class-wpvr-meta-field.php:209
+msgid "Scene Fade Duration"
+msgstr "משך הסצנה דעיכה"
+
+#: admin/classes/class-wpvr-meta-field.php:709
+#: production/admin/classes/class-wpvr-meta-field.php:709
+msgid "Scene Gallery"
+msgstr "סצ'אר ג'"
+
+#: admin/classes/class-wpvr-meta-field.php:873
+#: admin/classes/class-wpvr-meta-field.php:921
+#: production/admin/classes/class-wpvr-meta-field.php:873
+#: production/admin/classes/class-wpvr-meta-field.php:921
+msgid "Scene ID"
+msgstr "מזהה סצנה"
+
+#: admin/classes/class-wpvr-meta-field.php:725
+#: production/admin/classes/class-wpvr-meta-field.php:725
+msgid "Scene Navigation Menu"
+msgstr "תפריט ניווט בסצנה"
+
+#: admin/classes/class-wpvr-scene.php:233
+#: admin/classes/class-wpvr-scene.php:262
+#: production/admin/classes/class-wpvr-scene.php:233
+#: production/admin/classes/class-wpvr-scene.php:262
+msgid "Scene Setting"
+msgstr "הגדרת סצנה"
+
+#: admin/partials/wpvr_documentation.php:718
+#: production/admin/partials/wpvr_documentation.php:718
+msgid "Scene Title"
+msgstr "כותרת הסצנה"
+
+#: admin/classes/class-wpvr-meta-field.php:717
+#: production/admin/classes/class-wpvr-meta-field.php:717
+msgid "Scene Titles on Gallery"
+msgstr "כותרות סצנה בגלריה"
+
+#: admin/partials/wpvr_documentation.php:750
+#: production/admin/partials/wpvr_documentation.php:750
+msgid "Scene Titles on Gallery."
+msgstr "כותרות סצנה בגלריה."
+
+#: admin/classes/class-wpvr-meta-field.php:881
+#: admin/classes/class-wpvr-meta-field.php:929
+#: production/admin/classes/class-wpvr-meta-field.php:881
+#: production/admin/classes/class-wpvr-meta-field.php:929
+msgid "Scene Type"
+msgstr "סוג סצנה"
+
+#: admin/classes/class-wpvr-meta-field.php:888
+#: admin/classes/class-wpvr-meta-field.php:936
+#: production/admin/classes/class-wpvr-meta-field.php:888
+#: production/admin/classes/class-wpvr-meta-field.php:936
+msgid "Scene Upload"
+msgstr "העלאת סצנה"
+
+#: admin/classes/class-wpvr-meta-field.php:1774
+#: production/admin/classes/class-wpvr-meta-field.php:1774
+msgid "Scene Upload: "
+msgstr "העלאת סצנה:"
+
+#: admin/partials/wpvr_documentation.php:432
+#: production/admin/partials/wpvr_documentation.php:432
+msgid "Scene-type Hotspots (Connect Panoramas)"
+msgstr "נקודות חמות מסוג סצנה (חבר פנורמות)"
+
+#: admin/classes/class-wpvr-meta-field.php:88
+#: production/admin/classes/class-wpvr-meta-field.php:88
+msgid "Scenes"
+msgstr "סִירָה"
+
+#: admin/partials/wpvr_documentation.php:1150
+#: production/admin/partials/wpvr_documentation.php:1150
+msgid "Select a Version to Rollback"
+msgstr "בחר גרסה להחזרה לאחור"
+
+#: admin/classes/class-wpvr-meta-field.php:1025
+#: admin/classes/class-wpvr-meta-field.php:1085
+#: admin/classes/class-wpvr-meta-field.php:1152
+#: admin/classes/class-wpvr-meta-field.php:1218
+#: admin/classes/class-wpvr-meta-field.php:1277
+#: production/admin/classes/class-wpvr-meta-field.php:1025
+#: production/admin/classes/class-wpvr-meta-field.php:1085
+#: production/admin/classes/class-wpvr-meta-field.php:1152
+#: production/admin/classes/class-wpvr-meta-field.php:1218
+#: production/admin/classes/class-wpvr-meta-field.php:1277
+msgid "Select Target Scene from List"
+msgstr "בחר סצנת יעד מתוך רשימה"
+
+#: admin/classes/class-wpvr-meta-field.php:1120
+#: admin/classes/class-wpvr-meta-field.php:1186
+#: production/admin/classes/class-wpvr-meta-field.php:1120
+#: production/admin/classes/class-wpvr-meta-field.php:1186
+msgid "Select your form"
+msgstr "בחר את הטופס שלך"
+
+#: admin/partials/wpvr_setup_wizard.php:141
+#: production/admin/partials/wpvr_setup_wizard.php:141
+msgid "Sell WooCommerce Products"
+msgstr "למכור מוצרי WooCommerce"
+
+#: admin/classes/class-wpvr-meta-field.php:417
+#: production/admin/classes/class-wpvr-meta-field.php:417
+msgid ""
+"Set a time after which auto rotation will stop. Assign in milliseconds, "
+"where 1000 milliseconds = 1 second."
+msgstr ""
+"הגדר זמן שאחריו הסיבוב האוטומטי ייפסק. הקצה באלפיות שניות, כאשר 1000 "
+"מילישניות = שנייה אחת."
+
+#: admin/classes/class-tour-guide-translation.php:13
+#: production/admin/classes/class-tour-guide-translation.php:13
+msgid "Set a Title to Your Virtual Tour"
+msgstr "הגדר כותרת לסיור הוירטואלי שלך"
+
+#: admin/classes/class-wpvr-meta-field.php:140
+#: production/admin/classes/class-wpvr-meta-field.php:140
+msgid "Set a Tour Preview Image"
+msgstr "הגדר תמונת תצוגה מקדימה של סיור"
+
+#: admin/classes/class-wpvr-meta-field.php:399
+#: production/admin/classes/class-wpvr-meta-field.php:399
+msgid ""
+"Set a value to determine the speed of rotation. The higher the number, the "
+"faster it will rotate. Positive values will make it rotate clockwise and "
+"negative values will make it rotate anti clockwise"
+msgstr ""
+"הגדר ערך לקביעת מהירות הסיבוב. ככל שהמספר גבוה יותר, כך הוא יסתובב מהר יותר. "
+"ערכים חיוביים יגרמו לו להסתובב עם כיוון השעון וערכים שליליים יגרמו לו "
+"להסתובב נגד כיוון השעון"
+
+#: admin/classes/class-tour-guide-translation.php:48
+#: production/admin/classes/class-tour-guide-translation.php:48
+msgid ""
+"Set an unique Hotspot ID to each of your Hotspots. Avoid Spaces & special "
+"characters. Set it like H1 or 01"
+msgstr ""
+"הגדר מזהה נקודה חמה ייחודית לכל אחד מהנקודות החמות שלך. הימנע מרווחים ותווים "
+"מיוחדים. הגדר אותו כמו H1 או 01"
+
+#: admin/classes/class-wpvr-meta-field.php:866
+#: admin/classes/class-wpvr-meta-field.php:914
+#: production/admin/classes/class-wpvr-meta-field.php:866
+#: production/admin/classes/class-wpvr-meta-field.php:914
+msgid "Set as Default"
+msgstr "הגדר כברירת מחדל"
+
+#: admin/partials/wpvr_setup_wizard.php:162
+#: production/admin/partials/wpvr_setup_wizard.php:162
+msgid "Set Contact Form"
+msgstr "הגדר טופס יצירת קשר"
+
+#: admin/classes/class-tour-guide-translation.php:47
+#: production/admin/classes/class-tour-guide-translation.php:47
+msgid "Set Hotspot ID"
+msgstr "הגדר מזהה נקודה חמה"
+
+#: admin/classes/class-tour-guide-translation.php:67
+#: admin/classes/class-tour-guide-translation.php:71
+#: production/admin/classes/class-tour-guide-translation.php:67
+#: production/admin/classes/class-tour-guide-translation.php:71
+msgid "Set The Content for Click Action"
+msgstr "הגדר את התוכן לפעולת לחיצה"
+
+#: admin/classes/class-tour-guide-translation.php:18
+#: production/admin/classes/class-tour-guide-translation.php:18
+msgid ""
+"Set the Scene ID for your first panorama image. The Scene ID has to be "
+"unique for each scene and without any spaces or special characters. You can "
+"set it as Scene1, S1, or simply 01."
+msgstr ""
+"הגדר את מזהה הסצנה עבור תמונת הפנורמה הראשונה שלך. מזהה הסצנה צריך להיות "
+"ייחודי לכל סצנה וללא רווחים או תווים מיוחדים. אתה יכול להגדיר אותו כ-SCENE1, "
+"S1 או פשוט 01."
+
+#: admin/classes/class-wpvr-meta-field.php:749
+#: production/admin/classes/class-wpvr-meta-field.php:749
+msgid "Set Zoom Preferences"
+msgstr "הגדר העדפות זום"
+
+#: admin/partials/wpvr_documentation.php:150
+#: production/admin/partials/wpvr_documentation.php:150
+msgid "Settings"
+msgstr "הגדרות"
+
+#: admin/class-wpvr-admin.php:268 production/admin/class-wpvr-admin.php:267
+msgid "Setup"
+msgstr "מִסדָ"
+
+#: admin/partials/wpvr_documentation.php:174
+#: production/admin/partials/wpvr_documentation.php:174
+msgid "Share On"
+msgstr "לְהִשְ"
+
+#: admin/classes/class-wpvr-general.php:116
+#: production/admin/classes/class-wpvr-general.php:116
+msgid "Share your tour"
+msgstr "שתף את הסיור שלך"
+
+#: wpvr.php:2647 production/wpvr.php:2647
+msgid ""
+"Since you have updated the plugin, please clear the browser cache for smooth "
+"functioning. Follow these steps if you are using <a href=\"https://support."
+"google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en\" "
+"target=\"_blank\">Google Chrome</a>, <a href=\"https://support.mozilla."
+"org/en-US/kb/how-clear-firefox-cache\" target=\"_blank\">Mozilla Firefox</a>,"
+" <a href=\"https://clear-my-cache.com/en/apple-mac-os/safari.html\" "
+"target=\"_blank\">Safai</a> or <a href=\"https://support.microsoft.com/en-"
+"us/help/10607/microsoft-edge-view-delete-browser-history\" target=\"_blank\">"
+"Microsoft Edge</a>"
+msgstr ""
+"מכיוון שעדכנת את התוסף, אנא נקה את מטמון הדפדפן לתפקוד חלק. בצע את השלבים "
+"הבאים אם אתה משתמש ב-<a href=\"https://support.google."
+"com/accounts/answer/32050?"
+"co=genewatedwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwodwod"
+"-wodwod-wod-wod-wod-wod-wod-wod-wod-wod-wod-wodyst."
+
+#: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
+msgid "Starts from only"
+msgstr "מתחיל מ-Only"
+
+#: admin/classes/class-wpvr-meta-field.php:412
+#: production/admin/classes/class-wpvr-meta-field.php:412
+msgid "Stop Auto-rotation after"
+msgstr "עצור סיבוב אוטומטי לאחר מכן"
+
+#: admin/classes/class-wpvr-meta-field.php:3126
+#: production/admin/classes/class-wpvr-meta-field.php:3126
+msgid "Style"
+msgstr "לְעַ"
+
+#: admin/partials/wpvr_documentation.php:789
+#: production/admin/partials/wpvr_documentation.php:789
+msgid "Submit"
+msgstr "לְהַ"
+
+#: admin/partials/wpvr_documentation.php:215
+#: production/admin/partials/wpvr_documentation.php:215
+msgid "Support"
+msgstr "סִדוּ"
+
+#: admin/partials/wpvr_setup_wizard.php:15
+#: admin/partials/wpvr_setup_wizard.php:205
+#: production/admin/partials/wpvr_setup_wizard.php:15
+#: production/admin/partials/wpvr_setup_wizard.php:205
+msgid "Take The Tour"
+msgstr "קח את הסיור"
+
+#: admin/classes/class-wpvr-meta-field.php:1029
+#: admin/classes/class-wpvr-meta-field.php:1090
+#: admin/classes/class-wpvr-meta-field.php:1157
+#: admin/classes/class-wpvr-meta-field.php:1223
+#: admin/classes/class-wpvr-meta-field.php:1282
+#: production/admin/classes/class-wpvr-meta-field.php:1029
+#: production/admin/classes/class-wpvr-meta-field.php:1090
+#: production/admin/classes/class-wpvr-meta-field.php:1157
+#: production/admin/classes/class-wpvr-meta-field.php:1223
+#: production/admin/classes/class-wpvr-meta-field.php:1282
+msgid "Target Scene ID"
+msgstr "מזהה סצנת יעד"
+
+#: admin/classes/class-wpvr-meta-field.php:3064
+#: production/admin/classes/class-wpvr-meta-field.php:3064
+msgid "Text Decoration"
+msgstr "חֵפֶץ ל"
+
+#: admin/classes/class-wpvr-meta-field.php:3074
+#: production/admin/classes/class-wpvr-meta-field.php:3074
+msgid "Text Transform"
+msgstr "טרנספורמציה של"
+
+#: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
+msgid "Thank you"
+msgstr "תודה לך"
+
+#: admin/partials/wpvr_documentation.php:1088
+#: production/admin/partials/wpvr_documentation.php:1088
+msgid ""
+"The notice will appear on the front end of the virtual tour if viewed from a "
+"mobile device."
+msgstr "ההודעה תופיע בקצה הקדמי של הסיור הווירטואלי אם תצפה ממכשיר נייד."
+
+#: admin/classes/class-wpvr-meta-field.php:163
+#: production/admin/classes/class-wpvr-meta-field.php:163
+msgid ""
+"This option will display Zoom In, Zoom Out and Full Screen buttons on the "
+"tour."
+msgstr "אפשרות זו תציג זום אין, התקרבות וכפתורי מסך מלא בסיור."
+
+#: admin/classes/class-wpvr-meta-field.php:2269
+#: production/admin/classes/class-wpvr-meta-field.php:2269
+msgid "This option will not work if the \"Tour Autoload\" is turned on."
+msgstr "אפשרות זו לא תפעל אם ה-\"Tour Autoload\" מופעל."
+
+#: admin/classes/class-wpvr-meta-field.php:214
+#: production/admin/classes/class-wpvr-meta-field.php:214
+msgid "This will set the scene fade effect and execution time."
+msgstr "זה יגדיר את אפקט הדעיכה של הסצנה וזמן הביצוע."
+
+#: admin/classes/class-wpvr-general.php:95
+#: production/admin/classes/class-wpvr-general.php:95
+msgid "To Embed on External Page:"
+msgstr "להטמעה בדף חיצוני:"
+
+#: admin/classes/class-wpvr-shortcode.php:39
+#: production/admin/classes/class-wpvr-shortcode.php:39
+msgid ""
+"To use this WP VR tour in your posts or pages use the following shortcode "
+msgstr "כדי להשתמש בסיור WP VR זה בפוסטים או בדפים שלך השתמש בקוד הקצר הבא"
+
+#: admin/classes/class-wpvr-meta-field.php:3146
+#: production/admin/classes/class-wpvr-meta-field.php:3146
+msgid "Top"
+msgstr "רֹאש"
+
+#: admin/classes/class-wpvr-meta-field.php:151
+#: production/admin/classes/class-wpvr-meta-field.php:151
+msgid "Tour Autoload"
+msgstr "סיור אוטומטי טעינה"
+
+#: admin/partials/wpvr_documentation.php:404
+#: production/admin/partials/wpvr_documentation.php:404
+msgid "Tour Background Audio"
+msgstr "אודיו ברקע סיור"
+
+#: admin/classes/class-wpvr-meta-field.php:733
+#: production/admin/classes/class-wpvr-meta-field.php:733
+msgid "Tour Background Music"
+msgstr "מוזיקת רקע לסיבוב הופעות"
+
+#: admin/class-wpvr-admin.php:270 production/admin/class-wpvr-admin.php:269
+msgid "Tour Preview"
+msgstr "תצוגה מקדימה של סיור"
+
+#: admin/classes/class-wpvr-meta-field.php:154
+#: production/admin/classes/class-wpvr-meta-field.php:154
+msgid "Tour Preview Image will not appear if this is turned on."
+msgstr "תמונת התצוגה המקדימה של הסיור לא תופיע אם זו מופעלת."
+
+#: admin/classes/class-wpvr-admin-pages.php:71
+#: production/admin/classes/class-wpvr-admin-pages.php:71
+msgid "Tours"
+msgstr "יִסוּר"
+
+#: admin/classes/class-wpvr-meta-field.php:713
+#: admin/classes/class-wpvr-meta-field.php:729
+#: production/admin/classes/class-wpvr-meta-field.php:713
+#: production/admin/classes/class-wpvr-meta-field.php:729
+msgid ""
+"Turning it On will display a gallery with all the scenes on your tour. By "
+"double clicking on a scene thumbnail on the gallery, you can move to that "
+"specific scene. The gallery will only show up on the front end and not on "
+"the preview."
+msgstr ""
+"Turning It On יציג גלריה עם כל הסצנות בסיור שלך. על ידי לחיצה כפולה על תמונה "
+"ממוזערת של סצנה בגלריה, תוכל לעבור לסצנה הספציפית הזו. הגלריה תופיע רק בחזית "
+"ולא בתצוגה המקדימה."
+
+#: admin/classes/class-wpvr-meta-field.php:721
+#: production/admin/classes/class-wpvr-meta-field.php:721
+msgid ""
+"Turning it on will display scene titles on each scene thumbnail inside the "
+"Scene Gallery. The Scene IDs will be used as the Scene Title."
+msgstr ""
+"הפעלתו תציג כותרות סצנה בכל תמונה ממוזערת של סצנה בתוך גלריית הסצנה. מזהי "
+"הסצנה ישמשו ככותרת הסצנה."
+
+#: admin/class-wpvr-admin.php:215 production/admin/class-wpvr-admin.php:215
+msgid ""
+"Turning On The StreetView Option Will Erase Your Virtual Tour Data. Are You "
+"Sure?"
+msgstr "הפעלת אפשרות StreetView תמחק את נתוני הסיור הווירטואלי שלך. אתה בטוח?"
+
+#: admin/class-wpvr-admin.php:214 production/admin/class-wpvr-admin.php:214
+msgid ""
+"Turning On The Video Option Will Erase Your Virtual Tour Data. Are You Sure?"
+msgstr "הפעלת אפשרות הווידאו תמחק את נתוני הסיור הווירטואלי שלך. אתה בטוח?"
+
+#: admin/classes/class-wpvr-meta-field.php:3067
+#: production/admin/classes/class-wpvr-meta-field.php:3067
+msgid "Underline"
+msgstr "לִמְש�"
+
+#: admin/partials/wpvr_documentation.php:321
+#: production/admin/partials/wpvr_documentation.php:321
+msgid "Unlimited Hotspots (Up to to 5 for a scene in free)"
+msgstr "נקודות חמות ללא הגבלה (עד 5 לסצנה בחינם)"
+
+#: admin/partials/wpvr_documentation.php:307
+#: production/admin/partials/wpvr_documentation.php:307
+msgid "Unlimited Scenes (Up to 5 in Free)"
+msgstr "סצנות ללא הגבלה (עד 5 בחינם)"
+
+#: admin/partials/wpvr_setup_wizard.php:112
+#: production/admin/partials/wpvr_setup_wizard.php:112
+msgid "Unlock all these options by upgrading to Premium version"
+msgstr "פתח את כל האפשרויות הללו על ידי שדרוג לגרסת פרימיום"
+
+#: admin/partials/wpvr_setup_wizard.php:113
+#: production/admin/partials/wpvr_setup_wizard.php:113
+msgid "Upgrade Now"
+msgstr "שדרג עכשיו"
+
+#: admin/partials/wpvr_documentation.php:296
+#: admin/partials/wpvr_documentation.php:765
+#: production/admin/partials/wpvr_documentation.php:296
+#: production/admin/partials/wpvr_documentation.php:765
+msgid "Upgrade to Pro"
+msgstr "שדרג ל-Pro"
+
+#: admin/partials/wpvr_documentation.php:169
+#: admin/partials/wpvr_documentation.php:279
+#: admin/partials/wpvr_documentation.php:1178
+#: production/admin/partials/wpvr_documentation.php:169
+#: production/admin/partials/wpvr_documentation.php:279
+#: production/admin/partials/wpvr_documentation.php:1178
+msgid "Upgrade to Pro "
+msgstr "שדרג ל-Pro"
+
+#: admin/classes/class-wpvr-meta-field.php:1605
+#: production/admin/classes/class-wpvr-meta-field.php:1605
+msgid "Upload or Add Link"
+msgstr "העלה או הוסף קישור"
+
+#: admin/classes/class-tour-guide-translation.php:21
+#: production/admin/classes/class-tour-guide-translation.php:21
+msgid "Upload Panorama Image"
+msgstr "העלה תמונת פנורמה"
+
+#: admin/classes/class-wpvr-meta-field.php:3077
+#: production/admin/classes/class-wpvr-meta-field.php:3077
+msgid "Uppercase"
+msgstr "רישיות רישיות"
+
+#: admin/classes/class-wpvr-meta-field.php:1003
+#: admin/classes/class-wpvr-meta-field.php:1059
+#: admin/classes/class-wpvr-meta-field.php:1126
+#: admin/classes/class-wpvr-meta-field.php:1192
+#: admin/classes/class-wpvr-meta-field.php:1252
+#: production/admin/classes/class-wpvr-meta-field.php:1003
+#: production/admin/classes/class-wpvr-meta-field.php:1059
+#: production/admin/classes/class-wpvr-meta-field.php:1126
+#: production/admin/classes/class-wpvr-meta-field.php:1192
+#: production/admin/classes/class-wpvr-meta-field.php:1252
+msgid "URL"
+msgstr "תוֹלַת"
+
+#: admin/classes/class-wpvr-general.php:99
+#: production/admin/classes/class-wpvr-general.php:99
+msgid "Use the iframe below to share this tour on an external page."
+msgstr "השתמש ב-iframe למטה כדי לשתף סיור זה בדף חיצוני."
+
+#: admin/classes/class-wpvr-general.php:89
+#: admin/classes/class-wpvr-shortcode.php:32
+#: production/admin/classes/class-wpvr-general.php:89
+#: production/admin/classes/class-wpvr-shortcode.php:32
+msgid "Using this Tour"
+msgstr "באמצעות סיור זה"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:57
+#: production/oxygen/elements/Wpvr_Tour_Element.php:57
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
+msgid "vh"
+msgstr "vh"
+
+#: admin/classes/class-wpvr-meta-field.php:115
+#: production/admin/classes/class-wpvr-meta-field.php:115
+msgid "Video"
+msgstr "וִיד�"
+
+#: admin/classes/class-wpvr-video.php:46
+#: production/admin/classes/class-wpvr-video.php:46
+msgid "Video Settings : "
+msgstr "הגדרות וידאו:"
+
+#: admin/partials/wpvr_documentation.php:109
+#: production/admin/partials/wpvr_documentation.php:109
+msgid "Video Tutorials"
+msgstr "מדריכי וידאו"
+
+#: admin/partials/wpvr_documentation.php:528
+#: production/admin/partials/wpvr_documentation.php:528
+msgid "VR Glass Support for Video Tours"
+msgstr "תמיכה ב-VR Glass עבור סיורי וידאו"
+
+#: admin/partials/wpvr_documentation.php:1095
+#: production/admin/partials/wpvr_documentation.php:1095
+msgid "VR GLass Support:"
+msgstr "תמיכת זכוכית VR:"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:78
+#: production/oxygen/elements/Wpvr_Tour_Element.php:78
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
+msgid "vw"
+msgstr "טֶלֶ"
+
+#: admin/classes/class-wpvr-meta-field.php:408
+#: production/admin/classes/class-wpvr-meta-field.php:408
+msgid ""
+"When someone clicks on the tour, auto-rotation stops. Here, set a time after "
+"which auto rotation will start again. Assign in milliseconds, where 1000 "
+"milliseconds = 1 second."
+msgstr ""
+"כשמישהו לוחץ על הסיור, סיבוב אוטומטי מפסיק. כאן, הגדר זמן שאחריו הסיבוב "
+"האוטומטי יתחיל שוב. הקצה באלפיות שניות, כאשר 1000 מילישניות = שנייה אחת."
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
+msgid "Width"
+msgstr "רַח�"
+
+#: admin/classes/class-wpvr-meta-field.php:3121
+#: production/admin/classes/class-wpvr-meta-field.php:3121
+msgid "Width (px)"
+msgstr "רוחב (PX)"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:83
+#: production/oxygen/elements/Wpvr_Tour_Element.php:83
+msgid "Width Fullwidth"
+msgstr "רוחב מלא ברוחב"
+
+#: oxygen/elements/Wpvr_Tour_Element.php:70
+#: production/oxygen/elements/Wpvr_Tour_Element.php:70
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
+msgid "Width Unit"
+msgstr "מְעִיל ב"
+
+#: elementor/elements/Wpvr-widget.php:165
+#: production/elementor/elements/Wpvr-widget.php:165
+msgid "Width:"
+msgstr "רוחב:"
+
+#: admin/partials/wpvr_documentation.php:1116
+#: production/admin/partials/wpvr_documentation.php:1116
+msgid ""
+"Will activate the VR Glass support on mobile devices. This is the Beta "
+"release. So, if you face any issues with it, please contact us at "
+"support@rextheme.com"
+msgstr ""
+"יפעיל את תמיכת ה-VR Glass במכשירים ניידים. זהו מהדורת הבטא. אז, אם אתה נתקל "
+"בבעיות כלשהן עם זה, אנא צור איתנו קשר בכתובת support@rextheme.com"
+
+#: admin/partials/wpvr_documentation.php:1142
+#: production/admin/partials/wpvr_documentation.php:1142
+msgid ""
+"Will convert any jpeg or png image to webp format during media upload. will "
+"decrease the image size with no quality compromise and help the site to load "
+"faster."
+msgstr ""
+"ימיר כל תמונת JPEG או PNG לפורמט WebP במהלך העלאת מדיה. יקטין את גודל התמונה "
+"ללא פשרה איכותית ויעזור לאתר להיטען מהר יותר."
+
+#: admin/partials/wpvr_documentation.php:349
+#: production/admin/partials/wpvr_documentation.php:349
+msgid "WooCommerce Add-on"
+msgstr "תוסף WooCommerce"
+
+#: admin/classes/class-wpvr-meta-field.php:3108
+#: production/admin/classes/class-wpvr-meta-field.php:3108
+msgid "Word Spacing (px)"
+msgstr "מרווח מילים (PX)"
+
+#: admin/partials/wpvr_documentation.php:946
+#: production/admin/partials/wpvr_documentation.php:946
+msgid ""
+"WordPress's default large image handler for images larger than 2560px will "
+"be disabled for WP VR. So can create virtual tours with extremely high-"
+"quality images. Enabling it will also show high res image on mobile devices. "
+"Many devices may not support that resolution."
+msgstr ""
+"מטפל התמונות הגדול המוגדר כברירת מחדל של וורדפרס עבור תמונות גדולות מ-2560 "
+"פיקסלים יושבת עבור WP VR. כך יכול ליצור סיורים וירטואליים עם תמונות באיכות "
+"גבוהה במיוחד. הפעלתו תציג גם תמונה ברזולוציה גבוהה במכשירים ניידים. ייתכן "
+"שמכשירים רבים לא יתמכו ברזולוציה זו."
+
+#. Name of the plugin
+msgid "WP VR"
+msgstr "WP VR"
+
+#. Description of the plugin
+msgid ""
+"WP VR - 360 Panorama and virtual tour creator for WordPress is a customized "
+"panaroma & virtual builder tool for WordPress Website."
+msgstr ""
+"WP VR - 360 Panorama ו-Virtual Tour Creator עבור WordPress הוא כלי פנורמה "
+"ובונה וירטואלי מותאם אישית עבור אתר וורדפרס."
+
+#: admin/partials/wpvr_documentation.php:999
+#: admin/partials/wpvr_documentation.php:1039
+#: production/admin/partials/wpvr_documentation.php:999
+#: production/admin/partials/wpvr_documentation.php:1039
+msgid ""
+"WP VR assets will be loaded on your allowed pages only. If you turn this on, "
+"you have to list the URL's of the pages with virtual tours on the 'List of "
+"allowed pages to load WP VR scripts' option"
+msgstr ""
+"נכסי WP VR ייטען בדפים המותרים בלבד. אם תפעיל את זה, עליך לרשום את כתובות "
+"האתרים של הדפים עם סיורים וירטואליים באפשרות 'רשימת הדפים המותרים לטעינת "
+"סקריפטים של WP VR'"
+
+#: admin/class-wpvr-rollback.php:160
+#: production/admin/class-wpvr-rollback.php:160
+msgid "WP VR Plugin Rollback"
+msgstr "WP VR Plugin Rollback"
+
+#: admin/partials/wpvr_documentation.php:894
+#: production/admin/partials/wpvr_documentation.php:894
+msgid "WP VR will not load Font Awesome library."
+msgstr "WP VR לא יטען את הגופן ספרייה מדהימה."
+
+#: admin/partials/wpvr_documentation.php:920
+#: production/admin/partials/wpvr_documentation.php:920
+msgid "WP VR will resize each scenes for mobile devices."
+msgstr "WP VR ישנה כל סצנה עבור מכשירים ניידים."
+
+#: admin/partials/wpvr_documentation.php:243
+#: production/admin/partials/wpvr_documentation.php:243
+msgid "WPFunnels"
+msgstr "WPFunnels"
+
+#: elementor/elements/Wpvr-widget.php:44
+#: production/elementor/elements/Wpvr-widget.php:44
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
+msgid "WPVR"
+msgstr "wpvr"
+
+#: admin/partials/wpvr_documentation.php:294
+#: production/admin/partials/wpvr_documentation.php:294
+msgid "WPVR Feature Comparison"
+msgstr "השוואת תכונות WPVR"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
+msgid "WPVR Height"
+msgstr "גובה WPVR"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
+msgid "WPVR Mobile Height"
+msgstr "גובה נייד WPVR"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
+msgid "WPVR Radius"
+msgstr "רדיוס WPVR"
+
+#: elementor/elements/Wpvr-widget.php:146
+#: production/elementor/elements/Wpvr-widget.php:146
+msgid "WPVR Setup"
+msgstr "הגדרת WPVR"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
+msgid "WPVR Tour ID"
+msgstr "מזהה סיור WPVR"
+
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
+msgid "WPVR Width"
+msgstr "רוחב WPVR"
+
+#: admin/class-wpvr-admin.php:213 production/admin/class-wpvr-admin.php:213
+msgid "Write your css here"
+msgstr "כתוב את ה-CSS שלך כאן"
+
+#: admin/classes/class-wpvr-meta-field.php:310
+#: production/admin/classes/class-wpvr-meta-field.php:310
+msgid "Write your custom css"
+msgstr "כתוב את ה-CSS המותאם אישית שלך"
+
+#: admin/classes/class-wpvr-meta-field.php:971
+#: production/admin/classes/class-wpvr-meta-field.php:971
+msgid "Yaw"
+msgstr "לְהַס�"
+
+#: admin/classes/class-wpvr-meta-field.php:1650
+#: admin/partials/wpvr_confirmation_alert.php:29
+#: production/admin/classes/class-wpvr-meta-field.php:1650
+#: production/admin/partials/wpvr_confirmation_alert.php:29
+#: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
+msgid "Yes"
+msgstr "כֵּ"
+
+#: admin/partials/wpvr_documentation.php:972
+#: production/admin/partials/wpvr_documentation.php:972
+msgid ""
+"You can disable on hover content for mobile devices. As most of the devices "
+"are touch based."
+msgstr ""
+"אתה יכול להשבית בתוכן ריחוף עבור מכשירים ניידים. מכיוון שרוב המכשירים "
+"מבוססים על מגע."
+
+#: admin/classes/class-wpvr-meta-field.php:1783
+#: admin/classes/class-wpvr-meta-field.php:1818
+#: production/admin/classes/class-wpvr-meta-field.php:1783
+#: production/admin/classes/class-wpvr-meta-field.php:1818
+msgid ""
+"You can use any image size but maximum image upload size recommended to "
+"support all device is 4096x2000 px for perfect responsive view. To check 360 "
+"view, click on preview button and check tour preview metabox."
+msgstr ""
+"אתה יכול להשתמש בכל גודל תמונה אבל גודל העלאת תמונה מקסימלי המומלץ לתמיכה "
+"בכל המכשירים הוא 4096x2000 פיקסלים לתצוגה רספונסיבית מושלמת. כדי לבדוק את "
+"360 View, לחץ על כפתור התצוגה המקדימה ובדוק את Metabox של התצוגה המקדימה של "
+"הסיור."
+
+#: admin/classes/class-tour-guide-translation.php:30
+#: production/admin/classes/class-tour-guide-translation.php:30
+msgid "Your Image In Tour Mode"
+msgstr "התמונה שלך במצב סיור"
+
+#: admin/partials/wpvr_documentation.php:230
+#: production/admin/partials/wpvr_documentation.php:230
+msgid ""
+"Your rating and feedback matters to us. If you are happy with WP VR - 360 "
+"Panorama and virtual tour creator for WordPress give us a rating."
+msgstr ""
+"הדירוג והמשוב שלך חשובים לנו. אם אתה מרוצה מ-WP VR - 360 Panorama ו-Virtual "
+"Tour Creator עבור WordPress תן לנו דירוג."
+
+#: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
+msgid "Your Viewers - And Make Them Take"
+msgstr "הצופים שלך - ותגרום להם לקחת"
+
+#: admin/classes/class-wpvr-meta-field.php:801
+#: production/admin/classes/class-wpvr-meta-field.php:801
+msgid "Zoom In"
+msgstr "לְהִתְמַ"
+
+#: admin/classes/class-wpvr-meta-field.php:752
+#: production/admin/classes/class-wpvr-meta-field.php:752
+msgid ""
+"Zoom interval is 50 to 120 degree. You can put any value between 50 to 120. "
+"As an example, if you set 100, the scene will display with zoom in 100 "
+"degree on each load."
+msgstr ""
+"מרווח זום הוא 50 עד 120 מעלות. אתה יכול לשים כל ערך בין 50 ל-120. כדוגמה, אם "
+"תגדיר 100, הסצנה תוצג עם זום ב-100 מעלות בכל טעינה."
+
+#: admin/classes/class-wpvr-meta-field.php:820
+#: production/admin/classes/class-wpvr-meta-field.php:820
+msgid "Zoom Out"
+msgstr "לְהַדֵק"

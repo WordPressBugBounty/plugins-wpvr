@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.36
+ * Version:           8.5.37
  * Tested up to:      6.8.2
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -42,7 +42,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.36');
+define('WPVR_VERSION', '8.5.37');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -61,6 +61,9 @@ function activate_wpvr()
 {
     require_once plugin_dir_path(__FILE__) . 'includes/class-wpvr-activator.php';
     Wpvr_Activator::activate();
+
+    // Trigger plugin activation tracking
+    do_action( 'wpvr_plugin_activated' );
 }
 
 /**
@@ -81,6 +84,7 @@ register_deactivation_hook(__FILE__, 'deactivate_wpvr');
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path(__FILE__) . 'includes/class-wpvr.php';
+use Wpvr\Admin\Tracking\Tracker;
 
 /**
  * Begins execution of the plugin.
@@ -96,6 +100,7 @@ function run_wpvr()
 
     $plugin = new Wpvr();
     $plugin->run();
+    new Tracker();
 
     // black friday banner class initialization
     new WPVR_Special_Occasion_Banner(
@@ -243,6 +248,8 @@ function wpvr_block_render($attributes)
     } else {
         $id = 0;
     }
+
+    do_action('rex_wpvr_embadded_tour', $id, 'shortcode');
 
     $memberpress_active = defined('MEPR_VERSION');
     $rcp_active = is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' );
@@ -1223,7 +1230,7 @@ function wpvr_block_render($attributes)
     $response = array();
     $response = array($pano_id_array, $pano_response);
     if (!empty($response)) {
-        $response = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $response = json_encode($response);
     }
     if (empty($width)) {
         $width = '600';
@@ -1740,9 +1747,9 @@ function wpvr_block_render($attributes)
                     $thumbnail = $img_src_url;
                 }
                 if( isset($postdata['tourLayout']['layout']) && 'layout1' !== $postdata['tourLayout']['layout']) {
-                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title" title="' . esc_attr($scene_key_title) . '"> ' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
                 }else {
-                    $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                    $html .= '<ul><li title="Double click to view scene"><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span></li></ul>';
                 }
             }
         }
@@ -1857,7 +1864,7 @@ function wpvr_block_render($attributes)
     if ("fullwidth" == $width) {
         $html .= '</div>';
     }
-    if ($status !== false &&  'valid' == $status  && $is_pro) {
+    if ($status !== false && 'valid' == $status && $is_pro) {
         $call_to_action = isset($postdata['calltoaction']) ? $postdata['calltoaction'] : 'off';
         if ('on' == $call_to_action) {
             $buttontext = isset($postdata['buttontext']) ? $postdata['buttontext'] : '';
@@ -2104,7 +2111,7 @@ function wpvr_block_render($attributes)
     $response2 = json_decode($response);
     $response2[1]->compass = false;
     $response2[1]->autoRotate = false;
-    $response = json_encode($response2, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    $response = json_encode($response2);
     $html .= 'var response_duplicate = ' . $response . ';';
     $html .= 'var scenes_duplicate = response_duplicate[1];';
 
@@ -2310,8 +2317,8 @@ function wpvr_block_render($attributes)
                         device_type: device_type,
                     });
                 }
-            });
-            
+            })
+           
             function wpvrhotspotscene(hotSpotDiv, args) {
                 onLoadAnalytics = true;
                 let scene_id = panoshow' . $id . '.getScene();
@@ -3157,7 +3164,6 @@ function sanitize_content_preserve_styles($content) {
 
     // Final cleanup - remove any orphaned closing tags from removed elements
     $content = preg_replace('/<\/(script|object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
-    error_log(wp_kses_post($content));
     // Final pass with wp_kses_post for additional security
     return wp_kses_post($content);
 }

@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WP VR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-11 10:17+0000\n"
-"PO-Revision-Date: 2024-03-05 03:30+0000\n"
-"Last-Translator: devadmin <tipu@coderex.co>\n"
+"PO-Revision-Date: 2025-08-20 07:16+0000\n"
+"Last-Translator: \n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -12,32 +12,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.3.1; wp-5.2.5"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.3.8"
 
 #: admin/classes/class-wpvr-meta-field.php:2256
+#: production/admin/classes/class-wpvr-meta-field.php:2256
 msgid " : "
-msgstr ""
+msgstr ":"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:77
+#: production/oxygen/elements/Wpvr_Tour_Element.php:77
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: admin/partials/wpvr_setup_wizard.php:51
+#: production/admin/partials/wpvr_setup_wizard.php:51
 msgid "360 Degree Panorama"
-msgstr ""
+msgstr "360 asteen panoraama"
 
 #: admin/partials/wpvr_setup_wizard.php:87
+#: production/admin/partials/wpvr_setup_wizard.php:87
 msgid "360 Degree Video"
-msgstr ""
+msgstr "360 asteen video"
 
-#: admin/partials/wpvr_documentation.php:472
+#: admin/partials/wpvr_documentation.php:488
+#: production/admin/partials/wpvr_documentation.php:488
 msgid "360 Video Support"
-msgstr ""
+msgstr "360 videotuki"
 
-#: admin/partials/wpvr_documentation.php:444
+#: admin/partials/wpvr_documentation.php:460
+#: production/admin/partials/wpvr_documentation.php:460
 msgid "900+ Icons & RGB Color Support for Hotspots"
-msgstr ""
+msgstr "900+ kuvaketta ja RGB-värituki hotspoteille"
 
 #: admin/classes/class-wpvr-meta-field.php:1648
 #: admin/classes/class-wpvr-meta-field.php:1674
@@ -80,289 +87,420 @@ msgstr ""
 #: admin/classes/class-wpvr-meta-field.php:2890
 #: admin/classes/class-wpvr-meta-field.php:2922
 #: admin/classes/class-wpvr-meta-field.php:2973
+#: production/admin/classes/class-wpvr-meta-field.php:1648
+#: production/admin/classes/class-wpvr-meta-field.php:1674
+#: production/admin/classes/class-wpvr-meta-field.php:1699
+#: production/admin/classes/class-wpvr-meta-field.php:1721
+#: production/admin/classes/class-wpvr-meta-field.php:1844
+#: production/admin/classes/class-wpvr-meta-field.php:1876
+#: production/admin/classes/class-wpvr-meta-field.php:1909
+#: production/admin/classes/class-wpvr-meta-field.php:1937
+#: production/admin/classes/class-wpvr-meta-field.php:1970
+#: production/admin/classes/class-wpvr-meta-field.php:1995
+#: production/admin/classes/class-wpvr-meta-field.php:2020
+#: production/admin/classes/class-wpvr-meta-field.php:2081
+#: production/admin/classes/class-wpvr-meta-field.php:2107
+#: production/admin/classes/class-wpvr-meta-field.php:2148
+#: production/admin/classes/class-wpvr-meta-field.php:2177
+#: production/admin/classes/class-wpvr-meta-field.php:2209
+#: production/admin/classes/class-wpvr-meta-field.php:2291
+#: production/admin/classes/class-wpvr-meta-field.php:2313
+#: production/admin/classes/class-wpvr-meta-field.php:2337
+#: production/admin/classes/class-wpvr-meta-field.php:2370
+#: production/admin/classes/class-wpvr-meta-field.php:2390
+#: production/admin/classes/class-wpvr-meta-field.php:2420
+#: production/admin/classes/class-wpvr-meta-field.php:2445
+#: production/admin/classes/class-wpvr-meta-field.php:2472
+#: production/admin/classes/class-wpvr-meta-field.php:2496
+#: production/admin/classes/class-wpvr-meta-field.php:2523
+#: production/admin/classes/class-wpvr-meta-field.php:2556
+#: production/admin/classes/class-wpvr-meta-field.php:2586
+#: production/admin/classes/class-wpvr-meta-field.php:2610
+#: production/admin/classes/class-wpvr-meta-field.php:2634
+#: production/admin/classes/class-wpvr-meta-field.php:2658
+#: production/admin/classes/class-wpvr-meta-field.php:2681
+#: production/admin/classes/class-wpvr-meta-field.php:2706
+#: production/admin/classes/class-wpvr-meta-field.php:2732
+#: production/admin/classes/class-wpvr-meta-field.php:2756
+#: production/admin/classes/class-wpvr-meta-field.php:2795
+#: production/admin/classes/class-wpvr-meta-field.php:2820
+#: production/admin/classes/class-wpvr-meta-field.php:2848
+#: production/admin/classes/class-wpvr-meta-field.php:2890
+#: production/admin/classes/class-wpvr-meta-field.php:2922
+#: production/admin/classes/class-wpvr-meta-field.php:2973
 msgid ": "
-msgstr ""
+msgstr ":"
 
 #: admin/partials/wpvr_license.php:28 admin/partials/wpvr_license.php:38
+#: production/admin/partials/wpvr_license.php:28
+#: production/admin/partials/wpvr_license.php:38
 msgid "Activate License"
-msgstr "Aktivoi lisenssi"
+msgstr "Aktivoi Lis"
 
-#: admin/classes/class-tour-guide-translation.php:43
+#: admin/partials/wpvr_documentation.php:781
+#: production/admin/partials/wpvr_documentation.php:781
+msgid "add"
+msgstr "lisätä"
+
+#: admin/classes/class-tour-guide-translation.php:44
+#: production/admin/classes/class-tour-guide-translation.php:44
 msgid ""
 "Add a Hotspot inside your tour to show additional information like Paragraph,"
 " Heading, Image, Video, or multiple content."
 msgstr ""
+"Lisää kiertueesi sisälle hotspot näyttääksesi lisätietoja, kuten kappale, "
+"otsikko, kuva, video tai useita sisältöä."
 
 #: admin/classes/class-wpvr-meta-field.php:757
+#: production/admin/classes/class-wpvr-meta-field.php:757
 msgid "Add Company Information"
-msgstr ""
+msgstr "Lisää yritystietoja"
 
 #: admin/classes/class-wpvr-meta-field.php:427
+#: production/admin/classes/class-wpvr-meta-field.php:427
 msgid "Add Form Shortcode"
-msgstr ""
+msgstr "Lisää lomakelyhytkoodi"
 
 #: admin/classes/class-wpvr-admin-pages.php:73
+#: production/admin/classes/class-wpvr-admin-pages.php:73
 msgid "Add New Tour"
-msgstr ""
+msgstr "Lisää uusi kiertue"
 
-#: admin/classes/class-tour-guide-translation.php:16
+#: admin/classes/class-tour-guide-translation.php:17
+#: production/admin/classes/class-tour-guide-translation.php:17
 msgid "Add Scene ID "
-msgstr ""
+msgstr "Lisää kohtaustunnus"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Add-ons"
-msgstr ""
+msgstr "lisälaitteet"
+
+#: admin/class-wpvr-admin.php:216
+msgid "Adding Hotspots on Scene"
+msgstr "Hotspottien lisääminen kohtaukseen"
 
 #: admin/classes/class-wpvr-meta-field.php:1318
+#: production/admin/classes/class-wpvr-meta-field.php:1318
 msgid "Advanced Controls"
-msgstr ""
+msgstr "Edistyneet säätimet"
 
-#: admin/partials/wpvr_documentation.php:831
+#: admin/partials/wpvr_documentation.php:847
+#: production/admin/partials/wpvr_documentation.php:847
 msgid ""
 "Allow the Authors of your site to Create, Edit, Update, and Delete virtual "
 "tours (They can access their own tours only):"
 msgstr ""
+"Anna sivustosi tekijöiden luoda, muokata, päivittää ja poistaa "
+"virtuaalikierroksia (he voivat käyttää vain omia kierroksiaan):"
 
-#: admin/partials/wpvr_documentation.php:806
+#: admin/partials/wpvr_documentation.php:822
+#: production/admin/partials/wpvr_documentation.php:822
 msgid ""
 "Allow the Editors of your site to Create, Edit, Update, and Delete virtual "
 "tours (They can access other users' tours):"
 msgstr ""
+"Anna sivustosi toimittajien luoda, muokata, päivittää ja poistaa "
+"virtuaalikierroksia (he pääsevät muiden käyttäjien kiertueisiin):"
 
-#: admin/classes/class-tour-guide-translation.php:54
+#: admin/classes/class-tour-guide-translation.php:55
+#: production/admin/classes/class-tour-guide-translation.php:55
 msgid "Assign Pitch & Yaw"
-msgstr ""
+msgstr "Määritä Pitch & Yaw"
 
-#: admin/partials/wpvr_documentation.php:852
+#: admin/partials/wpvr_documentation.php:868
+#: production/admin/partials/wpvr_documentation.php:868
 msgid ""
 "Authors will be able to Create, Edit, Update, and Delete their own virtual "
 "tours only."
 msgstr ""
+"Tekijät voivat luoda, muokata, päivittää ja poistaa vain omia "
+"virtuaalikierroksiaan."
 
 #: admin/classes/class-wpvr-meta-field.php:680
+#: production/admin/classes/class-wpvr-meta-field.php:680
 msgid "Auto Gyroscope Support"
-msgstr ""
+msgstr "Automaattinen gyroskooppituki"
 
 #: admin/classes/class-wpvr-meta-field.php:218
+#: production/admin/classes/class-wpvr-meta-field.php:218
 msgid "Auto Rotation"
-msgstr ""
+msgstr "automaattinen kierto"
 
-#: admin/partials/wpvr_documentation.php:742
+#: admin/partials/wpvr_documentation.php:758
+#: production/admin/partials/wpvr_documentation.php:758
 msgid "Autoload & Autoplay Video Tours."
-msgstr ""
+msgstr "Autoload & AutoPlay Video Tours."
 
-#: admin/partials/wpvr_documentation.php:540
+#: admin/partials/wpvr_documentation.php:556
+#: production/admin/partials/wpvr_documentation.php:556
 msgid "Autoload Tours"
-msgstr ""
+msgstr "Autoload Tours"
 
 #: admin/partials/wpvr_setup_wizard.php:8
+#: production/admin/partials/wpvr_setup_wizard.php:8
 msgid "Back to WPVR Dashboard"
-msgstr ""
+msgstr "Takaisin WPVR-hallintapaneeliin"
 
 #: admin/partials/wpvr_setup_wizard.php:169
+#: production/admin/partials/wpvr_setup_wizard.php:169
 msgid "Background Audio"
-msgstr ""
+msgstr "taustaääni"
 
 #: admin/classes/class-wpvr-meta-field.php:3032
+#: production/admin/classes/class-wpvr-meta-field.php:3032
 msgid "Background Color"
-msgstr ""
+msgstr "taustaväri"
 
-#: admin/partials/wpvr_documentation.php:677
+#: admin/partials/wpvr_documentation.php:693
+#: production/admin/partials/wpvr_documentation.php:693
 msgid "Background Panoramas"
-msgstr ""
+msgstr "taustakuvat"
 
 #: admin/classes/class-wpvr-meta-field.php:160
+#: production/admin/classes/class-wpvr-meta-field.php:160
 msgid "Basic Control Buttons"
-msgstr ""
+msgstr "Perusohjauspainikkeet"
 
 #: admin/classes/class-wpvr-meta-field.php:1309
+#: production/admin/classes/class-wpvr-meta-field.php:1309
 msgid "Basic Settings"
-msgstr ""
+msgstr "Perusasetukset"
 
-#: admin/partials/wpvr_documentation.php:203
+#: admin/partials/wpvr_documentation.php:206
+#: production/admin/partials/wpvr_documentation.php:206
 msgid ""
 "Before You start, you can check our Documentation to get familiar with WP VR "
 "- 360 Panorama and virtual tour creator for WordPress."
 msgstr ""
-"Ennen aloittamista voit tutustua dokumentaatioomme perehtyäksesi WP VR-360 "
-"Panoraman ja WordPressin virtuaalisen kiertueen luojaan."
+"Ennen kuin aloitat, voit tarkistaa dokumentaatiomme tutustuaksesi WP VR - "
+"360 Panoramaan ja WordPressin virtuaaliseen kiertueen luojaan."
 
 #: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
 msgid "Best WordPress Plugin"
-msgstr ""
+msgstr "Paras Wordpress-laajennus"
 
 #: admin/classes/class-wpvr-meta-field.php:3118
+#: production/admin/classes/class-wpvr-meta-field.php:3118
 msgid "Border"
-msgstr ""
+msgstr "reuna"
 
 #: admin/classes/class-wpvr-meta-field.php:3113
+#: production/admin/classes/class-wpvr-meta-field.php:3113
 msgid "Border Radius (px)"
-msgstr ""
+msgstr "reunan säde (PX)"
 
 #: admin/classes/class-wpvr-meta-field.php:3156
+#: production/admin/classes/class-wpvr-meta-field.php:3156
 msgid "Bottom"
-msgstr ""
+msgstr "perä"
 
 #: admin/classes/class-wpvr-meta-field.php:3084
+#: production/admin/classes/class-wpvr-meta-field.php:3084
 msgid "Button Alignment"
-msgstr ""
+msgstr "painikkeiden kohdistus"
 
 #: admin/classes/class-wpvr-meta-field.php:460
+#: production/admin/classes/class-wpvr-meta-field.php:460
 msgid "Button Style"
-msgstr ""
+msgstr "nappityyli"
 
 #: admin/classes/class-wpvr-meta-field.php:443
+#: production/admin/classes/class-wpvr-meta-field.php:443
 msgid "Button Text"
-msgstr ""
+msgstr "nappiteksti"
 
 #: admin/classes/class-wpvr-meta-field.php:451
+#: production/admin/classes/class-wpvr-meta-field.php:451
 msgid "Button URL"
-msgstr ""
+msgstr "painikkeen URL-osoite"
 
 #: admin/classes/class-wpvr-meta-field.php:276
+#: production/admin/classes/class-wpvr-meta-field.php:276
 msgid "Call To Action "
-msgstr ""
+msgstr "TOIMINTA"
 
 #: admin/classes/class-wpvr-meta-field.php:448
+#: production/admin/classes/class-wpvr-meta-field.php:448
 msgid "Call to action button text"
-msgstr ""
+msgstr "Toimintakehotuspainikkeen teksti"
 
-#: admin/partials/wpvr_documentation.php:212
+#: admin/partials/wpvr_documentation.php:218
+#: production/admin/partials/wpvr_documentation.php:218
 msgid ""
 "Can't find solution on with our documentation? Just Post a ticket on Support "
 "forum. We are to solve your issue."
 msgstr ""
-"Etkö löydä ratkaisua dokumentaatioissamme? Lähetä vain lippu tukifoorumiin. "
+"Etkö löydä ratkaisua dokumentaatiostamme? Lähetä vain lippu tukifoorumille. "
 "Meidän on ratkaistava ongelmasi."
 
 #: admin/classes/class-wpvr-meta-field.php:3079
+#: production/admin/classes/class-wpvr-meta-field.php:3079
 msgid "Capitalize"
-msgstr ""
+msgstr "pääomittaa"
 
-#: admin/partials/wpvr_documentation.php:243
+#: admin/partials/wpvr_documentation.php:256
+#: production/admin/partials/wpvr_documentation.php:256
 msgid "Cart Lift"
-msgstr ""
+msgstr "kärrynnostin"
 
 #: admin/classes/class-wpvr-meta-field.php:3088
+#: production/admin/classes/class-wpvr-meta-field.php:3088
 msgid "Center"
-msgstr ""
+msgstr "keskus"
 
-#: admin/partials/wpvr_documentation.php:228
+#: admin/partials/wpvr_documentation.php:237
+#: production/admin/partials/wpvr_documentation.php:237
 msgid "Check out our other amazing free plugins!"
-msgstr ""
+msgstr "Tutustu muihin upeisiin ilmaisiin laajennuksiin!"
 
 #: admin/partials/wpvr_setup_wizard.php:189
+#: production/admin/partials/wpvr_setup_wizard.php:189
 msgid "Checkout All Features"
-msgstr ""
+msgstr "Tarkista kaikki ominaisuudet"
 
-#: admin/classes/class-tour-guide-translation.php:50
+#: admin/classes/class-tour-guide-translation.php:51
+#: production/admin/classes/class-tour-guide-translation.php:51
 msgid "Choose The Spot"
-msgstr ""
+msgstr "Valitse paikka"
 
-#: admin/classes/class-tour-guide-translation.php:75
+#: admin/classes/class-tour-guide-translation.php:76
+#: production/admin/classes/class-tour-guide-translation.php:76
 msgid "Click on Preview to see how the content is appearing for the hotspot."
-msgstr ""
+msgstr "Napsauta Esikatselu nähdäksesi, kuinka sisältö näkyy hotspotissa."
 
-#: admin/classes/class-tour-guide-translation.php:26
+#: admin/classes/class-tour-guide-translation.php:27
+#: production/admin/classes/class-tour-guide-translation.php:27
 msgid ""
 "Click on the Preview button to view your uploaded panorama in virtual tour "
 "mode."
 msgstr ""
+"Napsauta Esikatselupainiketta nähdäksesi ladatun panoraamasi "
+"virtuaalikierroksen tilassa."
 
-#: admin/classes/class-tour-guide-translation.php:79
+#: admin/classes/class-tour-guide-translation.php:80
+#: production/admin/classes/class-tour-guide-translation.php:80
 msgid ""
 "Click on the Update button to save your work. And just like that, you can "
 "create an unlimited number of virtual tours and add your customization to "
 "them."
 msgstr ""
+"Napsauta Päivitä-painiketta tallentaaksesi työsi. Ja juuri näin, voit luoda "
+"rajoittamattoman määrän virtuaalikierroksia ja lisätä niihin mukautuksia."
 
-#: admin/classes/class-tour-guide-translation.php:21
+#: admin/classes/class-tour-guide-translation.php:22
+#: production/admin/classes/class-tour-guide-translation.php:22
 msgid "Click on the Upload button to upload your panorama image."
-msgstr ""
+msgstr "Napsauta latauspainiketta ladataksesi panoraamakuvasi."
 
-#: admin/classes/class-tour-guide-translation.php:34
+#: admin/classes/class-tour-guide-translation.php:35
+#: production/admin/classes/class-tour-guide-translation.php:35
 msgid ""
 "Click on this Publish button to save this as a tour. You can always find it "
 "in your tour list."
 msgstr ""
+"Napsauta tätä Julkaise-painiketta tallentaaksesi tämän kiertueeksi. Löydät "
+"sen aina kiertuelistaltasi."
 
 #: admin/classes/class-wpvr-meta-field.php:2264
+#: production/admin/classes/class-wpvr-meta-field.php:2264
 msgid "Click to Upload an Image "
-msgstr ""
+msgstr "Lataa kuva napsauttamalla"
 
 #: admin/classes/class-wpvr-meta-field.php:3137
+#: production/admin/classes/class-wpvr-meta-field.php:3137
 msgid "Color"
-msgstr ""
+msgstr "väri"
 
-#: admin/partials/wpvr_documentation.php:593
+#: admin/partials/wpvr_documentation.php:609
+#: production/admin/partials/wpvr_documentation.php:609
 msgid "Company Logo & Description"
-msgstr ""
+msgstr "Yrityksen logo ja kuvaus"
 
 #: admin/classes/class-wpvr-meta-field.php:688
+#: production/admin/classes/class-wpvr-meta-field.php:688
 msgid "Compass"
-msgstr ""
+msgstr "ympäröidä"
 
 #: admin/partials/wpvr_setup_wizard.php:217
+#: production/admin/partials/wpvr_setup_wizard.php:217
 msgid "Contact Our Support"
-msgstr ""
+msgstr "Ota yhteyttä tukeemme"
 
-#: admin/classes/class-tour-guide-translation.php:23
+#: admin/classes/class-tour-guide-translation.php:24
+#: production/admin/classes/class-tour-guide-translation.php:24
 msgid "Continue to guide"
-msgstr ""
+msgstr "Jatka opastusta"
 
 #: admin/classes/class-wpvr-meta-field.php:1327
+#: production/admin/classes/class-wpvr-meta-field.php:1327
 msgid "Control Buttons"
-msgstr ""
+msgstr "ohjauspainikkeet"
 
-#: admin/partials/wpvr_documentation.php:635
+#: admin/partials/wpvr_documentation.php:651
+#: production/admin/partials/wpvr_documentation.php:651
 msgid "Control Horizontal & Vertical View of Panorama Images"
-msgstr ""
+msgstr "Panoraamakuvien vaaka- ja pystynäkymä"
 
-#: admin/partials/wpvr_documentation.php:1105
+#: admin/partials/wpvr_documentation.php:1121
+#: production/admin/partials/wpvr_documentation.php:1121
 msgid "Convert any jpeg or png format image to webp on media upload:"
 msgstr ""
+"Muunna mikä tahansa JPEG- tai PNG-muotoinen kuva WebP:ksi median latauksessa:"
 
 #: admin/classes/class-wpvr-general.php:138
+#: production/admin/classes/class-wpvr-general.php:138
 msgid "Create a tour use this QR code"
-msgstr ""
+msgstr "Luo kierros Käytä tätä QR-koodia"
 
-#: admin/partials/wpvr_documentation.php:234
+#: admin/partials/wpvr_documentation.php:245
+#: production/admin/partials/wpvr_documentation.php:245
 msgid ""
 "Create high-converting slaes funnels on a visual drag & drop funnel builder "
 "canvas and increase your online sales from today."
 msgstr ""
+"Luo korkeasti muuntavia SLAES-suppiloita Visual Drag & Drop -suppiloiden "
+"rakentajakankaalle ja lisää verkkomyyntiäsi tästä päivästä alkaen."
 
 #: admin/classes/class-wpvr-meta-field.php:1677
+#: production/admin/classes/class-wpvr-meta-field.php:1677
 msgid "Cubemap"
-msgstr ""
+msgstr "kuutosilmä"
 
-#: admin/partials/wpvr_documentation.php:499
+#: admin/partials/wpvr_documentation.php:515
+#: production/admin/partials/wpvr_documentation.php:515
 msgid "Cubemap Image Support"
-msgstr ""
+msgstr "CubeMap-kuvatuki"
 
 #: admin/partials/wpvr_setup_wizard.php:75
+#: production/admin/partials/wpvr_setup_wizard.php:75
 msgid "Cubemap Images"
-msgstr ""
+msgstr "cubemap-kuvat"
 
 #: admin/partials/wpvr_setup_wizard.php:155
-#, fuzzy
+#: production/admin/partials/wpvr_setup_wizard.php:155
 #| msgid "Custom control buttons"
 msgid "Custom Control Buttons"
 msgstr "Mukautetut ohjauspainikkeet"
 
 #: admin/classes/class-wpvr-meta-field.php:478
+#: production/admin/classes/class-wpvr-meta-field.php:478
 msgid "Custom CSS"
-msgstr ""
+msgstr "Mukautettu CSS"
 
 #: admin/classes/class-wpvr-meta-field.php:305
+#: production/admin/classes/class-wpvr-meta-field.php:305
 msgid "Custom CSS "
-msgstr ""
+msgstr "Mukautettu CSS"
 
-#: admin/partials/wpvr_documentation.php:430
+#: admin/partials/wpvr_documentation.php:446
+#: production/admin/partials/wpvr_documentation.php:446
 msgid "Custom Icon & Color for Hotspots (Using CSS)"
-msgstr ""
+msgstr "Mukautettu kuvake ja väri hotspoteille (käyttäen CSS:ää)"
 
 #: admin/classes/class-wpvr-meta-field.php:2771
+#: production/admin/classes/class-wpvr-meta-field.php:2771
 msgid ""
 "Custom icons will only show on frontend. Hotspot custom icons only works "
 "with fontawesome 5. If you are using any different version of fontawesome "
@@ -371,358 +509,490 @@ msgid ""
 "switch. Now put your desired any icon class under \"Hotspot custom icon "
 "class\" field. It will appear on the frontend."
 msgstr ""
+"Mukautetut kuvakkeet näkyvät vain käyttöliittymässä. Hotspot Custom Icons "
+"toimii vain FontAwesome 5:n kanssa. Jos käytät jotakin eri versiota "
+"Fontawesomesta teeman alla tai mitä tahansa laajennusta, voit poistaa "
+"FontAweSomen WP VR:stä. Siirry kohtaan \"Aloita aloitusvalikko\" ja valitse "
+"\"Role\" ja valitse FontAwesome Disable Switch. Laita nyt haluamasi mikä "
+"tahansa kuvakeluokka \"HotSpot Custom Icon Class\" -kenttään. se näkyy "
+"käyttöliittymässä."
 
-#: admin/partials/wpvr_documentation.php:663
+#: admin/partials/wpvr_documentation.php:679
+#: production/admin/partials/wpvr_documentation.php:679
 msgid "Custom Panorama Loading Face"
-msgstr ""
+msgstr "Mukautettu panoraama Ladattava kasvot"
 
-#: admin/partials/wpvr_documentation.php:579
+#: admin/partials/wpvr_documentation.php:595
+#: production/admin/partials/wpvr_documentation.php:595
 msgid "Custom Preview Image & Text"
-msgstr ""
+msgstr "Mukautettu esikatselukuva ja teksti"
 
-#: admin/partials/wpvr_documentation.php:553
+#: admin/partials/wpvr_documentation.php:569
+#: production/admin/partials/wpvr_documentation.php:569
 msgid "Custom Rotation Settings"
-msgstr ""
+msgstr "Mukautetut kiertoasetukset"
 
-#: admin/partials/wpvr_documentation.php:649
+#: admin/partials/wpvr_documentation.php:665
+#: production/admin/partials/wpvr_documentation.php:665
 msgid "Custom Zoom Settings"
-msgstr ""
+msgstr "Mukautetut zoomausasetukset"
 
-#: admin/partials/wpvr_documentation.php:738
+#: admin/partials/wpvr_documentation.php:754
+#: production/admin/partials/wpvr_documentation.php:754
 msgid "Customize Icon & Logo of Control Buttons."
-msgstr ""
+msgstr "Mukauta ohjauspainikkeiden kuvaketta ja logoa."
 
 #: admin/partials/wpvr_license.php:34
+#: production/admin/partials/wpvr_license.php:34
 msgid "Deactivate License"
-msgstr "Poista käyttöoikeus käytöstä"
+msgstr "poistaa liikkeelle lisenssi"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Decisions"
-msgstr ""
+msgstr "päätökset"
 
-#: admin/partials/wpvr_documentation.php:857
+#: admin/partials/wpvr_documentation.php:873
+#: production/admin/partials/wpvr_documentation.php:873
 msgid "Disable Fontawesome from WP VR:"
-msgstr ""
+msgstr "Poista Fontawesome käytöstä WP VR:stä:"
 
 #: admin/classes/class-wpvr-meta-field.php:252
+#: production/admin/classes/class-wpvr-meta-field.php:252
 msgid "Disable keyboard control to use the form."
-msgstr ""
+msgstr "Poista näppäimistön ohjaus käytöstä käyttääksesi lomaketta."
 
-#: admin/partials/wpvr_documentation.php:935
+#: admin/partials/wpvr_documentation.php:951
+#: production/admin/partials/wpvr_documentation.php:951
 msgid "Disable On Hover Content for Mobile:"
-msgstr ""
+msgstr "Poista käytöstä leijuu sisältö mobiililaitteille:"
 
-#: admin/partials/wpvr_documentation.php:909
+#: admin/partials/wpvr_documentation.php:925
+#: production/admin/partials/wpvr_documentation.php:925
 msgid "Disable WordPress Large Image Handler on WP VR:"
-msgstr ""
+msgstr "Poista WordPress Large Image Handler käytöstä WP VR:ssä:"
 
-#: admin/partials/wpvr_documentation.php:766
+#: admin/partials/wpvr_documentation.php:782
+#: production/admin/partials/wpvr_documentation.php:782
 msgid ""
 "Do not close or refresh the page during import process. It may take few "
 "minutes."
 msgstr ""
-"Älä sulje tai päivitä sivua tuonnin aikana. Se voi viedä muutaman minuutin."
+"Älä sulje tai päivitä sivua tuontiprosessin aikana. Se voi kestää muutaman "
+"minuutin."
 
-#: admin/class-wpvr-admin.php:282 admin/partials/wpvr_documentation.php:202
-#: admin/partials/wpvr_documentation.php:204
+#: admin/class-wpvr-admin.php:291 admin/partials/wpvr_documentation.php:203
+#: admin/partials/wpvr_documentation.php:207
+#: production/admin/class-wpvr-admin.php:290
+#: production/admin/partials/wpvr_documentation.php:203
+#: production/admin/partials/wpvr_documentation.php:207
 msgid "Documentation"
-msgstr "Dokumentointi"
+msgstr "asiakirjat"
 
 #: admin/classes/class-wpvr-meta-field.php:1365
+#: production/admin/classes/class-wpvr-meta-field.php:1365
 msgid "Documentation "
-msgstr ""
+msgstr "asiakirjat"
 
-#: admin/partials/wpvr_documentation.php:621
+#: admin/classes/class-tour-guide-translation.php:10
+#: production/admin/classes/class-tour-guide-translation.php:10
+msgid "Done"
+msgstr "kypsä"
+
+#: admin/classes/class-wpvr-general.php:143
+#: production/admin/classes/class-wpvr-general.php:143
+msgid "Download QR Code"
+msgstr "Lataa QR-koodi"
+
+#: admin/partials/wpvr_documentation.php:637
+#: production/admin/partials/wpvr_documentation.php:637
 msgid "Duplicate Tours with One Click"
-msgstr ""
+msgstr "Kopioi matkat yhdellä napsautuksella"
 
-#: admin/partials/wpvr_documentation.php:826
+#: admin/partials/wpvr_documentation.php:842
+#: production/admin/partials/wpvr_documentation.php:842
 msgid ""
 "Editors will be able to Create, Edit, Update, and Delete all virtual tours."
 msgstr ""
+"Toimittajat voivat luoda, muokata, päivittää ja poistaa kaikki "
+"virtuaalikierrokset."
 
 #: admin/classes/class-wpvr-meta-field.php:741
+#: production/admin/classes/class-wpvr-meta-field.php:741
 msgid "Enable explainer video"
-msgstr ""
+msgstr "Ota selitysvideo käyttöön"
 
-#: admin/partials/wpvr_documentation.php:883
+#: admin/partials/wpvr_documentation.php:899
+#: production/admin/partials/wpvr_documentation.php:899
 msgid "Enable mobile media resizer:"
-msgstr ""
+msgstr "Ota mobiilimedian muuttaja käyttöön:"
 
-#: admin/partials/wpvr_documentation.php:710
+#: admin/partials/wpvr_documentation.php:726
+#: production/admin/partials/wpvr_documentation.php:726
 msgid "Enable or Disable Keyboard Movement Control."
-msgstr ""
+msgstr "Ota näppäimistön liikkeen hallinta käyttöön tai poista se käytöstä."
 
-#: admin/partials/wpvr_documentation.php:714
+#: admin/partials/wpvr_documentation.php:730
+#: production/admin/partials/wpvr_documentation.php:730
 msgid "Enable or Disable Keyboard Zoom Control."
-msgstr ""
+msgstr "Ota näppäimistön zoomausohjaus käyttöön tai poista se käytöstä."
 
-#: admin/partials/wpvr_documentation.php:718
+#: admin/partials/wpvr_documentation.php:734
+#: production/admin/partials/wpvr_documentation.php:734
 msgid "Enable or Disable Mouse Drag Control."
-msgstr ""
+msgstr "Ota hiiren vetämisen hallinta käyttöön tai poista se käytöstä."
 
-#: admin/partials/wpvr_documentation.php:722
+#: admin/partials/wpvr_documentation.php:738
+#: production/admin/partials/wpvr_documentation.php:738
 msgid "Enable or Disable Mouse Zoom control."
-msgstr ""
+msgstr "Ota hiiren zoomausohjaus käyttöön tai poista se käytöstä."
 
-#: admin/partials/wpvr_documentation.php:962
+#: admin/partials/wpvr_documentation.php:978
+#: production/admin/partials/wpvr_documentation.php:978
 msgid ""
 "Enable script control (It will load the WP VR scripts on the pages with "
 "virtual tours only):"
 msgstr ""
+"Ota komentosarjan hallinta käyttöön (se lataa WP VR -skriptit sivuille vain "
+"virtuaalikierroksilla):"
 
 #: admin/classes/class-wpvr-general.php:121
+#: production/admin/classes/class-wpvr-general.php:121
 msgid "Enable Social Media Share"
-msgstr ""
+msgstr "Ota sosiaalisen median jakaminen käyttöön"
 
 #: admin/classes/class-wpvr-meta-field.php:281
+#: production/admin/classes/class-wpvr-meta-field.php:281
 msgid "Enable the call to action, it will render under the tour."
-msgstr ""
+msgstr "Ota toimintakehotus käyttöön, se näkyy kiertueen alla."
 
 #: admin/classes/class-wpvr-meta-field.php:1583
+#: production/admin/classes/class-wpvr-meta-field.php:1583
 msgid "Enable Video"
-msgstr ""
+msgstr "Ota video käyttöön"
 
-#: admin/partials/wpvr_documentation.php:1002
+#: admin/partials/wpvr_documentation.php:1018
+#: production/admin/partials/wpvr_documentation.php:1018
 msgid ""
 "Enable Video JS control (It will load the WP VR Video JS library in the "
 "listed pages only):"
 msgstr ""
+"Ota Video JS -ohjaus käyttöön (se lataa WP VR Video JS -kirjaston vain "
+"luetelluille sivuille):"
 
-#: admin/classes/class-tour-guide-translation.php:10
+#: admin/classes/class-tour-guide-translation.php:11
+#: production/admin/classes/class-tour-guide-translation.php:11
 msgid "End Tour"
-msgstr ""
+msgstr "lopeta kiertue"
 
 #: admin/partials/wpvr_license.php:22
+#: production/admin/partials/wpvr_license.php:22
 msgid "Enter your license key, save changes and activate."
-msgstr "Kirjoita lisenssiavaimesi, tallenna muutokset ja aktivoi."
+msgstr "Anna lisenssiavaimesi, tallenna muutokset ja aktivoi."
 
 #: admin/classes/class-wpvr-meta-field.php:1676
+#: production/admin/classes/class-wpvr-meta-field.php:1676
 msgid "Equirectangular"
-msgstr ""
+msgstr "tasakulmainen"
 
 #: admin/classes/class-wpvr-meta-field.php:845
+#: production/admin/classes/class-wpvr-meta-field.php:845
 msgid "Explainer"
-msgstr ""
+msgstr "selijä"
 
-#: admin/partials/wpvr_documentation.php:374
+#: admin/partials/wpvr_documentation.php:390
 #: admin/partials/wpvr_setup_wizard.php:176
+#: production/admin/partials/wpvr_documentation.php:390
+#: production/admin/partials/wpvr_setup_wizard.php:176
 msgid "Explainer Video"
-msgstr ""
+msgstr "selitysvideo"
 
-#: admin/partials/wpvr_documentation.php:285
+#: admin/classes/class-wpvr-meta-field.php:618
+#: production/admin/classes/class-wpvr-meta-field.php:618
+msgid "Export"
+msgstr "viedä"
+
+#: admin/partials/wpvr_documentation.php:301
+#: production/admin/partials/wpvr_documentation.php:301
 msgid "features"
-msgstr ""
+msgstr "piirteet"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Features That Can"
-msgstr ""
+msgstr "ominaisuuksia, jotka voivat"
 
-#: admin/partials/wpvr_documentation.php:1048
+#: admin/partials/wpvr_documentation.php:1064
+#: production/admin/partials/wpvr_documentation.php:1064
 msgid "Flip the phone to landscape mode for a better experience of the tour."
-msgstr ""
+msgstr "Käännä puhelin vaakatilaan saadaksesi paremman kiertueen kokemuksen."
 
-#: admin/partials/wpvr_documentation.php:526
+#: admin/partials/wpvr_documentation.php:542
+#: production/admin/partials/wpvr_documentation.php:542
 msgid "Fluent Forms Add-on"
-msgstr ""
+msgstr "Sujuva lomakelisäosa"
 
 #: admin/partials/wpvr_setup_wizard.php:11
+#: production/admin/partials/wpvr_setup_wizard.php:11
 msgid "Follow the Guided Wizard and Learn How it Works."
-msgstr ""
+msgstr "Seuraa ohjattua ohjattua toimintoa ja opi kuinka se toimii."
 
 #: admin/classes/class-wpvr-meta-field.php:3037
+#: production/admin/classes/class-wpvr-meta-field.php:3037
 msgid "Font color"
-msgstr ""
+msgstr "kenkä"
 
 #: admin/classes/class-wpvr-meta-field.php:3042
+#: production/admin/classes/class-wpvr-meta-field.php:3042
 msgid "Font Size (px)"
-msgstr ""
+msgstr "Fonttikoko (px)"
 
 #: admin/classes/class-wpvr-meta-field.php:3094
+#: production/admin/classes/class-wpvr-meta-field.php:3094
 msgid "Font Style"
-msgstr ""
+msgstr "fonttityyli"
 
 #: admin/classes/class-wpvr-meta-field.php:3047
+#: production/admin/classes/class-wpvr-meta-field.php:3047
 msgid "Font Weight"
-msgstr ""
+msgstr "foku"
 
 #: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
 msgid "for Choosing"
-msgstr ""
+msgstr "valinnasta"
 
 #: admin/classes/class-wpvr-shortcode.php:36
-#, fuzzy
+#: production/admin/classes/class-wpvr-shortcode.php:36
 #| msgid "For classic editor:"
 msgid "For Classic Editor:"
-msgstr "Klassinen toimittaja:"
+msgstr "Klassiselle editorille:"
 
 #: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
 msgid "for unlimited virtual tours."
-msgstr ""
+msgstr "rajoittamattomille virtuaalikierroksille."
 
 #: admin/partials/wpvr_setup_wizard.php:43
+#: production/admin/partials/wpvr_setup_wizard.php:43
 msgid "for Virtual Tours, Viewing Panoramas, and 360 Degree Content"
 msgstr ""
+"virtuaalikierroksille, panoraamakuvien katseluun ja 360 asteen sisältöön"
 
-#: admin/partials/wpvr_documentation.php:286
+#: admin/partials/wpvr_documentation.php:302
+#: production/admin/partials/wpvr_documentation.php:302
 msgid "free"
-msgstr ""
+msgstr "-tön"
 
 #: admin/partials/wpvr_documentation.php:121
+#: production/admin/partials/wpvr_documentation.php:121
 msgid "Free vs Pro"
-msgstr ""
+msgstr "ilmainen vs pro"
 
-#: admin/partials/wpvr_documentation.php:1051
+#: admin/partials/wpvr_documentation.php:1067
+#: production/admin/partials/wpvr_documentation.php:1067
 msgid "Front-End Notice for Mobile Visitors:"
-msgstr ""
+msgstr "Käyttöliittymäilmoitus mobiilivierailijoille:"
 
-#: admin/partials/wpvr_documentation.php:566
+#: admin/partials/wpvr_documentation.php:582
+#: production/admin/partials/wpvr_documentation.php:582
 msgid "Full Page Virtual Tours"
-msgstr ""
+msgstr "Koko sivun virtuaalikierrokset"
 
 #: admin/classes/class-wpvr-meta-field.php:826
+#: production/admin/classes/class-wpvr-meta-field.php:826
 msgid "Full Screen"
-msgstr ""
+msgstr "koko näytön"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
 msgid "Fullwidth"
-msgstr ""
+msgstr "kokoleveys"
 
 #: admin/classes/class-wpvr-meta-field.php:106
+#: production/admin/classes/class-wpvr-meta-field.php:106
 msgid "General"
-msgstr "yleinen"
+msgstr "yleis-"
 
-#: admin/partials/wpvr_documentation.php:784
+#: admin/partials/wpvr_documentation.php:800
+#: production/admin/partials/wpvr_documentation.php:800
 msgid "General Setup Options"
-msgstr ""
+msgstr "Yleiset asennusasetukset"
 
 #: admin/classes/class-wpvr-meta-field.php:247
+#: production/admin/classes/class-wpvr-meta-field.php:247
 msgid "Generic Form"
-msgstr ""
+msgstr "yleinen lomake"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Get Access to "
-msgstr ""
+msgstr "päästä jhk"
 
-#: admin/partials/wpvr_documentation.php:236
-#: admin/partials/wpvr_documentation.php:246
+#: admin/partials/wpvr_documentation.php:247
+#: admin/partials/wpvr_documentation.php:262
+#: production/admin/partials/wpvr_documentation.php:247
+#: production/admin/partials/wpvr_documentation.php:262
 msgid "Get It Now"
-msgstr ""
+msgstr "Hanki se nyt"
 
 #: admin/partials/wpvr_setup_wizard.php:197
+#: production/admin/partials/wpvr_setup_wizard.php:197
 msgid "Get Pro Now"
-msgstr ""
+msgstr "Hanki Pro nyt"
 
-#: admin/class-wpvr-admin.php:277 admin/classes/class-wpvr-admin-pages.php:68
+#: admin/class-wpvr-admin.php:286 admin/classes/class-wpvr-admin-pages.php:68
 #: admin/classes/class-wpvr-admin-pages.php:76
+#: production/admin/class-wpvr-admin.php:285
+#: production/admin/classes/class-wpvr-admin-pages.php:68
+#: production/admin/classes/class-wpvr-admin-pages.php:76
 msgid "Get Started"
-msgstr ""
+msgstr "aloittaa"
 
-#: admin/classes/class-tour-guide-translation.php:13
+#: admin/classes/class-tour-guide-translation.php:14
+#: production/admin/classes/class-tour-guide-translation.php:14
 msgid "Give a name to your virtual tour."
-msgstr ""
+msgstr "Anna nimi virtuaalikierroksellesi."
 
-#: admin/class-wpvr-admin.php:289 admin/classes/class-wpvr-admin-pages.php:84
+#: admin/class-wpvr-admin.php:298 admin/classes/class-wpvr-admin-pages.php:84
+#: production/admin/class-wpvr-admin.php:297
+#: production/admin/classes/class-wpvr-admin-pages.php:84
 msgid "Go Pro"
-msgstr ""
+msgstr "mennä ammattilaiseksi"
 
-#: admin/partials/wpvr_documentation.php:486
+#: admin/partials/wpvr_documentation.php:502
 #: admin/partials/wpvr_setup_wizard.php:99
+#: production/admin/partials/wpvr_documentation.php:502
+#: production/admin/partials/wpvr_setup_wizard.php:99
 msgid "Google Street View"
-msgstr ""
+msgstr "Google Street View"
 
 #: admin/classes/class-wpvr-admin-pages.php:75
+#: production/admin/classes/class-wpvr-admin-pages.php:75
 msgid "Guided Tour"
-msgstr ""
+msgstr "opastetu"
 
 #: admin/classes/class-wpvr-meta-field.php:832
+#: production/admin/classes/class-wpvr-meta-field.php:832
 msgid "Gyroscope"
-msgstr ""
+msgstr "gyroskooppi"
 
 #: admin/partials/wpvr_setup_wizard.php:183
+#: production/admin/partials/wpvr_setup_wizard.php:183
 msgid "Gyroscope & Mobile Notices"
-msgstr ""
+msgstr "Gyroskooppi ja mobiiliilmoitukset"
 
 #: admin/classes/class-wpvr-meta-field.php:672
+#: production/admin/classes/class-wpvr-meta-field.php:672
 msgid "Gyroscope Control"
-msgstr ""
+msgstr "gyroskooppikontrolli"
 
-#: admin/partials/wpvr_documentation.php:347
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:363
+#: production/admin/partials/wpvr_documentation.php:363
 #| msgid "Gyroscope support"
 msgid "Gyroscope Support"
-msgstr "Gyroskoopin tuki"
+msgstr "Gyroskooppituki"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:147
 msgid "Height"
-msgstr ""
+msgstr "korkeus"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:51
+#: production/oxygen/elements/Wpvr_Tour_Element.php:51
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:155
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:156
 msgid "Height Unit"
-msgstr ""
+msgstr "korkeusyksikkö"
 
 #: elementor/elements/Wpvr-widget.php:175
+#: production/elementor/elements/Wpvr-widget.php:175
 msgid "Height:"
 msgstr "Korkeus:"
 
-#: admin/classes/class-tour-guide-translation.php:30
+#: admin/classes/class-tour-guide-translation.php:31
+#: production/admin/classes/class-tour-guide-translation.php:31
 msgid ""
 "Here is a preview of your panorama image in tour mode. You can control it "
 "and mode around to see it in 360 degree view."
 msgstr ""
+"Tässä on esikatselu panoraamakuvastasi kiertuetilassa. Voit ohjata sitä ja "
+"tilaa nähdäksesi sen 360 asteen näkymässä."
 
-#: admin/classes/class-tour-guide-translation.php:59
-#: admin/classes/class-tour-guide-translation.php:63
+#: admin/classes/class-tour-guide-translation.php:60
+#: admin/classes/class-tour-guide-translation.php:64
+#: production/admin/classes/class-tour-guide-translation.php:60
+#: production/admin/classes/class-tour-guide-translation.php:64
 msgid "Here you can see the Pitch & Yaw has been set for the hotspot."
-msgstr ""
+msgstr "Täällä näet, että hotspot on asetettu pitch & yaw."
 
-#: admin/classes/class-tour-guide-translation.php:67
-#: admin/classes/class-tour-guide-translation.php:71
+#: admin/classes/class-tour-guide-translation.php:68
+#: admin/classes/class-tour-guide-translation.php:72
+#: production/admin/classes/class-tour-guide-translation.php:68
+#: production/admin/classes/class-tour-guide-translation.php:72
 msgid ""
 "Here, you can set what content your viewer will see after clicking on the "
 "Hotspot. You can either set an URL or any other content using this editor. "
 "To learn more, follow this guide to set content using editor"
 msgstr ""
+"Täällä voit määrittää, mitä sisältöä katsojasi näkee, kun olet napsauttanut "
+"hotspotia. Voit asettaa URL-osoitteen tai minkä tahansa muun sisällön "
+"käyttämällä tätä editoria. Saat lisätietoja noudattamalla tätä opasta "
+"asettaaksesi sisällön Editorilla"
 
 #: admin/classes/class-wpvr-meta-field.php:838
+#: production/admin/classes/class-wpvr-meta-field.php:838
 msgid "Home"
-msgstr ""
+msgstr "kotipaikka"
 
-#: admin/partials/wpvr_documentation.php:698
+#: admin/partials/wpvr_documentation.php:714
+#: production/admin/partials/wpvr_documentation.php:714
 msgid "Home Button to visit Default Scene"
-msgstr ""
+msgstr "Kotipainike vieraillaksesi oletuskohtauksessa"
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Hook"
-msgstr ""
+msgstr "koukista"
 
 #: admin/classes/class-wpvr-meta-field.php:97
+#: production/admin/classes/class-wpvr-meta-field.php:97
 msgid "Hotspot"
-msgstr ""
+msgstr "hotput"
 
 #: admin/classes/class-wpvr-meta-field.php:978
+#: production/admin/classes/class-wpvr-meta-field.php:978
 msgid "Hotspot Custom Icon Class"
-msgstr ""
+msgstr "Hotspot mukautettu kuvakeluokka"
 
 #: admin/classes/class-wpvr-meta-field.php:957
+#: production/admin/classes/class-wpvr-meta-field.php:957
 msgid "Hotspot ID"
-msgstr ""
+msgstr "Hotspot ID"
 
 #: admin/classes/class-wpvr-hotspot.php:109
 #: admin/classes/class-wpvr-hotspot.php:169
+#: production/admin/classes/class-wpvr-hotspot.php:109
+#: production/admin/classes/class-wpvr-hotspot.php:169
 msgid "Hotspot Setting"
-msgstr ""
+msgstr "Hotspot-asetus"
 
 #: admin/classes/class-wpvr-meta-field.php:999
 #: admin/classes/class-wpvr-meta-field.php:1055
 #: admin/classes/class-wpvr-meta-field.php:1116
 #: admin/classes/class-wpvr-meta-field.php:1182
 #: admin/classes/class-wpvr-meta-field.php:1248
+#: production/admin/classes/class-wpvr-meta-field.php:999
+#: production/admin/classes/class-wpvr-meta-field.php:1055
+#: production/admin/classes/class-wpvr-meta-field.php:1116
+#: production/admin/classes/class-wpvr-meta-field.php:1182
+#: production/admin/classes/class-wpvr-meta-field.php:1248
 msgid "Hotspot-Type"
-msgstr ""
+msgstr "hotSpot"
 
 #. Author URI of the plugin
 msgid "http://rextheme.com/"
@@ -733,563 +1003,770 @@ msgid "https://rextheme.com/wpvr/"
 msgstr "https://rextheme.com/wpvr/"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
 msgid "ID"
-msgstr ""
+msgstr "henkilöllisyystodistus"
 
 #: elementor/elements/Wpvr-widget.php:157
+#: production/elementor/elements/Wpvr-widget.php:157
 msgid "ID:"
 msgstr "ID:"
 
 #: admin/classes/class-wpvr-meta-field.php:683
+#: production/admin/classes/class-wpvr-meta-field.php:683
 msgid ""
 "If set to true, device orientation control will be used when the panorama is "
 "loaded, if the device supports it. If false, device orientation control "
 "needs to be activated by pressing a button. Defaults to false. Will work if "
 "gyroscope is enabled"
 msgstr ""
+"Jos asetus on tosi, laitteen suunnan ohjausta käytetään, kun panoraama "
+"ladataan, jos laite tukee sitä. Jos epätosi, laitteen suunnan ohjaus on "
+"aktivoitava painamalla painiketta. oletusarvo on false. toimii, jos "
+"gyroskooppi on käytössä"
 
 #: admin/partials/wpvr_documentation.php:137
+#: production/admin/partials/wpvr_documentation.php:137
 msgid "Import"
-msgstr "Tuonti"
+msgstr "tuoda"
 
-#: admin/partials/wpvr_documentation.php:607
+#: admin/partials/wpvr_documentation.php:623
+#: production/admin/partials/wpvr_documentation.php:623
 msgid "Import & Export Virtual Tours"
-msgstr ""
+msgstr "Tuo ja vie virtuaalimatkoja"
 
-#: admin/partials/wpvr_documentation.php:762
+#: admin/partials/wpvr_documentation.php:778
+#: production/admin/partials/wpvr_documentation.php:778
 msgid "Import tour file: "
-msgstr "Tuo kiertotiedosto:"
+msgstr "Tuo Tour File:"
 
-#: admin/classes/class-tour-guide-translation.php:51
+#: admin/classes/class-tour-guide-translation.php:52
+#: production/admin/classes/class-tour-guide-translation.php:52
 msgid ""
 "In this Preview, drag to your desired location and click on it, exactly "
 "where you want to set the hotspot"
 msgstr ""
+"Vedä tässä esikatselussa haluamaasi sijaintiin ja napsauta sitä, missä "
+"haluat asettaa hotspotin"
 
 #: admin/partials/wpvr_documentation.php:97
+#: production/admin/partials/wpvr_documentation.php:97
 msgid "Info"
-msgstr ""
+msgstr "tiedotus"
 
-#: admin/partials/wpvr_documentation.php:402
+#: admin/partials/wpvr_documentation.php:418
+#: production/admin/partials/wpvr_documentation.php:418
 msgid "Info-type Hotspots (Heading, Image, Text, Video, Gif, Links)"
-msgstr ""
+msgstr "Infotyyppiset hotspotit (otsikko, kuva, teksti, video, gif, linkit)"
 
 #: admin/classes/class-wpvr-meta-field.php:3097
+#: production/admin/classes/class-wpvr-meta-field.php:3097
 msgid "Italic"
-msgstr ""
+msgstr "kursiivi-"
 
 #: admin/classes/class-wpvr-meta-field.php:3089
+#: production/admin/classes/class-wpvr-meta-field.php:3089
 msgid "Justified"
-msgstr ""
+msgstr "oikeutettu"
 
 #: admin/classes/class-wpvr-meta-field.php:640
+#: production/admin/classes/class-wpvr-meta-field.php:640
 msgid "Keyboard Movement Control"
-msgstr ""
+msgstr "Näppäimistön liikkeenohja"
 
 #: admin/classes/class-wpvr-meta-field.php:648
+#: production/admin/classes/class-wpvr-meta-field.php:648
 msgid "Keyboard Zoom Control"
-msgstr ""
+msgstr "Näppäimistön zoomaussää"
 
 #: admin/partials/wpvr_setup_wizard.php:54
 #: admin/partials/wpvr_setup_wizard.php:66
 #: admin/partials/wpvr_setup_wizard.php:78
 #: admin/partials/wpvr_setup_wizard.php:90
 #: admin/partials/wpvr_setup_wizard.php:102
+#: production/admin/partials/wpvr_setup_wizard.php:54
+#: production/admin/partials/wpvr_setup_wizard.php:66
+#: production/admin/partials/wpvr_setup_wizard.php:78
+#: production/admin/partials/wpvr_setup_wizard.php:90
+#: production/admin/partials/wpvr_setup_wizard.php:102
 msgid "Learn more"
-msgstr ""
+msgstr "Lue lisää"
 
 #: admin/classes/class-wpvr-meta-field.php:3086
 #: admin/classes/class-wpvr-meta-field.php:3161
+#: production/admin/classes/class-wpvr-meta-field.php:3086
+#: production/admin/classes/class-wpvr-meta-field.php:3161
 msgid "Left"
-msgstr ""
+msgstr "vasen puoli"
 
-#: admin/classes/class-tour-guide-translation.php:42
+#: admin/classes/class-tour-guide-translation.php:43
+#: production/admin/classes/class-tour-guide-translation.php:43
 msgid "Let's add a Hotspot"
-msgstr ""
+msgstr "Lisätään hotspot"
 
 #: admin/classes/class-wpvr-meta-field.php:3103
+#: production/admin/classes/class-wpvr-meta-field.php:3103
 msgid "Letter Spacing (px)"
-msgstr ""
+msgstr "Kirjainväli (PX)"
 
 #: admin/partials/wpvr_license.php:18
+#: production/admin/partials/wpvr_license.php:18
 msgid "License Key"
-msgstr "Lisenssiavain"
+msgstr "lupa avain"
 
 #: admin/classes/class-wpvr-meta-field.php:3059
+#: production/admin/classes/class-wpvr-meta-field.php:3059
 msgid "Line Height"
-msgstr ""
+msgstr "linja"
 
 #: admin/classes/class-wpvr-meta-field.php:3069
+#: production/admin/classes/class-wpvr-meta-field.php:3069
 msgid "Line Through"
-msgstr ""
+msgstr "levittää"
 
-#: admin/partials/wpvr_documentation.php:988
+#: admin/partials/wpvr_documentation.php:1004
+#: production/admin/partials/wpvr_documentation.php:1004
 msgid ""
 "List of allowed pages to load WP VR scripts (The URLs of the pages on your "
 "site with virtual tours):"
 msgstr ""
+"Luettelo WP VR -skriptien lataamiseen sallituista sivuista (sivustosi "
+"sivujen URL-osoitteet virtuaalikierroksilla):"
 
-#: admin/partials/wpvr_documentation.php:1028
+#: admin/partials/wpvr_documentation.php:1044
+#: production/admin/partials/wpvr_documentation.php:1044
 msgid ""
 "List of allowed pages to load WP VR Video JS library (The URLs of the pages "
 "on your site, You want to load Video JS):"
 msgstr ""
+"Luettelo sallituista sivuista WP VR Video JS -kirjaston lataamiseen "
+"(sivustosi sivujen URL-osoitteet, haluat ladata videon JS):"
 
-#: admin/partials/wpvr_documentation.php:1034
+#: admin/partials/wpvr_documentation.php:1050
+#: production/admin/partials/wpvr_documentation.php:1050
 msgid ""
 "List the pages like this: https://example.com/tour1/, https://example."
 "com/tour2/"
 msgstr ""
+"Listaa sivut näin: https://example.com/tour1/, https://example.com/tour2/"
 
-#: admin/partials/wpvr_documentation.php:994
+#: admin/partials/wpvr_documentation.php:1010
+#: production/admin/partials/wpvr_documentation.php:1010
 msgid ""
 "List the pages with virtual tours like this: https://example.com/tour1/, "
 "https://example.com/tour2/"
 msgstr ""
+"Listaa sivut, joissa on virtuaalikierroksia, kuten tämä: https://example."
+"com/tour1/, https://example.com/tour2/"
 
 #: admin/classes/class-wpvr-meta-field.php:3078
+#: production/admin/classes/class-wpvr-meta-field.php:3078
 msgid "Lowercase"
-msgstr ""
+msgstr "pienet kirjaimet"
 
-#: admin/partials/wpvr_documentation.php:220
+#: admin/partials/wpvr_documentation.php:227
+#: production/admin/partials/wpvr_documentation.php:227
 msgid "Make WPVR Popular"
-msgstr "Tee WPVR: stä suosittu"
+msgstr "tehdä WPVR:stä suosittu"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
 msgid "Mobile Height"
-msgstr ""
+msgstr "Mobile High"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:118
+#: production/oxygen/elements/Wpvr_Tour_Element.php:118
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
 msgid "Mobile Height Unit"
-msgstr ""
+msgstr "Mobiilikorkeusyksikkö"
 
 #: admin/partials/wpvr_setup_wizard.php:63
+#: production/admin/partials/wpvr_setup_wizard.php:63
 msgid "Mobile Panorama"
-msgstr ""
+msgstr "liikkuvat panoraama"
 
-#: admin/partials/wpvr_documentation.php:694
+#: admin/partials/wpvr_documentation.php:710
+#: production/admin/partials/wpvr_documentation.php:710
 msgid "More Pro Features"
-msgstr ""
+msgstr "Lisää Pro-ominaisuuksia"
 
-#: admin/partials/wpvr_documentation.php:726
+#: admin/partials/wpvr_documentation.php:742
+#: production/admin/partials/wpvr_documentation.php:742
 msgid "Mouse Control."
-msgstr ""
+msgstr "hiiren ohjaus."
 
 #: admin/classes/class-wpvr-meta-field.php:656
+#: production/admin/classes/class-wpvr-meta-field.php:656
 msgid "Mouse Drag Control"
-msgstr ""
+msgstr "hiiren vetoohjaus"
 
 #: admin/classes/class-wpvr-meta-field.php:664
+#: production/admin/classes/class-wpvr-meta-field.php:664
 msgid "Mouse Zoom Control"
-msgstr ""
+msgstr "Hiiren zoomaussäädin"
 
 #: admin/classes/class-wpvr-meta-field.php:783
+#: production/admin/classes/class-wpvr-meta-field.php:783
 msgid "Move Down"
-msgstr ""
+msgstr "siirtyä alemmalle luo"
 
 #: admin/classes/class-wpvr-meta-field.php:789
+#: production/admin/classes/class-wpvr-meta-field.php:789
 msgid "Move Left"
-msgstr ""
+msgstr "siirtyä vasemmalle"
 
 #: admin/classes/class-wpvr-meta-field.php:795
+#: production/admin/classes/class-wpvr-meta-field.php:795
 msgid "Move Right"
-msgstr ""
+msgstr "Siirrä oikealle"
 
 #: admin/classes/class-wpvr-meta-field.php:777
+#: production/admin/classes/class-wpvr-meta-field.php:777
 msgid "Move Up"
-msgstr ""
+msgstr "nousta"
 
 #: admin/partials/wpvr_setup_wizard.php:148
+#: production/admin/partials/wpvr_setup_wizard.php:148
 msgid "Multiple Content on Hotspots"
-msgstr ""
+msgstr "Useita sisältöä hotspoteissa"
 
 #: admin/classes/class-tour-guide-translation.php:8
+#: production/admin/classes/class-tour-guide-translation.php:8
 msgid "Next"
-msgstr ""
+msgstr "seuraava"
 
 #: admin/classes/class-wpvr-meta-field.php:1651
 #: admin/partials/wpvr_confirmation_alert.php:26
+#: production/admin/classes/class-wpvr-meta-field.php:1651
+#: production/admin/partials/wpvr_confirmation_alert.php:26
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:137
 msgid "No"
-msgstr ""
+msgstr "ei mitään"
 
 #: admin/classes/class-wpvr-meta-field.php:3066
 #: admin/classes/class-wpvr-meta-field.php:3076
+#: production/admin/classes/class-wpvr-meta-field.php:3066
+#: production/admin/classes/class-wpvr-meta-field.php:3076
 msgid "None"
-msgstr ""
+msgstr "ei mitään"
 
 #: admin/classes/class-wpvr-meta-field.php:3096
+#: production/admin/classes/class-wpvr-meta-field.php:3096
 msgid "Normal"
+msgstr "normaali"
+
+#: admin/classes/class-wpvr-general.php:101
+#: production/admin/classes/class-wpvr-general.php:101
+msgid ""
+"Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on "
+"embedded tours."
 msgstr ""
+"Huomautus: WooCommerce &amp; Fluent Forms -hotspotteja ei tueta "
+"sulautetuilla matkoilla."
 
 #: admin/classes/class-wpvr-meta-field.php:3098
+#: production/admin/classes/class-wpvr-meta-field.php:3098
 msgid "Oblique"
-msgstr ""
+msgstr "vino"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:89
+#: production/oxygen/elements/Wpvr_Tour_Element.php:89
 msgid "OFF"
-msgstr ""
+msgstr "vapaa"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:88
+#: production/oxygen/elements/Wpvr_Tour_Element.php:88
 msgid "ON"
-msgstr ""
+msgstr "-lle"
 
 #: admin/classes/class-wpvr-meta-field.php:1016
 #: admin/classes/class-wpvr-meta-field.php:1072
 #: admin/classes/class-wpvr-meta-field.php:1139
 #: admin/classes/class-wpvr-meta-field.php:1205
 #: admin/classes/class-wpvr-meta-field.php:1265
+#: production/admin/classes/class-wpvr-meta-field.php:1016
+#: production/admin/classes/class-wpvr-meta-field.php:1072
+#: production/admin/classes/class-wpvr-meta-field.php:1139
+#: production/admin/classes/class-wpvr-meta-field.php:1205
+#: production/admin/classes/class-wpvr-meta-field.php:1265
 msgid "On Click Content"
-msgstr ""
+msgstr "Klikkaa Sisältö"
 
 #: admin/classes/class-wpvr-meta-field.php:1021
 #: admin/classes/class-wpvr-meta-field.php:1079
 #: admin/classes/class-wpvr-meta-field.php:1146
 #: admin/classes/class-wpvr-meta-field.php:1212
 #: admin/classes/class-wpvr-meta-field.php:1271
+#: production/admin/classes/class-wpvr-meta-field.php:1021
+#: production/admin/classes/class-wpvr-meta-field.php:1079
+#: production/admin/classes/class-wpvr-meta-field.php:1146
+#: production/admin/classes/class-wpvr-meta-field.php:1212
+#: production/admin/classes/class-wpvr-meta-field.php:1271
 msgid "On Hover Content"
-msgstr ""
+msgstr "leijuu sisällöstä"
 
-#: admin/partials/wpvr_documentation.php:730
+#: admin/partials/wpvr_documentation.php:746
+#: production/admin/partials/wpvr_documentation.php:746
 msgid "On Screen Compass."
-msgstr ""
+msgstr "näytön kompassissa."
 
-#: admin/classes/class-tour-guide-translation.php:55
+#: admin/classes/class-tour-guide-translation.php:56
+#: production/admin/classes/class-tour-guide-translation.php:56
 msgid ""
 "Once you see the Pitch & Yaw value for the spot, click on this Arrow. It'll "
 "be set as the coordinate for your hotspot"
 msgstr ""
+"Kun näet pisteen sävelkorkeuden ja kääntöarvon, napsauta tätä nuolta. se "
+"asetetaan hotspotin koordinaatiksi"
 
-#: wpvr.php:261 public/classes/class-wpvr-shortcode.php:98
+#: wpvr.php:261 production/wpvr.php:261
+#: public/classes/class-wpvr-shortcode.php:98
+#: production/public/classes/class-wpvr-shortcode.php:98
 msgid ""
 "Oops! It seems like this post isn't published yet. Stay tuned for updates!"
 msgstr ""
+"Hupsis! Näyttää siltä, että tätä postausta ei ole vielä julkaistu. Pysy "
+"kuulolla päivityksistä!"
 
 #: admin/classes/class-wpvr-meta-field.php:3025
+#: production/admin/classes/class-wpvr-meta-field.php:3025
 msgid "Open in new tab"
-msgstr ""
+msgstr "Avaa Uudessa-välilehdessä"
 
 #: admin/classes/class-wpvr-meta-field.php:1009
 #: admin/classes/class-wpvr-meta-field.php:1065
 #: admin/classes/class-wpvr-meta-field.php:1132
 #: admin/classes/class-wpvr-meta-field.php:1198
 #: admin/classes/class-wpvr-meta-field.php:1258
+#: production/admin/classes/class-wpvr-meta-field.php:1009
+#: production/admin/classes/class-wpvr-meta-field.php:1065
+#: production/admin/classes/class-wpvr-meta-field.php:1132
+#: production/admin/classes/class-wpvr-meta-field.php:1198
+#: production/admin/classes/class-wpvr-meta-field.php:1258
 msgid "Open in same tab"
-msgstr ""
+msgstr "Avaa samalla välilehdellä"
 
 #: admin/classes/class-wpvr-meta-field.php:3068
+#: production/admin/classes/class-wpvr-meta-field.php:3068
 msgid "Overline"
-msgstr ""
+msgstr "päällys-"
 
 #: admin/classes/class-wpvr-meta-field.php:3143
+#: production/admin/classes/class-wpvr-meta-field.php:3143
 msgid "Padding (px)"
-msgstr ""
+msgstr "Täyte (PX)"
 
-#: admin/partials/wpvr_documentation.php:361
+#: admin/partials/wpvr_documentation.php:377
 #: admin/partials/wpvr_setup_wizard.php:134
+#: production/admin/partials/wpvr_documentation.php:377
+#: production/admin/partials/wpvr_setup_wizard.php:134
 msgid "Panorama Scene Gallery"
-msgstr ""
+msgstr "panoraama kohtausgalleria"
 
-#: admin/partials/wpvr_documentation.php:458
+#: admin/partials/wpvr_documentation.php:474
+#: production/admin/partials/wpvr_documentation.php:474
 msgid "Partial Panorama / Mobile Panorama Support"
-msgstr ""
+msgstr "Osittainen panoraama / mobiilipanoraamatuki"
 
 #: admin/classes/class-wpvr-meta-field.php:1606
+#: production/admin/classes/class-wpvr-meta-field.php:1606
 msgid "Paste Youtube or Vimeo link or upload"
-msgstr ""
+msgstr "Liitä youtube tai vimeo linkki tai lataa"
 
 #: admin/classes/class-wpvr-ajax.php:375
+#: production/admin/classes/class-wpvr-ajax.php:375
 msgid "Permission check failed"
-msgstr ""
+msgstr "Luvan tarkistus epäonnistui"
 
 #: admin/partials/wpvr_setup_wizard.php:126
+#: production/admin/partials/wpvr_setup_wizard.php:126
 msgid "Personalize your virtual tours, in the way you want."
-msgstr ""
+msgstr "Mukauta virtuaalikierroksiasi haluamallasi tavalla."
 
 #: admin/classes/class-wpvr-meta-field.php:964
+#: production/admin/classes/class-wpvr-meta-field.php:964
 msgid "Pitch"
-msgstr ""
+msgstr "mainostaa"
 
-#: admin/classes/class-tour-guide-translation.php:58
-#: admin/classes/class-tour-guide-translation.php:62
+#: admin/classes/class-tour-guide-translation.php:59
+#: admin/classes/class-tour-guide-translation.php:63
+#: production/admin/classes/class-tour-guide-translation.php:59
+#: production/admin/classes/class-tour-guide-translation.php:63
 msgid "Pitch & Yaw is Set"
-msgstr ""
+msgstr "Pitch & Yaw on asetettu"
 
-#: admin/partials/wpvr_documentation.php:213
+#: admin/partials/wpvr_documentation.php:219
+#: production/admin/partials/wpvr_documentation.php:219
 msgid "Post a Ticket"
 msgstr "Lähetä lippu"
 
 #: admin/partials/wpvr_setup_wizard.php:193
+#: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Premium Features"
-msgstr ""
+msgstr "premium-ominaisuudet"
 
 #: admin/classes/class-tour-preview-meta-box.php:853
+#: production/admin/classes/class-tour-preview-meta-box.php:853
 msgid "Preview"
-msgstr ""
+msgstr "nähdä jnk lue"
 
 #: admin/classes/class-wpvr-meta-field.php:146
+#: production/admin/classes/class-wpvr-meta-field.php:146
 msgid "Preview Image Message"
-msgstr ""
+msgstr "Esikatselukuvaviesti"
 
-#: admin/classes/class-tour-guide-translation.php:25
+#: admin/classes/class-tour-guide-translation.php:26
+#: production/admin/classes/class-tour-guide-translation.php:26
 msgid "Preview The Image in Tour Mode"
-msgstr ""
+msgstr "Esikatsele kuvaa kiertuetilassa"
 
-#: admin/classes/class-tour-guide-translation.php:74
+#: admin/classes/class-tour-guide-translation.php:75
+#: production/admin/classes/class-tour-guide-translation.php:75
 msgid "Preview Your Hotspot Content"
-msgstr ""
+msgstr "Esikatsele hotspot-sisältöäsi"
 
 #: admin/classes/class-tour-guide-translation.php:9
+#: production/admin/classes/class-tour-guide-translation.php:9
 msgid "Previous"
-msgstr ""
+msgstr "edellinen"
 
 #: admin/classes/class-wpvr-meta-field.php:432
 #: admin/classes/class-wpvr-meta-field.php:466
+#: production/admin/classes/class-wpvr-meta-field.php:432
+#: production/admin/classes/class-wpvr-meta-field.php:466
 msgid "Print the forms shortcode you want to show."
-msgstr ""
+msgstr "Tulosta lomakelyhytkoodi, jonka haluat näyttää."
 
-#: admin/partials/wpvr_documentation.php:287
+#: admin/partials/wpvr_documentation.php:303
+#: production/admin/partials/wpvr_documentation.php:303
 msgid "pro"
-msgstr ""
+msgstr "ammattilainen"
 
-#: admin/partials/wpvr_documentation.php:319
+#: admin/partials/wpvr_documentation.php:335
+#: production/admin/partials/wpvr_documentation.php:335
 msgid "Publish Tours Anywhere (Embed Add-on)"
-msgstr ""
+msgstr "Julkaise Tours Anywhere (Embed-lisäosa)"
 
-#: admin/classes/class-tour-guide-translation.php:37
+#: admin/classes/class-tour-guide-translation.php:38
+#: production/admin/classes/class-tour-guide-translation.php:38
 msgid "Publish Your Tour"
-msgstr ""
+msgstr "Julkaise kiertueesi"
 
 #: elementor/elements/Wpvr-widget.php:178
+#: production/elementor/elements/Wpvr-widget.php:178
 msgid "Put value in (px)"
-msgstr "Lisää arvo (px)"
+msgstr "Laita arvo (px)"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:56
 #: oxygen/elements/Wpvr_Tour_Element.php:76
 #: oxygen/elements/Wpvr_Tour_Element.php:106
 #: oxygen/elements/Wpvr_Tour_Element.php:123
+#: production/oxygen/elements/Wpvr_Tour_Element.php:56
+#: production/oxygen/elements/Wpvr_Tour_Element.php:76
+#: production/oxygen/elements/Wpvr_Tour_Element.php:106
+#: production/oxygen/elements/Wpvr_Tour_Element.php:123
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:118
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:159
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
 msgid "px"
-msgstr ""
+msgstr "pilkku"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
 msgid "Radius"
-msgstr ""
+msgstr "säde"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:101
+#: production/oxygen/elements/Wpvr_Tour_Element.php:101
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:178
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:179
 msgid "Radius Unit"
-msgstr ""
+msgstr "sädeyksikkö"
 
 #: elementor/elements/Wpvr-widget.php:185
+#: production/elementor/elements/Wpvr-widget.php:185
 msgid "Radius:"
-msgstr "Lisää arvo (px)"
+msgstr "säde:"
 
-#: admin/partials/wpvr_documentation.php:222
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:231
+#: production/admin/partials/wpvr_documentation.php:231
 #| msgid "Rate Us! "
 msgid "Rate Us "
-msgstr "Anna meille arvosana!"
+msgstr "Arvioi meidät"
 
 #: admin/partials/wpvr_setup_wizard.php:218
+#: production/admin/partials/wpvr_setup_wizard.php:218
 msgid "Read Documentations"
-msgstr ""
+msgstr "Lue dokumentaatiota"
 
 #: admin/partials/wpvr_setup_wizard.php:219
+#: production/admin/partials/wpvr_setup_wizard.php:219
 msgid "Read Our Complete Guides"
-msgstr ""
+msgstr "Lue täydelliset oppaamme"
 
-#: admin/partials/wpvr_documentation.php:244
+#: admin/partials/wpvr_documentation.php:260
+#: production/admin/partials/wpvr_documentation.php:260
 msgid ""
 "Recover abandoned carts with automated email drip campaigns. Start getting "
 "back lost sales on your online store."
 msgstr ""
+"Palauta hylätyt kärryt automaattisilla sähköpostitippukampanjoilla. Aloita "
+"menetettyjen myyntien menettäminen verkkokaupassasi."
 
 #: admin/classes/class-wpvr-meta-field.php:403
+#: production/admin/classes/class-wpvr-meta-field.php:403
 msgid "Resume Auto-rotation after"
-msgstr ""
+msgstr "Jatka automaattista kiertoa sen jälkeen"
 
 #. Author of the plugin
 msgid "Rextheme"
-msgstr "Rextheme"
+msgstr "uusintateema"
 
 #: admin/classes/class-wpvr-meta-field.php:3087
 #: admin/classes/class-wpvr-meta-field.php:3151
+#: production/admin/classes/class-wpvr-meta-field.php:3087
+#: production/admin/classes/class-wpvr-meta-field.php:3151
 msgid "Right"
-msgstr ""
+msgstr "oikean kä"
 
 #: admin/classes/class-wpvr-meta-field.php:394
+#: production/admin/classes/class-wpvr-meta-field.php:394
 msgid "Rotation Speed and Direction"
-msgstr ""
+msgstr "pyörimisnopeus ja suunta"
 
-#: admin/partials/wpvr_documentation.php:1156
+#: admin/partials/wpvr_documentation.php:1172
+#: production/admin/partials/wpvr_documentation.php:1172
 msgid "Save"
-msgstr ""
+msgstr "tallettaa"
 
-#: admin/classes/class-tour-guide-translation.php:78
+#: admin/classes/class-tour-guide-translation.php:79
+#: production/admin/classes/class-tour-guide-translation.php:79
 msgid "Save Your Progress"
-msgstr ""
+msgstr "Tallenna edistymisesi"
 
-#: admin/classes/class-tour-guide-translation.php:33
+#: admin/classes/class-tour-guide-translation.php:34
+#: production/admin/classes/class-tour-guide-translation.php:34
 msgid "Save Your Tour"
-msgstr ""
+msgstr "Tallenna kiertueesi"
 
-#: admin/partials/wpvr_documentation.php:706
+#: admin/partials/wpvr_documentation.php:722
+#: production/admin/partials/wpvr_documentation.php:722
 msgid "Scene Author with URL"
-msgstr ""
+msgstr "Kohtauksen kirjoittaja URL-osoitteella"
 
 #: admin/classes/class-wpvr-meta-field.php:209
+#: production/admin/classes/class-wpvr-meta-field.php:209
 msgid "Scene Fade Duration"
-msgstr ""
+msgstr "Kohtauksen häivytyksen kesto"
 
 #: admin/classes/class-wpvr-meta-field.php:709
+#: production/admin/classes/class-wpvr-meta-field.php:709
 msgid "Scene Gallery"
-msgstr ""
+msgstr "näyttämötaide"
 
 #: admin/classes/class-wpvr-meta-field.php:873
 #: admin/classes/class-wpvr-meta-field.php:921
+#: production/admin/classes/class-wpvr-meta-field.php:873
+#: production/admin/classes/class-wpvr-meta-field.php:921
 msgid "Scene ID"
-msgstr ""
+msgstr "kohtaustunnus"
 
 #: admin/classes/class-wpvr-meta-field.php:725
+#: production/admin/classes/class-wpvr-meta-field.php:725
 msgid "Scene Navigation Menu"
-msgstr ""
+msgstr "Kohtausvalikko"
 
 #: admin/classes/class-wpvr-scene.php:233
 #: admin/classes/class-wpvr-scene.php:262
+#: production/admin/classes/class-wpvr-scene.php:233
+#: production/admin/classes/class-wpvr-scene.php:262
 msgid "Scene Setting"
-msgstr ""
+msgstr "ympäristön näkymä"
 
-#: admin/partials/wpvr_documentation.php:702
+#: admin/partials/wpvr_documentation.php:718
+#: production/admin/partials/wpvr_documentation.php:718
 msgid "Scene Title"
-msgstr ""
+msgstr "Kohtaimen otsikko"
 
 #: admin/classes/class-wpvr-meta-field.php:717
+#: production/admin/classes/class-wpvr-meta-field.php:717
 msgid "Scene Titles on Gallery"
-msgstr ""
+msgstr "Kohtausten otsikot galleriassa"
 
-#: admin/partials/wpvr_documentation.php:734
+#: admin/partials/wpvr_documentation.php:750
+#: production/admin/partials/wpvr_documentation.php:750
 msgid "Scene Titles on Gallery."
-msgstr ""
+msgstr "Kohtausten otsikot galleriassa."
 
 #: admin/classes/class-wpvr-meta-field.php:881
 #: admin/classes/class-wpvr-meta-field.php:929
+#: production/admin/classes/class-wpvr-meta-field.php:881
+#: production/admin/classes/class-wpvr-meta-field.php:929
 msgid "Scene Type"
-msgstr ""
+msgstr "kohtaus"
 
 #: admin/classes/class-wpvr-meta-field.php:888
 #: admin/classes/class-wpvr-meta-field.php:936
+#: production/admin/classes/class-wpvr-meta-field.php:888
+#: production/admin/classes/class-wpvr-meta-field.php:936
 msgid "Scene Upload"
-msgstr ""
+msgstr "Kohtauksen lataus"
 
-#: admin/partials/wpvr_documentation.php:416
+#: admin/classes/class-wpvr-meta-field.php:1774
+#: production/admin/classes/class-wpvr-meta-field.php:1774
+msgid "Scene Upload: "
+msgstr "Kohtauksen lataus:"
+
+#: admin/partials/wpvr_documentation.php:432
+#: production/admin/partials/wpvr_documentation.php:432
 msgid "Scene-type Hotspots (Connect Panoramas)"
-msgstr ""
+msgstr "kohtaustyyppiset hotspotit (yhdistä panoraama)"
 
 #: admin/classes/class-wpvr-meta-field.php:88
+#: production/admin/classes/class-wpvr-meta-field.php:88
 msgid "Scenes"
-msgstr ""
+msgstr "kohtaukset"
 
-#: admin/partials/wpvr_documentation.php:1134
+#: admin/partials/wpvr_documentation.php:1150
+#: production/admin/partials/wpvr_documentation.php:1150
 msgid "Select a Version to Rollback"
-msgstr ""
+msgstr "Valitse palautusversio"
 
 #: admin/classes/class-wpvr-meta-field.php:1025
 #: admin/classes/class-wpvr-meta-field.php:1085
 #: admin/classes/class-wpvr-meta-field.php:1152
 #: admin/classes/class-wpvr-meta-field.php:1218
 #: admin/classes/class-wpvr-meta-field.php:1277
+#: production/admin/classes/class-wpvr-meta-field.php:1025
+#: production/admin/classes/class-wpvr-meta-field.php:1085
+#: production/admin/classes/class-wpvr-meta-field.php:1152
+#: production/admin/classes/class-wpvr-meta-field.php:1218
+#: production/admin/classes/class-wpvr-meta-field.php:1277
 msgid "Select Target Scene from List"
-msgstr ""
+msgstr "Valitse kohdekohtaus luettelosta"
 
 #: admin/classes/class-wpvr-meta-field.php:1120
 #: admin/classes/class-wpvr-meta-field.php:1186
+#: production/admin/classes/class-wpvr-meta-field.php:1120
+#: production/admin/classes/class-wpvr-meta-field.php:1186
 msgid "Select your form"
-msgstr ""
+msgstr "Valitse lomake"
 
 #: admin/partials/wpvr_setup_wizard.php:141
+#: production/admin/partials/wpvr_setup_wizard.php:141
 msgid "Sell WooCommerce Products"
-msgstr ""
+msgstr "Myy WooCommerce-tuotteita"
 
 #: admin/classes/class-wpvr-meta-field.php:417
+#: production/admin/classes/class-wpvr-meta-field.php:417
 msgid ""
 "Set a time after which auto rotation will stop. Assign in milliseconds, "
 "where 1000 milliseconds = 1 second."
 msgstr ""
+"Aseta aika, jonka jälkeen automaattinen kierto pysähtyy. Määritä "
+"millisekunteina, missä 1000 millisekuntia = 1 sekunti."
 
-#: admin/classes/class-tour-guide-translation.php:12
+#: admin/classes/class-tour-guide-translation.php:13
+#: production/admin/classes/class-tour-guide-translation.php:13
 msgid "Set a Title to Your Virtual Tour"
-msgstr ""
+msgstr "Aseta otsikko virtuaalikierroksellesi"
 
 #: admin/classes/class-wpvr-meta-field.php:140
+#: production/admin/classes/class-wpvr-meta-field.php:140
 msgid "Set a Tour Preview Image"
-msgstr ""
+msgstr "Aseta kiertueen esikatselukuva"
 
 #: admin/classes/class-wpvr-meta-field.php:399
+#: production/admin/classes/class-wpvr-meta-field.php:399
 msgid ""
 "Set a value to determine the speed of rotation. The higher the number, the "
 "faster it will rotate. Positive values will make it rotate clockwise and "
 "negative values will make it rotate anti clockwise"
 msgstr ""
+"Aseta arvo kiertonopeuden määrittämiseksi. Mitä suurempi luku, sitä "
+"nopeammin se pyörii. positiiviset arvot saavat sen pyörimään myötäpäivään ja "
+"negatiiviset arvot saavat sen pyörimään vastapäivään"
 
-#: admin/classes/class-tour-guide-translation.php:47
+#: admin/classes/class-tour-guide-translation.php:48
+#: production/admin/classes/class-tour-guide-translation.php:48
 msgid ""
 "Set an unique Hotspot ID to each of your Hotspots. Avoid Spaces & special "
 "characters. Set it like H1 or 01"
 msgstr ""
+"Aseta jokaiselle hotspotille ainutlaatuinen hotspot-tunnus. Vältä "
+"välilyöntejä ja erikoismerkkejä. Aseta se kuten H1 tai 01"
 
 #: admin/classes/class-wpvr-meta-field.php:866
 #: admin/classes/class-wpvr-meta-field.php:914
+#: production/admin/classes/class-wpvr-meta-field.php:866
+#: production/admin/classes/class-wpvr-meta-field.php:914
 msgid "Set as Default"
-msgstr ""
+msgstr "asettaa oletusarvoon"
 
 #: admin/partials/wpvr_setup_wizard.php:162
+#: production/admin/partials/wpvr_setup_wizard.php:162
 msgid "Set Contact Form"
-msgstr ""
+msgstr "Aseta yhteydenottolomake"
 
-#: admin/classes/class-tour-guide-translation.php:46
+#: admin/classes/class-tour-guide-translation.php:47
+#: production/admin/classes/class-tour-guide-translation.php:47
 msgid "Set Hotspot ID"
-msgstr ""
+msgstr "Aseta hotspot ID"
 
-#: admin/classes/class-tour-guide-translation.php:66
-#: admin/classes/class-tour-guide-translation.php:70
+#: admin/classes/class-tour-guide-translation.php:67
+#: admin/classes/class-tour-guide-translation.php:71
+#: production/admin/classes/class-tour-guide-translation.php:67
+#: production/admin/classes/class-tour-guide-translation.php:71
 msgid "Set The Content for Click Action"
-msgstr ""
+msgstr "Aseta sisältö napsautustoiminnolle"
 
-#: admin/classes/class-tour-guide-translation.php:17
+#: admin/classes/class-tour-guide-translation.php:18
+#: production/admin/classes/class-tour-guide-translation.php:18
 msgid ""
 "Set the Scene ID for your first panorama image. The Scene ID has to be "
 "unique for each scene and without any spaces or special characters. You can "
 "set it as Scene1, S1, or simply 01."
 msgstr ""
+"Aseta kohtaustunnus ensimmäiselle panoraamakuvallesi. Kohtaustunnuksen on "
+"oltava yksilöllinen jokaisessa kohtauksessa ja ilman välilyöntejä tai "
+"erikoishahmoja. Voit asettaa sen kohtaukseksi1, S1 tai yksinkertaisesti 01."
 
 #: admin/classes/class-wpvr-meta-field.php:749
+#: production/admin/classes/class-wpvr-meta-field.php:749
 msgid "Set Zoom Preferences"
-msgstr ""
+msgstr "Aseta zoomausasetukset"
 
 #: admin/partials/wpvr_documentation.php:150
+#: production/admin/partials/wpvr_documentation.php:150
 msgid "Settings"
-msgstr ""
+msgstr "asetukset"
 
-#: admin/class-wpvr-admin.php:259
+#: admin/class-wpvr-admin.php:268 production/admin/class-wpvr-admin.php:267
 msgid "Setup"
-msgstr ""
+msgstr "systeemi"
 
 #: admin/partials/wpvr_documentation.php:174
+#: production/admin/partials/wpvr_documentation.php:174
 msgid "Share On"
-msgstr "Jaa"
+msgstr "jakaa"
 
 #: admin/classes/class-wpvr-general.php:116
+#: production/admin/classes/class-wpvr-general.php:116
 msgid "Share your tour"
-msgstr ""
+msgstr "Jaa kiertueesi"
 
-#: wpvr.php:2645
+#: wpvr.php:2647 production/wpvr.php:2647
 msgid ""
 "Since you have updated the plugin, please clear the browser cache for smooth "
 "functioning. Follow these steps if you are using <a href=\"https://support."
@@ -1301,275 +1778,395 @@ msgid ""
 "us/help/10607/microsoft-edge-view-delete-browser-history\" target=\"_blank\">"
 "Microsoft Edge</a>"
 msgstr ""
+"Koska olet päivittänyt laajennuksen, tyhjennä selaimen välimuisti, jotta se "
+"toimii sujuvasti. nostoaikavedreviretten kirjasina painotettua arvoa, painos "
+"kirjallisesti kirjattu painos arvoa, chromen kirjasin, kirjasin kromi, "
+"chrome on lastleted, ovat ennestetty ennen jnk kirjainta."
 
 #: admin/partials/wpvr_setup_wizard.php:194
+#: production/admin/partials/wpvr_setup_wizard.php:194
 msgid "Starts from only"
-msgstr ""
+msgstr "Alkaa vain"
 
 #: admin/classes/class-wpvr-meta-field.php:412
+#: production/admin/classes/class-wpvr-meta-field.php:412
 msgid "Stop Auto-rotation after"
-msgstr ""
+msgstr "lopeta automaattinen kierto sen jälkeen"
 
 #: admin/classes/class-wpvr-meta-field.php:3126
+#: production/admin/classes/class-wpvr-meta-field.php:3126
 msgid "Style"
-msgstr ""
+msgstr "tyyli"
 
-#: admin/partials/wpvr_documentation.php:211
+#: admin/partials/wpvr_documentation.php:789
+#: production/admin/partials/wpvr_documentation.php:789
+msgid "Submit"
+msgstr "esittää"
+
+#: admin/partials/wpvr_documentation.php:215
+#: production/admin/partials/wpvr_documentation.php:215
 msgid "Support"
-msgstr "Tuki"
+msgstr "kannatin"
 
 #: admin/partials/wpvr_setup_wizard.php:15
 #: admin/partials/wpvr_setup_wizard.php:205
+#: production/admin/partials/wpvr_setup_wizard.php:15
+#: production/admin/partials/wpvr_setup_wizard.php:205
 msgid "Take The Tour"
-msgstr ""
+msgstr "käydä jkn kimppuun"
 
 #: admin/classes/class-wpvr-meta-field.php:1029
 #: admin/classes/class-wpvr-meta-field.php:1090
 #: admin/classes/class-wpvr-meta-field.php:1157
 #: admin/classes/class-wpvr-meta-field.php:1223
 #: admin/classes/class-wpvr-meta-field.php:1282
+#: production/admin/classes/class-wpvr-meta-field.php:1029
+#: production/admin/classes/class-wpvr-meta-field.php:1090
+#: production/admin/classes/class-wpvr-meta-field.php:1157
+#: production/admin/classes/class-wpvr-meta-field.php:1223
+#: production/admin/classes/class-wpvr-meta-field.php:1282
 msgid "Target Scene ID"
-msgstr ""
+msgstr "Kohdekohtaustunnus"
 
 #: admin/classes/class-wpvr-meta-field.php:3064
+#: production/admin/classes/class-wpvr-meta-field.php:3064
 msgid "Text Decoration"
-msgstr ""
+msgstr "tekstin koristelu"
 
 #: admin/classes/class-wpvr-meta-field.php:3074
+#: production/admin/classes/class-wpvr-meta-field.php:3074
 msgid "Text Transform"
-msgstr ""
+msgstr "tekstinmuunnos"
 
 #: admin/partials/wpvr_setup_wizard.php:10
+#: production/admin/partials/wpvr_setup_wizard.php:10
 msgid "Thank you"
-msgstr ""
+msgstr "kiitos"
 
-#: admin/partials/wpvr_documentation.php:1072
+#: admin/partials/wpvr_documentation.php:1088
+#: production/admin/partials/wpvr_documentation.php:1088
 msgid ""
 "The notice will appear on the front end of the virtual tour if viewed from a "
 "mobile device."
 msgstr ""
+"Ilmoitus näkyy virtuaalikierroksen etupäässä, jos sitä katsotaan "
+"mobiililaitteella."
 
 #: admin/classes/class-wpvr-meta-field.php:163
+#: production/admin/classes/class-wpvr-meta-field.php:163
 msgid ""
 "This option will display Zoom In, Zoom Out and Full Screen buttons on the "
 "tour."
 msgstr ""
+"Tämä vaihtoehto näyttää zoomauksen, loitonnuksen ja koko näytön painikkeet "
+"kiertueella."
 
 #: admin/classes/class-wpvr-meta-field.php:2269
+#: production/admin/classes/class-wpvr-meta-field.php:2269
 msgid "This option will not work if the \"Tour Autoload\" is turned on."
-msgstr ""
+msgstr "Tämä vaihtoehto ei toimi, jos \"Tour Autoload\" on päällä."
 
 #: admin/classes/class-wpvr-meta-field.php:214
+#: production/admin/classes/class-wpvr-meta-field.php:214
 msgid "This will set the scene fade effect and execution time."
-msgstr ""
+msgstr "Tämä asettaa kohtauksen häipymisefektin ja suoritusajan."
 
 #: admin/classes/class-wpvr-general.php:95
+#: production/admin/classes/class-wpvr-general.php:95
 msgid "To Embed on External Page:"
-msgstr ""
+msgstr "upottaaksesi ulkoiselle sivulle:"
 
 #: admin/classes/class-wpvr-shortcode.php:39
-#, fuzzy
+#: production/admin/classes/class-wpvr-shortcode.php:39
 #| msgid ""
 #| "To use this Wpvr tour in your posts or pages use the following shortcode:"
 msgid ""
 "To use this WP VR tour in your posts or pages use the following shortcode "
 msgstr ""
-"Käytä tätä WPVR-kiertuetta viesteissäsi tai sivuillasi käyttämällä seuraavaa "
-"lyhytkoodia:"
+"Käytä seuraavaa lyhytkoodia käyttääksesi tätä WP VR -kierrosta viesteissäsi "
+"tai sivuillasi"
 
 #: admin/classes/class-wpvr-meta-field.php:3146
+#: production/admin/classes/class-wpvr-meta-field.php:3146
 msgid "Top"
-msgstr ""
+msgstr "yläpää"
 
 #: admin/classes/class-wpvr-meta-field.php:151
+#: production/admin/classes/class-wpvr-meta-field.php:151
 msgid "Tour Autoload"
-msgstr ""
+msgstr "Matkan autolataus"
 
-#: admin/partials/wpvr_documentation.php:388
+#: admin/partials/wpvr_documentation.php:404
+#: production/admin/partials/wpvr_documentation.php:404
 msgid "Tour Background Audio"
-msgstr ""
+msgstr "Tourin taustaääni"
 
 #: admin/classes/class-wpvr-meta-field.php:733
+#: production/admin/classes/class-wpvr-meta-field.php:733
 msgid "Tour Background Music"
-msgstr ""
+msgstr "Kiertueen taustamusiikki"
 
-#: admin/class-wpvr-admin.php:261
+#: admin/class-wpvr-admin.php:270 production/admin/class-wpvr-admin.php:269
 msgid "Tour Preview"
-msgstr ""
+msgstr "matkan esikuva"
 
 #: admin/classes/class-wpvr-meta-field.php:154
+#: production/admin/classes/class-wpvr-meta-field.php:154
 msgid "Tour Preview Image will not appear if this is turned on."
-msgstr ""
+msgstr "Kiertueen esikatselukuva ei näy, jos tämä on päällä."
 
 #: admin/classes/class-wpvr-admin-pages.php:71
+#: production/admin/classes/class-wpvr-admin-pages.php:71
 msgid "Tours"
-msgstr ""
+msgstr "matkat"
 
 #: admin/classes/class-wpvr-meta-field.php:713
 #: admin/classes/class-wpvr-meta-field.php:729
+#: production/admin/classes/class-wpvr-meta-field.php:713
+#: production/admin/classes/class-wpvr-meta-field.php:729
 msgid ""
 "Turning it On will display a gallery with all the scenes on your tour. By "
 "double clicking on a scene thumbnail on the gallery, you can move to that "
 "specific scene. The gallery will only show up on the front end and not on "
 "the preview."
 msgstr ""
+"Sen käynnistäminen näyttää gallerian, jossa on kaikki kiertueesi kohtaukset. "
+"Kaksoisnapsauttamalla gallerian kohtauksen pikkukuvaa voit siirtyä kyseiseen "
+"kohtaukseen. Galleria näkyy vain etupäässä, ei esikatselussa."
 
 #: admin/classes/class-wpvr-meta-field.php:721
+#: production/admin/classes/class-wpvr-meta-field.php:721
 msgid ""
 "Turning it on will display scene titles on each scene thumbnail inside the "
 "Scene Gallery. The Scene IDs will be used as the Scene Title."
 msgstr ""
+"Sen ottaminen käyttöön näyttää kohtausten otsikot jokaisessa "
+"kohtausgalleriassa olevassa kohtauksen pikkukuvassa. Kohtauksen tunnuksena "
+"käytetään kohtauksen nimiä."
+
+#: admin/class-wpvr-admin.php:215 production/admin/class-wpvr-admin.php:215
+msgid ""
+"Turning On The StreetView Option Will Erase Your Virtual Tour Data. Are You "
+"Sure?"
+msgstr ""
+"StreetView-vaihtoehdon ottaminen käyttöön poistaa virtuaalimatkatietosi. "
+"Oletko varma?"
+
+#: admin/class-wpvr-admin.php:214 production/admin/class-wpvr-admin.php:214
+msgid ""
+"Turning On The Video Option Will Erase Your Virtual Tour Data. Are You Sure?"
+msgstr ""
+"Videovaihtoehdon ottaminen käyttöön poistaa virtuaalimatkatietosi. Oletko "
+"varma?"
 
 #: admin/classes/class-wpvr-meta-field.php:3067
+#: production/admin/classes/class-wpvr-meta-field.php:3067
 msgid "Underline"
-msgstr ""
+msgstr "alleviivata"
 
-#: admin/partials/wpvr_documentation.php:305
+#: admin/partials/wpvr_documentation.php:321
+#: production/admin/partials/wpvr_documentation.php:321
 msgid "Unlimited Hotspots (Up to to 5 for a scene in free)"
-msgstr ""
+msgstr "Rajoittamaton hotspots (jopa 5 kohtaukseen ilmaiseksi)"
 
-#: admin/partials/wpvr_documentation.php:291
+#: admin/partials/wpvr_documentation.php:307
+#: production/admin/partials/wpvr_documentation.php:307
 msgid "Unlimited Scenes (Up to 5 in Free)"
-msgstr ""
+msgstr "Rajoittamaton kohtaus (jopa 5 ILMAISEKSI)"
 
 #: admin/partials/wpvr_setup_wizard.php:112
+#: production/admin/partials/wpvr_setup_wizard.php:112
 msgid "Unlock all these options by upgrading to Premium version"
-msgstr ""
+msgstr "Avaa kaikki nämä vaihtoehdot päivittämällä premium-versioon"
 
 #: admin/partials/wpvr_setup_wizard.php:113
+#: production/admin/partials/wpvr_setup_wizard.php:113
 msgid "Upgrade Now"
-msgstr ""
+msgstr "Päivitä nyt"
 
-#: admin/partials/wpvr_documentation.php:280
-#: admin/partials/wpvr_documentation.php:749
+#: admin/partials/wpvr_documentation.php:296
+#: admin/partials/wpvr_documentation.php:765
+#: production/admin/partials/wpvr_documentation.php:296
+#: production/admin/partials/wpvr_documentation.php:765
 msgid "Upgrade to Pro"
-msgstr "Päivittää Pro: hon"
+msgstr "Päivitä Pro"
 
 #: admin/partials/wpvr_documentation.php:169
-#: admin/partials/wpvr_documentation.php:263
-#: admin/partials/wpvr_documentation.php:1162
-#, fuzzy
+#: admin/partials/wpvr_documentation.php:279
+#: admin/partials/wpvr_documentation.php:1178
+#: production/admin/partials/wpvr_documentation.php:169
+#: production/admin/partials/wpvr_documentation.php:279
+#: production/admin/partials/wpvr_documentation.php:1178
 #| msgid "Upgrade to pro"
 msgid "Upgrade to Pro "
-msgstr "Päivittää Pro: hon"
+msgstr "Päivitä Pro"
 
 #: admin/classes/class-wpvr-meta-field.php:1605
+#: production/admin/classes/class-wpvr-meta-field.php:1605
 msgid "Upload or Add Link"
-msgstr ""
+msgstr "Lataa tai lisää linkki"
 
-#: admin/classes/class-tour-guide-translation.php:20
+#: admin/classes/class-tour-guide-translation.php:21
+#: production/admin/classes/class-tour-guide-translation.php:21
 msgid "Upload Panorama Image"
-msgstr ""
+msgstr "lataa panoraamakuva"
 
 #: admin/classes/class-wpvr-meta-field.php:3077
+#: production/admin/classes/class-wpvr-meta-field.php:3077
 msgid "Uppercase"
-msgstr ""
+msgstr "isot kirjaimet"
 
 #: admin/classes/class-wpvr-meta-field.php:1003
 #: admin/classes/class-wpvr-meta-field.php:1059
 #: admin/classes/class-wpvr-meta-field.php:1126
 #: admin/classes/class-wpvr-meta-field.php:1192
 #: admin/classes/class-wpvr-meta-field.php:1252
+#: production/admin/classes/class-wpvr-meta-field.php:1003
+#: production/admin/classes/class-wpvr-meta-field.php:1059
+#: production/admin/classes/class-wpvr-meta-field.php:1126
+#: production/admin/classes/class-wpvr-meta-field.php:1192
+#: production/admin/classes/class-wpvr-meta-field.php:1252
 msgid "URL"
-msgstr ""
+msgstr "puhelinkopio"
 
 #: admin/classes/class-wpvr-general.php:99
+#: production/admin/classes/class-wpvr-general.php:99
 msgid "Use the iframe below to share this tour on an external page."
 msgstr ""
+"Käytä alla olevaa iframe-kehystä jakaaksesi tämän kiertueen ulkoisella "
+"sivulla."
 
 #: admin/classes/class-wpvr-general.php:89
 #: admin/classes/class-wpvr-shortcode.php:32
+#: production/admin/classes/class-wpvr-general.php:89
+#: production/admin/classes/class-wpvr-shortcode.php:32
 msgid "Using this Tour"
-msgstr ""
+msgstr "Käyttämällä tätä kiertuetta"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:57
+#: production/oxygen/elements/Wpvr_Tour_Element.php:57
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
 msgid "vh"
-msgstr ""
+msgstr "VH"
 
 #: admin/classes/class-wpvr-meta-field.php:115
+#: production/admin/classes/class-wpvr-meta-field.php:115
 msgid "Video"
-msgstr ""
+msgstr "video"
 
 #: admin/classes/class-wpvr-video.php:46
+#: production/admin/classes/class-wpvr-video.php:46
 msgid "Video Settings : "
-msgstr ""
+msgstr "Videoasetukset:"
 
 #: admin/partials/wpvr_documentation.php:109
+#: production/admin/partials/wpvr_documentation.php:109
 msgid "Video Tutorials"
-msgstr "Video-oppaat"
+msgstr "opetusvideoita"
 
-#: admin/partials/wpvr_documentation.php:512
+#: admin/partials/wpvr_documentation.php:528
+#: production/admin/partials/wpvr_documentation.php:528
 msgid "VR Glass Support for Video Tours"
-msgstr ""
+msgstr "VR-lasituki videokierroksille"
 
-#: admin/partials/wpvr_documentation.php:1079
+#: admin/partials/wpvr_documentation.php:1095
+#: production/admin/partials/wpvr_documentation.php:1095
 msgid "VR GLass Support:"
-msgstr ""
+msgstr "VR-lasituki:"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:78
+#: production/oxygen/elements/Wpvr_Tour_Element.php:78
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:120
 msgid "vw"
-msgstr ""
+msgstr "VW"
 
 #: admin/classes/class-wpvr-meta-field.php:408
+#: production/admin/classes/class-wpvr-meta-field.php:408
 msgid ""
 "When someone clicks on the tour, auto-rotation stops. Here, set a time after "
 "which auto rotation will start again. Assign in milliseconds, where 1000 "
 "milliseconds = 1 second."
 msgstr ""
+"Kun joku napsauttaa kiertuetta, automaattinen kierto pysähtyy. Aseta tässä "
+"aika, jonka jälkeen automaattinen kierto alkaa uudelleen. Määritä "
+"millisekunteina, missä 1000 millisekuntia = 1 sekunti."
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
 msgid "Width"
-msgstr ""
+msgstr "leveys"
 
 #: admin/classes/class-wpvr-meta-field.php:3121
+#: production/admin/classes/class-wpvr-meta-field.php:3121
 msgid "Width (px)"
-msgstr ""
+msgstr "leveys (px)"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:83
+#: production/oxygen/elements/Wpvr_Tour_Element.php:83
 msgid "Width Fullwidth"
-msgstr ""
+msgstr "leveys täysleveys"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:70
+#: production/oxygen/elements/Wpvr_Tour_Element.php:70
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:114
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:115
 msgid "Width Unit"
-msgstr ""
+msgstr "ykkönen"
 
 #: elementor/elements/Wpvr-widget.php:165
+#: production/elementor/elements/Wpvr-widget.php:165
 msgid "Width:"
-msgstr "Leveys:"
+msgstr "leveys:"
 
-#: admin/partials/wpvr_documentation.php:1100
+#: admin/partials/wpvr_documentation.php:1116
+#: production/admin/partials/wpvr_documentation.php:1116
 msgid ""
 "Will activate the VR Glass support on mobile devices. This is the Beta "
 "release. So, if you face any issues with it, please contact us at "
 "support@rextheme.com"
 msgstr ""
+"Aktivoi VR-lasituen mobiililaitteissa. Tämä on beta-julkaisu. Joten jos "
+"kohtaat ongelmia sen kanssa, ota meihin yhteyttä osoitteeseen "
+"support@rextheme.com"
 
-#: admin/partials/wpvr_documentation.php:1126
+#: admin/partials/wpvr_documentation.php:1142
+#: production/admin/partials/wpvr_documentation.php:1142
 msgid ""
 "Will convert any jpeg or png image to webp format during media upload. will "
 "decrease the image size with no quality compromise and help the site to load "
 "faster."
 msgstr ""
+"Muuntaa minkä tahansa JPEG- tai PNG-kuvan WebP-muotoon median latauksen "
+"aikana. Pienennä kuvan kokoa ilman laatukompromissia ja auttaa sivustoa "
+"latautumaan nopeammin."
 
-#: admin/partials/wpvr_documentation.php:333
+#: admin/partials/wpvr_documentation.php:349
+#: production/admin/partials/wpvr_documentation.php:349
 msgid "WooCommerce Add-on"
-msgstr ""
+msgstr "WooCommerce-lisäosa"
 
 #: admin/classes/class-wpvr-meta-field.php:3108
+#: production/admin/classes/class-wpvr-meta-field.php:3108
 msgid "Word Spacing (px)"
-msgstr ""
+msgstr "Sanaväli (PX)"
 
-#: admin/partials/wpvr_documentation.php:930
+#: admin/partials/wpvr_documentation.php:946
+#: production/admin/partials/wpvr_documentation.php:946
 msgid ""
 "WordPress's default large image handler for images larger than 2560px will "
 "be disabled for WP VR. So can create virtual tours with extremely high-"
 "quality images. Enabling it will also show high res image on mobile devices. "
 "Many devices may not support that resolution."
 msgstr ""
+"WordPressin oletussuuri kuvankäsittelijä yli 2560 pikseliä oleville kuville "
+"poistetaan käytöstä WP VR:ssä. Joten voit luoda virtuaalisia retkiä erittäin "
+"laadukkailla kuvilla. Sen käyttöönotto näyttää myös korkearesoluutioisen "
+"kuvan mobiililaitteissa. Monet laitteet eivät välttämättä tue tätä "
+"resoluutiota."
 
 #. Name of the plugin
 msgid "WP VR"
@@ -1580,128 +2177,170 @@ msgid ""
 "WP VR - 360 Panorama and virtual tour creator for WordPress is a customized "
 "panaroma & virtual builder tool for WordPress Website."
 msgstr ""
-"WP VR - 360 Panoraama ja virtuaalikiertueiden luoja WordPressille on "
-"räätälöity panoraama- ja virtuaalinen rakennustyökalu WordPress-"
-"verkkosivustoon."
+"WP VR - 360 Panorama and Virtual Tour Creator for WordPress on mukautettu "
+"Panaroma & Virtual Builder -työkalu WordPress-verkkosivustolle."
 
-#: admin/partials/wpvr_documentation.php:983
-#: admin/partials/wpvr_documentation.php:1023
+#: admin/partials/wpvr_documentation.php:999
+#: admin/partials/wpvr_documentation.php:1039
+#: production/admin/partials/wpvr_documentation.php:999
+#: production/admin/partials/wpvr_documentation.php:1039
 msgid ""
 "WP VR assets will be loaded on your allowed pages only. If you turn this on, "
 "you have to list the URL's of the pages with virtual tours on the 'List of "
 "allowed pages to load WP VR scripts' option"
 msgstr ""
+"WP VR -resurssit ladataan vain sallituille sivuillesi. Jos otat tämän "
+"käyttöön, sinun on lueteltava sivujen URL-osoitteet virtuaalikierroksilla "
+"\"WP VR -skriptien lataamiseen sallittujen sivujen luettelo\" -vaihtoehdossa"
 
 #: admin/class-wpvr-rollback.php:160
+#: production/admin/class-wpvr-rollback.php:160
 msgid "WP VR Plugin Rollback"
-msgstr ""
+msgstr "wp vr plugin rollback"
 
-#: admin/partials/wpvr_documentation.php:878
+#: admin/partials/wpvr_documentation.php:894
+#: production/admin/partials/wpvr_documentation.php:894
 msgid "WP VR will not load Font Awesome library."
-msgstr ""
+msgstr "WP VR ei lataa Font Awesome -kirjastoa."
 
-#: admin/partials/wpvr_documentation.php:904
+#: admin/partials/wpvr_documentation.php:920
+#: production/admin/partials/wpvr_documentation.php:920
 msgid "WP VR will resize each scenes for mobile devices."
-msgstr ""
+msgstr "WP VR muuttaa jokaisen kohtauksen kokoa mobiililaitteille."
 
-#: admin/partials/wpvr_documentation.php:233
+#: admin/partials/wpvr_documentation.php:243
+#: production/admin/partials/wpvr_documentation.php:243
 msgid "WPFunnels"
-msgstr ""
+msgstr "WPNELJÄT"
 
 #: elementor/elements/Wpvr-widget.php:44
+#: production/elementor/elements/Wpvr-widget.php:44
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
-#, fuzzy
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
 #| msgid "Wpvr"
 msgid "WPVR"
 msgstr "WPVR"
 
-#: admin/partials/wpvr_documentation.php:278
+#: admin/partials/wpvr_documentation.php:294
+#: production/admin/partials/wpvr_documentation.php:294
 msgid "WPVR Feature Comparison"
-msgstr ""
+msgstr "WPVR-ominaisuuksien vertailu"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:148
 msgid "WPVR Height"
-msgstr ""
+msgstr "wpvr korkeus"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
 msgid "WPVR Mobile Height"
-msgstr ""
+msgstr "wpvr-mobiilikorkeus"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
 msgid "WPVR Radius"
-msgstr ""
+msgstr "WPVR säde"
 
 #: elementor/elements/Wpvr-widget.php:146
-#, fuzzy
+#: production/elementor/elements/Wpvr-widget.php:146
 #| msgid "Wpvr Setup"
 msgid "WPVR Setup"
-msgstr "WPVR-asennus"
+msgstr "WPVR asetus"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
 msgid "WPVR Tour ID"
-msgstr ""
+msgstr "WPVR-kiertueen tunnus"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:104
 msgid "WPVR Width"
-msgstr ""
+msgstr "wpvr leveys"
+
+#: admin/class-wpvr-admin.php:213 production/admin/class-wpvr-admin.php:213
+msgid "Write your css here"
+msgstr "Kirjoita CSS tähän"
 
 #: admin/classes/class-wpvr-meta-field.php:310
+#: production/admin/classes/class-wpvr-meta-field.php:310
 msgid "Write your custom css"
-msgstr ""
+msgstr "Kirjoita mukautettu CSS"
 
 #: admin/classes/class-wpvr-meta-field.php:971
+#: production/admin/classes/class-wpvr-meta-field.php:971
 msgid "Yaw"
-msgstr ""
+msgstr "viipottaa"
 
 #: admin/classes/class-wpvr-meta-field.php:1650
 #: admin/partials/wpvr_confirmation_alert.php:29
+#: production/admin/classes/class-wpvr-meta-field.php:1650
+#: production/admin/partials/wpvr_confirmation_alert.php:29
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
+#: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:136
 msgid "Yes"
-msgstr ""
+msgstr "jaaka"
 
-#: admin/partials/wpvr_documentation.php:956
+#: admin/partials/wpvr_documentation.php:972
+#: production/admin/partials/wpvr_documentation.php:972
 msgid ""
 "You can disable on hover content for mobile devices. As most of the devices "
 "are touch based."
 msgstr ""
+"Voit poistaa käytöstä Mobile-laitteiden HOver-sisällön. koska suurin osa "
+"laitteista on kosketuspohjaisia."
 
 #: admin/classes/class-wpvr-meta-field.php:1783
 #: admin/classes/class-wpvr-meta-field.php:1818
+#: production/admin/classes/class-wpvr-meta-field.php:1783
+#: production/admin/classes/class-wpvr-meta-field.php:1818
 msgid ""
 "You can use any image size but maximum image upload size recommended to "
 "support all device is 4096x2000 px for perfect responsive view. To check 360 "
 "view, click on preview button and check tour preview metabox."
 msgstr ""
+"Voit käyttää mitä tahansa kuvakokoa, mutta kaikkien laitteiden tukemiseen "
+"suositeltu enimmäiskuva on 4096x2000 px täydellisen responsiivisen näkymän "
+"saavuttamiseksi. Tarkista 360-näkymä napsauttamalla Esikatselu-painiketta ja "
+"tarkistamalla Tour Preview -metabox."
 
-#: admin/classes/class-tour-guide-translation.php:29
+#: admin/classes/class-tour-guide-translation.php:30
+#: production/admin/classes/class-tour-guide-translation.php:30
 msgid "Your Image In Tour Mode"
-msgstr ""
+msgstr "Kuvasi kiertuetilassa"
 
-#: admin/partials/wpvr_documentation.php:221
+#: admin/partials/wpvr_documentation.php:230
+#: production/admin/partials/wpvr_documentation.php:230
 msgid ""
 "Your rating and feedback matters to us. If you are happy with WP VR - 360 "
 "Panorama and virtual tour creator for WordPress give us a rating."
 msgstr ""
-"Arvostelu ja palaute ovat meille tärkeitä. Jos olet tyytyväinen WP VR - 360 "
-"Panorama -sovellukseen ja WordPressin virtuaalikierroksen luoja, antaa "
-"meille arvosanan."
+"Arvosanasi ja palautteesi ovat meille tärkeitä. Jos olet tyytyväinen WP:n VR "
+"- 360 Panoramaan ja Virtual Tourin luojaan, anna meille arvio."
 
 #: admin/partials/wpvr_setup_wizard.php:125
+#: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Your Viewers - And Make Them Take"
-msgstr ""
+msgstr "katsojasi - ja pakota heidät ottamaan"
 
 #: admin/classes/class-wpvr-meta-field.php:801
+#: production/admin/classes/class-wpvr-meta-field.php:801
 msgid "Zoom In"
-msgstr ""
+msgstr "zoomata"
 
 #: admin/classes/class-wpvr-meta-field.php:752
+#: production/admin/classes/class-wpvr-meta-field.php:752
 msgid ""
 "Zoom interval is 50 to 120 degree. You can put any value between 50 to 120. "
 "As an example, if you set 100, the scene will display with zoom in 100 "
 "degree on each load."
 msgstr ""
+"Zoomaväli on 50-120 astetta. Voit laittaa minkä tahansa arvon välille 50-120."
+" Esimerkiksi, jos asetat 100, kohtaus näkyy zoomauksella 100 astetta "
+"jokaisessa kuormassa."
 
 #: admin/classes/class-wpvr-meta-field.php:820
+#: production/admin/classes/class-wpvr-meta-field.php:820
 msgid "Zoom Out"
-msgstr ""
+msgstr "loihtia"

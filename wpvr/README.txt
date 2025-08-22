@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.8.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.36
+Stable tag: 8.5.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -461,6 +461,16 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.37 (22-08-2025) =
+* Fix: Corrected misplacement of floor plan points in backend preview for landscape images
+* Fix: Restored hotspot hover and click functionality to correctly display images in both backend preview and frontend
+* Fix: Ensured Generic Form icon appears and functions correctly on frontend tours embedded via both shortcode and block editor
+* Fix: Resolved raw JSON issue for Fluent Forms hotspot
+* Fix: Long scene titles no longer distort scene gallery previews
+* Fix: Spacing issue in Classic layout’s scene gallery when in fullscreen mode
+* Fix: Prevented long scene titles from breaking scene gallery alignment
+* Enhancement: Translation update for German, Dutch, French, Italian, Spanish, Arabic, Croatian, Czech, Danish, Finnish, German (Switzerland), Japanese, Polish, Portuguese (Portugal), Russian, Swedish, Chinese (China), Greek, Hebrew, Portuguese (Brazil)
 
 = 8.5.36 (23-07-2025) =
 * Fix: iOS motion/orientation permission prompt added to enable gyroscope

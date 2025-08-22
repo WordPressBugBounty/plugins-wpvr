@@ -595,6 +595,8 @@ class WPVR_Scene {
      */
     public function render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height)
     {
+        do_action('rex_wpvr_embadded_tour', $id, 'scene');
+
         $control = false;
         if (isset($postdata['showControls'])) {
             $control = $postdata['showControls'];
@@ -1154,7 +1156,7 @@ class WPVR_Scene {
         $response = array();
         $response = array($pano_id_array, $pano_response);
         if (!empty($response)) {
-            $response = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $response = json_encode($response);
         }
 
 
@@ -1486,6 +1488,29 @@ class WPVR_Scene {
         }
         //===company logo ends===//
 
+        //===Generic Form===//
+        if (isset($postdata["genericform"]) && $postdata["genericform"] === 'on') {
+            // Process shortcode with fallback handling
+            $shortcode_content = '';
+            if (isset($postdata["genericformshortcode"]) && !empty(trim($postdata["genericformshortcode"]))) {
+                $shortcode_content = do_shortcode($postdata["genericformshortcode"]);
+            } else {
+                $shortcode_content = '<p class="error-message">No shortcode found.</p>';
+            }
+
+            // Generate the form trigger button
+            $html .= '<div class="generic_form_button" id="generic_form_button_' . esc_attr($id) . '">';
+            $html .= '<div class="generic-form-icon" title ="Generic Form" id="generic_form_target_' . esc_attr($id) . '"><i class="fab fa-wpforms" style="color:#f7fffb;"></i></div>';
+            $html .= '</div>';
+
+            // Generate the modal form container
+            $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . esc_attr($id) . '" style="display: none">';
+            $html .= '<span class="close-generic-form"><i class="fa fa-times"></i></span>';
+            $html .= '<div class="generic-form-container">' . $shortcode_content . '</div>';
+            $html .= '</div>';
+        }
+        //===Generic Form ends===//
+
         //===Background Tour===//
         if (isset($postdata['bg_tour_enabler'])) {
 
@@ -1643,9 +1668,9 @@ class WPVR_Scene {
                     }
 
                     if( isset($postdata['tourLayout']['layout']) && 'layout1' !== $postdata['tourLayout']['layout']) {
-                        $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                        $html .= '<ul><li title="Double click to view scene"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
                     }else {
-                        $html .= '<ul><li title="Double click to view scene"><span class="scene-title">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                        $html .= '<ul><li title="Double click to view scene"><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span></li></ul>';
                     }
                 }
             }
@@ -2170,8 +2195,9 @@ class WPVR_Scene {
             }); 
             let onLoadAnalytics = false;
             let sceneLoadAnalytics = false;
+            console.log(wpvrAnalyticsObj);
             function storeAnalyticsData(data) {
-                if(wpvr_public.is_pro_active) {
+                if (typeof wpvrAnalyticsObj !== "undefined" && wpvr_public.is_pro_active) {
                     jQuery.ajax({
                         url: wpvrAnalyticsObj.ajaxUrl,
                         type: "POST",
@@ -2192,6 +2218,8 @@ class WPVR_Scene {
                             console.log("Error in storing data");
                         }
                     });
+                } else {
+                    console.warn("Analytics object not available or pro not active");
                 }
             }
             function getDeviceType() {
@@ -2305,7 +2333,8 @@ class WPVR_Scene {
                 getParent.find(".pano-wrap").addClass("wpvr-cardboard-disable-event");
                 getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").hide();
                 getParent.find("#pano' .$id. ' #controls'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #explainer_button_'.$id.'").hide();
+                getParent.find("#pano' .$id. ' #explainer_button_'.$id. '").hide();
+                getParent.find("#pano' . $id . ' #generic_form_button_' . $id . '").hide();
                 getParent.find("#pano' .$id. ' #floor_map_button_'.$id.'").hide();
                 getParent.find("#pano' .$id. ' #vrgcontrols'.$id.'").hide();
                 getParent.find("#pano' .$id. ' #sccontrols'.$id.'").hide();
@@ -2379,7 +2408,8 @@ class WPVR_Scene {
                 getParent.find(".pano-wrap").removeClass("wpvr-cardboard-disable-event");
                 getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").show();
                 getParent.find("#pano' .$id. ' #controls'.$id.'").show();
-                getParent.find("#pano' .$id. ' #explainer_button_'.$id.'").show();
+                getParent.find("#pano' .$id. ' #explainer_button_'.$id. '").show();
+                getParent.find("#pano' . $id . ' #generic_form_button_' . $id . '").show();
                 getParent.find("#pano' .$id. ' #floor_map_button_'.$id.'").show();
                 getParent.find("#pano2' . $id . ' .pnlm-controls-container").show();
                 getParent.find("#pano' . $id . ' .pnlm-controls-container").show();
@@ -2763,6 +2793,19 @@ class WPVR_Scene {
 
         //===Explainer Script End===//
 
+        //===generic form script===//
+        if (isset($postdata["genericform"]) && $postdata["genericform"] === 'on') {
+            $html .= '
+    jQuery(document).on("click","#generic_form_button_' . $id . '",function() {
+      jQuery("#wpvr-generic-form' . $id . '").fadeToggle();
+    });
+
+    jQuery(document).on("click",".close-generic-form",function() {
+      jQuery(this).parent(".wpvr-generic-form").fadeOut()
+    });
+    ';
+        }
+        //===generic from script===//
 
         //===Floor map  Script===//
         $html .= 'jQuery(document).on("click","#floor_map_button_' . $id . '",function() {
@@ -2854,6 +2897,7 @@ class WPVR_Scene {
                     jQuery("#zoom-in-out-controls' . $id . '").hide();
                     jQuery("#adcontrol' . $id . '").hide();
                     jQuery("#explainer_button_' . $id . '").hide();
+                    jQuery("#generic_form_button_' . $id . '").hide();
                     jQuery("#floor_map_button_' . $id . '").hide();
                     jQuery("#vrgcontrols' . $id . '").hide();
                     jQuery("#cp-logo-controls").hide();
@@ -2875,6 +2919,7 @@ class WPVR_Scene {
                     jQuery("#zoom-in-out-controls' . $id . '").show();
                     jQuery("#adcontrol' . $id . '").show();
                     jQuery("#explainer_button_' . $id . '").show();
+                    jQuery("#generic_form_button_' . $id . '").show();
                     jQuery("#floor_map_button_' . $id . '").show();
                     jQuery("#vrgcontrols' . $id . '").show();
                     jQuery("#cp-logo-controls").show();
@@ -2974,33 +3019,25 @@ class WPVR_Scene {
     }
 
     private function sanitize_content_preserve_styles($content) {
-        // Remove script tags completely
         $content = preg_replace('/<script\b[^>]*>.*?<\/script>/si', '', $content);
 
-        // Remove dangerous protocols
-        $content = preg_replace('/javascript:/i', '', $content);
-        $content = preg_replace('/vbscript:/i', '', $content);
-        $content = preg_replace('/data:/i', '', $content);
-        $content = preg_replace('/about:/i', '', $content);
+        $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*javascript:/i', '$1=""', $content);
+        $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*vbscript:/i', '$1=""', $content);
+        $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*data:/i', '$1=""', $content);
+        $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*about:/i', '$1=""', $content);
 
-        // Remove all event handlers (onclick, onload, etc.)
         $content = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/i', '', $content);
         $content = preg_replace('/\s*on\w+\s*=\s*[^>\s]+/i', '', $content);
 
-        // Remove dangerous tags that can execute code
         $content = preg_replace('/<(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)\b[^>]*>/i', '', $content);
         $content = preg_replace('/<\/(object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
 
-        // Sanitize CSS in style attributes - remove dangerous CSS functions
         $content = preg_replace_callback('/style\s*=\s*["\']([^"\']*)["\']/', function($matches) {
             $style = $matches[1];
-
-            // Remove dangerous CSS functions
             $style = preg_replace('/expression\s*\(/i', '', $style);
-            $style = preg_replace('/javascript:/i', '', $style);
-            $style = preg_replace('/vbscript:/i', '', $style);
-            $style = preg_replace('/data:/i', '', $style);
-            $style = preg_replace('/about:/i', '', $style);
+            $style = preg_replace('/javascript\s*:/i', '', $style);
+            $style = preg_replace('/vbscript\s*:/i', '', $style);
+            $style = preg_replace('/about\s*:/i', '', $style);
             $style = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $style);
             $style = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $style);
             $style = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $style);
@@ -3011,16 +3048,12 @@ class WPVR_Scene {
             return 'style="' . $style . '"';
         }, $content);
 
-        // Sanitize CSS in style tags
         $content = preg_replace_callback('/<style\b[^>]*>(.*?)<\/style>/si', function($matches) {
             $css = $matches[1];
-
-            // Remove dangerous CSS functions
             $css = preg_replace('/expression\s*\(/i', '', $css);
-            $css = preg_replace('/javascript:/i', '', $css);
-            $css = preg_replace('/vbscript:/i', '', $css);
-            $css = preg_replace('/data:/i', '', $css);
-            $css = preg_replace('/about:/i', '', $css);
+            $css = preg_replace('/javascript\s*:/i', '', $css);
+            $css = preg_replace('/vbscript\s*:/i', '', $css);
+            $css = preg_replace('/about\s*:/i', '', $css);
             $css = preg_replace('/url\s*\(\s*["\']?\s*javascript:/i', '', $css);
             $css = preg_replace('/url\s*\(\s*["\']?\s*vbscript:/i', '', $css);
             $css = preg_replace('/url\s*\(\s*["\']?\s*data:/i', '', $css);
@@ -3030,28 +3063,31 @@ class WPVR_Scene {
 
             return '<style>' . $css . '</style>';
         }, $content);
-
-        // Remove dangerous attributes from any tag
         $content = preg_replace('/\s*srcdoc\s*=\s*["\'][^"\']*["\']/i', '', $content);
         $content = preg_replace('/\s*formaction\s*=\s*["\'][^"\']*["\']/i', '', $content);
         $content = preg_replace('/\s*action\s*=\s*["\'][^"\']*["\']/i', '', $content);
-
-        // Clean up malformed HTML that might bypass filters
         $content = preg_replace('/<[^>]*script[^>]*>/i', '', $content);
-        $content = preg_replace('/<[^>]*on\w+[^>]*>/i', '', $content);
-
-        // Remove comments that might contain dangerous code
+        $content = preg_replace('/<[^>]*\s+on\w+\s*=[^>]*>/i', '', $content);
         $content = preg_replace('/<!--.*?-->/s', '', $content);
-
-        // Remove any remaining dangerous patterns
         $content = preg_replace('/\beval\s*\(/i', '', $content);
         $content = preg_replace('/\bsetTimeout\s*\(/i', '', $content);
         $content = preg_replace('/\bsetInterval\s*\(/i', '', $content);
-
-        // Final cleanup - remove any orphaned closing tags from removed elements
         $content = preg_replace('/<\/(script|object|embed|applet|iframe|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
-        error_log(wp_kses_post($content));
-        // Final pass with wp_kses_post for additional security
-        return wp_kses_post($content);
+        $allowed_tags = wp_kses_allowed_html('post');
+        $allowed_tags['img'] = array(
+            'src' => true,
+            'alt' => true,
+            'title' => true,
+            'width' => true,
+            'height' => true,
+            'class' => true,
+            'id' => true,
+            'style' => true,
+            'loading' => true,
+            'srcset' => true,
+            'sizes' => true
+        );
+        $result = wp_kses($content, $allowed_tags);
+        return $result;
     }
 }

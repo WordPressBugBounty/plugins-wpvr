@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP VR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-11 10:17+0000\n"
-"PO-Revision-Date: 2024-03-12 08:47+0000\n"
+"POT-Creation-Date: 2024-03-12 08:45+0000\n"
+"PO-Revision-Date: 2025-08-20 07:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -13,24 +13,25 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.6; wp-6.4.3"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.3.8\n"
+"X-Domain: wpvr"
 
 #: admin/classes/class-wpvr-meta-field.php:2256
 #: production/admin/classes/class-wpvr-meta-field.php:2256
 msgid " : "
-msgstr " : "
+msgstr ":"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:77
 #: production/oxygen/elements/Wpvr_Tour_Element.php:77
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:119
 msgid "%"
-msgstr "%"
+msgstr "٪"
 
 #: admin/partials/wpvr_setup_wizard.php:51
 #: production/admin/partials/wpvr_setup_wizard.php:51
 msgid "360 Degree Panorama"
-msgstr "بانوراما 360 درجة"
+msgstr "360 درجة بانوراما"
 
 #: admin/partials/wpvr_setup_wizard.php:87
 #: production/admin/partials/wpvr_setup_wizard.php:87
@@ -40,12 +41,12 @@ msgstr "فيديو 360 درجة"
 #: admin/partials/wpvr_documentation.php:488
 #: production/admin/partials/wpvr_documentation.php:488
 msgid "360 Video Support"
-msgstr "دعم فيديو 360 درجة"
+msgstr "360 دعم الفيديو"
 
 #: admin/partials/wpvr_documentation.php:460
 #: production/admin/partials/wpvr_documentation.php:460
 msgid "900+ Icons & RGB Color Support for Hotspots"
-msgstr "أكثر من 900 رمز ودعم ألوان RGB لنقاط الاتصال"
+msgstr "900+ أيقونات ودعم ألوان RGB للنقاط الساخنة"
 
 #: admin/classes/class-wpvr-meta-field.php:1648
 #: admin/classes/class-wpvr-meta-field.php:1674
@@ -141,7 +142,7 @@ msgstr "تفعيل الترخيص"
 #: admin/partials/wpvr_documentation.php:781
 #: production/admin/partials/wpvr_documentation.php:781
 msgid "add"
-msgstr "يضيف"
+msgstr "ضم"
 
 #: admin/classes/class-tour-guide-translation.php:44
 #: production/admin/classes/class-tour-guide-translation.php:44
@@ -149,13 +150,13 @@ msgid ""
 "Add a Hotspot inside your tour to show additional information like Paragraph,"
 " Heading, Image, Video, or multiple content."
 msgstr ""
-"أضف نقطة اتصال داخل جولتك لعرض معلومات إضافية مثل الفقرة أو العنوان أو "
-"الصورة أو الفيديو أو المحتوى المتعدد."
+"أضف نقطة اتصال داخل جولتك لعرض معلومات إضافية مثل فقرة أو عنوان أو صورة أو "
+"فيديو أو محتوى متعدد."
 
 #: admin/classes/class-wpvr-meta-field.php:757
 #: production/admin/classes/class-wpvr-meta-field.php:757
 msgid "Add Company Information"
-msgstr "أضف معلومات الشركة"
+msgstr "إضافة معلومات الشركة"
 
 #: admin/classes/class-wpvr-meta-field.php:427
 #: production/admin/classes/class-wpvr-meta-field.php:427
@@ -175,16 +176,16 @@ msgstr "إضافة معرف المشهد"
 #: admin/partials/wpvr_setup_wizard.php:193
 #: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Add-ons"
-msgstr "الإضافات"
+msgstr "إضافات"
 
 #: admin/class-wpvr-admin.php:216
 msgid "Adding Hotspots on Scene"
-msgstr "إضافة النقاط الساخنة على المشهد"
+msgstr "إضافة نقاط ساخنة في مكان الحادث"
 
 #: admin/classes/class-wpvr-meta-field.php:1318
 #: production/admin/classes/class-wpvr-meta-field.php:1318
 msgid "Advanced Controls"
-msgstr "الضوابط المتقدمة"
+msgstr "ضوابط متقدمة"
 
 #: admin/partials/wpvr_documentation.php:847
 #: production/admin/partials/wpvr_documentation.php:847
@@ -192,7 +193,7 @@ msgid ""
 "Allow the Authors of your site to Create, Edit, Update, and Delete virtual "
 "tours (They can access their own tours only):"
 msgstr ""
-"السماح لمؤلفي موقعك بإنشاء وتحرير وتحديث وحذف الجولات الافتراضية (يمكنهم "
+"اسمح لمؤلفي موقعك بإنشاء وتحرير وتحديث وحذف الجولات الافتراضية (يمكنهم "
 "الوصول إلى جولاتهم الخاصة فقط):"
 
 #: admin/partials/wpvr_documentation.php:822
@@ -225,12 +226,12 @@ msgstr "دعم الجيروسكوب التلقائي"
 #: admin/classes/class-wpvr-meta-field.php:218
 #: production/admin/classes/class-wpvr-meta-field.php:218
 msgid "Auto Rotation"
-msgstr "التدوير التلقائي"
+msgstr "التناوب التلقائي"
 
 #: admin/partials/wpvr_documentation.php:758
 #: production/admin/partials/wpvr_documentation.php:758
 msgid "Autoload & Autoplay Video Tours."
-msgstr "التحميل التلقائي والتشغيل التلقائي لجولات الفيديو."
+msgstr "جولات فيديو تحميل تلقائي وتشغيل تلقائي."
 
 #: admin/partials/wpvr_documentation.php:556
 #: production/admin/partials/wpvr_documentation.php:556
@@ -245,7 +246,7 @@ msgstr "العودة إلى لوحة تحكم WPVR"
 #: admin/partials/wpvr_setup_wizard.php:169
 #: production/admin/partials/wpvr_setup_wizard.php:169
 msgid "Background Audio"
-msgstr "الخلفية الصوتية"
+msgstr "صوت الخلفية"
 
 #: admin/classes/class-wpvr-meta-field.php:3032
 #: production/admin/classes/class-wpvr-meta-field.php:3032
@@ -255,7 +256,7 @@ msgstr "لون الخلفية"
 #: admin/partials/wpvr_documentation.php:693
 #: production/admin/partials/wpvr_documentation.php:693
 msgid "Background Panoramas"
-msgstr "صور بانورامية للخلفية"
+msgstr "صور بانورامية"
 
 #: admin/classes/class-wpvr-meta-field.php:160
 #: production/admin/classes/class-wpvr-meta-field.php:160
@@ -273,18 +274,18 @@ msgid ""
 "Before You start, you can check our Documentation to get familiar with WP VR "
 "- 360 Panorama and virtual tour creator for WordPress."
 msgstr ""
-"قبل أن تبدأ ، يمكنك التحقق من الوثائق الخاصة بنا للتعرف على WP VR - 360 "
-"Panorama ومنشئ جولة افتراضية لبرنامج WordPress."
+"قبل أن تبدأ ، يمكنك التحقق من وثائقنا للتعرف على WP VR - 360 Panorama و "
+"Virtual Tour Creator for WordPress."
 
 #: admin/partials/wpvr_setup_wizard.php:43
 #: production/admin/partials/wpvr_setup_wizard.php:43
 msgid "Best WordPress Plugin"
-msgstr "أفضل البرنامج المساعد ووردبريس"
+msgstr "أفضل برنامج ووردبريس"
 
 #: admin/classes/class-wpvr-meta-field.php:3118
 #: production/admin/classes/class-wpvr-meta-field.php:3118
 msgid "Border"
-msgstr "حدود"
+msgstr "شىء كال"
 
 #: admin/classes/class-wpvr-meta-field.php:3113
 #: production/admin/classes/class-wpvr-meta-field.php:3113
@@ -294,7 +295,7 @@ msgstr "نصف قطر الحدود (بكسل)"
 #: admin/classes/class-wpvr-meta-field.php:3156
 #: production/admin/classes/class-wpvr-meta-field.php:3156
 msgid "Bottom"
-msgstr "قاع"
+msgstr "حضيض"
 
 #: admin/classes/class-wpvr-meta-field.php:3084
 #: production/admin/classes/class-wpvr-meta-field.php:3084
@@ -309,17 +310,17 @@ msgstr "نمط الزر"
 #: admin/classes/class-wpvr-meta-field.php:443
 #: production/admin/classes/class-wpvr-meta-field.php:443
 msgid "Button Text"
-msgstr "زر كتابة"
+msgstr "نص الزر"
 
 #: admin/classes/class-wpvr-meta-field.php:451
 #: production/admin/classes/class-wpvr-meta-field.php:451
 msgid "Button URL"
-msgstr "عنوان URL للزر"
+msgstr "URL زر"
 
 #: admin/classes/class-wpvr-meta-field.php:276
 #: production/admin/classes/class-wpvr-meta-field.php:276
 msgid "Call To Action "
-msgstr "دعوة للعمل"
+msgstr "دعوة إلى اتخاذ إجراء"
 
 #: admin/classes/class-wpvr-meta-field.php:448
 #: production/admin/classes/class-wpvr-meta-field.php:448
@@ -332,13 +333,13 @@ msgid ""
 "Can't find solution on with our documentation? Just Post a ticket on Support "
 "forum. We are to solve your issue."
 msgstr ""
-"لا يمكن العثور على حل مع وثائقنا؟ مجرد نشر تذكرة في منتدى الدعم. نحن لحل "
+"لا يمكن العثور على حل مع وثائقنا؟ فقط انشر تذكرة في منتدى الدعم. علينا حل "
 "مشكلتك."
 
 #: admin/classes/class-wpvr-meta-field.php:3079
 #: production/admin/classes/class-wpvr-meta-field.php:3079
 msgid "Capitalize"
-msgstr "الاستفادة من الحروف الكبيرة"
+msgstr "كتب أو طبع بحرف"
 
 #: admin/partials/wpvr_documentation.php:256
 #: production/admin/partials/wpvr_documentation.php:256
@@ -353,12 +354,12 @@ msgstr "مركز"
 #: admin/partials/wpvr_documentation.php:237
 #: production/admin/partials/wpvr_documentation.php:237
 msgid "Check out our other amazing free plugins!"
-msgstr "تحقق من الإضافات المجانية المذهلة الأخرى!"
+msgstr "تحقق من الإضافات المجانية الأخرى المذهلة!"
 
 #: admin/partials/wpvr_setup_wizard.php:189
 #: production/admin/partials/wpvr_setup_wizard.php:189
 msgid "Checkout All Features"
-msgstr "الخروج من جميع الميزات"
+msgstr "تحقق من جميع الميزات"
 
 #: admin/classes/class-tour-guide-translation.php:51
 #: production/admin/classes/class-tour-guide-translation.php:51
@@ -368,7 +369,7 @@ msgstr "اختر البقعة"
 #: admin/classes/class-tour-guide-translation.php:76
 #: production/admin/classes/class-tour-guide-translation.php:76
 msgid "Click on Preview to see how the content is appearing for the hotspot."
-msgstr "انقر فوق \"معاينة\" لترى كيف يظهر المحتوى لنقطة الاتصال."
+msgstr "انقر على معاينة لمعرفة كيفية ظهور المحتوى للنقطة الساخنة."
 
 #: admin/classes/class-tour-guide-translation.php:27
 #: production/admin/classes/class-tour-guide-translation.php:27
@@ -376,8 +377,8 @@ msgid ""
 "Click on the Preview button to view your uploaded panorama in virtual tour "
 "mode."
 msgstr ""
-"انقر فوق الزر \"معاينة\" لعرض الصورة البانورامية التي تم تحميلها في وضع "
-"الجولة الافتراضية."
+"انقر فوق الزر \"معاينة\" لعرض البانوراما التي تم تحميلها في وضع الجولة "
+"الافتراضية."
 
 #: admin/classes/class-tour-guide-translation.php:80
 #: production/admin/classes/class-tour-guide-translation.php:80
@@ -386,13 +387,13 @@ msgid ""
 "create an unlimited number of virtual tours and add your customization to "
 "them."
 msgstr ""
-"انقر على زر التحديث لحفظ عملك. وبهذه الطريقة، يمكنك إنشاء عدد غير محدود من "
-"الجولات الافتراضية وإضافة التخصيص الخاص بك إليها."
+"انقر فوق الزر تحديث لحفظ عملك. وبهذه الطريقة ، يمكنك إنشاء عدد غير محدود من "
+"الجولات الافتراضية وإضافة التخصيص إليها."
 
 #: admin/classes/class-tour-guide-translation.php:22
 #: production/admin/classes/class-tour-guide-translation.php:22
 msgid "Click on the Upload button to upload your panorama image."
-msgstr "انقر فوق الزر \"تحميل\" لتحميل الصورة البانورامية الخاصة بك."
+msgstr "انقر فوق الزر تحميل لتحميل صورة بانوراما الخاصة بك."
 
 #: admin/classes/class-tour-guide-translation.php:35
 #: production/admin/classes/class-tour-guide-translation.php:35
@@ -400,7 +401,8 @@ msgid ""
 "Click on this Publish button to save this as a tour. You can always find it "
 "in your tour list."
 msgstr ""
-"انقر فوق زر النشر هذا لحفظه كجولة. يمكنك دائمًا العثور عليه في قائمة جولتك."
+"انقر فوق الزر \"نشر\" لحفظ هذا كجولة. يمكنك دائمًا العثور عليه في قائمة "
+"جولتك."
 
 #: admin/classes/class-wpvr-meta-field.php:2264
 #: production/admin/classes/class-wpvr-meta-field.php:2264
@@ -410,7 +412,7 @@ msgstr "انقر لتحميل صورة"
 #: admin/classes/class-wpvr-meta-field.php:3137
 #: production/admin/classes/class-wpvr-meta-field.php:3137
 msgid "Color"
-msgstr "لون"
+msgstr "صباغ"
 
 #: admin/partials/wpvr_documentation.php:609
 #: production/admin/partials/wpvr_documentation.php:609
@@ -425,12 +427,12 @@ msgstr "بوصلة"
 #: admin/partials/wpvr_setup_wizard.php:217
 #: production/admin/partials/wpvr_setup_wizard.php:217
 msgid "Contact Our Support"
-msgstr "تواصل مع فريق الدعم لدينا"
+msgstr "اتصل بدعمنا"
 
 #: admin/classes/class-tour-guide-translation.php:24
 #: production/admin/classes/class-tour-guide-translation.php:24
 msgid "Continue to guide"
-msgstr "الاستمرار في التوجيه"
+msgstr "استمر في التوجيه"
 
 #: admin/classes/class-wpvr-meta-field.php:1327
 #: production/admin/classes/class-wpvr-meta-field.php:1327
@@ -440,12 +442,12 @@ msgstr "أزرار التحكم"
 #: admin/partials/wpvr_documentation.php:651
 #: production/admin/partials/wpvr_documentation.php:651
 msgid "Control Horizontal & Vertical View of Panorama Images"
-msgstr "التحكم في العرض الأفقي والرأسي للصور البانورامية"
+msgstr "التحكم في العرض الأفقي والعمودي للصور البانورامية"
 
 #: admin/partials/wpvr_documentation.php:1121
 #: production/admin/partials/wpvr_documentation.php:1121
 msgid "Convert any jpeg or png format image to webp on media upload:"
-msgstr "قم بتحويل أي صورة بتنسيق jpeg أو png إلى webp عند تحميل الوسائط:"
+msgstr "تحويل أي صورة بتنسيق JPEG أو PNG إلى WebP على تحميل الوسائط:"
 
 #: admin/classes/class-wpvr-general.php:138
 #: production/admin/classes/class-wpvr-general.php:138
@@ -458,8 +460,8 @@ msgid ""
 "Create high-converting slaes funnels on a visual drag & drop funnel builder "
 "canvas and increase your online sales from today."
 msgstr ""
-"أنشئ مسارات تحويل مبيعات عالية التحويل على لوحة إنشاء مسار السحب والإفلات "
-"المرئية وقم بزيادة مبيعاتك عبر الإنترنت من اليوم."
+"قم بإنشاء مسارات تحويل SLA عالية التحويل على لوحة باني قمع بصرية وإسقاط قمع "
+"وزيادة مبيعاتك عبر الإنترنت من اليوم."
 
 #: admin/classes/class-wpvr-meta-field.php:1677
 #: production/admin/classes/class-wpvr-meta-field.php:1677
@@ -469,34 +471,32 @@ msgstr "خريطة مكعبة"
 #: admin/partials/wpvr_documentation.php:515
 #: production/admin/partials/wpvr_documentation.php:515
 msgid "Cubemap Image Support"
-msgstr "دعم الصور Cubemap"
+msgstr "دعم صورة CubeMap"
 
 #: admin/partials/wpvr_setup_wizard.php:75
 #: production/admin/partials/wpvr_setup_wizard.php:75
 msgid "Cubemap Images"
-msgstr "صور Cubemap"
+msgstr "صور CubeMap"
 
 #: admin/partials/wpvr_setup_wizard.php:155
 #: production/admin/partials/wpvr_setup_wizard.php:155
-#, fuzzy
-#| msgid "Custom control buttons"
 msgid "Custom Control Buttons"
-msgstr "أزرار التحكم المخصصة"
+msgstr "أزرار تحكم مخصصة"
 
 #: admin/classes/class-wpvr-meta-field.php:478
 #: production/admin/classes/class-wpvr-meta-field.php:478
 msgid "Custom CSS"
-msgstr "لغة تنسيق ويب حسب الطلب"
+msgstr "CSS مخصص"
 
 #: admin/classes/class-wpvr-meta-field.php:305
 #: production/admin/classes/class-wpvr-meta-field.php:305
 msgid "Custom CSS "
-msgstr "لغة تنسيق ويب حسب الطلب"
+msgstr "CSS مخصص"
 
 #: admin/partials/wpvr_documentation.php:446
 #: production/admin/partials/wpvr_documentation.php:446
 msgid "Custom Icon & Color for Hotspots (Using CSS)"
-msgstr "رمز ولون مخصصان لنقاط الاتصال (باستخدام CSS)"
+msgstr "رمز ولون مخصص للنقاط الساخنة (باستخدام CSS)"
 
 #: admin/classes/class-wpvr-meta-field.php:2771
 #: production/admin/classes/class-wpvr-meta-field.php:2771
@@ -508,17 +508,17 @@ msgid ""
 "switch. Now put your desired any icon class under \"Hotspot custom icon "
 "class\" field. It will appear on the frontend."
 msgstr ""
-"لن تظهر الرموز المخصصة إلا على الواجهة الأمامية. تعمل أيقونات Hotspot "
-"المخصصة فقط مع Fontawesome 5. إذا كنت تستخدم أي إصدار مختلف من Fontawesome "
-"ضمن السمة أو أي مكون إضافي، فيمكنك إلغاء تنشيط Fontawesome من WP VR. انتقل "
-"إلى \"قائمة البدء\" وحدد \"الدور\" وتحقق من مفتاح تعطيل Fontawesome. الآن ضع "
-"أي فئة أيقونات تريدها ضمن حقل \"فئة الأيقونات المخصصة لـ Hotspot\". وسوف "
-"تظهر على الواجهة الأمامية."
+"ستظهر الرموز المخصصة فقط في الواجهة الأمامية. تعمل أيقونات Hotspot المخصصة "
+"فقط مع FontAwesome 5. إذا كنت تستخدم أي إصدار مختلف من FontAwesome ضمن Theme "
+"أو أي مكون إضافي ، فيمكنك إلغاء تنشيط Fontawesome من WP VR. انتقل إلى "
+"\"قائمة البدء\" وحدد \"الدور\" وتحقق من FontAwesome Disable Switch. الآن ضع "
+"أي فئة من الرموز في فئة \"Hotspot Custom Icon Class\". سيظهر على الواجهة "
+"الأمامية."
 
 #: admin/partials/wpvr_documentation.php:679
 #: production/admin/partials/wpvr_documentation.php:679
 msgid "Custom Panorama Loading Face"
-msgstr "وجه تحميل بانورامي مخصص"
+msgstr "وجه تحميل بانوراما مخصص"
 
 #: admin/partials/wpvr_documentation.php:595
 #: production/admin/partials/wpvr_documentation.php:595
@@ -528,7 +528,7 @@ msgstr "صورة معاينة مخصصة والنص"
 #: admin/partials/wpvr_documentation.php:569
 #: production/admin/partials/wpvr_documentation.php:569
 msgid "Custom Rotation Settings"
-msgstr "إعدادات التدوير المخصصة"
+msgstr "إعدادات التناوب المخصصة"
 
 #: admin/partials/wpvr_documentation.php:665
 #: production/admin/partials/wpvr_documentation.php:665
@@ -543,7 +543,7 @@ msgstr "تخصيص أيقونة وشعار أزرار التحكم."
 #: admin/partials/wpvr_license.php:34
 #: production/admin/partials/wpvr_license.php:34
 msgid "Deactivate License"
-msgstr "إلغاء تنشيط الترخيص"
+msgstr "إلغاء تفعيل الترخيص"
 
 #: admin/partials/wpvr_setup_wizard.php:125
 #: production/admin/partials/wpvr_setup_wizard.php:125
@@ -553,12 +553,12 @@ msgstr "قرارات"
 #: admin/partials/wpvr_documentation.php:873
 #: production/admin/partials/wpvr_documentation.php:873
 msgid "Disable Fontawesome from WP VR:"
-msgstr "تعطيل Fontawesome من WP VR:"
+msgstr "تعطيل FontAwesome من WP VR:"
 
 #: admin/classes/class-wpvr-meta-field.php:252
 #: production/admin/classes/class-wpvr-meta-field.php:252
 msgid "Disable keyboard control to use the form."
-msgstr "قم بتعطيل التحكم في لوحة المفاتيح لاستخدام النموذج."
+msgstr "تعطيل التحكم في لوحة المفاتيح لاستخدام النموذج."
 
 #: admin/partials/wpvr_documentation.php:951
 #: production/admin/partials/wpvr_documentation.php:951
@@ -568,7 +568,7 @@ msgstr "تعطيل محتوى التمرير للجوال:"
 #: admin/partials/wpvr_documentation.php:925
 #: production/admin/partials/wpvr_documentation.php:925
 msgid "Disable WordPress Large Image Handler on WP VR:"
-msgstr "تعطيل معالج الصور الكبيرة في WordPress على WP VR:"
+msgstr "تعطيل WordPress كبير معالج الصور على WP VR:"
 
 #: admin/partials/wpvr_documentation.php:782
 #: production/admin/partials/wpvr_documentation.php:782
@@ -576,7 +576,8 @@ msgid ""
 "Do not close or refresh the page during import process. It may take few "
 "minutes."
 msgstr ""
-"لا تقم بإغلاق أو تحديث الصفحة أثناء عملية الاستيراد. قد يستغرق بضع دقائق."
+"لا تغلق الصفحة أو تعيد تحديثها أثناء عملية الاستيراد. قد يستغرق الأمر بضع "
+"دقائق."
 
 #: admin/class-wpvr-admin.php:291 admin/partials/wpvr_documentation.php:203
 #: admin/partials/wpvr_documentation.php:207
@@ -584,7 +585,7 @@ msgstr ""
 #: production/admin/partials/wpvr_documentation.php:203
 #: production/admin/partials/wpvr_documentation.php:207
 msgid "Documentation"
-msgstr "كابل بيانات"
+msgstr "توثيق"
 
 #: admin/classes/class-wpvr-meta-field.php:1365
 #: production/admin/classes/class-wpvr-meta-field.php:1365
@@ -594,7 +595,7 @@ msgstr "توثيق"
 #: admin/classes/class-tour-guide-translation.php:10
 #: production/admin/classes/class-tour-guide-translation.php:10
 msgid "Done"
-msgstr "منتهي"
+msgstr "منته"
 
 #: admin/classes/class-wpvr-general.php:143
 #: production/admin/classes/class-wpvr-general.php:143
@@ -610,18 +611,17 @@ msgstr "جولات مكررة بنقرة واحدة"
 #: production/admin/partials/wpvr_documentation.php:842
 msgid ""
 "Editors will be able to Create, Edit, Update, and Delete all virtual tours."
-msgstr ""
-"سيتمكن المحررون من إنشاء جميع الجولات الافتراضية وتحريرها وتحديثها وحذفها."
+msgstr "سيتمكن المحررون من إنشاء وتحرير وتحديث وحذف جميع الجولات الافتراضية."
 
 #: admin/classes/class-wpvr-meta-field.php:741
 #: production/admin/classes/class-wpvr-meta-field.php:741
 msgid "Enable explainer video"
-msgstr "تفعيل الفيديو التوضيحي"
+msgstr "تمكين الفيديو التوضيحي"
 
 #: admin/partials/wpvr_documentation.php:899
 #: production/admin/partials/wpvr_documentation.php:899
 msgid "Enable mobile media resizer:"
-msgstr "تمكين أداة تغيير حجم الوسائط المحمولة:"
+msgstr "تمكين تغيير حجم الوسائط المحمولة:"
 
 #: admin/partials/wpvr_documentation.php:726
 #: production/admin/partials/wpvr_documentation.php:726
@@ -631,7 +631,7 @@ msgstr "تمكين أو تعطيل التحكم في حركة لوحة المف�
 #: admin/partials/wpvr_documentation.php:730
 #: production/admin/partials/wpvr_documentation.php:730
 msgid "Enable or Disable Keyboard Zoom Control."
-msgstr "تمكين أو تعطيل التحكم في التكبير/التصغير بلوحة المفاتيح."
+msgstr "تمكين أو تعطيل التحكم في تكبير لوحة المفاتيح."
 
 #: admin/partials/wpvr_documentation.php:734
 #: production/admin/partials/wpvr_documentation.php:734
@@ -641,7 +641,7 @@ msgstr "تمكين أو تعطيل التحكم في سحب الماوس."
 #: admin/partials/wpvr_documentation.php:738
 #: production/admin/partials/wpvr_documentation.php:738
 msgid "Enable or Disable Mouse Zoom control."
-msgstr "تمكين أو تعطيل التحكم في تكبير/تصغير الماوس."
+msgstr "تمكين أو تعطيل التحكم في تكبير الماوس."
 
 #: admin/partials/wpvr_documentation.php:978
 #: production/admin/partials/wpvr_documentation.php:978
@@ -649,19 +649,18 @@ msgid ""
 "Enable script control (It will load the WP VR scripts on the pages with "
 "virtual tours only):"
 msgstr ""
-"تمكين التحكم في البرنامج النصي (سيتم تحميل البرامج النصية WP VR على الصفحات "
-"ذات الجولات الافتراضية فقط):"
+"تمكين التحكم في البرنامج النصي (سيتم تحميل نصوص WP VR على الصفحات باستخدام "
+"جولات افتراضية فقط):"
 
 #: admin/classes/class-wpvr-general.php:121
 #: production/admin/classes/class-wpvr-general.php:121
 msgid "Enable Social Media Share"
-msgstr "تمكين مشاركة وسائل التواصل الاجتماعي"
+msgstr "تمكين مشاركة الوسائط الاجتماعية"
 
 #: admin/classes/class-wpvr-meta-field.php:281
 #: production/admin/classes/class-wpvr-meta-field.php:281
 msgid "Enable the call to action, it will render under the tour."
-msgstr ""
-"قم بتمكين العبارة التي تحث المستخدم على اتخاذ إجراء، وسيتم عرضها ضمن الجولة."
+msgstr "تمكين الحث على اتخاذ إجراء ، وسوف يتم تقديمه في إطار الجولة."
 
 #: admin/classes/class-wpvr-meta-field.php:1583
 #: production/admin/classes/class-wpvr-meta-field.php:1583
@@ -674,45 +673,45 @@ msgid ""
 "Enable Video JS control (It will load the WP VR Video JS library in the "
 "listed pages only):"
 msgstr ""
-"تمكين التحكم في Video JS (سيتم تحميل مكتبة WP VR Video JS في الصفحات المدرجة "
-"فقط):"
+"تمكين التحكم في الفيديو JS (سيتم تحميل مكتبة WP VR Video JS في الصفحات "
+"المدرجة فقط):"
 
 #: admin/classes/class-tour-guide-translation.php:11
 #: production/admin/classes/class-tour-guide-translation.php:11
 msgid "End Tour"
-msgstr "نهاية الجولة"
+msgstr "جولة في نهاية المطاف"
 
 #: admin/partials/wpvr_license.php:22
 #: production/admin/partials/wpvr_license.php:22
 msgid "Enter your license key, save changes and activate."
-msgstr "أدخل مفتاح الترخيص الخاص بك ، وحفظ التغييرات وتفعيل."
+msgstr "أدخل مفتاح الترخيص الخاص بك ، واحفظ التغييرات وقم بتنشيطها."
 
 #: admin/classes/class-wpvr-meta-field.php:1676
 #: production/admin/classes/class-wpvr-meta-field.php:1676
 msgid "Equirectangular"
-msgstr "متساوي المستطيلات"
+msgstr "متساو"
 
 #: admin/classes/class-wpvr-meta-field.php:845
 #: production/admin/classes/class-wpvr-meta-field.php:845
 msgid "Explainer"
-msgstr "شارح"
+msgstr "مفسر"
 
 #: admin/partials/wpvr_documentation.php:390
 #: admin/partials/wpvr_setup_wizard.php:176
 #: production/admin/partials/wpvr_documentation.php:390
 #: production/admin/partials/wpvr_setup_wizard.php:176
 msgid "Explainer Video"
-msgstr "فيديو توضيحي"
+msgstr "فيديو شرح"
 
 #: admin/classes/class-wpvr-meta-field.php:618
 #: production/admin/classes/class-wpvr-meta-field.php:618
 msgid "Export"
-msgstr "يصدّر"
+msgstr "تصدير"
 
 #: admin/partials/wpvr_documentation.php:301
 #: production/admin/partials/wpvr_documentation.php:301
 msgid "features"
-msgstr "سمات"
+msgstr "ملامح"
 
 #: admin/partials/wpvr_setup_wizard.php:125
 #: production/admin/partials/wpvr_setup_wizard.php:125
@@ -727,12 +726,12 @@ msgstr "اقلب الهاتف إلى الوضع الأفقي للحصول على
 #: admin/partials/wpvr_documentation.php:542
 #: production/admin/partials/wpvr_documentation.php:542
 msgid "Fluent Forms Add-on"
-msgstr "الوظيفة الإضافية للنماذج بطلاقة"
+msgstr "إضافة نماذج بطلاقة"
 
 #: admin/partials/wpvr_setup_wizard.php:11
 #: production/admin/partials/wpvr_setup_wizard.php:11
 msgid "Follow the Guided Wizard and Learn How it Works."
-msgstr "اتبع المعالج الإرشادي وتعرف على كيفية عمله."
+msgstr "اتبع المعالج الموجه وتعلم كيف يعمل."
 
 #: admin/classes/class-wpvr-meta-field.php:3037
 #: production/admin/classes/class-wpvr-meta-field.php:3037
@@ -747,7 +746,7 @@ msgstr "حجم الخط (بكسل)"
 #: admin/classes/class-wpvr-meta-field.php:3094
 #: production/admin/classes/class-wpvr-meta-field.php:3094
 msgid "Font Style"
-msgstr "نوع الخط"
+msgstr "نمط الخط"
 
 #: admin/classes/class-wpvr-meta-field.php:3047
 #: production/admin/classes/class-wpvr-meta-field.php:3047
@@ -761,8 +760,6 @@ msgstr "للاختيار"
 
 #: admin/classes/class-wpvr-shortcode.php:36
 #: production/admin/classes/class-wpvr-shortcode.php:36
-#, fuzzy
-#| msgid "For classic editor:"
 msgid "For Classic Editor:"
 msgstr "للمحرر الكلاسيكي:"
 
@@ -779,7 +776,7 @@ msgstr "للجولات الافتراضية ومشاهدة الصور البان
 #: admin/partials/wpvr_documentation.php:302
 #: production/admin/partials/wpvr_documentation.php:302
 msgid "free"
-msgstr "حر"
+msgstr "مطلق السراح"
 
 #: admin/partials/wpvr_documentation.php:121
 #: production/admin/partials/wpvr_documentation.php:121
@@ -794,24 +791,24 @@ msgstr "إشعار الواجهة الأمامية لزوار الهاتف ال�
 #: admin/partials/wpvr_documentation.php:582
 #: production/admin/partials/wpvr_documentation.php:582
 msgid "Full Page Virtual Tours"
-msgstr "جولات افتراضية بصفحة كاملة"
+msgstr "جولات افتراضية كاملة الصفحة"
 
 #: admin/classes/class-wpvr-meta-field.php:826
 #: production/admin/classes/class-wpvr-meta-field.php:826
 msgid "Full Screen"
-msgstr "تكبير الشاشة"
+msgstr "شاشة كاملة"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:132
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:133
 msgid "Fullwidth"
-msgstr "العرض الكامل"
+msgstr "عرض كامل"
 
 #: admin/classes/class-wpvr-meta-field.php:106
 #: production/admin/classes/class-wpvr-meta-field.php:106
 msgid "General"
-msgstr "جنرال لواء"
+msgstr "عام"
 
 #: admin/partials/wpvr_documentation.php:800
 #: production/admin/partials/wpvr_documentation.php:800
@@ -821,24 +818,24 @@ msgstr "خيارات الإعداد العامة"
 #: admin/classes/class-wpvr-meta-field.php:247
 #: production/admin/classes/class-wpvr-meta-field.php:247
 msgid "Generic Form"
-msgstr "النموذج العام"
+msgstr "شكل عام"
 
 #: admin/partials/wpvr_setup_wizard.php:193
 #: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Get Access to "
-msgstr "تصل الى، يمكنك الوصول الى"
+msgstr "احصل على الوصول إلى"
 
 #: admin/partials/wpvr_documentation.php:247
 #: admin/partials/wpvr_documentation.php:262
 #: production/admin/partials/wpvr_documentation.php:247
 #: production/admin/partials/wpvr_documentation.php:262
 msgid "Get It Now"
-msgstr "احصل عليها الآن"
+msgstr "احصل عليه الآن"
 
 #: admin/partials/wpvr_setup_wizard.php:197
 #: production/admin/partials/wpvr_setup_wizard.php:197
 msgid "Get Pro Now"
-msgstr "احصل على المحترفين الآن"
+msgstr "احصل على Pro Now"
 
 #: admin/class-wpvr-admin.php:286 admin/classes/class-wpvr-admin-pages.php:68
 #: admin/classes/class-wpvr-admin-pages.php:76
@@ -846,7 +843,7 @@ msgstr "احصل على المحترفين الآن"
 #: production/admin/classes/class-wpvr-admin-pages.php:68
 #: production/admin/classes/class-wpvr-admin-pages.php:76
 msgid "Get Started"
-msgstr "البدء"
+msgstr "ابدأ"
 
 #: admin/classes/class-tour-guide-translation.php:14
 #: production/admin/classes/class-tour-guide-translation.php:14
@@ -857,19 +854,19 @@ msgstr "أعط اسمًا لجولتك الافتراضية."
 #: production/admin/class-wpvr-admin.php:297
 #: production/admin/classes/class-wpvr-admin-pages.php:84
 msgid "Go Pro"
-msgstr "اذهب برو"
+msgstr "اذهب للمحترفين"
 
 #: admin/partials/wpvr_documentation.php:502
 #: admin/partials/wpvr_setup_wizard.php:99
 #: production/admin/partials/wpvr_documentation.php:502
 #: production/admin/partials/wpvr_setup_wizard.php:99
 msgid "Google Street View"
-msgstr "مشاهدة الشارع من جوجل"
+msgstr "جوجل ستريت فيو"
 
 #: admin/classes/class-wpvr-admin-pages.php:75
 #: production/admin/classes/class-wpvr-admin-pages.php:75
 msgid "Guided Tour"
-msgstr "مرشد سياحي"
+msgstr "جولة مع مرشد"
 
 #: admin/classes/class-wpvr-meta-field.php:832
 #: production/admin/classes/class-wpvr-meta-field.php:832
@@ -879,17 +876,15 @@ msgstr "جيروسكوب"
 #: admin/partials/wpvr_setup_wizard.php:183
 #: production/admin/partials/wpvr_setup_wizard.php:183
 msgid "Gyroscope & Mobile Notices"
-msgstr "الجيروسكوب وإشعارات الجوال"
+msgstr "الجيروسكوب والإخطارات المحمولة"
 
 #: admin/classes/class-wpvr-meta-field.php:672
 #: production/admin/classes/class-wpvr-meta-field.php:672
 msgid "Gyroscope Control"
-msgstr "التحكم بالجيروسكوب"
+msgstr "التحكم في الجيروسكوب"
 
 #: admin/partials/wpvr_documentation.php:363
 #: production/admin/partials/wpvr_documentation.php:363
-#, fuzzy
-#| msgid "Gyroscope support"
 msgid "Gyroscope Support"
 msgstr "دعم الجيروسكوب"
 
@@ -910,7 +905,7 @@ msgstr "وحدة الارتفاع"
 #: elementor/elements/Wpvr-widget.php:175
 #: production/elementor/elements/Wpvr-widget.php:175
 msgid "Height:"
-msgstr "ارتفاع:"
+msgstr "الارتفاع:"
 
 #: admin/classes/class-tour-guide-translation.php:31
 #: production/admin/classes/class-tour-guide-translation.php:31
@@ -918,15 +913,15 @@ msgid ""
 "Here is a preview of your panorama image in tour mode. You can control it "
 "and mode around to see it in 360 degree view."
 msgstr ""
-"فيما يلي معاينة لصورتك البانورامية في وضع الجولة. يمكنك التحكم فيه ووضعه "
-"لرؤيته بزاوية 360 درجة."
+"فيما يلي معاينة لصورة البانوراما الخاصة بك في وضع الجولة. يمكنك التحكم فيه "
+"ووضعه حوله لرؤيته في عرض 360 درجة."
 
 #: admin/classes/class-tour-guide-translation.php:60
 #: admin/classes/class-tour-guide-translation.php:64
 #: production/admin/classes/class-tour-guide-translation.php:60
 #: production/admin/classes/class-tour-guide-translation.php:64
 msgid "Here you can see the Pitch & Yaw has been set for the hotspot."
-msgstr "هنا يمكنك رؤية تم ضبط Pitch & Yaw لنقطة الاتصال."
+msgstr "هنا يمكنك أن ترى الملعب وتم تعيين الانعراج للنقطة الساخنة."
 
 #: admin/classes/class-tour-guide-translation.php:68
 #: admin/classes/class-tour-guide-translation.php:72
@@ -937,14 +932,14 @@ msgid ""
 "Hotspot. You can either set an URL or any other content using this editor. "
 "To learn more, follow this guide to set content using editor"
 msgstr ""
-"هنا، يمكنك تعيين المحتوى الذي سيراه المشاهد بعد النقر على نقطة الاتصال. "
+"هنا، يمكنك تعيين المحتوى الذي سيشاهده المشاهد بعد النقر على نقطة الاتصال. "
 "يمكنك إما تعيين عنوان URL أو أي محتوى آخر باستخدام هذا المحرر. لمعرفة "
 "المزيد، اتبع هذا الدليل لتعيين المحتوى باستخدام المحرر"
 
 #: admin/classes/class-wpvr-meta-field.php:838
 #: production/admin/classes/class-wpvr-meta-field.php:838
 msgid "Home"
-msgstr "بيت"
+msgstr "بات"
 
 #: admin/partials/wpvr_documentation.php:714
 #: production/admin/partials/wpvr_documentation.php:714
@@ -954,17 +949,17 @@ msgstr "زر الصفحة الرئيسية لزيارة المشهد الافت�
 #: admin/partials/wpvr_setup_wizard.php:125
 #: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Hook"
-msgstr "خطاف"
+msgstr "قنديل"
 
 #: admin/classes/class-wpvr-meta-field.php:97
 #: production/admin/classes/class-wpvr-meta-field.php:97
 msgid "Hotspot"
-msgstr "نقطة اتصال"
+msgstr "نقطة الحار"
 
 #: admin/classes/class-wpvr-meta-field.php:978
 #: production/admin/classes/class-wpvr-meta-field.php:978
 msgid "Hotspot Custom Icon Class"
-msgstr "فئة أيقونة نقطة الاتصال المخصصة"
+msgstr "فئة أيقونة مخصصة للنقطة الساخنة"
 
 #: admin/classes/class-wpvr-meta-field.php:957
 #: production/admin/classes/class-wpvr-meta-field.php:957
@@ -993,21 +988,21 @@ msgstr "نوع نقطة الاتصال"
 
 #. Author URI of the plugin
 msgid "http://rextheme.com/"
-msgstr "http://rextheme.com"
+msgstr "http://rextheme.com/"
 
 #. URI of the plugin
 msgid "https://rextheme.com/wpvr/"
-msgstr "https://rextheme.com/wpvr"
+msgstr "https://rextheme.com/wpvr/"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:91
 msgid "ID"
-msgstr "بطاقة تعريف"
+msgstr "بطاقة هوية"
 
 #: elementor/elements/Wpvr-widget.php:157
 #: production/elementor/elements/Wpvr-widget.php:157
 msgid "ID:"
-msgstr "هوية شخصية:"
+msgstr "المعرف:"
 
 #: admin/classes/class-wpvr-meta-field.php:683
 #: production/admin/classes/class-wpvr-meta-field.php:683
@@ -1017,10 +1012,9 @@ msgid ""
 "needs to be activated by pressing a button. Defaults to false. Will work if "
 "gyroscope is enabled"
 msgstr ""
-"إذا تم التعيين على \"صحيح\"، فسيتم استخدام التحكم في اتجاه الجهاز عند تحميل "
-"البانوراما، إذا كان الجهاز يدعمها. إذا كان خطأ، فيجب تنشيط التحكم في اتجاه "
-"الجهاز عن طريق الضغط على زر. الافتراضيات كاذبة. سوف تعمل إذا تم تمكين "
-"الجيروسكوب"
+"إذا تم ضبطه على True ، فسيتم استخدام التحكم في اتجاه الجهاز عند تحميل "
+"البانوراما ، إذا كان الجهاز يدعمه. إذا كان خطأ، يجب تنشيط التحكم في اتجاه "
+"الجهاز بالضغط على زر. الافتراضيات إلى خطأ. سيعمل إذا تم تمكين الجيروسكوب"
 
 #: admin/partials/wpvr_documentation.php:137
 #: production/admin/partials/wpvr_documentation.php:137
@@ -1030,12 +1024,12 @@ msgstr "استيراد"
 #: admin/partials/wpvr_documentation.php:623
 #: production/admin/partials/wpvr_documentation.php:623
 msgid "Import & Export Virtual Tours"
-msgstr "استيراد وتصدير الجولات الافتراضية"
+msgstr "استيراد وتصدير جولات افتراضية"
 
 #: admin/partials/wpvr_documentation.php:778
 #: production/admin/partials/wpvr_documentation.php:778
 msgid "Import tour file: "
-msgstr "استيراد ملف الجولة:"
+msgstr "ملف جولة الاستيراد:"
 
 #: admin/classes/class-tour-guide-translation.php:52
 #: production/admin/classes/class-tour-guide-translation.php:52
@@ -1043,8 +1037,8 @@ msgid ""
 "In this Preview, drag to your desired location and click on it, exactly "
 "where you want to set the hotspot"
 msgstr ""
-"في هذه المعاينة، اسحب إلى الموقع المطلوب وانقر عليه، بالضبط حيث تريد تعيين "
-"نقطة الاتصال"
+"في هذه المعاينة ، اسحب إلى الموقع الذي تريده وانقر عليه ، حيث تريد بالضبط "
+"تعيين نقطة الاتصال"
 
 #: admin/partials/wpvr_documentation.php:97
 #: production/admin/partials/wpvr_documentation.php:97
@@ -1055,7 +1049,7 @@ msgstr "معلومات"
 #: production/admin/partials/wpvr_documentation.php:418
 msgid "Info-type Hotspots (Heading, Image, Text, Video, Gif, Links)"
 msgstr ""
-"نقاط اتصال من نوع المعلومات (العنوان، الصورة، النص، الفيديو، GIF، الروابط)"
+"نقاط اتصال من نوع المعلومات (العنوان ، صورة ، نص ، فيديو ، GIF ، روابط)"
 
 #: admin/classes/class-wpvr-meta-field.php:3097
 #: production/admin/classes/class-wpvr-meta-field.php:3097
@@ -1075,7 +1069,7 @@ msgstr "التحكم في حركة لوحة المفاتيح"
 #: admin/classes/class-wpvr-meta-field.php:648
 #: production/admin/classes/class-wpvr-meta-field.php:648
 msgid "Keyboard Zoom Control"
-msgstr "التحكم في التكبير بلوحة المفاتيح"
+msgstr "التحكم في تكبير لوحة المفاتيح"
 
 #: admin/partials/wpvr_setup_wizard.php:54
 #: admin/partials/wpvr_setup_wizard.php:66
@@ -1088,19 +1082,19 @@ msgstr "التحكم في التكبير بلوحة المفاتيح"
 #: production/admin/partials/wpvr_setup_wizard.php:90
 #: production/admin/partials/wpvr_setup_wizard.php:102
 msgid "Learn more"
-msgstr "يتعلم أكثر"
+msgstr "تعلم المزيد"
 
 #: admin/classes/class-wpvr-meta-field.php:3086
 #: admin/classes/class-wpvr-meta-field.php:3161
 #: production/admin/classes/class-wpvr-meta-field.php:3086
 #: production/admin/classes/class-wpvr-meta-field.php:3161
 msgid "Left"
-msgstr "غادر"
+msgstr "يساري"
 
 #: admin/classes/class-tour-guide-translation.php:43
 #: production/admin/classes/class-tour-guide-translation.php:43
 msgid "Let's add a Hotspot"
-msgstr "دعونا نضيف نقطة ساخنة"
+msgstr "دعنا نضيف نقطة اتصال"
 
 #: admin/classes/class-wpvr-meta-field.php:3103
 #: production/admin/classes/class-wpvr-meta-field.php:3103
@@ -1115,12 +1109,12 @@ msgstr "مفتاح الترخيص"
 #: admin/classes/class-wpvr-meta-field.php:3059
 #: production/admin/classes/class-wpvr-meta-field.php:3059
 msgid "Line Height"
-msgstr "ارتفاع خط"
+msgstr "ارتفاع الخط"
 
 #: admin/classes/class-wpvr-meta-field.php:3069
 #: production/admin/classes/class-wpvr-meta-field.php:3069
 msgid "Line Through"
-msgstr "عبر الخط"
+msgstr "إختيار متسلسل"
 
 #: admin/partials/wpvr_documentation.php:1004
 #: production/admin/partials/wpvr_documentation.php:1004
@@ -1128,8 +1122,8 @@ msgid ""
 "List of allowed pages to load WP VR scripts (The URLs of the pages on your "
 "site with virtual tours):"
 msgstr ""
-"قائمة الصفحات المسموح لها بتحميل نصوص WP VR (عناوين URL الخاصة بالصفحات "
-"الموجودة على موقعك ذات الجولات الافتراضية):"
+"قائمة الصفحات المسموح بها لتحميل نصوص WP VR (عناوين URL للصفحات على موقعك "
+"باستخدام جولات افتراضية):"
 
 #: admin/partials/wpvr_documentation.php:1044
 #: production/admin/partials/wpvr_documentation.php:1044
@@ -1137,8 +1131,8 @@ msgid ""
 "List of allowed pages to load WP VR Video JS library (The URLs of the pages "
 "on your site, You want to load Video JS):"
 msgstr ""
-"قائمة الصفحات المسموح بتحميل مكتبة WP VR Video JS (عناوين URL الخاصة "
-"بالصفحات الموجودة على موقعك، التي تريد تحميل Video JS):"
+"قائمة الصفحات المسموح بها لتحميل WP VR Video JS Library (عناوين URL للصفحات "
+"على موقعك ، تريد تحميل فيديو JS):"
 
 #: admin/partials/wpvr_documentation.php:1050
 #: production/admin/partials/wpvr_documentation.php:1050
@@ -1146,8 +1140,8 @@ msgid ""
 "List the pages like this: https://example.com/tour1/, https://example."
 "com/tour2/"
 msgstr ""
-"قم بإدراج الصفحات مثل هذا: https://example.com/tour1/، https://example."
-"com/tour2"
+"ضع قائمة بالصفحات مثل هذه: https://example.com/tour1/، https://example."
+"com/tour2/"
 
 #: admin/partials/wpvr_documentation.php:1010
 #: production/admin/partials/wpvr_documentation.php:1010
@@ -1155,18 +1149,18 @@ msgid ""
 "List the pages with virtual tours like this: https://example.com/tour1/, "
 "https://example.com/tour2/"
 msgstr ""
-"قم بإدراج الصفحات التي تحتوي على جولات افتراضية مثل هذا: https://example."
-"com/tour1/، https://example.com/tour2"
+"ضع قائمة بالصفحات ذات الجولات الافتراضية مثل هذه: https://example."
+"com/tour1/، https://example.com/tour2/"
 
 #: admin/classes/class-wpvr-meta-field.php:3078
 #: production/admin/classes/class-wpvr-meta-field.php:3078
 msgid "Lowercase"
-msgstr "أحرف صغيرة"
+msgstr "الأحرف الصغيرة"
 
 #: admin/partials/wpvr_documentation.php:227
 #: production/admin/partials/wpvr_documentation.php:227
 msgid "Make WPVR Popular"
-msgstr "جعل WPVR شعبية"
+msgstr "اجعل WPVR شائعًا"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:192
@@ -1180,22 +1174,22 @@ msgstr "ارتفاع الجوال"
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:200
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:201
 msgid "Mobile Height Unit"
-msgstr "وحدة الارتفاع المتنقلة"
+msgstr "وحدة ارتفاع متحرك"
 
 #: admin/partials/wpvr_setup_wizard.php:63
 #: production/admin/partials/wpvr_setup_wizard.php:63
 msgid "Mobile Panorama"
-msgstr "بانوراما متنقلة"
+msgstr "بانوراما متحركة"
 
 #: admin/partials/wpvr_documentation.php:710
 #: production/admin/partials/wpvr_documentation.php:710
 msgid "More Pro Features"
-msgstr "المزيد من الميزات الاحترافية"
+msgstr "المزيد من ميزات المحترفين"
 
 #: admin/partials/wpvr_documentation.php:742
 #: production/admin/partials/wpvr_documentation.php:742
 msgid "Mouse Control."
-msgstr "التحكم بالماوس."
+msgstr "التحكم في الماوس."
 
 #: admin/classes/class-wpvr-meta-field.php:656
 #: production/admin/classes/class-wpvr-meta-field.php:656
@@ -1215,17 +1209,17 @@ msgstr "تحرك لأسفل"
 #: admin/classes/class-wpvr-meta-field.php:789
 #: production/admin/classes/class-wpvr-meta-field.php:789
 msgid "Move Left"
-msgstr "تحرك يسارا"
+msgstr "تحرك لليسار"
 
 #: admin/classes/class-wpvr-meta-field.php:795
 #: production/admin/classes/class-wpvr-meta-field.php:795
 msgid "Move Right"
-msgstr "تحرك يمينا"
+msgstr "تحرك يمين"
 
 #: admin/classes/class-wpvr-meta-field.php:777
 #: production/admin/classes/class-wpvr-meta-field.php:777
 msgid "Move Up"
-msgstr "تحرك"
+msgstr "صعد"
 
 #: admin/partials/wpvr_setup_wizard.php:148
 #: production/admin/partials/wpvr_setup_wizard.php:148
@@ -1235,7 +1229,7 @@ msgstr "محتوى متعدد على النقاط الساخنة"
 #: admin/classes/class-tour-guide-translation.php:8
 #: production/admin/classes/class-tour-guide-translation.php:8
 msgid "Next"
-msgstr "التالي"
+msgstr "بعد ذلك"
 
 #: admin/classes/class-wpvr-meta-field.php:1651
 #: admin/partials/wpvr_confirmation_alert.php:26
@@ -1251,12 +1245,12 @@ msgstr "لا"
 #: production/admin/classes/class-wpvr-meta-field.php:3066
 #: production/admin/classes/class-wpvr-meta-field.php:3076
 msgid "None"
-msgstr "لا أحد"
+msgstr "لا احد"
 
 #: admin/classes/class-wpvr-meta-field.php:3096
 #: production/admin/classes/class-wpvr-meta-field.php:3096
 msgid "Normal"
-msgstr "طبيعي"
+msgstr "عادي"
 
 #: admin/classes/class-wpvr-general.php:101
 #: production/admin/classes/class-wpvr-general.php:101
@@ -1264,23 +1258,23 @@ msgid ""
 "Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on "
 "embedded tours."
 msgstr ""
-"ملحوظة: WooCommerce &amp; لن يتم دعم نقاط اتصال Fluent Forms في الجولات "
+"ملاحظة: لن يتم دعم نقاط الاتصال WooCommerce & amp؛ Fluent Forms في الجولات "
 "المضمنة."
 
 #: admin/classes/class-wpvr-meta-field.php:3098
 #: production/admin/classes/class-wpvr-meta-field.php:3098
 msgid "Oblique"
-msgstr "منحرف - مائل"
+msgstr "منحرف"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:89
 #: production/oxygen/elements/Wpvr_Tour_Element.php:89
 msgid "OFF"
-msgstr "عن"
+msgstr "في طريق"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:88
 #: production/oxygen/elements/Wpvr_Tour_Element.php:88
 msgid "ON"
-msgstr "على"
+msgstr "على شكل"
 
 #: admin/classes/class-wpvr-meta-field.php:1016
 #: admin/classes/class-wpvr-meta-field.php:1072
@@ -1293,7 +1287,7 @@ msgstr "على"
 #: production/admin/classes/class-wpvr-meta-field.php:1205
 #: production/admin/classes/class-wpvr-meta-field.php:1265
 msgid "On Click Content"
-msgstr "عند النقر على المحتوى"
+msgstr "على Click Content"
 
 #: admin/classes/class-wpvr-meta-field.php:1021
 #: admin/classes/class-wpvr-meta-field.php:1079
@@ -1306,7 +1300,7 @@ msgstr "عند النقر على المحتوى"
 #: production/admin/classes/class-wpvr-meta-field.php:1212
 #: production/admin/classes/class-wpvr-meta-field.php:1271
 msgid "On Hover Content"
-msgstr "على محتوى التحويم"
+msgstr "على محتوى التمرير"
 
 #: admin/partials/wpvr_documentation.php:746
 #: production/admin/partials/wpvr_documentation.php:746
@@ -1319,7 +1313,7 @@ msgid ""
 "Once you see the Pitch & Yaw value for the spot, click on this Arrow. It'll "
 "be set as the coordinate for your hotspot"
 msgstr ""
-"بمجرد رؤية قيمة Pitch & Yaw للبقعة، انقر فوق هذا السهم. سيتم تعيينه كإحداثي "
+"بمجرد رؤية قيمة Pitch & Yaw للمكان ، انقر فوق هذا السهم. سيتم تعيينه كإحداثي "
 "لنقطة الاتصال الخاصة بك"
 
 #: wpvr.php:261 production/wpvr.php:261
@@ -1327,12 +1321,12 @@ msgstr ""
 #: production/public/classes/class-wpvr-shortcode.php:98
 msgid ""
 "Oops! It seems like this post isn't published yet. Stay tuned for updates!"
-msgstr "أُووبس! يبدو أن هذا المنشور لم يتم نشره بعد. ترقبوا التحديثات!"
+msgstr "عفوًا! يبدو أن هذا المنشور لم يتم نشره بعد. ترقبوا التحديثات!"
 
 #: admin/classes/class-wpvr-meta-field.php:3025
 #: production/admin/classes/class-wpvr-meta-field.php:3025
 msgid "Open in new tab"
-msgstr "فتح في علامة تبويب جديدة"
+msgstr "افتح في علامة تبويب جديدة"
 
 #: admin/classes/class-wpvr-meta-field.php:1009
 #: admin/classes/class-wpvr-meta-field.php:1065
@@ -1345,71 +1339,71 @@ msgstr "فتح في علامة تبويب جديدة"
 #: production/admin/classes/class-wpvr-meta-field.php:1198
 #: production/admin/classes/class-wpvr-meta-field.php:1258
 msgid "Open in same tab"
-msgstr "فتح في نفس علامة التبويب"
+msgstr "افتح في نفس علامة التبويب"
 
 #: admin/classes/class-wpvr-meta-field.php:3068
 #: production/admin/classes/class-wpvr-meta-field.php:3068
 msgid "Overline"
-msgstr "خط علوي"
+msgstr "تراكب"
 
 #: admin/classes/class-wpvr-meta-field.php:3143
 #: production/admin/classes/class-wpvr-meta-field.php:3143
 msgid "Padding (px)"
-msgstr "الحشو (بكسل)"
+msgstr "حشو (بكسل)"
 
 #: admin/partials/wpvr_documentation.php:377
 #: admin/partials/wpvr_setup_wizard.php:134
 #: production/admin/partials/wpvr_documentation.php:377
 #: production/admin/partials/wpvr_setup_wizard.php:134
 msgid "Panorama Scene Gallery"
-msgstr "معرض مشهد البانوراما"
+msgstr "معرض مشهد بانوراما"
 
 #: admin/partials/wpvr_documentation.php:474
 #: production/admin/partials/wpvr_documentation.php:474
 msgid "Partial Panorama / Mobile Panorama Support"
-msgstr "بانوراما جزئية / دعم بانوراما المحمول"
+msgstr "بانوراما جزئية / دعم بانوراما متنقلة"
 
 #: admin/classes/class-wpvr-meta-field.php:1606
 #: production/admin/classes/class-wpvr-meta-field.php:1606
 msgid "Paste Youtube or Vimeo link or upload"
-msgstr "الصق رابط Youtube أو Vimeo أو قم بتحميله"
+msgstr "لصق رابط YouTube أو Vimeo أو تحميله"
 
 #: admin/classes/class-wpvr-ajax.php:375
 #: production/admin/classes/class-wpvr-ajax.php:375
 msgid "Permission check failed"
-msgstr "فشل التحقق من الإذن"
+msgstr "فشل فحص الإذن"
 
 #: admin/partials/wpvr_setup_wizard.php:126
 #: production/admin/partials/wpvr_setup_wizard.php:126
 msgid "Personalize your virtual tours, in the way you want."
-msgstr "قم بتخصيص جولاتك الافتراضية بالطريقة التي تريدها."
+msgstr "إضفاء الطابع الشخصي على جولاتك الافتراضية بالطريقة التي تريدها."
 
 #: admin/classes/class-wpvr-meta-field.php:964
 #: production/admin/classes/class-wpvr-meta-field.php:964
 msgid "Pitch"
-msgstr "يقذف"
+msgstr "رمى"
 
 #: admin/classes/class-tour-guide-translation.php:59
 #: admin/classes/class-tour-guide-translation.php:63
 #: production/admin/classes/class-tour-guide-translation.php:59
 #: production/admin/classes/class-tour-guide-translation.php:63
 msgid "Pitch & Yaw is Set"
-msgstr "تم ضبط درجة الانحراف والانحراف"
+msgstr "تم تعيين الملعب والانعراج"
 
 #: admin/partials/wpvr_documentation.php:219
 #: production/admin/partials/wpvr_documentation.php:219
 msgid "Post a Ticket"
-msgstr "نشر تذكرة"
+msgstr "انشر تذكرة"
 
 #: admin/partials/wpvr_setup_wizard.php:193
 #: production/admin/partials/wpvr_setup_wizard.php:193
 msgid "Premium Features"
-msgstr "العضوية المميزة"
+msgstr "ميزات مميزة"
 
 #: admin/classes/class-tour-preview-meta-box.php:853
 #: production/admin/classes/class-tour-preview-meta-box.php:853
 msgid "Preview"
-msgstr "معاينة"
+msgstr "عرض"
 
 #: admin/classes/class-wpvr-meta-field.php:146
 #: production/admin/classes/class-wpvr-meta-field.php:146
@@ -1419,12 +1413,12 @@ msgstr "معاينة رسالة الصورة"
 #: admin/classes/class-tour-guide-translation.php:26
 #: production/admin/classes/class-tour-guide-translation.php:26
 msgid "Preview The Image in Tour Mode"
-msgstr "قم بمعاينة الصورة في وضع الجولة"
+msgstr "معاينة الصورة في وضع الجولة"
 
 #: admin/classes/class-tour-guide-translation.php:75
 #: production/admin/classes/class-tour-guide-translation.php:75
 msgid "Preview Your Hotspot Content"
-msgstr "قم بمعاينة محتوى نقطة الاتصال الخاصة بك"
+msgstr "معاينة محتوى نقطة الاتصال الخاصة بك"
 
 #: admin/classes/class-tour-guide-translation.php:9
 #: production/admin/classes/class-tour-guide-translation.php:9
@@ -1436,12 +1430,12 @@ msgstr "سابق"
 #: production/admin/classes/class-wpvr-meta-field.php:432
 #: production/admin/classes/class-wpvr-meta-field.php:466
 msgid "Print the forms shortcode you want to show."
-msgstr "اطبع الرمز القصير للنماذج التي تريد إظهارها."
+msgstr "اطبع الرمز القصير للنماذج الذي تريد إظهاره."
 
 #: admin/partials/wpvr_documentation.php:303
 #: production/admin/partials/wpvr_documentation.php:303
 msgid "pro"
-msgstr "طليعة"
+msgstr "عاهرة"
 
 #: admin/partials/wpvr_documentation.php:335
 #: production/admin/partials/wpvr_documentation.php:335
@@ -1456,7 +1450,7 @@ msgstr "انشر جولتك"
 #: elementor/elements/Wpvr-widget.php:178
 #: production/elementor/elements/Wpvr-widget.php:178
 msgid "Put value in (px)"
-msgstr "ضع القيمة في (PX)"
+msgstr "ضع القيمة في (px)"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:56
 #: oxygen/elements/Wpvr_Tour_Element.php:76
@@ -1475,12 +1469,12 @@ msgstr "ضع القيمة في (PX)"
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:182
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:204
 msgid "px"
-msgstr "انشر جولتك"
+msgstr "بكسل"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:170
 msgid "Radius"
-msgstr "نصف القطر"
+msgstr "الشعاع نصف القطر"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:101
 #: production/oxygen/elements/Wpvr_Tour_Element.php:101
@@ -1498,7 +1492,6 @@ msgstr "نصف القطر:"
 
 #: admin/partials/wpvr_documentation.php:231
 #: production/admin/partials/wpvr_documentation.php:231
-#| msgid "Rate Us! "
 msgid "Rate Us "
 msgstr "قيمنا"
 
@@ -1510,7 +1503,7 @@ msgstr "قراءة الوثائق"
 #: admin/partials/wpvr_setup_wizard.php:219
 #: production/admin/partials/wpvr_setup_wizard.php:219
 msgid "Read Our Complete Guides"
-msgstr "اقرأ أدلتنا الكاملة"
+msgstr "اقرأ أدلةنا الكاملة"
 
 #: admin/partials/wpvr_documentation.php:260
 #: production/admin/partials/wpvr_documentation.php:260
@@ -1518,8 +1511,8 @@ msgid ""
 "Recover abandoned carts with automated email drip campaigns. Start getting "
 "back lost sales on your online store."
 msgstr ""
-"يمكنك استعادة عربات التسوق المهجورة باستخدام حملات التنقيط الآلية عبر البريد "
-"الإلكتروني. ابدأ في استعادة المبيعات المفقودة في متجرك عبر الإنترنت."
+"استعد العربات المهجورة بحملات التنقيط الإلكترونية الآلية. ابدأ في استعادة "
+"المبيعات المفقودة في متجرك عبر الإنترنت."
 
 #: admin/classes/class-wpvr-meta-field.php:403
 #: production/admin/classes/class-wpvr-meta-field.php:403
@@ -1528,14 +1521,14 @@ msgstr "استئناف التدوير التلقائي بعد"
 
 #. Author of the plugin
 msgid "Rextheme"
-msgstr "ريكسثيم"
+msgstr "Rextheme"
 
 #: admin/classes/class-wpvr-meta-field.php:3087
 #: admin/classes/class-wpvr-meta-field.php:3151
 #: production/admin/classes/class-wpvr-meta-field.php:3087
 #: production/admin/classes/class-wpvr-meta-field.php:3151
 msgid "Right"
-msgstr "يمين"
+msgstr "صح"
 
 #: admin/classes/class-wpvr-meta-field.php:394
 #: production/admin/classes/class-wpvr-meta-field.php:394
@@ -1545,7 +1538,7 @@ msgstr "سرعة الدوران والاتجاه"
 #: admin/partials/wpvr_documentation.php:1172
 #: production/admin/partials/wpvr_documentation.php:1172
 msgid "Save"
-msgstr "يحفظ"
+msgstr "حفظ"
 
 #: admin/classes/class-tour-guide-translation.php:79
 #: production/admin/classes/class-tour-guide-translation.php:79
@@ -1565,7 +1558,7 @@ msgstr "مؤلف المشهد مع URL"
 #: admin/classes/class-wpvr-meta-field.php:209
 #: production/admin/classes/class-wpvr-meta-field.php:209
 msgid "Scene Fade Duration"
-msgstr "مدة تلاشي المشهد"
+msgstr "مدة تتلاشى المشهد"
 
 #: admin/classes/class-wpvr-meta-field.php:709
 #: production/admin/classes/class-wpvr-meta-field.php:709
@@ -1628,7 +1621,7 @@ msgstr "تحميل المشهد:"
 #: admin/partials/wpvr_documentation.php:432
 #: production/admin/partials/wpvr_documentation.php:432
 msgid "Scene-type Hotspots (Connect Panoramas)"
-msgstr "النقاط الفعالة من نوع المشهد (توصيل الصور البانورامية)"
+msgstr "نقاط ساخنة من نوع المشهد (توصيل بانوراما)"
 
 #: admin/classes/class-wpvr-meta-field.php:88
 #: production/admin/classes/class-wpvr-meta-field.php:88
@@ -1638,7 +1631,7 @@ msgstr "مشاهد"
 #: admin/partials/wpvr_documentation.php:1150
 #: production/admin/partials/wpvr_documentation.php:1150
 msgid "Select a Version to Rollback"
-msgstr "حدد الإصدار للتراجع"
+msgstr "حدد إصدارًا للتراجع"
 
 #: admin/classes/class-wpvr-meta-field.php:1025
 #: admin/classes/class-wpvr-meta-field.php:1085
@@ -1663,7 +1656,7 @@ msgstr "حدد النموذج الخاص بك"
 #: admin/partials/wpvr_setup_wizard.php:141
 #: production/admin/partials/wpvr_setup_wizard.php:141
 msgid "Sell WooCommerce Products"
-msgstr "بيع منتجات ووكومرس"
+msgstr "بيع منتجات WooCommerce"
 
 #: admin/classes/class-wpvr-meta-field.php:417
 #: production/admin/classes/class-wpvr-meta-field.php:417
@@ -1671,8 +1664,8 @@ msgid ""
 "Set a time after which auto rotation will stop. Assign in milliseconds, "
 "where 1000 milliseconds = 1 second."
 msgstr ""
-"قم بتعيين الوقت الذي سيتوقف بعده التدوير التلقائي. قم بالتعيين بالمللي "
-"ثانية، حيث 1000 مللي ثانية = ثانية واحدة."
+"حدد وقتًا يتم بعده توقف الدوران التلقائي. عيّن بالمللي ثانية ، حيث 1000 مللي "
+"ثانية = 1 ثانية."
 
 #: admin/classes/class-tour-guide-translation.php:13
 #: production/admin/classes/class-tour-guide-translation.php:13
@@ -1682,7 +1675,7 @@ msgstr "قم بتعيين عنوان لجولتك الافتراضية"
 #: admin/classes/class-wpvr-meta-field.php:140
 #: production/admin/classes/class-wpvr-meta-field.php:140
 msgid "Set a Tour Preview Image"
-msgstr "قم بتعيين صورة معاينة الجولة"
+msgstr "تعيين صورة معاينة الجولة"
 
 #: admin/classes/class-wpvr-meta-field.php:399
 #: production/admin/classes/class-wpvr-meta-field.php:399
@@ -1691,9 +1684,9 @@ msgid ""
 "faster it will rotate. Positive values will make it rotate clockwise and "
 "negative values will make it rotate anti clockwise"
 msgstr ""
-"قم بتعيين قيمة لتحديد سرعة الدوران. كلما زاد الرقم، كلما كان دورانه أسرع. "
-"القيم الموجبة ستجعله يدور في اتجاه عقارب الساعة والقيم السالبة ستجعله يدور "
-"عكس اتجاه عقارب الساعة"
+"اضبط قيمة لتحديد سرعة الدوران. كلما زاد الرقم ، زادت سرعة دورانه. القيم "
+"الموجبة ستجعلها تدور في اتجاه عقارب الساعة وستجعلها القيم السالبة تدور عكس "
+"اتجاه عقارب الساعة"
 
 #: admin/classes/class-tour-guide-translation.php:48
 #: production/admin/classes/class-tour-guide-translation.php:48
@@ -1701,8 +1694,8 @@ msgid ""
 "Set an unique Hotspot ID to each of your Hotspots. Avoid Spaces & special "
 "characters. Set it like H1 or 01"
 msgstr ""
-"قم بتعيين معرف نقطة اتصال فريد لكل نقطة من نقاط الاتصال الخاصة بك. تجنب "
-"المسافات والأحرف الخاصة. اضبطه مثل H1 أو 01"
+"قم بتعيين معرف نقطة اتصال فريدة لكل نقطة اتصال. تجنب المساحات والشخصيات "
+"الخاصة. اضبطه مثل H1 أو 01"
 
 #: admin/classes/class-wpvr-meta-field.php:866
 #: admin/classes/class-wpvr-meta-field.php:914
@@ -1726,7 +1719,7 @@ msgstr "تعيين معرف نقطة الاتصال"
 #: production/admin/classes/class-tour-guide-translation.php:67
 #: production/admin/classes/class-tour-guide-translation.php:71
 msgid "Set The Content for Click Action"
-msgstr "قم بتعيين المحتوى لإجراء النقر"
+msgstr "اضبط المحتوى على إجراء النقر"
 
 #: admin/classes/class-tour-guide-translation.php:18
 #: production/admin/classes/class-tour-guide-translation.php:18
@@ -1735,14 +1728,13 @@ msgid ""
 "unique for each scene and without any spaces or special characters. You can "
 "set it as Scene1, S1, or simply 01."
 msgstr ""
-"قم بتعيين معرف المشهد لصورتك البانورامية الأولى. يجب أن يكون معرف المشهد "
-"فريدًا لكل مشهد وبدون أي مسافات أو أحرف خاصة. يمكنك تعيينه على أنه Scene1 أو "
-"S1 أو ببساطة 01."
+"اضبط معرف المشهد لأول صورة بانوراما. يجب أن يكون معرف المشهد فريدًا لكل مشهد "
+"وبدون أي مسافات أو أحرف خاصة. يمكنك تعيينه كـ Scene1 أو S1 أو ببساطة 01."
 
 #: admin/classes/class-wpvr-meta-field.php:749
 #: production/admin/classes/class-wpvr-meta-field.php:749
 msgid "Set Zoom Preferences"
-msgstr "ضبط تفضيلات التكبير/التصغير"
+msgstr "اضبط تفضيلات التكبير / التصغير"
 
 #: admin/partials/wpvr_documentation.php:150
 #: production/admin/partials/wpvr_documentation.php:150
@@ -1751,12 +1743,12 @@ msgstr "إعدادات"
 
 #: admin/class-wpvr-admin.php:268 production/admin/class-wpvr-admin.php:267
 msgid "Setup"
-msgstr "يثبت"
+msgstr "تجهيز"
 
 #: admin/partials/wpvr_documentation.php:174
 #: production/admin/partials/wpvr_documentation.php:174
 msgid "Share On"
-msgstr "مشاركه فى"
+msgstr "تقاسم"
 
 #: admin/classes/class-wpvr-general.php:116
 #: production/admin/classes/class-wpvr-general.php:116
@@ -1775,15 +1767,11 @@ msgid ""
 "us/help/10607/microsoft-edge-view-delete-browser-history\" target=\"_blank\">"
 "Microsoft Edge</a>"
 msgstr ""
-"منذ أن قمت بتحديث البرنامج المساعد، يرجى مسح ذاكرة التخزين المؤقت للمتصفح "
-"للعمل بسلاسة. اتبع هذه الخطوات إذا كنت تستخدم <a href=\"https://support."
-"google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en\" "
-"target=\"_blank\">Google Chrome</a> , <a href=\"https://support.mozilla."
-"org/en-US/kb/how-clear-firefox-cache\" target=\"_blank\">موزيلا فايرفوكس</a>,"
-" <a href=\"https: //clear-my-cache.com/en/apple-mac-os/safari.html\" "
-"target=\"_blank\">Safai</a> أو <a href=\"https://support.microsoft.com/en -"
-"us/help/10607/microsoft-edge-view-delete-browser-history\" target=\"_blank\">"
-"Microsoft Edge</a>"
+"نظرًا لأنك قمت بتحديث المكون الإضافي ، يرجى مسح ذاكرة التخزين المؤقت للمتصفح "
+"للعمل بسلاسة. هذه الخطوات إذا كنت تستخدم <a href==\"https/support.google."
+"com/accounts/answer/32050؟co=genie.platforfor٪3desktop&hl=en\" "
+"target==blank\">Google chrome </a>، <href=httt://suppsure.mozilla.org/ar/en-"
+"ناكرة_كيف-الفلكس-الخادع-الخاضع-التيار-الخصوصية\""
 
 #: admin/partials/wpvr_setup_wizard.php:194
 #: production/admin/partials/wpvr_setup_wizard.php:194
@@ -1793,22 +1781,22 @@ msgstr "يبدأ من فقط"
 #: admin/classes/class-wpvr-meta-field.php:412
 #: production/admin/classes/class-wpvr-meta-field.php:412
 msgid "Stop Auto-rotation after"
-msgstr "إيقاف التدوير التلقائي بعد"
+msgstr "إيقاف الدوران التلقائي بعد"
 
 #: admin/classes/class-wpvr-meta-field.php:3126
 #: production/admin/classes/class-wpvr-meta-field.php:3126
 msgid "Style"
-msgstr "أسلوب"
+msgstr "إبداع أدبي"
 
 #: admin/partials/wpvr_documentation.php:789
 #: production/admin/partials/wpvr_documentation.php:789
 msgid "Submit"
-msgstr "يُقدِّم"
+msgstr "خضع"
 
 #: admin/partials/wpvr_documentation.php:215
 #: production/admin/partials/wpvr_documentation.php:215
 msgid "Support"
-msgstr "الدعم"
+msgstr "ناصر"
 
 #: admin/partials/wpvr_setup_wizard.php:15
 #: admin/partials/wpvr_setup_wizard.php:205
@@ -1843,7 +1831,7 @@ msgstr "تحويل النص"
 #: admin/partials/wpvr_setup_wizard.php:10
 #: production/admin/partials/wpvr_setup_wizard.php:10
 msgid "Thank you"
-msgstr "شكرًا لك"
+msgstr "شكرا لك"
 
 #: admin/partials/wpvr_documentation.php:1088
 #: production/admin/partials/wpvr_documentation.php:1088
@@ -1851,7 +1839,7 @@ msgid ""
 "The notice will appear on the front end of the virtual tour if viewed from a "
 "mobile device."
 msgstr ""
-"سيظهر الإشعار على الواجهة الأمامية للجولة الافتراضية إذا تم عرضه من جهاز "
+"سيظهر الإشعار في الواجهة الأمامية للجولة الافتراضية إذا تم عرضه من جهاز "
 "محمول."
 
 #: admin/classes/class-wpvr-meta-field.php:163
@@ -1859,46 +1847,44 @@ msgstr ""
 msgid ""
 "This option will display Zoom In, Zoom Out and Full Screen buttons on the "
 "tour."
-msgstr "سيعرض هذا الخيار أزرار التكبير والتصغير وملء الشاشة في الجولة."
+msgstr "سيعرض هذا الخيار أزرار التكبير والتصغير وأزرار ملء الشاشة في الجولة."
 
 #: admin/classes/class-wpvr-meta-field.php:2269
 #: production/admin/classes/class-wpvr-meta-field.php:2269
 msgid "This option will not work if the \"Tour Autoload\" is turned on."
-msgstr "لن يعمل هذا الخيار إذا تم تشغيل \"التحميل التلقائي للجولة\"."
+msgstr "لن يعمل هذا الخيار إذا تم تشغيل \"الحمل التلقائي للجولة\"."
 
 #: admin/classes/class-wpvr-meta-field.php:214
 #: production/admin/classes/class-wpvr-meta-field.php:214
 msgid "This will set the scene fade effect and execution time."
-msgstr "سيؤدي هذا إلى ضبط تأثير تلاشي المشهد ووقت التنفيذ."
+msgstr "سيؤدي هذا إلى ضبط تأثير التلاشي ووقت التنفيذ."
 
 #: admin/classes/class-wpvr-general.php:95
 #: production/admin/classes/class-wpvr-general.php:95
 msgid "To Embed on External Page:"
-msgstr "للتضمين في الصفحة الخارجية:"
+msgstr "للتضمين في صفحة خارجية:"
 
 #: admin/classes/class-wpvr-shortcode.php:39
 #: production/admin/classes/class-wpvr-shortcode.php:39
-#| msgid ""
-#| "To use this Wpvr tour in your posts or pages use the following shortcode:"
 msgid ""
 "To use this WP VR tour in your posts or pages use the following shortcode "
 msgstr ""
-"لاستخدام جولة WP VR هذه في منشوراتك أو صفحاتك، استخدم الرمز القصير التالي"
+"لاستخدام جولة WP VR هذه في مشاركاتك أو صفحاتك ، استخدم الرمز المختصر التالي"
 
 #: admin/classes/class-wpvr-meta-field.php:3146
 #: production/admin/classes/class-wpvr-meta-field.php:3146
 msgid "Top"
-msgstr "قمة"
+msgstr "ذروة"
 
 #: admin/classes/class-wpvr-meta-field.php:151
 #: production/admin/classes/class-wpvr-meta-field.php:151
 msgid "Tour Autoload"
-msgstr "التحميل التلقائي للجولة"
+msgstr "جولة التحميل التلقائي"
 
 #: admin/partials/wpvr_documentation.php:404
 #: production/admin/partials/wpvr_documentation.php:404
 msgid "Tour Background Audio"
-msgstr "جولة في الخلفية الصوتية"
+msgstr "جولة الصوت الخلفية"
 
 #: admin/classes/class-wpvr-meta-field.php:733
 #: production/admin/classes/class-wpvr-meta-field.php:733
@@ -1912,12 +1898,12 @@ msgstr "معاينة الجولة"
 #: admin/classes/class-wpvr-meta-field.php:154
 #: production/admin/classes/class-wpvr-meta-field.php:154
 msgid "Tour Preview Image will not appear if this is turned on."
-msgstr "لن تظهر صورة معاينة الجولة إذا تم تشغيل هذا الخيار."
+msgstr "لن تظهر صورة معاينة الجولة إذا تم تشغيل هذا."
 
 #: admin/classes/class-wpvr-admin-pages.php:71
 #: production/admin/classes/class-wpvr-admin-pages.php:71
 msgid "Tours"
-msgstr "جولات"
+msgstr "رحلات"
 
 #: admin/classes/class-wpvr-meta-field.php:713
 #: admin/classes/class-wpvr-meta-field.php:729
@@ -1929,8 +1915,8 @@ msgid ""
 "specific scene. The gallery will only show up on the front end and not on "
 "the preview."
 msgstr ""
-"سيؤدي تشغيله إلى عرض معرض يضم جميع المشاهد في جولتك. من خلال النقر المزدوج "
-"على الصورة المصغرة للمشهد في المعرض، يمكنك الانتقال إلى هذا المشهد المحدد. "
+"سيؤدي تشغيله إلى عرض معرض به جميع المشاهد في جولتك. من خلال النقر المزدوج "
+"على صورة مصغرة للمشهد في المعرض ، يمكنك الانتقال إلى هذا المشهد المحدد. "
 "سيظهر المعرض فقط في الواجهة الأمامية وليس في المعاينة."
 
 #: admin/classes/class-wpvr-meta-field.php:721
@@ -1939,38 +1925,37 @@ msgid ""
 "Turning it on will display scene titles on each scene thumbnail inside the "
 "Scene Gallery. The Scene IDs will be used as the Scene Title."
 msgstr ""
-"سيؤدي تشغيله إلى عرض عناوين المشهد على كل صورة مصغرة للمشهد داخل معرض المشهد."
-" سيتم استخدام معرفات المشهد كعنوان للمشهد."
+"سيؤدي تشغيله إلى عرض عناوين المشهد في كل صورة مصغرة للمشهد داخل معرض المشهد. "
+"سيتم استخدام معرفات المشهد كعنوان للمشهد."
 
 #: admin/class-wpvr-admin.php:215 production/admin/class-wpvr-admin.php:215
 msgid ""
 "Turning On The StreetView Option Will Erase Your Virtual Tour Data. Are You "
 "Sure?"
 msgstr ""
-"سيؤدي تشغيل خيار StreetView إلى مسح بيانات الجولة الافتراضية الخاصة بك. هل "
-"أنت متأكد؟"
+"سيؤدي تشغيل خيار التجوّل الافتراضي إلى محو بيانات جولتك الافتراضية. هل أنت "
+"متأكد؟"
 
 #: admin/class-wpvr-admin.php:214 production/admin/class-wpvr-admin.php:214
 msgid ""
 "Turning On The Video Option Will Erase Your Virtual Tour Data. Are You Sure?"
 msgstr ""
-"سيؤدي تشغيل خيار الفيديو إلى مسح بيانات الجولة الافتراضية الخاصة بك. هل أنت "
-"متأكد؟"
+"سيؤدي تشغيل خيار الفيديو إلى محو بيانات جولتك الافتراضية. هل أنت متأكد؟"
 
 #: admin/classes/class-wpvr-meta-field.php:3067
 #: production/admin/classes/class-wpvr-meta-field.php:3067
 msgid "Underline"
-msgstr "تسطير"
+msgstr "شكل خط يد"
 
 #: admin/partials/wpvr_documentation.php:321
 #: production/admin/partials/wpvr_documentation.php:321
 msgid "Unlimited Hotspots (Up to to 5 for a scene in free)"
-msgstr "نقاط اتصال غير محدودة (ما يصل إلى 5 نقاط اتصال مجانًا)"
+msgstr "نقاط اتصال غير محدودة (تصل إلى 5 لمشهد مجاني)"
 
 #: admin/partials/wpvr_documentation.php:307
 #: production/admin/partials/wpvr_documentation.php:307
 msgid "Unlimited Scenes (Up to 5 in Free)"
-msgstr "مشاهد غير محدودة (ما يصل إلى 5 مجانًا)"
+msgstr "مشاهد غير محدودة (حتى 5 في مجانا)"
 
 #: admin/partials/wpvr_setup_wizard.php:112
 #: production/admin/partials/wpvr_setup_wizard.php:112
@@ -1980,14 +1965,14 @@ msgstr "افتح كل هذه الخيارات عن طريق الترقية إل�
 #: admin/partials/wpvr_setup_wizard.php:113
 #: production/admin/partials/wpvr_setup_wizard.php:113
 msgid "Upgrade Now"
-msgstr "تحديث الآن"
+msgstr "قم بالترقية الآن"
 
 #: admin/partials/wpvr_documentation.php:296
 #: admin/partials/wpvr_documentation.php:765
 #: production/admin/partials/wpvr_documentation.php:296
 #: production/admin/partials/wpvr_documentation.php:765
 msgid "Upgrade to Pro"
-msgstr "التطور للاحترافية"
+msgstr "الترقية إلى المحترفين"
 
 #: admin/partials/wpvr_documentation.php:169
 #: admin/partials/wpvr_documentation.php:279
@@ -1995,14 +1980,13 @@ msgstr "التطور للاحترافية"
 #: production/admin/partials/wpvr_documentation.php:169
 #: production/admin/partials/wpvr_documentation.php:279
 #: production/admin/partials/wpvr_documentation.php:1178
-#| msgid "Upgrade to pro"
 msgid "Upgrade to Pro "
-msgstr "التطور للاحترافية"
+msgstr "الترقية إلى المحترفين"
 
 #: admin/classes/class-wpvr-meta-field.php:1605
 #: production/admin/classes/class-wpvr-meta-field.php:1605
 msgid "Upload or Add Link"
-msgstr "تحميل أو إضافة الرابط"
+msgstr "تحميل أو إضافة رابط"
 
 #: admin/classes/class-tour-guide-translation.php:21
 #: production/admin/classes/class-tour-guide-translation.php:21
@@ -2012,7 +1996,7 @@ msgstr "تحميل صورة بانوراما"
 #: admin/classes/class-wpvr-meta-field.php:3077
 #: production/admin/classes/class-wpvr-meta-field.php:3077
 msgid "Uppercase"
-msgstr "الأحرف الكبيرة"
+msgstr "أحرف كبيرة"
 
 #: admin/classes/class-wpvr-meta-field.php:1003
 #: admin/classes/class-wpvr-meta-field.php:1059
@@ -2044,7 +2028,7 @@ msgstr "باستخدام هذه الجولة"
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:160
 msgid "vh"
-msgstr "vh"
+msgstr "VH"
 
 #: admin/classes/class-wpvr-meta-field.php:115
 #: production/admin/classes/class-wpvr-meta-field.php:115
@@ -2054,7 +2038,7 @@ msgstr "فيديو"
 #: admin/classes/class-wpvr-video.php:46
 #: production/admin/classes/class-wpvr-video.php:46
 msgid "Video Settings : "
-msgstr "اعدادات الفيديو :"
+msgstr "إعدادات الفيديو:"
 
 #: admin/partials/wpvr_documentation.php:109
 #: production/admin/partials/wpvr_documentation.php:109
@@ -2064,12 +2048,12 @@ msgstr "دروس الفيديو"
 #: admin/partials/wpvr_documentation.php:528
 #: production/admin/partials/wpvr_documentation.php:528
 msgid "VR Glass Support for Video Tours"
-msgstr "دعم VR Glass لجولات الفيديو"
+msgstr "دعم زجاج VR لجولات الفيديو"
 
 #: admin/partials/wpvr_documentation.php:1095
 #: production/admin/partials/wpvr_documentation.php:1095
 msgid "VR GLass Support:"
-msgstr "دعم نظارات الواقع الافتراضي:"
+msgstr "دعم زجاج VR:"
 
 #: oxygen/elements/Wpvr_Tour_Element.php:78
 #: production/oxygen/elements/Wpvr_Tour_Element.php:78
@@ -2085,9 +2069,9 @@ msgid ""
 "which auto rotation will start again. Assign in milliseconds, where 1000 "
 "milliseconds = 1 second."
 msgstr ""
-"عندما ينقر أحد الأشخاص على الجولة، يتوقف التدوير التلقائي. هنا، قم بتعيين "
-"الوقت الذي سيبدأ بعده التدوير التلقائي مرة أخرى. قم بالتعيين بالمللي ثانية، "
-"حيث 1000 مللي ثانية = ثانية واحدة."
+"عندما ينقر شخص ما على الجولة ، يتوقف الدوران التلقائي. هنا ، حدد وقتًا يبدأ "
+"بعده التدوير التلقائي مرة أخرى. عيّن بالمللي ثانية ، حيث 1000 مللي ثانية = 1 "
+"ثانية."
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:103
@@ -2116,7 +2100,7 @@ msgstr "وحدة العرض"
 #: elementor/elements/Wpvr-widget.php:165
 #: production/elementor/elements/Wpvr-widget.php:165
 msgid "Width:"
-msgstr "عرض:"
+msgstr "العرض:"
 
 #: admin/partials/wpvr_documentation.php:1116
 #: production/admin/partials/wpvr_documentation.php:1116
@@ -2125,8 +2109,8 @@ msgid ""
 "release. So, if you face any issues with it, please contact us at "
 "support@rextheme.com"
 msgstr ""
-"سيتم تفعيل دعم VR Glass على الأجهزة المحمولة. هذا هو الإصدار التجريبي. لذا، "
-"إذا واجهت أي مشكلات معها، فيرجى الاتصال بنا على support@rextheme.com"
+"سيقوم بتنشيط دعم VR Glass على الأجهزة المحمولة. هذا هو الإصدار التجريبي. "
+"لذا، إذا واجهتك أي مشاكل، يرجى الاتصال بنا على support@rextheme.com"
 
 #: admin/partials/wpvr_documentation.php:1142
 #: production/admin/partials/wpvr_documentation.php:1142
@@ -2135,14 +2119,13 @@ msgid ""
 "decrease the image size with no quality compromise and help the site to load "
 "faster."
 msgstr ""
-"سيتم تحويل أي صورة jpeg أو png إلى تنسيق webp أثناء تحميل الوسائط. سيؤدي ذلك "
-"إلى تقليل حجم الصورة دون التنازل عن الجودة ومساعدة الموقع على التحميل بشكل "
-"أسرع."
+"سيقوم بتحويل أي صورة JPEG أو PNG إلى تنسيق WebP أثناء تحميل الوسائط. سيقلل "
+"حجم الصورة دون أي تنازل عن الجودة ويساعد الموقع على التحميل بشكل أسرع."
 
 #: admin/partials/wpvr_documentation.php:349
 #: production/admin/partials/wpvr_documentation.php:349
 msgid "WooCommerce Add-on"
-msgstr "الوظيفة الإضافية ووكومرس"
+msgstr "إضافة WooCommerce"
 
 #: admin/classes/class-wpvr-meta-field.php:3108
 #: production/admin/classes/class-wpvr-meta-field.php:3108
@@ -2157,22 +2140,22 @@ msgid ""
 "quality images. Enabling it will also show high res image on mobile devices. "
 "Many devices may not support that resolution."
 msgstr ""
-"سيتم تعطيل معالج الصور الكبير الافتراضي في WordPress للصور التي يزيد حجمها "
-"عن 2560 بكسل في WP VR. لذلك يمكن إنشاء جولات افتراضية بصور عالية الجودة "
-"للغاية. سيؤدي تمكينها أيضًا إلى عرض صورة عالية الدقة على الأجهزة المحمولة. "
-"قد لا تدعم العديد من الأجهزة هذا القرار."
+"سيتم تعطيل معالج الصور الكبير الافتراضي لـ WordPress للصور الأكبر من 2560 "
+"بكسل لـ WP VR. لذلك يمكن إنشاء جولات افتراضية بصور عالية الجودة للغاية. "
+"سيعرض تمكينه أيضًا صورة عالية الدقة على الأجهزة المحمولة. قد لا تدعم العديد "
+"من الأجهزة هذا القرار."
 
 #. Name of the plugin
 msgid "WP VR"
-msgstr "الفسفور الأبيض VR"
+msgstr "WP VR"
 
 #. Description of the plugin
 msgid ""
 "WP VR - 360 Panorama and virtual tour creator for WordPress is a customized "
 "panaroma & virtual builder tool for WordPress Website."
 msgstr ""
-"يعد WP VR - 360 Panorama ومبدع الجولات الافتراضية لبرنامج WordPress أداة "
-"مخصصة منشئ panaroma وأداة إنشاء مواقع الويب الافتراضية لموقع WordPress."
+"WP VR - 360 Panorama و Virtual Tour Creator for WordPress هي أداة مخصصة "
+"للبناء الافتراضي لموقع WordPress."
 
 #: admin/partials/wpvr_documentation.php:999
 #: admin/partials/wpvr_documentation.php:1039
@@ -2183,14 +2166,14 @@ msgid ""
 "you have to list the URL's of the pages with virtual tours on the 'List of "
 "allowed pages to load WP VR scripts' option"
 msgstr ""
-"سيتم تحميل أصول WP VR على صفحاتك المسموح بها فقط. إذا قمت بتشغيل هذا، فيجب "
-"عليك إدراج عناوين URL للصفحات ذات الجولات الافتراضية في خيار \"قائمة الصفحات "
-"المسموح بها لتحميل البرامج النصية لـ WP VR\""
+"سيتم تحميل أصول WP VR على الصفحات المسموح بها فقط. إذا قمت بتشغيل هذا ، فيجب "
+"عليك سرد عناوين URL للصفحات مع جولات افتراضية في خيار \"قائمة الصفحات "
+"المسموح بها لتحميل WP VR Scripts\""
 
 #: admin/class-wpvr-rollback.php:160
 #: production/admin/class-wpvr-rollback.php:160
 msgid "WP VR Plugin Rollback"
-msgstr "التراجع عن البرنامج المساعد WP VR"
+msgstr "WP VR Plugin Rollback"
 
 #: admin/partials/wpvr_documentation.php:894
 #: production/admin/partials/wpvr_documentation.php:894
@@ -2200,12 +2183,12 @@ msgstr "لن يقوم WP VR بتحميل مكتبة Font Awesome."
 #: admin/partials/wpvr_documentation.php:920
 #: production/admin/partials/wpvr_documentation.php:920
 msgid "WP VR will resize each scenes for mobile devices."
-msgstr "سيقوم WP VR بتغيير حجم كل مشهد للأجهزة المحمولة."
+msgstr "سيقوم WP VR بتغيير حجم كل المشاهد للأجهزة المحمولة."
 
 #: admin/partials/wpvr_documentation.php:243
 #: production/admin/partials/wpvr_documentation.php:243
 msgid "WPFunnels"
-msgstr "مسارات الفسفور الأبيض"
+msgstr "WPFunnels"
 
 #: elementor/elements/Wpvr-widget.php:44
 #: production/elementor/elements/Wpvr-widget.php:44
@@ -2213,9 +2196,8 @@ msgstr "مسارات الفسفور الأبيض"
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:21
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:27
-#| msgid "Wpvr"
 msgid "WPVR"
-msgstr "WP VR"
+msgstr "WPVR"
 
 #: admin/partials/wpvr_documentation.php:294
 #: production/admin/partials/wpvr_documentation.php:294
@@ -2230,7 +2212,7 @@ msgstr "ارتفاع WPVR"
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:193
 msgid "WPVR Mobile Height"
-msgstr "ارتفاع الهاتف المحمول WPVR"
+msgstr "ارتفاع موبايل WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:171
@@ -2239,9 +2221,8 @@ msgstr "نصف قطر WPVR"
 
 #: elementor/elements/Wpvr-widget.php:146
 #: production/elementor/elements/Wpvr-widget.php:146
-#| msgid "Wpvr Setup"
 msgid "WPVR Setup"
-msgstr "إعداد WP VR"
+msgstr "إعداد WPVR"
 
 #: includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
 #: production/includes/wpvr-divi-modules/includes/modules/wpvr_modules/WpvrTour.php:92
@@ -2265,7 +2246,7 @@ msgstr "اكتب CSS المخصص الخاص بك"
 #: admin/classes/class-wpvr-meta-field.php:971
 #: production/admin/classes/class-wpvr-meta-field.php:971
 msgid "Yaw"
-msgstr "ياو"
+msgstr "زاوية الإنعراج"
 
 #: admin/classes/class-wpvr-meta-field.php:1650
 #: admin/partials/wpvr_confirmation_alert.php:29
@@ -2282,7 +2263,8 @@ msgid ""
 "You can disable on hover content for mobile devices. As most of the devices "
 "are touch based."
 msgstr ""
-"يمكنك تعطيل محتوى التمرير للأجهزة المحمولة. حيث أن معظم الأجهزة تعمل باللمس."
+"يمكنك تعطيل محتوى التمرير للأجهزة المحمولة. حيث أن معظم الأجهزة تعتمد على "
+"اللمس."
 
 #: admin/classes/class-wpvr-meta-field.php:1783
 #: admin/classes/class-wpvr-meta-field.php:1818
@@ -2294,9 +2276,8 @@ msgid ""
 "view, click on preview button and check tour preview metabox."
 msgstr ""
 "يمكنك استخدام أي حجم للصورة ولكن الحد الأقصى لحجم تحميل الصورة الموصى به "
-"لدعم جميع الأجهزة هو 4096 × 2000 بكسل للحصول على عرض سريع الاستجابة ومثالي. "
-"للتحقق من عرض 360 درجة، انقر على زر المعاينة وتحقق من صندوق تعريف معاينة "
-"الجولة."
+"لدعم جميع الأجهزة هو 4096x2000 بكسل للحصول على عرض مثالي سريع الاستجابة. "
+"للتحقق من عرض 360 ، انقر فوق الزر معاينة وتحقق من مربع Metabox."
 
 #: admin/classes/class-tour-guide-translation.php:30
 #: production/admin/classes/class-tour-guide-translation.php:30
@@ -2309,13 +2290,13 @@ msgid ""
 "Your rating and feedback matters to us. If you are happy with WP VR - 360 "
 "Panorama and virtual tour creator for WordPress give us a rating."
 msgstr ""
-"تقييمك وردود الفعل يهمنا. إذا كنت راضيًا عن WP VR - 360 Panorama ومنشئ جولة "
-"افتراضية لبرنامج WordPress ، فأعطينا تقييمًا."
+"تقييمك وردود الفعل تهمنا. إذا كنت سعيدًا بـ WP VR - 360 Panorama و Virtual "
+"Tour Creator for WordPress ، فامنحنا تصنيفًا."
 
 #: admin/partials/wpvr_setup_wizard.php:125
 #: production/admin/partials/wpvr_setup_wizard.php:125
 msgid "Your Viewers - And Make Them Take"
-msgstr "مشاهديك - واجعلهم يقبلون"
+msgstr "المشاهدين - واجعلهم يأخذون"
 
 #: admin/classes/class-wpvr-meta-field.php:801
 #: production/admin/classes/class-wpvr-meta-field.php:801
@@ -2330,10 +2311,10 @@ msgid ""
 "degree on each load."
 msgstr ""
 "الفاصل الزمني للتكبير هو 50 إلى 120 درجة. يمكنك وضع أي قيمة بين 50 إلى 120. "
-"على سبيل المثال، إذا قمت بتعيين 100، فسيتم عرض المشهد مع تكبير بمقدار 100 "
-"درجة عند كل تحميل."
+"على سبيل المثال ، إذا قمت بتعيين 100 ، فسيتم عرض المشهد بتكبير 100 درجة في "
+"كل حمل."
 
 #: admin/classes/class-wpvr-meta-field.php:820
 #: production/admin/classes/class-wpvr-meta-field.php:820
 msgid "Zoom Out"
-msgstr "تصغير"
+msgstr "تطغير"

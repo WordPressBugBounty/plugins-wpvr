@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP VR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-11 10:17+0000\n"
-"PO-Revision-Date: 2024-03-12 08:46+0000\n"
+"PO-Revision-Date: 2025-08-20 06:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.6; wp-6.4.3"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.3.8"
 
 #: admin/classes/class-wpvr-meta-field.php:2256
 #: production/admin/classes/class-wpvr-meta-field.php:2256
@@ -723,7 +723,7 @@ msgstr "Vidéo explicative"
 #: admin/classes/class-wpvr-meta-field.php:618
 #: production/admin/classes/class-wpvr-meta-field.php:618
 msgid "Export"
-msgstr ""
+msgstr "exporter"
 
 #: admin/partials/wpvr_documentation.php:301
 #: production/admin/partials/wpvr_documentation.php:301

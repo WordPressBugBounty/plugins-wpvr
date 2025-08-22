@@ -561,6 +561,7 @@
         let name = window?.wpvr_global_obj?.user_information?.name;
         let email = window?.wpvr_global_obj?.user_information?.email;
         let url = window?.wpvr_global_obj?.ajaxurl;
+        let optIn = isToggleButtonChecked ? 'yes' : 'no';
         $.ajax({
             url: url,
             type: 'POST',
@@ -569,7 +570,8 @@
                 email: email,
                 name: name,
                 industry: industryName,
-                security: window.wpvr_global_obj.ajax_nonce
+                security: window.wpvr_global_obj.ajax_nonce,
+                opt_in: optIn
             },
             success: function(response){
             },
@@ -737,7 +739,7 @@
         e.preventDefault();
         const url = `${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1`;
         $(this).attr('href', url);
-        if($('#wpvr-opt-in-toggle-button').is(':checked') && $( this ).hasClass( 'last-step' ) ) {
+        if( isToggleButtonChecked && $( this ).hasClass( 'last-step' ) ) {
             createContact();
         }
         window.location.href = url;

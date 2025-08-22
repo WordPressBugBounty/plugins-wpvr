@@ -6,8 +6,35 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
 {
+    public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PostHog\\' => 8,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'PostHog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'PostHog\\Client' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Client.php',
+        'PostHog\\Consumer' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer.php',
+        'PostHog\\Consumer\\File' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/File.php',
+        'PostHog\\Consumer\\ForkCurl' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/ForkCurl.php',
+        'PostHog\\Consumer\\LibCurl' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/LibCurl.php',
+        'PostHog\\Consumer\\Socket' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/Socket.php',
+        'PostHog\\FeatureFlag' => __DIR__ . '/..' . '/posthog/posthog-php/lib/FeatureFlag.php',
+        'PostHog\\HttpClient' => __DIR__ . '/..' . '/posthog/posthog-php/lib/HttpClient.php',
+        'PostHog\\HttpResponse' => __DIR__ . '/..' . '/posthog/posthog-php/lib/HttpResponse.php',
+        'PostHog\\InconclusiveMatchException' => __DIR__ . '/..' . '/posthog/posthog-php/lib/InconclusiveMatchException.php',
+        'PostHog\\PostHog' => __DIR__ . '/..' . '/posthog/posthog-php/lib/PostHog.php',
+        'PostHog\\QueueConsumer' => __DIR__ . '/..' . '/posthog/posthog-php/lib/QueueConsumer.php',
+        'PostHog\\SizeLimitedHash' => __DIR__ . '/..' . '/posthog/posthog-php/lib/SizeLimitedHash.php',
         'Singleton' => __DIR__ . '/../..' . '/admin/views/class-wpvr-singleton.php',
         'Tour_Guide_Translation' => __DIR__ . '/../..' . '/admin/classes/class-tour-guide-translation.php',
         'WPVR\\Builder\\DIVI\\Modules\\WPVR_Modules' => __DIR__ . '/../..' . '/includes/wpvr-divi-modules/includes/DiviModules.php',
@@ -41,6 +68,13 @@ class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
         'WPVR_Validator' => __DIR__ . '/../..' . '/admin/helpers/class-wpvr-validator.php',
         'WPVR_Video' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-video.php',
         'Wpvr' => __DIR__ . '/../..' . '/includes/class-wpvr.php',
+        'Wpvr\\Admin\\Tracking\\AbstractEvent' => __DIR__ . '/../..' . '/admin/Tracking/AbstractEvent.php',
+        'Wpvr\\Admin\\Tracking\\Events\\AhaMomentEvents' => __DIR__ . '/../..' . '/admin/Tracking/Events/AhaMomentEvents.php',
+        'Wpvr\\Admin\\Tracking\\Events\\HabitMomentEvents' => __DIR__ . '/../..' . '/admin/Tracking/Events/HabitMomentEvents.php',
+        'Wpvr\\Admin\\Tracking\\Events\\SetupEvents' => __DIR__ . '/../..' . '/admin/Tracking/Events/SetupEvents.php',
+        'Wpvr\\Admin\\Tracking\\Events\\SignupEvents' => __DIR__ . '/../..' . '/admin/Tracking/Events/SignupEvents.php',
+        'Wpvr\\Admin\\Tracking\\PosthogClient' => __DIR__ . '/../..' . '/admin/Tracking/PosthogClient.php',
+        'Wpvr\\Admin\\Tracking\\Tracker' => __DIR__ . '/../..' . '/admin/Tracking/Tracker.php',
         'Wpvr_Activator' => __DIR__ . '/../..' . '/includes/class-wpvr-activator.php',
         'Wpvr_Admin' => __DIR__ . '/../..' . '/admin/class-wpvr-admin.php',
         'Wpvr_Ajax' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-ajax.php',
@@ -53,6 +87,8 @@ class ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit7e60e3cbb4cbde585bc2ff69384c415e::$classMap;
 
         }, null, ClassLoader::class);

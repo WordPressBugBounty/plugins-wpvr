@@ -121,6 +121,7 @@ class Wpvr
 		add_action('plugins_loaded', array($this, 'load_plugin'), 99);
 		add_action('init', array($this, 'register_wpvr_setup_wizard'));
         add_action('admin_init', array($this, 'admin_redirects'));
+        add_filter('wpvr_tracking_enabled', array($this, 'wpvr_tracking_enabled'));
 	}
 	/**
 	 * Initializes and loads the DIVI modules into the class property.
@@ -483,5 +484,11 @@ class Wpvr
                 exit;
             }
         }
+    }
+
+    public function wpvr_tracking_enabled(){
+        // Check if the tracking option is enabled
+        $tracking_enabled = get_option( 'wpvr_posthog_access_enabled', 'yes' );
+        return $tracking_enabled === 'yes';
     }
 }
