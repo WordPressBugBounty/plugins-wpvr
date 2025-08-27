@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.8.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.37
+Stable tag: 8.5.38
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -461,6 +461,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.38 (27-08-2025) =
+* Fix: Remove unnecessary code
 
 = 8.5.37 (22-08-2025) =
 * Fix: Corrected misplacement of floor plan points in backend preview for landscape images

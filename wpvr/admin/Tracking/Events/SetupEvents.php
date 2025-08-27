@@ -48,13 +48,12 @@ class SetupEvents extends AbstractEvent {
             return;
         }
         
+
         $post_type = $tour->post_type;
-        $post_type_object = get_post_type_object( $post_type );
-        $post_type_name = $post_type_object ? strtolower( $post_type_object->labels->singular_name ) : 'post';
+        $post_type_name = 'tour';
 
         $event_type = '';
         $previous_status = get_post_meta( $tour_id, '_previous_status', true );
-
         switch ( $status ) {
             case 'publish':
                 if ( $previous_status === 'draft' || $previous_status === 'auto-draft' || empty( $previous_status ) ) {
