@@ -254,14 +254,17 @@ class WPVR_Meta_Field {
                  $membership_access = get_post_meta($post_id, '_wpvr_allowed_roles_levels', true);
                  $basic_setting_right_fields['membership-access'] = array(
                     'class' =>'wpvr-membership-access',
-                    'title' => __('Control Access to this Tour','wpvr'),
+                    'title' => __('Control Access','wpvr'),
                     'type' => 'membership_access_name_select',
                     'id' => 'wpvr_membership_access',
                     'package' => 'pro',
                     'value' => $membership_access ?? 'none',
                     'placeholder' => null,
                     'have_tooltip' => true,
-                    'tooltip_text' => __('This will set the scene fade effect and execution time.','wpvr'),
+                    'tooltip_text' => array(
+                        'text' => __('Restrict this tour to selected membership levels.', 'wpvr'),
+                        'url'  => '' 
+                    ),
                 );
              }
 
@@ -1724,7 +1727,6 @@ class WPVR_Meta_Field {
     }
 
 
-
     /**
      * Render Scene Setting Left fields 
      * When Panodata is Empty
@@ -1831,7 +1833,7 @@ class WPVR_Meta_Field {
         $meta_fields = array(
             'panovideo' => array(
                 'class' => 'single-settings videosetup',
-                'title' => __('Enable Video','wpvr'),
+                'title' => __('Video Tour','wpvr'),
                 'type' => 'radio_button',
                 'lists' =>  array(
                         array(
@@ -1849,15 +1851,25 @@ class WPVR_Meta_Field {
                             'label_value' => 'On'
                         )
                 ),
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Enable or disable video mode using self-hosted, YouTube, or Vimeo.', 'wpvr-pro'),
+                    'url'  => '' 
+                ),
                     
             ),
             'video-attachment-url' => array(
-                'class' => 'video-setting',
+                'class' => 'single-settings video-setting',
                 'title' => __('Upload or Add Link','wpvr'),
                 'placeholder' => __('Paste Youtube or Vimeo link or upload','wpvr'),
                 'input_class' => 'video-attachment-url',
                 'type' => 'video_text_input',
-                'value' => $vidurl
+                'value' => $vidurl,
+                'have_tooltip' => true,
+                'tooltip_text' => array(
+                    'text' => __('Use a self-hosted file or paste a YouTube/Vimeo link.', 'wpvr-pro'),
+                    'url'  => '' 
+                ),
             )
         );
         return apply_filters( 'extend_video_meta_fields', $meta_fields, $postdata, $vidurl );
@@ -2282,7 +2294,35 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title .': ', 'wpvr'); ?></span>
+
+            <div class="wpvr-global-tooltip-area">
+                <span><?= __($title .': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
+            
             <ul>
 
                 <?php foreach($lists as $list) { extract( $list ); ?>
@@ -2294,6 +2334,7 @@ class WPVR_Meta_Field {
                 <?php } ?>
                 
             </ul>
+
         </div>
         <?php 
         ob_end_flush();
@@ -2314,9 +2355,34 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>">
-            <span><?= __($title .': ', 'wpvr'); ?></span>
-            <ul>
+            <div class="wpvr-global-tooltip-area">
+                <span><?= __($title .': ', 'wpvr'); ?></span>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
 
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
+            </div>
+
+            <ul>
                 <?php foreach($lists as $list) { extract( $list ); ?>
                 <li class="radio-btn">
                     <input class="<?= $input_class; ?>" id="<?= $input_id; ?>" type="radio" name="<?= $name; ?>" value="<?= $value; ?>" <?php if(($checked == 'off' || empty($checked)) && $value == 'off') { echo 'checked'; } ;?> <?php if($checked == 'on' && $value == 'on') { echo 'checked'; };?> >
@@ -2324,7 +2390,6 @@ class WPVR_Meta_Field {
                 </li>
 
                 <?php } ?>
-                
             </ul>
         </div>
         <?php 
@@ -2346,13 +2411,39 @@ class WPVR_Meta_Field {
         ob_start();
         ?>
         <div class="<?= $class; ?>" style="display:none;">
-            <div class="single-settings">
+
+            <div class="wpvr-global-tooltip-area">
                 <span><?= __($title .': ', 'wpvr'); ?></span>
-                <div class="form-group">
-                    <input type="text" placeholder="<?= $placeholder; ?>" name="<?= $name; ?>" class="<?= $input_class; ?>" value="<?= $value; ?>">
-                    <input type="button" class="video-upload" data-info="" value="Upload"/>
-                </div>
+                <?php if(!empty($have_tooltip)) { ?>
+                    <div class="field-tooltip">
+                        <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                        <span>
+                            <?php 
+                                // Ensure tooltip_text text is set
+                                if (!empty($tooltip_text['text'])) {
+                                    echo esc_html($tooltip_text['text']);
+
+                                    // Check if URL exists before rendering the link
+                                    if (!empty($tooltip_text['url'])) {
+                                        printf(
+                                            ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($tooltip_text['url']),
+                                            __('View Doc', 'wpvr')
+                                        );
+                                    }
+                                }
+                            ?>
+                        </span>
+                    </div>
+                <?php } ?>
             </div>
+
+            <div class="form-group">
+                <input type="text" placeholder="<?= $placeholder; ?>" name="<?= $name; ?>" class="<?= $input_class; ?>" value="<?= $value; ?>">
+                <input type="button" class="video-upload" data-info="" value="Upload"/>
+            </div>
+
         </div>
         <?php 
         
@@ -4823,7 +4914,34 @@ public static function render_membership_access_name_select($name, $val)
     ?>
 
     <div class='single-settings'>
-        <span for="membership-access-name"><?= __($title .': ', 'wpvr'); ?></span>
+
+        <div class="wpvr-tooltip-area">
+            <span for="membership-access-name"><?= __($title .': ', 'wpvr'); ?></span>
+            <?php if(!empty($have_tooltip)) { ?>
+                <div class="field-tooltip">
+                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+
+                    <span>
+                        <?php 
+                            // Ensure tooltip_text text is set
+                            if (!empty($tooltip_text['text'])) {
+                                echo esc_html($tooltip_text['text']);
+
+                                // Check if URL exists before rendering the link
+                                if (!empty($tooltip_text['url'])) {
+                                    printf(
+                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                        esc_url($tooltip_text['url']),
+                                        __('View Doc', 'wpvr')
+                                    );
+                                }
+                            }
+                        ?>
+                    </span>
+                </div>
+            <?php } ?>
+        </div>
+        
         <select class=<?= esc_attr($val['class']) ?> id="<?= esc_attr($val['id']) ?>" name="<?= esc_attr($name); ?>">
             <?php
             foreach ($membership_access_control_types as $key => $type) {

@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 5.0
 Tested up to: 6.8.2
 Requires PHP: 7.0.0
-Stable tag: 8.5.38
+Stable tag: 8.5.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -461,6 +461,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 
 == Changelog ==
+
+= 8.5.39 (05-09-2025) =
+* Enhancement: Translation update for German, Dutch, French, Italian, Spanish, Arabic, Croatian, Czech, Danish, Finnish, German (Switzerland), Japanese, Polish, Portuguese (Portugal), Russian, Swedish, Chinese (China), Greek, Hebrew, Portuguese (Brazil)
+* Enhancement: Update tooltips
 
 = 8.5.38 (27-08-2025) =
 * Fix: Remove unnecessary code

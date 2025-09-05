@@ -441,7 +441,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Enable Video JS control (It will load the WP VR Video JS library in the listed pages only):", "wpvr"); ?>
+                                        <?php echo __("Video Tour JS control (It will load the WP VR Video JS library in the listed pages only):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">

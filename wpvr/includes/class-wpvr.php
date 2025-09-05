@@ -327,9 +327,28 @@ class Wpvr
         ?>
 
         <div class="rex-pano-tab streetview" id="streetview">
+
             <h6 class="title"> <?= __('Embed Google Street View : ', 'wpvr-pro'); ?> </h6>
+
             <div class="single-settings">
-                <span> <?php echo __('Enable Street View:','wpvr-pro')  ?> </span>
+				<div class="wpvr-global-tooltip-area">
+					<span> <?php echo __('Enable Street View:','wpvr-pro')  ?> </span>
+
+					<div class="field-tooltip">
+						<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
+						<span>
+							<?= __('Insert a Street View iframe link.', 'wpvr-pro'); ?>
+							 <a href="https://rextheme.com/docs/wp-vr-embed-google-street-view-tour/" 
+								target="_blank" 
+								rel="noopener noreferrer">
+									<?= __('View Doc', 'wpvr-pro'); ?>
+							</a>	
+						</span>
+					</div>
+
+				</div>
+
+
                 <ul>
                     <li class="radio-btn">
                         <input class="styled-radio wpvrStreetView_off" id="styled-radio-sv-off" type="radio" name="wpvrStreetView" value="off" >
@@ -341,11 +360,9 @@ class Wpvr
                         <label for="styled-radio-sv-on">On</label>
                     </li>
                 </ul>
-                <div class="field-tooltip">
-                    <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
-                    <span><?= __('Please only add street view iframe source. For more details check documentation.', 'wpvr-pro'); ?></span>
-                </div>
+                
             </div>
+
         </div>
         <?php
 

@@ -1435,8 +1435,23 @@ li.export.export-pro-tag {
 
 
 .rex-pano-tab-content .general .inner-nav-content .single-settings select.wpvr-membership-access {
-    max-width: 250px;
+    max-width: 210px;
     height: 36px;
+}
+
+/* Focus State (Gray border instead of WP blue) */
+.wp-core-ui select:focus,
+.rex-pano-tab-content .general .inner-nav-content .single-settings select.wpvr-membership-access:focus {
+  border-color: #ccd0d4;
+  box-shadow: 0 0 0 1px #ccd0d4;
+  outline: none;
+  color: #2c3338;
+}
+
+/* Hover */
+select.wpvr-membership-access:hover {
+  border-color: #b5bcc2;
+  color:#2c3338; 
 }
 
 
@@ -2436,6 +2451,8 @@ li.export.export-pro-tag {
 
 
 /*------------input field tooltip-----------*/
+.rex-pano-tab.streetview  .wpvr-global-tooltip-area .field-tooltip,
+.rex-pano-tab.video .wpvr-global-tooltip-area .field-tooltip,
 .rex-pano-tab .single-scene .scene-setting .wpvr-global-tooltip-area .field-tooltip,
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip,
@@ -2449,6 +2466,30 @@ li.export.export-pro-tag {
     padding-left: 12px;
 }
 
+.rex-pano-tab.streetview  .wpvr-global-tooltip-area,
+.rex-pano-tab.video .wpvr-global-tooltip-area {
+    display: flex;
+    align-items: center;
+    min-width: 170px;
+}
+
+.rex-pano-tab.video .single-settings .form-group {
+    display: flex;
+    width: 100%;
+}
+
+.rex-pano-tab.video .single-settings {
+    margin-bottom: 20px;
+}
+
+.rex-pano-tab.streetview  .wpvr-global-tooltip-area>span,
+.rex-pano-tab.video .wpvr-global-tooltip-area>span {
+    font-size: 15px;
+    display: block;
+    color: #0E003C;
+    font-weight: 500;
+    line-height: 1;
+}
 
 .rex-pano-tab .single-scene .scene-setting .wpvr-global-tooltip-area  {
     display: flex;
@@ -2473,6 +2514,7 @@ li.export.export-pro-tag {
     cursor: help;
 }
 
+.rex-pano-tab.video .wpvr-global-tooltip-area .field-tooltip span,
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span,
 .rex-pano-tab .single-settings.inline-style .field-tooltip span,
@@ -2512,6 +2554,7 @@ li.export.export-pro-tag {
     transition: all 0.5s ease;
 }
 
+.rex-pano-tab.video .wpvr-global-tooltip-area .field-tooltip span:before,
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span:before,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span:before,
 .rex-pano-tab .single-settings.inline-style .field-tooltip span:before,
@@ -2538,6 +2581,7 @@ li.export.export-pro-tag {
     transform: translateY(-50%);
 }
 
+.rex-pano-tab.video .wpvr-global-tooltip-area .field-tooltip:hover span,
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip:hover span,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip:hover span,
 .rex-pano-tab .single-settings.inline-style .field-tooltip:hover span,
@@ -2552,6 +2596,7 @@ li.export.export-pro-tag {
     visibility: visible;
 }
 
+.rex-pano-tab.video .wpvr-global-tooltip-area .field-tooltip span a,
 .rex-pano-tab .hotspot-setting .wpvr-global-tooltip-area .field-tooltip span a,
 .rex-pano-tab .single-settings .single-setting-tooltip-area .field-tooltip span a,
 .rex-pano-tab .single-settings.inline-style .field-tooltip span a,
@@ -2863,7 +2908,21 @@ li.export.export-pro-tag {
     padding: 10px 15px;
     margin: 0 0 9px 0;
     border-radius: 5px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    height: auto;
 }
+
+.floor-plan-pointer-list li.removing {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 
 .floor-plan-pointer-list ul li label {
     color: #494b51;
@@ -3012,21 +3071,21 @@ li.export.export-pro-tag {
     outline: inherit;
 }
 
-.rex-pano-tab .video-setting .single-settings {
-    align-items: flex-start;
-}
-
 .rex-pano-tab .video-setting input.video-upload {
     max-width: 160px;
-    margin-top: 20px;
 }
 
-.rex-pano-tab .video-setting:before,
+.rex-pano-tab.streetview .single-settings,
+.rex-pano-tab.video .single-settings {
+    gap: 40px;
+}
+
+/* .rex-pano-tab .video-setting:before,
 .rex-pano-tab .video-setting:after {
     content: "";
     display: table;
     clear: both;
-}
+} */
 
 /*--------------------hotspot style-------------------*/
 

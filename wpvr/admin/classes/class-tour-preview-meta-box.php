@@ -824,23 +824,41 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 jQuery('.wpvr-floor-preview').slideToggle();
             });
 
-            jQuery(document).on("click",".plan-delete",function(e) {
+
+            jQuery(document).on("click", ".plan-delete", function(e) {
                 e.preventDefault();
-                var data = jQuery(this).attr("data-id");
-                jQuery('#pointer-'+ data).remove();
-                jQuery(this).parent().remove();
-                jQuery(".floor-plan-pointer").each(function(index, element) {
-                    jQuery( this ).text(index + 1 );
-                    var number = index + 1;
-                    jQuery( this ).attr("id","pointer-"+ number );
-                });
-                jQuery(".floor-plan-pointer-list ul li").each( function(index, element){
-                    var number = index + 1;
-                    jQuery( this).children("label").text('Pointer - '+ number);
-                    jQuery( this).children("select").attr('name',"plan-"+number);
-                    jQuery( this).children(".plan-delete").attr('data-id',number);
-                });
+
+                var $li = jQuery(this).closest("li");
+                var dataId = jQuery(this).attr("data-id");
+
+                // Remove corresponding pointer
+                jQuery('#pointer-' + dataId).remove();
+
+                // Add class to trigger CSS animation
+                $li.addClass("removing");
+
+                // Remove the element after animation ends
+                setTimeout(function() {
+                    $li.remove();
+
+                    // Re-index pointers
+                    jQuery(".floor-plan-pointer").each(function(index) {
+                        var number = index + 1;
+                        jQuery(this).text(number);
+                        jQuery(this).attr("id", "pointer-" + number);
+                    });
+
+                    // Re-index list items
+                    jQuery(".floor-plan-pointer-list ul li").each(function(index) {
+                        var number = index + 1;
+                        jQuery(this).children("label").text('Pointer - ' + number);
+                        jQuery(this).children("select").attr('name', "plan-" + number);
+                        jQuery(this).children(".plan-delete").attr('data-id', number);
+                    });
+
+                }, 300); // match CSS transition duration
             });
+
 
             </script>
         <?php } ?>
