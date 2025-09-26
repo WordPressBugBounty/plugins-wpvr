@@ -2195,7 +2195,7 @@ class WPVR_Scene {
             }); 
             let onLoadAnalytics = false;
             let sceneLoadAnalytics = false;
-            console.log(wpvrAnalyticsObj);
+
             function storeAnalyticsData(data) {
                 if (typeof wpvrAnalyticsObj !== "undefined" && wpvr_public.is_pro_active) {
                     jQuery.ajax({

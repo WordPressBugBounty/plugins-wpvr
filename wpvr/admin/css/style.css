@@ -2212,7 +2212,7 @@
     font-size: 22px;
   }
 }
-.setup-wizard__container .setup-wizard__inner-container .setup-wizard__features-section-container .setup-wizard__pro-features-section-container .setup-wizard__pro-features-price .setup-wizard__pro-features-price-tag {
+/* .setup-wizard__container .setup-wizard__inner-container .setup-wizard__features-section-container .setup-wizard__pro-features-section-container .setup-wizard__pro-features-price .setup-wizard__pro-features-price-tag {
   position: absolute;
   font-family: "Urbanist", sans-serif;
   display: block;
@@ -2229,7 +2229,7 @@
   top: 30px;
   left: 50%;
   max-width: 78px;
-}
+} */
 @media (max-width: 768px) {
   .setup-wizard__container .setup-wizard__inner-container .setup-wizard__features-section-container .setup-wizard__pro-features-section-container .setup-wizard__pro-features-price .setup-wizard__pro-features-price-tag {
     max-width: 72px;

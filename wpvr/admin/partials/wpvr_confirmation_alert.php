@@ -106,7 +106,7 @@
         </div>
     </div>
 </div>
-<!-- end pano eror alert -->
+<!-- end pano error alert -->
 
 
 <div class="wpvr-layout-modal" style="display: none">
@@ -410,6 +410,7 @@
                 </defs>
             </svg>
        </div>
+
        <div class="wpvr-layout-modal__img layout-default-preview">
            <img src='<?php echo WPVR_PLUGIN_DIR_URL .'admin/icon/default-layout-preview.png' ?>' alt='Default Preview'>
        </div>
@@ -454,9 +455,6 @@
             
 
         </div>
-
-        
-        
     </div>
 </div>
 
@@ -528,14 +526,14 @@
                             $discount_price = "$59.99";
                         }  else {
                             $discount_percentage = "Save 15%";
-                            $discount_price = "$67.99";
+                            $discount_price = "$79.99";
                         }
                         $price = '$79.99';
                     ?>
 
                     <div class="wpvr-premium-feature__discount-price">
                         <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $discount_percentage; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
-                        <p><?php printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p>
+                        <p><?php //printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p>
                     </div>
 
                     <a href="https://rextheme.com//wpvr/wpvr-pricing/" class="wpvr-premium-feature__btn" target="_blank" role="button">
@@ -559,9 +557,9 @@
 </script>
 
 <style>
-    p.wpvr-premium-feature__discount-price-label:before {
-        content: var(--discount-content, "Save 15%"); /* Default to 15% */
-    }
+    /* p.wpvr-premium-feature__discount-price-label:before {
+        content: var(--discount-content, "Save 15%"); 
+    } */
 </style>
 
 

@@ -78,21 +78,8 @@ class WPVR_Sample_Tour {
         }
 
         $file_save_url = wp_upload_dir();
-        $zip_file_path = WPVR_PLUGIN_DIR_PATH . 'sample_tour/wpvr_sample_tour.zip';
-        $unzipfile = unzip_file($zip_file_path, $file_save_url['basedir'] . '/wpvr/temp/');
-
-        if (is_wp_error($unzipfile)) {
-            WPVR_Sample_Tour_Import::wpvr_delete_temp_file();
-            wp_send_json_error(__('Failed to unzip file', 'wpvr'));
-        }
-
-        $result = glob($file_save_url["basedir"] . '/wpvr/temp/*.json');
-        if (!$result) {
-            WPVR_Sample_Tour_Import::wpvr_delete_temp_file();
-            wp_send_json_error(__('Tour json file not found', 'wpvr'));
-        }
-
-        $tour_json = $result[0];
+        $sample_data_path = WPVR_PLUGIN_DIR_PATH . 'sample-data/wpvr_11852.json';
+        $tour_json = $sample_data_path;
         $arrContextOptions = array(
             "ssl" => array(
                 "verify_peer" => false,
@@ -182,7 +169,6 @@ class WPVR_Sample_Tour {
                     }
                 }
                 update_post_meta($new_post_id, 'panodata', $new_data);
-                WPVR_Sample_Tour_Import::wpvr_delete_temp_file();
             }
         }
     }

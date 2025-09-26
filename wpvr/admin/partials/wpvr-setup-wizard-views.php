@@ -60,7 +60,7 @@
         $discount_price = "$59.99";
     }  else {
         $discount_percentage = "Save 15%";
-        $discount_price = "$67.99";
+        $discount_price = "$79.99";
     }
 
     $data = array(
