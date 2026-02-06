@@ -126,7 +126,7 @@
             var vidcontrol = $("input[name='playcontrol']:checked").val();
 
             var panovideo = $("input[name='panovideo']:checked").val();
-            
+
             var postid = $("#post_ID").val();
             var autoload = $("input[name='autoload']").is(':checked') ? 'on' : 'off';
             var compass = $("input[name='compass']:checked").val();
@@ -176,7 +176,7 @@
                             $('#error_occuredpub').hide();
                             $('#' + response.data[0]["panoid"]).empty();
                             var scenes = response.data[1];
-    
+
                             if (scenes) {
                                 $.each(scenes.scenes, function (i) {
                                     $.each(scenes.scenes[i]['hotSpots'], function (key, val) {
@@ -286,7 +286,7 @@
                                 scrollTop: $("#wpvr_item_builder__box").offset().top
                             }, 500);
                         }
-                        
+
                     } else {
                         $('#error_occured').show();
                         $('#error_occured .pano-error-message').html(response.data);
@@ -385,8 +385,10 @@
         var flag_ok = false;
         $('#publish').on('click', function (e) {
             e.preventDefault();
-            $('#publish').prop('disabled', true);
 
+            var hidden_post_status = $('#hidden_post_status').val() || 'auto-draft';
+            var action_type = (hidden_post_status === 'publish') ? 'update' : 'publish';
+            $('#publish').prop('disabled', true);
             $('.panolenspreview').trigger('click')
             var data = $('form#post').serializeArray();
             var post_status =  findValueByName('post_status',data)
@@ -399,7 +401,7 @@
             var x = $(this).val();
             // if (!flag_ok) {
                 $('.wpvr-loading').show();
-                var postid = $("#post_ID").val();
+                var postid = Number($("#post_ID").val() || 0);
                 var panovideo = $("input[name='panovideo']:checked").val();
                 var videourl = $("input[name='video-attachment-url']").val();
                 var autoload = $("input[name='autoload']").is(':checked') ? 'on' : 'off';
@@ -449,6 +451,7 @@
                     url: ajaxurl,
                     data: {
                         action: "wpvr_save",
+                        action_type: action_type,
                         nonce : wpvr_obj.ajax_nonce,
                         postid: postid,
                         panovideo: panovideo,
@@ -478,6 +481,7 @@
                     },
 
                     success: function (response) {
+                      
                         $('.wpvr-loading').hide();
                         $('#publish').prop('disabled', false);
                         if (response.success == false) {
@@ -491,7 +495,7 @@
                                 scrollTop: $("#error_occured").offset().top
                             }, 500);
                         } else {
-
+                            $('#hidden_post_status').val(response.data.post_status)
                             if(!$('#wpvr-check-publish').prop('checked')){
                                 $('#wpvr-check-publish').prop('checked', true);
                                 $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#0E003C');
@@ -520,12 +524,23 @@
 
                                 setCookie('redirectUrl', oldUrl, 1);
                             }
-                            var publishedOptionSelected = $("#post_status option[value='publish']").length > 0;
-                            if (!publishedOptionSelected) {
-                                $("#post_status").append('<option selected="selected" value="publish">Published</option>')
+                            var published_label = wpvr_obj?.published_text || 'Published';
+                            if ($("#post_status option[value='publish']").length === 0) {
+                                $("#post_status").append('<option value="publish">' + published_label + '</option>');
                             }
-                            var statusText = $("#post_status").val()
-                            $("#post-status-display").text(statusText)
+                            
+                            if (response.data.post_status === 'publish') {
+                                $("#post_status").val('publish');
+                                $("#hidden_post_status").val('publish');
+                                $("#post-status-display").text(published_label);
+                            } else {
+                                var statusText = $("#post_status option:selected").text();
+                                $("#post-status-display").text(statusText);
+                            }
+                            
+                            var status = response.data.post_status;
+                            var statusText = 'publish' == status ? 'Published' : $("#post_status").val()
+                            $("#post-status-display").text(statusText);
                             let site_language = wpvr_obj?.site_language;
                             let translatedText = wpvr_obj?.translated_languages?.[site_language] ?? {};
                             if(response.data.post_status == 'draft'){
@@ -536,12 +551,37 @@
                                 $('#publish').val(update_text);
                             }
                             window.history.replaceState(null, '', url_info.admin_url+"post.php?"+"post="+postid+"&action=edit");
+                            resetPostFormDirtyState();
                         }
                     }
                 });
             // }
         });
     });
+
+    function resetPostFormDirtyState() {
+      const $form = $('#post');
+
+      if (!$form.length) {
+        return;
+      }
+
+      // Reset browser-level dirty tracking
+      $form.find('input, textarea, select').each(function () {
+        if (this.type !== 'checkbox' && this.type !== 'radio') {
+          this.defaultValue = this.value;
+        }
+      });
+
+      $form.find('input[type="checkbox"], input[type="radio"]').each(function () {
+        this.defaultChecked = this.checked;
+      });
+
+      // Reset WordPress dirty tracking
+      if (typeof wp !== 'undefined' && wp.autosave && wp.autosave.server) {
+        wp.autosave.server.postChanged = false;
+      }
+    }
 
     jQuery(document).ready(function ($) {
         $("body, .pano-error-close-btn").on("click", function (e) {
@@ -755,7 +795,7 @@
                         onInit: function() {
                             var $editor = $(this);
                             var $noteEditor = $editor.next('.note-editor');
-                            
+
                             // Intercept Video button click
                             $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                                 // Small delay to check if cursor is on a video
@@ -764,17 +804,17 @@
                                     var range = $editor.summernote('createRange');
                                     if (range) {
                                         var $node = $(range.sc);
-                                        
+
                                         // Check if cursor is on a video iframe
                                         var $iframe = $node.closest('iframe.note-video-clip');
                                         if (!$iframe.length) {
                                             $iframe = $node.find('iframe.note-video-clip').first();
                                         }
-                                        
+
                                         if ($iframe.length && $iframe.attr('src')) {
                                             var embedUrl = $iframe.attr('src');
                                             var videoUrl = '';
-                                            
+
                                             // Extract YouTube URL
                                             if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                                 var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -784,10 +824,10 @@
                                             } else if (embedUrl) {
                                                 videoUrl = embedUrl;
                                             }
-                                            
+
                                             // Show the video dialog
                                             $editor.summernote('videoDialog.show');
-                                            
+
                                             // Pre-populate the video URL in the dialog
                                             setTimeout(function() {
                                                 var $urlInput = $('.note-video-url');
@@ -837,7 +877,7 @@
                         onInit: function() {
                             var $editor = $(this);
                             var $noteEditor = $editor.next('.note-editor');
-                            
+
                             // Intercept Video button click
                             $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                                 // Small delay to check if cursor is on a video
@@ -846,17 +886,17 @@
                                     var range = $editor.summernote('createRange');
                                     if (range) {
                                         var $node = $(range.sc);
-                                        
+
                                         // Check if cursor is on a video iframe
                                         var $iframe = $node.closest('iframe.note-video-clip');
                                         if (!$iframe.length) {
                                             $iframe = $node.find('iframe.note-video-clip').first();
                                         }
-                                        
+
                                         if ($iframe.length && $iframe.attr('src')) {
                                             var embedUrl = $iframe.attr('src');
                                             var videoUrl = '';
-                                            
+
                                             // Extract YouTube URL
                                             if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                                 var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -866,10 +906,10 @@
                                             } else if (embedUrl) {
                                                 videoUrl = embedUrl;
                                             }
-                                            
+
                                             // Show the video dialog
                                             $editor.summernote('videoDialog.show');
-                                            
+
                                             // Pre-populate the video URL in the dialog
                                             setTimeout(function() {
                                                 var $urlInput = $('.note-video-url');
@@ -1126,7 +1166,7 @@
                             onInit: function() {
                                 var $editor = $(this);
                                 var $noteEditor = $editor.next('.note-editor');
-                                
+
                                 // Intercept Video button click
                                 $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                                     // Small delay to check if cursor is on a video
@@ -1135,17 +1175,17 @@
                                         var range = $editor.summernote('createRange');
                                         if (range) {
                                             var $node = $(range.sc);
-                                            
+
                                             // Check if cursor is on a video iframe
                                             var $iframe = $node.closest('iframe.note-video-clip');
                                             if (!$iframe.length) {
                                                 $iframe = $node.find('iframe.note-video-clip').first();
                                             }
-                                            
+
                                             if ($iframe.length && $iframe.attr('src')) {
                                                 var embedUrl = $iframe.attr('src');
                                                 var videoUrl = '';
-                                                
+
                                                 // Extract YouTube URL
                                                 if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                                     var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -1155,10 +1195,10 @@
                                                 } else if (embedUrl) {
                                                     videoUrl = embedUrl;
                                                 }
-                                                
+
                                                 // Show the video dialog
                                                 $editor.summernote('videoDialog.show');
-                                                
+
                                                 // Pre-populate the video URL in the dialog
                                                 setTimeout(function() {
                                                     var $urlInput = $('.note-video-url');
@@ -1208,7 +1248,7 @@
                             onInit: function() {
                                 var $editor = $(this);
                                 var $noteEditor = $editor.next('.note-editor');
-                                
+
                                 // Intercept Video button click
                                 $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                                     // Small delay to check if cursor is on a video
@@ -1217,17 +1257,17 @@
                                         var range = $editor.summernote('createRange');
                                         if (range) {
                                             var $node = $(range.sc);
-                                            
+
                                             // Check if cursor is on a video iframe
                                             var $iframe = $node.closest('iframe.note-video-clip');
                                             if (!$iframe.length) {
                                                 $iframe = $node.find('iframe.note-video-clip').first();
                                             }
-                                            
+
                                             if ($iframe.length && $iframe.attr('src')) {
                                                 var embedUrl = $iframe.attr('src');
                                                 var videoUrl = '';
-                                                
+
                                                 // Extract YouTube URL
                                                 if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                                     var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -1237,10 +1277,10 @@
                                                 } else if (embedUrl) {
                                                     videoUrl = embedUrl;
                                                 }
-                                                
+
                                                 // Show the video dialog
                                                 $editor.summernote('videoDialog.show');
-                                                
+
                                                 // Pre-populate the video URL in the dialog
                                                 setTimeout(function() {
                                                     var $urlInput = $('.note-video-url');
@@ -1683,7 +1723,7 @@
 
     $(document).on("change", "input[type=radio][name=panovideo]", function (event) {
         var getvalue = $(this).val();
-        
+
         if (getvalue == 'on') {
             $('#confirm_text').html(`${window.wpvr_localize.VideoTourNotice}`);
             $('.wpvr-delete-alert-wrapper').css('display', 'flex');
@@ -1775,7 +1815,7 @@
 
     jQuery(document).ready(function ($) {
         var viddata = $("input[name='panovideo']:checked").val();
-        
+
         if (viddata == 'on') {
 
             $("li.scene").removeClass('active');
@@ -2259,13 +2299,13 @@
                                 success: function (response) {
                                     $('#wpvr_role_submit .wpvr-loader').css('display', 'none');
                                     $('#wpvr_role_submit').attr('disabled', false);
-            
+
                                     if (response.status == 'success') {
                                         $('.settings-footer-area .wpvr-alert').text(response.message).show();
                                     }
 
                                     remove_alert();
-            
+
                                 }
                             });
                         } else {
@@ -2296,13 +2336,13 @@
                             success: function (response) {
                                 $('#wpvr_role_submit .wpvr-loader').css('display', 'none');
                                 $('#wpvr_role_submit').attr('disabled', false);
-        
+
                                 if (response.status == 'success') {
                                     $('.settings-footer-area .wpvr-alert').text(response.message).show();
                                 }
 
                                 remove_alert();
-        
+
                             }
                         });
                     }
@@ -2311,7 +2351,7 @@
                     $('#wpvr_role_submit').attr('disabled', false);
                 }
             }else if($('#wpvr_video_script_control').is(':checked') && wpvr_video_script_list == ''){
-                
+
                 if (confirm("The 'List of Allowed Pages To Load WPVR Video.js ' Field Is Empty. Any Self-hosted 360-degree videos won't function on your site.")) {
                     if(($('#wpvr_script_control').is(':checked') && wpvr_script_list == '')){
                         if (confirm('The "List of Allowed Pages To Load WP VR Scripts " Field Is Empty. No Virtual Tours Will Show Up on Your Site.')) {
@@ -2339,12 +2379,12 @@
                                 success: function (response) {
                                     $('#wpvr_role_submit .wpvr-loader').css('display', 'none');
                                     $('#wpvr_role_submit').attr('disabled', false);
-            
+
                                     if (response.status == 'success') {
                                         $('.settings-footer-area .wpvr-alert').text(response.message).show();
                                     }
                                     remove_alert();
-            
+
                                 }
                             });
                         }else {
@@ -2376,13 +2416,13 @@
                             success: function (response) {
                                 $('#wpvr_role_submit .wpvr-loader').css('display', 'none');
                                 $('#wpvr_role_submit').attr('disabled', false);
-        
+
                                 if (response.status == 'success') {
                                     $('.settings-footer-area .wpvr-alert').text(response.message).show();
                                 }
 
                                 remove_alert();
-        
+
                             }
                         });
                     }
@@ -2428,7 +2468,7 @@
 
 
     });
-    
+
 
     //-----------reset button----------
     $(document).on("click", "#wpvr_role_reset", function (e) {
@@ -2454,7 +2494,7 @@
             $("#wpvr_role_submit").trigger('click');
         }
         $(this).attr('disabled', false);
-        
+
     });
 
     //------general tab's inner tab-------
@@ -2465,7 +2505,7 @@
 
             $(this).parent('li').addClass('active');
             $(this).parent('li').siblings().removeClass('active');
-            
+
             $(this_id).show();
             $(this_id).siblings().hide();
         });
@@ -2606,7 +2646,7 @@
 
         });
 
-        
+
 
     });
 
@@ -2635,7 +2675,7 @@
                 onInit: function() {
                     var $editor = $(this);
                     var $noteEditor = $editor.next('.note-editor');
-                    
+
                     // Intercept Video button click
                     $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                         // Small delay to check if cursor is on a video
@@ -2644,17 +2684,17 @@
                             var range = $editor.summernote('createRange');
                             if (range) {
                                 var $node = $(range.sc);
-                                
+
                                 // Check if cursor is on a video iframe
                                 var $iframe = $node.closest('iframe.note-video-clip');
                                 if (!$iframe.length) {
                                     $iframe = $node.find('iframe.note-video-clip').first();
                                 }
-                                
+
                                 if ($iframe.length && $iframe.attr('src')) {
                                     var embedUrl = $iframe.attr('src');
                                     var videoUrl = '';
-                                    
+
                                     // Extract YouTube URL
                                     if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                         var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -2664,10 +2704,10 @@
                                     } else if (embedUrl) {
                                         videoUrl = embedUrl;
                                     }
-                                    
+
                                     // Show the video dialog
                                     $editor.summernote('videoDialog.show');
-                                    
+
                                     // Pre-populate the video URL in the dialog
                                     setTimeout(function() {
                                         var $urlInput = $('.note-video-url');
@@ -2717,7 +2757,7 @@
                 onInit: function() {
                     var $editor = $(this);
                     var $noteEditor = $editor.next('.note-editor');
-                    
+
                     // Intercept Video button click
                     $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
                         // Small delay to check if cursor is on a video
@@ -2726,17 +2766,17 @@
                             var range = $editor.summernote('createRange');
                             if (range) {
                                 var $node = $(range.sc);
-                                
+
                                 // Check if cursor is on a video iframe
                                 var $iframe = $node.closest('iframe.note-video-clip');
                                 if (!$iframe.length) {
                                     $iframe = $node.find('iframe.note-video-clip').first();
                                 }
-                                
+
                                 if ($iframe.length && $iframe.attr('src')) {
                                     var embedUrl = $iframe.attr('src');
                                     var videoUrl = '';
-                                    
+
                                     // Extract YouTube URL
                                     if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
                                         var match = embedUrl.match(/embed\/([^?&]*)/);
@@ -2746,10 +2786,10 @@
                                     } else if (embedUrl) {
                                         videoUrl = embedUrl;
                                     }
-                                    
+
                                     // Show the video dialog
                                     $editor.summernote('videoDialog.show');
-                                    
+
                                     // Pre-populate the video URL in the dialog
                                     setTimeout(function() {
                                         var $urlInput = $('.note-video-url');
@@ -2854,7 +2894,7 @@
             let version = $("#trigger-rollback").serialize();
             let redirectUrl = wpvr_global_obj.url_info.admin_url + 'admin.php?' + version;
             window.location.href = redirectUrl;
-        } 
+        }
     });
 
     $(document).on("click", ".single-settings .wpvr-switcher input:disabled+label,.vr-export,#styled-radio-sv-off,#styled-radio-sv-on,#wpvr_floor_plan_enabler,.wpvr_cardboard_disable_label,.rex-import-disable,.single-settings.scene-animation", function (event) {
@@ -2862,7 +2902,7 @@
         $("#wpvr_premium_feature_popup").show();
     });
 
-  
+
 
     $(document).on("click", "#wpvr_premium_feature_close", function () {
         $("#wpvr_premium_feature_popup").hide();
@@ -2877,8 +2917,10 @@
 
     $(document).on("click", ".wpvr-layout__radio-container", function () {
         let findLayout = $(this).find('.wpvr-layout__radio-label').data('layout');
+        
         if(findLayout == 'layout1'){
             event.preventDefault();
+
             $('#wpvr_premium_feature_popup').show();
         }
     });
@@ -2889,7 +2931,7 @@
 
         if ($header.length > 0) {
             var headerOffset = $header.offset().top - $(window).scrollTop();
-    
+
             if (headerOffset < 27) {
                 $header.addClass('sticked');
             } else {
@@ -2897,7 +2939,7 @@
             }
 
         }
-        
+
     });
 
     $(document).ready(function() {
@@ -2977,7 +3019,7 @@
             jQuery('.scene-gallery').show();
         }
     }
-    
+
     // Function to update the progress bar
     function updateProgress() {
         let totalItems = $('.wpvr-checklist-items').length; // Total number of checklist items
@@ -3019,7 +3061,7 @@
             }
         });
     });
-    
+
 
 
     $('.rex-pano-tab .inner-nav-content .single-settings.has-children .vr-switcher-check').on('change', function() {
@@ -3035,13 +3077,13 @@
         var isChecked = $("input[name='mouseZoom']").is(':checked');
         $('.mouse-zoom-control-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleKeyboardZoom();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='mouseZoom']").on("change", toggleKeyboardZoom);
-    
+
 
 
 
@@ -3051,10 +3093,10 @@
         var isChecked = $("input[name='draggable']").is(':checked');
         $('.mouse-dragable-control-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleKeyboardSettings();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='draggable']").on("change", toggleKeyboardSettings);
 
@@ -3065,10 +3107,10 @@
         var isChecked = $("input[name='vrgallery']").is(':checked');
         $('.scene-gallery-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleGallerySettings();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='vrgallery']").on("change", toggleGallerySettings);
 
@@ -3079,10 +3121,10 @@
         var isChecked = $("input[name='gyro']").is(':checked');
         $('.zyro-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleGyroSettings();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='gyro']").on("change", toggleGyroSettings);
 
@@ -3092,10 +3134,10 @@
         var isChecked = $("input[name='explainerSwitch']").is(':checked');
         $('.explainer-video-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleExplainerSwitch();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='explainerSwitch']").on("change", toggleExplainerSwitch);
 
@@ -3105,14 +3147,14 @@
         var isChecked = $("input[name='globalzoom']").is(':checked');
         $('.set-zoom-perference-control-settings-wrapper').toggle(isChecked);
     }
-    
+
     // Initial state setup on page load
     toggleZoomSwitch();
-    
+
     // Event listener for checkbox changes using more specific selector
     $("input[name='globalzoom']").on("change", toggleZoomSwitch);
 
- 
+
 
 
 
@@ -3236,5 +3278,94 @@
         this.value = this.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     });
 
+
+    /**
+     * WPVR Telemetry Tracking
+     */
+    $(document).ready(function() {
+        // Global tracking helper
+        window.wpvrTrackAdminEvent = function(eventName, properties = {}) {
+            if (typeof wpvr_global_obj === 'undefined' || !wpvr_global_obj.ajaxurl) {
+                return;
+            }
+
+            $.ajax({
+                url: wpvr_global_obj.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'wpvr_track_telemetry_event',
+                    event_name: eventName,
+                    properties: properties,
+                    security: wpvr_global_obj.ajax_nonce
+                }
+            });
+        };
+
+        // Track Upgrade Clicks
+        $(document).on('click', 'a[href*="wpvr-pricing"], .go-pro-link, .wpvr-go-pro', function() {
+            wpvrTrackAdminEvent('upgrade_clicked', { source: 'admin_link' });
+        });
+
+        $(document).on('click', function(e) {
+            var $target = $(e.target);
+            var featureName = 'pro_feature';
+            var isPaywall = false;
+            var $context = null;
+
+            // Check 1: Wrapper with _is_pro class (e.g. wpvr_cardboard_disable_is_pro)
+            var $proWrapper = $target.closest('[class*="_is_pro"]');
+            if ($proWrapper.length > 0) {
+                isPaywall = true;
+                $context = $proWrapper;
+            }
+
+            // Check 2: Standard Container with internal Pro badge (Nav menu, buttons, etc.)
+            if (!isPaywall) {
+                var $container = $target.closest('li, label, button, a, .wpvr-import-button');
+                if ($container.length > 0) {
+                     var hasBadge = $container.find('.navigator-pro-tag, .pro-tag, .is-pro').length > 0 || 
+                                   $container.hasClass('is-pro');
+                    if (hasBadge) {
+                        isPaywall = true;
+                        $context = $container;
+                    }
+                }
+            }
+
+            if (isPaywall && $context) {
+                // 3. Extract Feature Name
+                if ($context.attr('data-screen')) {
+                    featureName = $context.attr('data-screen');
+                } else if ($context.find('input').length > 0) {
+                    featureName = $context.find('input').val();
+                } else if ($context.hasClass('wpvr-import-button')) {
+                    featureName = 'import_tour';
+                } else if ($context.attr('class') && $context.attr('class').match(/_is_pro/)) {
+                     // Try to find a label inside to get the feature name from 'for' attribute
+                     var $label = $context.find('label');
+                     if ($label.length > 0 && $label.attr('for')) {
+                         featureName = $label.attr('for');
+                     } else {
+                         // Fallback to class name minus _is_pro
+                         var match = $context.attr('class').match(/([a-zA-Z0-9_-]+)_is_pro/);
+                         if (match && match[1]) {
+                             featureName = match[1];
+                         }
+                     }
+                }
+                
+                // Normalize feature name
+                featureName = featureName.replace(/-/g, '_').toLowerCase();
+                
+                wpvrTrackAdminEvent('paywall_hit', { feature_name: featureName });
+            }
+        });
+
+        // Scene Pro Feature Image (Special Case)
+        $(document).on('click', 'img[src*="scene-pro-feature.png"]', function() {
+            wpvrTrackAdminEvent('paywall_hit', { feature_name: 'scene_pro_feature' });
+        });
+    
+    });
 
 })(jQuery);

@@ -1025,9 +1025,14 @@ div.pnlm-hotspot-base.fa-solid:before {
   margin-bottom: 0;
 }
 
+
+#et-boc .et-l .pnlm-container p iframe,
 div.pnlm-container p iframe {
-  max-width: 300px;
+  max-width: 100%;
+  width: 100%;
   margin-bottom: 0;
+  height: auto;
+  aspect-ratio: 16 / 9;
 }
 
 .pnlm-hotspot-base.custom-icon {
@@ -1096,6 +1101,19 @@ div.custom-tooltip > p {
 div.custom-tooltip > p p {
   max-height: 250px;
   overflow: auto;
+}
+
+#et-boc .et-l div.custom-tooltip > p p img,
+div.custom-tooltip > p p img  {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 6px;
+}
+
+#et-boc .et-l div.custom-tooltip > p p img:last-child,
+div.custom-tooltip > p p img:last-child {
+  margin-bottom: 0px;
 }
 
 #et-boc .et-l div.custom-tooltip > p a,
@@ -1186,11 +1204,30 @@ div.custom-tooltip p.vr-mode-title:after {
   border-radius: 5px;
 }
 
+#et-boc .et-l .custom-ifram-flex p,
+.custom-ifram-flex p {
+  padding: 10px;
+  margin: 0;
+}
+
 #et-boc .et-l div.custom-ifram,
 div.custom-ifram {
   width: 100%;
   max-height: 100%;
   overflow: auto;
+  height: 100%;
+}
+
+
+div.custom-ifram iframe{
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  height: 100%;
+}
+
+div.custom-ifram-flex .custom-ifram p{
+  margin: 15px;
 }
 
 .pano-wrap:before {
@@ -1239,23 +1276,6 @@ div.custom-ifram {
   visibility: visible;
 }
 
-/*#et-boc .et-l .custom-ifram p,*/
-/*#et-boc .et-l .custom-tooltip p,*/
-/*.custom-ifram p,*/
-/*.custom-tooltip p {*/
-/*  background-color: #fff;*/
-/*  padding: 10px 0;*/
-/*  margin: auto !important;*/
-/*  border-radius: 5px;*/
-/*  font-size: 15px;*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  line-height: 24px;*/
-/*}*/
-
-/*#et-boc .et-l .custom-ifram p,*/
-/*.custom-ifram p {*/
-/*  padding: 10px;*/
-/*}*/
 
 #et-boc .et-l .custom-ifram video,
 .custom-ifram video {
@@ -1266,21 +1286,15 @@ div.custom-ifram {
 .custom-ifram img {
   max-width: 100%;
   height: auto;
-  margin: 0 auto;
+  margin:auto auto 10px;
   display: block;
 }
 
-#et-boc .et-l .custom-ifram iframe,
-.custom-ifram p iframe {
-  max-width: 100% !important;
-  margin: 0 auto !important;
-  display: block;
-  width: 100% !important;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+#et-boc .et-l .custom-ifram img:last-child,
+.custom-ifram img:last-child {
+  margin:auto auto 0px;
 }
+
 
 /*-------load box----------*/
 .pnlm-load-box {

@@ -101,7 +101,13 @@ class Wpvr_Public {
                         $fontawesome_disable = get_option('wpvr_fontawesome_disable');
                         if ($fontawesome_disable == 'true') {
                         } else {
-                            wp_enqueue_style($this->plugin_name . 'fontawesome', 'https://use.fontawesome.com/releases/v6.5.1/css/all.css', array(), $this->version, 'all');
+                            wp_enqueue_style($this->plugin_name . 'fontawesome', plugin_dir_url(__FILE__) . 'css/fontawesome/css/all.css', array(), $this->version, 'all');
+                            wp_enqueue_style(
+                                $this->plugin_name . '-icons-fix',
+                                plugin_dir_url(__FILE__) . 'css/fontawesome/css/icons-fix.css',
+                                array($this->plugin_name . 'fontawesome'),
+                                $this->version
+                            );
                         }
                         wp_enqueue_style('panellium-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/pannellum.css', array(), true);
                         wp_enqueue_style('videojs-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/video-js.css', array(), true);
@@ -114,7 +120,13 @@ class Wpvr_Public {
             $fontawesome_disable = get_option('wpvr_fontawesome_disable');
             if ($fontawesome_disable == 'true') {
             } else {
-                wp_enqueue_style($this->plugin_name . 'fontawesome', 'https://use.fontawesome.com/releases/v6.5.1/css/all.css', array(), $this->version, 'all');
+                wp_enqueue_style($this->plugin_name . 'fontawesome', plugin_dir_url(__FILE__) . 'css/fontawesome/css/all.css', array(), $this->version, 'all');
+                wp_enqueue_style(
+                    $this->plugin_name . '-icons-fix',
+                    plugin_dir_url(__FILE__) . 'css/fontawesome/css/icons-fix.css',
+                    array($this->plugin_name . 'fontawesome'),
+                    $this->version
+                );
             }
             wp_enqueue_style('panellium-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/pannellum.css', array(), true);
             wp_enqueue_style('videojs-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/video-js.css', array(), true); // commented for video js vr

@@ -399,7 +399,7 @@ p.wpvr-premium-feature__discount-price-label {
   font-size: 16px;
 }
 
-/* p.wpvr-premium-feature__discount-price-label:before {
+p.wpvr-premium-feature__discount-price-label:before {
   content: "";
   position: absolute;
   background: #00b4ff;
@@ -418,7 +418,7 @@ p.wpvr-premium-feature__discount-price-label {
   transform: translateX(-50%);
   min-width: 69px;
   box-sizing: content-box;
-} */
+}
 
 
 .wpvr-premium-feature__btn {

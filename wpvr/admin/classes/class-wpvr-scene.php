@@ -1537,7 +1537,7 @@ class WPVR_Scene {
             // Process shortcode with fallback handling
             $shortcode_content = '';
             if (isset($postdata["genericformshortcode"]) && !empty(trim($postdata["genericformshortcode"]))) {
-                $shortcode_content = do_shortcode(esc_attr($postdata["genericformshortcode"]));
+                $shortcode_content = do_shortcode( $postdata["genericformshortcode"] );
             } else {
                 $shortcode_content = '<p class="error-message">No shortcode found.</p>';
             }

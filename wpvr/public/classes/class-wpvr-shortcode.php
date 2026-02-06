@@ -22,6 +22,14 @@ class WPVR_Shortcode {
 	private $plugin_name;
 
     /**
+     * Post type for wpvr
+     * 
+     * @var string
+     * @since 8.0.0
+     */
+    private $post_type = 'wpvr_item';
+
+    /**
      * Instance of WPVR_StreetView class
      * 
      * @var object
@@ -68,6 +76,7 @@ class WPVR_Shortcode {
             shortcode_atts(
                 array(
                     'id' => 0,
+                    'slug' => '',
                     'width' => null,
                     'height' => null,
                     'mobile_height' => null,
@@ -77,6 +86,7 @@ class WPVR_Shortcode {
             )
         );
         $id = esc_attr($id);
+        $slug = esc_attr($slug);
         $width = esc_attr($width);
         $height = esc_attr($height);
         $mobile_height = esc_attr($mobile_height);

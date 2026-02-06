@@ -264,6 +264,7 @@ class Wpvr_Admin {
                 'admin_url' => admin_url(),
                 'is_wpvr_pro_active' => apply_filters('is_wpvr_pro_active', false),
                 'is_wpvr_license_valid' => get_option('wpvr_edd_license_status', '') === 'valid',
+                'published_text' => __('Published', 'wpvr'),
             ));
         }
 

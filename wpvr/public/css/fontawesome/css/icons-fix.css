@@ -1,0 +1,13 @@
+.wpvr-cardboard .fa,
+.wpvr-cardboard .fas,
+.wpvr-cardboard .fa-classic,
+.wpvr-cardboard .fa-solid,
+.wpvr-cardboard .far,
+.wpvr-cardboard .fa-regular {
+    font-family: var(--fa-style-family, "Font Awesome 6 Free") !important;
+}
+
+.wpvr-cardboard .fab,
+.wpvr-cardboard .fa-brands {
+    font-family: var(--fa-style-family-brands, "Font Awesome 6 Brands") !important;
+}

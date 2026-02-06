@@ -517,8 +517,8 @@
 
                     <?php
                         $current_date = date('Y-m-d H:i:s');
-                        $start_date = '2025-12-31 00:00:00';
-                        $end_date = '2026-01-12 23:59:59';
+                        $start_date = '2026-01-27 00:00:00';
+                        $end_date = '2026-02-05 23:59:59';
                         $discount_percentage = '';
                         $discount_price = '';
                         if ($current_date >= $start_date && $current_date <= $end_date) {
@@ -527,14 +527,14 @@
                         } 
                         else {
                             $discount_percentage = "";
-                            $discount_price = "$99.99";
+                            $discount_price = "$74.99";
                         }
                         $price = '$99.99';
                     ?>
 
                     <div class="wpvr-premium-feature__discount-price">
-                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $price; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
-                        <!-- <p style="text-decoration: line-through; color: #999;"><?php //printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p> -->
+                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $discount_percentage; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
+                        <p style="text-decoration: line-through; color: #999;"><?php printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p>
                         
                     </div>
 
@@ -553,15 +553,15 @@
     document.addEventListener("DOMContentLoaded", function() {
         let discountLabel = document.querySelector(".wpvr-premium-feature__discount-price-label");
         if (discountLabel) {
-            discountLabel.style.setProperty("--discount-content", `"${discountLabel.getAttribute('data-discount')}"`);
+            discountLabel.style.setProperty("--discount-content-value", `"${discountLabel.getAttribute('data-discount')}"`);
         }
     });
 </script>
 
 <style>
-    /* p.wpvr-premium-feature__discount-price-label:before {
-        content: var(--discount-content, "Save 25%"); 
-    } */
+    p.wpvr-premium-feature__discount-price-label:before {
+        content: var(--discount-content-value, "Save 25%");
+    }
 </style>
 
 

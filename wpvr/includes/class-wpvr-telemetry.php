@@ -24,6 +24,51 @@ class Rex_WPVR_Telemetry {
         add_action( 'current_screen', array( $this, 'track_page_view' ) );
         add_action( 'rex_wpvr_embadded_tour', array( $this, 'track_embadded_tour' ), 10, 1 );
         add_action( 'rex_wpvr_tour_saved', array( $this, 'track_detailed_tour_events' ), 10, 1 );
+        
+        add_action( 'wp_ajax_wpvr_track_telemetry_event', array( $this, 'track_telemetry_event' ) );
+    }
+
+    /**
+     * Track generic telemetry event via AJAX
+     *
+     * @since 8.5.48
+     */
+    public function track_telemetry_event() {
+        if ( ! isset( $_POST['security'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'wpvr' ) ) {
+            wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Permission denied' ) );
+        }
+
+        $event_name = isset( $_POST['event_name'] ) ? sanitize_text_field( wp_unslash( $_POST['event_name'] ) ) : '';
+
+        if ( empty( $event_name ) ) {
+            wp_send_json_error( array( 'message' => 'Event name is required' ) );
+        }
+
+        $properties = isset( $_POST['properties'] ) ? (array) $_POST['properties'] : array();
+        
+        // Sanitize properties
+        $properties = map_deep( wp_unslash( $properties ), 'sanitize_text_field' );
+
+        $default_properties = array(
+            'time' => current_time( 'mysql' ),
+        );
+
+        $final_properties = array_merge( $default_properties, $properties );
+
+        // Update last core action
+        coderex_telemetry_update_last_action( WPVR_FILE, $event_name );
+
+        coderex_telemetry_track(
+            WPVR_FILE,
+            $event_name,
+            $final_properties
+        );
+
+        wp_send_json_success( array( 'message' => 'Event tracked successfully' ) );
     }
 
     /**
@@ -44,6 +89,9 @@ class Rex_WPVR_Telemetry {
      */
     private function track_tour_type_event( $post_id ) {
         $tour_type = $this->get_tour_type( $post_id );
+        
+        // Update last core action
+        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_type_set' );
         
         coderex_telemetry_track(
             WPVR_FILE,
@@ -93,7 +141,7 @@ class Rex_WPVR_Telemetry {
      */
     private function track_feature_used_events( $post_id ) {
         $features = $this->get_enabled_features( $post_id );
-        
+
         foreach ( $features as $feature_name ) {
             coderex_telemetry_track(
                 WPVR_FILE,
@@ -254,6 +302,7 @@ class Rex_WPVR_Telemetry {
      * @since 8.5.48
      */
     public function track_plugin_activation() {
+
         coderex_telemetry_track(
             WPVR_FILE,
             'plugin_activation',
@@ -272,14 +321,31 @@ class Rex_WPVR_Telemetry {
      * @since 8.5.48
      */
     public function track_plugin_deactivation() {
+        // Calculate usage duration
+        $activation_time = get_option( 'wpvr_plugin_installed', 0 );
+        $usage_duration = 'Not available';
+        if ( $activation_time > 0 ) {
+            $duration_seconds = time() - $activation_time;
+            $usage_duration = $this->format_duration( $duration_seconds );
+        }
+
+        // Get last core action
+        $last_core_action = get_option( 'wpvr_last_core_action', '' );
+
+        // Track deactivation event
         coderex_telemetry_track(
             WPVR_FILE,
             'plugin_deactivated',
             array(
                 'plugin_version' => defined('WPVR_VERSION') ? WPVR_VERSION : 'unknown',
                 'deactivation_time' => current_time( 'c' ),
+                'usage_duration' => $usage_duration,
+                'last_core_action' => $last_core_action,
             )
         );
+
+        // Clean up activation time option
+        delete_option( 'wpvr_plugin_installed' );
     }
 
     /**
@@ -333,6 +399,9 @@ class Rex_WPVR_Telemetry {
             $this->track_detailed_tour_events( $post->ID );
 
             if (1 === $total_user_tours) {
+                // Update last core action
+                coderex_telemetry_update_last_action( WPVR_FILE, 'first_tour_published' );
+                
                 coderex_telemetry_track(
                     WPVR_FILE,
                     'first_tour_published',
@@ -341,8 +410,23 @@ class Rex_WPVR_Telemetry {
                         'time'          => current_time('mysql'),
                     )
                 );
+                
+                // Also track first_strike (first successful value moment)
+                coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike' );
+                
+                coderex_telemetry_track(
+                    WPVR_FILE,
+                    'first_strike',
+                    array(
+                        'tour_title'    => $post->post_title,
+                        'time'          => current_time('mysql'),
+                    )
+                );
             }
         } elseif ($new_status === 'publish' && $old_status === 'publish') {
+            // Update last core action
+            coderex_telemetry_update_last_action( WPVR_FILE, 'tour_updated' );
+            
             coderex_telemetry_track(
                 WPVR_FILE,
                 'tour_updated',
@@ -364,6 +448,9 @@ class Rex_WPVR_Telemetry {
      * @since 8.5.48
      */
     public function track_tour_created( $post_title ) {
+        // Update last core action
+        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_created' );
+        
         coderex_telemetry_track(
             WPVR_FILE,
             'tour_created',
@@ -461,6 +548,9 @@ class Rex_WPVR_Telemetry {
             return;
         }
 
+        // Update last core action
+        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_embedded' );
+        
         coderex_telemetry_track(
             WPVR_FILE,
             'tour_embedded',
@@ -473,6 +563,33 @@ class Rex_WPVR_Telemetry {
         update_post_meta( $tour_id, '_wpvr_tour_embedded_tracked', true );
     }
 
+    /**
+     * Format duration in seconds to human-readable format
+     *
+     * @param int $seconds Duration in seconds
+     * @return string Human-readable duration
+     * @since 8.5.48
+     */
+    private function format_duration( $seconds ) {
+        if ( $seconds < 60 ) {
+            return $seconds . ' seconds';
+        }
+
+        $minutes = floor( $seconds / 60 );
+        if ( $minutes < 60 ) {
+            return $minutes . ' minutes';
+        }
+
+        $hours = floor( $minutes / 60 );
+        if ( $hours < 24 ) {
+            $remaining_minutes = $minutes % 60;
+            return $hours . ' hours' . ( $remaining_minutes > 0 ? ', ' . $remaining_minutes . ' minutes' : '' );
+        }
+
+        $days = floor( $hours / 24 );
+        $remaining_hours = $hours % 24;
+        return $days . ' days' . ( $remaining_hours > 0 ? ', ' . $remaining_hours . ' hours' : '' );
+    }
 
 }
 

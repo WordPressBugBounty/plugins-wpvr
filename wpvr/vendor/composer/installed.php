@@ -3,7 +3,7 @@
         'name' => 'wpvr/wpvr',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ec4f7d3b5481637d04af20bddaccda8135ecba10',
+        'reference' => '5920f313accee81b3441715850d1f5a13bbeb648',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'coderexltd/telemetry' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '3b52b7c0e494142bbee800e7b5f0c94d6f79c473',
+            'reference' => 'd1a996fa145784835aa54ba0a1af0f4a24865acd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../coderexltd/telemetry',
             'aliases' => array(
@@ -24,7 +24,7 @@
         'wpvr/wpvr' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ec4f7d3b5481637d04af20bddaccda8135ecba10',
+            'reference' => '5920f313accee81b3441715850d1f5a13bbeb648',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

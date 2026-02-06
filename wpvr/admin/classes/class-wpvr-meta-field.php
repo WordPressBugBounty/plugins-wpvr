@@ -1810,9 +1810,10 @@ class WPVR_Meta_Field {
     public static function render_advanced_settings_right_fields($postdata)
     {
         $fields = self::get_advanced_settings_right_fields($postdata);
+        $layout = (is_array($postdata) && isset($postdata['tourLayout']['layout'])) ? $postdata['tourLayout']['layout'] : '';
         foreach($fields as $name => $val) {
             if(in_array($name, array('explainer','backToHome', 'panFullscreenControl'))){
-                self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+                self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val, $layout );
             }else if('basic_setting_checkbox_for_scene_animation' === $val['type']){
                 self::{ 'render_' . $val['type'] }( $name, $val, $postdata );
             } else if('advanced_setting_explainer_video' === $val['type']){
@@ -2812,7 +2813,7 @@ class WPVR_Meta_Field {
 	 * @return void
      * @since 8.0.0     
 	 */
-    public static function render_checkbox_with_icon($name, $val)
+    public static function render_checkbox_with_icon($name, $val, $layout )
     {
         extract( $val );
         ob_start();
@@ -2844,9 +2845,11 @@ class WPVR_Meta_Field {
      * @return void
      * @since 8.0.0
      */
-    public static function render_pro_checkbox_with_icon($name, $val)
+    public static function render_pro_checkbox_with_icon($name, $val, $layout )
     {
         extract( $val );
+        // Only disable color and icon inputs for non-Classic layouts, NOT the enable/disable checkbox
+        $is_color_icon_disabled = ( 'layout1' === $layout ) && in_array($name, array('panupControl', 'panDownControl', 'panLeftControl', 'panRightControl', 'panZoomInControl', 'panZoomOutControl')) ? 'disabled' : '';
         ob_start();
         ?>
         <div class="single-settings controls custom-data-set">
@@ -2861,17 +2864,17 @@ class WPVR_Meta_Field {
                 <div class="colors">
                     <span><?php echo __('Color','wpvr')?></span>
                    
-                    <input type="color" class="<?= $color_name; ?>" name="<?= $color_name; ?>" value="<?= $color_value; ?>" />
+                    <input type="color" class="<?= $color_name; ?>" name="<?= $color_name; ?>" value="<?= $color_value; ?>" <?php echo $is_color_icon_disabled; ?>/>
                     <input type="hidden" class="<?= $icon_name ?> icon-found-value" name="<?= $icon_name ?>" value="<?= $color_value; ?>" />
                 </div>
 
                 <div class="icons">
                     <span><?php echo __('Icon','wpvr')?></span>
-                    <select class="<?= $icon_select_class ?>" name="<?= $icon_select_name ?>">
+                    <select class="<?= $icon_select_class ?>" name="<?= $icon_select_name ?>" <?php echo $is_color_icon_disabled; ?> >
                         <?php
                         foreach ($custom_icons as $cikey => $civalue) {
                             if ($cikey == $icon) { ?>
-                                <option value="<?= $cikey ?>" selected> <?= $civalue ?></option>
+                                <option value="<?= $cikey ?>" selected > <?= $civalue ?></option>
                             <?php } else { ?>
                                 <option value="<?= $cikey ?>"> <?= $civalue ?></option>
                            <?php }
@@ -5116,9 +5119,9 @@ public static function render_other_fields($postdata){
 public static function render_mouse_dragable_control_data_wrapper_fields($postdata)
 {
     $fields = self::get_mouse_dragable_control_data_wrapper_fields($postdata);
-
+        $layout = ( is_array($postdata) && isset($postdata['tourLayout']['layout']) ) ? $postdata['tourLayout']['layout'] : '';
     foreach($fields as $name => $val) {
-        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val, $layout  );
     }
 }
 
@@ -5226,9 +5229,9 @@ public static function render_advanced_mouse_zoom_control_field($name, $val, $po
 public static function render_mouse_zoom_control_data_wrapper_fields($postdata)
 {
     $fields = self::get_render_mouse_zoom_control_data_wrapper_fields_fields($postdata);
-
+    $layout = ( is_array($postdata) && isset($postdata['tourLayout']['layout']) ) ? $postdata['tourLayout']['layout'] : '';
     foreach($fields as $name => $val) {
-        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+        self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val, $layout );
     }
 }
 
@@ -5335,9 +5338,10 @@ public static function render_advanced_gyro_control_field($name, $val, $postdata
 public static function render_wpvr_gyro_data_wrapper_fields($postdata)
 {
     $fields = self::get_render_wpvr_gyro_data_wrapper_fields_data_wrapper_fields($postdata);
+    $layout = ( is_array($postdata) && isset($postdata['tourLayout']['layout']) ) ? $postdata['tourLayout']['layout'] : '';
     foreach($fields as $name => $val) {
         if('pro_checkbox' === $val['type']){
-            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val, $layout );
         }else{
             self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
         }
@@ -5553,9 +5557,10 @@ public static function render_advanced_setting_explainer_video_field($name, $val
 public static function render_advanced_setting_explainer_video_data_wrapper_fields($postdata)
 {
     $fields = self::get_render_advanced_setting_explainer_video_data_wrapper_fields($postdata);
+    $layout = ( is_array($postdata) && isset($postdata['tourLayout']['layout']) ) ? $postdata['tourLayout']['layout'] : '';
     foreach($fields as $name => $val) {
         if('pro_checkbox' == $val['type']){
-            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val );
+            self::{ 'render_' . $val['type'] . '_with_icon' }( $name, $val, $layout );
         }else{
             self::{ 'render_' . $val['type'] . '_field' }( $name, $val );
         }

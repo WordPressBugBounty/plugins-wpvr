@@ -10,8 +10,26 @@
     let vrGlassSupport = false;
     let convertToWebP = false;
     let isWPVRActive = window?.wpvr_global_obj?.is_wpvr_active;
-    let isToggleButtonChecked = true;
+    let isToggleButtonChecked = wpvr_opt_in_toggle === '1' ? true : false;
     let discountPrice = discount_information;
+
+    /**
+     * Sends telemetry event to the server.
+     * 
+     * @param {string} eventName 
+     * @param {function} callback 
+     */
+    const wpvrTrackEvent = (eventName) => {
+        $.ajax({
+            url: window.wpvr_global_obj.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'wpvr_track_telemetry_event',
+                event_name: eventName,
+                security: window.wpvr_global_obj.ajax_nonce
+            }
+        });
+    };
 
     const prevToggle = () => {
         wizard.previousStep();
@@ -250,6 +268,7 @@
                     Starting at
                     <span class="setup-wizard__pro-features-price-amount">${discountPrice?.discount_price}</span>/year
                     </p>
+                    <p style="text-decoration: line-through; color: #999;">Normally ${discountPrice?.original_price}/year</p>
                   </div>
 
                   <div class="setup-wizard__pro-features-price-tag">
@@ -268,6 +287,18 @@
                   </svg>
                 </a>
               </div>
+            </div>
+            <!-- subscribe button -->
+            <div class="setup-wizard__subscribe-button-container">
+              <!-- switcher -->
+              <label class="setup-wizard__switch">
+                <input id="wpvr-opt-in-toggle-button" type="checkbox" ${isToggleButtonChecked ? "checked": ''} />
+                <span class="setup-wizard__switch-slider setup-wizard__switch-round"></span>
+              </label>
+              <p>
+                Opt-in to receive tips, discounts, and recommendations from
+                the RexTheme team directly in your inbox.
+              </p>
             </div>
         </section>
           
@@ -469,19 +500,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- subscribe button -->
-            <div class="setup-wizard__subscribe-button-container">
-              <!-- switcher -->
-              <label class="setup-wizard__switch">
-                <input id="wpvr-opt-in-toggle-button" type="checkbox" ${isToggleButtonChecked ? "checked": ''} />
-                <span class="setup-wizard__switch-slider setup-wizard__switch-round"></span>
-              </label>
-              <p>
-                Opt-in to receive tips, discounts, and recommendations from
-                the RexTheme team directly in your inbox.
-              </p>
-            </div>
           </section>
 
         <!-- setup wizard buttons -->
@@ -501,6 +519,17 @@
           ],
         });
     }
+
+
+    // Trigger setup_started if opt-in is already checked on load
+    jQuery(document).ready(function ($) {
+        const $toggle = $('#wpvr-opt-in-toggle-button');
+
+        // Ensure the element exists before checking its state
+        if ($toggle.length && $toggle.is(':checked')) {
+            wpvrTrackEvent('setup_started');
+        }
+    });
 
     /**
      * Navigation bar onclick event
@@ -545,7 +574,23 @@
      * @since 8.4.10
      */
     $(document).on("change", "#wpvr-opt-in-toggle-button", function () {
-        isToggleButtonChecked = !isToggleButtonChecked;
+        isToggleButtonChecked = this.checked;
+        // AJAX call to persist opt-in value
+        $.ajax({
+          url: window?.wpvr_global_obj?.ajaxurl,
+          type: 'POST',
+          data: {
+            action: 'wpvr_save_opt_in_toggle',
+            opt_in: isToggleButtonChecked ? 1 : 0,
+            security: window.wpvr_global_obj.ajax_nonce
+          },
+          success: function(response) {
+            console.log('Opt-in value saved:', response);
+          },
+          error: function(xhr) {
+            console.error('Opt-in value save error:', xhr);
+          }
+        });
     });
 
     /**
@@ -739,8 +784,16 @@
         e.preventDefault();
         const url = `${setup_wizard_admin_url}post-new.php?post_type=wpvr_item&wpvr-guide-tour=1`;
         $(this).attr('href', url);
+        
+        let shouldTrack = isToggleButtonChecked && $( this ).hasClass( 'last-step' );
+
         if( isToggleButtonChecked && $( this ).hasClass( 'last-step' ) ) {
             createContact();
+        }
+
+        if (shouldTrack) {
+            wpvrTrackEvent('setup_completed');
+            window.location.href = url;
         }
         window.location.href = url;
     });

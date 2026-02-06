@@ -440,12 +440,19 @@ div.custom-tooltip > p {
     min-width: 300px;
     font-size: 15px;
     line-height: 24px;
+
 }
 
-div.pnlm-container p iframe {
+/* div.pnlm-container p iframe {
   max-width: 300px !important;
   margin-bottom: 0;
   max-height: 300px !important;
+} */
+
+div.pnlm-container p iframe {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
 }
 
 div.custom-tooltip:hover {
@@ -457,6 +464,26 @@ div.custom-tooltip:hover p {
     width: 300px;
 }
 
+#et-boc .et-l div.custom-tooltip > p p,
+div.custom-tooltip > p p {
+    overflow: auto;
+    max-height: 280px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#et-boc .et-l div.custom-tooltip > p p img ,
+div.custom-tooltip > p p img  {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 6px;
+}
+
+#et-boc .et-l div.custom-tooltip > p p img:last-child,
+div.custom-tooltip > p p img:last-child {
+  margin-bottom: 0px;
+}
 
 div.custom-tooltip:hover p:after {
     content: '';
@@ -470,6 +497,10 @@ div.custom-tooltip:hover p:after {
     left: -10px;
     margin: 0 50%;
 }
+
+
+
+
 
 #custom-ifram {
     position: absolute;
@@ -518,6 +549,11 @@ div.custom-tooltip:hover p:after {
 .iframe-wrapper.show-modal .pano-wrap:before {
     opacity: 1;
     visibility: visible;
+}
+
+#custom-ifram iframe {
+    width: 100%;
+    height: 100%;
 }
 
 .iframe-wrapper #cross {
@@ -583,7 +619,7 @@ div.custom-tooltip:hover p:after {
     border-radius: 5px;
     width: 500px;
     font-size: 16px;
-    line-height: 26px;
+    line-height: 1.3;
 }
 
 #custom-ifram img {
@@ -593,10 +629,19 @@ div.custom-tooltip:hover p:after {
     display: block;
 }
 
+#custom-ifram p img {
+    margin-bottom: 5px;
+}
+
+#custom-ifram p img:last-child {
+    margin-bottom: 0px;
+}
+
 #custom-ifram iframe {
     max-width: 100%;
     margin: 0 auto;
-    display: block;
+    aspect-ratio: 16 / 9;
+    height: auto;
 }
 
 .custom-tooltip span img {
@@ -1105,8 +1150,8 @@ li.export.export-pro-tag {
 
 .navigator-pro-tag {
     position: absolute;
-    right: -6px;
-    top: 10px;
+    right: -7px;
+    top: 12px;
     display: block;
     border-radius: 9px 9px 9px 0px;
     background: #00B4FF;
@@ -2751,7 +2796,7 @@ select.wpvr-membership-access:hover {
 
 .rex-pano-sub-tabs .rex-pano-tab-content {
     width: 100%;
-    padding: 30px 40px;
+    padding: 30px 30px;
     border-left: none;
     position: relative;
 }
@@ -3795,6 +3840,8 @@ button.delete-scene {
     .rex-pano-tabs .main-nav>ul {
         display: flex;
         align-items: center;
+     
+        gap: 8px;
     }
     .rex-pano-tabs .main-nav li {
         display: inline-block;
@@ -3802,19 +3849,22 @@ button.delete-scene {
         margin-right: 0;
         flex: 1;
     }
-    .rex-pano-tabs .main-nav li:last-child {
+    /* .rex-pano-tabs .main-nav li:last-child {
         margin-right: 0px;
-    }
+    } */
     .rex-pano-tabs .main-nav li span {
         margin-bottom: 0;
     }
     .rex-pano-tabs .rex-pano-tab-nav.main-nav li span {
-        height: 80px;
+        height: 76px;
         padding: 0 10px;
+        font-size: 13px;
         text-transform: none;
+        line-height: 1.2;
     }
     .rex-pano-tabs .rex-pano-tab-nav.main-nav li.logo {
         height: 76px;
+        padding: 7px;
     }
     .rex-pano-tab-content {
         width: 100%;
@@ -3838,6 +3888,11 @@ button.delete-scene {
 
     .rex-pano-tab-content .general .inner-nav-content .right .field-tooltip span:before {
         left: 15px;
+    }
+
+    .navigator-pro-tag {
+        right: -11px;
+        top: 17px;
     }
 
 
@@ -3892,6 +3947,11 @@ button.delete-scene {
         font-size: 14px;
     }
 
+    .navigator-pro-tag {
+        right: 0px;
+        top: 12px;
+    }
+
     /* ----------scene tab tooltip----- */
     .single-scene .scene-content .scene-right .field-tooltip span {
         bottom: calc(100% + 13px);
@@ -3900,6 +3960,7 @@ button.delete-scene {
         right: -20px;
         transform: translateY(0);
     }
+
     .single-scene .scene-content .scene-right .field-tooltip span:before {
         left: inherit;
         right: 24px;
@@ -3929,9 +3990,10 @@ button.delete-scene {
     }
 
     .rex-pano-tabs .main-nav li {
-        width: 144px;
-        margin-right: 12px;
+        width: 100px;
+        /* margin-right: 10px; */
     }
+
     .rex-pano-tabs .main-nav li span {
         padding: 0 10px;
     }
@@ -3945,6 +4007,18 @@ button.delete-scene {
     }
     .rex-pano-sub-tabs .rex-pano-tab-content {
         padding: 20px 20px;
+    }
+
+    .rex-pano-tabs .rex-pano-tab-nav li span {
+        font-size: 13px;
+        line-height: 1.2;
+    }
+
+    .navigator-pro-tag {
+        right: -4px;
+        top: 14px;
+        font-weight: 500;
+        padding: 4px 6px
     }
 
     .hotspot-setup .rex-pano-tab-content {
@@ -3998,6 +4072,10 @@ button.delete-scene {
         display: block;
     }
 
+    .rex-pano-tabs .main-nav>ul {
+        flex-wrap: wrap;
+    }
+
     .rex-pano-tab-content .general .general-inner-tab .inner-nav li.vr-documentation a {
         font-size: 13px;
         padding: 12px 20px;
@@ -4016,6 +4094,11 @@ button.delete-scene {
         margin-right: 10px;
     }
 
+
+    .navigator-pro-tag {
+        right: -9px;
+        top: 18px;
+    }
 
     .wpvr-embaded-share-wrapper {
         display: block;
@@ -4072,12 +4155,12 @@ button.delete-scene {
 
 }
 
-@media (max-width: 1470px) {
+/* @media (max-width: 1470px) {
     .post-type-wpvr_item #post-body #postbox-container-1 .iframe-wrapper iframe {
         width: 475px;
         height: 300px;
     }
-}
+} */
 
 /* -----------On Boarding Page style----------- */
 
@@ -4361,7 +4444,7 @@ p.wpvr-premium-feature__discount-price-label {
     font-size: 16px;
 }
 
-/* p.wpvr-premium-feature__discount-price-label:before {
+p.wpvr-premium-feature__discount-price-label:before {
     content: "";
     position: absolute;
     background: #00b4ff;
@@ -4380,7 +4463,7 @@ p.wpvr-premium-feature__discount-price-label {
     transform: translateX(-50%);
     min-width: 69px;
     box-sizing: content-box;
-} */
+}
 
 
 .wpvr-premium-feature__btn {
@@ -4997,17 +5080,25 @@ a:focus.wpvr-premium-feature__btn {
     right: 24px;
     transition: all .3s ease;
     position: absolute;
-    top: 35%;
+    top: 120px;
     left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, 0%);
+    -ms-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
     z-index: 9;
     max-width: 945px;
     width: 100%;
-    min-height: 820px;
+    /* min-height: 820px; */
+    max-height: max-content;
+
 }
+
+
+
+
+
+
 
 .wpvr-layout-modal__cross-icon {
     outline: none;
@@ -5455,13 +5546,13 @@ a:focus.wpvr-premium-feature__btn {
     }
     
     .wpvr-layout-modal {
+        top: 450px;
         padding: 25px 20px;
         transform: translate(-46%, -51%);
         /* transform: translate(-46%, -60%); */
         max-width: 760px;
-        min-height: 710px;
+        /* min-height: 710px; */
     }
-
 }
 
 
@@ -6482,7 +6573,6 @@ body.wp-vr_page_wpvr-setting {
 /* ------------ wpvr global settings page style end ------------ */
 
 
-
 .wpvr-checklist-items {
     pointer-events: none;
 }
@@ -6576,6 +6666,25 @@ body.wp-vr_page_wpvr-setting {
     border: 1px solid #C6BBEA;
     border-radius: 50px;
     transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+
+/* Hotspot Editor – Make embedded videos responsive */
+.hotspot-setting .note-editable .note-video-clip {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+}
+
+.hotspot-setting .note-editable img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto auto 6px;
+}
+
+.hotspot-setting .note-editable img:last-child {
+    margin-bottom: 0;
 }
 
 .wpvr-checklist-items:checked + .checkmark {

@@ -16,7 +16,7 @@ class Wpvr_Ajax
 
   /**
    * Instance of WPVR_Format class
-   * 
+   *
    * @var object
    * @since 8.0.0
    */
@@ -25,7 +25,7 @@ class Wpvr_Ajax
 
   /**
    * Instance of WPVR_StreetView class
-   * 
+   *
    * @var object
    * @since 8.0.0
    */
@@ -34,7 +34,7 @@ class Wpvr_Ajax
 
   /**
    * Instance of WPVR_Video class
-   * 
+   *
    * @var object
    * @since 8.0.0
    */
@@ -43,7 +43,7 @@ class Wpvr_Ajax
 
   /**
    * Instance of WPVR_Scene class
-   * 
+   *
    * @var object
    * @since 8.0.0
    */
@@ -52,7 +52,7 @@ class Wpvr_Ajax
 
   /**
    * Instance of WPVR_Validator class
-   * 
+   *
    * @var object
    * @since 8.0.0
    */
@@ -81,7 +81,11 @@ class Wpvr_Ajax
 
       //general setting ajax
       add_action( 'wp_ajax_wpvr_save_general_settings', array($this, 'wpvr_save_general_settings' ) );
+      // opt-in toggle ajax
+      add_action( 'wp_ajax_wpvr_save_opt_in_toggle', array($this, 'wpvr_save_opt_in_toggle' ) );
+      add_action( 'wp_ajax_nopriv_wpvr_save_opt_in_toggle', array($this, 'wpvr_save_opt_in_toggle' ) );
   }
+
 
   public function wpvr_review_request()
   {
@@ -114,7 +118,7 @@ class Wpvr_Ajax
 
   /**
    * Responsible for Tour Preview
-   * 
+   *
    * @return void
    * @since 8.0.0
    */
@@ -164,111 +168,111 @@ class Wpvr_Ajax
 
   /**
    * Responsible for saving WPVR data
-   * 
+   *
    * @return void
    * @since 8.0.0
    */
   public function wpvr_save_data()
   {
+    /**
+	 * Verify current user has permission to perform this action.
+	 *
+	 * @return void
+	 */
+    if ( ! current_user_can('edit_posts') ) {
+		wp_send_json([
+			'success' => false,
+			'data'    => 'Permission denied.'
+		]);
+	}
 
-    //===Current user capabilities check===//
-    if (!current_user_can('edit_posts')) {
-      $response = array(
-        'success'   => false,
-        'data'  => 'Permission denied.'
-      );
-      wp_send_json($response);
-    }
-    //===Current user capabilities check===//
-    //===Nonce check===//
+    /**
+	 * Validate AJAX nonce to prevent unauthorized or forged requests.
+	 *
+	 * @return void
+	 */
     $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
-      $response = array(
-        'success'   => false,
-        'data'  => 'Permission denied.'
-      );
-      wp_send_json($response);
+	if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
+		wp_send_json([
+			'success' => false,
+			'data'    => 'Invalid or expired request.',
+		]);
+	}
+
+
+    $postid = absint(sanitize_text_field($_POST['postid']) ?? 0);
+
+	/**
+	 * Ensures a valid post ID is supplied before proceeding.
+	 *
+	 * @return void
+	 */
+    if($postid < 1) {
+		wp_send_json_error([
+            'success' => false,
+            'data' => '<span class="pano-error-title">Invalid post ID</span> <p>Malformed data passed.</p>'
+		]);
+        die();
     }
-    //===Nonce check===//
-    $panoid = '';
-    $postid = sanitize_text_field($_POST['postid']);
-    $post_type = get_post_type($postid);
+
+    /**
+	 * Ensures the post type is 'wpvr_item' before proceeding.
+	 *
+	 * @return void
+	 */
+    $post_type = get_post_type( $postid );
     if ($post_type != 'wpvr_item') {
       die();
     }
+
     $panoid = 'pano' . $postid;
 
-    // Check if this is a publish action and validate scene/video data
-    $is_publish_action = false;
-    if (isset($_POST['post_value'])) {
-      $post_value = sanitize_text_field($_POST['post_value']);
-      $user_site_language = get_locale();
-      $language_mapping = [
-          'ar' => ['نشر' => 'Publish', 'تحديث' => 'Update'],
-          'pt_PT' => ['Publicar' => 'Publish', 'Atualizar' => 'Update'],
-          'es_ES' => ['Publicar' => 'Publish', 'Actualizar' => 'Update'],
-          'he_IL' => ['לפרסם' => 'Publish', 'לעדכן' => 'Update'],
-          'af' => ['Publiseer' => 'Publish', 'Opdateer' => 'Update'],
-          'cs_CZ' => ['Publikovat' => 'Publish', 'Aktualizovat' => 'Update'],
-          'da_DK' => ['Udgiv' => 'Publish', 'Opdater' => 'Update'],
-          'de_DE' => ['Veröffentlichen' => 'Publish', 'Aktualisieren' => 'Update'],
-          'fi' => ['Julkaise' => 'Publish', 'Päivitä' => 'Update'],
-          'hr' => ['Objavi' => 'Publish', 'Ažuriraj' => 'Update'],
-          'it_IT' => ['Pubblica' => 'Publish', 'Aggiorna' => 'Update'],
-          'ja' => ['公開' => 'Publish', '更新' => 'Update'],
-          'nl_NL' => ['Publiceren' => 'Publish', 'Bijwerken' => 'Update'],
-          'pl_PL' => ['Opublikuj' => 'Publish', 'Aktualizuj' => 'Update'],
-          'ru_RU' => ['Опубликовать' => 'Publish', 'Обновить' => 'Update'],
-          'sv_SE' => ['Publicera' => 'Publish', 'Uppdatera' => 'Update'],
-          'fr_FR' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_CA' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_BE' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_CH' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_LU' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_MC' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_CM' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_DZ' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_MA' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_TN' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_SN' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_HT' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_RW' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_CD' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-          'fr_CI' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
-      ];
-      $post_value = $language_mapping[$user_site_language][$post_value] ?? $post_value;
-      if ($post_value === 'Publish') {
-        $is_publish_action = true;
-      }
-    }
+    /**
+	 * Checks if this is a publish action and validates scene/video data.
+	 *
+	 * @return void
+	 */
+    $action_type = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : 'auto-draft';
+    $is_publish_action = ($action_type === 'publish');
 
-    // Validate scene/video data before allowing publication
+    /**
+	 * Checks if title is provided.
+	 *
+	 * @return void
+	 */
+	if (!isset($_POST['post_title']) || empty(trim($_POST['post_title']))) {
+		wp_send_json([
+			'success' => false,
+			'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
+		]);
+		die();
+	}
+
+    /**
+	 * Validates scene/video data before allowing publication.
+	 *
+	 * @return void
+	 */
     if ($is_publish_action) {
-      
-      // Check if title is provided
-      if (!isset($_POST['post_title']) || empty(trim($_POST['post_title']))) {
-        $response = array(
-          'success' => false,
-          'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
-        );
-        wp_send_json($response);
-        die();
-      }
-      
+
       $has_scene_data = false;
       $has_video_data = false;
       $is_video_mode = false;
       $is_street_view_mode = false;
-      
+      $has_street_view_data = false;
+
       // Check if video mode is enabled
       if (isset($_POST['panovideo']) && $_POST['panovideo'] === 'on') {
         $is_video_mode = true;
         if (isset($_POST['videourl']) && !empty($_POST['videourl'])) {
           $has_video_data = true;
         }
-      } elseif (isset($_POST['streetviewurl']) && !empty($_POST['streetviewurl'])) {
+      } elseif (!empty($_POST['streetview']) && $_POST['streetview'] == 'on') {
         // Check if Street View mode is enabled (Pro feature)
         $is_street_view_mode = true;
+          if (!empty($_POST['streetviewurl'])) {
+              $has_street_view_data = true;
+          }
         // Street View doesn't require scene data as it uses Google Street View API
       } else {
         // Check for scene data
@@ -287,14 +291,14 @@ class Wpvr_Ajax
                   'scene-attachment-url-face4',
                   'scene-attachment-url-face5'
                 );
-                
+
                 $missing_faces = array();
                 foreach ($required_faces as $face) {
                   if (empty($scene[$face])) {
                     $missing_faces[] = $face;
                   }
                 }
-                
+
                 if (!empty($missing_faces)) {
                   $response = array(
                     'success' => false,
@@ -303,7 +307,7 @@ class Wpvr_Ajax
                   wp_send_json($response);
                   die();
                 }
-                
+
                 if (!empty($scene['scene-id'])) {
                   $has_scene_data = true;
                 }
@@ -318,7 +322,7 @@ class Wpvr_Ajax
           }
         }
       }
-      
+
       // Provide specific error messages based on the mode and missing data
       if ($is_video_mode && !$has_video_data) {
         // Video mode is enabled but no video URL provided
@@ -328,7 +332,14 @@ class Wpvr_Ajax
         );
         wp_send_json($response);
         die();
-      } elseif (!$is_video_mode && !$is_street_view_mode && !$has_scene_data) {
+      } elseif($is_street_view_mode && !$has_street_view_data) {
+          $response = array(
+              'success' => false,
+              'data' => '<span class="pano-error-title">No Street View Data Found!</span> <p>Please add a street view URL in the street view settings before publishing this tour.</p>'
+          );
+          wp_send_json($response);
+          die();
+      }elseif (!$is_video_mode && !$is_street_view_mode && !$has_scene_data) {
         // Scene mode but no valid scenes found (exclude Street View from this check)
         $response = array(
           'success' => false,
@@ -366,143 +377,12 @@ class Wpvr_Ajax
       }
     }
 
-      $user_site_language = get_locale();
-      $language_mapping = [
-          'ar' => [  // Arabic
-              'نشر'    => 'Publish',   // nashr
-              'تحديث'  => 'Update'     // tahdith
-          ],
-          'pt_PT' => [  // Portuguese (Portugal)
-              'Publicar'   => 'Publish',
-              'Atualizar'  => 'Update'
-          ],
-          'es_ES' => [  // Spanish (Spain)
-              'Publicar'   => 'Publish',
-              'Actualizar' => 'Update'
-          ],
-          'he_IL' => [  // Hebrew (Israel)
-              'לפרסם'   => 'Publish',    // lefarsem
-              'לעדכן'    => 'Update'      // le'adken
-          ],
-          'af' => [  // Afrikaans
-              'Publiseer'  => 'Publish',
-              'Opdateer'   => 'Update'
-          ],
-          'cs_CZ' => [  // Czech (Czech Republic)
-              'Publikovat'  => 'Publish',
-              'Aktualizovat'=> 'Update'
-          ],
-          'da_DK' => [  // Danish (Denmark)
-              'Udgiv'       => 'Publish',
-              'Opdater'     => 'Update'
-          ],
-          'de_DE' => [  // German (Germany)
-              'Veröffentlichen' => 'Publish',
-              'Aktualisieren'   => 'Update'
-          ],
-          'fi' => [  // Finnish
-              'Julkaise'    => 'Publish',
-              'Päivitä'     => 'Update'
-          ],
-          'hr' => [  // Croatian
-              'Objavi'      => 'Publish',
-              'Ažuriraj'    => 'Update'
-          ],
-          'it_IT' => [  // Italian (Italy)
-              'Pubblica'    => 'Publish',
-              'Aggiorna'    => 'Update'
-          ],
-          'ja' => [  // Japanese
-              '公開'        => 'Publish',    // こうかい (Kōkai)
-              '更新'        => 'Update'      // こうしん (Kōshin)
-          ],
-          'nl_NL' => [  // Dutch (Netherlands)
-              'Publiceren'  => 'Publish',
-              'Bijwerken'   => 'Update'
-          ],
-          'pl_PL' => [  // Polish (Poland)
-              'Opublikuj'   => 'Publish',
-              'Aktualizuj'  => 'Update'
-          ],
-          'ru_RU' => [  // Russian (Russia)
-              'Опубликовать' => 'Publish',    // Opublikovat'
-              'Обновить'       => 'Update'      // Obnovit'
-          ],
-          'sv_SE' => [  // Swedish (Sweden)
-              'Publicera'   => 'Publish',
-              'Uppdatera'   => 'Update'
-          ],
-          'fr_FR' => [  // French (France)
-              'Publier'     => 'Publish',
-              'Mettre à jour' => 'Update'
-          ],
-          'fr_CA' => [  // French (Canada)
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update', // or 'Actualiser'
-          ],
-          'fr_BE' => [  // French (Belgium)
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_CH' => [  // Switzerland
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_LU' => [  // Luxembourg
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_MC' => [  // Monaco
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_CM' => [  // Cameroon
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_DZ' => [  // Algeria
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_MA' => [  // Morocco
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_TN' => [  // Tunisia
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_SN' => [  // Senegal
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_HT' => [  // Haiti
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_RW' => [  // Rwanda
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_CD' => [  // DR Congo
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-          'fr_CI' => [  // Côte d’Ivoire
-              'Publier'        => 'Publish',
-              'Mettre à jour'  => 'Update',
-          ],
-      ];
-      
-    if (isset($_POST['post_value'])) {
-      $post_value = sanitize_text_field($_POST['post_value']);
-      $post_value = $language_mapping[$user_site_language][$post_value] ?? $post_value;
-      if ($post_array['visibility'] == 'private') {
+    if ($post_array['visibility'] == 'private') {
         $post_array['post_status'] = 'private';
-      } elseif ($post_value === 'Publish') {
-        $post_array['post_status'] = 'publish';
-      }
-    }
+	} elseif ($is_publish_action) {
+		$post_array['post_status'] = 'publish';
+	}
+
     $post_title = sanitize_text_field($_POST['post_title']);
     wp_update_post(array(
       'ID' => $postid,
@@ -542,7 +422,7 @@ class Wpvr_Ajax
 
   /**
    * Responsible for importing tour
-   * 
+   *
    * @return void
    * @since 8.0.0
    */
@@ -607,7 +487,7 @@ class Wpvr_Ajax
 
   /**
    * WPVR Role Management
-   * 
+   *
    * @return void
    * @since 8.0.0
    */
@@ -638,9 +518,9 @@ class Wpvr_Ajax
     $author = sanitize_text_field($_POST['author']);
     $fontawesome = sanitize_text_field($_POST['fontawesome']);
 
-  
+
     $cardboard = !empty($_POST['wpvr_cardboard_disable']) ? sanitize_text_field($_POST['wpvr_cardboard_disable']) : 'no'; //
-  
+
     $wpvr_webp_conversion = !empty($_POST['wpvr_webp_conversion']) ? sanitize_text_field($_POST['wpvr_webp_conversion']) : 'no';
 
     $mobile_media_resize = sanitize_text_field($_POST['mobile_media_resize']);
@@ -691,7 +571,7 @@ class Wpvr_Ajax
 
   /**
    * WPVR Notice
-   * 
+   *
    * @return void
    * @since 8.0.0
    */
@@ -814,6 +694,29 @@ class Wpvr_Ajax
       update_option('wpvr_cardboard_disable', $vr_glass_support);
 
       wp_send_json_success( array( 'message' => __('General setting data successfully saved.', 'wpvr') ), 200 );
+  }
+
+
+  /**
+   * AJAX handler to persist opt-in toggle value
+   * 
+   */
+  public function wpvr_save_opt_in_toggle() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+      wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+      return;
+    }
+
+    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+      return;
+    }
+
+    $opt_in = isset($_POST['opt_in']) ? sanitize_text_field($_POST['opt_in']) : '0';
+    update_option('wpvr_opt_in_toggle', $opt_in);
+    update_option('wpvr_allow_tracking', '1' === $opt_in  ? 'yes' : 'no');
+    wp_send_json_success( array( 'message' => __('Opt-in value saved.', 'wpvr') ), 200 );
   }
 
 }
