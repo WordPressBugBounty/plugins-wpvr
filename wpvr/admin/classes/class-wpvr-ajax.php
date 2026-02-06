@@ -198,9 +198,148 @@ class Wpvr_Ajax
     }
     $panoid = 'pano' . $postid;
 
-    $post_status = get_post_status($postid);
+    // Check if this is a publish action and validate scene/video data
+    $is_publish_action = false;
+    if (isset($_POST['post_value'])) {
+      $post_value = sanitize_text_field($_POST['post_value']);
+      $user_site_language = get_locale();
+      $language_mapping = [
+          'ar' => ['نشر' => 'Publish', 'تحديث' => 'Update'],
+          'pt_PT' => ['Publicar' => 'Publish', 'Atualizar' => 'Update'],
+          'es_ES' => ['Publicar' => 'Publish', 'Actualizar' => 'Update'],
+          'he_IL' => ['לפרסם' => 'Publish', 'לעדכן' => 'Update'],
+          'af' => ['Publiseer' => 'Publish', 'Opdateer' => 'Update'],
+          'cs_CZ' => ['Publikovat' => 'Publish', 'Aktualizovat' => 'Update'],
+          'da_DK' => ['Udgiv' => 'Publish', 'Opdater' => 'Update'],
+          'de_DE' => ['Veröffentlichen' => 'Publish', 'Aktualisieren' => 'Update'],
+          'fi' => ['Julkaise' => 'Publish', 'Päivitä' => 'Update'],
+          'hr' => ['Objavi' => 'Publish', 'Ažuriraj' => 'Update'],
+          'it_IT' => ['Pubblica' => 'Publish', 'Aggiorna' => 'Update'],
+          'ja' => ['公開' => 'Publish', '更新' => 'Update'],
+          'nl_NL' => ['Publiceren' => 'Publish', 'Bijwerken' => 'Update'],
+          'pl_PL' => ['Opublikuj' => 'Publish', 'Aktualizuj' => 'Update'],
+          'ru_RU' => ['Опубликовать' => 'Publish', 'Обновить' => 'Update'],
+          'sv_SE' => ['Publicera' => 'Publish', 'Uppdatera' => 'Update'],
+          'fr_FR' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_CA' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_BE' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_CH' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_LU' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_MC' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_CM' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_DZ' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_MA' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_TN' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_SN' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_HT' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_RW' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_CD' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+          'fr_CI' => ['Publier' => 'Publish', 'Mettre à jour' => 'Update'],
+      ];
+      $post_value = $language_mapping[$user_site_language][$post_value] ?? $post_value;
+      if ($post_value === 'Publish') {
+        $is_publish_action = true;
+      }
+    }
 
-    do_action('wpvr_tour_status', $postid, $post_status);
+    // Validate scene/video data before allowing publication
+    if ($is_publish_action) {
+      
+      // Check if title is provided
+      if (!isset($_POST['post_title']) || empty(trim($_POST['post_title']))) {
+        $response = array(
+          'success' => false,
+          'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
+        );
+        wp_send_json($response);
+        die();
+      }
+      
+      $has_scene_data = false;
+      $has_video_data = false;
+      $is_video_mode = false;
+      $is_street_view_mode = false;
+      
+      // Check if video mode is enabled
+      if (isset($_POST['panovideo']) && $_POST['panovideo'] === 'on') {
+        $is_video_mode = true;
+        if (isset($_POST['videourl']) && !empty($_POST['videourl'])) {
+          $has_video_data = true;
+        }
+      } elseif (isset($_POST['streetviewurl']) && !empty($_POST['streetviewurl'])) {
+        // Check if Street View mode is enabled (Pro feature)
+        $is_street_view_mode = true;
+        // Street View doesn't require scene data as it uses Google Street View API
+      } else {
+        // Check for scene data
+        if (isset($_POST['panodata']) && !empty($_POST['panodata'])) {
+          $panodata = json_decode(stripslashes($_POST['panodata']), true);
+          if (isset($panodata['scene-list']) && !empty($panodata['scene-list'])) {
+            foreach ($panodata['scene-list'] as $scene) {
+              // Check if it's a cubemap scene
+              if (isset($scene['scene-type']) && $scene['scene-type'] === 'cubemap') {
+                // Check all six faces of the cube
+                $required_faces = array(
+                  'scene-attachment-url-face0',
+                  'scene-attachment-url-face1',
+                  'scene-attachment-url-face2',
+                  'scene-attachment-url-face3',
+                  'scene-attachment-url-face4',
+                  'scene-attachment-url-face5'
+                );
+                
+                $missing_faces = array();
+                foreach ($required_faces as $face) {
+                  if (empty($scene[$face])) {
+                    $missing_faces[] = $face;
+                  }
+                }
+                
+                if (!empty($missing_faces)) {
+                  $response = array(
+                    'success' => false,
+                    'data' => '<span class="pano-error-title">Incomplete Cubemap Scene!</span> <p>Please add images for all six faces of the cube. Missing faces: ' . implode(', ', array_map(function($face) { return str_replace('scene-attachment-url-', '', $face); }, $missing_faces)) . '</p>'
+                  );
+                  wp_send_json($response);
+                  die();
+                }
+                
+                if (!empty($scene['scene-id'])) {
+                  $has_scene_data = true;
+                }
+              } else {
+                // Regular equirectangular scene check
+                if (!empty($scene['scene-id']) && !empty($scene['scene-attachment-url'])) {
+                  $has_scene_data = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      // Provide specific error messages based on the mode and missing data
+      if ($is_video_mode && !$has_video_data) {
+        // Video mode is enabled but no video URL provided
+        $response = array(
+          'success' => false,
+          'data' => '<span class="pano-error-title">No Video Data Found!</span> <p>Please add a video URL in the video settings before publishing this tour.</p>'
+        );
+        wp_send_json($response);
+        die();
+      } elseif (!$is_video_mode && !$is_street_view_mode && !$has_scene_data) {
+        // Scene mode but no valid scenes found (exclude Street View from this check)
+        $response = array(
+          'success' => false,
+          'data' => '<span class="pano-error-title">No Scene Data Found!</span> <p>Please add at least one scene with an image before publishing this tour.</p>'
+        );
+        wp_send_json($response);
+        die();
+      }
+    }
+
+    $post_status = get_post_status($postid);
 
     if ($post_status != 'publish') {
       wp_update_post(array(
@@ -386,6 +525,18 @@ class Wpvr_Ajax
     } else {
       $this->scene->wpvr_update_meta_box($postid, $panoid);
     }
+
+    do_action('rex_wpvr_tour_saved', $postid);
+
+    $response = array(
+      'success'   => true,
+      'data'  => array(
+        'post_ID' => $postid,
+        'post_status' => get_post_status($postid)
+      )
+    );
+    wp_send_json($response);
+    die();
   }
 
 
@@ -464,7 +615,7 @@ class Wpvr_Ajax
   {
 
     //===Current user capabilities check===//
-    if (!current_user_can('edit_posts')) {
+    if (!current_user_can('manage_options')) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -547,7 +698,7 @@ class Wpvr_Ajax
   function wpvr_notice()
   {
     //===Current user capabilities check===//
-    if (!current_user_can('edit_posts')) {
+    if (!current_user_can('manage_options')) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'

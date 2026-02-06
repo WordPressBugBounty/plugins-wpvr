@@ -173,18 +173,22 @@
 #et-boc .et-l .pnlm-panorama-info,
 .pnlm-panorama-info {
     position: absolute;
-    bottom: 4px;
+    bottom: 0px;
     background-color: rgba(0,0,0,0.7);
-    border-radius: 0 3px 3px 0;
+    border-radius:0;
     padding-right: 10px;
     color: #fff;
-    text-align: left;
+    text-align: center;
     display: none;
     z-index: 2;
     /* Fix Safari fullscreen bug */
     -webkit-transform: translateZ(9999px);
     transform: translateZ(9999px);
 }
+
+
+
+
 
 .pnlm-title-box {
     position: relative;
@@ -464,4 +468,17 @@ div.pnlm-tooltip:hover span:after {
 
 .pnlm-pointer {
     cursor: pointer;
+}
+
+
+
+/* Responsive styles */
+
+@media only screen and (max-width: 767px) {
+    #et-boc .et-l .pnlm-panorama-info, .pnlm-panorama-info {
+        padding-right: 0;
+    }
+
+   
+
 }

@@ -89,6 +89,8 @@ class WPVR_Shortcode {
                 return __('Invalid Wpvr slug attribute', $this->plugin_name);
             }
         }
+        
+        do_action('rex_wpvr_embadded_tour', $id);
     
         if (empty($mobile_height)) {
             $mobile_height = "300px";

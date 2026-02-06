@@ -13,6 +13,10 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 ?>
 <?php
+
+
+$status = get_option('wpvr_edd_license_status');
+
 /**
  * get rollback version of WPVR
  *
@@ -36,6 +40,7 @@ function rex_wpvr_get_roll_back_versions()
     if (empty($plugin_information->versions) || !is_array($plugin_information->versions)) {
         return [];
     }
+
 
     $latest_version = $plugin_information->versions;
     unset($latest_version['trunk']);
@@ -97,7 +102,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
         <div class="wpvr-global-settings-tab-content">
             <div id="tab1" class="block-wrapper">
                 <h3 class="tab-content-title"><?php _e('General Settings', 'wpvr'); ?></h3>
-                <div class="rex-upgrade wpvr-settings <?php echo is_plugin_active('wpvr-pro/wpvr-pro.php') ? 'pro-active' : ''; ?>">
+                <div class="rex-upgrade wpvr-settings <?php echo is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status ? 'pro-active' : ''; ?>">
                     <h4 class="settings-box-title"><?php _e('Setup Options', 'wpvr'); ?></h4>
                     <div class="parent settings-wrapper">
                         <div class="wpvr_role-container">
@@ -539,7 +544,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                     <span class="wpvr-switcher">
                                         <?php
-                                        if(is_plugin_active('wpvr-pro/wpvr-pro.php')){
+                                        if(is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status) {
                                             if ($cardboard_disable == 'true') {
                                                 ?>
                                                 <input id="wpvr_cardboard_disable" type="checkbox" checked>
@@ -551,7 +556,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             }
                                         }
                                         ?>
-                                        <?php if(is_plugin_active('wpvr-pro/wpvr-pro.php')){ ?>
+                                        <?php if(is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status){ ?>
                                             <label for="wpvr_cardboard_disable"></label>
                                         <?php }else{ ?>
 
@@ -590,7 +595,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                     <span class="wpvr-switcher">
                                         <!-- WPVR front-end notice -->
-                                        <?php if (is_plugin_active('wpvr-pro/wpvr-pro.php')) { ?>
+                                        <?php if (is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status) { ?>
 
                                         <?php
                                         if ($wpvr_webp_conversion == 'true') {
@@ -605,7 +610,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         ?>
                                         <?php } ?>
 
-                                        <?php if(is_plugin_active('wpvr-pro/wpvr-pro.php')){ ?>
+                                        <?php if(is_plugin_active('wpvr-pro/wpvr-pro.php')  && 'valid' === $status ){ ?>
                                             <label for="wpvr_webp_conversion"></label>
                                         <?php }else{ ?>
 

@@ -33,6 +33,13 @@ class WPVR_Tour extends ET_Builder_Module {
 	public $vb_support = 'on';
 
 	/**
+	 * Module icon path.
+	 *
+	 * @var string
+	 */
+	public $icon_path;
+
+	/**
 	 * Credits for the module, typically including author information.
 	 *
 	 * @var array
@@ -292,7 +299,7 @@ class WPVR_Tour extends ET_Builder_Module {
 	 * @param string      $render_slug Slug identifier for this module instance.
 	 * @return string Rendered output to be displayed on the frontend.
 	 */
-	public function render( $attrs, $content = null, $render_slug ) {
+	public function render( $attrs, $content = null, $render_slug = null ) {
 		$output = self::wpvr_render( $this->props );
 		return $output;
 	}

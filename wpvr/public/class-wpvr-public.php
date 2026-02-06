@@ -173,6 +173,7 @@ class Wpvr_Public {
                         'notice_active' => $wpvr_frontend_notice,
                         'notice' => $notice,
                         'is_pro_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
+                        'is_license_active' => get_option('wpvr_edd_license_status') == 'valid' ? true : false,
                     ));
                 }
             }
@@ -189,6 +190,7 @@ class Wpvr_Public {
                 'notice_active' => $wpvr_frontend_notice,
                 'notice' => $notice,
                 'is_pro_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
+                'is_license_active' => get_option('wpvr_edd_license_status') == 'valid' ? true : false,
             ));
         }
 

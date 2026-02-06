@@ -167,7 +167,7 @@ class WPVR_Special_Occasion_Banner
             </div>
 
             <script>
-                rexfeed_deal_countdown_handler();
+                //rexfeed_deal_countdown_handler();
 
                 function rexfeed_deal_countdown_handler() {
                     let timeRemaining = <?php echo $time_remaining; ?>;

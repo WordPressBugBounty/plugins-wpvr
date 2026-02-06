@@ -246,10 +246,14 @@
               <div class="setup-wizard__pro-features-price">
                 
                   <div class="pro-text">
-                  <p>
-                  Starting at
-                  <span class="setup-wizard__pro-features-price-amount">${discountPrice?.discount_price}</span>/year
-                  </p>
+                    <p>
+                    Starting at
+                    <span class="setup-wizard__pro-features-price-amount">${discountPrice?.discount_price}</span>/year
+                    </p>
+                  </div>
+
+                  <div class="setup-wizard__pro-features-price-tag">
+                    ${discountPrice?.discount_percentage_text}
                   </div>
               </div>
               <div class="setup-wizard__pro-feature-list-button-container">

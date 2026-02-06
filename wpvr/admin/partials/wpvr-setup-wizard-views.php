@@ -51,16 +51,18 @@
     do_action('admin_footer');
 
     $current_date = date('Y-m-d H:i:s');
-    $start_date = '2025-07-04 00:00:00';
-    $end_date = '2025-07-14 23:59:59';
+    $start_date = '2025-12-31 00:00:00';
+    $end_date = '2026-01-12 23:59:59';
     $discount_percentage = '';
     $discount_price = '';
+    $price = '$99.99';
     if ($current_date >= $start_date && $current_date <= $end_date) {
         $discount_percentage = "Save 25%";
-        $discount_price = "$59.99";
-    }  else {
-        $discount_percentage = "Save 15%";
-        $discount_price = "$79.99";
+        $discount_price = "$74.99";
+    }  
+    else {
+        //$discount_percentage = "Save 15%";
+        $discount_price = "$99.99";
     }
 
     $data = array(
@@ -203,7 +205,8 @@
 
     $setup_wizard_price = array(
             'discount_price'        => $discount_price,
-            'discount_percentage_text' => $discount_percentage
+            'discount_percentage_text' => $discount_percentage,
+            'original_price'        => $price
     );
 
     $popular_industries = array(

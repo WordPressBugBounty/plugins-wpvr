@@ -132,7 +132,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
      ?>
      <script>
          (function ($) {
-         $(".rex-onboarding .block-wrapper:not(#tab1)").hide()
+        //  $(".rex-onboarding .block-wrapper:not(#tab1)").hide()
          $('.rex-onboarding li.tab a').first().addClass("active");
          $('.rex-onboarding li.tab').on('click', function(){
              var target_id = $(this).find("a").attr('href');

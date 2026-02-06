@@ -85,42 +85,6 @@ function wpvrtooltip(hotSpotDiv, args) {
     }
 }
 
-
-function wpvrSanitizeHTML(html) {
-    if (!html || typeof html !== 'string') {
-        return '';
-    }
-
-    // Remove dangerous tags completely
-    html = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-    html = html.replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '');
-    html = html.replace(/<object[^>]*>[\s\S]*?<\/object>/gi, '');
-    html = html.replace(/<embed[^>]*>[\s\S]*?<\/embed>/gi, '');
-    html = html.replace(/<applet[^>]*>[\s\S]*?<\/applet>/gi, '');
-    html = html.replace(/<form[^>]*>[\s\S]*?<\/form>/gi, '');
-    html = html.replace(/<input[^>]*>/gi, '');
-    html = html.replace(/<textarea[^>]*>[\s\S]*?<\/textarea>/gi, '');
-    html = html.replace(/<select[^>]*>[\s\S]*?<\/select>/gi, '');
-    html = html.replace(/<button[^>]*>[\s\S]*?<\/button>/gi, '');
-    
-    // Remove event handlers (on* attributes)
-    html = html.replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '');
-    html = html.replace(/\s+on\w+\s*=\s*[^\s>"']+/gi, '');
-    
-    // Remove dangerous protocols
-    html = html.replace(/javascript\s*:/gi, '');
-    html = html.replace(/vbscript\s*:/gi, '');
-    html = html.replace(/data\s*:/gi, '');
-    html = html.replace(/about\s*:/gi, '');
-    
-    // Remove style attributes that could contain javascript
-    html = html.replace(/\s+style\s*=\s*["'][^"']*expression\s*\([^"']*\)[^"']*["']/gi, '');
-    html = html.replace(/\s+style\s*=\s*["'][^"']*javascript\s*:[^"']*["']/gi, '');
-    
-    return html;
-}
-
-
 jQuery(document).ready(function($) {
 
     $(".cross").on("click", function(e) {
@@ -133,6 +97,8 @@ jQuery(document).ready(function($) {
         if ($('#wpvr-video').length != 0) {
             $('#wpvr-video').get(0).pause();
         }
+
+        $(this).parent(".custom-ifram-wrapper").find('.custom-ifram').empty();
 
     });
 

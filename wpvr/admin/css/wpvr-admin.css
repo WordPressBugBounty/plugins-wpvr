@@ -442,6 +442,12 @@ div.custom-tooltip > p {
     line-height: 24px;
 }
 
+div.pnlm-container p iframe {
+  max-width: 300px !important;
+  margin-bottom: 0;
+  max-height: 300px !important;
+}
+
 div.custom-tooltip:hover {
     z-index: 3;
 }
@@ -3648,9 +3654,7 @@ button.delete-scene {
     .rex-pano-tab-content .general .inner-nav-content .inner-single-content .color-icon img {
         width: 96px;
     }
-    .rex-pano-tab.general .single-settings>span {
-        min-width: 182px;
-    }
+
     .rex-pano-tab-content .general .control-settings-content.inner-single-content .single-settings>span {
         min-width: 102px;
     }
@@ -3976,16 +3980,14 @@ button.delete-scene {
     }
 }
 
+
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
     .rex-pano-tabs .main-nav>ul {
         flex-wrap: wrap;
     }
-    .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame {
-        width: 90px;
-        height: 70px;
-    }
+
     .rex-pano-tab-content .general .inner-nav-content .single-settings.cp-logo-area .logo-upload-frame img {
-        max-width: 70px;
+        max-width: 80px;
         max-height: 50px;
     }
 
@@ -6635,6 +6637,15 @@ body.wp-vr_page_wpvr-setting {
 #custom-ifram p ul {
     list-style: disc;
     margin-left: 20px;
+}
+
+.et-db #et-boc .et-l .et_pb_text .scene-gallery ul li {
+    list-style: none;
+}
+
+.et-db #et-boc .et-l .et_pb_text .scene-gallery ul {
+    margin: 0;
+    padding: 0;
 }
 
 

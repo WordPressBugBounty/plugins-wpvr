@@ -302,6 +302,18 @@
             });
         });
     });
+
+
+    function sanitizeText(str) {
+        if (!str) return '';
+        // Remove all <script> tags and their content
+        str = str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        // Optional: remove all remaining HTML tags if you want plain text
+        str = str.replace(/<\/?[^>]+(>|$)/g, "");
+        return str;
+    }
+
+
     function activateSceneTab(sceneId){
         jQuery(".scene-nav ul li span").each(function() {
             // Get the value of the data-href attribute
@@ -740,6 +752,55 @@
                         ['view', ['codeview', 'help']],
                     ],
                     callbacks: {
+                        onInit: function() {
+                            var $editor = $(this);
+                            var $noteEditor = $editor.next('.note-editor');
+                            
+                            // Intercept Video button click
+                            $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                                // Small delay to check if cursor is on a video
+                                setTimeout(function() {
+                                    // Get the current selection
+                                    var range = $editor.summernote('createRange');
+                                    if (range) {
+                                        var $node = $(range.sc);
+                                        
+                                        // Check if cursor is on a video iframe
+                                        var $iframe = $node.closest('iframe.note-video-clip');
+                                        if (!$iframe.length) {
+                                            $iframe = $node.find('iframe.note-video-clip').first();
+                                        }
+                                        
+                                        if ($iframe.length && $iframe.attr('src')) {
+                                            var embedUrl = $iframe.attr('src');
+                                            var videoUrl = '';
+                                            
+                                            // Extract YouTube URL
+                                            if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                                var match = embedUrl.match(/embed\/([^?&]*)/);
+                                                if (match && match[1]) {
+                                                    videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                                }
+                                            } else if (embedUrl) {
+                                                videoUrl = embedUrl;
+                                            }
+                                            
+                                            // Show the video dialog
+                                            $editor.summernote('videoDialog.show');
+                                            
+                                            // Pre-populate the video URL in the dialog
+                                            setTimeout(function() {
+                                                var $urlInput = $('.note-video-url');
+                                                if ($urlInput.length && videoUrl) {
+                                                    $urlInput.val(videoUrl);
+                                                    $urlInput.focus();
+                                                }
+                                            }, 150);
+                                        }
+                                    }
+                                }, 50);
+                            });
+                        },
                         onKeyup: function(e) {
                             var getHotspotContent = $(this).summernote('code').trim();
                             var tempDiv = document.createElement('div');
@@ -775,6 +836,52 @@
                     callbacks: {
                         onInit: function() {
                             var $editor = $(this);
+                            var $noteEditor = $editor.next('.note-editor');
+                            
+                            // Intercept Video button click
+                            $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                                // Small delay to check if cursor is on a video
+                                setTimeout(function() {
+                                    // Get the current selection
+                                    var range = $editor.summernote('createRange');
+                                    if (range) {
+                                        var $node = $(range.sc);
+                                        
+                                        // Check if cursor is on a video iframe
+                                        var $iframe = $node.closest('iframe.note-video-clip');
+                                        if (!$iframe.length) {
+                                            $iframe = $node.find('iframe.note-video-clip').first();
+                                        }
+                                        
+                                        if ($iframe.length && $iframe.attr('src')) {
+                                            var embedUrl = $iframe.attr('src');
+                                            var videoUrl = '';
+                                            
+                                            // Extract YouTube URL
+                                            if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                                var match = embedUrl.match(/embed\/([^?&]*)/);
+                                                if (match && match[1]) {
+                                                    videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                                }
+                                            } else if (embedUrl) {
+                                                videoUrl = embedUrl;
+                                            }
+                                            
+                                            // Show the video dialog
+                                            $editor.summernote('videoDialog.show');
+                                            
+                                            // Pre-populate the video URL in the dialog
+                                            setTimeout(function() {
+                                                var $urlInput = $('.note-video-url');
+                                                if ($urlInput.length && videoUrl) {
+                                                    $urlInput.val(videoUrl);
+                                                    $urlInput.focus();
+                                                }
+                                            }, 150);
+                                        }
+                                    }
+                                }, 50);
+                            });
 
                             // Override font name dropdown click handler for this specific editor
                             $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
@@ -1016,6 +1123,55 @@
                             ['view', ['codeview', 'help']],
                         ],
                         callbacks: {
+                            onInit: function() {
+                                var $editor = $(this);
+                                var $noteEditor = $editor.next('.note-editor');
+                                
+                                // Intercept Video button click
+                                $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                                    // Small delay to check if cursor is on a video
+                                    setTimeout(function() {
+                                        // Get the current selection
+                                        var range = $editor.summernote('createRange');
+                                        if (range) {
+                                            var $node = $(range.sc);
+                                            
+                                            // Check if cursor is on a video iframe
+                                            var $iframe = $node.closest('iframe.note-video-clip');
+                                            if (!$iframe.length) {
+                                                $iframe = $node.find('iframe.note-video-clip').first();
+                                            }
+                                            
+                                            if ($iframe.length && $iframe.attr('src')) {
+                                                var embedUrl = $iframe.attr('src');
+                                                var videoUrl = '';
+                                                
+                                                // Extract YouTube URL
+                                                if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                                    var match = embedUrl.match(/embed\/([^?&]*)/);
+                                                    if (match && match[1]) {
+                                                        videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                                    }
+                                                } else if (embedUrl) {
+                                                    videoUrl = embedUrl;
+                                                }
+                                                
+                                                // Show the video dialog
+                                                $editor.summernote('videoDialog.show');
+                                                
+                                                // Pre-populate the video URL in the dialog
+                                                setTimeout(function() {
+                                                    var $urlInput = $('.note-video-url');
+                                                    if ($urlInput.length && videoUrl) {
+                                                        $urlInput.val(videoUrl);
+                                                        $urlInput.focus();
+                                                    }
+                                                }, 150);
+                                            }
+                                        }
+                                    }, 50);
+                                });
+                            },
                             onKeyup: function(e) {
                                 var getHotspotContent = $(this).summernote('code').trim();
                                 var tempDiv = document.createElement('div');
@@ -1051,6 +1207,52 @@
                         callbacks: {
                             onInit: function() {
                                 var $editor = $(this);
+                                var $noteEditor = $editor.next('.note-editor');
+                                
+                                // Intercept Video button click
+                                $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                                    // Small delay to check if cursor is on a video
+                                    setTimeout(function() {
+                                        // Get the current selection
+                                        var range = $editor.summernote('createRange');
+                                        if (range) {
+                                            var $node = $(range.sc);
+                                            
+                                            // Check if cursor is on a video iframe
+                                            var $iframe = $node.closest('iframe.note-video-clip');
+                                            if (!$iframe.length) {
+                                                $iframe = $node.find('iframe.note-video-clip').first();
+                                            }
+                                            
+                                            if ($iframe.length && $iframe.attr('src')) {
+                                                var embedUrl = $iframe.attr('src');
+                                                var videoUrl = '';
+                                                
+                                                // Extract YouTube URL
+                                                if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                                    var match = embedUrl.match(/embed\/([^?&]*)/);
+                                                    if (match && match[1]) {
+                                                        videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                                    }
+                                                } else if (embedUrl) {
+                                                    videoUrl = embedUrl;
+                                                }
+                                                
+                                                // Show the video dialog
+                                                $editor.summernote('videoDialog.show');
+                                                
+                                                // Pre-populate the video URL in the dialog
+                                                setTimeout(function() {
+                                                    var $urlInput = $('.note-video-url');
+                                                    if ($urlInput.length && videoUrl) {
+                                                        $urlInput.val(videoUrl);
+                                                        $urlInput.focus();
+                                                    }
+                                                }, 150);
+                                            }
+                                        }
+                                    }, 50);
+                                });
 
                                 // Override font name dropdown click handler for this specific editor
                                 $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
@@ -1258,7 +1460,7 @@
 
     $(document).on("click", ".upload-scene-wrapper", function (event) {
         $(".scene-nav ul li:last-child span").trigger("click");
-        $(".scene-upload").trigger("click");
+        $(".scene-upload").last().trigger("click");
     })
 
     $(document).on("click", ".upload-scene-wrapper-first", function (event) {
@@ -1283,6 +1485,7 @@
         scene_uploader.on('select', function () {
 
             var attachment = scene_uploader.state().get('selection').first().toJSON();
+            scene_uploader.close();
 
             var imageUrl = attachment.url;
             var siteProtocol = window.location.protocol;
@@ -2429,6 +2632,55 @@
                 ['view', ['codeview', 'help']],
             ],
             callbacks: {
+                onInit: function() {
+                    var $editor = $(this);
+                    var $noteEditor = $editor.next('.note-editor');
+                    
+                    // Intercept Video button click
+                    $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                        // Small delay to check if cursor is on a video
+                        setTimeout(function() {
+                            // Get the current selection
+                            var range = $editor.summernote('createRange');
+                            if (range) {
+                                var $node = $(range.sc);
+                                
+                                // Check if cursor is on a video iframe
+                                var $iframe = $node.closest('iframe.note-video-clip');
+                                if (!$iframe.length) {
+                                    $iframe = $node.find('iframe.note-video-clip').first();
+                                }
+                                
+                                if ($iframe.length && $iframe.attr('src')) {
+                                    var embedUrl = $iframe.attr('src');
+                                    var videoUrl = '';
+                                    
+                                    // Extract YouTube URL
+                                    if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                        var match = embedUrl.match(/embed\/([^?&]*)/);
+                                        if (match && match[1]) {
+                                            videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                        }
+                                    } else if (embedUrl) {
+                                        videoUrl = embedUrl;
+                                    }
+                                    
+                                    // Show the video dialog
+                                    $editor.summernote('videoDialog.show');
+                                    
+                                    // Pre-populate the video URL in the dialog
+                                    setTimeout(function() {
+                                        var $urlInput = $('.note-video-url');
+                                        if ($urlInput.length && videoUrl) {
+                                            $urlInput.val(videoUrl);
+                                            $urlInput.focus();
+                                        }
+                                    }, 150);
+                                }
+                            }
+                        }, 50);
+                    });
+                },
                 onKeyup: function(e) {
                     var getHotspotContent = $(this).summernote('code').trim();
                     var tempDiv = document.createElement('div');
@@ -2464,6 +2716,52 @@
             callbacks: {
                 onInit: function() {
                     var $editor = $(this);
+                    var $noteEditor = $editor.next('.note-editor');
+                    
+                    // Intercept Video button click
+                    $noteEditor.on('click', 'button.note-btn[aria-label="Video"]', function(e) {
+                        // Small delay to check if cursor is on a video
+                        setTimeout(function() {
+                            // Get the current selection
+                            var range = $editor.summernote('createRange');
+                            if (range) {
+                                var $node = $(range.sc);
+                                
+                                // Check if cursor is on a video iframe
+                                var $iframe = $node.closest('iframe.note-video-clip');
+                                if (!$iframe.length) {
+                                    $iframe = $node.find('iframe.note-video-clip').first();
+                                }
+                                
+                                if ($iframe.length && $iframe.attr('src')) {
+                                    var embedUrl = $iframe.attr('src');
+                                    var videoUrl = '';
+                                    
+                                    // Extract YouTube URL
+                                    if (embedUrl && (embedUrl.indexOf('youtube.com') > -1 || embedUrl.indexOf('youtu.be') > -1)) {
+                                        var match = embedUrl.match(/embed\/([^?&]*)/);
+                                        if (match && match[1]) {
+                                            videoUrl = 'https://www.youtube.com/watch?v=' + match[1];
+                                        }
+                                    } else if (embedUrl) {
+                                        videoUrl = embedUrl;
+                                    }
+                                    
+                                    // Show the video dialog
+                                    $editor.summernote('videoDialog.show');
+                                    
+                                    // Pre-populate the video URL in the dialog
+                                    setTimeout(function() {
+                                        var $urlInput = $('.note-video-url');
+                                        if ($urlInput.length && videoUrl) {
+                                            $urlInput.val(videoUrl);
+                                            $urlInput.focus();
+                                        }
+                                    }, 150);
+                                }
+                            }
+                        }, 50);
+                    });
 
                     // Override font name dropdown click handler for this specific editor
                     $editor.next('.note-editor').find('.dropdown-fontname a').off('click').on('click', function(e) {
@@ -2932,6 +3230,11 @@
 
     // Check for floorplan pointers periodically in case they're added dynamically
     setInterval(fixFloorplanPointers, 3000);
+
+    $('.scene-setup').on('input', 'input[type="text"]', function () {
+        // Escape < and > to prevent script execution when reading
+        this.value = this.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    });
 
 
 })(jQuery);

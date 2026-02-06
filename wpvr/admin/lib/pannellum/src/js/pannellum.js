@@ -156,13 +156,13 @@ dragFix.className = 'pnlm-dragfix';
 uiContainer.appendChild(dragFix);
 
 // Display about information on right click
-var aboutMsg = document.createElement('span');
-aboutMsg.className = 'pnlm-about-msg';
-//==wpvr custom rextheme link==//
-aboutMsg.innerHTML = '<a href="https://rextheme.com/docs/wpvr-360-panorama-and-virtual-tour-creator-for-wordpress/" target="_blank">Rextheme</a>';
-//==wpvr custom rextheme link end==//
-uiContainer.appendChild(aboutMsg);
-dragFix.addEventListener('contextmenu', aboutMessage);
+// var aboutMsg = document.createElement('span');
+// aboutMsg.className = 'pnlm-about-msg';
+// //==wpvr custom rextheme link==//
+// aboutMsg.innerHTML = '<a href="https://rextheme.com/docs/wpvr-360-panorama-and-virtual-tour-creator-for-wordpress/" target="_blank">Rextheme</a>';
+// //==wpvr custom rextheme link end==//
+// uiContainer.appendChild(aboutMsg);
+// dragFix.addEventListener('contextmenu', aboutMessage);
 
 // Create info display
 var infoDisplay = {};

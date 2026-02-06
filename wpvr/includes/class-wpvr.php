@@ -218,8 +218,7 @@ class Wpvr
 		}
 
 		$this->loader->add_action('admin_init', $this->plugin_admin, 'trigger_rollback');
-
-        if (!is_plugin_active('wpvr-pro/wpvr-pro.php')){
+        if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
             $this->loader->add_action('include_floor_plan_meta_content', $this, 'include_floor_plan_meta_content', 10, 1);
             $this->loader->add_action('include_background_tour_meta_content', $this, 'include_background_tour_meta_content', 10, 1);
             $this->loader->add_action('include_street_view_meta_content', $this, 'include_street_view_meta_content', 10, 1);

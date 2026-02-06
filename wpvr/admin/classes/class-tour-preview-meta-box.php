@@ -407,7 +407,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
 
                         $hotspot_info = array(
-                            "text" => $hotspot_data["hotspot-title"],
+                            "text" => esc_html($hotspot_data["hotspot-title"]),
                             "pitch" => $hotspot_data["hotspot-pitch"],
                             "yaw" => $hotspot_data["hotspot-yaw"],
                             "type" => $hotspot_type,
@@ -615,17 +615,23 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 if (scenes) {
                     jQuery.each(scenes.scenes, function(i) {
                         jQuery.each(scenes.scenes[i]['hotSpots'], function(key, val) {
-                            if (
-                                val["clickHandlerArgs"] &&
-                                val["clickHandlerArgs"].replace(/<[^>]*>/g, '').trim() !== ''
-                            ) {
-                                val["clickHandlerFunc"] = wpvrhotspot;
+                            if (val["clickHandlerArgs"]) {
+                                const hasTextContent = val["clickHandlerArgs"].replace(/<[^>]*>/g, '').trim() !== '';
+                                const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(val["clickHandlerArgs"]);
+                                const hasOtherContent = val["clickHandlerArgs"].replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+                                
+                                if (hasTextContent || hasMediaContent || hasOtherContent) {
+                                    val["clickHandlerFunc"] = wpvrhotspot;
+                                }
                             }
-                            if (
-                                val["createTooltipArgs"] &&
-                                val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== ''
-                            ) {
-                                val["createTooltipFunc"] = wpvrtooltip;
+                            if (val["createTooltipArgs"]) {
+                                const hasTextContent = val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== '';
+                                const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(val["createTooltipArgs"]);
+                                const hasOtherContent = val["createTooltipArgs"].replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+                                
+                                if (hasTextContent || hasMediaContent || hasOtherContent) {
+                                    val["createTooltipFunc"] = wpvrtooltip;
+                                }
                             }
                         });
                     });

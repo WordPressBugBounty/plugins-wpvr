@@ -73,11 +73,15 @@ class WPVR_Admin_Page {
 
 		add_submenu_page( 'wpvr', 'WP VR', __('Add New Tour','wpvr'),'manage_options', 'post-new.php?post_type=wpvr_item', NULL);
 
-        /*
-         * Add Analytics page
-         * @since 8.5.16
-         */
-        do_action('wpvr_pro_analytics_page');
+		$status  = get_option('wpvr_edd_license_status');
+        if ($status !== false && $status == 'valid') {
+			/*
+			* Add Analytics page
+			* @since 8.5.16
+			*/
+			do_action('wpvr_pro_analytics_page');
+		}
+
         do_action('wpvr_pro_before_guided_tour');
         add_submenu_page( 'wpvr', 'WP VR', __('Settings','wpvr'),'manage_options', 'wpvr-setting', array($this,'wpvr_setting_page'));
 

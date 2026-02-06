@@ -103,6 +103,9 @@ class WPVR_Sample_Tour {
             'post_status'     => 'publish',
         ));
         if ($new_post_id) {
+            // Mark this as a demo tour
+            update_post_meta($new_post_id, 'wpvr_is_demo_tour', '1');
+            
             if ($new_data['panoid']) {
                 $new_data['panoid'] = 'pano' . $new_post_id;
             }

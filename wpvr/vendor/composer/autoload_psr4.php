@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PostHog\\' => array($vendorDir . '/posthog/posthog-php/lib'),
+    'CodeRex\\Telemetry\\' => array($vendorDir . '/coderexltd/telemetry/src'),
 );

@@ -517,23 +517,25 @@
 
                     <?php
                         $current_date = date('Y-m-d H:i:s');
-                        $start_date = '2025-07-04 00:00:00';
-                        $end_date = '2025-07-14 23:59:59';
+                        $start_date = '2025-12-31 00:00:00';
+                        $end_date = '2026-01-12 23:59:59';
                         $discount_percentage = '';
                         $discount_price = '';
                         if ($current_date >= $start_date && $current_date <= $end_date) {
                             $discount_percentage = "Save 25%";
-                            $discount_price = "$59.99";
-                        }  else {
-                            $discount_percentage = "Save 15%";
-                            $discount_price = "$79.99";
+                            $discount_price = "$74.99";
+                        } 
+                        else {
+                            $discount_percentage = "";
+                            $discount_price = "$99.99";
                         }
-                        $price = '$79.99';
+                        $price = '$99.99';
                     ?>
 
                     <div class="wpvr-premium-feature__discount-price">
-                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $discount_percentage; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
-                        <p><?php //printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p>
+                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $price; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
+                        <!-- <p style="text-decoration: line-through; color: #999;"><?php //printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p> -->
+                        
                     </div>
 
                     <a href="https://rextheme.com//wpvr/wpvr-pricing/" class="wpvr-premium-feature__btn" target="_blank" role="button">
@@ -558,7 +560,7 @@
 
 <style>
     /* p.wpvr-premium-feature__discount-price-label:before {
-        content: var(--discount-content, "Save 15%"); 
+        content: var(--discount-content, "Save 25%"); 
     } */
 </style>
 

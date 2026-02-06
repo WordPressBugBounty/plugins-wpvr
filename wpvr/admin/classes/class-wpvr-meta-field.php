@@ -80,6 +80,8 @@ class WPVR_Meta_Field {
      * @since 8.0.0
      */
     public static function get_navigation_fields() {
+        $status = get_option('wpvr_edd_license_status', '');
+        $is_pro_active = (is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status);
         $fields = array(
             array(
                 'class' => 'scene',
@@ -118,7 +120,7 @@ class WPVR_Meta_Field {
                 'active' => ''
             ),
         );
-        return apply_filters( 'extend_rex_pano_nav_menu', $fields );
+        return  $is_pro_active ? apply_filters( 'extend_rex_pano_nav_menu', $fields ) : $fields;
     }
 
     /**
@@ -282,6 +284,7 @@ class WPVR_Meta_Field {
      */
     public static function get_basic_setting_generic_form_fields($postdata)
     {
+        $status = get_option('wpvr_edd_license_status') === 'valid';
         $is_disable = apply_filters('is_wpvr_pro_active', false);
        
         if(!isset($postdata['genericform'])){
@@ -290,7 +293,7 @@ class WPVR_Meta_Field {
             $genericform = $postdata['genericform'];
         }
 
-        return array(
+        return $status ? array(
             'genericform' => array(
                 'class' => 'single-settings genericform has-children',
                 'title' => __('Generic Form','wpvr'),
@@ -304,7 +307,7 @@ class WPVR_Meta_Field {
                     'url'  => ''
                 ),
             )
-        );
+        ) : array();
     }
 
         /**
@@ -318,13 +321,15 @@ class WPVR_Meta_Field {
     public static function get_basic_setting_call_to_action_fields($postdata)
     {
         $is_disable = apply_filters('is_wpvr_pro_active', false);
+        $status = get_option('wpvr_edd_license_status') === 'valid';
+
         if(!isset($postdata['calltoaction'])){
             $calltoaction = "off";
         }else{
             $calltoaction = $postdata['calltoaction'];
         }
 
-        return array(
+        return $status ? array(
             'calltoaction' => array(
                 'class' => 'single-settings calltoaction has-children',
                 'title' => __('Call To Action ','wpvr'),
@@ -338,7 +343,7 @@ class WPVR_Meta_Field {
                     'url'  => 'https://rextheme.com/docs/call-to-action-in-virtual-tour/'
                 ),
             )
-        );
+        ) : array();
     }
 
         /**
@@ -352,6 +357,8 @@ class WPVR_Meta_Field {
     public static function get_basic_setting_custom_css_fields($postdata)
     {
         $is_disable = apply_filters('is_wpvr_pro_active', false);
+        $status = get_option('wpvr_edd_license_status') === 'valid';
+
 
         if(!isset($postdata['customcss_enable'])){
             $customcss_enable = "off";
@@ -359,7 +366,7 @@ class WPVR_Meta_Field {
             $customcss_enable = $postdata['customcss_enable'];
         }
 
-        return array(
+        return $status ? array( 
             'customcss' => array(
                 'class' => 'single-settings customcss-switcher has-children',
                 'title' => __('Custom CSS ','wpvr'),
@@ -373,7 +380,7 @@ class WPVR_Meta_Field {
                     'url'  => '' 
                 ),
             )
-        );
+        ) : array();
     }
 
     /**
@@ -743,7 +750,7 @@ class WPVR_Meta_Field {
 
                 <?php }
 
-                if(!is_plugin_active('wpvr-pro/wpvr-pro.php')){
+                if(!is_plugin_active('wpvr-pro/wpvr-pro.php')  || ( is_plugin_active('wpvr-pro/wpvr-pro.php') && ( 'valid' !== get_option('wpvr_edd_license_status', '') || '' === get_option('wpvr_edd_license_status', '') ) )) {
                     ?>
 
                     <li class="floor-plan floor-plan-pro-tag" data-screen="floorPlan">
@@ -786,7 +793,7 @@ class WPVR_Meta_Field {
                 }
 
                 //== Render Export Tab for Tour edit ==//
-                if(is_plugin_active( 'wpvr-pro/wpvr-pro.php' )) { if (isset($postdata['panoid'])) { ?>
+                if(is_plugin_active( 'wpvr-pro/wpvr-pro.php' ) && ( 'valid' === get_option('wpvr_edd_license_status', '')  )) { if (isset($postdata['panoid'])) { ?>
                 <li class="export" data-screen="export">
                     <span data-href="#import">
                         <img loading="lazy" src=" <?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/export-regular.png'; ?> " alt="icon" class="regular" />
@@ -811,6 +818,7 @@ class WPVR_Meta_Field {
      */
     public static function get_advanced_settings_left_fields($postdata)
     {
+        $status = get_option('wpvr_edd_license_status') === 'valid';
         $fields = array(
             'diskeyboard' => array(
                 'class' => 'single-settings compass',
@@ -890,7 +898,7 @@ class WPVR_Meta_Field {
                 'type' => 'checkbox'
             ),
         );
-        return apply_filters( 'modify_advanced_control_left_fields', $fields, $postdata );
+        return $status ? apply_filters( 'modify_advanced_control_left_fields', $fields, $postdata ) : $fields;
     }
 
 
@@ -901,6 +909,7 @@ class WPVR_Meta_Field {
      */
     public static function get_advanced_settings_right_fields($postdata)
     {
+        $status = get_option('wpvr_edd_license_status') === 'valid';
         $fields = array(
             'vrgallery' => array(
                 'class' => 'single-settings gallery',
@@ -981,7 +990,7 @@ class WPVR_Meta_Field {
             )
 
         );
-        return apply_filters( 'modify_advanced_control_right_fields', $fields, $postdata );
+        return $status ? apply_filters( 'modify_advanced_control_right_fields', $fields, $postdata ) : $fields;
     }
 
 
@@ -993,6 +1002,7 @@ class WPVR_Meta_Field {
      */
     public static function get_scene_left_fields_empty_panodata()
     {
+        $status = get_option('wpvr_edd_license_status', '') === 'valid';
         $fields = array(
             'scene-type' => array(
                 'label_for' => 'scene-type',
@@ -1046,7 +1056,7 @@ class WPVR_Meta_Field {
             )
         );
 
-        return apply_filters( 'modify_scene_default_left_fields', $fields );
+        return $status && is_plugin_active('wpvr-pro/wpvr-pro.php') ? apply_filters( 'modify_scene_default_left_fields', $fields ) : $fields;
     }
 
 
@@ -1062,6 +1072,7 @@ class WPVR_Meta_Field {
      */
     public static function get_scene_left_fields_with_panodata($pano_scene)
     {
+        $status = get_option('wpvr_edd_license_status', '') === 'valid';
         $fields = array(
             'scene-type' => array(
                 'label_for' => 'scene-type',
@@ -1114,7 +1125,7 @@ class WPVR_Meta_Field {
             ),
         );
 
-        return apply_filters( 'modify_scene_left_fields', $fields, $pano_scene );
+        return $status && is_plugin_active('wpvr-pro/wpvr-pro.php') ? apply_filters( 'modify_scene_left_fields', $fields, $pano_scene ) : $fields;
     }
 
 
@@ -1554,12 +1565,13 @@ class WPVR_Meta_Field {
      */
     public static function get_general_navigation_meta_fields()
     {
+        $status = get_option('wpvr_edd_license_status') === 'valid';
         $fields = array(
             array(
                 'class' => 'gen-basic',
                 'active' => 'active',
                 'href' => 'gen-basic',
-                'isPro' => false,
+                'isPro' => !$status || !is_plugin_active('wpvr-pro/wpvr-pro.php') ? true : false,
                 'regular_icon' => 'admin/icon/basic-settings-regular.svg',
                 'hover_icon' => 'admin/icon/basic-settings-hover.svg',
                 'title' => __('Basic Settings','wpvr')
@@ -1568,14 +1580,14 @@ class WPVR_Meta_Field {
                 'class' => 'gen-advanced',
                 'active' => '',
                 'href' => 'gen-advanced',
-                'isPro' => true,
+                'isPro' => !$status || !is_plugin_active('wpvr-pro/wpvr-pro.php') ? true : false,
                 'regular_icon' => 'admin/icon/advance-control-regular.svg',
                 'hover_icon' => 'admin/icon/advance-control-hover.svg',
                 'title' => __('Advanced Controls','wpvr')
             ),
         );
 
-        return apply_filters( 'make_is_pro_false', $fields );
+        return $status  ? apply_filters( 'make_is_pro_false', $fields ) : $fields;
     }
 
 
@@ -1598,7 +1610,7 @@ class WPVR_Meta_Field {
 
             <li class="<?php echo $field['class']; ?> <?php echo $field['active']; ?>">
                 <span data-href="#<?php echo $field['href']; ?>">
-                <?php if($field['isPro'] == true) { ?>
+                <?php if($field['isPro'] == true && $field['class'] == 'gen-advanced') { ?>
                 <span class="pro-tag">pro</span>
                 <?php } ?>   
                 <img loading="lazy" src="<?php echo WPVR_PLUGIN_DIR_URL . $field['regular_icon']; ?>" alt="icon" class="regular" />
@@ -2732,7 +2744,7 @@ class WPVR_Meta_Field {
             </div>
             <div class="single-settings cp-details">
                 <span><?= __('Company Details : ', 'wpvr-pro') ?></span>
-                <textarea rows="5" cols="40" name="cp-logo-content" id="cp-logo-content"><?= $cpLogoContent;?></textarea>
+                <textarea rows="5" cols="40" name="cp-logo-content" id="cp-logo-content"><?= esc_attr($cpLogoContent);?></textarea>
             </div>
         </div>
         <?php
@@ -3760,35 +3772,67 @@ public static function render_hotspot_info_textarea_field($name, $val)
     ?>
     <div class="<?= esc_attr($class); ?>" style="display:<?= esc_attr($display); ?>;">
         <div class="wpvr-global-tooltip-area">
-            <label for="hotspot-content"><?= esc_html__($title . ': ', 'wpvr'); ?></label>
+            <label for="<?= esc_attr($name); ?>">
+                <?= esc_html($title . ': '); ?>
+            </label>
 
-            <?php if (!empty($have_tooltip)) { ?>
+            <?php if (!empty($have_tooltip)) : ?>
                 <div class="field-tooltip">
-                    <img loading="lazy" src="<?= esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'); ?>" alt="icon" />
+                    <img loading="lazy" 
+                        src="<?= esc_url(WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'); ?>" 
+                        alt="<?= esc_attr__('Tooltip Icon', 'wpvr'); ?>" />
                     <span>
                         <?php
-                            if (!empty($tooltip_text['text'])) {
-                                echo esc_html($tooltip_text['text']);
+                        if (!empty($tooltip_text['text'])) {
+                            echo esc_html($tooltip_text['text']);
 
-                                if (!empty($tooltip_text['url'])) {
-                                    printf(
-                                        ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                                        esc_url($tooltip_text['url']),
-                                        __('View Doc', 'wpvr')
-                                    );
-                                }
+                            if (!empty($tooltip_text['url'])) {
+                                printf(
+                                    ' <a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                    esc_url($tooltip_text['url']),
+                                    esc_html__('View Doc', 'wpvr')
+                                );
                             }
+                        }
                         ?>
                     </span>
                 </div>
-            <?php } ?>
+            <?php endif; ?>
         </div>
 
-        <textarea name="<?= esc_attr($name); ?>"><?= esc_textarea(wp_kses($value ?? '', wp_kses_allowed_html('post'))); ?></textarea>
+        <?php
+        // ---- Safe iframe sanitization ----
+        $raw_value = $value ?? '';
+
+        // Allow <iframe> from safe video sources only
+        $raw_value = preg_replace_callback('/<iframe[^>]+src=["\']([^"\']+)["\'][^>]*>/i', function ($matches) {
+            $src = $matches[1];
+            if (preg_match('/^(https?:)?\/\/(www\.)?(youtube\.com|youtu\.be|player\.vimeo\.com)\//i', $src)) {
+                return $matches[0]; // allow safe video sources
+            }
+            return ''; // remove unsafe iframe
+        }, $raw_value);
+
+        // Extend wp_kses allowed tags to include iframe safely
+        $allowed_tags = wp_kses_allowed_html('post');
+        $allowed_tags['iframe'] = [
+            'src'             => true,
+            'width'           => true,
+            'height'          => true,
+            'frameborder'     => true,
+            'allowfullscreen' => true,
+            'class'           => true,
+        ];
+
+        $sanitized_value = wp_kses($raw_value, $allowed_tags);
+        ?>
+
+        <textarea name="<?= esc_attr($name); ?>"><?= esc_textarea($sanitized_value); ?></textarea>
     </div>
     <?php
-    ob_end_flush();
+    echo ob_get_clean();
 }
+
 
 
 

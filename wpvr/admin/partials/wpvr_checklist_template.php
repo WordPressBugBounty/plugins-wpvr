@@ -7,10 +7,10 @@
 
     <ul id="wpvr-checklist-items" class="wpvr-checklist">
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_scene ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_scene ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-scene" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-scene" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_scene ? 'checked' : '';?>>
+                    <?php echo esc_attr($wpvr_check_scene ? 'checked' : '');?>>
                 <span class="checkmark"></span>
                 <?php _e('Add at least one scene', 'wpvr'); ?>
             </label>
@@ -27,10 +27,10 @@
                     </span>
         </li>
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_media ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_media ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-media" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-media" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_media ? 'checked' : ''; ?>>
+                    <?php echo esc_attr($wpvr_check_media ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
                 <?php _e('Upload 360° media', 'wpvr'); ?>
             </label>
@@ -47,10 +47,10 @@
                     </span>
         </li>
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_default ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_default ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-default" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-default" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_default ? 'checked' : ''; ?>>
+                    <?php echo esc_attr($wpvr_check_default ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
                 <?php _e('Set a default scene', 'wpvr'); ?>
             </label>
@@ -67,10 +67,10 @@
                     </span>
         </li>
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_hotspots ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_hotspots ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-hotspots" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-hotspots" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_hotspots ? 'checked' : ''; ?>>
+                    <?php echo esc_attr($wpvr_check_hotspots ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
                 <?php _e('Add navigation hotspots', 'wpvr'); ?>
             </label>
@@ -87,10 +87,10 @@
                     </span>
         </li>
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_movement_controls  ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_movement_controls  ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-movement-controls" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-movement-controls" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_movement_controls ? 'checked' : ''; ?>>
+                    <?php echo esc_attr($wpvr_check_movement_controls ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
                 <?php _e('Enable basic controls', 'wpvr'); ?>
             </label>
@@ -110,7 +110,7 @@
             <li class="wpvr-checklist-item">
                 <label for="wpvr-check-zoom-controls" class="wpvr-custom-checkbox">
                     <input type="checkbox" id="wpvr-check-zoom-controls" class="wpvr-checklist-items"
-                        <?php echo $wpvr_check_zoom_controls ? 'checked' : ''; ?>>
+                        <?php echo esc_attr($wpvr_check_zoom_controls ? 'checked' : ''); ?>>
                     <span class="checkmark"></span>
                     <?php _e('Enable zoom controls', 'wpvr'); ?>
                 </label>
@@ -128,10 +128,10 @@
             </li>
         <?php }?>
 
-        <li class="wpvr-checklist-item" style="color: <?php echo $wpvr_check_publish ? '#0E003C' : '#73707D'; ?>">
+        <li class="wpvr-checklist-item" style="color: <?php echo esc_attr($wpvr_check_publish ? '#0E003C' : '#73707D'); ?>">
             <label for="wpvr-check-publish" class="wpvr-custom-checkbox">
                 <input type="checkbox" id="wpvr-check-publish" class="wpvr-checklist-items"
-                    <?php echo $wpvr_check_publish ? 'checked' : ''; ?>>
+                    <?php echo esc_attr($wpvr_check_publish ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
                 <?php _e('Publish the tour', 'wpvr'); ?>
             </label>

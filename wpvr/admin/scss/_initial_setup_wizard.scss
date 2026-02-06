@@ -975,7 +975,7 @@ $primary-font: 'Roboto', sans-serif;
               line-height: 28px;
             }
           }
-          .setup-wizard__pro-features-price-amount{
+          .setup-wizard__pro-features-price-amount {
             color: #3F04FE;
             font-size: 24px;
             font-style: normal;
@@ -987,29 +987,29 @@ $primary-font: 'Roboto', sans-serif;
             }
           }
 
-          .setup-wizard__pro-features-price-tag{
-            position: absolute;
-            font-family: "Urbanist", sans-serif;
-            display: block;
-            border-radius: 16px 16px 16px 0px;
-            background: #3f04fe;
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-            padding: 8px 9px;
-            text-transform: capitalize;
-            z-index: 1;
-            line-height: 0.8;
-            transform: translate(-50%, -50%);
-            top: 30px;
-            left: 50%;
-            max-width: 78px;
-            @media (max-width: 768px) {
-              max-width: 72px;
-              font-size: 12px;
-              padding: 7px 8px;
-            }
-          }
+          // .setup-wizard__pro-features-price-tag {
+          //   position: absolute;
+          //   font-family: "Urbanist", sans-serif;
+          //   display: block;
+          //   border-radius: 16px 16px 16px 0px;
+          //   background: #3f04fe;
+          //   font-size: 13px;
+          //   color: #ffffff;
+          //   font-weight: 500;
+          //   padding: 8px 9px;
+          //   text-transform: capitalize;
+          //   z-index: 1;
+          //   line-height: 0.8;
+          //   transform: translate(-50%, -50%);
+          //   top: 30px;
+          //   left: 50%;
+          //   max-width: 78px;
+          //   @media (max-width: 768px) {
+          //     max-width: 72px;
+          //     font-size: 12px;
+          //     padding: 7px 8px;
+          //   }
+          // }
         }
         .setup-wizard__pro-feature-list-button-container{
 

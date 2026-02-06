@@ -248,6 +248,8 @@ class Wpvr_Admin {
 
                 wp_localize_script($this->plugin_name . '-tour-guide', 'wpvr_tour_guide_obj', array(
                     'Tour_Guide_Translation' => $tour_guide_translation->get_translatable_string(),
+                    'step1_bg_image' => plugins_url('admin/icon/first-step-bg.png', WPVR_FILE),
+                    'next_button_arrow' => plugins_url('admin/icon/next-button-arrow.png', WPVR_FILE),
                 ));
             }
 
@@ -261,6 +263,7 @@ class Wpvr_Admin {
                 'import_text' => __('Import Now', 'wpvr'),
                 'admin_url' => admin_url(),
                 'is_wpvr_pro_active' => apply_filters('is_wpvr_pro_active', false),
+                'is_wpvr_license_valid' => get_option('wpvr_edd_license_status', '') === 'valid',
             ));
         }
 
@@ -469,7 +472,6 @@ class Wpvr_Admin {
     
     public function show_review_request_markups() {
         $show_review_request = get_option('wpvr_feed_review_request');
-
         if (empty($show_review_request)) {
             $data = array(
                 'show'      => true,
@@ -482,10 +484,10 @@ class Wpvr_Admin {
 
     public function wpvr_trigger_based_review_helper() {
         $show_review_request = get_option('wpvr_feed_review_request');
-
+        $number_of_published_tours = $this->wpvr_get_total_published_tours();
         if (!empty($show_review_request) && isset($show_review_request['show']) && $show_review_request['show']) {
 
-            if (isset($show_review_request['frequency'])) {
+            if (isset($show_review_request['frequency']) && $number_of_published_tours > 1) {
                 if ($show_review_request['frequency'] == 'immediate') {
                     add_action('admin_notices', array($this, 'wpvr_generate_review_request_section'));
                 } elseif ($show_review_request['frequency'] == 'one_week') {
@@ -668,7 +670,8 @@ class Wpvr_Admin {
      */
     public function add_import_button() {
         $screen = get_current_screen();
-
+        $status  = get_option('wpvr_edd_license_status');
+                    
         // Only add button on the WPVR Tours admin page
         if ($screen && property_exists($screen, 'id') && ($screen->id === 'edit-wpvr_item')) {
             ?>
@@ -683,7 +686,7 @@ class Wpvr_Admin {
                     $('.wrap .page-title-action').after(importButton);
 
                     // If Free Version, add 'Pro' label
-                    if (!isProUser) {
+                    if (!isProUser || <?php echo json_encode($status !== 'valid'); ?>) {
                         importButton.append(" <span class='is-pro'>Pro</span>");
                     }
 
@@ -712,7 +715,7 @@ class Wpvr_Admin {
                     // Toggle form visibility on button click
                     $(document).on('click', '.wpvr-import-button', function(e) {
                         e.preventDefault();
-                        if (!isProUser) {
+                        if (!isProUser || <?php echo json_encode($status !== 'valid'); ?>) {
                             // Open CRO Modal (Pro Upgrade)
                             $("#wpvr_premium_feature_popup").show();
                         } else {
@@ -744,6 +747,24 @@ class Wpvr_Admin {
             </script>
             <?php
         }
+    }
+
+    /**
+     * Get total published tours
+     *
+     * @return int
+     * @since 8.5.43
+     */
+    public function wpvr_get_total_published_tours(){
+        $args = array(
+            'post_type'      => 'wpvr_item',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+        );
+
+        $query = new WP_Query( $args );
+        return $query->found_posts;
     }
 
 }
