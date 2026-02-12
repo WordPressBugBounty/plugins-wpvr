@@ -19,6 +19,11 @@ class Rex_WPVR_Telemetry {
     public function __construct() {
         add_action( 'wpvr_plugin_activated', array( $this, 'track_plugin_activation' ));
         add_action( 'wpvr_plugin_deactivated', array( $this, 'track_plugin_deactivation' ));
+        add_action('setup_wizard_before_onboarding_content', array( $this, 'track_setup_wizard_start_event' ));
+        add_action( 'wp_ajax_wpvr_setup_wizard_completed', array($this, 'track_setup_wizard_completed' ) );
+        add_action( 'wp_ajax_wpvr_first_strike_completed', array($this, 'track_first_strike_completed' ) );
+
+
         add_action( 'transition_post_status', array( $this, 'track_first_tour_published' ), 10, 3);
         add_action( 'rex_wpvr_tour_created', array( $this, 'track_tour_created' ), 10, 1);
         add_action( 'current_screen', array( $this, 'track_page_view' ) );
@@ -26,6 +31,123 @@ class Rex_WPVR_Telemetry {
         add_action( 'rex_wpvr_tour_saved', array( $this, 'track_detailed_tour_events' ), 10, 1 );
         
         add_action( 'wp_ajax_wpvr_track_telemetry_event', array( $this, 'track_telemetry_event' ) );
+    }
+
+    /**
+     * Track setup wizard started event
+     * Checks if already tracked before sending
+     *
+     * @since 8.5.48
+     */
+    public function track_setup_wizard_start_event() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+            return;
+        }
+
+        $setup_started = get_option('wpvr_setup_wizard_started', false);
+        if ( $setup_started ) {
+            return;
+        }
+
+        update_option('wpvr_setup_wizard_started', true);
+        if ( function_exists( 'coderex_telemetry_track' ) && defined( 'WPVR_FILE' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'setup_wizard_started' );
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'setup_started',
+                array(
+                    'time' => current_time('mysql'),
+                )
+            );
+        }
+    }
+
+
+    /**
+     * Track setup wizard completed event
+     * Checks if already tracked before sending
+     *
+     * @since 8.5.48
+     */
+    public function track_setup_wizard_completed() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+            return;
+        }
+
+        $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+        if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+            wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+            return;
+        }
+
+        $setup_completed = get_option('wpvr_setup_wizard_completed', false);
+        if ( $setup_completed ) {
+            wp_send_json_success( array( 'message' => 'Setup already tracked', 'already_tracked' => true ) );
+            return;
+        }
+
+        update_option('wpvr_setup_wizard_completed', true);
+
+        $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : '';
+
+        if ( function_exists( 'coderex_telemetry_track' ) && defined( 'WPVR_FILE' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'setup_wizard_completed' );
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'setup_completed',
+                array(
+                    'industry' => $industry,
+                    'time' => current_time('mysql'),
+                )
+            );
+        }
+
+        wp_send_json_success( array( 'message' => 'Setup wizard completed tracked' ) );
+    }
+
+    /**
+     * Track first strike completed event
+     * Checks if already tracked before sending
+     *
+     * @since 8.5.48
+     */
+    public function track_first_strike_completed() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+            return;
+        }
+
+        $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+        if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+            wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+            return;
+        }
+
+        $first_strike_completed = get_option('wpvr_first_strike_completed', false);
+        if ( $first_strike_completed ) {
+            wp_send_json_success( array( 'message' => 'First strike already tracked', 'already_tracked' => true ) );
+            return;
+        }
+
+        update_option('wpvr_first_strike_completed', true);
+
+        $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : '';
+
+        if ( function_exists( 'coderex_telemetry_track' ) && defined( 'WPVR_FILE' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike_completed' );
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'first_strike_completed',
+                array(
+                    'industry' => $industry,
+                    'time' => current_time('mysql'),
+                )
+            );
+        }
+
+        wp_send_json_success( array( 'message' => 'First strike completed tracked' ) );
     }
 
     /**
@@ -60,13 +182,17 @@ class Rex_WPVR_Telemetry {
         $final_properties = array_merge( $default_properties, $properties );
 
         // Update last core action
-        coderex_telemetry_update_last_action( WPVR_FILE, $event_name );
+        if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, $event_name );
+        }
 
-        coderex_telemetry_track(
-            WPVR_FILE,
-            $event_name,
-            $final_properties
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                $event_name,
+                $final_properties
+            );
+        }
 
         wp_send_json_success( array( 'message' => 'Event tracked successfully' ) );
     }
@@ -91,15 +217,19 @@ class Rex_WPVR_Telemetry {
         $tour_type = $this->get_tour_type( $post_id );
         
         // Update last core action
-        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_type_set' );
+        if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'tour_type_set' );
+        }
         
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'tour_type',
-            array(
-                'tour_type' => $tour_type,
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'tour_type',
+                array(
+                    'tour_type' => $tour_type,
+                )
+            );
+        }
     }
 
     /**
@@ -143,13 +273,15 @@ class Rex_WPVR_Telemetry {
         $features = $this->get_enabled_features( $post_id );
 
         foreach ( $features as $feature_name ) {
-            coderex_telemetry_track(
-                WPVR_FILE,
-                'feature_used',
-                array(
-                    'feature_name' => $feature_name,
-                )
-            );
+            if ( function_exists( 'coderex_telemetry_track' ) ) {
+                coderex_telemetry_track(
+                    WPVR_FILE,
+                    'feature_used',
+                    array(
+                        'feature_name' => $feature_name,
+                    )
+                );
+            }
         }
     }
 
@@ -303,14 +435,16 @@ class Rex_WPVR_Telemetry {
      */
     public function track_plugin_activation() {
 
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'plugin_activation',
-            array(
-                'plugin_version' => defined('WPVR_VERSION') ? WPVR_VERSION : 'unknown',
-                'activation_time' => current_time( 'c' ),
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'plugin_activation',
+                array(
+                    'plugin_version' => defined('WPVR_VERSION') ? WPVR_VERSION : 'unknown',
+                    'activation_time' => current_time( 'c' ),
+                )
+            );
+        }
     }
 
     /**
@@ -333,16 +467,18 @@ class Rex_WPVR_Telemetry {
         $last_core_action = get_option( 'wpvr_last_core_action', '' );
 
         // Track deactivation event
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'plugin_deactivated',
-            array(
-                'plugin_version' => defined('WPVR_VERSION') ? WPVR_VERSION : 'unknown',
-                'deactivation_time' => current_time( 'c' ),
-                'usage_duration' => $usage_duration,
-                'last_core_action' => $last_core_action,
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'plugin_deactivated',
+                array(
+                    'plugin_version' => defined('WPVR_VERSION') ? WPVR_VERSION : 'unknown',
+                    'deactivation_time' => current_time( 'c' ),
+                    'usage_duration' => $usage_duration,
+                    'last_core_action' => $last_core_action,
+                )
+            );
+        }
 
         // Clean up activation time option
         delete_option( 'wpvr_plugin_installed' );
@@ -400,41 +536,53 @@ class Rex_WPVR_Telemetry {
 
             if (1 === $total_user_tours) {
                 // Update last core action
-                coderex_telemetry_update_last_action( WPVR_FILE, 'first_tour_published' );
+                if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+                    coderex_telemetry_update_last_action( WPVR_FILE, 'first_tour_published' );
+                }
                 
-                coderex_telemetry_track(
-                    WPVR_FILE,
-                    'first_tour_published',
-                    array(
-                        'tour_title'    => $post->post_title,
-                        'time'          => current_time('mysql'),
-                    )
-                );
+                if ( function_exists( 'coderex_telemetry_track' ) ) {
+                    coderex_telemetry_track(
+                        WPVR_FILE,
+                        'first_tour_published',
+                        array(
+                            'tour_title'    => $post->post_title,
+                            'time'          => current_time('mysql'),
+                        )
+                    );
+                }
                 
                 // Also track first_strike (first successful value moment)
-                coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike' );
+                if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+                    coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike' );
+                }
                 
-                coderex_telemetry_track(
-                    WPVR_FILE,
-                    'first_strike',
-                    array(
-                        'tour_title'    => $post->post_title,
-                        'time'          => current_time('mysql'),
-                    )
-                );
+                if ( function_exists( 'coderex_telemetry_track' ) ) {
+                    coderex_telemetry_track(
+                        WPVR_FILE,
+                        'first_strike',
+                        array(
+                            'tour_title'    => $post->post_title,
+                            'time'          => current_time('mysql'),
+                        )
+                    );
+                }
             }
         } elseif ($new_status === 'publish' && $old_status === 'publish') {
             // Update last core action
-            coderex_telemetry_update_last_action( WPVR_FILE, 'tour_updated' );
+            if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+                coderex_telemetry_update_last_action( WPVR_FILE, 'tour_updated' );
+            }
             
-            coderex_telemetry_track(
-                WPVR_FILE,
-                'tour_updated',
-                array(
-                    'tour_title' => $post->post_title,
-                    'time' => current_time('mysql'),
-                )
-            );
+            if ( function_exists( 'coderex_telemetry_track' ) ) {
+                coderex_telemetry_track(
+                    WPVR_FILE,
+                    'tour_updated',
+                    array(
+                        'tour_title' => $post->post_title,
+                        'time' => current_time('mysql'),
+                    )
+                );
+            }
             // Detailed tracking on update
             $this->track_detailed_tour_events( $post->ID );
         }
@@ -449,16 +597,20 @@ class Rex_WPVR_Telemetry {
      */
     public function track_tour_created( $post_title ) {
         // Update last core action
-        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_created' );
+        if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'tour_created' );
+        }
         
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'tour_created',
-            array(
-                'tour_title' => isset( $post_title) ? $post_title : '',
-                'time' => current_time('mysql'),
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'tour_created',
+                array(
+                    'tour_title' => isset( $post_title) ? $post_title : '',
+                    'time' => current_time('mysql'),
+                )
+            );
+        }
     }
 
 
@@ -549,15 +701,19 @@ class Rex_WPVR_Telemetry {
         }
 
         // Update last core action
-        coderex_telemetry_update_last_action( WPVR_FILE, 'tour_embedded' );
+        if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
+            coderex_telemetry_update_last_action( WPVR_FILE, 'tour_embedded' );
+        }
         
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'tour_embedded',
-            array(
-                'title' => $tour->post_title,
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'tour_embedded',
+                array(
+                    'title' => $tour->post_title,
+                )
+            );
+        }
 
         // Mark as tracked
         update_post_meta( $tour_id, '_wpvr_tour_embedded_tracked', true );

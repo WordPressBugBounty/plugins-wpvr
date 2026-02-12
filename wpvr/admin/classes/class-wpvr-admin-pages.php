@@ -184,14 +184,15 @@ class WPVR_Admin_Page {
 	}
 
     function wpvr_new_setup_wizard() {
-        add_action('admin_menu', function () {
-            add_dashboard_page('WPVR Setup', 'WPVR Setup', 'manage_options', 'wpvr-setup-wizard', function () {
-                return '';
-            });
-        });
-        add_action('current_screen', function () {
-            ( new WPVR_Setup_Wizard() )->setup_wizard();
-        }, 999);
+        echo '<div id="wpvr-onboarding-root"></div>';
+//        add_action('admin_menu', function () {
+//            add_dashboard_page('WPVR Setup', 'WPVR Setup', 'manage_options', 'wpvr-setup-wizard', function () {
+//                return '';
+//            });
+//        });
+//        add_action('current_screen', function () {
+//            ( new WPVR_Setup_Wizard() )->setup_wizard();
+//        }, 999);
     }
 
 }

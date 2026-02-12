@@ -11,14 +11,14 @@ class ComposerStaticInit6dc07add4a5ca438a2736859937d7172
     );
 
     public static $prefixLengthsPsr4 = array (
-        'C' =>
+        'C' => 
         array (
             'CodeRex\\Telemetry\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'CodeRex\\Telemetry\\' =>
+        'CodeRex\\Telemetry\\' => 
         array (
             0 => __DIR__ . '/..' . '/coderexltd/telemetry/src',
         ),

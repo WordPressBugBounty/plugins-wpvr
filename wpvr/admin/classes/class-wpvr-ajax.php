@@ -83,7 +83,11 @@ class Wpvr_Ajax
       add_action( 'wp_ajax_wpvr_save_general_settings', array($this, 'wpvr_save_general_settings' ) );
       // opt-in toggle ajax
       add_action( 'wp_ajax_wpvr_save_opt_in_toggle', array($this, 'wpvr_save_opt_in_toggle' ) );
-      add_action( 'wp_ajax_nopriv_wpvr_save_opt_in_toggle', array($this, 'wpvr_save_opt_in_toggle' ) );
+
+      // Setup wizard specific AJAX handlers
+      add_action( 'wp_ajax_wpvr_fetch_template', array($this, 'wpvr_fetch_template' ) );
+      add_action( 'wp_ajax_wpvr_upload_image', array($this, 'wpvr_upload_image' ) );
+      add_action( 'wp_ajax_wpvr_create_tour_from_wizard', array($this, 'wpvr_create_tour_from_wizard' ) );
   }
 
 
@@ -717,6 +721,409 @@ class Wpvr_Ajax
     update_option('wpvr_opt_in_toggle', $opt_in);
     update_option('wpvr_allow_tracking', '1' === $opt_in  ? 'yes' : 'no');
     wp_send_json_success( array( 'message' => __('Opt-in value saved.', 'wpvr') ), 200 );
+  }
+
+
+  /**
+   * Fetch template tour object from remote API
+   * 
+   * @since 8.5.48
+   */
+  public function wpvr_fetch_template() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+      wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+      return;
+    }
+
+    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+      return;
+    }
+
+    $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : 'real-estate';
+
+    // Static industry to remote tour ID mapping
+    $industry_id_map = array(
+      'exhibitions'  => 2140,
+      'offices'      => 2145,
+      'real-estate'  => 2147,
+      'hotel'        => 2149,
+      'ecommerce'    => 2151,
+      'showrooms'    => 2153,
+      'school'       => 2155,
+    );
+
+    // Get source tour ID for the selected industry
+    $source_tour_id = isset($industry_id_map[$industry]) ? $industry_id_map[$industry] : 2147;
+
+    // Build API URL with source tour ID
+    $api_url = 'https://showcase.rextheme.com/wp-json/wpvr/v1/tour/' . intval($source_tour_id);
+    $api_url = apply_filters('wpvr_template_api_url', $api_url, $industry, $source_tour_id);
+    $response = wp_remote_get($api_url, array(
+      'timeout' => 30,
+      'headers' => array(
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json',
+      ),
+    ));
+
+    if ( is_wp_error( $response ) ) {
+      wp_send_json_error( array( 'message' => 'Failed to fetch template: ' . $response->get_error_message() ) );
+      return;
+    }
+
+    $status_code = wp_remote_retrieve_response_code( $response );
+    if ( $status_code !== 200 ) {
+      wp_send_json_error( array( 'message' => 'Template not found (HTTP ' . $status_code . ')' ) );
+      return;
+    }
+
+    $body = wp_remote_retrieve_body( $response );
+    $api_data = json_decode( $body, true );
+
+    if ( ! $api_data || ! is_array( $api_data ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid template data received' ) );
+      return;
+    }
+
+    $remote_meta = array();
+    if ( isset( $api_data['meta_data'] ) && is_array( $api_data['meta_data'] ) ) {
+      $remote_meta = $api_data['meta_data'];
+    } elseif ( isset( $api_data['meta'] ) && is_array( $api_data['meta'] ) ) {
+      $remote_meta = $api_data['meta'];
+    }
+
+    $panodata = array();
+    if ( isset( $remote_meta['panodata'] ) ) {
+      $panodata = $this->wpvr_normalize_panodata( $remote_meta['panodata'] );
+    }
+    if ( empty( $panodata ) && isset( $api_data['panodata'] ) ) {
+      $panodata = $this->wpvr_normalize_panodata( $api_data['panodata'] );
+    }
+
+    if ( empty( $panodata ) ) {
+      wp_send_json_error( array( 'message' => 'Template panodata missing in API response' ) );
+      return;
+    }
+
+    $title = isset( $api_data['title'] ) && ! empty( $api_data['title'] )
+      ? sanitize_text_field( $api_data['title'] )
+      : 'My Virtual Tour';
+
+    $post_data = array(
+      'post_title'   => $title,
+      'post_status'  => 'publish',
+      'post_type'    => 'wpvr_item',
+      'post_author'  => get_current_user_id(),
+    );
+
+    $post_id = wp_insert_post( $post_data );
+    if ( is_wp_error( $post_id ) ) {
+      wp_send_json_error( array( 'message' => 'Failed to create tour: ' . $post_id->get_error_message() ) );
+      return;
+    }
+
+    $panodata = $this->wpvr_import_scene_attachments_to_media( $panodata, $post_id );
+    $panodata['panoid'] = 'pano' . $post_id;
+
+    // Keep meta panodata in sync with imported local scene URLs
+    if ( ! is_array( $remote_meta ) ) {
+      $remote_meta = array();
+    }
+    $remote_meta['panodata'] = $panodata;
+
+    update_post_meta( $post_id, 'panodata', $panodata );
+    update_post_meta( $post_id, 'wpvr_created_from_wizard', true );
+    update_post_meta( $post_id, 'wpvr_wizard_industry', $industry );
+
+    if ( ! empty( $remote_meta ) ) {
+      foreach ( $remote_meta as $meta_key => $meta_value ) {
+        $sanitized_key = sanitize_key( $meta_key );
+        if ( empty( $sanitized_key ) || 'panodata' === $sanitized_key ) {
+          continue;
+        }
+
+        if ( is_array( $meta_value ) ) {
+          update_post_meta( $post_id, $sanitized_key, $meta_value );
+        } else {
+          update_post_meta( $post_id, $sanitized_key, sanitize_text_field( $meta_value ) );
+        }
+      }
+    }
+
+    $template_data = array(
+      'industry' => $industry,
+      'template_id' => $source_tour_id,
+      'post_id' => $post_id,
+      'edit_url' => admin_url( 'post.php?action=edit&post=' . $post_id ),
+      'view_url' => get_permalink( $post_id ),
+      'panodata' => $panodata,
+      'meta' => $remote_meta,
+    );
+
+    if ( isset( $panodata['panodata']['scene-list']['1']['scene-attachment-url'] ) ) {
+      $template_data['image_url'] = esc_url_raw( $panodata['panodata']['scene-list']['1']['scene-attachment-url'] );
+    } elseif ( isset( $api_data['image_url'] ) ) {
+      $template_data['image_url'] = esc_url_raw( $api_data['image_url'] );
+    } elseif ( isset( $api_data['featured_image'] ) ) {
+      $template_data['image_url'] = esc_url_raw( $api_data['featured_image'] );
+    }
+
+    do_action('rex_wpvr_tour_saved', $post_id);
+
+    wp_send_json_success( array( 'template' => $template_data ) );
+  }
+
+  /**
+   * Import scene attachment URLs into media library and replace URLs in panodata.
+   *
+   * @param array $panodata Panodata structure.
+   * @param int   $post_id  Target post ID.
+   *
+   * @return array
+   */
+  private function wpvr_import_scene_attachments_to_media( $panodata, $post_id ) {
+    if ( empty( $panodata['panodata']['scene-list'] ) || ! is_array( $panodata['panodata']['scene-list'] ) ) {
+      return $panodata;
+    }
+
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    require_once( ABSPATH . 'wp-admin/includes/media.php' );
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+    $scene_image_keys = array(
+      'scene-attachment-url',
+      'scene-attachment-url-face0',
+      'scene-attachment-url-face1',
+      'scene-attachment-url-face2',
+      'scene-attachment-url-face3',
+      'scene-attachment-url-face4',
+      'scene-attachment-url-face5',
+    );
+
+    foreach ( $panodata['panodata']['scene-list'] as $scene_key => $scene ) {
+      if ( ! is_array( $scene ) ) {
+        continue;
+      }
+
+      foreach ( $scene_image_keys as $image_key ) {
+        if ( empty( $scene[ $image_key ] ) || ! is_string( $scene[ $image_key ] ) ) {
+          continue;
+        }
+
+        $source_url = esc_url_raw( $scene[ $image_key ] );
+        if ( empty( $source_url ) ) {
+          continue;
+        }
+
+        $attachment_id = media_sideload_image( $source_url, $post_id, null, 'id' );
+        if ( is_wp_error( $attachment_id ) ) {
+          continue;
+        }
+
+        $local_url = wp_get_attachment_url( $attachment_id );
+        if ( ! empty( $local_url ) ) {
+          $panodata['panodata']['scene-list'][ $scene_key ][ $image_key ] = esc_url_raw( $local_url );
+        }
+      }
+    }
+
+    return $panodata;
+  }
+
+  /**
+   * Normalize panodata payloads from array/serialized/json values.
+   *
+   * @param mixed $raw_panodata Panodata from remote API/meta.
+   *
+   * @return array
+   */
+  private function wpvr_normalize_panodata( $raw_panodata ) {
+    if ( is_array( $raw_panodata ) ) {
+      return $raw_panodata;
+    }
+
+    if ( is_string( $raw_panodata ) && '' !== $raw_panodata ) {
+      $unserialized = maybe_unserialize( $raw_panodata );
+      if ( is_array( $unserialized ) ) {
+        return $unserialized;
+      }
+
+      $decoded_json = json_decode( $raw_panodata, true );
+      if ( is_array( $decoded_json ) ) {
+        return $decoded_json;
+      }
+    }
+
+    return array();
+  }
+
+  /**
+   * Upload image to WordPress media library
+   * 
+   * @since 8.5.48
+   */
+  public function wpvr_upload_image() {
+    if ( ! current_user_can( 'upload_files' ) ) {
+      wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+      return;
+    }
+
+    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+      return;
+    }
+
+    if ( ! isset( $_FILES['image'] ) || empty( $_FILES['image']['tmp_name'] ) ) {
+      wp_send_json_error( array( 'message' => 'No file uploaded' ) );
+      return;
+    }
+
+    // Validate file type
+    $file_type = wp_check_filetype( $_FILES['image']['name'] );
+    $allowed_types = array( 'jpg', 'jpeg', 'png', 'webp' );
+    if ( ! in_array( strtolower( $file_type['ext'] ), $allowed_types ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid file type. Only JPG, PNG, and WEBP are allowed.' ) );
+      return;
+    }
+
+    // Validate file size (max 50MB)
+    if ( $_FILES['image']['size'] > 50 * 1024 * 1024 ) {
+      wp_send_json_error( array( 'message' => 'File size must be less than 50MB' ) );
+      return;
+    }
+
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    require_once( ABSPATH . 'wp-admin/includes/media.php' );
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+    $upload = wp_handle_upload( $_FILES['image'], array( 'test_form' => false ) );
+
+    if ( isset( $upload['error'] ) ) {
+      wp_send_json_error( array( 'message' => $upload['error'] ) );
+      return;
+    }
+
+    $attachment = array(
+      'post_mime_type' => $upload['type'],
+      'post_title'     => sanitize_file_name( pathinfo( $_FILES['image']['name'], PATHINFO_FILENAME ) ),
+      'post_content'  => '',
+      'post_status'   => 'inherit'
+    );
+
+    $attach_id = wp_insert_attachment( $attachment, $upload['file'] );
+    $attach_data = wp_generate_attachment_metadata( $attach_id, $upload['file'] );
+    wp_update_attachment_metadata( $attach_id, $attach_data );
+
+    $image_url = wp_get_attachment_url( $attach_id );
+
+    wp_send_json_success( array( 
+      'attachment_id' => $attach_id,
+      'url' => $image_url,
+      'message' => 'Image uploaded successfully'
+    ) );
+  }
+
+  /**
+   * Create tour from wizard data
+   * 
+   * @since 8.5.48
+   */
+  public function wpvr_create_tour_from_wizard() {
+    if ( ! current_user_can( 'edit_posts' ) ) {
+      wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
+      return;
+    }
+
+    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+      wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
+      return;
+    }
+
+    $panodata = isset($_POST['panodata']) ? json_decode( stripslashes( $_POST['panodata'] ), true ) : array();
+    $title = isset($_POST['title']) ? sanitize_text_field($_POST['title']) : 'My Virtual Tour';
+    $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : 'real-estate';
+    $existing_post_id = isset($_POST['existing_post_id']) ? absint($_POST['existing_post_id']) : 0;
+
+    if ( empty( $panodata ) ) {
+      wp_send_json_error( array( 'message' => 'Panodata is required' ) );
+      return;
+    }
+
+    if ( $existing_post_id > 0 ) {
+      $existing_post = get_post( $existing_post_id );
+      if ( ! $existing_post || 'wpvr_item' !== $existing_post->post_type || ! current_user_can( 'edit_post', $existing_post_id ) ) {
+        wp_send_json_error( array( 'message' => 'Invalid existing tour ID' ) );
+        return;
+      }
+
+      $post_id = $existing_post_id;
+      wp_update_post(
+        array(
+          'ID' => $post_id,
+          'post_title' => $title,
+          'post_status' => 'publish',
+        )
+      );
+    } else {
+      // Create new post
+      $post_data = array(
+        'post_title'   => $title,
+        'post_status'  => 'publish',
+        'post_type'    => 'wpvr_item',
+        'post_author'  => get_current_user_id(),
+      );
+
+      $post_id = wp_insert_post( $post_data );
+
+      if ( is_wp_error( $post_id ) ) {
+        wp_send_json_error( array( 'message' => 'Failed to create tour: ' . $post_id->get_error_message() ) );
+        return;
+      }
+    }
+
+    // Enforce local media URLs before final save/update
+    $panodata = $this->wpvr_import_scene_attachments_to_media( $panodata, $post_id );
+
+    // Set panoid as pano{post_id} in panodata
+    $panodata['panoid'] = 'pano' . $post_id;
+
+    // Save panodata as post meta
+    update_post_meta( $post_id, 'panodata', $panodata );
+
+    // Mark as created from wizard
+    update_post_meta( $post_id, 'wpvr_created_from_wizard', true );
+    update_post_meta( $post_id, 'wpvr_wizard_industry', $industry );
+
+    // Save template meta fields if provided (dynamic meta from API)
+    $template_meta = isset($_POST['templateMeta']) ? json_decode( stripslashes( $_POST['templateMeta'] ), true ) : array();
+    if ( ! empty( $template_meta ) && is_array( $template_meta ) ) {
+      foreach ( $template_meta as $meta_key => $meta_value ) {
+        // Sanitize meta key to ensure it's a valid meta key
+        $sanitized_key = sanitize_key( $meta_key );
+        if ( ! empty( $sanitized_key ) && 'panodata' !== $sanitized_key ) {
+          // Handle different value types
+          if ( is_array( $meta_value ) ) {
+            update_post_meta( $post_id, $sanitized_key, $meta_value );
+          } else {
+            update_post_meta( $post_id, $sanitized_key, sanitize_text_field( $meta_value ) );
+          }
+        }
+      }
+    }
+
+    // Trigger tour saved action for telemetry
+    do_action('rex_wpvr_tour_saved', $post_id);
+
+    wp_send_json_success( array( 
+      'post_id' => $post_id,
+      'edit_url' => admin_url( 'post.php?action=edit&post=' . $post_id ),
+      'view_url' => get_permalink( $post_id ),
+      'message' => 'Tour created successfully'
+    ) );
   }
 
 }

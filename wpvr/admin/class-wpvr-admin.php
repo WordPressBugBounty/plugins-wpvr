@@ -276,17 +276,6 @@ class Wpvr_Admin {
             wp_enqueue_script($this->plugin_name . '-shortcode', plugin_dir_url(__FILE__) . 'js/wpvr-shortcode.js', array('jquery'), $this->version, true);
         }
 
-        if ($adscreen->id == "dashboard_page_rex-wpvr-setup-wizard") {
-            wp_enqueue_script(
-                'wpvr-setup-wizard-manager',
-                WPVR_JS_PATH . 'library/setupwizard.bundle.js',
-                array('jquery'),
-                $this->version,
-                true
-            );
-        }
-
-
         wp_enqueue_script('owl-js', plugin_dir_url(__FILE__) . 'js/owl.carousel.js', array('jquery'), false);
         wp_enqueue_script('wpvr-global', $asset_url . 'js/wpvr-global.js', array('jquery'), $this->version, false);
 

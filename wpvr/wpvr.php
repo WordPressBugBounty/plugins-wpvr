@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.54
+ * Version:           8.5.55
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -48,7 +48,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.54');
+define('WPVR_VERSION', '8.5.55');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -56,6 +56,7 @@ define("WPVR_PLUGIN_PUBLIC_DIR_URL", plugin_dir_url(__FILE__) . 'public/');
 define('WPVR_BASE', plugin_basename(WPVR_FILE));
 define('WPVR_DEV_MODE', false);
 define('WPVR_JS_PATH', plugin_dir_url(__FILE__) . 'admin/js/');
+define('WPVR_CSS_PATH', plugin_dir_url(__FILE__) . 'admin/css/');
 define('WPVR_ASSET_PATH', plugin_dir_url(__FILE__) . 'admin/');
 define( 'WPVR_WEBHOOK_URL', sanitize_url( 'https://rextheme.com/?mailmint=1&route=webhook&topic=contact&hash=bbd19901-6d42-4ae5-a7a8-01eb1013c553' ) );
 define('WPVR_TELEMETRY_API_KEY', 'ae386a21-b957-4822-a655-0360815ee402');

@@ -141,7 +141,13 @@
             var autorotationstopdelay = $("input[name='auto-rotation-stop-delay']").val();
 
             var panodata = $('.scene-setup').repeaterVal();
-            var panolist = JSON.stringify(panodata);
+            const filteredPanodata = {
+                ...panodata,
+                "scene-list": panodata["scene-list"].filter(
+                    scene => scene["scene-id"]?.trim()
+                )
+            };
+            var panolist = JSON.stringify(filteredPanodata);
             var previewtext = $('.previewtext').val();
 
             jQuery.ajax({
