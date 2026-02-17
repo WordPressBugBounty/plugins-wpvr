@@ -308,24 +308,25 @@ class WPVR_Scene {
      *
      * @param integer $postid
      * @param integer $panoid
+     * @param boolean $is_publish_action
      *
      * @return void
      * @since 8.0.0
      */
-    public function wpvr_update_meta_box($postid, $panoid)
+    public function wpvr_update_meta_box($postid, $panoid, $is_publish_action = false)
     {
-        $panodata      = $this->format->prepare_panodata($_POST['panodata']);
+        $panodata      = $this->format->prepare_panodata(isset($_POST['panodata']) ? $_POST['panodata'] : '');
         $default_scene = $this->format->prepare_default_scene($panodata);
-        $previewtext = $this->validator->preview_text_validation($_POST['previewtext']);
+        $previewtext = isset($_POST['previewtext']) ? $this->validator->preview_text_validation($_POST['previewtext']) : '';
 
         $gzoom       = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
         $default_global_zoom = '';
         $max_global_zoom = '';
         $min_global_zoom = '';
         if ($gzoom == 'on') {
-            $default_global_zoom = $_POST['dzoom'];
-            $max_global_zoom = $_POST['maxzoom'];
-            $min_global_zoom = $_POST['minzoom'];
+            $default_global_zoom = isset($_POST['dzoom']) ? $_POST['dzoom'] : '';
+            $max_global_zoom = isset($_POST['maxzoom']) ? $_POST['maxzoom'] : '';
+            $min_global_zoom = isset($_POST['minzoom']) ? $_POST['minzoom'] : '';
         }
 
         $custom_control = isset($_POST['customcontrol']) ? $_POST['customcontrol'] : null;
@@ -355,16 +356,16 @@ class WPVR_Scene {
         }
         //===Gyroscopre control===//
 
-        $autoload           = $this->format->set_checkbox_value($_POST['autoload']);
-        $control            = $this->format->set_checkbox_value($_POST['control']);
+        $autoload           = $this->format->set_checkbox_value(isset($_POST['autoload']) ? $_POST['autoload'] : '');
+        $control            = $this->format->set_checkbox_value(isset($_POST['control']) ? $_POST['control'] : '');
 
-        $scene_fade_duration = $_POST['scenefadeduration'];
-        $preview = esc_url($_POST['preview']);
-        $rotation = sanitize_text_field($_POST['rotation']);
-        $autorotation = sanitize_text_field($_POST['autorotation']);
+        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field($_POST['scenefadeduration']) : '';
+        $preview = isset($_POST['preview']) ? esc_url($_POST['preview']) : '';
+        $rotation = isset($_POST['rotation']) ? sanitize_text_field($_POST['rotation']) : '';
+        $autorotation = isset($_POST['autorotation']) ? sanitize_text_field($_POST['autorotation']) : '';
 
-        $autorotationinactivedelay = sanitize_text_field($_POST['autorotationinactivedelay']);
-        $autorotationstopdelay = sanitize_text_field($_POST['autorotationstopdelay']);
+        $autorotationinactivedelay = isset($_POST['autorotationinactivedelay']) ? sanitize_text_field($_POST['autorotationinactivedelay']) : '';
+        $autorotationstopdelay = isset($_POST['autorotationstopdelay']) ? sanitize_text_field($_POST['autorotationstopdelay']) : '';
 
         //===generic form===//
         $genericform = sanitize_text_field(isset($_POST['genericform']) ? $_POST['genericform'] : 'off');
@@ -390,13 +391,16 @@ class WPVR_Scene {
 
 
         $scene_fade_duration = '';
-        $scene_fade_duration = $_POST['scenefadeduration'];
+        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field($_POST['scenefadeduration']) : '';
 
-        $this->validator->scene_validation($panodata);                                                    // Scene content error control and validation //
+        // Only validate when publishing, not when saving drafts
+        if ($is_publish_action) {
+            $this->validator->scene_validation($panodata);                                                    // Scene content error control and validation //
 
-        $this->validator->empty_scene_validation($panodata);                                              // Empty scene content error control and validation //
+            $this->validator->empty_scene_validation($panodata);                                              // Empty scene content error control and validation //
 
-        $this->validator->duplicate_hotspot_validation($panodata);                                        // Duplicate error control and validation //
+            $this->validator->duplicate_hotspot_validation($panodata);                                        // Duplicate error control and validation //
+        }
 
         $panodata = $this->format->remove_empty_scene_and_hotspot($panodata);                             // Remove Empty scene and hotspot //
 
@@ -2126,13 +2130,11 @@ class WPVR_Scene {
             panoshow' . $id . '.on("load", function() {
                 jQuery(".pnlm-panorama-info").hide();
                 jQuery(".pnlm-compass").hide();
-                jQuery(".adcontrol").hide();
             });
             
             panoshow' . $id . '.on("scenechange", function() {
                 jQuery(".pnlm-panorama-info").hide();
                 jQuery(".pnlm-compass").hide();
-                jQuery(".adcontrol").hide();
             });
         }';
         //===Dplicate mode only for vr mode===//
@@ -2865,6 +2867,21 @@ class WPVR_Scene {
               $iframe.attr("src", el_src);
             });';
         }
+
+        $html .= '
+      jQuery(document).on("click","#pano' . $id . '",function(event) {
+        var isActiveModal = event.target.closest(".custom-ifram-wrapper");
+        var isForm = event.target.closest(".wpvr-hotspot-tweak-contents");
+        var isHotspot = event.target.closest(".pnlm-hotspot-base");
+        if( isActiveModal == null && isForm == null && isHotspot == null){
+             jQuery(".custom-ifram-wrapper .custom-ifram").empty();
+             jQuery(".custom-ifram-wrapper").hide();
+             jQuery(this).removeClass("show-modal");
+             jQuery(".wpvr-hotspot-tweak-contents-wrapper").hide("show-modal");
+        }else if(isForm != null){
+            jQuery(this).addClass("show-modal");
+        }
+      });';
 
         //===Explainer Script End===//
 

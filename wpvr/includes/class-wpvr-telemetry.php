@@ -220,7 +220,6 @@ class Rex_WPVR_Telemetry {
         if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
             coderex_telemetry_update_last_action( WPVR_FILE, 'tour_type_set' );
         }
-        
         if ( function_exists( 'coderex_telemetry_track' ) ) {
             coderex_telemetry_track(
                 WPVR_FILE,
@@ -539,7 +538,6 @@ class Rex_WPVR_Telemetry {
                 if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
                     coderex_telemetry_update_last_action( WPVR_FILE, 'first_tour_published' );
                 }
-                
                 if ( function_exists( 'coderex_telemetry_track' ) ) {
                     coderex_telemetry_track(
                         WPVR_FILE,
@@ -555,7 +553,6 @@ class Rex_WPVR_Telemetry {
                 if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
                     coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike' );
                 }
-                
                 if ( function_exists( 'coderex_telemetry_track' ) ) {
                     coderex_telemetry_track(
                         WPVR_FILE,
@@ -572,7 +569,6 @@ class Rex_WPVR_Telemetry {
             if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
                 coderex_telemetry_update_last_action( WPVR_FILE, 'tour_updated' );
             }
-            
             if ( function_exists( 'coderex_telemetry_track' ) ) {
                 coderex_telemetry_track(
                     WPVR_FILE,
@@ -600,7 +596,6 @@ class Rex_WPVR_Telemetry {
         if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
             coderex_telemetry_update_last_action( WPVR_FILE, 'tour_created' );
         }
-        
         if ( function_exists( 'coderex_telemetry_track' ) ) {
             coderex_telemetry_track(
                 WPVR_FILE,
@@ -667,15 +662,17 @@ class Rex_WPVR_Telemetry {
             return;
         }
 
-        coderex_telemetry_track(
-            WPVR_FILE,
-            'page_view',
-            array(
-                'page' => $current_page,
-                'page_name' => $page_name,
-                'time' => current_time( 'mysql' ),
-            )
-        );
+        if ( function_exists( 'coderex_telemetry_track' ) ) {
+            coderex_telemetry_track(
+                WPVR_FILE,
+                'page_view',
+                array(
+                    'page' => $current_page,
+                    'page_name' => $page_name,
+                    'time' => current_time( 'mysql' ),
+                )
+            );
+        }
     }
 
 
@@ -704,7 +701,6 @@ class Rex_WPVR_Telemetry {
         if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
             coderex_telemetry_update_last_action( WPVR_FILE, 'tour_embedded' );
         }
-        
         if ( function_exists( 'coderex_telemetry_track' ) ) {
             coderex_telemetry_track(
                 WPVR_FILE,

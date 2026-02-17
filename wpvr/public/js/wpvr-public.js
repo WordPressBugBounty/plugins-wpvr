@@ -41,12 +41,10 @@ function wpvrhotspot(hotSpotDiv, hotspotData) {
         if (hasTextContent || hasMediaContent || hasOtherContent) {
             const cleanArgs = args.replace(/\\/g, '');
 
-            jQuery(document).ready(function ($) {
-                const $wrapper = $(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper");
-                $wrapper.find('.custom-ifram').html(cleanArgs);
-                $wrapper.fadeToggle();
-                $(hotSpotDiv.target).closest(".pano-wrap").toggleClass("show-modal");
-            });
+            const $wrapper = jQuery(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper");
+            $wrapper.find('.custom-ifram').html(cleanArgs);
+            $wrapper.fadeIn();
+            jQuery(hotSpotDiv.target).closest(".pano-wrap").addClass("show-modal");
         }
     }
 }

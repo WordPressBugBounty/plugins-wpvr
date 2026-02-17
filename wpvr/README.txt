@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.55
+Stable tag: 8.5.56
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,18 +441,24 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = WPVR (Free) =
 
+= 8.5.56 (2026-02-17) =
+* Bug Fix: Save Draft UI freeze issue where loading overlay remained stuck and page became unresponsive
+* Bug Fix: Preview button layout issue caused by fixed width in translated languages 
+* Bug Fix: FontAwesome icons not displaying due to Tajawal !important font override
+* Bug Fix: Incorrect tour status label showing “Publish” instead of “Published”
+
 = 8.5.55 (2026-02-13) =
-1. Enhancement: Implement new onboarding
+* Enhancement: Implement new onboarding
 
 = 8.5.54 (2026-02-06) =
-1. Improvement: wpvr_save_data() detects publish/update via post status, eliminating locale dependence
-2. Bug Fix: Hotspot preview now confines video and image content within boundaries
-3. Bug Fix: Hotspot media links persist after backend refresh
-4. Bug Fix: Image and video hotspots now display correctly on hover content in the frontend
-5. Bug Fix: Ensure hotspot panels scroll correctly with both video and image in frontend and backend
-6. Bug Fix: Correct rendering of videos in “On Hover” and multiple videos in “On Click” content
-7. Bug Fix: Full Screen, Home, Generic Form, and Explainer Video close buttons now function correctly on mobile in Modern Layout
-8. Bug Fix: Shortcodes render correctly in Oxygen Builder without PHP warnings
+* Improvement: wpvr_save_data() detects publish/update via post status, eliminating locale dependence
+* Bug Fix: Hotspot preview now confines video and image content within boundaries
+* Bug Fix: Hotspot media links persist after backend refresh
+* Bug Fix: Image and video hotspots now display correctly on hover content in the frontend
+* Bug Fix: Ensure hotspot panels scroll correctly with both video and image in frontend and backend
+* Bug Fix: Correct rendering of videos in “On Hover” and multiple videos in “On Click” content
+* Bug Fix: Full Screen, Home, Generic Form, and Explainer Video close buttons now function correctly on mobile in Modern Layout
+* Bug Fix: Shortcodes render correctly in Oxygen Builder without PHP warnings
 
 = 8.5.53 (2026-01-14) =
 * Bug Fix: Divi builder deprecation warning issue
@@ -460,18 +466,6 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = 8.5.52 (2026-01-12) =
 * Improvement: Enhanced OpenPanel integration to track and send detailed tour data
-
-= 8.5.51 (2025-12-31) =
-* Improvement: Event tracking package
-
-= 8.5.50 (2025-12-19) =
-* Bug Fix: Hotspot hover text font no longer changes when switching built-in hotspot icons.
-* Bug Fix: Vimeo videos in Hotspot popups now stop playing when the popup is closed.
-
-= 8.5.49 (2025-12-11) =
-* Bug Fix: Sanitization to avoid XSS vulenability
-* Bug Fix: PHP Warning: Array to string conversion in Fluent Forms Add-on
-* Bug Fix: WPVR block render issue
 
 👉 [Visit to view full changelog for the free version](https://rextheme.com/changelog/?plugin=wpvr)
 

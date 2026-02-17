@@ -240,17 +240,17 @@ class Wpvr_Ajax
     $is_publish_action = ($action_type === 'publish');
 
     /**
-	 * Checks if title is provided.
-	 *
-	 * @return void
-	 */
-	if (!isset($_POST['post_title']) || empty(trim($_POST['post_title']))) {
-		wp_send_json([
-			'success' => false,
-			'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
-		]);
-		die();
-	}
+     * Checks if title is provided FIRST before any other validation.
+     *
+     * @return void
+     */
+    if ($is_publish_action && (!isset($_POST['post_title']) || empty(trim($_POST['post_title'])))) {
+      wp_send_json([
+        'success' => false,
+        'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
+      ]);
+      die();
+    }
 
     /**
 	 * Validates scene/video data before allowing publication.
@@ -354,61 +354,60 @@ class Wpvr_Ajax
       }
     }
 
-    $post_status = get_post_status($postid);
+    $post_array = array(
+		'post_status'   => get_post_status( $postid ),
+		'post_password' => get_post_field( 'post_password', $postid ),
+		'visibility'    => 'public',
+	);
 
-    if ($post_status != 'publish') {
-      wp_update_post(array(
-        'ID' => $postid,
-        'post_status' => 'publish'
-      ));
-    }
-
-
-    $post_array = [];
-    if (isset($_POST['post_status'])) {
-      $post_status = sanitize_text_field($_POST['post_status']);
-      $post_array['post_status'] = $post_status;
-    }
-    if (isset($_POST['post_password'])) {
-      $visibility = sanitize_text_field($_POST['post_password']);
-      $post_array['post_password'] = $visibility;
-    }
-    if (isset($_POST['visibility'])) {
-      $visibility = sanitize_text_field($_POST['visibility']);
-      $post_array['visibility'] = $visibility;
-      if ($visibility == 'public' || $visibility == 'private') {
-        $post_array['post_password'] = '';
-      }
-    }
-
-    if ($post_array['visibility'] == 'private') {
-        $post_array['post_status'] = 'private';
-	} elseif ($is_publish_action) {
-		$post_array['post_status'] = 'publish';
+	if ( isset( $_POST['post_status'] ) ) {
+		$post_status               = sanitize_text_field( $_POST['post_status'] );
+		$post_array['post_status'] = $post_status;
+	}
+	if ( isset( $_POST['post_password'] ) ) {
+		$post_password               = sanitize_text_field( $_POST['post_password'] );
+		$post_array['post_password'] = $post_password;
+	}
+	if ( isset( $_POST['visibility'] ) ) {
+		$visibility               = sanitize_text_field( $_POST['visibility'] );
+		$post_array['visibility'] = $visibility;
+		if ( $visibility == 'public' || $visibility == 'private' ) {
+			$post_array['post_password'] = '';
+		}
 	}
 
-    $post_title = sanitize_text_field($_POST['post_title']);
-    wp_update_post(array(
-      'ID' => $postid,
-      'post_status' => $post_array['post_status'],
-      'post_password' => $post_array['post_password'],
-      'visibility' => $post_array['visibility'],
-      'post_title' => $post_title,
+	if ( $post_array['visibility'] == 'private' ) {
+		$post_array['post_status'] = 'private';
+	} elseif ( $is_publish_action ) {
+		$post_array['post_status'] = 'publish';
+	} else {
+		// Keep current status or set to draft if it's auto-draft
+		$current_status = get_post_status( $postid );
+		if ( $current_status === 'auto-draft' ) {
+			$post_array['post_status'] = 'draft';
+		}
+	}
 
-    ));
+	$post_title = isset( $_POST['post_title'] ) ? sanitize_text_field( $_POST['post_title'] ) : get_the_title( $postid );
+	wp_update_post( array(
+		'ID'            => $postid,
+		'post_status'   => $post_array['post_status'],
+		'post_password' => $post_array['post_password'],
+		'post_title'    => $post_title,
+	) );
 
-    do_action('wpvr_pro_update_street_view', $postid, $panoid);
+	do_action( 'wpvr_pro_update_street_view', $postid, $panoid );
 
-    if(isset( $_POST['checklistData'] ) && !empty($_POST['checklistData'])){
-        $checklist_data = array_map( 'sanitize_text_field', $_POST['checklistData'] );
-        update_post_meta($postid, 'wpvr_checklist', $checklist_data );
-    }
+	if ( isset( $_POST['checklistData'] ) && !empty( $_POST['checklistData'] ) ) {
+		$checklist_data = array_map( 'sanitize_text_field', $_POST['checklistData'] );
+		update_post_meta( $postid, 'wpvr_checklist', $checklist_data );
+	}
 
-    if ($_POST['panovideo'] == "on") {
-      $this->video->wpvr_update_meta_box($postid, $panoid);
-    } else {
-      $this->scene->wpvr_update_meta_box($postid, $panoid);
-    }
+	if ( isset( $_POST['panovideo'] ) && $_POST['panovideo'] == 'on' ) {
+		$this->video->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
+	} else {
+		$this->scene->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
+	}
 
     do_action('rex_wpvr_tour_saved', $postid);
 

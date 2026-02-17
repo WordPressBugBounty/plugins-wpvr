@@ -517,13 +517,13 @@
 
                     <?php
                         $current_date = date('Y-m-d H:i:s');
-                        $start_date = '2026-01-27 00:00:00';
-                        $end_date = '2026-02-05 23:59:59';
+                        $start_date = '2026-02-03 00:00:00';
+                        $end_date = '2026-02-18 23:59:59';
                         $discount_percentage = '';
                         $discount_price = '';
                         if ($current_date >= $start_date && $current_date <= $end_date) {
-                            $discount_percentage = "Save 25%";
-                            $discount_price = "$74.99";
+                            $discount_percentage = "Save 30%";
+                            $discount_price = "$69.99";
                         } 
                         else {
                             $discount_percentage = "";
@@ -560,7 +560,7 @@
 
 <style>
     p.wpvr-premium-feature__discount-price-label:before {
-        content: var(--discount-content-value, "Save 25%");
+        content: var(--discount-content-value, "Save 30%");
     }
 </style>
 

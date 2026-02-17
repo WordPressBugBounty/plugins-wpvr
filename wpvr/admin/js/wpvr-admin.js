@@ -57,6 +57,32 @@
 
         $('.postbox .hndle').css('cursor', 'pointer');
 
+        // Validate scene checkbox on page load
+        setTimeout(function() {
+            let sceneImageCount = $('.rex-pano-tab .single-scene .scene-left .scene-setting .form-group img')
+                .filter(function() {
+                    return $(this).attr('src') && $(this).attr('src').trim() !== '';
+                })
+                .length;
+
+            var panovideo = $("input[name='panovideo']:checked").val();
+            var videourl = $("input[name='video-attachment-url']").val();
+            var hasContent = (panovideo === 'on' && videourl && videourl.trim() !== '') || sceneImageCount > 0;
+
+            if (sceneImageCount === 0) {
+                $('#wpvr-check-scene').prop('checked', false);
+                $('#wpvr-check-media').prop('checked', false);
+                $('#wpvr-check-scene').closest('.wpvr-checklist-item').css('color', '#73707D');
+                $('#wpvr-check-media').closest('.wpvr-checklist-item').css('color', '#73707D');
+                updateProgress();
+            }
+
+            // Hide Panellum loading box if no content
+            if (!hasContent) {
+                $('.pnlm-load-box').hide();
+            }
+        }, 100);
+
 
     });
 
@@ -697,10 +723,34 @@
                             }, 500);
                         } else {
 
-                            if(!$('#wpvr-check-publish').prop('checked')){
-                                $('#wpvr-check-publish').prop('checked', true);
-                                $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                            // Only check publish checkbox if post is actually published
+                            if (response.data.post_status === 'publish') {
+                                if(!$('#wpvr-check-publish').prop('checked')){
+                                    $('#wpvr-check-publish').prop('checked', true);
+                                    $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#0E003C');
+                                }
+                            } else {
+                                // Uncheck if it's a draft
+                                if($('#wpvr-check-publish').prop('checked')){
+                                    $('#wpvr-check-publish').prop('checked', false);
+                                    $('#wpvr-check-publish').closest('.wpvr-checklist-item').css('color', '#73707D');
+                                }
                             }
+
+                            // Validate scene checkbox state after save
+                            let sceneImageCount = $('.rex-pano-tab .single-scene .scene-left .scene-setting .form-group img')
+                                .filter(function() {
+                                    return $(this).attr('src') && $(this).attr('src').trim() !== '';
+                                })
+                                .length;
+
+                            if (sceneImageCount === 0) {
+                                $('#wpvr-check-scene').prop('checked', false);
+                                $('#wpvr-check-media').prop('checked', false);
+                                $('#wpvr-check-scene').closest('.wpvr-checklist-item').css('color', '#73707D');
+                                $('#wpvr-check-media').closest('.wpvr-checklist-item').css('color', '#73707D');
+                            }
+
                             updateProgress();
 
                             flag_ok = true;
@@ -2125,8 +2175,10 @@
         var autrotateset = $("input[name='autorotation']").is(':checked') ? 'on' : 'off';
         if (autrotateset == 'off') {
             $('.autorotationdata-wrapper').hide();
+            $('.autorotationdata-wrapper input').prop('disabled', true);
         } else {
             $('.autorotationdata-wrapper').show();
+            $('.autorotationdata-wrapper input').prop('disabled', false);
         }
 
 
@@ -2137,8 +2189,10 @@
 
         if (autrotateset == 'on') {
             $('.autorotationdata-wrapper').show();
+            $('.autorotationdata-wrapper input').prop('disabled', false);
         } else {
             $('.autorotationdata-wrapper').hide();
+            $('.autorotationdata-wrapper input').prop('disabled', true);
         }
     });
 

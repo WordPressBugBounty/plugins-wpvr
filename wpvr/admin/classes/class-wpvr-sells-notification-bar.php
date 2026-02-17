@@ -37,10 +37,24 @@ class WPVR_Notification_Bar {
           return;
       }
 
+      if ( $screen->base === 'plugins' || $screen->base === 'dashboard' ) {
+          if ( defined( 'REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL' ) ) {
+              return;
+          }
+          define( 'REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true );
+      }
+
+      // Check if banner was dismissed within last 24 hours
+      $dismissed_option = 'wpvr_' . $this->occasion . '_dismissed';
+      $dismissed_time = get_option($dismissed_option, 0);
+      if ($dismissed_time && (time() - $dismissed_time) < 86400) {
+          return; // Don't show if dismissed within last 24 hours
+      }
+
         $btn_link = 'https://rextheme.com/wpvr/wpvr-pricing/';
 
-        $img_url  = WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/happy-new-year.webp'; 
-        $img_path = WPVR_PLUGIN_DIR_PATH . 'admin/icon/banner-images/happy-new-year.webp';
+        $img_url  = WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/heart.webp'; 
+        $img_path = WPVR_PLUGIN_DIR_PATH . 'admin/icon/banner-images/heart.webp';
         $img_size = getimagesize($img_path);
         $img_width  = $img_size[0];
         $img_height = $img_size[1];
@@ -48,111 +62,150 @@ class WPVR_Notification_Bar {
       ?>
 
         <section class="wpvr-promo-banner wpvr-promo-banner--regular" aria-labelledby="wpvr-promo-banner-title" id="wpvr-promo-banner">
-            <div class="wpvr-promo-banner__container">
-                <div class="wpvr-halloween-promotional-banner-content">
-                    <div class="wpvr-banner-title">
+             <div class="wpvr-regular-promotional-banner" id="wpvr-regular-promotional-banner" role="region" aria-labelledby="banner-flash-title">
 
-                        <div class="wpvr-spooktacular">
-                            <span><?php echo esc_html__('New Year Savings.', 'wpvr'); ?></span>
+                <div class="wpvr-regular-promotional-banner-container">
+
+                    <div class="wpvr-regular-promotional-banner-content" id="banner-flash">
+
+                        <!-- Close Button -->
+                        <button class="wpvr-close-btn"
+                                type="button"
+                                aria-label="<?php esc_attr_e('Close banner', 'rex-product-feed'); ?>"
+                                id="wpvr-promo-banner__cross-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
+                                <path d="M7.77482 0.75L0.75 7.75" stroke="#C6C5FF" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M7.77482 7.75L0.75 0.75" stroke="#C6C5FF" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Banner Title + Timer -->
+                        <div class="wpvr-regular-promotional-banner-title">
+
+                            <div class="wpvr-badge-content">
+
+                                <div class="wpvr-banner-title">
+                                    <div class="heart-icon">
+                                        <figure class="wpvr-banner-img black-friday">
+                                            <img src="<?php echo esc_url($img_url); ?>" alt="valentines day"  width="<?php echo esc_attr($img_width); ?>"
+                                            height="<?php echo esc_attr($img_height); ?>" />
+                                        </figure>
+                                    </div>
+
+                                    <h2 id="banner-flash-title">
+                                        <?php echo esc_html__('Valentine\'s Day Discount', 'rex-product-feed'); ?>
+                                    </h2>
+                                </div>
+
+                                <div class="wpvr-title wpvr-banner-offer">
+                                    <?php echo esc_html__('Get 30% OFF', 'rex-product-feed'); ?>
+                                </div>
+                            </div>
+
+                            <!-- Countdown Timer -->
+                            <div class="wpvr-timer">
+                                <div class="wpvr-timer-box">
+                                    <span class="wpvr-timer-number" id="wpvr_days">12</span>
+                                    <span class="wpvr-timer-label">DAY</span>
+                                </div>
+                                <div class="wpvr-timer-box">
+                                    <span class="wpvr-timer-number" id="wpvr_hours">10</span>
+                                    <span class="wpvr-timer-label">HR</span>
+                                </div>
+                                <div class="wpvr-timer-box">
+                                    <span class="wpvr-timer-number" id="wpvr_minutes">45</span>
+                                    <span class="wpvr-timer-label">MIN</span>
+                                </div>
+                                <div class="wpvr-timer-box">
+                                    <span class="wpvr-timer-number" id="wpvr_seconds">30</span>
+                                    <span class="wpvr-timer-label">SEC</span>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <!-- Black Friday Logo -->
-                        <figure class="wpvr-banner-img black-friday">
-                            <img src="<?php echo esc_url($img_url); ?>" alt="Happy New Year 2025 Sale"  width="<?php echo esc_attr($img_width); ?>"
-                             height="<?php echo esc_attr($img_height); ?>" />
-                            <figcaption class="visually-hidden">Happy New Year 2025 Logo</figcaption>
-                        </figure>
-
-                        <div class="wpvr-discount-text">
-                            <?php echo esc_html__('Get ', 'wpvr'); ?>
-                            <span class="wpvr-halloween-percentage"><?php echo esc_html__('25% OFF ', 'wpvr'); ?></span>
-                            <?php echo esc_html__('on ', 'wpvr'); ?>
-                            <span class="wpvr-text-highlight">
-                                <?php echo esc_html__('WPVR!', 'wpvr'); ?>
+                        <!-- CTA Button -->
+                        <a href="<?php echo esc_url( $btn_link ); ?>"
+                        target="_blank"
+                        class="wpvr-regular-promotional-banner-link"
+                        role="button"
+                        aria-label="<?php esc_attr_e('Get 30% OFF on Product Feed Manager', 'rex-product-feed'); ?>">
+                            <?php esc_html_e('Get 30% OFF', 'rex-product-feed'); ?>
+                            <span class="arrow-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+                                    <path d="M10 0.78V9.22C10 9.65 9.65 10 9.22 10C8.79 10 8.44 9.65 8.44 9.22V2.66L1.33 9.77C1.19 9.92 0.99 10 0.78 10C0.35 10 0 9.65 0 9.22C0 9.01 0.08 8.81 0.23 8.67L7.33 1.56H0.78C0.35 1.56 0 1.21 0 0.78C0.35 1.56 0 1.21 0 0.78C0 0.35 0.35 0 0.78 0H9.22C9.65 0 10 0.35 10 0.78Z"
+                                        fill="#000"/>
+                                </svg>
                             </span>
-                        </div>
-
-                        <!-- Countdown -->
-                        <div id="wpvr_bf_countdown-banner">
-                            <span id="wpvr_bf_countdown-text"></span>
-                        </div>
+                        </a>
 
                     </div>
-
-                    <a href="<?php echo esc_url($btn_link); ?>"
-                    target="_blank"
-                    class="wpvr-halloween-banner-link"
-                    aria-label="<?php echo esc_attr__('Get 25% OFF on WPVR Pro', 'wpvr'); ?>">
-                        <?php echo esc_html__('Get 25% OFF', 'wpvr'); ?>
-                        <span class="wpvr-arrow-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
-                                <path d="M9.71875 0.25C9.99225 0.25 10.2548 0.358366 10.4482 0.551758C10.6416 0.745155 10.75 1.00775 10.75 1.28125V9.71875C10.75 9.99225 10.6416 10.2548 10.4482 10.4482C10.2548 10.6416 9.99225 10.75 9.71875 10.75C9.44525 10.75 9.18265 10.6416 8.98926 10.4482C8.79587 10.2548 8.6875 9.99225 8.6875 9.71875V3.77051L2.01074 10.4482C1.81734 10.6416 1.55476 10.75 1.28125 10.75C1.00775 10.75 0.745155 10.6416 0.551758 10.4482C0.358365 10.2548 0.25 9.99225 0.25 9.71875C0.250003 9.44525 0.358362 9.18265 0.551758 8.98926L7.22949 2.3125H1.28125C1.00775 2.3125 0.745151 2.20414 0.551758 2.01074C0.358366 1.81735 0.25 1.55475 0.25 1.28125C0.25 1.00775 0.358366 0.745154 0.551758 0.551758C0.745151 0.358365 1.00775 0.250004 1.28125 0.25H9.71875Z" fill="#00B4FF" stroke="#00B4FF" stroke-width="0.5"/>
-                            </svg>
-                        </span>
-                    </a>
                 </div>
-
-
-                <a class="wpvr-promo-banner__cross-icon" type="button" aria-label="close banner" id="wpvr-promo-banner__cross-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M11 1L1 11" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M1 1L11 11" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-
             </div>
 
         </section>
         <script>
 
             (function () {
-                const wpvr_bf_text = document.getElementById("wpvr_bf_countdown-text");
+                // Get timer elements
+                const daysEl = document.getElementById('wpvr_days');
+                const hoursEl = document.getElementById('wpvr_hours');
+                const minutesEl = document.getElementById('wpvr_minutes');
+                const secondsEl = document.getElementById('wpvr_seconds');
+                const banner = document.getElementById('wpvr-promo-banner');
 
-                // === Configure start & end times ===
-                const wpvr_bf_start = new Date("2025-12-31T00:00:00"); // Deal start date
-                const wpvr_bf_end = new Date("2026-01-12T23:59:59");   // Deal end date
+                // Get labels (next siblings of timer numbers)
+                const daysLabel = daysEl ? daysEl.nextElementSibling : null;
+                const hoursLabel = hoursEl ? hoursEl.nextElementSibling : null;
+                const minutesLabel = minutesEl ? minutesEl.nextElementSibling : null;
+                const secondsLabel = secondsEl ? secondsEl.nextElementSibling : null;
 
-                // === Update countdown text ===
-                function wpvr_bf_updateCountdown() {
-                const now = new Date();
+                // Configure end time from PHP
+                const wpvr_end = new Date(<?php echo json_encode($this->end_datetime); ?>);
 
-                // Before deal starts
-                if (now < wpvr_bf_start) {
-                    wpvr_bf_text.textContent = "Deal coming soon!";
-                    return;
-                }
+                let wpvr_timer;
 
-                // After deal ends
-                if (now > wpvr_bf_end) {
-                    wpvr_bf_text.textContent = "Deal expired.";
-                    clearInterval(wpvr_bf_timer);
-                    return;
-                }
+                // Update countdown timer
+                function wpvr_updateCountdown() {
+                    const now = new Date();
 
-                // Calculate remaining time
-                const diff = wpvr_bf_end - now;
-                const minutes = Math.floor(diff / (1000 * 60));
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-                    // Display message with <span> for styling numbers
-                    if (days > 1) {
-                        wpvr_bf_text.innerHTML = `<span>${days}</span> days left.`;
-                    } else if (days === 1) {
-                        wpvr_bf_text.innerHTML = `<span>1</span> day left.`;
-                    } else if (hours >= 1) {
-                        wpvr_bf_text.innerHTML = `<span>${hours}</span> hrs left.`;
-                    } else if (minutes >= 1) {
-                        wpvr_bf_text.innerHTML = `<span>${minutes}</span> mins left.`;
-                    } else {
-                        wpvr_bf_text.innerHTML = "Deal expired.";
-                        clearInterval(wpvr_bf_timer);
+                    // Check if deal expired
+                    if (now > wpvr_end) {
+                        if (daysEl) daysEl.textContent = '0';
+                        if (hoursEl) hoursEl.textContent = '0';
+                        if (minutesEl) minutesEl.textContent = '0';
+                        if (secondsEl) secondsEl.textContent = '0';
+                        clearInterval(wpvr_timer);
+                        // Auto-hide banner after countdown expires
+                        setTimeout(function() {
+                            if (banner) banner.style.display = 'none';
+                        }, 2000);
+                        return;
                     }
+
+                    // Calculate remaining time
+                    const diff = wpvr_end - now;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    // Update numbers
+                    if (daysEl) daysEl.textContent = days;
+                    if (hoursEl) hoursEl.textContent = hours;
+                    if (minutesEl) minutesEl.textContent = minutes;
+                    if (secondsEl) secondsEl.textContent = seconds;
+
+                    // Update labels (singular/plural)
+                    if (daysLabel) daysLabel.textContent = (days === 0 || days === 1) ? 'DAY' : 'DAYS';
+                    if (hoursLabel) hoursLabel.textContent = (hours === 0 || hours === 1) ? 'HR' : 'HRS';
+                    if (minutesLabel) minutesLabel.textContent = (minutes === 0 || minutes === 1) ? 'MIN' : 'MINS';
+                    if (secondsLabel) secondsLabel.textContent = (seconds === 0 || seconds === 1) ? 'SEC' : 'SECS';
                 }
 
-                // === Initialize countdown ===
-                wpvr_bf_updateCountdown(); // Run immediately
-                const wpvr_bf_timer = setInterval(wpvr_bf_updateCountdown, 30000); // Update every 30s
+                // Initialize countdown
+                wpvr_updateCountdown(); // Run immediately
+                wpvr_timer = setInterval(wpvr_updateCountdown, 1000); // Update every second
             })();
 
             (function ($) {
@@ -202,7 +255,15 @@ class WPVR_Notification_Bar {
             }
 
             @font-face {
-                font-family: 'Roboto';
+                font-family: 'Grand Hotel';
+                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/GrandHotel-Regular.woff2'); ?>) format('woff2');
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                
                 src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/Roboto-Regular.woff2'); ?>) format('woff2');
                 font-weight: 400;
                 font-style: normal;
@@ -221,265 +282,306 @@ class WPVR_Notification_Bar {
                 box-sizing: border-box;
             }
 
-            .wpvr-spooktacular span {
-                font-weight: 900;
+            @font-face {
+                font-family: 'Grand Hotel';
+                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/GrandHotel-Regular.woff2'); ?>) format('woff2');
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
             }
 
-            @keyframes arrowMove {
-              0% { transform: translate(0, 0); }
-              50% { transform: translate(18px, -18px); }
-              55% { opacity: 0; visibility: hidden; transform: translate(-18px, 18px); }
-              100% { opacity: 1; visibility: visible; transform: translate(0, 0); }
+            @font-face {
+                font-family: 'Inter';
+                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Bold.woff2'); ?>) format('woff2');
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
             }
 
-            .wpvr-promo-banner {
+            @font-face {
+                font-family: 'Inter';
+                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-SemiBold.woff2'); ?>) format('woff2');
+                font-weight: 600;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            .wpvr-regular-promotional-banner {
+                background: #201CFE;
+                padding: 10px 0;
+                position: relative;
+                z-index: 2;
                 margin-top: 40px;
-                padding: 17px 0;
-                text-align: center;
-                background: linear-gradient(90deg, #24EC2C 0%, #2022F8 16.24%, #1A1B9D 51.84%, #2022F8 99.14%);
                 width: calc(100% - 20px);
             }
-            
 
-            .wpvr-promo-banner__container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+            .wpvr-regular-promotional-banner-container {
+                max-width: 740px;
                 margin: 0 auto;
-                padding: 0 20px;
-                width: 100%;
+                padding: 0 15px;
             }
 
-            .wpvr-banner-img  {
-                margin: 0;
-            }
+        .wpvr-regular-promotional-banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
 
-            .wpvr-banner-img img {
-                max-width: 150px;
-                height: auto;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-banner-title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 5px;
+        line-height: 1.1;
+        animation: slideInLeft 0.8s ease-out;
+    }
 
-            .wpvr-discount-text{
-                font-weight: 600;
-            }
+    .wpvr-regular-promotional-banner-content .heart-icon {
+        animation: heartbeat 1.5s infinite;
+    }
 
-            .wpvr-halloween-promotional-banner-content .visually-hidden {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                border: 0;
-            }
+    .wpvr-regular-promotional-banner-content .heart-icon figure{
+        margin: 0;
+    }
 
-            .wpvr-halloween-promotional-banner-content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                max-width: 1090px;
-                margin: 0 auto;
-                width: 100%;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-banner-title h2 {
+        font-family: 'Grand Hotel';
+        color: #FF6DE7;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1.1;
+        margin: 0;
+    }
 
-            .wpvr-halloween-promotional-banner-content .wpvr-banner-title {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 20px;
-                color: #FFF;
-                font-size: 16px;
-                font-weight: 500;
-                line-height: 1;
-                text-transform: capitalize;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+    }
 
-            .wpvr-halloween-promotional-banner-content span.wpvr-halloween-highlight {
-                font-size: 16px;
-                font-weight: 900;
-                color: #24EC2C;
-            }
+    .wpvr-regular-promotional-banner-content .linno-banner.closing {
+        animation: linno-slideUp 0.5s ease-in forwards;
+    }
 
-            .wpvr-halloween-percentage {
-                font-size: 16px;
-                font-weight: 900;
-                color: #24EC2C;
-            }
+/* CLOSE BUTTON */
+.wpvr-regular-promotional-banner-content .wpvr-close-btn {
+    position: absolute;
+    top: 38px;
+    right: 40px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
 
-            .wpvr-text-highlight {
-                font-size: 16px;
-                font-weight: 700;
-                color: #fff;
-            }
+.wpvr-regular-promotional-banner-content .wpvr-close-btn:hover {
+    transform: rotate(90deg);
+}
 
-            .wpvr-halloween-banner-link {
-                position: relative;
-                font-family: 'Roboto';
-                font-size: 15px;
-                font-weight: 800;
-                color: var(--wpvr-primary-color);
-                transition: all .3s ease;
-                text-decoration: none;
-                letter-spacing: -0.084px;
-            }
+/* TITLE, SUBTITLE, BADGE */
+.wpvr-regular-promotional-banner-content .wpvr-title {
+    font-family: "Inter", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.084px;
+    color: #FFF;
+    margin: 0;
+}
 
-            .wpvr-halloween-banner-link:hover {
-                color: var(--wpvr-primary-color);
-            }
+.wpvr-regular-promotional-banner-content span.arrow-icon {
+    margin-left: 10px;
+}
 
-            .wpvr-halloween-banner-link:focus {
-                color: var(--wpvr-primary-color);
-                box-shadow: none;
-                outline: 0px solid transparent;
-            }
+.wpvr-regular-promotional-banner-content .wpvr-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #24EC2C;
+}
 
-            .wpvr-halloween-banner-link::before {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: 1px;
-                width: 100%;
-                height: 2px;
-                background-color: var(--wpvr-primary-color);
-                transform: scaleX(1);
-                transform-origin: bottom left;
-                transition: transform .4s ease;
-            }
+/* BUTTON */
+.wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-link {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 4px;
+    background: #FF6DE7;
+    color: #000;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.084px;
+    text-decoration: none;
+}
 
-            .wpvr-halloween-banner-link:hover::before {
-                transform: scaleX(0);
-                transform-origin: bottom right;
-            }
+.wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
 
-            .wpvr-halloween-banner-link:hover svg {
-                animation: arrowMove .5s .4s linear forwards;
-            }
+/* TIMER */
+.wpvr-regular-promotional-banner-content .wpvr-timer {
+    display: flex;
+    gap: 3px;
+}
 
-            .wpvr-arrow-icon {
-                display: inline-block;
-                margin-left: 8px;
-                vertical-align: middle;
-                width: 12px;
-                height: 17px;
-                overflow: hidden;
-                line-height: 1;
-                position: relative;
-                top: 1px;
-            }
+.wpvr-regular-promotional-banner-content .wpvr-timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1E1BC5;
+    padding: 6px 13px;
+    text-align: center;
+    color: #fff;
+}
 
-            .wpvr-arrow-icon svg path {
-                fill: var(--wpvr-primary-color);
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-timer-box:first-child {
+        border-radius: 4px 0 0 4px;
+    }
 
-            #wpvr_bf_countdown-text {
-                font-weight: 500;
-                text-transform: capitalize;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-timer-box:last-child {
+        border-radius: 0 4px 4px 0;
+    }
 
-            #wpvr_bf_countdown-text  span {
-                color: #24ec2c;
-                font-weight: 900;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-timer-number {
+        font-family: "Inter", sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1.5;
+        margin-bottom: 6px;
+        color: #FFF;
+    }
 
-            .wpvr-promo-banner__svg {
-                fill: none;
-            }
+    .wpvr-regular-promotional-banner-content .wpvr-timer-label {
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: 0.24px;
+        text-transform: uppercase;
+        opacity: 0.8;
+    }
 
-            .wpvr-promo-banner__cross-icon {
-                cursor: pointer;
-                transition: all .3s ease;
-            }
+    /* ANIMATIONS */
+    @keyframes linno-slideDown {
+        from { transform: translateY(-100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
 
-            .wpvr-promo-banner__cross-icon svg:hover path {
-                stroke: var(--wpvr-primary-color);
-            }
+    @keyframes linno-slideUp {
+        from { transform: translateY(0); opacity: 1; }
+        to { transform: translateY(-100%); opacity: 0; }
+    }
 
-            @media only screen and (max-width: 1399px) {
-                .wpvr-promo-banner__cross-icon {
-                    margin-left: 10px;
-                }
-            }
+    @keyframes linno-pulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
 
+    @keyframes linno-float {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
 
-            @media only screen and (max-width: 1199px) {
+    @keyframes heartbeat {
+        0%,100% { transform: scale(1); }
+        25% { transform: scale(1.2); }
+        50% { transform: scale(1); }
+    }
 
-                .wpvr-text-highlight,
-                .wpvr-halloween-promotional-banner-content .wpvr-banner-title {
-                    font-size:15px;
-                }
+    /* REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+        .wpvr-regular-promotional-banner {
+            transition: none;
+        }
+    }
 
-                .wpvr-spooktacular {
-                    max-width: 102px;
-                    line-height: 1.2;
-                }
+    /* RESPONSIVE */
 
-                .wpvr-regular-promotional-banner .regular-promotional-banner-content img {
-                    max-width: 115px;
-                }
+    @media only screen and (max-width: 1199px) { 
+        .wpvr-regular-promotional-banner {
+            margin-top: 55px;
+        }
 
-                .wpvr-discount-text {
-                    max-width: 186px;
-                    line-height: 1.2;
-                }
+        .wpvr-regular-promotional-banner-container {
+            max-width: 650px;
+        }
 
-                .wpvr-halloween-promotional-banner-content span.wpvr-halloween-highlight {
-                    font-size: 16px;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
+            gap: 40px;
+        }
+    }   
 
-                .wpvr-banner-img img {
-                    max-width: 130px;
-                }
+    @media only screen and (max-width: 991px) {
 
-                .wpvr-halloween-percentage {
-                    font-size: 16px;
-                }
+        .wpvr-regular-promotional-banner-container {
+            max-width: 600px;
+        }
 
-                .wpvr-halloween-promotional-banner-content {
-                    max-width: 720px;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-title {
+            font-size: 20px;
+        }
 
-                .wpvr-halloween-banner-link {
-                    font-size: 14px;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-timer-number {
+            font-size: 18px;
+            line-height: 1.3;
+        }
 
-            }
+        .wpvr-regular-promotional-banner-content .wpvr-close-btn {
+            top: 34px;
+            right: 20px;
+        }
 
-            @media only screen and (max-width: 991px) {
-                .wpvr-promo-banner__container {
-                    padding: 0px 10px;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-badge {
+            font-size: 14px;
+        }
 
-                .wpvr-promo-banner {
-                    margin-top: 66px;
-                    padding: 15px 0;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
+            gap: 30px;
+        }
+    }
 
-                .wpvr-banner-img img {
-                    max-width: 115px;
-                }
+    @media only screen and (max-width: 767px) {
 
-                .wpvr-arrow-icon {
-                    margin-left: 5px;
-                }
-            }
+        .wpvr-regular-promotional-banner-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 30px;
+            padding: 30px 0;
+        }
 
+        .wpvr-regular-promotional-banner-content .wpvr-title {
+            font-size: 22px;
+        }
 
-            @media only screen and (max-width: 767px) {
+        .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
+            flex-direction: column;
+        }
 
-                .wpvr-promo-banner__container {
-                    align-items: flex-start;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-timer-number {
+            font-size: 20px;
+        }
 
-                .wpvr-halloween-promotional-banner-content .wpvr-banner-title {
-                    flex-direction: column;
-                    gap: 0;
-                }
+        .wpvr-regular-promotional-banner-content .wpvr-timer {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-                .wpvr-halloween-promotional-banner-content {
-                   flex-direction: column;
-                }
-            }
+        .wpvr-regular-promotional-banner-content .wpvr-close-btn {
+            top: 15px;
+            right: 20px;
+        }
+    }
 
 
         </style>
@@ -502,7 +604,11 @@ class WPVR_Notification_Bar {
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wpvr')) {
             wp_die(__('Permission check failed', 'wpvr'));
         }
-        update_option('wpvr_sell_new_year_notification_bar', 'yes');
+        
+        // Store current timestamp for 24-hour dismissal
+        $dismissed_option = 'wpvr_' . $this->occasion . '_dismissed';
+        update_option($dismissed_option, time());
+        
         echo json_encode(['success' => true,]);
         wp_die();
     }

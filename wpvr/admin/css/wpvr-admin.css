@@ -3417,7 +3417,7 @@ button.delete-scene {
     display: block;
 }
 
-.wpvr_preview_button {
+/* .wpvr_preview_button {
     text-transform: capitalize;
     color: #fff;
     font-size: 16px;
@@ -3430,9 +3430,34 @@ button.delete-scene {
     border-radius: 5px;
     box-shadow: 0px 7px 25px 0px rgba(56, 84, 163, 0.2);
     line-height: 45px;
-    width: 120px;
+    width: auto;
     padding: 0 30px;
+} */
+
+
+.wpvr_preview_button {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 12px 25px;
+    border: 1px solid #c3d3fc;
+    border-radius: 5px;
+    background: rgb(32, 28, 254);
+    cursor: pointer;
+    box-shadow: 0px 7px 25px 0px rgba(56, 84, 163, 0.2);
+    transition: all 0.25s ease-in-out;
+    text-transform: capitalize;
+    color: #fff;
+
+    /* Flexibility */
+    width: auto; 
+    min-width: 80px; 
+    max-width: 100%; 
+    display: inline-block; 
+    text-align: center; 
+    box-sizing: border-box; 
 }
+
 
 .video-setting button#videopreview:hover,
 .preview-btn-area #panolenspreview:hover {

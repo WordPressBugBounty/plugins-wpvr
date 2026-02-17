@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.55
+ * Version:           8.5.56
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -48,7 +48,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.55');
+define('WPVR_VERSION', '8.5.56');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -135,11 +135,11 @@ function run_wpvr()
     //     '2025-11-05 23:59:59'
     // );
 
-    if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_new_year_notification_bar', 'no')) {
+    if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_valentines_notification_bar', 'no')) {
         new WPVR_Notification_Bar(
-            'Happy_New_Year_Deal_2025',
-            '2025-12-31 00:00:00',
-            '2026-01-12 23:59:59'
+            'valentines_deal_2026',
+            '2026-02-03 00:00:00',
+            '2026-02-18 23:59:59'
         );
     }
 
@@ -2222,13 +2222,11 @@ function wpvr_block_render($attributes)
         panoshow' . $id . '.on("load", function() {
             jQuery(".pnlm-panorama-info").hide();
             jQuery(".pnlm-compass").hide();
-            jQuery(".adcontrol").hide();
         });
         
         panoshow' . $id . '.on("scenechange", function() {
             jQuery(".pnlm-panorama-info").hide();
             jQuery(".pnlm-compass").hide();
-            jQuery(".adcontrol").hide();
         });
     }';
 
@@ -3023,7 +3021,8 @@ function wpvr_block_render($attributes)
       jQuery(document).on("click","#pano' . $id . '",function(event) {
         var isActiveModal = event.target.closest(".custom-ifram-wrapper");
         var isForm = event.target.closest(".wpvr-hotspot-tweak-contents");
-        if( isActiveModal == null && isForm == null){
+        var isHotspot = event.target.closest(".pnlm-hotspot-base");
+        if( isActiveModal == null && isForm == null && isHotspot == null){
              jQuery(".custom-ifram-wrapper .custom-ifram").empty();
              jQuery(".custom-ifram-wrapper").hide();
              jQuery(this).removeClass("show-modal");
