@@ -51,10 +51,18 @@ class WPVR_Notification_Bar {
           return; // Don't show if dismissed within last 24 hours
       }
 
-        $btn_link = 'https://rextheme.com/wpvr/wpvr-pricing/';
+        $base_url = 'https://rextheme.com/wpvr/wpvr-pricing/';
 
-        $img_url  = WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/heart.webp'; 
-        $img_path = WPVR_PLUGIN_DIR_PATH . 'admin/icon/banner-images/heart.webp';
+        $utm_params = array(
+            'utm_source'   => 'website',
+            'utm_medium'   => 'plugin-ban-wpvr',
+            'utm_campaign' => 'mlday26',
+        );
+
+        $btn_link = add_query_arg( $utm_params, $base_url );
+
+        $img_url  = WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/in-mother-lan.webp'; 
+        $img_path = WPVR_PLUGIN_DIR_PATH . 'admin/icon/banner-images/in-mother-lan.webp';
         $img_size = getimagesize($img_path);
         $img_width  = $img_size[0];
         $img_height = $img_size[1];
@@ -74,31 +82,36 @@ class WPVR_Notification_Bar {
                                 aria-label="<?php esc_attr_e('Close banner', 'rex-product-feed'); ?>"
                                 id="wpvr-promo-banner__cross-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
-                                <path d="M7.77482 0.75L0.75 7.75" stroke="#C6C5FF" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M7.77482 7.75L0.75 0.75" stroke="#C6C5FF" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M7.77482 0.75L0.75 7.75" stroke="#7E7E7E" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M7.77482 7.75L0.75 0.75" stroke="#7E7E7E" stroke-width="1.5" stroke-linecap="round"/>
                             </svg>
                         </button>
 
                         <!-- Banner Title + Timer -->
                         <div class="wpvr-regular-promotional-banner-title">
 
-                            <div class="wpvr-badge-content">
 
-                                <div class="wpvr-banner-title">
-                                    <div class="heart-icon">
-                                        <figure class="wpvr-banner-img black-friday">
-                                            <img src="<?php echo esc_url($img_url); ?>" alt="valentines day"  width="<?php echo esc_attr($img_width); ?>"
-                                            height="<?php echo esc_attr($img_height); ?>" />
-                                        </figure>
-                                    </div>
-
-                                    <h2 id="banner-flash-title">
-                                        <?php echo esc_html__('Valentine\'s Day Discount', 'rex-product-feed'); ?>
-                                    </h2>
+                            <div class="wpvr-badge-content-img-area">
+                                <div class="heart-icon">
+                                    <figure class="wpvr-banner-img black-friday">
+                                        <img src="<?php echo esc_url($img_url); ?>" alt="valentines day"  width="<?php echo esc_attr($img_width); ?>"
+                                        height="<?php echo esc_attr($img_height); ?>" />
+                                    </figure>
                                 </div>
 
-                                <div class="wpvr-title wpvr-banner-offer">
-                                    <?php echo esc_html__('Get 30% OFF', 'rex-product-feed'); ?>
+                                <div class="wpvr-badge-content">
+
+                                    <div class="wpvr-banner-title">
+                                        
+
+                                        <h2 id="banner-flash-title">
+                                            <?php echo esc_html__('Int. Mother Language Day', 'wpvr'); ?>
+                                        </h2>
+                                    </div>
+
+                                    <div class="wpvr-title wpvr-banner-offer">
+                                        <?php echo esc_html__('Get 30% OFF', 'wpvr'); ?>
+                                    </div>
                                 </div>
                             </div>
 
@@ -129,12 +142,12 @@ class WPVR_Notification_Bar {
                         target="_blank"
                         class="wpvr-regular-promotional-banner-link"
                         role="button"
-                        aria-label="<?php esc_attr_e('Get 30% OFF on Product Feed Manager', 'rex-product-feed'); ?>">
-                            <?php esc_html_e('Get 30% OFF', 'rex-product-feed'); ?>
+                        aria-label="<?php esc_attr_e('Get 30% OFF on Int. Mother Language Day', 'wpvr'); ?>">
+                            <?php esc_html_e('Get 30% OFF', 'wpvr'); ?>
                             <span class="arrow-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
                                     <path d="M10 0.78V9.22C10 9.65 9.65 10 9.22 10C8.79 10 8.44 9.65 8.44 9.22V2.66L1.33 9.77C1.19 9.92 0.99 10 0.78 10C0.35 10 0 9.65 0 9.22C0 9.01 0.08 8.81 0.23 8.67L7.33 1.56H0.78C0.35 1.56 0 1.21 0 0.78C0.35 1.56 0 1.21 0 0.78C0 0.35 0.35 0 0.78 0H9.22C9.65 0 10 0.35 10 0.78Z"
-                                        fill="#000"/>
+                                        fill="#fff"/>
                                 </svg>
                             </span>
                         </a>
@@ -190,11 +203,11 @@ class WPVR_Notification_Bar {
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-                    // Update numbers
-                    if (daysEl) daysEl.textContent = days;
-                    if (hoursEl) hoursEl.textContent = hours;
-                    if (minutesEl) minutesEl.textContent = minutes;
-                    if (secondsEl) secondsEl.textContent = seconds;
+                    // Update numbers (pad single digits with leading zero)
+                    if (daysEl) daysEl.textContent = days < 10 ? '0' + days : days;
+                    if (hoursEl) hoursEl.textContent = hours < 10 ? '0' + hours : hours;
+                    if (minutesEl) minutesEl.textContent = minutes < 10 ? '0' + minutes : minutes;
+                    if (secondsEl) secondsEl.textContent = seconds < 10 ? '0' + seconds : seconds;
 
                     // Update labels (singular/plural)
                     if (daysLabel) daysLabel.textContent = (days === 0 || days === 1) ? 'DAY' : 'DAYS';
@@ -255,15 +268,7 @@ class WPVR_Notification_Bar {
             }
 
             @font-face {
-                font-family: 'Grand Hotel';
-                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/GrandHotel-Regular.woff2'); ?>) format('woff2');
-                font-weight: 400;
-                font-style: normal;
-                font-display: swap;
-            }
-
-            @font-face {
-                
+                font-family: 'Roboto';
                 src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/Roboto-Regular.woff2'); ?>) format('woff2');
                 font-weight: 400;
                 font-style: normal;
@@ -283,14 +288,6 @@ class WPVR_Notification_Bar {
             }
 
             @font-face {
-                font-family: 'Grand Hotel';
-                src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/GrandHotel-Regular.woff2'); ?>) format('woff2');
-                font-weight: normal;
-                font-style: normal;
-                font-display: swap;
-            }
-
-            @font-face {
                 font-family: 'Inter';
                 src: url(<?php echo esc_url(WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Bold.woff2'); ?>) format('woff2');
                 font-weight: 700;
@@ -307,7 +304,7 @@ class WPVR_Notification_Bar {
             }
 
             .wpvr-regular-promotional-banner {
-                background: #201CFE;
+                background: #000000;
                 padding: 10px 0;
                 position: relative;
                 z-index: 2;
@@ -316,29 +313,36 @@ class WPVR_Notification_Bar {
             }
 
             .wpvr-regular-promotional-banner-container {
-                max-width: 740px;
+                max-width: 830px;
                 margin: 0 auto;
                 padding: 0 15px;
             }
 
-        .wpvr-regular-promotional-banner-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-        }
+    .wpvr-regular-promotional-banner-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+    }
+
+
+    .wpvr-regular-promotional-banner-content .wpvr-badge-content-img-area {
+        display: flex;
+        align-items: center;
+        gap: 33px;
+    }
 
     .wpvr-regular-promotional-banner-content .wpvr-banner-title {
         display: flex;
         align-items: center;
         gap: 5px;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
         line-height: 1.1;
         animation: slideInLeft 0.8s ease-out;
     }
 
     .wpvr-regular-promotional-banner-content .heart-icon {
-        animation: heartbeat 1.5s infinite;
+        margin-bottom: -17px;
     }
 
     .wpvr-regular-promotional-banner-content .heart-icon figure{
@@ -346,18 +350,19 @@ class WPVR_Notification_Bar {
     }
 
     .wpvr-regular-promotional-banner-content .wpvr-banner-title h2 {
-        font-family: 'Grand Hotel';
-        color: #FF6DE7;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 1.1;
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.7;
+        letter-spacing: -0.32px;
+        color: #FFF;
         margin: 0;
     }
 
     .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
         display: flex;
         align-items: center;
-        gap: 80px;
+        gap: 65px;
     }
 
     .wpvr-regular-promotional-banner-content .linno-banner.closing {
@@ -367,7 +372,7 @@ class WPVR_Notification_Bar {
 /* CLOSE BUTTON */
 .wpvr-regular-promotional-banner-content .wpvr-close-btn {
     position: absolute;
-    top: 38px;
+    top: 33px;
     right: 40px;
     border: none;
     display: flex;
@@ -413,8 +418,8 @@ class WPVR_Notification_Bar {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border-radius: 4px;
-    background: #FF6DE7;
-    color: #000;
+    background: #211cfd;
+    color: #fff;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     font-weight: 600;
@@ -439,8 +444,8 @@ class WPVR_Notification_Bar {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #1E1BC5;
-    padding: 6px 13px;
+    background-color: #292929;
+    padding: 6px 11px;
     text-align: center;
     color: #fff;
 }
@@ -457,7 +462,7 @@ class WPVR_Notification_Bar {
         font-family: "Inter", sans-serif;
         font-size: 20px;
         font-weight: 800;
-        line-height: 1.5;
+        line-height: 1.1;
         margin-bottom: 6px;
         color: #FFF;
     }
@@ -514,18 +519,27 @@ class WPVR_Notification_Bar {
         }
 
         .wpvr-regular-promotional-banner-container {
-            max-width: 650px;
+            max-width: 740px;
         }
 
         .wpvr-regular-promotional-banner-content .wpvr-regular-promotional-banner-title {
             gap: 40px;
+        }
+
+        .wpvr-regular-promotional-banner-content .wpvr-close-btn {
+            top: 32px;
+            right: 14px;
         }
     }   
 
     @media only screen and (max-width: 991px) {
 
         .wpvr-regular-promotional-banner-container {
-            max-width: 600px;
+            max-width: 700px;
+        }
+
+        .wpvr-regular-promotional-banner-content .wpvr-banner-title h2 {
+            font-size: 14px;
         }
 
         .wpvr-regular-promotional-banner-content .wpvr-title {
@@ -538,8 +552,8 @@ class WPVR_Notification_Bar {
         }
 
         .wpvr-regular-promotional-banner-content .wpvr-close-btn {
-            top: 34px;
-            right: 20px;
+            top: 32px;
+            right: 3px;
         }
 
         .wpvr-regular-promotional-banner-content .wpvr-badge {
@@ -558,6 +572,10 @@ class WPVR_Notification_Bar {
             text-align: center;
             gap: 30px;
             padding: 30px 0;
+        }
+
+        .wpvr-regular-promotional-banner-content .heart-icon {
+            margin-bottom: 0px;
         }
 
         .wpvr-regular-promotional-banner-content .wpvr-title {

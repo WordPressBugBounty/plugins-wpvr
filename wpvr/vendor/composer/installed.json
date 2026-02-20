@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "coderexltd/telemetry",
-            "version": "dev-enhancement/add-lifecycle-event-function",
-            "version_normalized": "dev-enhancement/add-lifecycle-event-function",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CODEREXLTD/coderex-telemetry.git",
-                "reference": "9f2c2689691a9a6ec2fa2ad83fe4f4f737d39c39"
+                "reference": "d1a996fa145784835aa54ba0a1af0f4a24865acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CODEREXLTD/coderex-telemetry/zipball/9f2c2689691a9a6ec2fa2ad83fe4f4f737d39c39",
-                "reference": "9f2c2689691a9a6ec2fa2ad83fe4f4f737d39c39",
+                "url": "https://api.github.com/repos/CODEREXLTD/coderex-telemetry/zipball/d1a996fa145784835aa54ba0a1af0f4a24865acd",
+                "reference": "d1a996fa145784835aa54ba0a1af0f4a24865acd",
                 "shasum": ""
             },
             "require": {
@@ -22,7 +22,8 @@
                 "mockery/mockery": "^1.5",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2026-02-16T07:26:38+00:00",
+            "time": "2026-02-06T04:48:07+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -49,7 +50,7 @@
             ],
             "description": "Privacy-first telemetry SDK for Code Rex WordPress plugins",
             "support": {
-                "source": "https://github.com/CODEREXLTD/coderex-telemetry/tree/enhancement/add-lifecycle-event-function",
+                "source": "https://github.com/CODEREXLTD/coderex-telemetry/tree/master",
                 "issues": "https://github.com/CODEREXLTD/coderex-telemetry/issues"
             },
             "install-path": "../coderexltd/telemetry"
