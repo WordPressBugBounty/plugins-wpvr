@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CodeRex\\Telemetry\\' => array($vendorDir . '/coderexltd/telemetry/src'),
+    'Linno\\Telemetry\\' => array($vendorDir . '/linno/telemetry/src'),
 );

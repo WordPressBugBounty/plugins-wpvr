@@ -104,6 +104,8 @@ class Rex_WPVR_Telemetry {
             );
         }
 
+        do_action( 'wpvr_setup_wizard_completed_event', $industry );
+
         wp_send_json_success( array( 'message' => 'Setup wizard completed tracked' ) );
     }
 
@@ -548,6 +550,8 @@ class Rex_WPVR_Telemetry {
                         )
                     );
                 }
+
+                do_action( 'wpvr_first_tour_published_event', $post->ID, $post->post_title );
                 
                 // Also track first_strike (first successful value moment)
                 if ( function_exists( 'coderex_telemetry_update_last_action' ) ) {
@@ -686,6 +690,8 @@ class Rex_WPVR_Telemetry {
      * @since 8.5.48
      */
     public function track_embadded_tour( $tour_id ) {
+        $this->track_weekly_unique_views_kui( $tour_id );
+
         // Check if tracking is already done for this tour
         if ( get_post_meta( $tour_id, '_wpvr_tour_embedded_tracked', true ) ) {
             return;
@@ -713,6 +719,59 @@ class Rex_WPVR_Telemetry {
 
         // Mark as tracked
         update_post_meta( $tour_id, '_wpvr_tour_embedded_tracked', true );
+    }
+
+    /**
+     * Track rolling 7-day unique views across all active tours for KUI.
+     *
+     * @param int $tour_id Current viewed tour ID.
+     * @return void
+     */
+    private function track_weekly_unique_views_kui( $tour_id ) {
+        $tour_id = absint( $tour_id );
+        if ( $tour_id <= 0 ) {
+            return;
+        }
+
+        $tour = get_post( $tour_id );
+        if ( ! $tour || 'wpvr_item' !== $tour->post_type || 'publish' !== $tour->post_status ) {
+            return;
+        }
+
+        $option_key = 'wpvr_kui_unique_views_7d';
+        $last_count_key = 'wpvr_kui_unique_views_7d_last_count';
+        $window_seconds = 7 * DAY_IN_SECONDS;
+        $now = time();
+
+        $tracked_views = get_option( $option_key, array() );
+        if ( ! is_array( $tracked_views ) ) {
+            $tracked_views = array();
+        }
+
+        foreach ( $tracked_views as $tracked_tour_id => $timestamp ) {
+            $tracked_tour_id = absint( $tracked_tour_id );
+            $timestamp = absint( $timestamp );
+
+            if (
+                $tracked_tour_id <= 0 ||
+                $timestamp <= 0 ||
+                ( $now - $timestamp ) > $window_seconds ||
+                'publish' !== get_post_status( $tracked_tour_id )
+            ) {
+                unset( $tracked_views[ $tracked_tour_id ] );
+            }
+        }
+
+        $tracked_views[ $tour_id ] = $now;
+        update_option( $option_key, $tracked_views );
+
+        $unique_views = count( $tracked_views );
+        $last_sent_count = (int) get_option( $last_count_key, -1 );
+
+        if ( $unique_views !== $last_sent_count ) {
+            update_option( $last_count_key, $unique_views );
+            do_action( 'wpvr_kui_unique_views_updated', $unique_views, $tour_id );
+        }
     }
 
     /**
@@ -745,4 +804,4 @@ class Rex_WPVR_Telemetry {
 
 }
 
-new Rex_WPVR_Telemetry();
+//new Rex_WPVR_Telemetry();

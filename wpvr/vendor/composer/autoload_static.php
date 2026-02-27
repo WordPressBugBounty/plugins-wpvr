@@ -7,30 +7,34 @@ namespace Composer\Autoload;
 class ComposerStaticInit6dc07add4a5ca438a2736859937d7172
 {
     public static $files = array (
-        'ff3063ba1525be89739a1851bfba6fcb' => __DIR__ . '/..' . '/coderexltd/telemetry/src/helpers.php',
+        'aed659f3655c497c30e044c41fa917c6' => __DIR__ . '/..' . '/linno/telemetry/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'C' =>
+        'L' =>
         array (
-            'CodeRex\\Telemetry\\' => 18,
+            'Linno\\Telemetry\\' => 16,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'CodeRex\\Telemetry\\' =>
+        'Linno\\Telemetry\\' =>
         array (
-            0 => __DIR__ . '/..' . '/coderexltd/telemetry/src',
+            0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),
     );
 
     public static $classMap = array (
-        'CodeRex\\Telemetry\\Client' => __DIR__ . '/..' . '/coderexltd/telemetry/src/Client.php',
-        'CodeRex\\Telemetry\\Drivers\\DriverInterface' => __DIR__ . '/..' . '/coderexltd/telemetry/src/Drivers/DriverInterface.php',
-        'CodeRex\\Telemetry\\Drivers\\OpenPanelDriver' => __DIR__ . '/..' . '/coderexltd/telemetry/src/Drivers/OpenPanelDriver.php',
-        'CodeRex\\Telemetry\\EventDispatcher' => __DIR__ . '/..' . '/coderexltd/telemetry/src/EventDispatcher.php',
-        'CodeRex\\Telemetry\\Helpers\\Utils' => __DIR__ . '/..' . '/coderexltd/telemetry/src/Helpers/Utils.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Linno\\Telemetry\\Client' => __DIR__ . '/..' . '/linno/telemetry/src/Client.php',
+        'Linno\\Telemetry\\Consent' => __DIR__ . '/..' . '/linno/telemetry/src/Consent.php',
+        'Linno\\Telemetry\\Deactivation' => __DIR__ . '/..' . '/linno/telemetry/src/Deactivation.php',
+        'Linno\\Telemetry\\Drivers\\DriverInterface' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/DriverInterface.php',
+        'Linno\\Telemetry\\Drivers\\OpenPanelDriver' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/OpenPanelDriver.php',
+        'Linno\\Telemetry\\EventDispatcher' => __DIR__ . '/..' . '/linno/telemetry/src/EventDispatcher.php',
+        'Linno\\Telemetry\\Helpers\\Utils' => __DIR__ . '/..' . '/linno/telemetry/src/Helpers/Utils.php',
+        'Linno\\Telemetry\\Queue' => __DIR__ . '/..' . '/linno/telemetry/src/Queue.php',
+        'Linno\\Telemetry\\TriggerManager' => __DIR__ . '/..' . '/linno/telemetry/src/TriggerManager.php',
         'Rex_WPVR_Telemetry' => __DIR__ . '/../..' . '/includes/class-wpvr-telemetry.php',
         'Singleton' => __DIR__ . '/../..' . '/admin/views/class-wpvr-singleton.php',
         'Tour_Guide_Translation' => __DIR__ . '/../..' . '/admin/classes/class-tour-guide-translation.php',
@@ -46,6 +50,7 @@ class ComposerStaticInit6dc07add4a5ca438a2736859937d7172
         'WPVR_General' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-general.php',
         'WPVR_Helper' => __DIR__ . '/../..' . '/public/classes/class-wpvr-common.php',
         'WPVR_Hotspot' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-hotspot.php',
+        'WPVR_Linno_Telemetry' => __DIR__ . '/../..' . '/includes/class-wpvr-linno-telemetry.php',
         'WPVR_Meta_Box' => __DIR__ . '/../..' . '/admin/views/class-wpvr-meta-box.php',
         'WPVR_Meta_Field' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-meta-field.php',
         'WPVR_Notification_Bar' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-sells-notification-bar.php',

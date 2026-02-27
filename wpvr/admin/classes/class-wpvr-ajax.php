@@ -717,9 +717,54 @@ class Wpvr_Ajax
     }
 
     $opt_in = isset($_POST['opt_in']) ? sanitize_text_field($_POST['opt_in']) : '0';
+    $consent_state = '1' === $opt_in ? 'yes' : 'no';
+
     update_option('wpvr_opt_in_toggle', $opt_in);
-    update_option('wpvr_allow_tracking', '1' === $opt_in  ? 'yes' : 'no');
+    update_option('wpvr_allow_tracking', $consent_state);
+
+    if ( 'yes' === $consent_state ) {
+      $this->wpvr_create_contact_for_current_user();
+    }
+
+    if ( function_exists( 'linno_telemetry' ) && defined( 'WPVR_FILE' ) ) {
+      $telemetry_client = linno_telemetry( WPVR_FILE );
+
+      if ( $telemetry_client && method_exists( $telemetry_client, 'set_optin_state' ) ) {
+        $telemetry_client->set_optin_state( $consent_state );
+      } elseif ( function_exists( 'linno_telemetry_sync_consent_state' ) ) {
+        linno_telemetry_sync_consent_state( WPVR_FILE );
+      }
+    }
+
     wp_send_json_success( array( 'message' => __('Opt-in value saved.', 'wpvr') ), 200 );
+  }
+
+
+  /**
+   * Create webhook contact from current user after consent.
+   *
+   * @return void
+   */
+  private function wpvr_create_contact_for_current_user() {
+    $current_user = wp_get_current_user();
+    if ( ! $current_user || empty( $current_user->user_email ) ) {
+      return;
+    }
+
+    $email = sanitize_email( $current_user->user_email );
+    if ( ! is_email( $email ) ) {
+      return;
+    }
+
+    $name = sanitize_text_field( $current_user->display_name );
+    if ( empty( $name ) ) {
+      $name = sanitize_text_field( $current_user->user_login );
+    }
+
+    $industry = sanitize_text_field( get_option( 'wpvr_industry_name', '' ) );
+
+    $create_contact_instance = new WPVR_Create_Contact( $email, $name, $industry );
+    $create_contact_instance->create_contact_via_webhook();
   }
 
 
@@ -1116,6 +1161,7 @@ class Wpvr_Ajax
 
     // Trigger tour saved action for telemetry
     do_action('rex_wpvr_tour_saved', $post_id);
+    do_action( 'wpvr_setup_wizard_completed_event', $industry );
 
     wp_send_json_success( array( 
       'post_id' => $post_id,

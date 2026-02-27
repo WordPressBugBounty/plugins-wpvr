@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.57
+Stable tag: 8.5.58
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,7 @@ With this WPVR plugin, you can use an effective 360 panorama viewer to showcase 
 <h3>🌟 Why Use WPVR?</h3>
 WPVR comes with all the necessary features to create a free virtual tour on your own — all you need is a 360 panoramic image to get started.
 
+<a href="https://rextheme.com/wpvr/wpvr-pricing/">Upgrade to Pro with 20% OFF!</a>
 
 [Documentation](https://rextheme.com/docs/wp-vr/) | [Video Tutorials](https://www.youtube.com/watch?v=aNwB066MYko&list=PLelDqLncNWcUndi1NkXJh2BH62OYmIayt&ab_channel=RexTheme) | [Guides](https://rextheme.com/category/virtual-reality/) | [Get WPVR Pro 💎](https://rextheme.com/wpvr/wpvr-pricing/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing)
 
@@ -289,11 +290,11 @@ If you part of any of the following industries, WPVR can be your go-to virtual t
 - Mail Mint Integration for Lead Generation.
 
 ## Privacy & Data Collection
-WP VR includes an <b>optional, opt-in usage tracking module</b> powered by <b>Appsero SDK</b> to help us troubleshoot issues faster and improve plugin performance, feature stability, and overall user experience.
+WP VR includes an <b>optional, opt-in usage tracking module</b> powered by <b>Linno Telemetry SDK</b> to help us troubleshoot issues faster and improve plugin performance, feature stability, and overall user experience.
 
 ## What data we collect (only if you opt in)
 WP VR <b>does not collect any data by default.</b>
-If you explicitly allow data collection via the Appsero admin notice, the plugin may collect the following telemetry data:
+If you explicitly allow data collection via the Linno telemetry consent prompt, the plugin may collect the following telemetry data:
 - WordPress version
 - PHP version
 - WP VR plugin version
@@ -309,19 +310,19 @@ The collected data is used solely to:
 - Understand how WP VR features are used
 - Improve plugin stability, VR tour rendering, and feature performance
 - Enhance the overall user experience
-Data collection and processing are handled via <b>Appsero SDK.</b>
+Data collection and processing are handled via <b>Linno Telemetry SDK.</b>
 
 ## Consent, Control, and Third-Party Services
 WP VR <b>does not collect any data by default.</b></br></br>
-Both <b>Appsero SDK</b> and <b>OpenPanel</b> analytics are strictly opt-in:
-- <b>Appsero SDK</b> does not gather any data unless you explicitly allow it via the admin notice.
-- <b>OpenPanel</b> tracking is initialized <b>only after</b> the administrator has opted in to Appsero data collection.
+Both <b>Linno Telemetry SDK</b> and <b>OpenPanel</b> analytics are strictly opt-in:
+- <b>Linno Telemetry SDK</b> does not gather analytics events unless you explicitly allow tracking.
+- <b>OpenPanel</b> tracking is initialized <b>only after</b> the administrator has opted in to telemetry data collection.
 - You can opt out at any time, which immediately stops all further data collection.
-- Integrating Appsero SDK <b>does not immediately start gathering data</b> under any circumstances.
+- Integrating Linno Telemetry SDK <b>does not immediately start gathering data</b> under any circumstances.
 #### Third-party services used for optional analytics:
-- <b>Appsero SDK</b> – https://appsero.com/privacy-policy/
-- <b>OpenPanel</b> (only after Appsero opt-in) – https://openpanel.dev/privacy
-You can review how Appsero and OpenPanel collect and use data via their respective privacy policies.
+- <b>Linno Telemetry SDK</b> – https://github.com/CODEREXLTD/linno-telemetry
+- <b>OpenPanel</b> (only after telemetry opt-in) – https://openpanel.dev/privacy
+You can review how Linno Telemetry and OpenPanel collect and use data via their respective privacy policies.
 Data removal
 If you have previously opted in and would like your data removed, you may request deletion by contacting us at support@rextheme.com.
 
@@ -441,7 +442,10 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = WPVR (Free) =
 
-= 8.5.57 (2026-02-19) =
+= 8.5.58 (2026-02-27) =
+* Improvement: Update telemetry events
+
+= 8.5.57 (2026-02-20) =
 * Improvement: Update notification banner for international mother language day
 
 = 8.5.56 (2026-02-17) =

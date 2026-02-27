@@ -641,7 +641,7 @@ class WPVR_Scene {
         }
 
         if ($control) {
-            if (isset($postdata['customcontrol'])) {
+            if (isset($postdata['customcontrol']) && is_array($postdata['customcontrol'])) {
                 $custom_control = $postdata['customcontrol'];
                 $custom_control['gyroSwitch'] = isset($postdata['gyro']) && $postdata['gyro'] ? 'on' : 'off';
                 if ($custom_control['panupSwitch'] == "on" || $custom_control['panDownSwitch'] == "on" || $custom_control['panLeftSwitch'] == "on" || $custom_control['panRightSwitch'] == "on" || $custom_control['panZoomInSwitch'] == "on" || $custom_control['panZoomOutSwitch'] == "on" || $custom_control['panFullscreenSwitch'] == "on" || $custom_control['gyroscopeSwitch'] == "on" || $custom_control['backToHomeSwitch'] == "on") {

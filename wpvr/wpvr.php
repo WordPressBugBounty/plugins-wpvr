@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.57
+ * Version:           8.5.58
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -32,8 +32,6 @@ if (!defined('WPINC')) {
 }
 
 require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
-
-use CodeRex\Telemetry\Client;
 require_once __DIR__ . '/vendor/autoload.php';
 
 
@@ -48,7 +46,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.57');
+define('WPVR_VERSION', '8.5.58');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -103,7 +101,7 @@ require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-sells-notific
 require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-first-tour-banner.php';
 
 // Include telemetry class
-require_once plugin_dir_path(__FILE__) . 'includes/class-wpvr-telemetry.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-wpvr-linno-telemetry.php';
 if ( defined( 'WPB_VC_VERSION' ) ) {
     require_once plugin_dir_path( __FILE__ ) . 'builders/wpbakery/wpvr-loader.php';
     if ( class_exists( 'Vc_Manager' ) ) {
@@ -172,39 +170,7 @@ function wpvr_in_array_r($needle, $haystack, $strict = false)
 }
 
 
-/**
- * Initialize the plugin tracker
- *
- * @return void
- * @since 7.3.6
- */
-function appsero_init_tracker_wpvr()
-{
-    if (!class_exists('Appsero\Client')) {
-        require_once __DIR__ . '/appsero/src/Client.php';
-    }
-    $client = new Appsero\Client('cab9761e-b067-4824-9c71-042df5d58598', 'WP VR', __FILE__);
-
-    // Active insights
-    $client->insights()->init();
-}
-
-appsero_init_tracker_wpvr();
-
-//openpanel integration
-function init_wpvr_coderex_telemetry() {
-    global $wpvr_telemetry;
-    $wpvr_telemetry = new Client(
-        WPVR_TELEMETRY_API_KEY,
-        WPVR_TELEMETRY_API_SECRET,
-        'WP VR',
-        __FILE__
-    );
-}
-
-init_wpvr_coderex_telemetry();
-
-
+// Linno telemetry integration
 function wpvr_block()
 {
     wp_register_script(

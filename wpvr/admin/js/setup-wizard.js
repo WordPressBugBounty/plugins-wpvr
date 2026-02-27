@@ -520,44 +520,10 @@ jQuery(document).ready(function($) {
                 console.log('📊 Telemetry: setup_started', data);
             },
             onSetupCompleted: (data) => {
-                // Call setup completed AJAX
-                $.ajax({
-                    url: ajaxurl,
-                    type: 'POST',
-                    data: {
-                        action: 'wpvr_setup_wizard_completed',
-                        industry: selectedIndustry,
-                        security: wpvrNonce
-                    },
-                    success: function(response) {
-                        if (response.success && !response.data.already_tracked) {
-                            console.log('Setup wizard completed tracked');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Failed to track setup completed:', error);
-                    }
-                });
+                console.log('Setup completed event emitted by wizard flow');
             },
             onFirstStrikeCompleted: (data) => {
-                // Call first strike completed AJAX
-                $.ajax({
-                    url: ajaxurl,
-                    type: 'POST',
-                    data: {
-                        action: 'wpvr_first_strike_completed',
-                        industry: selectedIndustry,
-                        security: wpvrNonce
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            console.log('First strike completed tracked');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Failed to track first strike completed:', error);
-                    }
-                });
+                console.log('First strike is tracked on first tour publish');
             }
         },
         steps: [
@@ -577,10 +543,17 @@ jQuery(document).ready(function($) {
                         });
                         
                         $('#start-tour').off('click').on('click', function() {
+                            const $startTourButton = $(this);
                             const consentChecked = $('#consent-checkbox').is(':checked');
+
+                            if ($startTourButton.prop('disabled')) {
+                                return;
+                            }
                             
                             // If consent is given, save opt-in
                             if (consentChecked) {
+                                $startTourButton.prop('disabled', true).addClass('is-loading');
+
                                 $.ajax({
                                     url: ajaxurl,
                                     type: 'POST',
@@ -595,6 +568,7 @@ jQuery(document).ready(function($) {
                                     },
                                     error: function(xhr, status, error) {
                                         console.log('Failed to save opt-in:', error);
+                                        $startTourButton.prop('disabled', false).removeClass('is-loading');
                                         // Continue anyway
                                         context.goNext();
                                     }
