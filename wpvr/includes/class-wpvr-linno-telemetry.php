@@ -176,8 +176,11 @@ class WPVR_Linno_Telemetry {
         $total_user_tours = is_array( $user_tours ) ? count( $user_tours ) : 0;
 
         if ( 1 === $total_user_tours ) {
-            update_option( 'wpvr_first_strike_completed', true );
             do_action( 'wpvr_first_tour_published_event', $post->ID, $post->post_title );
+            global $wpvr_telemetry;
+            if ( is_object( $wpvr_telemetry ) && method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'first_strike' ) ) {
+                update_option( 'wpvr_first_strike_completed', true );
+            }
         }
     }
 
