@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.59
+Stable tag: 8.5.60
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,9 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.60 (2026-03-06) =
+* Improvement: Update notification banner for Ramadan kareem
 
 = 8.5.59 (2026-03-05) =
 * Improvement: Update telemetry events
