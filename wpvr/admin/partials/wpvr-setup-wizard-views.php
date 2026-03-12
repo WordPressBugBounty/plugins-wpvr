@@ -89,7 +89,7 @@
 
         <main class="main-content main-content-steps">
         <section class="step" id="step-vertical">
-            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 2, 5)); ?></div>
+            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 1, 4)); ?></div>
             <h2 class="section-title"><?php echo esc_html__('What are you creating a virtual tour for?', 'wpvr'); ?></h2>
             <p class="section-sub"><?php echo esc_html__('We\'ll set things up with the right template for you.', 'wpvr'); ?></p>
 
@@ -141,7 +141,7 @@
         </section>
 
         <section class="step" id="step-template">
-            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 3, 5)); ?></div>
+            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 2, 4)); ?></div>
             <h2 class="section-title dynamic-title"><?php echo esc_html__('Show your property without another site visit', 'wpvr'); ?></h2>
             <p class="section-sub dynamic-sub"><?php echo esc_html__('Most agents publish their first property tour in minutes.', 'wpvr'); ?></p>
 
@@ -168,7 +168,6 @@
                             <p class="drop-zone-hint"><?php echo esc_html__('Supports: JPG, PNG, WEBP', 'wpvr'); ?></p>
                         </div>
                     </div>
-                    <a href="#" class="use-template-link" id="use-template-link"><?php echo esc_html__('USE TEMPLATE INSTEAD', 'wpvr'); ?></a>
                     <div class="upload-preview" id="upload-preview" style="display: none;">
                         <div class="upload-preview-content">
                             <img id="uploaded-image-preview" alt="<?php echo esc_attr__('Uploaded 360 image', 'wpvr'); ?>">
@@ -196,7 +195,7 @@
         </section>
 
         <section class="step" id="step-preview">
-            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 4, 5)); ?></div>
+            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 3, 4)); ?></div>
             <h2 class="section-title dynamic-prev-title"><?php echo esc_html__('This is how buyers will experience your listing', 'wpvr'); ?></h2>
             <p class="section-sub"><?php echo esc_html__('Interactive, immersive, and accessible on any device.', 'wpvr'); ?></p>
 
@@ -245,7 +244,7 @@
         </section>
 
         <section class="step" id="step-success">
-            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 5, 5)); ?></div>
+            <div class="step-indicator centered"><?php echo esc_html(sprintf(__('STEP %d OF %d', 'wpvr'), 4, 4)); ?></div>
             <h2 class="section-title dynamic-success-title">🎉 <?php echo esc_html__('Your tour is published!', 'wpvr'); ?></h2>
             <p class="section-sub dynamic-success-sub"><?php echo esc_html__('Your virtual tour has been created and is ready to be displayed on your website.', 'wpvr'); ?></p>
 

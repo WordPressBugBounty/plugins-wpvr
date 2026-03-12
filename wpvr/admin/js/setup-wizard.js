@@ -180,22 +180,23 @@ jQuery(document).ready(function($) {
             e.preventDefault();
             e.stopPropagation();
             
-            // If media uploader already exists, open it
+            // If media uploader already exists, reset and reopen it
             if (mediaUploader) {
                 mediaUploader.open();
                 return false;
             }
 
-            // Create WordPress media uploader
+            // Create WordPress media uploader with standard frame
             mediaUploader = wp.media({
                 title: 'Select or Upload 360° Image',
                 button: {
-                    text: 'Use this image'
+                    text: 'Select Image'
                 },
                 multiple: false,
                 library: {
                     type: 'image'
-                }
+                },
+                state: 'library'
             });
 
             // When image is selected
@@ -219,6 +220,20 @@ jQuery(document).ready(function($) {
                     setTimeout(() => {
                         stepContext.goNext();
                     }, 500);
+                }
+            });
+
+            // When modal opens, ensure proper state
+            mediaUploader.on('open', function() {
+                // Ensure we're in the library state
+                if (mediaUploader.state().get('id') !== 'library') {
+                    mediaUploader.setState('library');
+                }
+                
+                // Clear any existing selection
+                const selection = mediaUploader.state().get('selection');
+                if (selection) {
+                    selection.reset();
                 }
             });
 
@@ -598,9 +613,25 @@ jQuery(document).ready(function($) {
                         }
 
                         $('.v-card').off('click').on('click', function() {
+                            const newIndustry = $(this).data('vertical');
+
+                            // Reset all template/upload/hotspot state when the industry changes
+                            if (selectedIndustry && selectedIndustry !== newIndustry) {
+                                uploadedImageUrl = null;
+                                uploadedImageFile = null;
+                                uploadedImageId = null;
+                                templateData = null;
+                                hotspots = [];
+                                mediaUploader = null;
+                                if (panoramaViewer) {
+                                    try { panoramaViewer.destroy(); } catch(e) {}
+                                    panoramaViewer = null;
+                                }
+                            }
+
                             $('.v-card').removeClass('active');
                             $(this).addClass('active');
-                            selectedIndustry = $(this).data('vertical');
+                            selectedIndustry = newIndustry;
                             // Enable next button when industry is selected
                             nextBtn.prop('disabled', false).removeClass('disabled');
                             updateDynamicContent();
@@ -644,6 +675,15 @@ jQuery(document).ready(function($) {
                     updateIconPlaceholder();
 
                     setTimeout(() => {
+                        const $useTemplateBtn = $('#use-template-btn');
+                        // Always derive the default text from the freshly-updated button
+                        // (updateDynamicContent ran before this setTimeout, so .text() is current)
+                        $useTemplateBtn.removeData('default-text');
+                        const defaultUseTemplateText = $useTemplateBtn.text();
+                        $useTemplateBtn.data('default-text', defaultUseTemplateText);
+                        // Re-enable the button in case it was left disabled from a previous AJAX call
+                        $useTemplateBtn.prop('disabled', false).removeClass('is-loading');
+
                         // Show upload preview if image was already uploaded
                         if (uploadedImageUrl) {
                             $('#template-preview-box').hide();
@@ -742,18 +782,13 @@ jQuery(document).ready(function($) {
                             initFileUpload();
                         });
 
-                        // Use template link handler - go back to template preview
-                        $('#use-template-link').off('click').on('click', function(e) {
-                            e.preventDefault();
-                            
-                            // Show template preview and hide upload section
-                            $('#template-preview-box').show();
-                            $('#upload-link').show();
-                            $('#upload-section').hide();
-                        });
-
                         // Remove upload handler
                         $('#btn-remove-upload').off('click.upload').on('click.upload', function() {
+                            $useTemplateBtn
+                                .prop('disabled', false)
+                                .removeClass('is-loading isloading')
+                                .text(defaultUseTemplateText);
+
                             uploadedImageUrl = null;
                             uploadedImageFile = null;
                             uploadedImageId = null;
@@ -826,8 +861,8 @@ jQuery(document).ready(function($) {
                                         'hotspot-customclass': '',
                                         'hotspot-scene': '',
                                         'hotspot-url': '',
-                                        'hotspot-content': '<p>' + (hotspot.text || '') + '</p>',
-                                        'hotspot-hover': '',
+                                        'hotspot-content': '',
+                                        'hotspot-hover': '<p>' + (hotspot.text || '') + '</p>',
                                         'hotspot-type': hotspot.type || 'info',
                                         'hotspot-scene-list': 'none',
                                         'wpvr_url_open': {}
@@ -1137,42 +1172,117 @@ jQuery(document).ready(function($) {
 
         panoramaViewer = pannellum.viewer('panorama', config);
 
-        // Wait for viewer to be ready, then add click handler
-        setTimeout(() => {
-            // Add click handler for hotspot creation
-            // Use pannellum's mouse event system
+        // Remove existing 'load' listeners to avoid duplicates
+        panoramaViewer.off('load');
+
+        // Use Pannellum's load event instead of setTimeout for reliable handler attachment
+        panoramaViewer.on('load', function() {
+            // Get both the container and canvas elements
             const panoramaElement = document.getElementById('panorama');
-            if (panoramaElement) {
-                // Remove existing listeners
-                panoramaElement.removeEventListener('mousedown', handlePanoramaMouseDown);
-                panoramaElement.removeEventListener('mousemove', handlePanoramaMouseMove);
-                panoramaElement.removeEventListener('mouseup', handlePanoramaMouseUp);
-                
-                // Add new listeners for click detection (not drag)
-                panoramaElement.addEventListener('mousedown', handlePanoramaMouseDown);
-                panoramaElement.addEventListener('mousemove', handlePanoramaMouseMove);
-                panoramaElement.addEventListener('mouseup', handlePanoramaMouseUp);
+            const canvas = document.querySelector('#panorama canvas');
+            
+            if (!panoramaElement) {
+                return;
             }
-        }, 500);
+            
+            // Remove existing listeners from both elements
+            if (canvas) {
+                canvas.removeEventListener('mousedown', handlePanoramaMouseDown, true);
+                canvas.removeEventListener('mousemove', handlePanoramaMouseMove, true);
+                canvas.removeEventListener('mouseup', handlePanoramaMouseUp, true);
+            }
+            
+            panoramaElement.removeEventListener('mousedown', handlePanoramaMouseDown, true);
+            panoramaElement.removeEventListener('mousemove', handlePanoramaMouseMove, true);
+            panoramaElement.removeEventListener('mouseup', handlePanoramaMouseUp, true);
+            
+            // Attach to the panorama container with capture phase
+            // This will catch events before Pannellum's handlers
+            panoramaElement.addEventListener('mousedown', handlePanoramaMouseDown, true);
+            panoramaElement.addEventListener('mousemove', handlePanoramaMouseMove, true);
+            panoramaElement.addEventListener('mouseup', handlePanoramaMouseUp, true);
+        });
     }
 
     // Handle panorama mousedown - track if it's a click or drag
     function handlePanoramaMouseDown(e) {
         // Only handle left clicks
-        if (e.button !== 0) return;
+        if (e.button !== 0) {
+            return;
+        }
+        
+        // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
+        // But NOT pnlm-dragfix which is the main dragging overlay
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+            return;
+        }
         
         // Check if clicking on an existing hotspot
-        if (e.target.closest('.pnlm-hotspot')) {
+        const hotspotElement = e.target.closest('.pnlm-hotspot');
+        if (hotspotElement) {
             return;
         }
 
-        // Store mouse down position and time
+        // Verify panoramaViewer exists and has required methods
+        if (!panoramaViewer) {
+            return;
+        }
+
+        // Use Pannellum's built-in projection math to get accurate pitch/yaw
+        // This handles all edge cases, HFOV variations, and aspect ratios correctly
+        let clickPitch, clickYaw;
+        
+        if (typeof panoramaViewer.mouseEventToCoords === 'function') {
+            const coords = panoramaViewer.mouseEventToCoords(e);
+            if (coords && coords.length === 2) {
+                clickPitch = coords[0];
+                clickYaw = coords[1];
+            } else {
+                return;
+            }
+        } else {
+            // Fallback to manual calculation if mouseEventToCoords is not available
+            if (typeof panoramaViewer.getPitch !== 'function') {
+                return;
+            }
+            
+            const currentPitch = panoramaViewer.getPitch();
+            const currentYaw = panoramaViewer.getYaw();
+            const currentHfov = panoramaViewer.getHfov();
+            
+            const canvas = document.querySelector('#panorama canvas');
+            if (!canvas) {
+                return;
+            }
+            
+            const rect = canvas.getBoundingClientRect();
+            const canvasWidth = rect.width;
+            const canvasHeight = rect.height;
+            
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            const normalizedX = (mouseX / canvasWidth - 0.5) * 2;
+            const normalizedY = (mouseY / canvasHeight - 0.5) * 2;
+            
+            const vfov = currentHfov * (canvasHeight / canvasWidth);
+            const yawOffset = normalizedX * (currentHfov / 2);
+            const pitchOffset = -normalizedY * (vfov / 2);
+            
+            clickPitch = currentPitch + pitchOffset;
+            clickYaw = currentYaw + yawOffset;
+        }
+
+        // Store mouse down position, time, and calculated coordinates
         panoramaMouseDown = {
             x: e.clientX,
             y: e.clientY,
-            time: Date.now()
+            time: Date.now(),
+            pitch: clickPitch,
+            yaw: clickYaw
         };
         panoramaIsDragging = false;
+        
+        // Don't prevent default or stop propagation - let Pannellum handle dragging
     }
 
     // Handle panorama mousemove - detect if dragging
@@ -1183,7 +1293,7 @@ jQuery(document).ready(function($) {
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             
             // If mouse moved more than 5 pixels, it's a drag
-            if (distance > 5) {
+            if (distance > 5 && !panoramaIsDragging) {
                 panoramaIsDragging = true;
             }
         }
@@ -1199,6 +1309,14 @@ jQuery(document).ready(function($) {
             return;
         }
 
+        // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
+        // But NOT pnlm-dragfix which is the main dragging overlay
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+            panoramaMouseDown = null;
+            panoramaIsDragging = false;
+            return;
+        }
+
         // Check if clicking on an existing hotspot
         if (e.target.closest('.pnlm-hotspot')) {
             panoramaMouseDown = null;
@@ -1209,11 +1327,12 @@ jQuery(document).ready(function($) {
         // Only show hotspot modal if it was a click (not a drag)
         if (!panoramaIsDragging) {
             const timeDiff = Date.now() - panoramaMouseDown.time;
+            
             // Also check time - if mouse was held for less than 300ms, it's likely a click
             if (timeDiff < 300) {
-                // Get current pitch and yaw from viewer
-                const pitch = panoramaViewer.getPitch();
-                const yaw = panoramaViewer.getYaw();
+                // Use the pitch and yaw captured at mousedown (before any potential drag)
+                const pitch = panoramaMouseDown.pitch;
+                const yaw = panoramaMouseDown.yaw;
                 
                 // Store coordinates for hotspot creation
                 pendingHotspotCoords = { pitch, yaw };

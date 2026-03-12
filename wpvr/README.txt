@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.60
+Stable tag: 8.5.61
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -442,6 +442,9 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = WPVR (Free) =
 
+= 8.5.61 (2026-03-12) =
+* Improvement: Onboarding of WPVR
+
 = 8.5.60 (2026-03-06) =
 * Improvement: Update notification banner for Ramadan kareem
 
@@ -454,31 +457,6 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 = 8.5.57 (2026-02-20) =
 * Improvement: Update notification banner for international mother language day
 
-= 8.5.56 (2026-02-17) =
-* Bug Fix: Save Draft UI freeze issue where loading overlay remained stuck and page became unresponsive
-* Bug Fix: Preview button layout issue caused by fixed width in translated languages 
-* Bug Fix: FontAwesome icons not displaying due to Tajawal !important font override
-* Bug Fix: Incorrect tour status label showing “Publish” instead of “Published”
-
-= 8.5.55 (2026-02-13) =
-* Enhancement: Implement new onboarding
-
-= 8.5.54 (2026-02-06) =
-* Improvement: wpvr_save_data() detects publish/update via post status, eliminating locale dependence
-* Bug Fix: Hotspot preview now confines video and image content within boundaries
-* Bug Fix: Hotspot media links persist after backend refresh
-* Bug Fix: Image and video hotspots now display correctly on hover content in the frontend
-* Bug Fix: Ensure hotspot panels scroll correctly with both video and image in frontend and backend
-* Bug Fix: Correct rendering of videos in “On Hover” and multiple videos in “On Click” content
-* Bug Fix: Full Screen, Home, Generic Form, and Explainer Video close buttons now function correctly on mobile in Modern Layout
-* Bug Fix: Shortcodes render correctly in Oxygen Builder without PHP warnings
-
-= 8.5.53 (2026-01-14) =
-* Bug Fix: Divi builder deprecation warning issue
-* Bug Fix: Upload media modal closing issue
-
-= 8.5.52 (2026-01-12) =
-* Improvement: Enhanced OpenPanel integration to track and send detailed tour data
 
 👉 [Visit to view full changelog for the free version](https://rextheme.com/changelog/?plugin=wpvr)
 

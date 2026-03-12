@@ -639,23 +639,6 @@ body { font-family: 'Roboto', sans-serif; color: var(--text-dark); background: #
     text-decoration: underline;
 }
 
-.use-template-link {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    margin-top: 16px;
-    display: block;
-    text-align: center;
-}
-
-.use-template-link:hover {
-    text-decoration: underline;
-}
-
 /* Upload/Drop Zone Styles */
 .upload-section {
     width: 100%;
@@ -1402,4 +1385,16 @@ body { font-family: 'Roboto', sans-serif; color: var(--text-dark); background: #
     .image-placeholder {
         height: 200px;
     }
+}
+
+.screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
