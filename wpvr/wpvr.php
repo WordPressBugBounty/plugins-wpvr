@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.61
+ * Version:           8.5.62
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -46,7 +46,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.61');
+define('WPVR_VERSION', '8.5.62');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -133,11 +133,11 @@ function run_wpvr()
     //     '2025-11-05 23:59:59'
     // );
 
-    if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_ramadan_kareem_2026_notification_bar', 'no')) {
+    if (!defined('WPVR_PRO_VERSION') && 'no' === get_option('wpvr_sell_eid_ul_fitr_2026_notification_bar', 'no')) {
         new WPVR_Notification_Bar(
-            'Ramadan_kareem_2026',
-            '2026-03-04 00:00:00',
-            '2026-03-16 23:59:59'
+            'Eid_Ul_Fitr_2026',
+            '2026-03-16 00:00:00',
+            '2026-03-24 23:59:59'
         );
     }
 

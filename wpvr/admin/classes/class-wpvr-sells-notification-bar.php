@@ -44,11 +44,11 @@ class WPVR_Notification_Bar {
           define( 'REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true );
       }
 
-      // Check if banner was dismissed within last 24 hours
+      // Check if banner was dismissed within last 5 days
       $dismissed_option = 'wpvr_' . $this->occasion . '_dismissed';
       $dismissed_time = get_option($dismissed_option, 0);
-      if ($dismissed_time && (time() - $dismissed_time) < 86400) {
-          return; // Don't show if dismissed within last 24 hours
+      if ($dismissed_time && (time() - $dismissed_time) < 432000) {
+          return; // Don't show if dismissed within last 5 days
       }
 
         $base_url = 'https://rextheme.com/wpvr/wpvr-pricing/';
@@ -56,7 +56,7 @@ class WPVR_Notification_Bar {
         $utm_params = array(
             'utm_source'   => 'website',
             'utm_medium'   => 'plugin-ban-wpvr',
-            'utm_campaign' => 'mlday26',
+            'utm_campaign' => 'eidoffer2026',
         );
 
         $btn_link = add_query_arg( $utm_params, $base_url );
@@ -105,7 +105,7 @@ class WPVR_Notification_Bar {
                                         
 
                                         <h2 id="banner-flash-title">
-                                            <?php echo esc_html__('Ramadan Kareem, Save Big', 'wpvr'); ?>
+                                            <?php echo esc_html__('Eid Mubarak, Save Big', 'wpvr'); ?>
                                         </h2>
                                     </div>
 
@@ -142,7 +142,7 @@ class WPVR_Notification_Bar {
                         target="_blank"
                         class="wpvr-regular-promotional-banner-link"
                         role="button"
-                        aria-label="<?php esc_attr_e('Claim Your Deal on Ramadan Kareem', 'wpvr'); ?>">
+                        aria-label="<?php esc_attr_e('Claim Your Deal on Eid-Ul-Fitr', 'wpvr'); ?>">
                             <?php esc_html_e('Claim Your Deal', 'wpvr'); ?>
                             <span class="arrow-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">

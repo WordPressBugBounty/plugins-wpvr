@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.61
+Stable tag: 8.5.62
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -442,8 +442,12 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = WPVR (Free) =
 
+= 8.5.62 (2026-03-16) =
+* Improvement: Update notification banner for Eid-Ul-fitr
+
 = 8.5.61 (2026-03-12) =
 * Improvement: Onboarding of WPVR
+* Bug Fix: Fixed slow page loads caused by getimagesize() making HTTP loopback requests during mobile media resize
 
 = 8.5.60 (2026-03-06) =
 * Improvement: Update notification banner for Ramadan kareem
