@@ -11,9 +11,9 @@ jQuery(document).ready(function($) {
             title: "Show your property without another site visit",
             sub: "Most agents publish their first property tour in minutes.",
             cta: "USE PROPERTY TEMPLATE",
-            publishText: "PUBLISH PROPERTY TOUR",
+            publishText: "Publish property tour",
             prev: "This is how buyers will experience your listing",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏠"
         },
@@ -21,9 +21,9 @@ jQuery(document).ready(function($) {
             title: "Let guests experience your hotel before they book",
             sub: "Virtual tours help increase trust and direct bookings.",
             cta: "USE HOTEL TEMPLATE",
-            publishText: "PUBLISH HOTEL TOUR",
+            publishText: "Publish hotel tour",
             prev: "This is how guests will see your room",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏨"
         },
@@ -31,9 +31,9 @@ jQuery(document).ready(function($) {
             title: "Showcase your campus to prospective students",
             sub: "Virtual campus tours help increase enrollment and engagement.",
             cta: "USE CAMPUS TEMPLATE",
-            publishText: "PUBLISH CAMPUS TOUR",
+            publishText: "Publish campus tour",
             prev: "This is how students will explore your campus",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏫"
         },
@@ -41,9 +41,9 @@ jQuery(document).ready(function($) {
             title: "Showcase your vehicles in stunning detail",
             sub: "Virtual tours help customers explore every angle before purchase.",
             cta: "USE AUTOMOTIVE TEMPLATE",
-            publishText: "PUBLISH AUTOMOTIVE TOUR",
+            publishText: "Publish automotive tour",
             prev: "This is how customers will explore your vehicles",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🚗"
         },
@@ -51,9 +51,9 @@ jQuery(document).ready(function($) {
             title: "Create immersive shopping experiences",
             sub: "Virtual tours help customers visualize products in real spaces.",
             cta: "USE E-COMMERCE TEMPLATE",
-            publishText: "PUBLISH E-COMMERCE TOUR",
+            publishText: "Publish ecommerce tour",
             prev: "This is how customers will shop your products",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🛍"
         },
@@ -61,9 +61,9 @@ jQuery(document).ready(function($) {
             title: "Bring your art and exhibitions to life",
             sub: "Virtual tours help visitors explore galleries from anywhere.",
             cta: "USE EXHIBITION TEMPLATE",
-            publishText: "PUBLISH EXHIBITION TOUR",
+            publishText: "Publish exhibition tour",
             prev: "This is how visitors will experience your exhibition",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🎨"
         },
@@ -71,9 +71,9 @@ jQuery(document).ready(function($) {
             title: "Showcase your workspace to potential clients",
             sub: "Virtual office tours help build trust and attract talent.",
             cta: "USE OFFICE TEMPLATE",
-            publishText: "PUBLISH OFFICE TOUR",
+            publishText: "Publish office tour",
             prev: "This is how visitors will explore your office",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏢"
         },
@@ -81,9 +81,9 @@ jQuery(document).ready(function($) {
             title: "Create engaging onboarding experiences",
             sub: "Virtual training tours help new employees learn faster.",
             cta: "USE TRAINING TEMPLATE",
-            publishText: "PUBLISH TRAINING TOUR",
+            publishText: "Publish training tour",
             prev: "This is how trainees will experience your program",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "📘"
         },
@@ -91,9 +91,9 @@ jQuery(document).ready(function($) {
             title: "Transform your showroom into a virtual experience",
             sub: "Virtual showrooms help customers explore products anytime.",
             cta: "USE SHOWROOM TEMPLATE",
-            publishText: "PUBLISH SHOWROOM TOUR",
+            publishText: "Publish showroom tour",
             prev: "This is how customers will browse your showroom",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏬"
         },
@@ -101,7 +101,7 @@ jQuery(document).ready(function($) {
             title: "Let travelers explore destinations before they arrive",
             sub: "Virtual tours help increase bookings and visitor engagement.",
             cta: "USE TOURISM TEMPLATE",
-            publishText: "PUBLISH TOURISM TOUR",
+            publishText: "Publish tourism tour",    
             prev: "This is how travelers will discover your destination",
             succ: "🎉 Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
@@ -111,9 +111,9 @@ jQuery(document).ready(function($) {
             title: "Showcase your fitness facilities",
             sub: "Virtual tours help attract new members and showcase amenities.",
             cta: "USE FITNESS TEMPLATE",
-            publishText: "PUBLISH FITNESS TOUR",
+            publishText: "Publish fitness tour",
             prev: "This is how members will explore your facility",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏋️"
         },
@@ -121,9 +121,9 @@ jQuery(document).ready(function($) {
             title: "Make cultural sites accessible to everyone",
             sub: "Virtual museum tours help reach global audiences.",
             cta: "USE MUSEUM TEMPLATE",
-            publishText: "PUBLISH MUSEUM TOUR",
+            publishText: "Publish museum tour", 
             prev: "This is how visitors will explore your museum",
-            succ: "🎉 Your tour is published!",
+            succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
             icon: "🏛"
         }
@@ -147,6 +147,12 @@ jQuery(document).ready(function($) {
         window.location.href = listingUrl;
     }
 
+    // Bind wizard exit button (outside white container)
+    $('#wizard-exit').on('click', function(e) {
+        e.preventDefault();
+        skipWizard();
+    });
+
     // Generate random string for scene IDs (matching WPVR format)
     function generateRandomString(length) {
         var result = '';
@@ -163,6 +169,7 @@ jQuery(document).ready(function($) {
         const dropZone = $('#drop-zone');
         const fileInput = $('#image-upload');
         const dropZoneLink = $('.drop-zone-link');
+        const uploadLabel = $('.upload-section-label');
 
         if (!dropZone.length || !fileInput.length || !dropZoneLink.length) {
             console.warn('Upload elements not found, retrying...');
@@ -172,8 +179,77 @@ jQuery(document).ready(function($) {
 
         dropZoneLink.off('click.upload');
         dropZone.off('click.upload');
+        uploadLabel.off('click.upload');
         fileInput.off('change.upload input.upload');
         dropZone.off('dragover.upload dragenter.upload dragleave.upload drop.upload');
+
+        // Click handler for the upload label - open WordPress media library
+        uploadLabel.off('click.upload').on('click.upload', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // If media uploader already exists, reset and reopen it
+            if (mediaUploader) {
+                mediaUploader.open();
+                return false;
+            }
+
+            // Create WordPress media uploader with standard frame
+            mediaUploader = wp.media({
+                title: 'Select or Upload 360° Image',
+                button: {
+                    text: 'Select Image'
+                },
+                multiple: false,
+                library: {
+                    type: 'image'
+                },
+                state: 'library'
+            });
+
+            // When image is selected
+            mediaUploader.on('select', function() {
+                const attachment = mediaUploader.state().get('selection').first().toJSON();
+                
+                uploadedImageId = attachment.id;
+                uploadedImageUrl = attachment.url;
+                
+                // Show preview
+                $('#upload-preview-name').text(attachment.filename || 'Uploaded image');
+                $('#uploaded-image-preview').attr('src', uploadedImageUrl);
+                $('#drop-zone').hide();
+                $('#upload-preview').show();
+                
+                // Get context from engine
+                const currentStep = engine.getCurrentStep();
+                if (currentStep) {
+                    const stepContext = engine.getStepContext();
+                    // Auto proceed to next step after a short delay
+                    setTimeout(() => {
+                        stepContext.goNext();
+                    }, 500);
+                }
+            });
+
+            // When modal opens, ensure proper state
+            mediaUploader.on('open', function() {
+                // Ensure we're in the library state
+                if (mediaUploader.state().get('id') !== 'library') {
+                    mediaUploader.setState('library');
+                }
+                
+                // Clear any existing selection
+                const selection = mediaUploader.state().get('selection');
+                if (selection) {
+                    selection.reset();
+                }
+            });
+
+            // Open media uploader
+            mediaUploader.open();
+            
+            return false;
+        });
 
         // Click handler for the link specifically - open WordPress media library
         dropZoneLink.off('click.upload').on('click.upload', function(e) {
@@ -433,7 +509,7 @@ jQuery(document).ready(function($) {
 
     function updateNavProgress(currentId) {
         // Logic to add completed class to sidebar items as they are finished
-        const steps = ['step-vertical', 'step-template', 'step-preview', 'step-success'];
+        const steps = ['step-welcome', 'step-vertical', 'step-template', 'step-preview', 'step-success'];
         const currentIndex = steps.indexOf(currentId);
         
         $('.nav-item').each(function() {
@@ -551,6 +627,9 @@ jQuery(document).ready(function($) {
                 mount: (container, context) => {
                     navigateTo('step-welcome');                    
                     setTimeout(() => {
+                        // Reset start button state in case user navigated back
+                        $('#start-tour').prop('disabled', false).removeClass('is-loading');
+                        
                         // Bind skip button
                         $('#skip-welcome').off('click').on('click', function(e) {
                             e.preventDefault();
@@ -687,16 +766,19 @@ jQuery(document).ready(function($) {
                         // Show upload preview if image was already uploaded
                         if (uploadedImageUrl) {
                             $('#template-preview-box').hide();
-                            $('#upload-link').hide();
                             $('#upload-section').show();
                             $('#drop-zone').hide();
                             $('#upload-preview').show();
                             $('#uploaded-image-preview').attr('src', uploadedImageUrl);
                             $('#upload-preview-name').text(uploadedImageFile ? uploadedImageFile.name : 'Uploaded image');
                         } else {
-                            $('#template-preview-box').show();
-                            $('#upload-link').show();
-                            $('#upload-section').hide();
+                            // Show upload section by default (not template preview)
+                            $('#template-preview-box').hide();
+                            $('#upload-section').show();
+                            $('#drop-zone').show();
+                            $('#upload-preview').hide();
+                            // Initialize file upload handlers
+                            initFileUpload();
                         }
 
                         // Bind navigation buttons
@@ -767,21 +849,6 @@ jQuery(document).ready(function($) {
                             });
                         });
 
-                        // Upload link handler - show dropzone for upload
-                        $('#upload-link').off('click').on('click', function(e) {
-                            e.preventDefault();
-                            
-                            // Show upload section with dropzone
-                            $('#template-preview-box').hide();
-                            $('#upload-link').hide();
-                            $('#upload-section').show();
-                            $('#drop-zone').show();
-                            $('#upload-preview').hide();
-                            
-                            // Initialize file upload handlers
-                            initFileUpload();
-                        });
-
                         // Remove upload handler
                         $('#btn-remove-upload').off('click.upload').on('click.upload', function() {
                             $useTemplateBtn
@@ -795,16 +862,13 @@ jQuery(document).ready(function($) {
                             $('#image-upload').val('');
                             $('#upload-preview').hide();
                             $('#drop-zone').show();
-                            $('#template-preview-box').show();
-                            $('#upload-section').hide();
-                            $('#upload-link').show();
+                            // Keep upload section visible, don't show template preview
+                            $('#template-preview-box').hide();
+                            $('#upload-section').show();
                         });
 
-                        // Initialize file upload handlers when upload section is visible
-                        // Don't initialize if section is hidden (elements might not be accessible)
-                        if ($('#upload-section').is(':visible')) {
-                            initFileUpload();
-                        }
+                        // File upload handlers are now initialized in the else block above
+                        // when no image is uploaded yet
                     }, 0);
                 }
             },
@@ -1008,15 +1072,12 @@ jQuery(document).ready(function($) {
                         if (window.wpvrCreatedTourId) {                            
                             // Show shortcode instructions - insert before primary CTA
                             const shortcode = '[wpvr id="' + window.wpvrCreatedTourId + '"]';
-                            const shortcodeHtml = '<div class="shortcode-instructions" style="margin: 30px 0; padding: 25px; background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%); border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">' +
-                                '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">' +
-                                '<span style="font-size: 24px;">📋</span>' +
-                                '<h4 style="margin: 0; font-size: 18px; font-weight: 600; color: #333;">Use This Shortcode on Your Site</h4>' +
-                                '</div>' +
-                                '<p style="margin: 0 0 18px 0; color: #666; font-size: 14px; line-height: 1.6;">Copy this shortcode and paste it into any page, post, or widget area to display your virtual tour:</p>' +
-                                '<div class="shortcode-box" style="background: #fff; padding: 18px; border: 2px solid #3F04FE; border-radius: 8px; margin: 15px 0; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 2px 4px rgba(63,4,254,0.1);">' +
-                                '<code id="tour-shortcode" style="font-size: 16px; color: #3F04FE; font-weight: 600; user-select: all; flex: 1; font-family: \'SF Mono\', Monaco, Consolas, monospace; letter-spacing: 0.5px;">' + shortcode + '</code>' +
-                                '<button id="copy-shortcode-btn" style="padding: 12px 24px; background: #3F04FE; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; white-space: nowrap; transition: all 0.2s; box-shadow: 0 2px 4px rgba(63,4,254,0.3);">Copy Shortcode</button>' +
+                            const shortcodeHtml = '<div class="shortcode-instructions">' +
+                                '<h4 class="shortcode-title">Use This Shortcode on Your Site</h4>' +
+                                '<p class="shortcode-description">Copy this shortcode and paste it into any page, post, or widget area to display your virtual tour.</p>' +
+                                '<div class="shortcode-box">' +
+                                '<code id="tour-shortcode" class="shortcode-code">' + shortcode + '</code>' +
+                                '<button id="copy-shortcode-btn" class="btn-copy-shortcode">Copy Shortcode</button>' +
                                 '</div>' +
                                 '</div>';
                             
@@ -1036,7 +1097,7 @@ jQuery(document).ready(function($) {
                                         const originalText = $btn.text();
                                         $btn.text('Copied!').css('background', '#10B981');
                                         setTimeout(function() {
-                                            $btn.text(originalText).css('background', '#3F04FE');
+                                            $btn.text(originalText).css('background', '#E8E1FF');
                                         }, 2000);
                                     }.bind(this));
                                 } else {
@@ -1049,9 +1110,9 @@ jQuery(document).ready(function($) {
                                     
                                     const $btn = $(this);
                                     const originalText = $btn.text();
-                                    $btn.text('Copied!').css('background', '#10B981');
+                                    $btn.text('Copied!').css('background', '#3F04FE');
                                     setTimeout(function() {
-                                        $btn.text(originalText).css('background', '#3F04FE');
+                                        $btn.text(originalText).css('background', '#E8E1FF');
                                     }, 2000);
                                 }
                             });
