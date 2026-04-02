@@ -409,6 +409,7 @@ class Wpvr_Ajax
 		$this->scene->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
 	}
 
+    do_action( 'wpvr_tour_settings_saved', $postid );
     do_action('rex_wpvr_tour_saved', $postid);
 
     $response = array(

@@ -1,5 +1,5 @@
 <?php
-use Linno\Telemetry\Client;
+use LinnoSDK\Telemetry\Client;
 
 /**
  * Class WPVR_Linno_Telemetry
@@ -67,43 +67,65 @@ class WPVR_Linno_Telemetry {
             return;
         }
 
-        if ( ! class_exists( 'Linno\\Telemetry\\Client' ) || ! defined( 'WPVR_FILE' ) ) {
+        if ( ! class_exists( 'LinnoSDK\\Telemetry\\Client' ) || ! defined( 'WPVR_FILE' ) ) {
+            error_log( 'WPVR Telemetry: Linno Client class unavailable or WPVR_FILE not defined.' );
             return;
         }
 
         if ( empty( $this->api_key ) || empty( $this->api_secret ) ) {
+            error_log( 'WPVR Telemetry: API key or API secret is empty. Telemetry client not initialized.' );
             return;
         }
 
         Client::set_text_domain( 'wpvr' );
 
         $wpvr_telemetry = new Client(
-            $this->api_key,
-            $this->api_secret,
-            'WP VR',
-            WPVR_FILE
+            array(
+                'pluginFile'    => WPVR_FILE,
+                'slug'          => 'wpvr',
+                'pluginName'    => 'WP VR',
+                'version'       => defined( 'WPVR_VERSION' ) ? WPVR_VERSION : '',
+                'apiKey'        => $this->api_key,
+                'apiSecret'     => $this->api_secret,
+                'driver'        => 'posthog',
+                'driver_config' => array(
+                    'host'    => defined( 'WPVR_TELEMETRY_HOST' ) ? WPVR_TELEMETRY_HOST : 'https://eu.i.posthog.com',
+                    'api_key' => $this->api_key,
+                ),
+            )
         );
 
         $wpvr_telemetry->define_triggers(
             array(
-                'setup'        => array(
+                'onboarding'   => array(
                     'hook'     => 'wpvr_setup_wizard_completed_event',
                     'callback' => array( $this, 'build_setup_payload' ),
                 ),
-                'first_strike' => array(
-                    'hook'     => 'wpvr_first_tour_published_event',
-                    'callback' => array( $this, 'build_first_strike_payload' ),
-                ),
-                'kui'          => array(
-                    'unique_views_7d' => array(
+                'aha'          => array(
+                    'first_tour_published' => array(
+                        'hook'     => 'wpvr_first_tour_published_event',
+                        'callback' => array( $this, 'build_first_strike_payload' ),
+                    ),
+                    'unique_views_7d'      => array(
                         'hook'     => 'wpvr_kui_unique_views_updated',
                         'callback' => array( $this, 'build_kui_payload' ),
+                    ),
+                ),
+                'feature_used' => array(
+                    'hotspot_editor' => array(
+                        'hook' => 'wpvr_hotspot_saved',
+                    ),
+                    'floor_plan'     => array(
+                        'hook' => 'wpvr_floor_plan_configured',
+                    ),
+                    'tour_builder'   => array(
+                        'hook' => 'wpvr_tour_settings_saved',
                     ),
                 ),
             )
         );
 
-        $wpvr_telemetry->init();
+        // $wpvr_telemetry->init();
         $this->ensure_daily_telemetry_queue_schedule();
         $this->client_initialized = true;
     }
@@ -178,7 +200,7 @@ class WPVR_Linno_Telemetry {
         if ( 1 === $total_user_tours ) {
             do_action( 'wpvr_first_tour_published_event', $post->ID, $post->post_title );
             global $wpvr_telemetry;
-            if ( is_object( $wpvr_telemetry ) && method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'first_strike' ) ) {
+            if ( is_object( $wpvr_telemetry ) && method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'aha_reached_first_tour_published' ) ) {
                 update_option( 'wpvr_first_strike_completed', true );
             }
         }

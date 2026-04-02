@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Linno\\Telemetry\\' => array($vendorDir . '/linno/telemetry/src'),
+    'PostHog\\' => array($vendorDir . '/posthog/posthog-php/lib'),
+    'LinnoSDK\\Telemetry\\' => array($vendorDir . '/linno/telemetry/src'),
 );

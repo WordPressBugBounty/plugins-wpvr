@@ -11,14 +11,22 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' =>
+        array (
+            'PostHog\\' => 8,
+        ),
         'L' =>
         array (
-            'Linno\\Telemetry\\' => 16,
+            'LinnoSDK\\Telemetry\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Linno\\Telemetry\\' =>
+        'PostHog\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
+        ),
+        'LinnoSDK\\Telemetry\\' =>
         array (
             0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),
@@ -26,15 +34,27 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Linno\\Telemetry\\Client' => __DIR__ . '/..' . '/linno/telemetry/src/Client.php',
-        'Linno\\Telemetry\\Consent' => __DIR__ . '/..' . '/linno/telemetry/src/Consent.php',
-        'Linno\\Telemetry\\Deactivation' => __DIR__ . '/..' . '/linno/telemetry/src/Deactivation.php',
-        'Linno\\Telemetry\\Drivers\\DriverInterface' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/DriverInterface.php',
-        'Linno\\Telemetry\\Drivers\\OpenPanelDriver' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/OpenPanelDriver.php',
-        'Linno\\Telemetry\\EventDispatcher' => __DIR__ . '/..' . '/linno/telemetry/src/EventDispatcher.php',
-        'Linno\\Telemetry\\Helpers\\Utils' => __DIR__ . '/..' . '/linno/telemetry/src/Helpers/Utils.php',
-        'Linno\\Telemetry\\Queue' => __DIR__ . '/..' . '/linno/telemetry/src/Queue.php',
-        'Linno\\Telemetry\\TriggerManager' => __DIR__ . '/..' . '/linno/telemetry/src/TriggerManager.php',
+        'LinnoSDK\\Telemetry\\Client' => __DIR__ . '/..' . '/linno/telemetry/src/Client.php',
+        'LinnoSDK\\Telemetry\\Consent' => __DIR__ . '/..' . '/linno/telemetry/src/Consent.php',
+        'LinnoSDK\\Telemetry\\Deactivation' => __DIR__ . '/..' . '/linno/telemetry/src/Deactivation.php',
+        'LinnoSDK\\Telemetry\\Drivers\\DriverInterface' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/DriverInterface.php',
+        'LinnoSDK\\Telemetry\\Drivers\\NullDriver' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/NullDriver.php',
+        'LinnoSDK\\Telemetry\\Drivers\\OpenPanelDriver' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/OpenPanelDriver.php',
+        'LinnoSDK\\Telemetry\\Drivers\\PostHogDriver' => __DIR__ . '/..' . '/linno/telemetry/src/Drivers/PostHogDriver.php',
+        'LinnoSDK\\Telemetry\\EventDispatcher' => __DIR__ . '/..' . '/linno/telemetry/src/EventDispatcher.php',
+        'LinnoSDK\\Telemetry\\Helpers\\Utils' => __DIR__ . '/..' . '/linno/telemetry/src/Helpers/Utils.php',
+        'LinnoSDK\\Telemetry\\Queue' => __DIR__ . '/..' . '/linno/telemetry/src/Queue.php',
+        'LinnoSDK\\Telemetry\\TriggerManager' => __DIR__ . '/..' . '/linno/telemetry/src/TriggerManager.php',
+        'PostHog\\Client' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Client.php',
+        'PostHog\\Consumer' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer.php',
+        'PostHog\\Consumer\\File' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/File.php',
+        'PostHog\\Consumer\\ForkCurl' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/ForkCurl.php',
+        'PostHog\\Consumer\\LibCurl' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/LibCurl.php',
+        'PostHog\\Consumer\\Socket' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer/Socket.php',
+        'PostHog\\HttpClient' => __DIR__ . '/..' . '/posthog/posthog-php/lib/HttpClient.php',
+        'PostHog\\HttpResponse' => __DIR__ . '/..' . '/posthog/posthog-php/lib/HttpResponse.php',
+        'PostHog\\PostHog' => __DIR__ . '/..' . '/posthog/posthog-php/lib/PostHog.php',
+        'PostHog\\QueueConsumer' => __DIR__ . '/..' . '/posthog/posthog-php/lib/QueueConsumer.php',
         'Rex_WPVR_Telemetry' => __DIR__ . '/../..' . '/includes/class-wpvr-telemetry.php',
         'Singleton' => __DIR__ . '/../..' . '/admin/views/class-wpvr-singleton.php',
         'Tour_Guide_Translation' => __DIR__ . '/../..' . '/admin/classes/class-tour-guide-translation.php',

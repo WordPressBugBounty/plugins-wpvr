@@ -462,6 +462,7 @@ class WPVR_Scene {
         $pano_array = $this->format->prepare_rotation_wrapper_data($pano_array, $rotation);
         // Prepare tour rotation wrapper data /
         update_post_meta($postid, 'panodata', $pano_array);
+        do_action( 'wpvr_hotspot_saved', $postid, $pano_array );
         $response = array(
             'success'   => true,
             'data'  => array(
@@ -597,6 +598,9 @@ class WPVR_Scene {
                 "floor_plan_tour_enabler" => $floor_plan_enabler,
                 "floor_plan_attachment_url" => $floor_plan_image
             );
+            if ( 'on' === $floor_plan_enabler ) {
+                do_action( 'wpvr_floor_plan_configured', $postid, $pano_floor_plan );
+            }
             $call_to_action = array(
                 'button_enable' =>sanitize_text_field($_POST['callToAction']),
                 'button_text' =>sanitize_text_field($_POST['buttontext']),
