@@ -1248,6 +1248,145 @@ body { font-family: 'Roboto', sans-serif; color: var(--wpvr-text-dark); backgrou
 }
 
 /* ========================================
+   HOTSPOT LIST
+   ======================================== */
+
+.hotspot-list {
+    margin-top: 16px;
+    padding-bottom: 10px;
+}
+
+.hotspot-list-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wpvr-text-light);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.hotspot-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hotspot-item {
+    display: inline-flex;
+    align-items: center;
+    background: #f8f7ff;
+    border: 1px solid #e8e4fd;
+    border-radius: 20px;
+    padding: 5px 10px 5px 12px;
+    font-size: 13px;
+    color: var(--wpvr-text-dark);
+    white-space: nowrap;
+}
+
+.hotspot-item-text {
+    white-space: nowrap;
+}
+
+.hotspot-item-remove {
+    flex-shrink: 0;
+    margin-left: 8px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.hotspot-item-remove:hover {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+/* ========================================
+   PREMIUM POPUP — wizard-page override
+   (the popup is fixed but the wizard has no
+    WP admin sidebar, so use full viewport width)
+   ======================================== */
+
+#wpvr_premium_feature_popup.wpvr-premium-feature {
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100000;
+}
+
+#wpvr_premium_feature_popup .wpvr-premium-feature__subheading {
+    max-width: 485px;
+    padding: 0 30px;
+}
+
+#wpvr_premium_feature_popup .wpvr-premium-feature__wrapper {
+    max-width: 580px;
+}
+
+#wpvr_premium_feature_popup .wpvr-premium-feature__subheading p {
+    margin: 0 0 8px;
+}
+
+#wpvr_premium_feature_popup .wpvr-premium-feature__subheading p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+    #wpvr_premium_feature_popup.wpvr-premium-feature {
+        padding: 10px;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__wrapper {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__body {
+        padding: 24px 16px;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__subheading {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__btn-area {
+        padding-top: 24px;
+        margin-top: 20px;
+        gap: 10px;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__discount-price {
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+
+    #wpvr_premium_feature_popup .wpvr-premium-feature__heading {
+        font-size: 18px;
+    }
+}
+
+/* ========================================
    RESPONSIVE STYLES
    ======================================== */
 

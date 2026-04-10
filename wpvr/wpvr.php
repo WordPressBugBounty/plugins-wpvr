@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.64
+ * Version:           8.5.65
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -46,7 +46,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.64');
+define('WPVR_VERSION', '8.5.65');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -170,6 +170,54 @@ function wpvr_in_array_r($needle, $haystack, $strict = false)
     return false;
 }
 
+if ( ! function_exists( 'wpvr_render_explainer_button' ) ) {
+    /**
+     * Render the WPVR explainer button independently.
+     *
+     * @param array|null $custom_control
+     * @param array      $postdata
+     * @param bool       $is_pro
+     * @param bool       $autoload
+     * @param string     $explainer_right
+     * @param int|string $id
+     *
+     * @return string
+     * @since 8.5.63
+     */
+    function wpvr_render_explainer_button( $custom_control, $postdata, $is_pro, $autoload, $explainer_right, $id ) {
+        $html = '';
+        $explainer_enabled = false;
+        $explainer_icon    = 'fa fa-video';
+        $explainer_color   = '#f7fffb';
+
+        if ( isset( $custom_control ) ) {
+            $explainer_enabled = ( isset( $custom_control['explainerSwitch'] ) && $custom_control['explainerSwitch'] === 'on' );
+            $explainer_icon    = isset( $custom_control['explainerIcon'] ) ? $custom_control['explainerIcon'] : $explainer_icon;
+            $explainer_color   = isset( $custom_control['explainerColor'] ) ? $custom_control['explainerColor'] : $explainer_color;
+        } elseif ( isset( $postdata['customcontrol'] ) ) {
+            $raw_control       = $postdata['customcontrol'];
+            $explainer_enabled = ( isset( $raw_control['explainerSwitch'] ) && $raw_control['explainerSwitch'] === 'on' );
+            $explainer_icon    = isset( $raw_control['explainerIcon'] ) ? $raw_control['explainerIcon'] : $explainer_icon;
+            $explainer_color   = isset( $raw_control['explainerColor'] ) ? $raw_control['explainerColor'] : $explainer_color;
+        }
+
+        $pro_license_status = get_option( 'wpvr_edd_license_status' );
+        if ( $explainer_enabled && $pro_license_status === 'valid' && $is_pro ) {
+            $explainer_style = empty( $postdata['explainerContent'] ) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )
+                ? 'pointer-events: none; opacity: 0.5;'
+                : '';
+
+            // Initial display:none to prevent flash for non-autoload tours.
+            $initial_display = ! $autoload ? 'display:none; ' : '';
+
+            $html .= '<div class="explainer_button" id="explainer_button_' . esc_attr( $id ) . '" style="' . $initial_display . 'right:' . esc_attr( $explainer_right ) . '; ' . esc_attr( $explainer_style ) . '">';
+            $html .= '<div class="ctrl" id="explainer_target_' . esc_attr( $id ) . '"><i class="' . esc_attr( $explainer_icon ) . '" style="color:' . esc_attr( $explainer_color ) . ';"></i></div>';
+            $html .= '</div>';
+        }
+
+        return $html;
+    }
+}
 
 // Linno telemetry integration
 function wpvr_block()
@@ -1529,11 +1577,11 @@ function wpvr_block_render($attributes)
     if ($status !== false &&  'valid' == $status  && $is_pro &&  wpvr_isMobileDevice() && $is_cardboard == 'true') {
         $html .= '<button class="fullscreen-button">';
         $html .= '<span class="expand">';
-        $html .= '<i class="fa fa-expand" aria-hidden="true"></i>';
+        $html .= '<i class="fas fa-expand" aria-hidden="true"></i>';
         $html .= '</span>';
 
         $html .= '<span class="compress">';
-        $html .= '<i class="fa fa-compress" aria-hidden="true"></i>';
+        $html .= '<i class="fas fa-minimize" aria-hidden="true"></i>';
         $html .= '</span>';
         $html .= '</button>';
         $html .= '<label class="wpvr-cardboard-switcher">
@@ -1694,24 +1742,18 @@ function wpvr_block_render($attributes)
             }
             $html .= '</div>';
         }
-
-        //===explainer button===//
-        $explainerControlSwitch = '';
-        if (isset($custom_control['explainerSwitch'])) {
-            $explainerControlSwitch = $custom_control['explainerSwitch'];
-        }
-        $pro_license_status  = get_option('wpvr_edd_license_status');
-        if ($explainerControlSwitch == "on" && $pro_license_status == 'valid' && $is_pro) {
-            $explainer_style = empty($postdata['explainerContent']) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )? 'pointer-events: none; opacity: 0.5;' : '';
-            $html .= '<div class="explainer_button" id="explainer_button_' . esc_attr( $id ) . '" style="right:' . esc_attr( $explainer_right ) . '; ' . esc_attr( $explainer_style ) . '">';
-            $html .= '<div class="ctrl" id="explainer_target_' . esc_attr( $id ) . '"><i class="' . $custom_control['explainerIcon'] . '" style="color:' . esc_attr( $custom_control['explainerColor'] ) . ';"></i></div>';
-            $html .= '</div>';
-        }
-
-        //===explainer button===//
-
     }
-    //===Custom Control===//
+
+    //===explainer button===//
+    $html .= wpvr_render_explainer_button(
+        isset( $custom_control ) ? $custom_control : null,
+        $postdata,
+        $is_pro,
+        $autoload,
+        $explainer_right,
+        $id
+    );
+    //===explainer button end===//
 
     //===Scene navigation Control===//
     if (isset($postdata['scene_navigation']) && $postdata['scene_navigation'] === 'on' && 'valid' == $status  && $is_pro) {
@@ -1794,7 +1836,7 @@ function wpvr_block_render($attributes)
         $html .= '</div>';
         $html .= '</div>';
 
-        $html .= '<div id="sccontrols' . esc_attr( $id ) . '" class="scene-gallery vrowl-carousel owl-theme">';
+        $html .= '<div id="sccontrols' . $id . '" class="scene-gallery vrowl-carousel owl-theme ">';
         if (isset($panodata["scene-list"])) {
             foreach ($panodata["scene-list"] as $panoscenes) {
                 $scene_key = $panoscenes['scene-id'];
@@ -2864,6 +2906,21 @@ function wpvr_block_render($attributes)
             $html .= 'document.getElementById("fullscreen' . $id . '").addEventListener("click", function(e) {';
             $html .= 'panoshow' . $id . '.toggleFullscreen();';
             $html .= '});';
+            $html .= '(function() {';
+            $html .= 'function wpvrFsChange' . $id . '() {';
+            $html .= 'var fsIcon = document.querySelector("#fullscreen' . $id . ' i");';
+            $html .= 'if (!fsIcon) return;';
+            $html .= 'if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {';
+            $html .= 'fsIcon.classList.remove("fa-expand"); fsIcon.classList.add("fa-minimize");';
+            $html .= '} else {';
+            $html .= 'fsIcon.classList.remove("fa-minimize"); fsIcon.classList.add("fa-expand");';
+            $html .= '}';
+            $html .= '}';
+            $html .= 'document.addEventListener("fullscreenchange", wpvrFsChange' . $id . ');';
+            $html .= 'document.addEventListener("webkitfullscreenchange", wpvrFsChange' . $id . ');';
+            $html .= 'document.addEventListener("mozfullscreenchange", wpvrFsChange' . $id . ');';
+            $html .= 'document.addEventListener("MSFullscreenChange", wpvrFsChange' . $id . ');';
+            $html .= '})();';
         }
 
         if ($custom_control['backToHomeSwitch'] == "on" && $status  == 'valid'  && $is_pro) {
@@ -3044,7 +3101,7 @@ function wpvr_block_render($attributes)
               jQuery("#sccontrols' . $id . '").hide();
               jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
               jQuery("#sccontrols' . $id . '").hide();
-              jQuery(".wpvr_slider_nav").hide();
+              jQuery("#pano' . $id . ' .wpvr_slider_nav").hide();
           });
           ';
 
@@ -3056,11 +3113,11 @@ function wpvr_block_render($attributes)
                 jQuery(".vrgctrl' . $id . '").empty();
                 jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
                 slide' . $id . ' = "down";
-                jQuery(".wpvr_slider_nav").slideToggle();
+                jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
                jQuery("#sccontrols' . $id . '").slideToggle(function(){
                   if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                     if (jQuery(this).is(":visible")) {
-                       jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                       jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center",
@@ -3070,7 +3127,7 @@ function wpvr_block_render($attributes)
                   }
                   if (jQuery(".bricks-is-frontend").length) {
                     if (jQuery(this).is(":visible")) {
-                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center"
@@ -3083,11 +3140,11 @@ function wpvr_block_render($attributes)
                 jQuery(".vrgctrl' . $id . '").empty();
                 jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
                 slide' . $id . ' = "up";
-                jQuery(".wpvr_slider_nav").slideToggle();
+                jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
                jQuery("#sccontrols' . $id . '").slideToggle(function(){
                   if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                     if (jQuery(this).is(":visible")) {
-                        jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                        jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center",
@@ -3097,7 +3154,7 @@ function wpvr_block_render($attributes)
                   }
                   if (jQuery(".bricks-is-frontend").length) {
                     if (jQuery(this).is(":visible")) {
-                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center"
@@ -3112,7 +3169,7 @@ function wpvr_block_render($attributes)
             $html .= '
           jQuery(document).ready(function($){
             jQuery("#sccontrols' . $id . '").show();
-            jQuery(".wpvr_slider_nav").show();
+            jQuery("#pano' . $id . ' .wpvr_slider_nav").show();
               jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
           });
           ';
@@ -3131,11 +3188,11 @@ function wpvr_block_render($attributes)
               jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
               slide' . $id . ' = "up";
             }
-            jQuery(".wpvr_slider_nav").slideToggle();
+            jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
            jQuery("#sccontrols' . $id . '").slideToggle(function(){
               if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                 if (jQuery(this).is(":visible")) {
-                   jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                   jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                         "display": "flex",
                         "justify-content": "center",
                         "align-items": "center",
@@ -3145,7 +3202,7 @@ function wpvr_block_render($attributes)
               }
               if (jQuery(".bricks-is-frontend").length) {
                 if (jQuery(this).is(":visible")) {
-                   jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                   jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                         "display": "flex",
                         "justify-content": "center",
                         "align-items": "center"
@@ -3160,7 +3217,7 @@ function wpvr_block_render($attributes)
         $html .= '
           jQuery(document).ready(function($){
             jQuery("#sccontrols' . $id . '").hide();
-            jQuery(".wpvr_slider_nav").hide();
+            jQuery("#pano' . $id . ' .wpvr_slider_nav").hide();
               jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
           });
           ';
@@ -3179,11 +3236,11 @@ function wpvr_block_render($attributes)
               jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
               slide' . $id . ' = "up";
             }
-            jQuery(".wpvr_slider_nav").slideToggle();
+            jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
            jQuery("#sccontrols' . $id . '").slideToggle(function(){
               if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                 if (jQuery(this).is(":visible")) {
-                    jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                    jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                         "display": "flex",
                         "justify-content": "center",
                         "align-items": "center",
@@ -3193,7 +3250,7 @@ function wpvr_block_render($attributes)
               }
               if (jQuery(".bricks-is-frontend").length) {
                 if (jQuery(this).is(":visible")) {
-                   jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                   jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                         "display": "flex",
                         "justify-content": "center",
                         "align-items": "center"
@@ -3231,12 +3288,12 @@ function wpvr_block_render($attributes)
                        jQuery("#sccontrols' . $id . '").slideToggle(function(){
                           if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                             if (jQuery(this).is(":visible")) {
-                             jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container .scene-gallery").css("display", "flex");
+                             jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css("display", "flex");
                             }
                           }
                           if (jQuery(".bricks-is-frontend").length) {
                             if (jQuery(this).is(":visible")) {
-                               jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container .scene-gallery").css({
+                               jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center"
@@ -3244,7 +3301,7 @@ function wpvr_block_render($attributes)
                             }
                           }                          
                        });
-                      jQuery(".wpvr_slider_nav").slideToggle();
+                      jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
                     }
             });';
         }
@@ -3286,13 +3343,12 @@ function wpvr_block_render($attributes)
     $tour_data = [];
     if(defined("WPVR_PRO_VERSION")){
         $tour_data = array(
-            'explainerControlSwitch' => $explainerControlSwitch ?? false,
+            'explainerControlSwitch' => ( isset( $custom_control['explainerSwitch'] ) && $custom_control['explainerSwitch'] === 'on' ) ? 'on' : 'off',
             'floor_plan_enable' => $floor_plan_enable ?? false,
             'floor_plan_image' => $floor_plan_image ?? '',
             'custom_control' => $custom_control ?? [],
         );
     }
-
     return apply_filters('wpvr_generate_tour_layout_html', $html ,$postdata ,$id, $tour_data);
 }
 

@@ -215,7 +215,9 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
             }
             $autoload = false;
             if (isset($postdata['autoLoad'])) {
-                $autoload = $postdata['autoLoad'];
+                // Pannellum requires strict boolean true (=== true) for autoLoad.
+                // Wizard-created tours store integer 1; cast to bool to ensure compatibility.
+                $autoload = (bool) $postdata['autoLoad'];
             }
 
             $default_scene = '';

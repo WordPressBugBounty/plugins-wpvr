@@ -156,13 +156,27 @@ dragFix.className = 'pnlm-dragfix';
 uiContainer.appendChild(dragFix);
 
 // Display about information on right click
-// var aboutMsg = document.createElement('span');
-// aboutMsg.className = 'pnlm-about-msg';
-// //==wpvr custom rextheme link==//
-// aboutMsg.innerHTML = '<a href="https://rextheme.com/docs/wpvr-360-panorama-and-virtual-tour-creator-for-wordpress/" target="_blank">Rextheme</a>';
-// //==wpvr custom rextheme link end==//
-// uiContainer.appendChild(aboutMsg);
-// dragFix.addEventListener('contextmenu', aboutMessage);
+var aboutMsg = document.createElement('span');
+aboutMsg.className = 'pnlm-about-msg';
+var wpvrAboutMsgHtml = '';
+
+if (window.wpvr_public && !window.wpvr_public.is_pro_active) {
+    var wpvrBadgeVariants = [
+        {label: 'Powered by WPVR', utmContent: 'control'},
+        {label: 'Create your own virtual tour - Free', utmContent: 'benefit_cta'},
+        {label: 'Built with WPVR -> Create yours', utmContent: 'action_cta'}
+    ];
+    var wpvrSelectedVariant = wpvrBadgeVariants[Math.floor(Math.random() * wpvrBadgeVariants.length)];
+    var wpvrBadgeUrl = 'https://rextheme.com/go/wpvr/' + wpvrSelectedVariant.utmContent;
+    wpvrAboutMsgHtml = '<a href="' + wpvrBadgeUrl + '" target="_blank" rel="noopener noreferrer">' + wpvrSelectedVariant.label + '</a>';
+}
+
+
+if (wpvrAboutMsgHtml) {
+    aboutMsg.innerHTML = wpvrAboutMsgHtml;
+    uiContainer.appendChild(aboutMsg);
+    dragFix.addEventListener('contextmenu', aboutMessage);
+}
 
 // Create info display
 var infoDisplay = {};

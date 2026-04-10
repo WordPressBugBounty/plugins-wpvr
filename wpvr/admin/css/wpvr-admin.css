@@ -532,6 +532,13 @@ div.custom-tooltip:hover p:after {
     width: 100%;
 }
 
+.pano-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 5px;
+}
+
 .pano-wrap:before {
     content: "";
     position: absolute;
@@ -747,6 +754,36 @@ div.custom-tooltip:hover p:after {
     opacity: 1;
 }
 
+@media (min-width: 2560px) {
+
+    .rex-add-coordinates ul li.add-pitch:hover .rex-tooltiptext {
+        margin-left: -41px;
+        margin-top: -12px;
+
+    }
+
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
+        left: 162px;
+    }
+}
+
+@media (max-width: 1920px) {
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext {
+        left: -28px;
+        padding: 1px 12px;
+    }
+
+    .rex-add-coordinates ul li.add-pitch:hover .rex-tooltiptext {
+        margin-left: -6px;
+        margin-top: -7px;
+
+    }
+
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
+       left: 69%;
+    }
+
+}
 
 @media (max-width: 1499px) {
     .rex-add-coordinates ul li.add-pitch .rex-tooltiptext {
@@ -755,7 +792,7 @@ div.custom-tooltip:hover p:after {
     }
 
     .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
-        left: 80%;
+        left: 83%;
     }
 }
 
@@ -765,7 +802,7 @@ div.custom-tooltip:hover p:after {
     }
 
     .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
-        left: 50%;
+        left: 52%;
     }
 }
 
@@ -780,6 +817,12 @@ div.custom-tooltip:hover p:after {
     .custom-tooltip span img {
         height: 230px;
         width: 420px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rex-add-coordinates ul li.add-pitch .rex-tooltiptext::after {
+        left: 52%;
     }
 }
 

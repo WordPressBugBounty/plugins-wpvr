@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'wpvr/wpvr',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'f2fcc61dad597bd5a05cebc6c687ecac6c42213d',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => 'fb19b4e0827e52ab460827271e918628c1591a1d',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'wpvr/wpvr' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'f2fcc61dad597bd5a05cebc6c687ecac6c42213d',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => 'fb19b4e0827e52ab460827271e918628c1591a1d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

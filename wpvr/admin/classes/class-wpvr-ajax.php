@@ -257,12 +257,13 @@ class Wpvr_Ajax
 	 *
 	 * @return void
 	 */
+    $is_street_view_mode = (!empty($_POST['streetview']) && $_POST['streetview'] == 'on');
+
     if ($is_publish_action) {
 
       $has_scene_data = false;
       $has_video_data = false;
       $is_video_mode = false;
-      $is_street_view_mode = false;
       $has_street_view_data = false;
 
       // Check if video mode is enabled
@@ -403,10 +404,12 @@ class Wpvr_Ajax
 		update_post_meta( $postid, 'wpvr_checklist', $checklist_data );
 	}
 
-	if ( isset( $_POST['panovideo'] ) && $_POST['panovideo'] == 'on' ) {
-		$this->video->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
-	} else {
-		$this->scene->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
+	if ( ! $is_street_view_mode ) {
+		if ( isset( $_POST['panovideo'] ) && $_POST['panovideo'] == 'on' ) {
+			$this->video->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
+		} else {
+			$this->scene->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
+		}
 	}
 
     do_action( 'wpvr_tour_settings_saved', $postid );
@@ -1135,6 +1138,11 @@ class Wpvr_Ajax
 
     // Set panoid as pano{post_id} in panodata
     $panodata['panoid'] = 'pano' . $post_id;
+
+    // Normalize autoLoad to boolean so Pannellum's strict === true check passes.
+    if ( isset( $panodata['autoLoad'] ) ) {
+      $panodata['autoLoad'] = (bool) $panodata['autoLoad'];
+    }
 
     // Save panodata as post meta
     update_post_meta( $post_id, 'panodata', $panodata );

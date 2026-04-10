@@ -526,8 +526,8 @@
                             $discount_price = "$69.99";
                         } 
                         else {
-                            $discount_percentage = "";
-                            $discount_price = "$74.99";
+                            $discount_percentage = "Save 20%";
+                            $discount_price = "$79.99";
                         }
                         $price = '$99.99';
                     ?>

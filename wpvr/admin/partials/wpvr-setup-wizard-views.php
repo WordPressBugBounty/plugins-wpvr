@@ -217,6 +217,14 @@
                 </div>
             </div>
 
+            <!-- Hotspot List -->
+            <div id="hotspot-list" class="hotspot-list"></div>
+
+            <!-- Premium feature popup (free version only) -->
+            <?php if ( ! apply_filters( 'is_wpvr_pro_active', false ) ) : ?>
+            <?php require plugin_dir_path( __FILE__ ) . 'wpvr-premium-feature-popup.php'; ?>
+            <?php endif; ?>
+
             <!-- Hotspot Modal -->
             <div class="hotspot-modal" id="hotspot-modal" style="display: none;">
                 <div class="hotspot-modal-content">

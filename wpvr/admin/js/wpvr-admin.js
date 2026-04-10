@@ -3,6 +3,8 @@
     var j = 1;
     var color = '#00b4ff';
     var scene_parent = '';
+    var scene_uploader = null;
+    var scene_upload_parent = null;
 
     window.jQuery.migrateMute = true;
     /**
@@ -579,7 +581,7 @@
                                 let publish_text = translatedText?.['Publish'] ?? 'Publish';
                                 $('#publish').val(publish_text);
                             }else{
-                                let update_text = translatedText?.['Update'] ?? 'Update';
+                            let update_text = translatedText?.['Update'] ?? 'Update';
                                 $('#publish').val(update_text);
                             }
                             window.history.replaceState(null, '', url_info.admin_url+"post.php?"+"post="+postid+"&action=edit");
@@ -644,8 +646,8 @@
                 var postid = $("#post_ID").val();
                 var panovideo = $("input[name='panovideo']:checked").val();
                 var videourl = $("input[name='video-attachment-url']").val();
-                var autoload = $("input[name='autoload']").val();
-                var control = $("input[name='controls']").val();
+                var autoload = $("input[name='autoload']").is(':checked') ? 'on' : 'off';
+                var control = $("input[name='controls']").is(':checked') ? 'on' : 'off';
                 var compass = $("input[name='compass']:checked").val();
                 var defaultscene = $("input[name='default-scene-id']").val();
                 var preview = $("input[name='preview-attachment-url']").val();
@@ -655,6 +657,7 @@
                 var autorotationstopdelay = $("input[name='auto-rotation-stop-delay']").val();
 
                 var scenefadeduration = $("input[name='scene-fade-duration']").val();
+                var previewtext = $('.previewtext').val();
 
                 if ($('.scene-setup')[0]) {
                     var panodata = $('.scene-setup').repeaterVal();
@@ -706,6 +709,7 @@
                         autorotationinactivedelay: autorotationinactivedelay,
                         autorotationstopdelay: autorotationstopdelay,
                         scenefadeduration: scenefadeduration,
+                        previewtext: previewtext,
                         checklistData: checklistData
                     },
 
@@ -1565,9 +1569,14 @@
 
         $(document).on("click", ".scene-upload", function (event) {
         event.preventDefault();
-        var parent = $(this).parent('.form-group');
+        scene_upload_parent = $(this).parent('.form-group');
 
-        var scene_uploader = wp.media({
+        if (scene_uploader) {
+            scene_uploader.open();
+            return;
+        }
+
+        scene_uploader = wp.media({
             title: $(this).data('uploader_title'),
             button: {
                 text: $(this).data('uploader_button_text'),
@@ -1622,8 +1631,8 @@
                 $('.rex-add-coordinates').prepend($warningBox, $docLink);
             }
 
-            parent.find('.scene-attachment-url').val(attachment.url);
-            parent.find('img').attr('src', attachment.url).show();
+            scene_upload_parent.find('.scene-attachment-url').val(attachment.url);
+            scene_upload_parent.find('img').attr('src', attachment.url).show();
 
             setTimeout(function () {
                 if (!$('#wpvr-check-scene').is(':checked')) {
@@ -1792,6 +1801,7 @@
             $("li.hotspot").show();
             $("li.streetview").show();
             $(".video-setting").hide();
+            toggleSceneGallery(null, 'off');
         }
 
         $(document).on("click", ".wpvr-delete-confirm-btn .cancel,.wpvr-delete-alert-wrapper .cross", function (e) {
@@ -1807,6 +1817,7 @@
             $("li.hotspot").show();
             $("li.streetview").show();
             $(".video-setting").hide();
+            toggleSceneGallery(null, 'off');
 
         });
 
@@ -1822,6 +1833,7 @@
             $("li.scene").hide();
             $("li.hotspot").hide();
             $("li.streetview").hide();
+            toggleSceneGallery(null, 'on');
 
         });
     });
@@ -1996,6 +2008,7 @@
         }
 
         handle_add_pitch_button(screen);
+        toggleSceneGallery(screen);
 
         if (window.history != 'undefined' && window.history.pushState != 'undefined') {
             window.history.pushState({ path: newUrl }, '', newUrl);
@@ -3004,7 +3017,6 @@
 
     $(document).ready(function() {
         handle_add_pitch_button();
-        toggleSceneGallery();
     });
 
     $(document).on( 'mousedown', 'div.pnlm-dragfix', () => { handle_add_pitch_button() } );
@@ -3017,7 +3029,7 @@
         return activeTab;
     }
 
-    function handle_add_pitch_button( activeTab = null ) {
+    function handle_add_pitch_button( activeTab = null, panovideo = null ) {
         activeTab = activeTab === null ? get_active_tab() : activeTab;
 
         if(handle_hotspot_tab(activeTab, true))
@@ -3042,6 +3054,7 @@
             $('#wpvr_item_tour_checklist__box').css('display', 'block');
         }
 
+        toggleSceneGallery(activeTab, panovideo);
     }
 
     $(document).ready(function() {
@@ -3071,9 +3084,10 @@
     }
 
 
-    function toggleSceneGallery(activeTab = null) {
+    function toggleSceneGallery(activeTab = null, panovideo = null) {
         activeTab = activeTab === null ? get_active_tab() : activeTab;
-        if (activeTab && 'video' === activeTab) {
+        panovideo = panovideo === null ? $("input[name='panovideo']:checked").val() : panovideo;
+        if ((activeTab && ('video' === activeTab || 'streetview' === activeTab ) || (  panovideo === 'on' && ( 'floorPlan' === activeTab || 'backgroundTour' === activeTab || 'export' === activeTab)))) {
             jQuery('.scene-gallery').hide();
         } else {
             jQuery('.scene-gallery').show();
@@ -3429,3 +3443,87 @@
     });
 
 })(jQuery);
+
+        // WPVR Hotspot Long-Press Mobile Support
+        jQuery(document).ready(function($) {
+            var isTouchDevice = (("ontouchstart" in window) || (navigator.maxTouchPoints > 0));
+            if (isTouchDevice) {
+                setTimeout(function() {
+                    if (!$('.wpvr-hotspot-longpress-alert').length) {
+                        alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
+                    }
+                    $('.pnlm-hotspot-base, .pnlm-hotspot').each(function() {
+                        $(this).off('mouseenter mouseover mouseleave');
+
+                        // Hide only the inner content <p>, not the hotspot pointer
+                        $(this).find('p').hide();
+
+                        var longPressTimer;
+                        var isLongPress = false;
+
+                        // Prevent click after long press
+                        $(this).off('click._wpvrHotspotFix').on('click._wpvrHotspotFix', function(e) {
+                            if ($(this).data('wpvr-longpress')) {
+                                e.preventDefault();
+                                e.stopImmediatePropagation();
+                                $(this).data('wpvr-longpress', false);
+                                return false;
+                            }
+                        });
+
+                        $(this).on('touchstart', function(e) {
+                            isLongPress = false;
+                            var $hotspot = $(this);
+
+                            // Hide inner content on touch start
+                            $hotspot.find('p').hide();
+
+                            longPressTimer = setTimeout(function() {
+                                isLongPress = true;
+                                $hotspot.data('wpvr-longpress', true);
+
+                                // Hide all other hotspot contents first
+                                $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+
+                                // Show only this hotspot's content
+                                $hotspot.find('p').show();
+                            }, 600);
+                        });
+
+                        $(this).on('touchend', function(e) {
+                            clearTimeout(longPressTimer);
+                            if (isLongPress) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            } else {
+                                // Short tap: hide inner content, let click fire
+                                $(this).find('p').hide();
+                            }
+                        });
+
+                        $(this).on('touchmove', function() {
+                            clearTimeout(longPressTimer);
+                            isLongPress = false;
+                            // Hide inner content if user starts panning
+                            $(this).find('p').hide();
+                        });
+                    });
+
+                    // Hide hotspot content when tapping outside any hotspot
+                    $(document).on('touchstart.wpvrHotspotOutside', function(e) {
+                        // If the tap is not inside a hotspot or its content
+                        if (!$(e.target).closest('.pnlm-hotspot-base, .pnlm-hotspot').length) {
+                            $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+                        }
+                    });
+
+                    // Hide other hotspot contents when another hotspot is long-pressed
+                    $('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart', function(e) {
+                        // Hide all other hotspot contents except the one being touched
+                        var $current = $(this);
+                        $('.pnlm-hotspot-base, .pnlm-hotspot').not($current).find('p').hide();
+                    });
+
+                }, 800);
+            }
+        });

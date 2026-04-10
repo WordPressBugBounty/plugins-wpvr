@@ -129,6 +129,13 @@ jQuery(document).ready(function($) {
         }
     };
 
+    // Pro / hotspot-limit config (populated via wp_localize_script)
+    const wpvrWizardCfg    = (typeof wpvrSetupWizardData !== 'undefined') ? wpvrSetupWizardData : {};
+    const isPro            = !!wpvrWizardCfg.is_pro;
+    const HOTSPOT_LIMIT    = isPro ? Infinity : (parseInt(wpvrWizardCfg.hotspot_limit, 10) || 5);
+
+    const wizardStrings = wpvrWizardCfg.wizard_strings || {};
+
     let selectedIndustry = null;
     let uploadedImageUrl = null;
     let uploadedImageFile = null;
@@ -211,6 +218,7 @@ jQuery(document).ready(function($) {
             mediaUploader.on('select', function() {
                 const attachment = mediaUploader.state().get('selection').first().toJSON();
                 
+                hotspots = [];
                 uploadedImageId = attachment.id;
                 uploadedImageUrl = attachment.url;
                 
@@ -279,6 +287,7 @@ jQuery(document).ready(function($) {
             mediaUploader.on('select', function() {
                 const attachment = mediaUploader.state().get('selection').first().toJSON();
                 
+                hotspots = [];
                 uploadedImageId = attachment.id;
                 uploadedImageUrl = attachment.url;
                 
@@ -418,6 +427,7 @@ jQuery(document).ready(function($) {
             },
             success: function(response) {
                 if (response.success) {
+                    hotspots = [];
                     uploadedImageId = response.data.attachment_id;
                     uploadedImageUrl = response.data.url;
                     
@@ -825,6 +835,7 @@ jQuery(document).ready(function($) {
                                         }
                                         
                                         // If template has an image URL, use it
+                                        hotspots = [];
                                         if (templateData.image_url) {
                                             uploadedImageUrl = templateData.image_url;
                                         } else {
@@ -856,6 +867,7 @@ jQuery(document).ready(function($) {
                                 .removeClass('is-loading isloading')
                                 .text(defaultUseTemplateText);
 
+                            hotspots = [];
                             uploadedImageUrl = null;
                             uploadedImageFile = null;
                             uploadedImageId = null;
@@ -936,8 +948,8 @@ jQuery(document).ready(function($) {
                             
                             // Build panodata structure matching WPVR format
                             let panodata = {
-                                'autoLoad': 1,
-                                'showControls': 1,
+                                'autoLoad': true,
+                                'showControls': true,
                                 'customcontrol': '',
                                 'genericform': 'off',
                                 'genericformshortcode': '',
@@ -1030,6 +1042,7 @@ jQuery(document).ready(function($) {
                             $('#panorama-container').hide();
                             $('#preview-image-placeholder').show();
                         }
+                        renderHotspotList();
                     }, 0);
                 }
             },
@@ -1274,7 +1287,7 @@ jQuery(document).ready(function($) {
         
         // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
         // But NOT pnlm-dragfix which is the main dragging overlay
-        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-fullscreen-toggle-button, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
             return;
         }
         
@@ -1372,7 +1385,7 @@ jQuery(document).ready(function($) {
 
         // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
         // But NOT pnlm-dragfix which is the main dragging overlay
-        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-fullscreen-toggle-button, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
             panoramaMouseDown = null;
             panoramaIsDragging = false;
             return;
@@ -1397,7 +1410,14 @@ jQuery(document).ready(function($) {
                 
                 // Store coordinates for hotspot creation
                 pendingHotspotCoords = { pitch, yaw };
-                
+
+                // Enforce free-version hotspot limit before opening modal
+                if (!isPro && hotspots.length >= HOTSPOT_LIMIT) {
+                    showHotspotLimitNotice();
+                    pendingHotspotCoords = null;
+                    return;
+                }
+
                 // Show hotspot modal
                 showHotspotModal();
             }
@@ -1421,10 +1441,56 @@ jQuery(document).ready(function($) {
         pendingHotspotCoords = null;
     }
 
+    // Show the premium upgrade popup when hotspot limit is reached
+    function showHotspotLimitNotice() {
+        var $popup = $('#wpvr_premium_feature_popup');
+        if (!$popup.length) {
+            return;
+        }
+
+        // Swap in hotspot-limit-specific text
+        var $heading    = $popup.find('.wpvr-premium-feature__heading');
+        var $subheading = $popup.find('.wpvr-premium-feature__subheading');
+        $heading.data('original-text', $heading.text());
+        $subheading.data('original-html', $subheading.html());
+        $heading.text(wizardStrings.limit_heading || 'Limit Reached');
+        $subheading.html(
+            '<p>' + (wizardStrings.limit_line1 || 'You can add up to ' + HOTSPOT_LIMIT + ' hotspots on each scene in the Free version.') + '</p>' +
+            '<p>' + (wizardStrings.limit_line2 || 'Upgrade to Pro to add an unlimited number of hotspots.') + '</p>'
+        );
+
+        // Apply the discount label CSS custom property
+        var $label = $popup.find('.wpvr-premium-feature__discount-price-label');
+        if ($label.length) {
+            $label[0].style.setProperty('--discount-content-value', '"' + ($label.data('discount') || '') + '"');
+        }
+        $popup.show();
+    }
+
+    // Hide the premium upgrade popup and restore original heading text
+    function hideHotspotLimitNotice() {
+        var $popup = $('#wpvr_premium_feature_popup');
+        var $heading    = $popup.find('.wpvr-premium-feature__heading');
+        var $subheading = $popup.find('.wpvr-premium-feature__subheading');
+        if ($heading.data('original-text')) {
+            $heading.text($heading.data('original-text'));
+        }
+        if ($subheading.data('original-html')) {
+            $subheading.html($subheading.data('original-html'));
+        }
+        $popup.hide();
+    }
+
     // Save hotspot
     function saveHotspot() {
         const text = $('#hotspot-text').val().trim();
-        
+
+        if (!isPro && hotspots.length >= HOTSPOT_LIMIT) {
+            hideHotspotModal();
+            showHotspotLimitNotice();
+            return;
+        }
+
         if (!text) {
             alert('Please enter hotspot text');
             return;
@@ -1449,14 +1515,54 @@ jQuery(document).ready(function($) {
         // Reinitialize viewer with updated hotspots
         initPanoramaViewer();
 
+        // Update hotspot list
+        renderHotspotList();
+
         // Hide modal
         hideHotspotModal();
+    }
+
+    // Render hotspot list below panorama with remove buttons
+    function renderHotspotList() {
+        const $list = $('#hotspot-list');
+        if (!$list.length) return;
+
+        $list.empty();
+
+        if (hotspots.length === 0) {
+            return;
+        }
+
+        const $label = $('<p class="hotspot-list-label">Hotspot</p>');
+        const $items = $('<ul class="hotspot-items"></ul>');
+        hotspots.forEach(function(hotspot, index) {
+            const escapedText = $('<span>').text(hotspot.text).html();
+            const $item = $('<li class="hotspot-item">' +
+                '<span class="hotspot-item-text">' + escapedText + '</span>' +
+                '<button class="hotspot-item-remove" data-index="' + index + '" title="Remove hotspot" aria-label="Remove hotspot">&times;</button>' +
+                '</li>');
+            $items.append($item);
+        });
+        $list.append($label);
+        $list.append($items);
+
+        $list.find('.hotspot-item-remove').off('click').on('click', function() {
+            const index = parseInt($(this).data('index'), 10);
+            hotspots.splice(index, 1);
+            initPanoramaViewer();
+            renderHotspotList();
+        });
     }
 
     // Bind hotspot modal handlers
     $(document).ready(function() {
         $('#hotspot-save').off('click').on('click', saveHotspot);
         $('#hotspot-cancel, #hotspot-modal-close').off('click').on('click', hideHotspotModal);
+
+        // Close the premium popup via the built-in close button
+        $(document).off('click.limitDismiss').on('click.limitDismiss', '#wpvr_premium_feature_close', function() {
+            hideHotspotLimitNotice();
+        });
         
         // Close on clicking outside modal
         $('#hotspot-modal').off('click').on('click', function(e) {
