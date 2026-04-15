@@ -127,6 +127,9 @@ jQuery(document).ready(function($) {
     var isTouchDevice = (("ontouchstart" in window) || (navigator.maxTouchPoints > 0));
     if (isTouchDevice) {
         setTimeout(function() {
+            if (!$('.pnlm-container').length) {
+                return;
+            }
             if (!$('.wpvr-hotspot-longpress-alert').length) {
                 alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
             }

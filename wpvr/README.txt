@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.65
+Stable tag: 8.5.66
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -442,9 +442,14 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 
 = WPVR (Free) =
 
+= 8.5.66 (2026-04-15) =
+* Bug Fix: Mobile popup now shows only on tour pages
+
 = 8.5.65 (2026-04-10) =
 * Improvement: Add powered by CTA button
-* Bug Fix: Deprecated ${var} warning in PostHog PHP library
+
+= 8.5.65 (2026-04-10) =
+* Improvement: Add powered by CTA button
 
 = 8.5.64 (2026-04-02) =
 * Improvement: Update telemetry
