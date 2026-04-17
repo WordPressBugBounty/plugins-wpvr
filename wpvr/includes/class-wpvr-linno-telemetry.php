@@ -106,20 +106,11 @@ class WPVR_Linno_Telemetry {
                         'hook'     => 'wpvr_first_tour_published_event',
                         'callback' => array( $this, 'build_first_strike_payload' ),
                     ),
-                    'unique_views_7d'      => array(
-                        'hook'     => 'wpvr_kui_unique_views_updated',
-                        'callback' => array( $this, 'build_kui_payload' ),
-                    ),
                 ),
                 'feature_used' => array(
-                    'hotspot_editor' => array(
-                        'hook' => 'wpvr_hotspot_saved',
-                    ),
-                    'floor_plan'     => array(
-                        'hook' => 'wpvr_floor_plan_configured',
-                    ),
-                    'tour_builder'   => array(
-                        'hook' => 'wpvr_tour_settings_saved',
+                    'tour_creation' => array(
+                        'hook'     => 'wpvr_tour_settings_saved',
+                        'callback' => array( $this, 'build_tour_creation_payload' ),
                     ),
                 ),
             )
@@ -247,6 +238,60 @@ class WPVR_Linno_Telemetry {
             'tour_id'      => absint( $tour_id ),
             'window_days'  => 7,
             'time'         => current_time( 'mysql' ),
+        );
+    }
+
+    /**
+     * Build tour creation payload with feature usage as properties.
+     *
+     * Fires when tour settings are saved. Inspects the stored panodata meta to
+     * determine which core features the user has configured, so all feature
+     * usage is captured in a single event instead of separate ones.
+     *
+     * @param int $tour_id Tour (post) ID.
+     * @return array
+     */
+    public function build_tour_creation_payload( $tour_id = 0 ) {
+        $tour_id  = absint( $tour_id );
+        $panodata = get_post_meta( $tour_id, 'panodata', true );
+
+        $hotspot_editor = 'no';
+        $floor_plan     = 'no';
+        $tour_builder   = 'no';
+
+        if ( is_array( $panodata ) ) {
+            // Floor plan — added to panodata by pro version via filter.
+            if (
+                isset( $panodata['floor_plan_tour_enabler'] ) &&
+                'on' === $panodata['floor_plan_tour_enabler'] &&
+                ! empty( $panodata['floor_plan_attachment_url'] )
+            ) {
+                $floor_plan = 'yes';
+            }
+
+            // Scene list lives one level deeper inside panodata.
+            $scene_list = isset( $panodata['panodata']['scene-list'] ) ? $panodata['panodata']['scene-list'] : array();
+
+            if ( is_array( $scene_list ) ) {
+                // Tour builder = more than one scene configured.
+                if ( count( $scene_list ) > 1 ) {
+                    $tour_builder = 'yes';
+                }
+
+                // Hotspot editor = at least one non-empty hotspot in any scene.
+                foreach ( $scene_list as $scene ) {
+                    if ( ! empty( $scene['hotspot-list'] ) && is_array( $scene['hotspot-list'] ) ) {
+                        $hotspot_editor = 'yes';
+                        break;
+                    }
+                }
+            }
+        }
+
+        return array(
+            'hotspot_editor' => $hotspot_editor,
+            'floor_plan'     => $floor_plan,
+            'tour_builder'   => $tour_builder,
         );
     }
 

@@ -470,6 +470,9 @@ class WPVR_Scene {
             )
         );
 
+        do_action( 'wpvr_tour_settings_saved', $postid );
+
+
         /**
          * Delete orphaned analytics data
          *
@@ -529,11 +532,14 @@ class WPVR_Scene {
       $autoload     = $this->format->set_checkbox_value($_POST['autoload']);
 
       $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
-      $mouseZoom    = $this->format->set_pro_checkbox_value(@$_POST['mouseZoom']);
+      $mouseZoom    = $this->format->set_checkbox_value(@$_POST['mouseZoom']);
       $draggable = $this->format->set_checkbox_value($_POST['draggable'] ?? null);
       $gzoom        = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
       $diskeyboard  = $this->format->set_checkbox_value(@$_POST['diskeyboard']);
       $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
+
+      $gyro = $this->format->set_checkbox_on_value(@$_POST['gyro']);
+      $deviceorientationcontrol = $this->format->set_checkbox_value(@$_POST['deviceorientationcontrol']);
 
       $floor_plan_enabler = $this->format->set_pro_checkbox_value(@$_POST['wpvr_floor_plan_enabler']);
       $floor_plan_image = isset($_POST['wpvr_floor_plan_image']) ? $_POST['wpvr_floor_plan_image'] : '';
@@ -584,7 +590,7 @@ class WPVR_Scene {
       $pano_id_array = array();
       $pano_id_array = array("panoid" => $panoid);
       $pano_response = array();
-      $pano_response = array("autoLoad" => $autoload, "defaultZoom" => $default_global_zoom, "minZoom" => $min_global_zoom, "maxZoom" => $max_global_zoom, "showControls" => $control, "compass" => $compass, "mouseZoom" => $mouseZoom, "draggable" => $draggable, "disableKeyboardCtrl" => $diskeyboard, 'keyboardZoom' => $keyboardzoom, "preview" => $preview, "autoRotate" => $autorotation, "autoRotateInactivityDelay" => $autorotationinactivedelay, "autoRotateStopDelay" => $autorotationstopdelay, "default" => $default_data, "scenes" => $scene_data);
+      $pano_response = array("autoLoad" => $autoload, "defaultZoom" => $default_global_zoom, "minZoom" => $min_global_zoom, "maxZoom" => $max_global_zoom, "showControls" => $control, "compass" => $compass, "orientationOnByDefault" => $deviceorientationcontrol, "mouseZoom" => $mouseZoom, "draggable" => $draggable, "disableKeyboardCtrl" => $diskeyboard, 'keyboardZoom' => $keyboardzoom, "preview" => $preview, "autoRotate" => $autorotation, "autoRotateInactivityDelay" => $autorotationinactivedelay, "autoRotateStopDelay" => $autorotationstopdelay, "default" => $default_data, "scenes" => $scene_data);
       
       $pano_response = $this->format->prepare_rotation_wrapper_data($pano_response, $rotation);
 

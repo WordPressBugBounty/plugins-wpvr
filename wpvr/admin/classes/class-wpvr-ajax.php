@@ -230,6 +230,7 @@ class Wpvr_Ajax
     }
 
     $panoid = 'pano' . $postid;
+    
 
     /**
 	 * Checks if this is a publish action and validates scene/video data.
@@ -403,6 +404,7 @@ class Wpvr_Ajax
 		$checklist_data = array_map( 'sanitize_text_field', $_POST['checklistData'] );
 		update_post_meta( $postid, 'wpvr_checklist', $checklist_data );
 	}
+    error_log("Tour with ID $postid has been saved with status " . $post_array['post_status']);
 
 	if ( ! $is_street_view_mode ) {
 		if ( isset( $_POST['panovideo'] ) && $_POST['panovideo'] == 'on' ) {
@@ -412,7 +414,6 @@ class Wpvr_Ajax
 		}
 	}
 
-    do_action( 'wpvr_tour_settings_saved', $postid );
     do_action('rex_wpvr_tour_saved', $postid);
 
     $response = array(

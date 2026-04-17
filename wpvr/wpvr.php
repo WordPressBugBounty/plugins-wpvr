@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.66
+ * Version:           8.5.67
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -46,7 +46,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.66');
+define('WPVR_VERSION', '8.5.67');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -145,9 +145,47 @@ function run_wpvr()
     // Initialize first tour banner
     new WPVR_First_Tour_Banner();
 
+    // Pro preview banner (shown via JS when free user toggles Advanced Controls)
+    if (!defined('WPVR_PRO_VERSION')) {
+        add_action('admin_notices', 'wpvr_render_pro_preview_banner', 11);
+    }
 
 }
 run_wpvr();
+
+/**
+ * Render Pro preview banner as admin notice.
+ * Hidden by default; shown via JS when free user toggles Advanced Controls.
+ *
+ * @since 8.5.44
+ */
+function wpvr_render_pro_preview_banner() {
+    $screen = get_current_screen();
+    if (!$screen || $screen->id !== 'wpvr_item') {
+        return;
+    }
+    ?>
+    <div class="wpvr-pro-preview-banner" id="wpvr-pro-preview-banner" style="display:none;">
+        <div class="wpvr-pro-preview-banner__left">
+            <span class="wpvr-pro-preview-banner__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </span>
+            <span class="wpvr-pro-preview-banner__text"><?php esc_html_e('You are previewing Pro features in action.', 'wpvr'); ?></span>
+        </div>
+        <div class="wpvr-pro-preview-banner__pricing">
+            <div class="wpvr-pro-preview-banner__pricing-top">
+                <span class="wpvr-pro-preview-banner__old-price"><?php esc_html_e('Normally $99.99/year', 'wpvr'); ?></span>
+                <span class="wpvr-pro-preview-banner__badge"><?php esc_html_e('SAVE 20%', 'wpvr'); ?></span>
+            </div>
+            <span class="wpvr-pro-preview-banner__new-price"><?php esc_html_e('Starting at $79.99/year', 'wpvr'); ?></span>
+        </div>
+        <a href="<?php echo esc_url('https://rextheme.com/wpvr/wpvr-pricing/?utm_source=plugin&utm_medium=pro-preview-banner&utm_campaign=advanced-controls'); ?>" class="wpvr-pro-preview-banner__btn" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 2h14v1c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1z"/></svg>
+            <?php esc_html_e('Upgrade to save changes', 'wpvr'); ?>
+        </a>
+    </div>
+    <?php
+}
 
 
 /**

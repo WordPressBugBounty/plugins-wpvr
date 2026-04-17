@@ -199,7 +199,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
             }
             $mouseZoom = true;
             if (isset($postdata['mouseZoom'])) {
-                $mouseZoom = $postdata['mouseZoom'];
+                $mouseZoom = $postdata['mouseZoom'] == 'on' || $postdata['mouseZoom'] === true ? true : false;
             }
             $draggable = true;
             if (isset($postdata['draggable'])) {
@@ -550,6 +550,48 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
             <div class="iframe-wrapper">
                 <i class="fa fa-times" id="cross"></i>
+                <?php if (!apply_filters('is_wpvr_pro_active', false)) : ?>
+                <div class="wpvr-pro-preview-watermark" id="wpvr-pro-preview-watermark" style="display:none;">
+                    <span><?php esc_html_e('PRO PREVIEW', 'wpvr'); ?></span>
+                </div>
+
+                <!-- Pro Preview: Feature mockup overlays (Option B) -->
+                <div class="wpvr-pro-mockup wpvr-pro-mockup--gallery" id="wpvr-pro-mockup-gallery" style="display:none;">
+                    <div class="wpvr-pro-mockup-gallery__bar">
+                        <span class="wpvr-pro-mockup-gallery__toggle">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        </span>
+                        <div class="wpvr-pro-mockup-gallery__thumbs">
+                            <div class="wpvr-pro-mockup-gallery__thumb"></div>
+                            <div class="wpvr-pro-mockup-gallery__thumb"></div>
+                            <div class="wpvr-pro-mockup-gallery__thumb"></div>
+                            <div class="wpvr-pro-mockup-gallery__thumb"></div>
+                        </div>
+                        <span class="wpvr-pro-mockup-gallery__label"><?php esc_html_e('Scene Gallery', 'wpvr'); ?></span>
+                    </div>
+                </div>
+
+                <div class="wpvr-pro-mockup wpvr-pro-mockup--navigation" id="wpvr-pro-mockup-navigation" style="display:none;">
+                    <span class="wpvr-pro-mockup-navigation__icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </span>
+                    <span class="wpvr-pro-mockup-navigation__list">
+                        <span class="wpvr-pro-mockup-navigation__item"><?php esc_html_e('Scene 1', 'wpvr'); ?></span>
+                        <span class="wpvr-pro-mockup-navigation__item"><?php esc_html_e('Scene 2', 'wpvr'); ?></span>
+                        <span class="wpvr-pro-mockup-navigation__item"><?php esc_html_e('Scene 3', 'wpvr'); ?></span>
+                    </span>
+                </div>
+
+                <div class="wpvr-pro-mockup wpvr-pro-mockup--audio" id="wpvr-pro-mockup-audio" style="display:none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <span><?php esc_html_e('Background Music', 'wpvr'); ?></span>
+                </div>
+
+                <div class="wpvr-pro-mockup wpvr-pro-mockup--gyro" id="wpvr-pro-mockup-gyro" style="display:none;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span><?php esc_html_e('Gyroscope — Active on mobile', 'wpvr'); ?></span>
+                </div>
+                <?php endif; ?>
                 <div id="custom-ifram" style="display: none;"></div>
                 <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap" style="direction:ltr; height: 100%">
                     <?php if ($is_floor_enable == 'on') { ?>

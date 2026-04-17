@@ -713,6 +713,14 @@ function onDocumentMouseDown(event) {
     // But not all of it
     container.focus();
 
+    // Always capture coordinates for hotspot placement, regardless of draggable state.
+    //==Custom wpvr code to set coordinate on admin==//
+    if (loaded) {
+        var coords = mouseEventToCoords(event);
+        jQuery("#panodata").html('Pitch: ' + coords[0] + ', Yaw: ' + coords[1]);
+    }
+    //==Custom wpvr code end==//
+
     // Only do something if the panorama is loaded
     if (!loaded || !config.draggable) {
         return;
@@ -727,11 +735,6 @@ function onDocumentMouseDown(event) {
         console.log('Pitch: ' + coords[0] + ', Yaw: ' + coords[1] + ', Center Pitch: ' +
             config.pitch + ', Center Yaw: ' + config.yaw + ', HFOV: ' + config.hfov);
     }
-
-    //==Custom wpvr code to set coordinate on admin==//
-    var coords = mouseEventToCoords(event);
-    jQuery("#panodata").html('Pitch: ' + coords[0] + ', Yaw: ' + coords[1]);
-    //==Custom wpvr code end==//
 
     // Turn off auto-rotation if enabled
     stopAnimation();

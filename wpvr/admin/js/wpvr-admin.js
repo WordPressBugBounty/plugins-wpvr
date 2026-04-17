@@ -117,6 +117,132 @@
     }
 
 
+    // === Pro Preview: Sticky Banner & Watermark for Free Users on Advanced Controls ===
+    (function initProPreview() {
+        if (typeof wpvr_obj === 'undefined' || wpvr_obj.is_wpvr_pro_active) {
+            return;
+        }
+
+        var $banner = $('#wpvr-pro-preview-banner');
+        var $watermark = $('#wpvr-pro-preview-watermark');
+
+        // All toggleable IDs in the Advanced Controls tab
+        var advancedControlIds = [
+            'wpvr_diskeyboard', 'wpvr_keyboardzoom', 'wpvr_draggable',
+            'wpvr_mouseZoom', 'wpvr_gyro', 'wpvr_deviceorientationcontrol', 'wpvr_compass',
+            'wpvr_vrgallery', 'wpvr_vrgallery_title', 'wpvr_scene_navigation',
+            'wpvr_bg_music', 'wpvr_explainerSwitch', 'wpvr_globalzoom', 'wpvr_cpLogoSwitch'
+        ];
+
+        // Option A: IDs whose effect is visible via pannellum config (auto-trigger preview)
+        var pannellumConfigIds = [
+            'wpvr_compass', 'wpvr_diskeyboard', 'wpvr_keyboardzoom',
+            'wpvr_draggable', 'wpvr_mouseZoom'
+        ];
+
+        // Option B: IDs mapped to their mockup overlay elements
+        var mockupMap = {
+            'wpvr_vrgallery': '#wpvr-pro-mockup-gallery',
+            'wpvr_scene_navigation': '#wpvr-pro-mockup-navigation',
+            'wpvr_bg_music': '#wpvr-pro-mockup-audio',
+            'wpvr_gyro': '#wpvr-pro-mockup-gyro'
+        };
+
+        var previewDebounceTimer = null;
+
+        // Enable the disabled checkboxes in the advanced controls tab for Pro Preview
+        function enableAdvancedToggles() {
+            $('#gen-advanced input.vr-switcher-check[disabled]').each(function () {
+                $(this).prop('disabled', false).addClass('wpvr-pro-preview-toggle');
+            });
+        }
+
+        function hasAnyAdvancedToggleOn() {
+            for (var i = 0; i < advancedControlIds.length; i++) {
+                var $el = $('#' + advancedControlIds[i]);
+                if ($el.length && $el.prop('checked')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function updateProPreviewState() {
+            if (hasAnyAdvancedToggleOn()) {
+                $banner.slideDown(200);
+                $watermark.fadeIn(200);
+            } else {
+                $banner.slideUp(200);
+                $watermark.fadeOut(200);
+            }
+        }
+
+        // Option B: Show/hide CSS mockup overlays based on toggle state
+        function updateMockups() {
+            $.each(mockupMap, function (toggleId, mockupSelector) {
+                var $checkbox = $('#' + toggleId);
+                var $mockup = $(mockupSelector);
+                if ($checkbox.length && $checkbox.prop('checked')) {
+                    $mockup.fadeIn(200);
+                } else {
+                    $mockup.fadeOut(200);
+                }
+            });
+
+            // Adjust audio mockup position when gallery is also visible
+            var galleryOn = $('#wpvr_vrgallery').prop('checked');
+            var $audio = $('#wpvr-pro-mockup-audio');
+            if (galleryOn) {
+                $audio.addClass('wpvr-pro-mockup--has-gallery');
+            } else {
+                $audio.removeClass('wpvr-pro-mockup--has-gallery');
+            }
+        }
+
+        // Option A: Auto-trigger preview for features that work via pannellum config
+        function autoTriggerPreview(toggleId) {
+            if (pannellumConfigIds.indexOf(toggleId) === -1) {
+                return;
+            }
+            // Only auto-preview if a scene image exists
+            var hasScene = $('#scene-1').find('input.sceneid').val();
+            if (!hasScene) {
+                return;
+            }
+            clearTimeout(previewDebounceTimer);
+            previewDebounceTimer = setTimeout(function () {
+                $('.panolenspreview').trigger('click');
+            }, 600);
+        }
+
+        // Listen for toggle changes on advanced control checkboxes
+        $(document).on('change', '#gen-advanced input.vr-switcher-check', function () {
+            updateProPreviewState();
+            updateMockups();
+            autoTriggerPreview($(this).attr('id'));
+        });
+
+        // Update state when the Advanced Controls tab is shown
+        $(document).on('click', '.inner-nav li.gen-advanced', function () {
+            setTimeout(function () {
+                enableAdvancedToggles();
+                updateProPreviewState();
+                updateMockups();
+            }, 100);
+        });
+
+        // Initial check when DOM is ready
+        $(document).ready(function () {
+            enableAdvancedToggles();
+            if ($('#gen-advanced').is(':visible')) {
+                updateProPreviewState();
+                updateMockups();
+            }
+        });
+    })();
+    // === End Pro Preview ===
+
+
     var specificeSceneID = ''
     var newScene = ''
     $(document).on("click", ".scene-nav ul li span", function (event) {
@@ -178,6 +304,16 @@
             var panolist = JSON.stringify(filteredPanodata);
             var previewtext = $('.previewtext').val();
 
+            // Collect advanced control values for Pro Preview.
+            // draggable defaults to 'on' — it is a basic feature and must be
+            // enabled in the preview so pannellum can capture hotspot coordinates.
+            var diskeyboard = $('#wpvr_diskeyboard').is(':checked') ? 'on' : 'off';
+            var keyboardzoom = $('#wpvr_keyboardzoom').is(':checked') ? 'on' : 'off';
+            var draggable = 'on'; // always enabled; dragging is required for hotspot coordinate capture
+            var mouseZoom = $('#wpvr_mouseZoom').is(':checked') ? 'on' : 'off';
+            var gyro = $('#wpvr_gyro').is(':checked') ? 'on' : 'off';
+            var deviceorientationcontrol = $('#wpvr_deviceorientationcontrol').is(':checked') ? 'on' : 'off';
+
             jQuery.ajax({
                 type: "POST",
                 url: ajaxurl,
@@ -199,7 +335,13 @@
                     panovideo: panovideo,
                     videourl: videourl,
                     vidautoplay: vidautoplay,
-                    vidcontrol: vidcontrol
+                    vidcontrol: vidcontrol,
+                    diskeyboard: diskeyboard,
+                    keyboardzoom: keyboardzoom,
+                    draggable: draggable,
+                    mouseZoom: mouseZoom,
+                    gyro: gyro,
+                    deviceorientationcontrol: deviceorientationcontrol
                 },
 
                 success: function (response) {

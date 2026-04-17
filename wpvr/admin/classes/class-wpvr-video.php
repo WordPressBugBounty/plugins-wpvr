@@ -102,6 +102,7 @@ class WPVR_Video {
                 'post_status' => get_post_status($postid)
             )
         );
+        do_action( 'wpvr_tour_settings_saved', $postid );
         wp_send_json($response);
         die();
     }

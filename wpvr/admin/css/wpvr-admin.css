@@ -6882,8 +6882,322 @@ body.wp-vr_page_wpvr-setting {
 }
 
 
+/* === Pro Preview: Sticky Banner === */
+.wpvr-pro-preview-banner {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    margin: 10px 20px 5px 5px;
+    background: #3F04FE;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: calc(100% - 20px);
+}
 
+.wpvr-pro-preview-banner__left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
 
+.wpvr-pro-preview-banner__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: #01B5FF;
+}
 
+.wpvr-pro-preview-banner__text {
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.wpvr-pro-preview-banner__pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.wpvr-pro-preview-banner__pricing-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wpvr-pro-preview-banner__old-price {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: line-through;
+}
+
+.wpvr-pro-preview-banner__badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #01B5FF;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wpvr-pro-preview-banner__new-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.wpvr-pro-preview-banner__btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: #ffffff;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+}
+
+.wpvr-pro-preview-banner__btn:hover {
+    background: #00B6FF;
+    color: #ffffff;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.wpvr-pro-preview-banner__btn:active {
+    transform: translateY(0);
+}
+
+/* === Pro Preview: Watermark Overlay === */
+.wpvr-pro-preview-watermark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wpvr-pro-preview-watermark span {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: rgba(255, 255, 255, 0.12);
+    text-transform: uppercase;
+    transform: rotate(-30deg);
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* Responsive adjustments for sticky banner */
+@media (max-width: 768px) {
+    .wpvr-pro-preview-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 12px 16px;
+        gap: 10px;
+        margin: 10px 16px 0 0;
+    }
+
+    .wpvr-pro-preview-banner__left {
+        justify-content: center;
+    }
+
+    .wpvr-pro-preview-banner__text {
+        white-space: normal;
+    }
+
+    .wpvr-pro-preview-banner__pricing {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .wpvr-pro-preview-watermark span {
+        font-size: 32px;
+        letter-spacing: 4px;
+    }
+}
+
+/* === Pro Preview: Feature Mockup Overlays (Option B) === */
+.wpvr-pro-mockup {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* -- Scene Gallery Mockup -- */
+.wpvr-pro-mockup--gallery {
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.wpvr-pro-mockup-gallery__bar {
+    background: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+}
+
+.wpvr-pro-mockup-gallery__toggle {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.wpvr-pro-mockup-gallery__thumbs {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.wpvr-pro-mockup-gallery__thumb {
+    width: 52px;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.wpvr-pro-mockup-gallery__label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* -- Scene Navigation Mockup -- */
+.wpvr-pro-mockup--navigation {
+    top: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(6px);
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 160px;
+}
+
+.wpvr-pro-mockup-navigation__icon {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.wpvr-pro-mockup-navigation__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wpvr-pro-mockup-navigation__item {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    line-height: 1.4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+}
+
+.wpvr-pro-mockup-navigation__item:first-child {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* -- Background Music Mockup -- */
+.wpvr-pro-mockup--audio {
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(6px);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.wpvr-pro-mockup--audio span {
+    display: none;
+}
+
+/* -- Gyroscope Mockup -- */
+.wpvr-pro-mockup--gyro {
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(6px);
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+}
+
+/* -- Adjust positions when mockups coexist -- */
+.wpvr-pro-mockup--audio.wpvr-pro-mockup--has-gallery {
+    bottom: 60px;
+}
+
+/* Responsive mockup adjustments */
+@media (max-width: 768px) {
+    .wpvr-pro-mockup-gallery__thumb {
+        width: 40px;
+        height: 28px;
+    }
+
+    .wpvr-pro-mockup--navigation {
+        max-width: 130px;
+    }
+
+    .wpvr-pro-mockup--gyro span {
+        display: none;
+    }
+}
 
 
