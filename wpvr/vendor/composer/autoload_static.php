@@ -11,22 +11,22 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' =>
+        'P' => 
         array (
             'PostHog\\' => 8,
         ),
-        'L' =>
+        'L' => 
         array (
             'LinnoSDK\\Telemetry\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PostHog\\' =>
+        'PostHog\\' => 
         array (
             0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
         ),
-        'LinnoSDK\\Telemetry\\' =>
+        'LinnoSDK\\Telemetry\\' => 
         array (
             0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),
@@ -44,6 +44,7 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
         'LinnoSDK\\Telemetry\\EventDispatcher' => __DIR__ . '/..' . '/linno/telemetry/src/EventDispatcher.php',
         'LinnoSDK\\Telemetry\\Helpers\\Utils' => __DIR__ . '/..' . '/linno/telemetry/src/Helpers/Utils.php',
         'LinnoSDK\\Telemetry\\Queue' => __DIR__ . '/..' . '/linno/telemetry/src/Queue.php',
+        'LinnoSDK\\Telemetry\\ReviewPrompt' => __DIR__ . '/..' . '/linno/telemetry/src/ReviewPrompt.php',
         'LinnoSDK\\Telemetry\\TriggerManager' => __DIR__ . '/..' . '/linno/telemetry/src/TriggerManager.php',
         'PostHog\\Client' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Client.php',
         'PostHog\\Consumer' => __DIR__ . '/..' . '/posthog/posthog-php/lib/Consumer.php',
@@ -73,7 +74,9 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
         'WPVR_Linno_Telemetry' => __DIR__ . '/../..' . '/includes/class-wpvr-linno-telemetry.php',
         'WPVR_Meta_Box' => __DIR__ . '/../..' . '/admin/views/class-wpvr-meta-box.php',
         'WPVR_Meta_Field' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-meta-field.php',
+        'WPVR_New_User_Tour' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-new-user-tour.php',
         'WPVR_Notification_Bar' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-sells-notification-bar.php',
+        'WPVR_Onboarding_Notice' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-onboarding-notice.php',
         'WPVR_Post_Type' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-post-type.php',
         'WPVR_Rollback' => __DIR__ . '/../..' . '/admin/class-wpvr-rollback.php',
         'WPVR_Sample_Tour' => __DIR__ . '/../..' . '/admin/classes/class-wpvr-sample-tour.php',

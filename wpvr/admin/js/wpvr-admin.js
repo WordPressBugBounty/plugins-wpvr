@@ -2481,6 +2481,7 @@
         var high_res_image = $('#high_res_image').is(':checked');
         var dis_on_hover = $('#dis_on_hover').is(':checked');
         var dokan_vendor = $('#wpvr_dokan_vendor_active').is(':checked');
+        var wpvr_usage_tracking = $('#wpvr_usage_tracking').is(':checked');
 
         /**
          * check enable script button is on and script list field is not empty
@@ -2509,6 +2510,7 @@
                                     wpvr_video_script_control: wpvr_video_script_control,
                                     wpvr_video_script_list: wpvr_video_script_list,
                                     dokan_vendor: dokan_vendor,
+                                    wpvr_usage_tracking: wpvr_usage_tracking,
                                     // woocommerce: woocommerce,
                                 },
                                 success: function (response) {
@@ -2546,6 +2548,7 @@
                                 wpvr_video_script_control: wpvr_video_script_control,
                                 wpvr_video_script_list: wpvr_video_script_list,
                                 dokan_vendor: dokan_vendor,
+                                wpvr_usage_tracking: wpvr_usage_tracking,
                                 // woocommerce: woocommerce,
                             },
                             success: function (response) {
@@ -2589,6 +2592,7 @@
                                     wpvr_video_script_control: wpvr_video_script_control,
                                     wpvr_video_script_list: wpvr_video_script_list,
                                     dokan_vendor: dokan_vendor,
+                                    wpvr_usage_tracking: wpvr_usage_tracking,
                                     // woocommerce: woocommerce,
                                 },
                                 success: function (response) {
@@ -2626,6 +2630,7 @@
                                 wpvr_video_script_control: wpvr_video_script_control,
                                 wpvr_video_script_list: wpvr_video_script_list,
                                 dokan_vendor: dokan_vendor,
+                                wpvr_usage_tracking: wpvr_usage_tracking,
                                 // woocommerce: woocommerce,
                             },
                             success: function (response) {
@@ -2667,6 +2672,7 @@
                     wpvr_video_script_control: wpvr_video_script_control,
                     wpvr_video_script_list: wpvr_video_script_list,
                     dokan_vendor: dokan_vendor,
+                    wpvr_usage_tracking: wpvr_usage_tracking,
                 },
                 success: function (response) {
                     $('#wpvr_role_submit .wpvr-loader').css('display', 'none');
@@ -2703,6 +2709,7 @@
             $('#high_res_image').prop('checked', false);
             $('#dis_on_hover').prop('checked', false);
             $('#wpvr_dokan_vendor_active').prop('checked', false);
+            $('#wpvr_usage_tracking').prop('checked', false);
             $(".wpvr_enqueue_video_script_list").hide();
             $(".wpvr_enqueue_script_list").hide();
 

@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.67
+ * Version:           8.5.68
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -46,7 +46,7 @@ if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.67');
+define('WPVR_VERSION', '8.5.68');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -100,6 +100,8 @@ require plugin_dir_path(__FILE__) . 'includes/class-wpvr.php';
 require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-occasion-banner.php';
 require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-sells-notification-bar.php';
 require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-first-tour-banner.php';
+require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-onboarding-notice.php';
+require_once plugin_dir_path(__FILE__) . 'admin/classes/class-wpvr-new-user-tour.php';
 
 // Include telemetry class
 require_once plugin_dir_path(__FILE__) . 'includes/class-wpvr-linno-telemetry.php';
@@ -144,6 +146,12 @@ function run_wpvr()
 
     // Initialize first tour banner
     new WPVR_First_Tour_Banner();
+
+    // Initialize listing-page onboarding notice ("Remind me later" flow)
+    new WPVR_Onboarding_Notice();
+
+    // Auto-launch guided tour for truly-new users on the Add New Tour page.
+    new WPVR_New_User_Tour();
 
     // Pro preview banner (shown via JS when free user toggles Advanced Controls)
     if (!defined('WPVR_PRO_VERSION')) {
@@ -3816,7 +3824,7 @@ add_action(
 function wpvr_redirect_after_activation($plugin)
 {
     if ($plugin == plugin_basename(__FILE__)) {
-        $url = admin_url('admin.php?page=wpvr-setup-wizard');
+        $url = admin_url('admin.php?page=rex-wpvr-setup-wizard');
         $url = esc_url($url, FILTER_SANITIZE_URL);
         exit(wp_safe_redirect($url));
     }

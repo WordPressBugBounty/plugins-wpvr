@@ -1,11 +1,11 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     if (typeof window.LinnoOnboarding === 'undefined') {
         console.error('Linno Onboarding library not loaded');
         return;
     }
 
     const { registerOnboarding, engine, tracker } = window.LinnoOnboarding;
-    
+
     const content = {
         'real-estate': {
             title: "Show your property without another site visit",
@@ -101,7 +101,7 @@ jQuery(document).ready(function($) {
             title: "Let travelers explore destinations before they arrive",
             sub: "Virtual tours help increase bookings and visitor engagement.",
             cta: "USE TOURISM TEMPLATE",
-            publishText: "Publish tourism tour",    
+            publishText: "Publish tourism tour",
             prev: "This is how travelers will discover your destination",
             succ: "🎉 Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
@@ -121,7 +121,7 @@ jQuery(document).ready(function($) {
             title: "Make cultural sites accessible to everyone",
             sub: "Virtual museum tours help reach global audiences.",
             cta: "USE MUSEUM TEMPLATE",
-            publishText: "Publish museum tour", 
+            publishText: "Publish museum tour",
             prev: "This is how visitors will explore your museum",
             succ: "Your tour is published!",
             succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
@@ -130,12 +130,14 @@ jQuery(document).ready(function($) {
     };
 
     // Pro / hotspot-limit config (populated via wp_localize_script)
-    const wpvrWizardCfg    = (typeof wpvrSetupWizardData !== 'undefined') ? wpvrSetupWizardData : {};
-    const isPro            = !!wpvrWizardCfg.is_pro;
-    const HOTSPOT_LIMIT    = isPro ? Infinity : (parseInt(wpvrWizardCfg.hotspot_limit, 10) || 5);
+    const wpvrWizardCfg = (typeof wpvrSetupWizardData !== 'undefined') ? wpvrSetupWizardData : {};
+    const isPro = !!wpvrWizardCfg.is_pro;
+    const HOTSPOT_LIMIT = isPro ? Infinity : (parseInt(wpvrWizardCfg.hotspot_limit, 10) || 5);
 
     const wizardStrings = wpvrWizardCfg.wizard_strings || {};
 
+    let industrySkipped = false;       // true when user chose to upload own image from step 1
+    let bypassTemplateOnBack = false;  // true when returning backward through the bypassed template step
     let selectedIndustry = null;
     let uploadedImageUrl = null;
     let uploadedImageFile = null;
@@ -154,8 +156,8 @@ jQuery(document).ready(function($) {
         window.location.href = listingUrl;
     }
 
-    // Bind wizard exit button (outside white container)
-    $('#wizard-exit').on('click', function(e) {
+    // Bind "Remind me later" button (exits the wizard, redirects to listing)
+    $('#wizard-exit').on('click', function (e) {
         e.preventDefault();
         skipWizard();
     });
@@ -172,296 +174,83 @@ jQuery(document).ready(function($) {
         return result;
     }
 
-    function initFileUpload() {
-        const dropZone = $('#drop-zone');
-        const fileInput = $('#image-upload');
-        const dropZoneLink = $('.drop-zone-link');
-        const uploadLabel = $('.upload-section-label');
-
-        if (!dropZone.length || !fileInput.length || !dropZoneLink.length) {
-            console.warn('Upload elements not found, retrying...');
-            setTimeout(initFileUpload, 100);
-            return;
-        }
-
-        dropZoneLink.off('click.upload');
-        dropZone.off('click.upload');
-        uploadLabel.off('click.upload');
-        fileInput.off('change.upload input.upload');
-        dropZone.off('dragover.upload dragenter.upload dragleave.upload drop.upload');
-
-        // Click handler for the upload label - open WordPress media library
-        uploadLabel.off('click.upload').on('click.upload', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // If media uploader already exists, reset and reopen it
-            if (mediaUploader) {
-                mediaUploader.open();
-                return false;
-            }
-
-            // Create WordPress media uploader with standard frame
-            mediaUploader = wp.media({
-                title: 'Select or Upload 360° Image',
-                button: {
-                    text: 'Select Image'
-                },
-                multiple: false,
-                library: {
-                    type: 'image'
-                },
-                state: 'library'
-            });
-
-            // When image is selected
-            mediaUploader.on('select', function() {
-                const attachment = mediaUploader.state().get('selection').first().toJSON();
-                
-                hotspots = [];
-                uploadedImageId = attachment.id;
-                uploadedImageUrl = attachment.url;
-                
-                // Show preview
-                $('#upload-preview-name').text(attachment.filename || 'Uploaded image');
-                $('#uploaded-image-preview').attr('src', uploadedImageUrl);
-                $('#drop-zone').hide();
-                $('#upload-preview').show();
-                
-                // Get context from engine
-                const currentStep = engine.getCurrentStep();
-                if (currentStep) {
-                    const stepContext = engine.getStepContext();
-                    // Auto proceed to next step after a short delay
-                    setTimeout(() => {
-                        stepContext.goNext();
-                    }, 500);
-                }
-            });
-
-            // When modal opens, ensure proper state
-            mediaUploader.on('open', function() {
-                // Ensure we're in the library state
-                if (mediaUploader.state().get('id') !== 'library') {
-                    mediaUploader.setState('library');
-                }
-                
-                // Clear any existing selection
-                const selection = mediaUploader.state().get('selection');
-                if (selection) {
-                    selection.reset();
-                }
-            });
-
-            // Open media uploader
-            mediaUploader.open();
-            
-            return false;
+    // Universal open WP Media method for our workflow
+    function openWPMediaForDirectUpload(callback) {
+        // Create WordPress media uploader with standard frame
+        const uploader = wp.media({
+            title: 'Select or Upload 360° Image',
+            button: {
+                text: 'Select Image'
+            },
+            multiple: false,
+            library: {
+                type: 'image'
+            },
+            state: 'library'
         });
 
-        // Click handler for the link specifically - open WordPress media library
-        dropZoneLink.off('click.upload').on('click.upload', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // If media uploader already exists, reset and reopen it
-            if (mediaUploader) {
-                mediaUploader.open();
-                return false;
-            }
-
-            // Create WordPress media uploader with standard frame
-            mediaUploader = wp.media({
-                title: 'Select or Upload 360° Image',
-                button: {
-                    text: 'Select Image'
-                },
-                multiple: false,
-                library: {
-                    type: 'image'
-                },
-                state: 'library'
-            });
-
-            // When image is selected
-            mediaUploader.on('select', function() {
-                const attachment = mediaUploader.state().get('selection').first().toJSON();
-                
-                hotspots = [];
-                uploadedImageId = attachment.id;
-                uploadedImageUrl = attachment.url;
-                
-                // Show preview
-                $('#upload-preview-name').text(attachment.filename || 'Uploaded image');
-                $('#uploaded-image-preview').attr('src', uploadedImageUrl);
-                $('#drop-zone').hide();
-                $('#upload-preview').show();
-                
-                // Get context from engine
-                const currentStep = engine.getCurrentStep();
-                if (currentStep) {
-                    const stepContext = engine.getStepContext();
-                    // Auto proceed to next step after a short delay
-                    setTimeout(() => {
-                        stepContext.goNext();
-                    }, 500);
-                }
-            });
-
-            // When modal opens, ensure proper state
-            mediaUploader.on('open', function() {
-                // Ensure we're in the library state
-                if (mediaUploader.state().get('id') !== 'library') {
-                    mediaUploader.setState('library');
-                }
-                
-                // Clear any existing selection
-                const selection = mediaUploader.state().get('selection');
-                if (selection) {
-                    selection.reset();
-                }
-            });
-
-            // Open media uploader
-            mediaUploader.open();
-            
-            return false;
+        // When image is selected
+        uploader.on('select', function () {
+            const attachment = uploader.state().get('selection').first().toJSON();
+            callback(attachment.url, attachment.id);
         });
 
-        // Click handler for the rest of the drop zone
-        dropZone.off('click.upload').on('click.upload', function(e) {
-            // Don't handle if clicking on the link (it has its own handler)
-            if ($(e.target).closest('.drop-zone-link').length > 0) {
-                return;
-            }
-            
-            // Don't handle if clicking on buttons
-            if ($(e.target).is('button') || $(e.target).closest('button').length > 0) {
-                return;
-            }
-            
-            // For other clicks on drop zone, trigger file input
-            if (fileInput.length && fileInput[0]) {
-                fileInput[0].click();
-            }
-        });
-
-        // File input change - ensure it's properly bound
-        fileInput.off('change.upload').on('change.upload', function(e) {
-            const file = this.files && this.files[0];
-            if (file) {
-                handleFileUploadToWordPress(file);
-            }
-        });
-
-        // Drag and drop
-        dropZone.on('dragover.upload dragenter.upload', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $(this).addClass('drag-over');
-        });
-
-        dropZone.on('dragleave.upload', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $(this).removeClass('drag-over');
-        });
-
-        dropZone.on('drop.upload', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $(this).removeClass('drag-over');
-            
-            const files = e.originalEvent.dataTransfer.files;
-            if (files.length > 0) {
-                handleFileUploadToWordPress(files[0]);
-            }
-        });
+        uploader.open();
     }
 
-    function handleFileUploadToWordPress(file) {
-        // Validate file type
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        if (!validTypes.includes(file.type)) {
-            alert('Please upload a valid image file (JPG, PNG, or WEBP)');
-            return;
+    // ── Skip-mode UI helper ─────────────────────────────────────────
+    // Toggles the sidebar Template nav item and the progress bars in
+    // step-preview and step-success between the 4-step default and the
+    // 3-step "no template" variant.
+    function updateSkipModeUI(isSkipped) {
+        const filled = '<div class="step-seg filled"></div>';
+        const empty  = '<div class="step-seg"></div>';
+
+        if (isSkipped) {
+            // Hide template nav, renumber remaining steps as 1→2→3
+            $('.nav-item[data-step="step-template"]').hide();
+            $('.nav-item[data-step="step-preview"]').attr('data-number', '2');
+            $('.nav-item[data-step="step-success"]').attr('data-number', '3');
+
+            // Progress bars — 3-step mode
+            $('#step-vertical .step-progress').html(
+                filled + empty + empty +
+                '<span class="step-count">1/3</span>'
+            );
+            $('#step-preview .step-progress').html(
+                filled + filled + empty +
+                '<span class="step-count">2/3</span>'
+            );
+            $('#step-success .step-progress').html(
+                filled + filled + filled +
+                '<span class="step-count">3/3</span>'
+            );
+        } else {
+            // Show template nav, restore original numbers 1→2→3→4
+            $('.nav-item[data-step="step-template"]').show();
+            $('.nav-item[data-step="step-preview"]').attr('data-number', '3');
+            $('.nav-item[data-step="step-success"]').attr('data-number', '4');
+
+            // Progress bars — 4-step mode
+            $('#step-vertical .step-progress').html(
+                filled + empty + empty + empty +
+                '<span class="step-count">1/4</span>'
+            );
+            $('#step-preview .step-progress').html(
+                filled + filled + filled + empty +
+                '<span class="step-count">3/4</span>'
+            );
+            $('#step-success .step-progress').html(
+                filled + filled + filled + filled +
+                '<span class="step-count">4/4</span>'
+            );
         }
-
-        // Validate file size (max 50MB)
-        if (file.size > 50 * 1024 * 1024) {
-            alert('File size must be less than 50MB');
-            return;
-        }
-
-        uploadedImageFile = file;
-
-        // Show loading state
-        $('#drop-zone').hide();
-        $('#upload-preview').show();
-        $('#upload-preview-name').text('Uploading...');
-        $('#uploaded-image-preview').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2YjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5VcGxvYWRpbmcuLi48L3RleHQ+PC9zdmc+');
-
-        // Create FormData for file upload
-        const formData = new FormData();
-        formData.append('action', 'wpvr_upload_image');
-        formData.append('security', wpvrNonce);
-        formData.append('image', file);
-
-        // Upload to WordPress
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            xhr: function() {
-                const xhr = new window.XMLHttpRequest();
-                // Upload progress
-                xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        const percentComplete = (e.loaded / e.total) * 100;
-                        $('#upload-preview-name').text('Uploading... ' + Math.round(percentComplete) + '%');
-                    }
-                }, false);
-                return xhr;
-            },
-            success: function(response) {
-                if (response.success) {
-                    hotspots = [];
-                    uploadedImageId = response.data.attachment_id;
-                    uploadedImageUrl = response.data.url;
-                    
-                    // Show preview
-                    $('#upload-preview-name').text(file.name);
-                    $('#uploaded-image-preview').attr('src', uploadedImageUrl);
-                    
-                    // Get context from engine
-                    const currentStep = engine.getCurrentStep();
-                    if (currentStep) {
-                        const stepContext = engine.getStepContext();
-                        // Auto proceed to next step after a short delay
-                        setTimeout(() => {
-                            stepContext.goNext();
-                        }, 500);
-                    }
-                } else {
-                    alert('Upload failed: ' + (response.data.message || 'Unknown error'));
-                    $('#drop-zone').show();
-                    $('#upload-preview').hide();
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('Upload failed: ' + error);
-                $('#drop-zone').show();
-                $('#upload-preview').hide();
-            }
-        });
     }
 
     // Helper function to update dynamic content based on selected industry
     function updateDynamicContent() {
         const data = content[selectedIndustry];
-        if(!data) return;
+        if (!data) return;
 
         $('.dynamic-title').text(data.title);
         $('.dynamic-sub').text(data.sub);
@@ -474,8 +263,8 @@ jQuery(document).ready(function($) {
 
     function updateIconPlaceholder() {
         const data = content[selectedIndustry];
-        if(!data) return;
-        
+        if (!data) return;
+
         $('#template-icon-placeholder').text(data.icon);
     }
 
@@ -499,7 +288,7 @@ jQuery(document).ready(function($) {
         // Update Sidebar Navigation UI
         $('.nav-item').removeClass('active');
         $(`.nav-item[data-step="${stepId}"]`).addClass('active');
-        
+
         // Mark previous steps as completed
         updateNavProgress(stepId);
 
@@ -518,18 +307,39 @@ jQuery(document).ready(function($) {
     }
 
     function updateNavProgress(currentId) {
-        // Logic to add completed class to sidebar items as they are finished
-        const steps = ['step-welcome', 'step-vertical', 'step-template', 'step-preview', 'step-success'];
+        // Dynamically build steps array depending on 'industrySkipped' or direct upload path
+        let steps = ['step-vertical', 'step-template', 'step-preview', 'step-success'];
+
+        if (industrySkipped || (uploadedImageUrl && !templateData)) {
+            // Hide the template nav item in the DOM
+            $('.nav-item[data-step="step-template"]').hide();
+            steps = ['step-vertical', 'step-preview', 'step-success'];
+        } else {
+            $('.nav-item[data-step="step-template"]').show();
+        }
+
         const currentIndex = steps.indexOf(currentId);
-        
-        $('.nav-item').each(function() {
+
+        $('.nav-item').each(function () {
             const stepId = $(this).data('step');
+
+            // Skip checking hidden steps
+            if (steps.indexOf(stepId) === -1) {
+                $(this).removeClass('completed active');
+                return;
+            }
+
             const stepIndex = steps.indexOf(stepId);
-            
-            if (stepIndex < currentIndex && stepIndex !== -1) {
-                $(this).addClass('completed');
+
+            if (stepId === currentId) {
+                $(this).removeClass('completed').addClass('active');
             } else {
-                $(this).removeClass('completed');
+                $(this).removeClass('active');
+                if (stepIndex < currentIndex && stepIndex !== -1) {
+                    $(this).addClass('completed');
+                } else {
+                    $(this).removeClass('completed');
+                }
             }
         });
     }
@@ -562,12 +372,12 @@ jQuery(document).ready(function($) {
         // Create lightweight confetti particles (fewer particles for performance)
         const colors = ['#3F04FE', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
         const particleCount = 30; // Reduced from 50 for better performance
-        
+
         // Get check circle position for burst origin
         const checkCircle = $('.check-circle');
         let centerX = window.innerWidth / 2;
         let centerY = window.innerHeight / 2;
-        
+
         if (checkCircle.length) {
             const offset = checkCircle.offset();
             if (offset) {
@@ -579,7 +389,7 @@ jQuery(document).ready(function($) {
         for (let i = 0; i < particleCount; i++) {
             const confetti = $('<div class="confetti"></div>');
             const color = colors[Math.floor(Math.random() * colors.length)];
-            
+
             // Calculate random direction and distance
             const angle = (Math.PI * 2 * i) / particleCount + (Math.random() * 0.5);
             const distance = 100 + Math.random() * 150;
@@ -603,7 +413,7 @@ jQuery(document).ready(function($) {
         }
 
         // Remove confetti after animation completes (1.2s duration)
-        setTimeout(function() {
+        setTimeout(function () {
             confettiContainer.remove();
         }, 1500);
     }
@@ -629,71 +439,19 @@ jQuery(document).ready(function($) {
         },
         steps: [
             {
-                id: 'welcome',
-                title: 'Welcome',
-                description: 'Create your first virtual tour in under 10 minutes',
-                canGoBack: false,
-                canSkip: false,
-                mount: (container, context) => {
-                    navigateTo('step-welcome');                    
-                    setTimeout(() => {
-                        // Reset start button state in case user navigated back
-                        $('#start-tour').prop('disabled', false).removeClass('is-loading');
-                        
-                        // Bind skip button
-                        $('#skip-welcome').off('click').on('click', function(e) {
-                            e.preventDefault();
-                            skipWizard();
-                        });
-                        
-                        $('#start-tour').off('click').on('click', function() {
-                            const $startTourButton = $(this);
-                            const consentChecked = $('#consent-checkbox').is(':checked');
-
-                            if ($startTourButton.prop('disabled')) {
-                                return;
-                            }
-                            
-                            // If consent is given, save opt-in
-                            if (consentChecked) {
-                                $startTourButton.prop('disabled', true).addClass('is-loading');
-
-                                $.ajax({
-                                    url: ajaxurl,
-                                    type: 'POST',
-                                    data: {
-                                        action: 'wpvr_save_opt_in_toggle',
-                                        opt_in: consentChecked ? 1 : 0,
-                                        security: wpvrNonce
-                                    },
-                                    success: function(response) {
-                                        console.log('Opt-in saved:', response);
-                                        context.goNext();
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.log('Failed to save opt-in:', error);
-                                        $startTourButton.prop('disabled', false).removeClass('is-loading');
-                                        // Continue anyway
-                                        context.goNext();
-                                    }
-                                });
-                            } else {
-                                context.goNext();
-                            }
-                        });
-                    }, 0);
-                }
-            },
-            {
                 id: 'vertical',
                 title: 'Industry',
                 description: 'What are you creating a virtual tour for?',
-                canGoBack: true,
+                canGoBack: false,
                 canSkip: false,
                 mount: (container, context) => {
                     navigateTo('step-vertical');
-                    
-                    // Bind vertical selection
+
+                    // Reset global state each time we visit the first step from scratch
+                    industrySkipped = false;
+                    bypassTemplateOnBack = false;
+                    updateSkipModeUI(false);
+
                     setTimeout(() => {
                         // Initially disable next button until industry is selected
                         const nextBtn = $('.next-btn[data-next="step-template"]');
@@ -701,7 +459,8 @@ jQuery(document).ready(function($) {
                             nextBtn.prop('disabled', true).addClass('disabled');
                         }
 
-                        $('.v-card').off('click').on('click', function() {
+                        // Select Industry Flow
+                        $('.v-card').off('click').on('click', function () {
                             const newIndustry = $(this).data('vertical');
 
                             // Reset all template/upload/hotspot state when the industry changes
@@ -713,7 +472,7 @@ jQuery(document).ready(function($) {
                                 hotspots = [];
                                 mediaUploader = null;
                                 if (panoramaViewer) {
-                                    try { panoramaViewer.destroy(); } catch(e) {}
+                                    try { panoramaViewer.destroy(); } catch (e) { }
                                     panoramaViewer = null;
                                 }
                             }
@@ -721,26 +480,41 @@ jQuery(document).ready(function($) {
                             $('.v-card').removeClass('active');
                             $(this).addClass('active');
                             selectedIndustry = newIndustry;
-                            // Enable next button when industry is selected
-                            nextBtn.prop('disabled', false).removeClass('disabled');
-                            updateDynamicContent();
-                            updateIconPlaceholder();
+                            // Pre-fetch template in the background here (optional) to make next step faster
+
+                            // Auto-proceed to step 2 (Template)
+                            context.goNext();
                         });
 
-                        // Bind navigation buttons
-                        $('.btn-back').off('click').on('click', () => {
-                            context.goBack();
+                        // Skip / Upload My Own — triggers wp.media immediately
+                        $('#skip-industry-link').off('click').on('click', function (e) {
+                            e.preventDefault();
+
+                            openWPMediaForDirectUpload(function (url, id) {
+                                if (url) {
+                                    industrySkipped = true;
+                                    selectedIndustry = null;
+                                    uploadedImageUrl = url;
+                                    uploadedImageId = id;
+                                    uploadedImageFile = null;
+                                    templateData = null;
+                                    hotspots = [];
+                                    $('.v-card').removeClass('active');
+
+                                    // Apply 3-step UI before navigating
+                                    updateSkipModeUI(true);
+
+                                    // goNext() lands on template mount which will auto-skip forward
+                                    context.goNext();
+                                }
+                            });
                         });
 
+                        // Fallback continue btn
                         $('.next-btn[data-next="step-template"]').off('click').on('click', () => {
                             context.goNext();
                         });
 
-                        // Bind skip button
-                        $('#skip-vertical').off('click').on('click', function(e) {
-                            e.preventDefault();
-                            skipWizard();
-                        });
                     }, 0);
                 }
             },
@@ -751,7 +525,6 @@ jQuery(document).ready(function($) {
                 canGoBack: true,
                 canSkip: false,
                 onNext: (context) => {
-                    // Validate that user has either uploaded an image or used a template
                     if (!uploadedImageUrl) {
                         alert('Please upload a 360° image or use a template before proceeding.');
                         return false;
@@ -759,37 +532,35 @@ jQuery(document).ready(function($) {
                     return true;
                 },
                 mount: (container, context) => {
+                    // ── Bypass logic ────────────────────────────────────────────
+                    // If industry was skipped (forward pass) → jump straight to preview
+                    if (industrySkipped) {
+                        updateSkipModeUI(true);
+                        context.goNext();
+                        return;
+                    }
+                    // If returning backward through a previously-skipped template → go to industry
+                    if (bypassTemplateOnBack) {
+                        bypassTemplateOnBack = false;
+                        updateSkipModeUI(false);
+                        context.goBack();
+                        return;
+                    }
+                    // ── Normal template step ─────────────────────────────────
                     navigateTo('step-template');
                     updateDynamicContent();
                     updateIconPlaceholder();
 
                     setTimeout(() => {
                         const $useTemplateBtn = $('#use-template-btn');
-                        // Always derive the default text from the freshly-updated button
-                        // (updateDynamicContent ran before this setTimeout, so .text() is current)
                         $useTemplateBtn.removeData('default-text');
                         const defaultUseTemplateText = $useTemplateBtn.text();
                         $useTemplateBtn.data('default-text', defaultUseTemplateText);
-                        // Re-enable the button in case it was left disabled from a previous AJAX call
                         $useTemplateBtn.prop('disabled', false).removeClass('is-loading');
 
-                        // Show upload preview if image was already uploaded
-                        if (uploadedImageUrl) {
-                            $('#template-preview-box').hide();
-                            $('#upload-section').show();
-                            $('#drop-zone').hide();
-                            $('#upload-preview').show();
-                            $('#uploaded-image-preview').attr('src', uploadedImageUrl);
-                            $('#upload-preview-name').text(uploadedImageFile ? uploadedImageFile.name : 'Uploaded image');
-                        } else {
-                            // Show upload section by default (not template preview)
-                            $('#template-preview-box').hide();
-                            $('#upload-section').show();
-                            $('#drop-zone').show();
-                            $('#upload-preview').hide();
-                            // Initialize file upload handlers
-                            initFileUpload();
-                        }
+                        // Always show template box side-by-side with upload button
+                        $('#template-preview-box').show();
+                        $('#upload-section').show();
 
                         // Bind navigation buttons
                         $('.btn-back').off('click').on('click', () => {
@@ -800,21 +571,32 @@ jQuery(document).ready(function($) {
                             context.goNext();
                         });
 
-                        // Bind skip button
-                        $('#skip-template').off('click').on('click', function(e) {
+                        // Bind WP media direct trigger — both the zone and the browse link
+                        $('#template-upload-zone, #btn-upload-own-image').off('click.tmplUpload').on('click.tmplUpload', function (e) {
                             e.preventDefault();
-                            skipWizard();
+                            openWPMediaForDirectUpload(function (url, id) {
+                                if (url) {
+                                    uploadedImageUrl = url;
+                                    uploadedImageId = id;
+                                    uploadedImageFile = null;
+                                    templateData = null;
+                                    hotspots = [];
+
+                                    // Jump immediately to step-preview
+                                    context.goNext();
+                                }
+                            });
                         });
 
                         // Use template button handler - call remote API
-                        $('#use-template-btn').off('click.template').on('click.template', function(e) {
+                        $('#use-template-btn').off('click.template').on('click.template', function (e) {
                             e.preventDefault();
-                            
+
                             // Show loading state
                             const $btn = $(this);
                             const originalText = $btn.text();
                             $btn.prop('disabled', true).addClass('is-loading').text('Importing template & media...');
-                            
+
                             // Call AJAX to fetch template
                             $.ajax({
                                 url: ajaxurl,
@@ -824,7 +606,7 @@ jQuery(document).ready(function($) {
                                     industry: selectedIndustry,
                                     security: wpvrNonce
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success && response.data.template) {
                                         templateData = response.data.template;
 
@@ -833,7 +615,7 @@ jQuery(document).ready(function($) {
                                             window.wpvrCreatedTourUrl = templateData.view_url || '';
                                             window.wpvrCreatedTourEditUrl = templateData.edit_url || '';
                                         }
-                                        
+
                                         // If template has an image URL, use it
                                         hotspots = [];
                                         if (templateData.image_url) {
@@ -842,7 +624,7 @@ jQuery(document).ready(function($) {
                                             // Fallback placeholder
                                             uploadedImageUrl = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2YjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UZW1wbGF0ZSBQcmV2aWV3PC90ZXh0Pjwvc3ZnPg==';
                                         }
-                                                                                
+
                                         // Auto proceed to next step
                                         setTimeout(() => {
                                             context.goNext();
@@ -852,35 +634,13 @@ jQuery(document).ready(function($) {
                                         $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
                                     }
                                 },
-                                error: function(xhr, status, error) {
+                                error: function (xhr, status, error) {
                                     console.error('Template fetch error:', error);
                                     alert('Failed to load template. Please try again.');
                                     $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
                                 }
                             });
                         });
-
-                        // Remove upload handler
-                        $('#btn-remove-upload').off('click.upload').on('click.upload', function() {
-                            $useTemplateBtn
-                                .prop('disabled', false)
-                                .removeClass('is-loading isloading')
-                                .text(defaultUseTemplateText);
-
-                            hotspots = [];
-                            uploadedImageUrl = null;
-                            uploadedImageFile = null;
-                            uploadedImageId = null;
-                            $('#image-upload').val('');
-                            $('#upload-preview').hide();
-                            $('#drop-zone').show();
-                            // Keep upload section visible, don't show template preview
-                            $('#template-preview-box').hide();
-                            $('#upload-section').show();
-                        });
-
-                        // File upload handlers are now initialized in the else block above
-                        // when no image is uploaded yet
                     }, 0);
                 }
             },
@@ -901,22 +661,31 @@ jQuery(document).ready(function($) {
                 mount: (container, context) => {
                     navigateTo('step-preview');
                     updateDynamicContent();
+                    // Defensive: re-apply skip mode UI in case of any timing issues
+                    updateSkipModeUI(industrySkipped);
 
                     setTimeout(() => {
-                        // Bind navigation buttons
+                        // Back button: if user came through skip-mode, go back to industry rather than template
                         $('.btn-back').off('click').on('click', () => {
-                            context.goBack();
+                            if (industrySkipped) {
+                                // Signal template mount to pass straight through backward
+                                bypassTemplateOnBack = true;
+                                industrySkipped = false;
+                                context.goBack(); // lands on template → template auto-calls goBack() to industry
+                            } else {
+                                context.goBack();
+                            }
                         });
 
-                        $('#publish-btn').off('click').on('click', function() {
+                        $('#publish-btn').off('click').on('click', function () {
                             const $btn = $(this);
                             const originalText = $btn.text();
                             $btn.prop('disabled', true).text('Publishing...');
-                            
+
                             // Build panodata object matching WPVR format
                             // Generate scene ID (8 character random string)
                             const sceneId = generateRandomString(8);
-                            
+
                             // Create scene object matching WPVR structure
                             const scene = {
                                 'scene-type': 'equirectangular',
@@ -925,10 +694,10 @@ jQuery(document).ready(function($) {
                                 'dscene': 'off',
                                 'scene-attachment-url': uploadedImageUrl
                             };
-                            
+
                             // Add hotspots if any (matching WPVR format)
                             if (hotspots.length > 0) {
-                                hotspots.forEach(function(hotspot, index) {
+                                hotspots.forEach(function (hotspot, index) {
                                     const hotspotId = generateRandomString(8);
                                     scene['hotspot-list'].push({
                                         'hotspot-title': hotspotId,
@@ -945,7 +714,7 @@ jQuery(document).ready(function($) {
                                     });
                                 });
                             }
-                            
+
                             // Build panodata structure matching WPVR format
                             let panodata = {
                                 'autoLoad': true,
@@ -963,14 +732,14 @@ jQuery(document).ready(function($) {
                                 },
                                 'previewtext': 'Click To Load Panorama'
                             };
-                            
+
                             // If template data exists, merge it with panodata
                             if (templateData && templateData.panodata) {
                                 // Merge template settings
                                 if (templateData.autoLoad !== undefined) panodata.autoLoad = templateData.autoLoad;
                                 if (templateData.showControls !== undefined) panodata.showControls = templateData.showControls;
                                 if (templateData.defaultscene) panodata.defaultscene = templateData.defaultscene;
-                                
+
                                 // Merge template panodata scene-list if exists
                                 if (templateData.panodata && templateData.panodata['scene-list']) {
                                     // Merge template scenes with our scene
@@ -980,7 +749,7 @@ jQuery(document).ready(function($) {
                                     panodata.defaultscene = sceneId;
                                 }
                             }
-                            
+
                             // Create tour via AJAX
                             $.ajax({
                                 url: ajaxurl,
@@ -991,29 +760,29 @@ jQuery(document).ready(function($) {
                                     templateMeta: templateData && templateData.meta ? JSON.stringify(templateData.meta) : '',
                                     existing_post_id: templateData && templateData.post_id ? templateData.post_id : '',
                                     title: 'My ' + (
-                                        selectedIndustry === 'real-estate' ? 'Property' : 
-                                        selectedIndustry === 'hotel' ? 'Hotel' : 
-                                        selectedIndustry === 'school' ? 'Campus' :
-                                        selectedIndustry === 'automotive' ? 'Automotive' :
-                                        selectedIndustry === 'ecommerce' ? 'E-commerce' :
-                                        selectedIndustry === 'exhibitions' ? 'Exhibition' :
-                                        selectedIndustry === 'offices' ? 'Office' :
-                                        selectedIndustry === 'training' ? 'Training' :
-                                        selectedIndustry === 'showrooms' ? 'Showroom' :
-                                        selectedIndustry === 'tourism' ? 'Tourism' :
-                                        selectedIndustry === 'fitness' ? 'Fitness' :
-                                        selectedIndustry === 'museums' ? 'Museum' : 'Virtual'
+                                        selectedIndustry === 'real-estate' ? 'Property' :
+                                            selectedIndustry === 'hotel' ? 'Hotel' :
+                                                selectedIndustry === 'school' ? 'Campus' :
+                                                    selectedIndustry === 'automotive' ? 'Automotive' :
+                                                        selectedIndustry === 'ecommerce' ? 'E-commerce' :
+                                                            selectedIndustry === 'exhibitions' ? 'Exhibition' :
+                                                                selectedIndustry === 'offices' ? 'Office' :
+                                                                    selectedIndustry === 'training' ? 'Training' :
+                                                                        selectedIndustry === 'showrooms' ? 'Showroom' :
+                                                                            selectedIndustry === 'tourism' ? 'Tourism' :
+                                                                                selectedIndustry === 'fitness' ? 'Fitness' :
+                                                                                    selectedIndustry === 'museums' ? 'Museum' : 'Virtual'
                                     ) + ' Tour',
                                     industry: selectedIndustry,
                                     security: wpvrNonce
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         // Store tour ID and URLs for later use
                                         window.wpvrCreatedTourId = response.data.post_id;
                                         window.wpvrCreatedTourUrl = response.data.view_url;
                                         window.wpvrCreatedTourEditUrl = response.data.edit_url;
-                                        
+
                                         // Proceed to next step
                                         context.goNext();
                                     } else {
@@ -1021,7 +790,7 @@ jQuery(document).ready(function($) {
                                         $btn.prop('disabled', false).text(originalText);
                                     }
                                 },
-                                error: function(xhr, status, error) {
+                                error: function (xhr, status, error) {
                                     console.error('Tour creation error:', error);
                                     alert('Failed to create tour. Please try again.');
                                     $btn.prop('disabled', false).text(originalText);
@@ -1030,7 +799,7 @@ jQuery(document).ready(function($) {
                         });
 
                         // Bind skip button
-                        $('#skip-preview').off('click').on('click', function(e) {
+                        $('#skip-preview').off('click').on('click', function (e) {
                             e.preventDefault();
                             skipWizard();
                         });
@@ -1071,18 +840,39 @@ jQuery(document).ready(function($) {
                     }, 100);
 
                     setTimeout(() => {
+                        // Bind Consent Checkbox
+                        $('#consent-checkbox').off('change').on('change', function () {
+                            const isChecked = $(this).is(':checked');
+                            $.ajax({
+                                url: ajaxurl,
+                                type: 'POST',
+                                data: {
+                                    action: 'wpvr_save_opt_in_toggle',
+                                    opt_in: isChecked ? 1 : 0,
+                                    security: wpvrNonce
+                                },
+                                success: function (response) {
+                                    console.log('Opt-in preference updated:', response);
+                                }
+                            });
+                        });
+                        // Fire it initially if checked (as it's default checked in template)
+                        if ($('#consent-checkbox').is(':checked')) {
+                            $('#consent-checkbox').trigger('change');
+                        }
+
                         // Clear localStorage
                         if (typeof Storage !== 'undefined') {
                             localStorage.clear();
                         }
-                        
+
                         // Bind back button (restart)
                         $('.btn-back').off('click').on('click', () => {
                             location.reload();
                         });
 
                         // Update button text and show shortcode if tour is created
-                        if (window.wpvrCreatedTourId) {                            
+                        if (window.wpvrCreatedTourId) {
                             // Show shortcode instructions - insert before primary CTA
                             const shortcode = '[wpvr id="' + window.wpvrCreatedTourId + '"]';
                             const shortcodeHtml = '<div class="shortcode-instructions">' +
@@ -1093,23 +883,23 @@ jQuery(document).ready(function($) {
                                 '<button id="copy-shortcode-btn" class="btn-copy-shortcode">Copy Shortcode</button>' +
                                 '</div>' +
                                 '</div>';
-                            
+
                             // Insert shortcode instructions before primary CTA container
                             if ($('.shortcode-instructions').length === 0) {
                                 $('#step-success .primary-cta-container').before(shortcodeHtml);
                             }
-                            
+
                             // Copy shortcode functionality
-                            $('#copy-shortcode-btn').off('click').on('click', function() {
+                            $('#copy-shortcode-btn').off('click').on('click', function () {
                                 const shortcodeText = $('#tour-shortcode').text();
-                                
+
                                 // Modern clipboard API
                                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                                    navigator.clipboard.writeText(shortcodeText).then(function() {
+                                    navigator.clipboard.writeText(shortcodeText).then(function () {
                                         const $btn = $(this);
                                         const originalText = $btn.text();
                                         $btn.text('Copied!').css('background', '#10B981');
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             $btn.text(originalText).css('background', '#E8E1FF');
                                         }, 2000);
                                     }.bind(this));
@@ -1120,11 +910,11 @@ jQuery(document).ready(function($) {
                                     tempInput.val(shortcodeText).select();
                                     document.execCommand('copy');
                                     tempInput.remove();
-                                    
+
                                     const $btn = $(this);
                                     const originalText = $btn.text();
                                     $btn.text('Copied!').css('background', '#3F04FE');
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         $btn.text(originalText).css('background', '#E8E1FF');
                                     }, 2000);
                                 }
@@ -1132,14 +922,14 @@ jQuery(document).ready(function($) {
                         }
 
                         // Bind "Edit Your Tour" button - opens WP admin edit page
-                        $('#edit-tour-btn').off('click.editTour').on('click.editTour', function(e) {
+                        $('#edit-tour-btn').off('click.editTour').on('click.editTour', function (e) {
                             e.preventDefault();
-                            
+
                             // Complete onboarding first
                             if (context && typeof context.completeStep === 'function') {
                                 context.completeStep();
                             }
-                            
+
                             // Navigate to edit tour page
                             if (window.wpvrCreatedTourId) {
                                 const editUrl = ajaxurl.replace('admin-ajax.php', 'post.php?post=' + window.wpvrCreatedTourId + '&action=edit');
@@ -1150,20 +940,20 @@ jQuery(document).ready(function($) {
                         });
 
                         // Bind skip button
-                        $('#skip-success').off('click').on('click', function(e) {
+                        $('#skip-success').off('click').on('click', function (e) {
                             e.preventDefault();
                             skipWizard();
                         });
 
                         // Bind footer "FINISH" button - go to tour listing
-                        $('#step-success .btn-primary-outline').off('click.finish').on('click.finish', function(e) {
+                        $('#step-success .btn-primary-outline').off('click.finish').on('click.finish', function (e) {
                             e.preventDefault();
-                            
+
                             // Complete onboarding
                             if (context && typeof context.completeStep === 'function') {
                                 context.completeStep();
                             }
-                            
+
                             // Navigate to tour listing page
                             const listingUrl = ajaxurl.replace('admin-ajax.php', 'edit.php?post_type=wpvr_item');
                             window.location.href = listingUrl;
@@ -1229,7 +1019,7 @@ jQuery(document).ready(function($) {
         if (panoramaViewer) {
             try {
                 panoramaViewer.destroy();
-            } catch(e) {
+            } catch (e) {
                 console.log('Viewer already destroyed');
             }
         }
@@ -1250,26 +1040,26 @@ jQuery(document).ready(function($) {
         panoramaViewer.off('load');
 
         // Use Pannellum's load event instead of setTimeout for reliable handler attachment
-        panoramaViewer.on('load', function() {
+        panoramaViewer.on('load', function () {
             // Get both the container and canvas elements
             const panoramaElement = document.getElementById('panorama');
             const canvas = document.querySelector('#panorama canvas');
-            
+
             if (!panoramaElement) {
                 return;
             }
-            
+
             // Remove existing listeners from both elements
             if (canvas) {
                 canvas.removeEventListener('mousedown', handlePanoramaMouseDown, true);
                 canvas.removeEventListener('mousemove', handlePanoramaMouseMove, true);
                 canvas.removeEventListener('mouseup', handlePanoramaMouseUp, true);
             }
-            
+
             panoramaElement.removeEventListener('mousedown', handlePanoramaMouseDown, true);
             panoramaElement.removeEventListener('mousemove', handlePanoramaMouseMove, true);
             panoramaElement.removeEventListener('mouseup', handlePanoramaMouseUp, true);
-            
+
             // Attach to the panorama container with capture phase
             // This will catch events before Pannellum's handlers
             panoramaElement.addEventListener('mousedown', handlePanoramaMouseDown, true);
@@ -1284,13 +1074,13 @@ jQuery(document).ready(function($) {
         if (e.button !== 0) {
             return;
         }
-        
+
         // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
         // But NOT pnlm-dragfix which is the main dragging overlay
         if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-fullscreen-toggle-button, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
             return;
         }
-        
+
         // Check if clicking on an existing hotspot
         const hotspotElement = e.target.closest('.pnlm-hotspot');
         if (hotspotElement) {
@@ -1305,7 +1095,7 @@ jQuery(document).ready(function($) {
         // Use Pannellum's built-in projection math to get accurate pitch/yaw
         // This handles all edge cases, HFOV variations, and aspect ratios correctly
         let clickPitch, clickYaw;
-        
+
         if (typeof panoramaViewer.mouseEventToCoords === 'function') {
             const coords = panoramaViewer.mouseEventToCoords(e);
             if (coords && coords.length === 2) {
@@ -1319,29 +1109,29 @@ jQuery(document).ready(function($) {
             if (typeof panoramaViewer.getPitch !== 'function') {
                 return;
             }
-            
+
             const currentPitch = panoramaViewer.getPitch();
             const currentYaw = panoramaViewer.getYaw();
             const currentHfov = panoramaViewer.getHfov();
-            
+
             const canvas = document.querySelector('#panorama canvas');
             if (!canvas) {
                 return;
             }
-            
+
             const rect = canvas.getBoundingClientRect();
             const canvasWidth = rect.width;
             const canvasHeight = rect.height;
-            
+
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
             const normalizedX = (mouseX / canvasWidth - 0.5) * 2;
             const normalizedY = (mouseY / canvasHeight - 0.5) * 2;
-            
+
             const vfov = currentHfov * (canvasHeight / canvasWidth);
             const yawOffset = normalizedX * (currentHfov / 2);
             const pitchOffset = -normalizedY * (vfov / 2);
-            
+
             clickPitch = currentPitch + pitchOffset;
             clickYaw = currentYaw + yawOffset;
         }
@@ -1355,7 +1145,7 @@ jQuery(document).ready(function($) {
             yaw: clickYaw
         };
         panoramaIsDragging = false;
-        
+
         // Don't prevent default or stop propagation - let Pannellum handle dragging
     }
 
@@ -1365,7 +1155,7 @@ jQuery(document).ready(function($) {
             const deltaX = Math.abs(e.clientX - panoramaMouseDown.x);
             const deltaY = Math.abs(e.clientY - panoramaMouseDown.y);
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            
+
             // If mouse moved more than 5 pixels, it's a drag
             if (distance > 5 && !panoramaIsDragging) {
                 panoramaIsDragging = true;
@@ -1376,7 +1166,7 @@ jQuery(document).ready(function($) {
     // Handle panorama mouseup - only show hotspot if it was a click, not a drag
     function handlePanoramaMouseUp(e) {
         if (!panoramaMouseDown) return;
-        
+
         // Only handle left clicks
         if (e.button !== 0) {
             panoramaMouseDown = null;
@@ -1401,13 +1191,13 @@ jQuery(document).ready(function($) {
         // Only show hotspot modal if it was a click (not a drag)
         if (!panoramaIsDragging) {
             const timeDiff = Date.now() - panoramaMouseDown.time;
-            
+
             // Also check time - if mouse was held for less than 300ms, it's likely a click
             if (timeDiff < 300) {
                 // Use the pitch and yaw captured at mousedown (before any potential drag)
                 const pitch = panoramaMouseDown.pitch;
                 const yaw = panoramaMouseDown.yaw;
-                
+
                 // Store coordinates for hotspot creation
                 pendingHotspotCoords = { pitch, yaw };
 
@@ -1449,7 +1239,7 @@ jQuery(document).ready(function($) {
         }
 
         // Swap in hotspot-limit-specific text
-        var $heading    = $popup.find('.wpvr-premium-feature__heading');
+        var $heading = $popup.find('.wpvr-premium-feature__heading');
         var $subheading = $popup.find('.wpvr-premium-feature__subheading');
         $heading.data('original-text', $heading.text());
         $subheading.data('original-html', $subheading.html());
@@ -1470,7 +1260,7 @@ jQuery(document).ready(function($) {
     // Hide the premium upgrade popup and restore original heading text
     function hideHotspotLimitNotice() {
         var $popup = $('#wpvr_premium_feature_popup');
-        var $heading    = $popup.find('.wpvr-premium-feature__heading');
+        var $heading = $popup.find('.wpvr-premium-feature__heading');
         var $subheading = $popup.find('.wpvr-premium-feature__subheading');
         if ($heading.data('original-text')) {
             $heading.text($heading.data('original-text'));
@@ -1535,7 +1325,7 @@ jQuery(document).ready(function($) {
 
         const $label = $('<p class="hotspot-list-label">Hotspot</p>');
         const $items = $('<ul class="hotspot-items"></ul>');
-        hotspots.forEach(function(hotspot, index) {
+        hotspots.forEach(function (hotspot, index) {
             const escapedText = $('<span>').text(hotspot.text).html();
             const $item = $('<li class="hotspot-item">' +
                 '<span class="hotspot-item-text">' + escapedText + '</span>' +
@@ -1546,7 +1336,7 @@ jQuery(document).ready(function($) {
         $list.append($label);
         $list.append($items);
 
-        $list.find('.hotspot-item-remove').off('click').on('click', function() {
+        $list.find('.hotspot-item-remove').off('click').on('click', function () {
             const index = parseInt($(this).data('index'), 10);
             hotspots.splice(index, 1);
             initPanoramaViewer();
@@ -1555,36 +1345,36 @@ jQuery(document).ready(function($) {
     }
 
     // Bind hotspot modal handlers
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#hotspot-save').off('click').on('click', saveHotspot);
         $('#hotspot-cancel, #hotspot-modal-close').off('click').on('click', hideHotspotModal);
 
         // Close the premium popup via the built-in close button
-        $(document).off('click.limitDismiss').on('click.limitDismiss', '#wpvr_premium_feature_close', function() {
+        $(document).off('click.limitDismiss').on('click.limitDismiss', '#wpvr_premium_feature_close', function () {
             hideHotspotLimitNotice();
         });
-        
+
         // Close on clicking outside modal
-        $('#hotspot-modal').off('click').on('click', function(e) {
+        $('#hotspot-modal').off('click').on('click', function (e) {
             if ($(e.target).is('#hotspot-modal')) {
                 hideHotspotModal();
             }
         });
-        
+
         // Prevent modal content clicks from closing modal
-        $('.hotspot-modal-content').off('click').on('click', function(e) {
+        $('.hotspot-modal-content').off('click').on('click', function (e) {
             e.stopPropagation();
         });
-        
+
         // Close on Escape key
-        $(document).off('keydown.hotspot').on('keydown.hotspot', function(e) {
+        $(document).off('keydown.hotspot').on('keydown.hotspot', function (e) {
             if (e.key === 'Escape' && $('#hotspot-modal').is(':visible')) {
                 hideHotspotModal();
             }
         });
 
         // Submit on Enter key
-        $('#hotspot-text').off('keypress').on('keypress', function(e) {
+        $('#hotspot-text').off('keypress').on('keypress', function (e) {
             if (e.which === 13) {
                 e.preventDefault();
                 saveHotspot();

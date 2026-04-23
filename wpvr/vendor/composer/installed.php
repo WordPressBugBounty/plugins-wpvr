@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'wpvr/wpvr',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => 'fb19b4e0827e52ab460827271e918628c1591a1d',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'ef09c9c3648aadfb46a537db8f6b3a2cd8553f5c',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'linno/telemetry' => array(
             'pretty_version' => 'dev-posthog',
             'version' => 'dev-posthog',
-            'reference' => '32e7975d19bf532f7762a76a34f150e050cb609a',
+            'reference' => '12074184f7207244a1e43b0860d07ec2877de0e7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../linno/telemetry',
             'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'wpvr/wpvr' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => 'fb19b4e0827e52ab460827271e918628c1591a1d',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'ef09c9c3648aadfb46a537db8f6b3a2cd8553f5c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

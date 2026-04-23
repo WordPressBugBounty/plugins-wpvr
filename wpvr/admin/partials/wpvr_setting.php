@@ -630,6 +630,27 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                     </span>
                                 </li>
 
+                                <?php
+                                $wpvr_allow_tracking = get_option( 'wpvr_allow_tracking', 'no' );
+                                ?>
+                                <li>
+                                    <p class="single-settings-title">
+                                        <?php echo __("Allow Usage Data Sharing:", "wpvr"); ?>
+                                    </p>
+
+                                    <span class="wpvr-switcher">
+                                        <input id="wpvr_usage_tracking" type="checkbox" <?php checked( $wpvr_allow_tracking, 'yes' ); ?>>
+                                        <label for="wpvr_usage_tracking"></label>
+                                    </span>
+
+                                    <span class="wpvr-tooltip">
+                                        <span class="icon">
+                                            <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
+                                        </span>
+                                        <p><?php echo __('Share your site URL, email, and anonymous usage data to help us improve WP VR. You can disable this at any time.', 'wpvr'); ?></p>
+                                    </span>
+                                </li>
+
                                 <li>
                                     <form class="wpvr-version" id="trigger-rollback">
                                         <?php wp_nonce_field( 'wpvr_rollback','wpvr_rollback' ); ?>

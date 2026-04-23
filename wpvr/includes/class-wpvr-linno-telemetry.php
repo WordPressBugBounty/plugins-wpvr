@@ -4,8 +4,15 @@ use LinnoSDK\Telemetry\Client;
 /**
  * Class WPVR_Linno_Telemetry
  *
- * Minimal telemetry event bridge for Linno SDK.
- * Tracks only: setup, first_strike, KUI trigger actions.
+ * Telemetry event bridge for the Linno SDK.
+ *
+ * Canonical events tracked:
+ *  - activation/plugin_activated     — SDK lifecycle, no consent (automatic).
+ *  - activation/plugin_deactivated   — SDK lifecycle, no consent (automatic).
+ *  - activation/onboarding_completed — non-PII, override (track_immediate).
+ *  - activation/aha_reached          — consent-gated; wizard completion fires on consent grant,
+ *                                       active tour views fire via define_triggers → aha.
+ *  - retention/feature_used          — consent-gated (define_triggers → feature_used).
  *
  * @since 8.5.57
  */
@@ -42,8 +49,8 @@ class WPVR_Linno_Telemetry {
 
         $this->init_client();
         add_filter( 'wpvr_telemetry_report_interval', array( $this, 'set_daily_telemetry_report_interval' ) );
-        add_action( 'transition_post_status', array( $this, 'handle_first_tour_published' ), 10, 3 );
         add_action( 'rex_wpvr_embadded_tour', array( $this, 'handle_embedded_tour_view' ), 10, 1 );
+        add_action( 'wpvr_telemetry_consent_granted', array( $this, 'track_aha_after_consent' ) );
     }
 
     /**
@@ -95,28 +102,35 @@ class WPVR_Linno_Telemetry {
             )
         );
 
+        // Non-PII onboarding event — bypasses consent via override=true on track_immediate().
+        add_action( 'wpvr_setup_wizard_completed_event', array( $this, 'track_onboarding_event' ), 10, 1 );
+
+        // Consent-gated events via SDK trigger system.
+        // activation/aha_reached  — queued when ≥60% of tours are actively viewed (recurring).
+        // retention/feature_used  — queued on every tour save.
+        // Both require opt-in consent.
+        $self = $this;
         $wpvr_telemetry->define_triggers(
             array(
-                'onboarding'   => array(
-                    'hook'     => 'wpvr_setup_wizard_completed_event',
-                    'callback' => array( $this, 'build_setup_payload' ),
-                ),
-                'aha'          => array(
-                    'first_tour_published' => array(
-                        'hook'     => 'wpvr_first_tour_published_event',
-                        'callback' => array( $this, 'build_first_strike_payload' ),
+                'aha' => array(
+                    'tours_actively_viewed' => array(
+                        'hook'     => 'wpvr_kui_unique_views_updated',
+                        'callback' => function ( $unique_views, $tour_id ) use ( $self ) {
+                            return $self->build_kui_payload( $unique_views, $tour_id );
+                        },
                     ),
                 ),
                 'feature_used' => array(
                     'tour_creation' => array(
                         'hook'     => 'wpvr_tour_settings_saved',
-                        'callback' => array( $this, 'build_tour_creation_payload' ),
+                        'callback' => function ( $tour_id ) use ( $self ) {
+                            return $self->build_tour_creation_payload( $tour_id );
+                        },
                     ),
                 ),
             )
         );
 
-        // $wpvr_telemetry->init();
         $this->ensure_daily_telemetry_queue_schedule();
         $this->client_initialized = true;
     }
@@ -144,60 +158,6 @@ class WPVR_Linno_Telemetry {
     }
 
     /**
-     * Emit first strike action when first non-demo tour is published.
-     *
-     * @param string  $new_status New post status.
-     * @param string  $old_status Previous post status.
-     * @param WP_Post $post       Post object.
-     *
-     * @return void
-     */
-    public function handle_first_tour_published( $new_status, $old_status, $post ) {
-        if ( ! $post || 'wpvr_item' !== $post->post_type ) {
-            return;
-        }
-
-        if ( 'publish' !== $new_status || ! in_array( $old_status, array( 'auto-draft', 'draft', 'new', '' ), true ) ) {
-            return;
-        }
-
-        $is_demo_tour = get_post_meta( $post->ID, 'wpvr_is_demo_tour', true );
-        if ( '1' === $is_demo_tour ) {
-            return;
-        }
-
-        $args = array(
-            'post_type'      => 'wpvr_item',
-            'post_status'    => array( 'publish', 'draft' ),
-            'posts_per_page' => -1,
-            'fields'         => 'ids',
-            'meta_query'     => array(
-                'relation' => 'OR',
-                array(
-                    'key'     => 'wpvr_is_demo_tour',
-                    'compare' => 'NOT EXISTS',
-                ),
-                array(
-                    'key'     => 'wpvr_is_demo_tour',
-                    'value'   => '1',
-                    'compare' => '!=',
-                ),
-            ),
-        );
-
-        $user_tours = get_posts( $args );
-        $total_user_tours = is_array( $user_tours ) ? count( $user_tours ) : 0;
-
-        if ( 1 === $total_user_tours ) {
-            do_action( 'wpvr_first_tour_published_event', $post->ID, $post->post_title );
-            global $wpvr_telemetry;
-            if ( is_object( $wpvr_telemetry ) && method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'aha_reached_first_tour_published' ) ) {
-                update_option( 'wpvr_first_strike_completed', true );
-            }
-        }
-    }
-
-    /**
      * Build setup event payload.
      *
      * @param string $industry Industry from setup wizard.
@@ -207,21 +167,6 @@ class WPVR_Linno_Telemetry {
         return array(
             'industry' => sanitize_text_field( (string) $industry ),
             'time'     => current_time( 'mysql' ),
-        );
-    }
-
-    /**
-     * Build first strike payload.
-     *
-     * @param int    $tour_id    Tour ID.
-     * @param string $tour_title Tour title.
-     * @return array
-     */
-    public function build_first_strike_payload( $tour_id = 0, $tour_title = '' ) {
-        return array(
-            'tour_id'    => absint( $tour_id ),
-            'tour_title' => sanitize_text_field( (string) $tour_title ),
-            'time'       => current_time( 'mysql' ),
         );
     }
 
@@ -293,6 +238,66 @@ class WPVR_Linno_Telemetry {
             'floor_plan'     => $floor_plan,
             'tour_builder'   => $tour_builder,
         );
+    }
+
+    /**
+     * Track onboarding completed event (non-PII, bypasses consent gate).
+     *
+     * @param string $industry Industry from setup wizard.
+     * @return void
+     */
+    public function track_onboarding_event( $industry = '' ) {
+        global $wpvr_telemetry;
+        if ( ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+        if ( method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'onboarding_completed' ) ) {
+            return;
+        }
+        $wpvr_telemetry->track_immediate( 'activation/onboarding_completed', $this->build_setup_payload( $industry ), true );
+        if ( method_exists( $wpvr_telemetry, 'mark_event_sent' ) ) {
+            $wpvr_telemetry->mark_event_sent( 'onboarding_completed' );
+        }
+    }
+
+    /**
+     * Track activation/aha_reached after consent is granted.
+     *
+     * The wizard completion hook fires BEFORE consent is set (separate AJAX calls),
+     * so aha cannot use define_triggers. Instead, this method fires once when
+     * consent is granted on the Success step, if the wizard was completed.
+     *
+     * @return void
+     */
+    public function track_aha_after_consent() {
+        global $wpvr_telemetry;
+        if ( ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        // Only fire if the wizard was actually completed.
+        if ( ! get_option( 'wpvr_wizard_onboarding_done' ) ) {
+            return;
+        }
+
+        // One-shot guard — never send twice.
+        if ( method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'aha_reached_wizard_completed' ) ) {
+            return;
+        }
+
+        $industry = sanitize_text_field( get_option( 'wpvr_industry_name', '' ) );
+
+        $wpvr_telemetry->track_kui(
+            'wizard_completed',
+            array(
+                'industry' => $industry,
+                'time'     => current_time( 'mysql' ),
+            )
+        );
+
+        if ( method_exists( $wpvr_telemetry, 'mark_event_sent' ) ) {
+            $wpvr_telemetry->mark_event_sent( 'aha_reached_wizard_completed' );
+        }
     }
 
     /**

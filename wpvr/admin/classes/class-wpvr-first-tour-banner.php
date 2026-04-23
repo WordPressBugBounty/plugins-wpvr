@@ -30,7 +30,7 @@ class WPVR_First_Tour_Banner {
     public function __construct() {
         // Only initialize if banner should be shown
         if ($this->should_show_banner()) {
-            add_action('admin_notices', array($this, 'display_banner'));
+            // add_action('admin_notices', array($this, 'display_banner'));
             add_action('admin_head', array($this, 'add_styles'));
             add_action('wp_ajax_wpvr_dismiss_tour_banner', array($this, 'handle_dismiss_banner'));
         }

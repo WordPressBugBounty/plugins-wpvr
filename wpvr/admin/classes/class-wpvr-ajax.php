@@ -567,6 +567,29 @@ class Wpvr_Ajax
         update_option('dokan_vendor_active', $dokan_vendor);
     }
 
+    // Usage data sharing toggle — sync with Linno telemetry SDK.
+    if ( isset( $_POST['wpvr_usage_tracking'] ) ) {
+        $tracking_toggle  = sanitize_text_field( $_POST['wpvr_usage_tracking'] );
+        $consent_state    = 'true' === $tracking_toggle ? 'yes' : 'no';
+        $opt_in_numeric   = 'yes' === $consent_state ? '1' : '0';
+
+        update_option( 'wpvr_allow_tracking', $consent_state );
+        update_option( 'wpvr_opt_in_toggle', $opt_in_numeric );
+
+        if ( function_exists( 'linno_telemetry' ) && defined( 'WPVR_FILE' ) ) {
+            $telemetry_client = linno_telemetry( WPVR_FILE );
+            if ( $telemetry_client && method_exists( $telemetry_client, 'set_optin_state' ) ) {
+                $telemetry_client->set_optin_state( $consent_state );
+            } elseif ( function_exists( 'linno_telemetry_sync_consent_state' ) ) {
+                linno_telemetry_sync_consent_state( WPVR_FILE );
+            }
+        }
+
+        if ( 'yes' === $consent_state ) {
+            do_action( 'wpvr_telemetry_consent_granted' );
+        }
+    }
+
     //        update_option('wpvr_enable_woocommerce', $enable_woocommerce);
 
     $response = array(
@@ -739,6 +762,11 @@ class Wpvr_Ajax
       } elseif ( function_exists( 'linno_telemetry_sync_consent_state' ) ) {
         linno_telemetry_sync_consent_state( WPVR_FILE );
       }
+    }
+
+    // Fire after SDK consent is fully synced so consent-gated events can queue.
+    if ( 'yes' === $consent_state ) {
+      do_action( 'wpvr_telemetry_consent_granted' );
     }
 
     wp_send_json_success( array( 'message' => __('Opt-in value saved.', 'wpvr') ), 200 );
@@ -1172,6 +1200,12 @@ class Wpvr_Ajax
     // Trigger tour saved action for telemetry
     do_action('rex_wpvr_tour_saved', $post_id);
     do_action( 'wpvr_setup_wizard_completed_event', $industry );
+
+    // Persist industry selection for telemetry (aha event fires later from consent handler).
+    update_option( 'wpvr_industry_name', sanitize_text_field( $industry ), false );
+
+    // Mark wizard as permanently done so the onboarding notice is suppressed.
+    update_option( 'wpvr_wizard_onboarding_done', '1', false );
 
     wp_send_json_success( array( 
       'post_id' => $post_id,
