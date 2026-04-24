@@ -117,6 +117,7 @@ class Wpvr_Admin {
 
         // // Add the import button to the All Tours page
         add_action('admin_footer', array($this, 'add_import_button'));
+        add_action('admin_footer', array($this, 'enqueue_deactivation_scripts'), 99);
 
         $this->plugin_admin_ajax     = new Wpvr_Ajax();
     }
@@ -737,6 +738,25 @@ class Wpvr_Admin {
             </script>
             <?php
         }
+    }
+
+    /**
+     * Enqueue deactivation sub-reason JS on plugins.php only, after SDK modal (priority 99).
+     *
+     * @return void
+     */
+    public function enqueue_deactivation_scripts() {
+        global $pagenow;
+        if ( 'plugins.php' !== $pagenow ) {
+            return;
+        }
+        wp_enqueue_script(
+            'wpvr-deactivation',
+            plugin_dir_url( __FILE__ ) . 'js/wpvr-deactivation.js',
+            array( 'jquery' ),
+            $this->version,
+            true
+        );
     }
 
     /**

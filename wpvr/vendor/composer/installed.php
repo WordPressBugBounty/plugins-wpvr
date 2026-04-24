@@ -3,7 +3,7 @@
         'name' => 'wpvr/wpvr',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ef09c9c3648aadfb46a537db8f6b3a2cd8553f5c',
+        'reference' => 'b1e1df46697342b83df1aa15768f9860ed75b7c7',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'linno/telemetry' => array(
             'pretty_version' => 'dev-posthog',
             'version' => 'dev-posthog',
-            'reference' => '12074184f7207244a1e43b0860d07ec2877de0e7',
+            'reference' => '5b82a44bdead65fa99685849294fcbb37ec043c5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../linno/telemetry',
             'aliases' => array(),
@@ -31,7 +31,7 @@
         'wpvr/wpvr' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ef09c9c3648aadfb46a537db8f6b3a2cd8553f5c',
+            'reference' => 'b1e1df46697342b83df1aa15768f9860ed75b7c7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

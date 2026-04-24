@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite54f392803813aa0c8044adb48a336bd
+class ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7
 {
     public static $files = array (
         'aed659f3655c497c30e044c41fa917c6' => __DIR__ . '/..' . '/linno/telemetry/src/helpers.php',
@@ -106,9 +106,9 @@ class ComposerStaticInite54f392803813aa0c8044adb48a336bd
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite54f392803813aa0c8044adb48a336bd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite54f392803813aa0c8044adb48a336bd::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite54f392803813aa0c8044adb48a336bd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$classMap;
 
         }, null, ClassLoader::class);
     }
