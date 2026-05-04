@@ -131,7 +131,7 @@ class WPVR_Video {
             $html = $this->format->prepare_youtube_video_preview($videourl, $videodata);
         } elseif (strpos($videourl, 'youtu.be') > 0) {
             $vidtype = 'youtube';
-            $html = $this->format->prepare_youtu_be_video_meta_data($videourl, $videodata);
+            $html = $this->format->prepare_youtube_video_preview($videourl, $videodata);
         } elseif (strpos($videourl, 'vimeo') > 0) {
             $vidtype = 'vimeo';
             $html = $this->format->prepare_vimeo_video_meta_data($videourl, $videodata);
@@ -175,7 +175,7 @@ class WPVR_Video {
         }
 
         if (strpos($postdata['vidurl'], 'youtube') > 0 || strpos($postdata['vidurl'], 'youtu') > 0) {
-            $html = $this->format->preapre_youtube_video_shortcode_data($postdata, $width, $height, $autoplay, $loop, $radius);
+            $html = $this->format->prepare_youtube_video_shortcode_data($postdata, $width, $height, $autoplay, $loop, $radius);
         } elseif (strpos($postdata['vidurl'], 'vimeo') > 0) {
             $html = $this->format->prepare_vimeo_video_shortcode_data($postdata, $width, $height, $autoplay, $loop, $radius);
         } else {

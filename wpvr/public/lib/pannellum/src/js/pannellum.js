@@ -108,7 +108,7 @@ var defaultConfig = {
     draggable: true,
     disableKeyboardCtrl: false,
     crossOrigin: 'anonymous',
-    touchPanSpeedCoeffFactor: 1,
+    touchPanSpeedCoeffFactor: -1,
     capturedKeyNumbers: [16, 17, 27, 37, 38, 39, 40, 61, 65, 68, 83, 87, 107, 109, 173, 187, 189],
     friction: 0.15
 };
@@ -509,8 +509,7 @@ function onImageLoad() {
             container.addEventListener('blur', clearKeys, false);
         }
         document.addEventListener('mouseleave', onDocumentMouseUp, false);
-        if (document.documentElement.style.pointerAction === '' &&
-            document.documentElement.style.touchAction === '') {
+        if (window.PointerEvent) {
             dragFix.addEventListener('pointerdown', onDocumentPointerDown, false);
             dragFix.addEventListener('pointermove', onDocumentPointerMove, false);
             dragFix.addEventListener('pointerup', onDocumentPointerUp, false);
@@ -944,11 +943,11 @@ function onDocumentTouchMove(event) {
         // the user's finger while panning regardless of zoom level / config.hfov value.
         var touchmovePanSpeedCoeff = (config.hfov / 360) * config.touchPanSpeedCoeffFactor;
 
-        var yaw = (onPointerDownPointerX - clientX) * touchmovePanSpeedCoeff + onPointerDownYaw;
+        var yaw = (clientX - onPointerDownPointerX) * touchmovePanSpeedCoeff + onPointerDownYaw;
         speed.yaw = (yaw - config.yaw) % 360 * 0.2;
         config.yaw = yaw;
 
-        var pitch = (clientY - onPointerDownPointerY) * touchmovePanSpeedCoeff + onPointerDownPitch;
+        var pitch = (onPointerDownPointerY - clientY) * touchmovePanSpeedCoeff + onPointerDownPitch;
         speed.pitch = (pitch - config.pitch) * 0.2;
         config.pitch = pitch;
         var mirrorData = {
@@ -987,7 +986,8 @@ function onDocumentPointerDown(event) {
         if (!loaded || !config.draggable)
             return;
         pointerIDs.push(event.pointerId);
-        pointerCoordinates.push({clientX: event.clientX, clientY: event.clientY});
+        var pos = mousePosition(event);
+        pointerCoordinates.push({clientX: pos.x, clientY: pos.y});
         event.targetTouches = pointerCoordinates;
         onDocumentTouchStart(event);
         event.preventDefault();
@@ -1005,8 +1005,9 @@ function onDocumentPointerMove(event) {
             return;
         for (var i = 0; i < pointerIDs.length; i++) {
             if (event.pointerId == pointerIDs[i]) {
-                pointerCoordinates[i].clientX = event.clientX;
-                pointerCoordinates[i].clientY = event.clientY;
+                var pos = mousePosition(event);
+                pointerCoordinates[i].clientX = pos.x;
+                pointerCoordinates[i].clientY = pos.y;
                 event.targetTouches = pointerCoordinates;
                 onDocumentTouchMove(event);
                 event.preventDefault();
@@ -2838,6 +2839,7 @@ this.startAutoRotate = function(speed, pitch) {
     pitch = pitch === undefined ? origPitch : pitch;
     config.autoRotate = speed;
     _this.lookAt(pitch, undefined, origHfov, 3000);
+    animating = false;  // reset guard so animateInit() always restarts the loop
     animateInit();
     return this;
 };

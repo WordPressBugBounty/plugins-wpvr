@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.0.0
-Stable tag: 8.5.69
+Stable tag: 8.5.70
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,16 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.70 (2026-04-30) =
+* Improvement: Added toggle to control mobile hotspot tip visibility with interaction-based display logic
+* Improvement: WP VR now conditionally loads assets to avoid global performance impact
+* Bug Fix: Tour Autoload no longer resets when updating Preview Image Message
+* Bug Fix: Disabled mobile hotspot hover content from triggering on long-press when turned off in settings
+* Bug Fix: Restricted WPVR Analytics menu visibility and removed standalone access for Editor role
+* Bug Fix: Vimeo autoplay, loop, and 360° drag now work correctly in WPVR
+* Bug Fix: Resolved incorrect checklist display in backend edit mode for published WPVR Street View tours
+* Bug Fix: Resolved 360° video dragging issue
 
 = 8.5.69 (2026-04-24) =
 * improvement: VR-specific deactivation survey reasons with improved modal UX

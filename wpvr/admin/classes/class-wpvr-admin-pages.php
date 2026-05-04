@@ -64,14 +64,15 @@ class WPVR_Admin_Page {
 	 * @since 8.0.0
 	 */
 	function wpvr_add_admin_pages() {
-		add_menu_page( 'WP VR', 'WP VR', 'manage_options', 'wpvr', array( $this, 'wpvr_admin_doc'),$this->get_menu_icon(), 25);
+        $menu_cap = current_user_can('manage_options') ? 'manage_options' : 'edit_wpvr_tours';
+		add_menu_page( 'WP VR', 'WP VR', $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'),$this->get_menu_icon(), 25);
 
-        add_submenu_page( 'wpvr', 'WP VR', __('Get Started','wpvr'),'manage_options', 'wpvr', array( $this, 'wpvr_admin_doc'));
+        add_submenu_page( 'wpvr', 'WP VR', __('Get Started','wpvr'), $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'));
         remove_submenu_page('wpvr', 'wpvr');
 
-        add_submenu_page( 'wpvr', 'WP VR', __('Tours','wpvr'),'manage_options', 'edit.php?post_type=wpvr_item', NULL);
+        add_submenu_page( 'wpvr', 'WP VR', __('Tours','wpvr'), $menu_cap, 'edit.php?post_type=wpvr_item', NULL);
 
-		add_submenu_page( 'wpvr', 'WP VR', __('Add New Tour','wpvr'),'manage_options', 'post-new.php?post_type=wpvr_item', NULL);
+		add_submenu_page( 'wpvr', 'WP VR', __('Add New Tour','wpvr'), $menu_cap, 'post-new.php?post_type=wpvr_item', NULL);
 
 		$status  = get_option('wpvr_edd_license_status');
         if ($status !== false && $status == 'valid') {
@@ -88,7 +89,7 @@ class WPVR_Admin_Page {
     //    add_submenu_page( 'wpvr', 'WP VR', __('Guided Tour','wpvr'),'manage_options', 'wpvr-setup-wizard', array($this,'wpvr_setup_wizard'));
 
 		if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
-			add_submenu_page( 'wpvr', 'WP VR', __('Free vs Pro','wpvr'),'manage_options', 'wpvr', array( $this, 'wpvr_admin_doc'));
+			add_submenu_page( 'wpvr', 'WP VR', __('Free vs Pro','wpvr'), $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'));
 		}
 
         add_submenu_page( 'wpvr', 'WP VR', __('Setup Wizard','wpvr'),'manage_options', 'rex-wpvr-setup-wizard', array( $this, 'wpvr_new_setup_wizard'));

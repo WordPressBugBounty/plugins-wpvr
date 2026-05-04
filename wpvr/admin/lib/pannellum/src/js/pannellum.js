@@ -935,7 +935,7 @@ function onDocumentTouchMove(event) {
         speed.yaw = (yaw - config.yaw) % 360 * 0.2;
         config.yaw = yaw;
 
-        var pitch = (clientY - onPointerDownPointerY) * touchmovePanSpeedCoeff + onPointerDownPitch;
+        var pitch = (onPointerDownPointerY - clientY) * touchmovePanSpeedCoeff + onPointerDownPitch;
         speed.pitch = (pitch - config.pitch) * 0.2;
         config.pitch = pitch;
     }
@@ -2822,6 +2822,7 @@ this.startAutoRotate = function(speed, pitch) {
     pitch = pitch === undefined ? origPitch : pitch;
     config.autoRotate = speed;
     _this.lookAt(pitch, undefined, origHfov, 3000);
+    animating = false;  // reset guard so animateInit() always restarts the loop
     animateInit();
     return this;
 };

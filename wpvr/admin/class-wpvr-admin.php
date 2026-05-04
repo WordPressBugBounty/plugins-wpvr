@@ -266,6 +266,8 @@ class Wpvr_Admin {
                 'is_wpvr_pro_active' => apply_filters('is_wpvr_pro_active', false),
                 'is_wpvr_license_valid' => get_option('wpvr_edd_license_status', '') === 'valid',
                 'published_text' => __('Published', 'wpvr'),
+                'dis_on_hover' => get_option('dis_on_hover') === 'true' ? true : false,
+                'mobile_hotspot_tip' => get_option('wpvr_mobile_hotspot_tip') === 'true' ? true : false,
             ));
         }
 

@@ -33,6 +33,7 @@ registerPlugin('pannellum', function(config) {
             player.pnlmViewer.setUpdate(true);
     });
     player.on('canplay', function() {
+        pnlmContainer.style.visibility = 'visible';
         if (!player.paused())
             player.pnlmViewer.setUpdate(true);
     });
@@ -50,6 +51,11 @@ registerPlugin('pannellum', function(config) {
         if (player.paused())
             player.pnlmViewer.setUpdate(false);
     });
+
+    // Reveal immediately if video data was already available before plugin init (cached media).
+    if (vid.readyState >= 2) {
+        pnlmContainer.style.visibility = 'visible';
+    }
 });
 
 })(document, videojs, pannellum);

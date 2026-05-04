@@ -362,6 +362,7 @@ class Deactivation {
 
         $reason_id = isset( $_POST['reason_id'] ) ? sanitize_text_field( wp_unslash( $_POST['reason_id'] ) ) : 'none';
         $reason_info = isset( $_POST['reason_info'] ) ? sanitize_text_field( wp_unslash( $_POST['reason_info'] ) ) : '';
+
         $this->track_deactivation( $reason_id, $reason_info );
 
         wp_send_json_success();

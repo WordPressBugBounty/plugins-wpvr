@@ -276,8 +276,8 @@
             e.preventDefault();
             $('.wpvr-loading').show();
             var videourl = $("input[name='video-attachment-url']").val();
-            var vidautoplay = $("input[name='playvideo']:checked").val();
-            var vidcontrol = $("input[name='playcontrol']:checked").val();
+            var autoplay = $("input[name='autoplay']:checked").val();
+            var loop = $("input[name='loop']:checked").val();
 
             var panovideo = $("input[name='panovideo']:checked").val();
 
@@ -334,8 +334,10 @@
                     scenefadeduration: scenefadeduration,
                     panovideo: panovideo,
                     videourl: videourl,
-                    vidautoplay: vidautoplay,
-                    vidcontrol: vidcontrol,
+                    autoplay: autoplay,
+                    loop: loop,
+                    // vidautoplay: vidautoplay,
+                    // vidcontrol: vidcontrol,
                     diskeyboard: diskeyboard,
                     keyboardzoom: keyboardzoom,
                     draggable: draggable,
@@ -2480,6 +2482,7 @@
         var wpvr_video_script_list = $('#wpvr_video_script_list').val();
         var high_res_image = $('#high_res_image').is(':checked');
         var dis_on_hover = $('#dis_on_hover').is(':checked');
+        var wpvr_mobile_hotspot_tip = $('#wpvr_mobile_hotspot_tip').is(':checked');
         var dokan_vendor = $('#wpvr_dokan_vendor_active').is(':checked');
         var wpvr_usage_tracking = $('#wpvr_usage_tracking').is(':checked');
 
@@ -2503,6 +2506,7 @@
                                     mobile_media_resize: mobile_media_resize,
                                     high_res_image: high_res_image,
                                     dis_on_hover: dis_on_hover,
+                                    wpvr_mobile_hotspot_tip: wpvr_mobile_hotspot_tip,
                                     wpvr_frontend_notice: wpvr_frontend_notice,
                                     wpvr_frontend_notice_area: wpvr_frontend_notice_area,
                                     wpvr_script_control: wpvr_script_control,
@@ -2585,6 +2589,7 @@
                                     mobile_media_resize: mobile_media_resize,
                                     high_res_image: high_res_image,
                                     dis_on_hover: dis_on_hover,
+                                    wpvr_mobile_hotspot_tip: wpvr_mobile_hotspot_tip,
                                     wpvr_frontend_notice: wpvr_frontend_notice,
                                     wpvr_frontend_notice_area: wpvr_frontend_notice_area,
                                     wpvr_script_control: wpvr_script_control,
@@ -2623,6 +2628,7 @@
                                 mobile_media_resize: mobile_media_resize,
                                 high_res_image: high_res_image,
                                 dis_on_hover: dis_on_hover,
+                                wpvr_mobile_hotspot_tip: wpvr_mobile_hotspot_tip,
                                 wpvr_frontend_notice: wpvr_frontend_notice,
                                 wpvr_frontend_notice_area: wpvr_frontend_notice_area,
                                 wpvr_script_control: wpvr_script_control,
@@ -2665,6 +2671,7 @@
                     mobile_media_resize: mobile_media_resize,
                     high_res_image: high_res_image,
                     dis_on_hover: dis_on_hover,
+                    wpvr_mobile_hotspot_tip: wpvr_mobile_hotspot_tip,
                     wpvr_frontend_notice: wpvr_frontend_notice,
                     wpvr_frontend_notice_area: wpvr_frontend_notice_area,
                     wpvr_script_control: wpvr_script_control,
@@ -2708,6 +2715,7 @@
             $('#wpvr_video_script_control').prop('checked', false);
             $('#high_res_image').prop('checked', false);
             $('#dis_on_hover').prop('checked', false);
+            $('#wpvr_mobile_hotspot_tip').prop('checked', false);
             $('#wpvr_dokan_vendor_active').prop('checked', false);
             $('#wpvr_usage_tracking').prop('checked', false);
             $(".wpvr_enqueue_video_script_list").hide();
@@ -3197,7 +3205,13 @@
             $(".rex-add-coordinates").removeClass('rex-hide-coordinates');
         }
 
-        if( 'streetview' === activeTab || 'video' === activeTab || $('.videos.active').length ) {
+        // Hide checklist for streetview tours in edit mode
+        var isStreetViewTour = false;
+        // Check by input (edit mode)
+        if ($("input[name='wpvrStreetView']:checked").val() === 'on') {
+            isStreetViewTour = true;
+        }
+        if( 'streetview' === activeTab || 'video' === activeTab || $('.videos.active').length || isStreetViewTour ) {
             $('#wpvr_item_tour_checklist__box').css('display', 'none');
         }else{
             $('#wpvr_item_tour_checklist__box').css('display', 'block');
@@ -3593,89 +3607,103 @@
 
 })(jQuery);
 
-        // WPVR Hotspot Long-Press Mobile Support
-        jQuery(document).ready(function($) {
-            var isTouchDevice = (("ontouchstart" in window) || (navigator.maxTouchPoints > 0));
-            if (isTouchDevice) {
-                setTimeout(function() {
-                    if (!$('.pnlm-container').length) {
-                        return;
-                    }
-                    if (!$('.wpvr-hotspot-longpress-alert').length) {
-                        alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
-                    }
-                    $('.pnlm-hotspot-base, .pnlm-hotspot').each(function() {
-                        $(this).off('mouseenter mouseover mouseleave');
 
-                        // Hide only the inner content <p>, not the hotspot pointer
-                        $(this).find('p').hide();
+// WPVR Hotspot Long-Press Mobile Support
+jQuery(document).ready(function($) {
+	var isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+	var disOnHover = (typeof wpvr_obj !== 'undefined') ? wpvr_obj.dis_on_hover : undefined;
+	var tipEnabled = (typeof wpvr_obj !== 'undefined') ? wpvr_obj.mobile_hotspot_tip : undefined;
+	var shouldShowAlert = isTouchDevice && (disOnHover !== "1");
+	if (shouldShowAlert) {
+		setTimeout(function() {
+			if (!$('.pnlm-container').length) {
+				return;
+			}
+			$('.pnlm-hotspot-base, .pnlm-hotspot').each(function() {
+				$(this).off('mouseenter mouseover mouseleave');
 
-                        var longPressTimer;
-                        var isLongPress = false;
+				// Hide only the inner content <p>, not the hotspot pointer
+				$(this).find('p').hide();
 
-                        // Prevent click after long press
-                        $(this).off('click._wpvrHotspotFix').on('click._wpvrHotspotFix', function(e) {
-                            if ($(this).data('wpvr-longpress')) {
-                                e.preventDefault();
-                                e.stopImmediatePropagation();
-                                $(this).data('wpvr-longpress', false);
-                                return false;
-                            }
-                        });
+				var longPressTimer;
+				var isLongPress = false;
 
-                        $(this).on('touchstart', function(e) {
-                            isLongPress = false;
-                            var $hotspot = $(this);
+				// Prevent click after long press
+				$(this).off('click._wpvrHotspotFix').on('click._wpvrHotspotFix', function(e) {
+					if ($(this).data('wpvr-longpress')) {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						$(this).data('wpvr-longpress', false);
+						return false;
+					}
+				});
 
-                            // Hide inner content on touch start
-                            $hotspot.find('p').hide();
+				$(this).on('touchstart', function(e) {
+					isLongPress = false;
+					var $hotspot = $(this);
 
-                            longPressTimer = setTimeout(function() {
-                                isLongPress = true;
-                                $hotspot.data('wpvr-longpress', true);
+					// Hide inner content on touch start
+					$hotspot.find('p').hide();
 
-                                // Hide all other hotspot contents first
-                                $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+					longPressTimer = setTimeout(function() {
+						isLongPress = true;
+						$hotspot.data('wpvr-longpress', true);
 
-                                // Show only this hotspot's content
-                                $hotspot.find('p').show();
-                            }, 600);
-                        });
+						// Hide all other hotspot contents first
+						$('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
 
-                        $(this).on('touchend', function(e) {
-                            clearTimeout(longPressTimer);
-                            if (isLongPress) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            } else {
-                                // Short tap: hide inner content, let click fire
-                                $(this).find('p').hide();
-                            }
-                        });
+						// Show only this hotspot's content
+						$hotspot.find('p').show();
+					}, 600);
+				});
 
-                        $(this).on('touchmove', function() {
-                            clearTimeout(longPressTimer);
-                            isLongPress = false;
-                            // Hide inner content if user starts panning
-                            $(this).find('p').hide();
-                        });
-                    });
+				$(this).on('touchend', function(e) {
+					clearTimeout(longPressTimer);
+					if (isLongPress) {
+						e.preventDefault();
+						e.stopPropagation();
+						// Do NOT auto-hide after 2 seconds anymore
+						// Content will stay open until user taps elsewhere
+					} else {
+						// Short tap: hide inner content, let click fire
+						$(this).find('p').hide();
+					}
+				});
 
-                    // Hide hotspot content when tapping outside any hotspot
-                    $(document).on('touchstart.wpvrHotspotOutside', function(e) {
-                        // If the tap is not inside a hotspot or its content
-                        if (!$(e.target).closest('.pnlm-hotspot-base, .pnlm-hotspot').length) {
-                            $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
-                        }
-                    });
+				$(this).on('touchmove', function() {
+					clearTimeout(longPressTimer);
+					isLongPress = false;
+					// Hide inner content if user starts panning
+					$(this).find('p').hide();
+				});
+			});
 
-                    // Hide other hotspot contents when another hotspot is long-pressed
-                    $('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart', function(e) {
-                        // Hide all other hotspot contents except the one being touched
-                        var $current = $(this);
-                        $('.pnlm-hotspot-base, .pnlm-hotspot').not($current).find('p').hide();
-                    });
+			// Hide hotspot content when tapping outside any hotspot
+			$(document).on('touchstart.wpvrHotspotOutside', function(e) {
+				// If the tap is not inside a hotspot or its content
+				if (!$(e.target).closest('.pnlm-hotspot-base, .pnlm-hotspot').length) {
+					$('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+				}
+			});
 
-                }, 800);
-            }
-        });
+			// Hide other hotspot contents when another hotspot is long-pressed
+			$('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart', function(e) {
+				// Hide all other hotspot contents except the one being touched
+				var $current = $(this);
+				$('.pnlm-hotspot-base, .pnlm-hotspot').not($current).find('p').hide();
+			});
+
+			if (tipEnabled == '1') {
+				   function showHotspotTip() {
+					   if (window.sessionStorage && sessionStorage.getItem('wpvrHotspotTipShown')) return;
+					   if (window.sessionStorage) {
+						   sessionStorage.setItem('wpvrHotspotTipShown', '1');
+					   }
+					   alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
+				   }
+				$('.pnlm-container').on('touchstart.wpvrTip touchmove.wpvrTip', showHotspotTip);
+				$('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart.wpvrTip', showHotspotTip);
+			}
+		}, 800);
+	}
+});

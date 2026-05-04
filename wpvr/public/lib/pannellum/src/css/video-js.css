@@ -749,6 +749,11 @@ body.vjs-full-window {
   height: 3em;
   background-color: #2B333F;
   background-color: rgba(43, 51, 63, 0.7);
+  /* Fix: pnlm-container creates a stacking context at effective z-index:0 via
+   * contain:content, sitting above elements with z-index:auto. Setting z-index:1
+   * here ensures the control bar (and the vertical volume slider that extends
+   * above it) renders and receives pointer events above the pnlm-dragfix. */
+  z-index: 1;
 }
 
 .vjs-has-started .vjs-control-bar {
@@ -761,7 +766,6 @@ body.vjs-full-window {
 .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
   visibility: visible;
   opacity: 0;
-  pointer-events: none;
   transition: visibility 1s, opacity 1s;
 }
 

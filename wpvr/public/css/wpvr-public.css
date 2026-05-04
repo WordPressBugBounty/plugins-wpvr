@@ -23,8 +23,8 @@
 
 .explainer {
   position: absolute;
-  bottom: 40px;
-  right: 15px;
+  bottom: 74px;
+  right: 41px;
   z-index: 9;
   text-align: center;
   width: 47%;
@@ -231,7 +231,7 @@
 #et-boc .et-l .explainer_button,
 .explainer_button {
   position: absolute;
-  bottom: 46px;
+  bottom: 49px;
   right: 45px;
   z-index: 3;
   text-align: center;

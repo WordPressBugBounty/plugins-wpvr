@@ -74,6 +74,36 @@
 .wpvr_tabs_row {
     width: 20% !important;
 }
+/* WPVR: Responsive container for video tour admin preview at 1455px or less */
+@media (max-width: 1455px) {
+    [id^="wpvr-preview-"][id$="-container"] {
+        position: relative;
+        width: 100%;
+        min-width: 320px;
+        max-width: 523px;
+        height: 310px !important;
+    }
+}
+/* WPVR: Responsive container for video tour admin preview at 1455px and above */
+@media (min-width: 1455px) {
+    [id^="wpvr-preview-"][id$="-container"] {
+        position: relative;
+        width: 100%;
+        min-width: 320px;
+        max-width: 523px;
+        height: 310px !important;
+    }
+}
+
+@media (min-width: 1499px) {
+    [id^="wpvr-preview-"][id$="-container"] {
+        position: relative;
+        width: 100%;
+        min-width: 320px;
+        max-width: 523px;
+        height: 400px !important;
+    }
+}
 
 .rex-add-coordinates .upload-scene-wrapper-first,
 .rex-add-coordinates .upload-scene-wrapper {
@@ -7199,5 +7229,4 @@ body.wp-vr_page_wpvr-setting {
         display: none;
     }
 }
-
 

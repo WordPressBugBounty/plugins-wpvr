@@ -11,22 +11,22 @@ class ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'PostHog\\' => 8,
         ),
-        'L' => 
+        'L' =>
         array (
             'LinnoSDK\\Telemetry\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PostHog\\' => 
+        'PostHog\\' =>
         array (
             0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
         ),
-        'LinnoSDK\\Telemetry\\' => 
+        'LinnoSDK\\Telemetry\\' =>
         array (
             0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),

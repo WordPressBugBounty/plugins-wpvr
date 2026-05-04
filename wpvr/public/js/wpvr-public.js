@@ -124,90 +124,102 @@ jQuery(document).ready(function($) {
 
 // WPVR Hotspot Long-Press Mobile Support
 jQuery(document).ready(function($) {
-    var isTouchDevice = (("ontouchstart" in window) || (navigator.maxTouchPoints > 0));
-    if (isTouchDevice) {
-        setTimeout(function() {
-            if (!$('.pnlm-container').length) {
-                return;
-            }
-            if (!$('.wpvr-hotspot-longpress-alert').length) {
-                alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
-            }
-            $('.pnlm-hotspot-base, .pnlm-hotspot').each(function() {
-                $(this).off('mouseenter mouseover mouseleave');
+	var isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+	var disOnHover = (typeof wpvr_public !== 'undefined') ? wpvr_public.dis_on_hover : undefined;
+	var tipEnabled = (typeof wpvr_public !== 'undefined') ? wpvr_public.mobile_hotspot_tip : undefined;
+	var shouldShowAlert = isTouchDevice && (disOnHover !== "1");
+	if (shouldShowAlert) {
+		setTimeout(function() {
+			if (!$('.pnlm-container').length) {
+				return;
+			}
+			$('.pnlm-hotspot-base, .pnlm-hotspot').each(function() {
+				$(this).off('mouseenter mouseover mouseleave');
 
-                // Hide only the inner content <p>, not the hotspot pointer
-                $(this).find('p').hide();
+				// Hide only the inner content <p>, not the hotspot pointer
+				$(this).find('p').hide();
 
-                var longPressTimer;
-                var isLongPress = false;
+				var longPressTimer;
+				var isLongPress = false;
 
-                // Prevent click after long press
-                $(this).off('click._wpvrHotspotFix').on('click._wpvrHotspotFix', function(e) {
-                    if ($(this).data('wpvr-longpress')) {
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        $(this).data('wpvr-longpress', false);
-                        return false;
-                    }
-                });
+				// Prevent click after long press
+				$(this).off('click._wpvrHotspotFix').on('click._wpvrHotspotFix', function(e) {
+					if ($(this).data('wpvr-longpress')) {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						$(this).data('wpvr-longpress', false);
+						return false;
+					}
+				});
 
-                $(this).on('touchstart', function(e) {
-                    isLongPress = false;
-                    var $hotspot = $(this);
+				$(this).on('touchstart', function(e) {
+					isLongPress = false;
+					var $hotspot = $(this);
 
-                    // Hide inner content on touch start
-                    $hotspot.find('p').hide();
+					// Hide inner content on touch start
+					$hotspot.find('p').hide();
 
-                    longPressTimer = setTimeout(function() {
-                        isLongPress = true;
-                        $hotspot.data('wpvr-longpress', true);
+					longPressTimer = setTimeout(function() {
+						isLongPress = true;
+						$hotspot.data('wpvr-longpress', true);
 
-                        // Hide all other hotspot contents first
-                        $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+						// Hide all other hotspot contents first
+						$('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
 
-                        // Show only this hotspot's content
-                        $hotspot.find('p').show();
-                    }, 600);
-                });
+						// Show only this hotspot's content
+						$hotspot.find('p').show();
+					}, 600);
+				});
 
-                $(this).on('touchend', function(e) {
-                    clearTimeout(longPressTimer);
-                    if (isLongPress) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Do NOT auto-hide after 2 seconds anymore
-                        // Content will stay open until user taps elsewhere
-                    } else {
-                        // Short tap: hide inner content, let click fire
-                        $(this).find('p').hide();
-                    }
-                });
+				$(this).on('touchend', function(e) {
+					clearTimeout(longPressTimer);
+					if (isLongPress) {
+						e.preventDefault();
+						e.stopPropagation();
+						// Do NOT auto-hide after 2 seconds anymore
+						// Content will stay open until user taps elsewhere
+					} else {
+						// Short tap: hide inner content, let click fire
+						$(this).find('p').hide();
+					}
+				});
 
-                $(this).on('touchmove', function() {
-                    clearTimeout(longPressTimer);
-                    isLongPress = false;
-                    // Hide inner content if user starts panning
-                    $(this).find('p').hide();
-                });
-            });
+				$(this).on('touchmove', function() {
+					clearTimeout(longPressTimer);
+					isLongPress = false;
+					// Hide inner content if user starts panning
+					$(this).find('p').hide();
+				});
+			});
 
-            // Hide hotspot content when tapping outside any hotspot
-            $(document).on('touchstart.wpvrHotspotOutside', function(e) {
-                // If the tap is not inside a hotspot or its content
-                if (!$(e.target).closest('.pnlm-hotspot-base, .pnlm-hotspot').length) {
-                    $('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
-                }
-            });
+			// Hide hotspot content when tapping outside any hotspot
+			$(document).on('touchstart.wpvrHotspotOutside', function(e) {
+				// If the tap is not inside a hotspot or its content
+				if (!$(e.target).closest('.pnlm-hotspot-base, .pnlm-hotspot').length) {
+					$('.pnlm-hotspot-base p, .pnlm-hotspot p').hide();
+				}
+			});
 
-            // Hide other hotspot contents when another hotspot is long-pressed
-            $('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart', function(e) {
-                // Hide all other hotspot contents except the one being touched
-                var $current = $(this);
-                $('.pnlm-hotspot-base, .pnlm-hotspot').not($current).find('p').hide();
-            });
-        }, 800);
-    }
+			// Hide other hotspot contents when another hotspot is long-pressed
+			$('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart', function(e) {
+				// Hide all other hotspot contents except the one being touched
+				var $current = $(this);
+				$('.pnlm-hotspot-base, .pnlm-hotspot').not($current).find('p').hide();
+			});
+
+			if (tipEnabled == '1') {
+				   function showHotspotTip() {
+					   if (window.sessionStorage && sessionStorage.getItem('wpvrHotspotTipShown')) return;
+					   if (window.sessionStorage) {
+						   sessionStorage.setItem('wpvrHotspotTipShown', '1');
+					   }
+					   alert('Tip: On mobile devices, long-press a hotspot to show its hover content.');
+				   }
+				$('.pnlm-container').on('touchstart.wpvrTip touchmove.wpvrTip', showHotspotTip);
+				$('.pnlm-hotspot-base, .pnlm-hotspot').on('touchstart.wpvrTip', showHotspotTip);
+			}
+		}, 800);
+	}
 });
 
 

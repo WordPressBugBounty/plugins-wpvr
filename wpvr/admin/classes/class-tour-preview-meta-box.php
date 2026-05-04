@@ -116,8 +116,19 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 <i class="fa fa-times" id="cross"></i>
                 <div id="custom-ifram" style="display: none;"></div>
                 <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap dfgsdg" style="height: 100%;">
-                    <?php echo $postdata['panoviddata']; ?>
-                    <?php if ($postdata['vidtype'] == 'selfhost') { ?>
+                    <?php
+                    if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] === 'youtube' && ! empty( $postdata['vidurl'] ) ) {
+                        $format = new WPVR_Format();
+                        $videodata = array(
+                            'autoplay' => isset( $postdata['autoplay'] ) ? $postdata['autoplay'] : 'off',
+                            'loop'     => isset( $postdata['loop'] ) ? $postdata['loop'] : 'off',
+                        );
+                        echo $format->prepare_youtube_video_preview( $postdata['vidurl'], $videodata );
+                    } else {
+                        echo $postdata['panoviddata'];
+                    }
+                    ?>
+                    <?php if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] == 'selfhost') { ?>
                         <script>
                             videojs(<?php echo $postdata['vidid']; ?>, {
                                 plugins: {

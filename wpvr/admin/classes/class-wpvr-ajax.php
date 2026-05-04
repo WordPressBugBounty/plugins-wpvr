@@ -534,6 +534,7 @@ class Wpvr_Ajax
     $mobile_media_resize = sanitize_text_field($_POST['mobile_media_resize']);
     $high_res_image = sanitize_text_field($_POST['high_res_image']);
     $dis_on_hover = sanitize_text_field($_POST['dis_on_hover']);
+    $wpvr_mobile_hotspot_tip = sanitize_text_field($_POST['wpvr_mobile_hotspot_tip'] ?? '');
     $wpvr_frontend_notice = sanitize_text_field($_POST['wpvr_frontend_notice']);
     $wpvr_frontend_notice_area = sanitize_text_field($_POST['wpvr_frontend_notice_area']);
     $wpvr_script_control = sanitize_text_field($_POST['wpvr_script_control']);
@@ -554,6 +555,7 @@ class Wpvr_Ajax
     update_option('mobile_media_resize', $mobile_media_resize);
     update_option('high_res_image', $high_res_image);
     update_option('dis_on_hover', $dis_on_hover);
+    update_option('wpvr_mobile_hotspot_tip', $wpvr_mobile_hotspot_tip ? 'true' : 'false');
     update_option('wpvr_frontend_notice', $wpvr_frontend_notice);
     update_option('wpvr_frontend_notice_area', $wpvr_frontend_notice_area);
     update_option('wpvr_script_control', $wpvr_script_control);
