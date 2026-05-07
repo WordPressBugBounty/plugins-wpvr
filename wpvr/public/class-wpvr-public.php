@@ -67,6 +67,107 @@ class Wpvr_Public {
 	}
 
 	/**
+	 * Extract WPVR tour IDs from Elementor _elementor_data JSON.
+	 * Parses vr_id from Wpvr-widget settings blocks.
+	 *
+	 * @param string $elementor_data Raw JSON string from _elementor_data meta.
+	 * @return int[]
+	 */
+	private function extract_elementor_wpvr_tour_ids( $elementor_data ) {
+		$tour_ids = array();
+		// vr_id is WPVR-specific; present only inside Wpvr-widget settings objects
+		preg_match_all( '/"vr_id"\s*:\s*"?(\d+)"?/', $elementor_data, $matches );
+		if ( ! empty( $matches[1] ) ) {
+			$tour_ids = array_values( array_unique( array_map( 'intval', $matches[1] ) ) );
+		}
+		return $tour_ids;
+	}
+
+	/**
+	 * Extract WPVR tour IDs from Bricks _bricks_page_content_2 meta array.
+	 * Returns [-1] (sentinel) when a WPVR element exists but has no resolvable tour ID,
+	 * so callers can fall back to loading all assets (legacy safe).
+	 *
+	 * @param array $bricks_data Value of _bricks_page_content_2 post meta.
+	 * @return int[]  Tour IDs, or [-1] as fallback sentinel.
+	 */
+	private function extract_bricks_wpvr_tour_ids( $bricks_data ) {
+		$tour_ids     = array();
+		$has_wpvr_el  = false;
+
+		if ( ! is_array( $bricks_data ) ) {
+			return $tour_ids;
+		}
+
+		foreach ( $bricks_data as $element ) {
+			if ( ! isset( $element['name'] ) || $element['name'] !== 'wpvr' ) {
+				continue;
+			}
+			$has_wpvr_el = true;
+			$tour_id = isset( $element['settings']['select_wpvr'] ) ? intval( $element['settings']['select_wpvr'] ) : 0;
+			if ( $tour_id > 0 ) {
+				$tour_ids[] = $tour_id;
+			}
+		}
+
+		$tour_ids = array_values( array_unique( $tour_ids ) );
+
+		// Fallback sentinel: WPVR element found but no tour ID resolved → load all assets.
+		if ( $has_wpvr_el && empty( $tour_ids ) ) {
+			return array( -1 );
+		}
+
+		return $tour_ids;
+	}
+
+	/**
+	 * Extract WPVR tour IDs from Oxygen ct_builder_shortcodes string.
+	 * Parses oxy-wp-vr-tour_tour_id from ct_options JSON on oxy-wp-vr-tour elements.
+	 * Returns [-1] sentinel when element found but no tour ID resolvable (legacy safe).
+	 *
+	 * @param string $oxygen_data Value of ct_builder_shortcodes post meta.
+	 * @return int[]  Tour IDs, or [-1] as fallback sentinel.
+	 */
+	private function extract_oxygen_wpvr_tour_ids( $oxygen_data ) {
+		$tour_ids    = array();
+		$has_wpvr_el = false;
+
+		if ( empty( $oxygen_data ) || ! is_string( $oxygen_data ) ) {
+			return $tour_ids;
+		}
+
+		// Match all oxy-wp-vr-tour tags and capture their ct_options attribute value.
+		preg_match_all( '/\[oxy-wp-vr-tour[^\]]*ct_options=\'([^\']+)\'/', $oxygen_data, $matches );
+
+		if ( empty( $matches[1] ) ) {
+			// Tag present but ct_options not parseable — still a WPVR element.
+			if ( strpos( $oxygen_data, 'oxy-wp-vr-tour' ) !== false ) {
+				return array( -1 );
+			}
+			return $tour_ids;
+		}
+
+		foreach ( $matches[1] as $ct_options_raw ) {
+			$has_wpvr_el = true;
+			$ct_options  = json_decode( $ct_options_raw, true );
+			$tour_id     = isset( $ct_options['original']['oxy-wp-vr-tour_tour_id'] )
+				? intval( $ct_options['original']['oxy-wp-vr-tour_tour_id'] )
+				: 0;
+			if ( $tour_id > 0 ) {
+				$tour_ids[] = $tour_id;
+			}
+		}
+
+		$tour_ids = array_values( array_unique( $tour_ids ) );
+
+		if ( $has_wpvr_el && empty( $tour_ids ) ) {
+			return array( -1 );
+		}
+
+		return $tour_ids;
+	}
+
+	/**
 	 * Check if the current page contains a WP VR tour
 	 *
 	 * @since    8.5.67
@@ -90,7 +191,7 @@ class Wpvr_Public {
 		}
 		
 		// Check for shortcode in post content
-		if (has_shortcode($post->post_content, 'wpvr')) {
+		if (has_shortcode($post->post_content, 'wpvr') || has_shortcode($post->post_content, 'wpvr_divi')) {
 			return true;
 		}
 		
@@ -100,11 +201,12 @@ class Wpvr_Public {
 		}
 		
 		// Check for page builder content
-		// Elementor stores content in _elementor_data meta
+		// Elementor stores content in _elementor_data meta (widget name is 'Wpvr-widget' — use case-insensitive search)
 		$elementor_data = get_post_meta($post->ID, '_elementor_data', true);
-		if (!empty($elementor_data) && strpos($elementor_data, 'wpvr') !== false) {
+		if (!empty($elementor_data) && stripos($elementor_data, 'wpvr') !== false) {
 			return true;
 		}
+		
 		
 		// Bricks stores content in _bricks_page_content_2 meta
 		$bricks_data = get_post_meta($post->ID, '_bricks_page_content_2', true);
@@ -117,7 +219,7 @@ class Wpvr_Public {
 		
 		// Oxygen stores content in ct_builder_shortcodes meta
 		$oxygen_data = get_post_meta($post->ID, 'ct_builder_shortcodes', true);
-		if (!empty($oxygen_data) && strpos($oxygen_data, 'wpvr') !== false) {
+		if (!empty($oxygen_data) && (strpos($oxygen_data, 'wpvr') !== false || strpos($oxygen_data, 'oxy-wp-vr-tour') !== false)) {
 			return true;
 		}
 		
@@ -169,7 +271,7 @@ class Wpvr_Public {
 		}
 		
 		// Check for shortcode with panorama tour ID
-		if (has_shortcode($post->post_content, 'wpvr')) {
+		if (has_shortcode($post->post_content, 'wpvr') || has_shortcode($post->post_content, 'wpvr_divi')) {
 			// Extract tour IDs from shortcodes
 			preg_match_all('/\[wpvr[^\]]*id=["\']?(\d+)["\']?[^\]]*\]/i', $post->post_content, $matches);
 			if (isset($matches[1]) && !empty($matches[1])) {
@@ -196,9 +298,49 @@ class Wpvr_Public {
 			}
 		}
 		
-		// For page builders (Elementor, Bricks, Oxygen), we can't easily extract tour IDs
-		// So we return false and let the general tour detection handle it
-		
+		// Check Elementor data — extract vr_id from Wpvr-widget settings
+		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
+		if ( ! empty( $elementor_data ) && stripos( $elementor_data, 'Wpvr-widget' ) !== false ) {
+			foreach ( $this->extract_elementor_wpvr_tour_ids( $elementor_data ) as $tour_id ) {
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( empty( $panodata ) || ! isset( $panodata['vidid'] ) || empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
+		// Check Oxygen data — extract tour IDs from oxy-wp-vr-tour elements
+		$oxygen_data = get_post_meta( $post->ID, 'ct_builder_shortcodes', true );
+		if ( ! empty( $oxygen_data ) ) {
+			$oxygen_tour_ids = $this->extract_oxygen_wpvr_tour_ids( $oxygen_data );
+			foreach ( $oxygen_tour_ids as $tour_id ) {
+				if ( $tour_id === -1 ) {
+					// Sentinel: WPVR element exists but no tour ID — assume panorama (legacy safe).
+					return true;
+				}
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( empty( $panodata ) || ! isset( $panodata['vidid'] ) || empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
+		// Check Bricks data — extract tour IDs from wpvr elements
+		$bricks_data = get_post_meta( $post->ID, '_bricks_page_content_2', true );
+		if ( ! empty( $bricks_data ) && is_array( $bricks_data ) ) {
+			$bricks_tour_ids = $this->extract_bricks_wpvr_tour_ids( $bricks_data );
+			foreach ( $bricks_tour_ids as $tour_id ) {
+				if ( $tour_id === -1 ) {
+					// Sentinel: WPVR element exists but no tour ID — assume panorama (legacy safe).
+					return true;
+				}
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( empty( $panodata ) || ! isset( $panodata['vidid'] ) || empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -230,7 +372,7 @@ class Wpvr_Public {
 		}
 		
 		// Check for shortcode with video tour ID
-		if (has_shortcode($post->post_content, 'wpvr')) {
+		if (has_shortcode($post->post_content, 'wpvr') || has_shortcode($post->post_content, 'wpvr_divi')) {
 			// Extract tour IDs from shortcodes
 			preg_match_all('/\[wpvr[^\]]*id=["\']?(\d+)["\']?[^\]]*\]/i', $post->post_content, $matches);
 			if (isset($matches[1]) && !empty($matches[1])) {
@@ -260,10 +402,49 @@ class Wpvr_Public {
 			}
 		}
 		
-		// For page builders (Elementor, Bricks, Oxygen), we can't easily extract tour IDs
-		// So we'll return false and let Video Script Control handle video-specific pages
-		// This is a conservative approach to avoid loading video libraries unnecessarily
-		
+		// Check Elementor data — extract vr_id from Wpvr-widget settings
+		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
+		if ( ! empty( $elementor_data ) && stripos( $elementor_data, 'Wpvr-widget' ) !== false ) {
+			foreach ( $this->extract_elementor_wpvr_tour_ids( $elementor_data ) as $tour_id ) {
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( isset( $panodata['vidid'] ) && ! empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
+		// Check Oxygen data — extract tour IDs from oxy-wp-vr-tour elements
+		$oxygen_data = get_post_meta( $post->ID, 'ct_builder_shortcodes', true );
+		if ( ! empty( $oxygen_data ) ) {
+			$oxygen_tour_ids = $this->extract_oxygen_wpvr_tour_ids( $oxygen_data );
+			foreach ( $oxygen_tour_ids as $tour_id ) {
+				if ( $tour_id === -1 ) {
+					// Sentinel: WPVR element exists but no tour ID — cannot confirm video, skip.
+					continue;
+				}
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( isset( $panodata['vidid'] ) && ! empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
+		// Check Bricks data — extract tour IDs from wpvr elements
+		$bricks_data = get_post_meta( $post->ID, '_bricks_page_content_2', true );
+		if ( ! empty( $bricks_data ) && is_array( $bricks_data ) ) {
+			$bricks_tour_ids = $this->extract_bricks_wpvr_tour_ids( $bricks_data );
+			foreach ( $bricks_tour_ids as $tour_id ) {
+				if ( $tour_id === -1 ) {
+					// Sentinel: WPVR element exists but no tour ID — cannot confirm video, skip.
+					continue;
+				}
+				$panodata = get_post_meta( $tour_id, 'panodata', true );
+				if ( isset( $panodata['vidid'] ) && ! empty( $panodata['vidid'] ) ) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -291,11 +472,11 @@ class Wpvr_Public {
         $wpvr_script_list = get_option('wpvr_script_list');
         $allowed_pages_modified = array();
         $allowed_pages = isset($wpvr_script_list) && !empty($wpvr_script_list) ? array_map('sanitize_text_field', explode(",", $wpvr_script_list)) : array();
-        foreach ($allowed_pages as $value) {
+		foreach ($allowed_pages as $value) {
             $allowed_pages_modified[] = untrailingslashit($value);
         }
         $current_url = home_url(add_query_arg(isset($_GET) ? array_map('sanitize_text_field', wp_unslash($_GET)) : array(), isset($wp->request) ? sanitize_text_field($wp->request) : ''));
-        if ($wpvr_script_control == 'true') {
+		if ($wpvr_script_control == 'true') {
             foreach ($allowed_pages_modified as $value) {
                 if ($value) {
                     if (strpos($current_url, $value) !== false) {
@@ -355,7 +536,6 @@ class Wpvr_Public {
                 $has_mixed = $this->has_mixed_tours_on_page();
                 $is_video_tour = $this->has_video_tour_on_page();
                 $is_panorama_tour = $this->has_panorama_tour_on_page();
-                
                 if ($has_mixed) {
                     // Load all resources for mixed tours
                     wp_enqueue_style('videojs-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/video-js.css', array(), true);

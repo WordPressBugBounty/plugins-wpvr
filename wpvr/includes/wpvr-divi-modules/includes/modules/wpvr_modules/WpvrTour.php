@@ -284,7 +284,6 @@ class WPVR_Tour extends ET_Builder_Module {
 		if ( $id ) {
 			ob_start();
 			echo do_shortcode( '[wpvr id="' . $id . '" width="' . $width . '" height="' . $height . '" radius="' . $radius . '" mobile_height="' . $vr_mobile_height . '"]' );
-
 			return ob_get_clean();
 		}
 	}

@@ -4,29 +4,29 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7
+class ComposerStaticInit5763420d2762d6887c5a7a85d4bb4593
 {
     public static $files = array (
         'aed659f3655c497c30e044c41fa917c6' => __DIR__ . '/..' . '/linno/telemetry/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' =>
+        'P' => 
         array (
             'PostHog\\' => 8,
         ),
-        'L' =>
+        'L' => 
         array (
             'LinnoSDK\\Telemetry\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PostHog\\' =>
+        'PostHog\\' => 
         array (
             0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
         ),
-        'LinnoSDK\\Telemetry\\' =>
+        'LinnoSDK\\Telemetry\\' => 
         array (
             0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),
@@ -106,9 +106,9 @@ class ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit350fa0bad42dce4f963efd3a85c6e7c7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5763420d2762d6887c5a7a85d4bb4593::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5763420d2762d6887c5a7a85d4bb4593::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5763420d2762d6887c5a7a85d4bb4593::$classMap;
 
         }, null, ClassLoader::class);
     }

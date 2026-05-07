@@ -35,7 +35,12 @@ class WpvrElementor {
      * @access private
      */
     private function add_actions() {
-        add_action( 'elementor/widgets/widgets_registered', [ $this, 'on_widgets_registered' ] );
+        // Elementor 3.5+ uses elementor/widgets/register; older versions use widgets_registered
+        if ( defined( 'ELEMENTOR_VERSION' ) && version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) ) {
+            add_action( 'elementor/widgets/register', [ $this, 'on_widgets_registered' ] );
+        } else {
+            add_action( 'elementor/widgets/widgets_registered', [ $this, 'on_widgets_registered' ] );
+        }
 
         //font css per icone
         add_action( 'elementor/editor/before_enqueue_scripts', function () {
@@ -45,7 +50,7 @@ class WpvrElementor {
         add_action( 'elementor/frontend/after_register_scripts', function() {
             wp_register_script( 'Wpvr-elementor', 'script path', [ 'jquery' ], false, true );
         } );
-        
+
     }
 
     /**
@@ -83,7 +88,13 @@ class WpvrElementor {
      * @access private
      */
     private function register_widget() {
-        \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Wpvr_Widget() );
+        $widgets_manager = \Elementor\Plugin::instance()->widgets_manager;
+        // Elementor 3.5+ uses register(); older uses register_widget_type()
+        if ( method_exists( $widgets_manager, 'register' ) ) {
+            $widgets_manager->register( new Wpvr_Widget() );
+        } else {
+            $widgets_manager->register_widget_type( new Wpvr_Widget() );
+        }
     }
 }
 
