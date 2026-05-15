@@ -83,10 +83,20 @@ class WpvrWidget extends Element {
      */
     public function set_control_groups()
     {
-        $this->control_groups['wpvr'] = [
-            'title' => esc_html__('WPVR', 'wpvr'),
-            'tab' => 'content',
-        ];
+        if ( method_exists( $this, 'register_control_group' ) ) {
+            $this->register_control_group(
+                'wpvr',
+                [
+                    'title' => esc_html__('WPVR', 'wpvr'),
+                    'tab' => 'content',
+                ]
+            );
+        } else {
+            $this->control_groups['wpvr'] = [
+                'title' => esc_html__('WPVR', 'wpvr'),
+                'tab' => 'content',
+            ];
+        }
     }
 
     /**
@@ -113,34 +123,43 @@ class WpvrWidget extends Element {
             'class'       => 'wpvr-number-field-width',
         ];
 
-        $this->controls['select_wpvr'] = [
-            'tab'         => 'content',
-            'group'       => 'wpvr',
-            'label'       => esc_html__('Select Tour', 'wpvr'),
-            'type'        => 'select',
-            'options'     => $this->getPublishedTour(),
-            'inline'      => true,
-            'clearable'   => false,
-            'pasteStyles' => false,
-            'default'     => '',
-            'width'       => '100%',
+        $controls = [
+            'select_wpvr' => [
+                'tab'         => 'content',
+                'group'       => 'wpvr',
+                'label'       => esc_html__('Select Tour', 'wpvr'),
+                'type'        => 'select',
+                'options'     => $this->getPublishedTour(),
+                'inline'      => true,
+                'clearable'   => false,
+                'pasteStyles' => false,
+                'default'     => '',
+                'width'       => '100%',
+            ],
+            'vr_width' => array_merge($common_number_settings, [
+                'label'       => esc_html__('Width(px)', 'wpvr'),
+                'default'     => 600,
+            ]),
+            'vr_height' => array_merge($common_number_settings, [
+                'label'       => esc_html__('Height(px)', 'wpvr'),
+                'default'     => 400,
+            ]),
+            'vr_radius' => array_merge($common_number_settings, [
+                'label'       => esc_html__('Radius(px)', 'wpvr'),
+                'default'     => 0,
+                'max'         => 1000,
+            ])
         ];
 
-        $this->controls['vr_width'] = array_merge($common_number_settings, [
-            'label'       => esc_html__('Width(px)', 'wpvr'),
-            'default'     => 600,
-        ]);
-
-        $this->controls['vr_height'] = array_merge($common_number_settings, [
-            'label'       => esc_html__('Height(px)', 'wpvr'),
-            'default'     => 400,
-        ]);
-
-        $this->controls['vr_radius'] = array_merge($common_number_settings, [
-            'label'       => esc_html__('Radius(px)', 'wpvr'),
-            'default'     => 0,
-            'max'         => 1000,
-        ]);
+        if ( method_exists( $this, 'register_control' ) ) {
+            foreach ( $controls as $control_id => $control_args ) {
+                $this->register_control( $control_id, $control_args );
+            }
+        } else {
+            foreach ( $controls as $control_id => $control_args ) {
+                $this->controls[ $control_id ] = $control_args;
+            }
+        }
     }
 
 
@@ -194,6 +213,7 @@ class WpvrWidget extends Element {
             'fields'      => 'ids',
         ]);
 
+        $tours = [];
         foreach ($posts as $id) {
             $title = get_the_title($id) ?: 'No title';
             $tours[$id] = "{$title} (ID: {$id})";

@@ -184,16 +184,19 @@ class WPVR_Shortcode {
         $panoid = 'pano'.$id;
 
         if (isset($postdata['streetviewdata'])){
+            wpvr_enqueue_frontend_scripts( 'streetview' );
             $html = $this->streetview->render_streetview_shortcode($postdata, $width, $height);
             return $html;
         }
 
 
         if (isset($postdata['vidid'])) {
+            wpvr_enqueue_frontend_scripts( 'video' );
             $html = $this->video->render_video_shortcode($postdata, $id, $width, $height, $radius);
             return $html;
         }
 
+        wpvr_enqueue_frontend_scripts( 'scene' );
         $html = $this->scene->render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height);
         return $html;
     }

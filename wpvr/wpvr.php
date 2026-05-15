@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator for WordPress is a customized panaroma & virtual builder tool for WordPress Website.
- * Version:           8.5.71
+ * Version:           8.5.72
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -34,19 +34,16 @@ if (!defined('WPINC')) {
 require plugin_dir_path(__FILE__) . 'elementor/elementor.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
-
-
-if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
+// if ( wp_get_theme('bricks')->exists() && 'bricks' === get_template()) {
     require_once plugin_dir_path(__FILE__) . 'bricks/bricks.php';
-}
-
+// }
 
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.71');
+define('WPVR_VERSION', '8.5.72');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -348,6 +345,51 @@ function wpvr_block()
 
 add_action('init', 'wpvr_block');
 
+/**
+ * Enqueue frontend scripts for a given tour type from a render callback.
+ * Called during the_content — footer scripts still fire after, so $in_footer=true works.
+ * CSS is loaded globally by enqueue_styles(); only JS is gated here.
+ *
+ * @param string $tour_type 'scene' | 'video' | 'streetview'
+ */
+function wpvr_enqueue_frontend_scripts( $tour_type ) {
+    static $localized = false;
+
+    $pub = WPVR_PLUGIN_PUBLIC_DIR_URL;
+    $ver = WPVR_VERSION;
+
+    if ( 'video' === $tour_type ) {
+        wp_enqueue_script( 'videojs-js',      $pub . 'js/video.js',                                        array(),                                                                   $ver, true );
+        wp_enqueue_script( 'videojsvr-js',    $pub . 'lib/videojs-vr/videojs-vr.js',                      array( 'videojs-js' ),                                                     $ver, true );
+        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',                  array(),                                                                   $ver, true );
+        wp_enqueue_script( 'panelliumlib-js', $pub . 'lib/pannellum/src/js/libpannellum.js',               array( 'panellium-js' ),                                                   $ver, true );
+        wp_enqueue_script( 'panelliumvid-js', $pub . 'lib/pannellum/src/js/videojs-pannellum-plugin.js',   array( 'videojs-js', 'videojsvr-js', 'panellium-js', 'panelliumlib-js' ),  $ver, true );
+    } elseif ( 'scene' === $tour_type ) {
+        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',    array(),               $ver, true );
+        wp_enqueue_script( 'panelliumlib-js', $pub . 'lib/pannellum/src/js/libpannellum.js', array( 'panellium-js' ), $ver, true );
+        wp_enqueue_script( 'owl-js',          $pub . 'js/owl.carousel.js',                   array( 'jquery' ),     $ver, true );
+    }
+    // 'streetview' is an iframe only — no extra scripts needed
+
+    wp_enqueue_script( 'jquery_cookie', $pub . 'js/jquery.cookie.js',   array( 'jquery' ),                 $ver, true );
+    wp_enqueue_script( 'wpvr',          $pub . 'js/wpvr-public.js',     array( 'jquery', 'jquery_cookie' ), $ver, true );
+
+    if ( ! $localized ) {
+        $localized            = true;
+        $wpvr_frontend_notice = get_option( 'wpvr_frontend_notice' );
+        wp_localize_script( 'wpvr', 'wpvr_public', array(
+            'notice_active'      => $wpvr_frontend_notice,
+            'notice'             => $wpvr_frontend_notice ? sanitize_text_field( get_option( 'wpvr_frontend_notice_area' ) ) : '',
+            'is_pro_active'      => is_plugin_active( 'wpvr-pro/wpvr-pro.php' ),
+            'is_license_active'  => get_option( 'wpvr_edd_license_status' ) === 'valid',
+            'dis_on_hover'       => get_option( 'dis_on_hover' ) === 'true',
+            'mobile_hotspot_tip' => get_option( 'wpvr_mobile_hotspot_tip' ) === 'true',
+        ) );
+    }
+
+    do_action( 'wpvr_enqueue_frontend_scripts', $tour_type );
+}
+
 function wpvr_block_render($attributes)
 {
     if (isset($attributes['id'])) {
@@ -470,6 +512,7 @@ function wpvr_block_render($attributes)
         $html .= '<iframe src="' . esc_url( $streetviewurl ) . '" frameborder="0" style="border:0; width:100px; height:100%;" allowfullscreen=""></iframe>';
         $html .= '</div>';
 
+        wpvr_enqueue_frontend_scripts( 'streetview' );
         return $html;
     }
     $is_pro = apply_filters('is_wpvr_pro_active', false);
@@ -1294,8 +1337,11 @@ function wpvr_block_render($attributes)
             $html .= '</script>';
             //video js vr end //
         }
+        wpvr_enqueue_frontend_scripts( 'video' );
         return $html;
     }
+
+    wpvr_enqueue_frontend_scripts( 'scene' );
 
     $control = false;
     if (isset($postdata['showControls'])) {

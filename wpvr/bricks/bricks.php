@@ -58,6 +58,12 @@ class Manager {
      */
     public function __construct() {
         add_action('init', array($this, 'init'), 11);
+        add_filter('bricks/builder/i18n', array($this, 'register_category'));
+    }
+
+    public function register_category( $i18n ) {
+        $i18n['wpvr'] = esc_html__( 'WPVR', 'wpvr' );
+        return $i18n;
     }
 
 
@@ -69,6 +75,10 @@ class Manager {
      * @access public
      */
     public function init() {
+        if ( ! class_exists( '\Bricks\Elements' ) ) {
+            return;
+        }
+
         $element_files = [
             WPVR_PLUGIN_DIR_PATH. 'bricks/Wpvr-widget.php'
         ];
