@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, free VR tour software, 
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 6.7
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.0.0
-Stable tag: 8.5.72
+Stable tag: 8.5.73
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -441,6 +441,10 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.73 (2026-05-20) =
+* Fix: Mobile touch dragging no longer scrolls the page and now supports smooth vertical VR navigation.
+* Compatibility: WordPress 7
 
 = 8.5.72 (2026-05-13) =
 * New: Goodlayers page builder support

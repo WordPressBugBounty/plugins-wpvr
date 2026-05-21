@@ -515,8 +515,8 @@ function onImageLoad() {
             dragFix.addEventListener('pointerup', onDocumentPointerUp, false);
             dragFix.addEventListener('pointerleave', onDocumentPointerUp, false);
         } else {
-            dragFix.addEventListener('touchstart', onDocumentTouchStart, false);
-            dragFix.addEventListener('touchmove', onDocumentTouchMove, false);
+            dragFix.addEventListener('touchstart', onDocumentTouchStart, { passive: false });
+            dragFix.addEventListener('touchmove', onDocumentTouchMove, { passive: false });
             dragFix.addEventListener('touchend', onDocumentTouchEnd, false);
         }
 
