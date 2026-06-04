@@ -656,6 +656,72 @@ class WPVR_Format
                 dragSurface.style.pointerEvents = enabled ? "auto" : "none";
             }
 
+            function getEventPoint(event) {
+                if (event.touches && event.touches.length) {
+                    return event.touches[0];
+                }
+
+                if (event.changedTouches && event.changedTouches.length) {
+                    return event.changedTouches[0];
+                }
+
+                return event;
+            }
+
+            function beginDrag(event) {
+                var point = getEventPoint(event);
+                var sphericalView = getSphericalView();
+
+                if (!sphericalView || !point) return;
+
+                event.preventDefault();
+                dragStartX = point.clientX;
+                dragStartY = point.clientY;
+                dragStartView = sphericalView;
+                dragSurface.style.cursor = "grabbing";
+            }
+
+            function updateDrag(event) {
+                var deltaX;
+                var deltaY;
+                var nextView;
+                var point = getEventPoint(event);
+
+                if (!point) {
+                    return;
+                }
+
+                if (!isDragging && dragStartView) {
+                    deltaX = point.clientX - dragStartX;
+                    deltaY = point.clientY - dragStartY;
+                    if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 5) isDragging = true;
+                }
+
+                if (!isDragging || !dragStartView || !ytPlayer || typeof ytPlayer.setSphericalProperties !== "function") return;
+
+                event.preventDefault();
+                deltaX = point.clientX - dragStartX;
+                deltaY = point.clientY - dragStartY;
+                nextView = {
+                    yaw: (dragStartView.yaw || 0) + (deltaX * 0.2),
+                    pitch: clamp((dragStartView.pitch || 0) + (deltaY * 0.2), -85, 85),
+                    roll: dragStartView.roll || 0,
+                    fov: dragStartView.fov || 100
+                };
+                ytPlayer.setSphericalProperties(nextView);
+            }
+
+            function endDrag() {
+                if (!isDragging && dragStartView && ytPlayer) {
+                    var playerState = ytPlayer.getPlayerState();
+                    if (playerState === 1) ytPlayer.pauseVideo();
+                    else ytPlayer.playVideo();
+                }
+                isDragging = false;
+                dragStartView = null;
+                if (dragSurface) dragSurface.style.cursor = "grab";
+            }
+
             function update360DragAvailability() {
                 var sphericalView = getSphericalView();
                 setDragSurfaceEnabled(!!sphericalView);
@@ -670,46 +736,33 @@ class WPVR_Format
 
             if (dragSurface) {
                 dragSurface.addEventListener("mousedown", function(event) {
-                    var sphericalView = getSphericalView();
-                    if (!sphericalView) return;
-                    event.preventDefault();
-                    dragStartX = event.clientX;
-                    dragStartY = event.clientY;
-                    dragStartView = sphericalView;
-                    dragSurface.style.cursor = "grabbing";
+                    beginDrag(event);
                 });
+
+                dragSurface.addEventListener("touchstart", function(event) {
+                    beginDrag(event);
+                }, { passive: false });
 
                 dragSurface.addEventListener("dragstart", function(event) { event.preventDefault(); });
 
                 window.addEventListener("mousemove", function(event) {
-                    var nextView, deltaX, deltaY;
-                    if (!isDragging && dragStartView) {
-                        deltaX = event.clientX - dragStartX;
-                        deltaY = event.clientY - dragStartY;
-                        if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 5) isDragging = true;
-                    }
-                    if (!isDragging || !dragStartView || !ytPlayer || typeof ytPlayer.setSphericalProperties !== "function") return;
-                    event.preventDefault();
-                    deltaX = event.clientX - dragStartX;
-                    deltaY = event.clientY - dragStartY;
-                    nextView = {
-                        yaw: (dragStartView.yaw || 0) + (deltaX * 0.2),
-                        pitch: clamp((dragStartView.pitch || 0) + (deltaY * 0.2), -85, 85),
-                        roll: dragStartView.roll || 0,
-                        fov: dragStartView.fov || 100
-                    };
-                    ytPlayer.setSphericalProperties(nextView);
+                    updateDrag(event);
                 });
 
+                window.addEventListener("touchmove", function(event) {
+                    updateDrag(event);
+                }, { passive: false });
+
                 window.addEventListener("mouseup", function() {
-                    if (!isDragging && dragStartView && ytPlayer) {
-                        var playerState = ytPlayer.getPlayerState();
-                        if (playerState === 1) ytPlayer.pauseVideo();
-                        else ytPlayer.playVideo();
-                    }
-                    isDragging = false;
-                    dragStartView = null;
-                    if (dragSurface) dragSurface.style.cursor = "grab";
+                    endDrag();
+                });
+
+                window.addEventListener("touchend", function() {
+                    endDrag();
+                });
+
+                window.addEventListener("touchcancel", function() {
+                    endDrag();
                 });
             }
 
@@ -1067,13 +1120,23 @@ class WPVR_Format
                 touch: false,
                 browser: "unknown",
                 isMobile: false,
+                isIPhone: false,
+                isAndroid: false,
                 details: []
             };
 
             // Detect mobile devices
             support.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            support.isIPhone = /iPhone/i.test(navigator.userAgent);
+            support.isAndroid = /Android/i.test(navigator.userAgent);
             if (support.isMobile) {
                 support.details.push("Mobile device detected");
+            }
+            if (support.isIPhone) {
+                support.details.push("iPhone detected");
+            }
+            if (support.isAndroid) {
+                support.details.push("Android device detected");
             }
 
             // Browser detection
@@ -1142,14 +1205,10 @@ class WPVR_Format
             support.supported = support.webgl;
             
             // Full support means WebGL + orientation on mobile or WebGL on desktop
-            support.fullySupported = support.webgl && 
-                ((support.isMobile && support.orientation) || !support.isMobile);
+            support.fullySupported = support.webgl;
 
             // Browser-specific warnings
-            if (support.browser === "safari" && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                support.browserWarning = "iPhone has limited support for 360 videos in browser. The experience may not be optimal.";
-                support.fullySupported = false;
-            } else if (support.browser === "ie") {
+                if (support.browser === "ie") {
                 support.browserWarning = "Internet Explorer has limited support for 360 videos. The experience may not be optimal.";
                 support.fullySupported = false;
             } else if (!support.supported) {
@@ -1219,17 +1278,18 @@ class WPVR_Format
 
         $html .= '</div>'; // Close controls
 
-        // Add permission request button (hidden by default) - Only shown for fully supported devices
-        $html .= '<div id="' . $random_id . '-permission-request" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; pointer-events:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
-        $html .= '<p style="font-size:16px; margin:0 20px 15px;">For the best 360° video experience on mobile</p>';
-        $html .= '<button id="' . $random_id . '-permission-button" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Allow motion and orientation access</button>';
-        $html .= '</div>';
-
         // Add browser compatibility warning message
         $html .= '<div id="' . $random_id . '-browser-warning" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; pointer-events:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.7); color:white; text-align:center; border-radius:' . $radius . ';">';
         $html .= '<p id="' . $random_id . '-warning-text" style="font-size:16px; margin:0 20px 5px;"></p>';
-        $html .= '<p style="font-size:14px; margin:5px 20px 15px;">For the best experience, consider using Chrome or Firefox.</p>';
+        $html .= '<p style="font-size:14px; margin:5px 20px 15px;">For the best experience, use a browser with WebGL support.</p>';
         $html .= '<button id="' . $random_id . '-browser-continue" style="padding:10px 15px; background-color:#0085ba; color:#fff; border:none; border-radius:4px; cursor:pointer;">Continue Anyway</button>';
+        $html .= '</div>';
+
+        $html .= '<div id="' . $random_id . '-iphone-fallback" style="position:absolute; top:0; left:0; width:100%; height:100%; display:none; pointer-events:none; flex-direction:column; justify-content:center; align-items:center; background-color:rgba(0,0,0,0.75); color:white; text-align:center; border-radius:' . $radius . ';">';
+        $html .= '<p id="' . $random_id . '-mobile-fallback-title" style="font-size:16px; margin:0 20px 8px;">YouTube 360 is limited in mobile browser embeds.</p>';
+        $html .= '<p id="' . $random_id . '-mobile-fallback-description" style="font-size:14px; margin:0 20px 15px;">For proper 360 playback, open this video in the YouTube app.</p>';
+        $html .= '<a id="' . $random_id . '-iphone-open" href="https://www.youtube.com/watch?v=' . esc_attr( $expdata ) . '" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.85); text-decoration:underline; font-size:12px; margin-bottom:8px;">Open in YouTube</a>';
+        $html .= '<a id="' . $random_id . '-iphone-continue" href="#" style="color:rgba(255,255,255,0.75); text-decoration:underline; font-size:12px;">Show Here Anyway</a>';
         $html .= '</div>';
 
         // Main script for handling compatibility and permissions
@@ -1266,9 +1326,88 @@ class WPVR_Format
                 dragSurface.style.pointerEvents = enabled ? "auto" : "none";
             }
 
+            function getEventPoint(event) {
+                if (event.touches && event.touches.length) {
+                    return event.touches[0];
+                }
+
+                if (event.changedTouches && event.changedTouches.length) {
+                    return event.changedTouches[0];
+                }
+
+                return event;
+            }
+
+            function beginDrag(event) {
+                var point = getEventPoint(event);
+                var sphericalView = getSphericalView();
+
+                if (!sphericalView || !point) {
+                    return;
+                }
+
+                event.preventDefault();
+                dragStartX = point.clientX;
+                dragStartY = point.clientY;
+                dragStartView = sphericalView;
+                dragSurface.style.cursor = "grabbing";
+            }
+
+            function updateDrag(event) {
+                var deltaX;
+                var deltaY;
+                var nextView;
+                var point = getEventPoint(event);
+
+                if (!point) {
+                    return;
+                }
+
+                if (!isDragging && dragStartView) {
+                    deltaX = point.clientX - dragStartX;
+                    deltaY = point.clientY - dragStartY;
+                    if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 5) {
+                        isDragging = true;
+                    }
+                }
+
+                if (!isDragging || !dragStartView || !ytPlayer || typeof ytPlayer.setSphericalProperties !== "function") {
+                    return;
+                }
+
+                event.preventDefault();
+                deltaX = point.clientX - dragStartX;
+                deltaY = point.clientY - dragStartY;
+
+                nextView = {
+                    yaw: (dragStartView.yaw || 0) + (deltaX * 0.2),
+                    pitch: clamp((dragStartView.pitch || 0) + (deltaY * 0.2), -85, 85),
+                    roll: dragStartView.roll || 0,
+                    fov: dragStartView.fov || 100
+                };
+
+                ytPlayer.setSphericalProperties(nextView);
+            }
+
+            function endDrag() {
+                if (!isDragging && dragStartView && ytPlayer) {
+                    var playerState = ytPlayer.getPlayerState();
+                    if (playerState === 1) {
+                        ytPlayer.pauseVideo();
+                    } else {
+                        ytPlayer.playVideo();
+                    }
+                }
+                isDragging = false;
+                dragStartView = null;
+                if (dragSurface) {
+                    dragSurface.style.cursor = "grab";
+                }
+            }
+
             function update360DragAvailability() {
                 var sphericalView = getSphericalView();
-                setDragSurfaceEnabled(!!sphericalView && !supportInfo.isMobile);
+                setDragSurfaceEnabled(!!sphericalView);
             }
 
             function schedule360AvailabilityChecks() {
@@ -1280,69 +1419,35 @@ class WPVR_Format
 
             if (dragSurface) {
                 dragSurface.addEventListener("mousedown", function(event) {
-                    var sphericalView = getSphericalView();
-                    if (!sphericalView) {
-                        return;
-                    }
-
-                    event.preventDefault();
-  
-                    dragStartX = event.clientX;
-                    dragStartY = event.clientY;
-                    dragStartView = sphericalView;
-                    dragSurface.style.cursor = "grabbing";
+                    beginDrag(event);
                 });
+
+                dragSurface.addEventListener("touchstart", function(event) {
+                    beginDrag(event);
+                }, { passive: false });
 
                 dragSurface.addEventListener("dragstart", function(event) {
                     event.preventDefault();
                 });
 
                 window.addEventListener("mousemove", function(event) {
-                    var nextView;
-                    var deltaX;
-                    var deltaY;
-
-                    // Activate drag only after moving more than 5px
-                    if (!isDragging && dragStartView) {
-                        deltaX = event.clientX - dragStartX;
-                        deltaY = event.clientY - dragStartY;
-                        if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 5) {
-                            isDragging = true;
-                        }
-                    }
-
-                    if (!isDragging || !dragStartView || !ytPlayer || typeof ytPlayer.setSphericalProperties !== "function") {
-                        return;
-                    }
-
-                    event.preventDefault();
-                    deltaX = event.clientX - dragStartX;
-                    deltaY = event.clientY - dragStartY;
-
-                    nextView = {
-                        yaw: (dragStartView.yaw || 0) + (deltaX * 0.2),
-                        pitch: clamp((dragStartView.pitch || 0) + (deltaY * 0.2), -85, 85),
-                        roll: dragStartView.roll || 0,
-                        fov: dragStartView.fov || 100
-                    };
-
-                    ytPlayer.setSphericalProperties(nextView);
+                    updateDrag(event);
                 });
 
+                window.addEventListener("touchmove", function(event) {
+                    updateDrag(event);
+                }, { passive: false });
+
                 window.addEventListener("mouseup", function() {
-                    if (!isDragging && dragStartView && ytPlayer) {
-                        var playerState = ytPlayer.getPlayerState();
-                        if (playerState === 1) { // YT.PlayerState.PLAYING
-                            ytPlayer.pauseVideo();
-                        } else {
-                            ytPlayer.playVideo();
-                        }
-                    }
-                    isDragging = false;
-                    dragStartView = null;
-                    if (dragSurface) {
-                        dragSurface.style.cursor = "grab";
-                    }
+                    endDrag();
+                });
+
+                window.addEventListener("touchend", function() {
+                    endDrag();
+                });
+
+                window.addEventListener("touchcancel", function() {
+                    endDrag();
                 });
             }
 
@@ -1398,10 +1503,12 @@ class WPVR_Format
                             onReady: function() {
                                 schedule360AvailabilityChecks();
                                 startProgressLoop();
+                                scheduleIPhoneFallbackCheck();
                             },
                             onStateChange: function() {
                                 schedule360AvailabilityChecks();
                                 startProgressLoop();
+                                scheduleIPhoneFallbackCheck();
                             }
                         }
                     });
@@ -1411,11 +1518,75 @@ class WPVR_Format
 
             // Check compatibility first
             var supportInfo = wpvr_check_360_support();
+            var frameContainer = document.getElementById("' . $random_id . '-frame");
             let compatibilityCheck = document.getElementById("' . $random_id . '-compatibility-check");
-           if(supportInfo.isMobile && !supportInfo.fullySupported) {
+            var iphoneFallback = document.getElementById("' . $random_id . '-iphone-fallback");
+            var iphoneContinue = document.getElementById("' . $random_id . '-iphone-continue");
+            var mobileFallbackTitle = document.getElementById("' . $random_id . '-mobile-fallback-title");
+            var mobileFallbackDescription = document.getElementById("' . $random_id . '-mobile-fallback-description");
+
+            function updateMobileFallbackContent() {
+                if (!mobileFallbackTitle || !mobileFallbackDescription) {
+                    return;
+                }
+
+                if (supportInfo.isIPhone) {
+                    mobileFallbackTitle.textContent = "YouTube 360 is limited in iPhone Safari embeds.";
+                    mobileFallbackDescription.textContent = "For proper 360 playback, open this video in the YouTube app.";
+                } else if (supportInfo.isAndroid) {
+                    mobileFallbackTitle.textContent = "YouTube 360 is limited in Android browser embeds.";
+                    mobileFallbackDescription.textContent = "For reliable 360 playback, open this video in the YouTube app.";
+                } else {
+                    mobileFallbackTitle.textContent = "YouTube 360 is limited in mobile browser embeds.";
+                    mobileFallbackDescription.textContent = "For proper 360 playback, open this video in the YouTube app.";
+                }
+            }
+
+            function hideIPhoneFallback() {
+                if (!iphoneFallback) {
+                    return;
+                }
+
+                iphoneFallback.style.display = "none";
+                iphoneFallback.style.pointerEvents = "none";
+            }
+
+            function showIPhoneFallback() {
+                if (!iphoneFallback) {
+                    return;
+                }
+
+                frameContainer.style.display = "none";
+                iphoneFallback.style.display = "flex";
+                iphoneFallback.style.pointerEvents = "auto";
+            }
+
+            function scheduleIPhoneFallbackCheck() {
+                if (!supportInfo.isIPhone && !supportInfo.isAndroid) {
+                    return;
+                }
+
+                updateMobileFallbackContent();
+
+                window.setTimeout(function() {
+                    if (!getSphericalView()) {
+                        showIPhoneFallback();
+                    }
+                }, 1800);
+            }
+
+            if (iphoneContinue) {
+                iphoneContinue.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    hideIPhoneFallback();
+                    showVideo();
+                });
+            }
+
+            if (supportInfo.isMobile && !supportInfo.fullySupported) {
                 compatibilityCheck.style.display = "flex";
                 compatibilityCheck.style.pointerEvents = "auto";
-           }
+            }
             // Check browser compatibility and handle overlays accordingly.
             // The iframe is already visible by default so the YouTube 360° WebGL
             // renderer gets the correct dimensions during initialisation.
@@ -1435,19 +1606,7 @@ class WPVR_Format
                     document.getElementById("' . $random_id . '-browser-continue").addEventListener("click", function() {
                         warningEl.style.display = "none";
                         warningEl.style.pointerEvents = "none";
-                        document.getElementById("' . $random_id . '-frame").style.display = "block";
-                    });
-                } 
-                // If browser fully supports 360 and is mobile, hide the iframe and show permission request
-                else if (supportInfo.fullySupported && supportInfo.isMobile) {
-                    document.getElementById("' . $random_id . '-frame").style.display = "none";
-                    var permEl = document.getElementById("' . $random_id . '-permission-request");
-                    permEl.style.display = "flex";
-                    permEl.style.pointerEvents = "auto";
-                    
-                    // Add permission request button handler
-                    document.getElementById("' . $random_id . '-permission-button").addEventListener("click", function() {
-                        requestDevicePermissions();
+                        showVideo();
                     });
                 }
                 // Otherwise (supported desktop browser): iframe is already visible, nothing to do.
@@ -1456,50 +1615,9 @@ class WPVR_Format
                 }
             }, 500);
 
-            // Function to request device permissions on supported mobile devices
-            function requestDevicePermissions() {
-                try {
-                    if (typeof DeviceOrientationEvent !== "undefined" && 
-                        typeof DeviceOrientationEvent.requestPermission === "function") {
-                        
-                        DeviceOrientationEvent.requestPermission()
-                            .then(function(response) {
-                                if (response === "granted") {
-                                    // Also request motion permission if available
-                                    if (typeof DeviceMotionEvent !== "undefined" && 
-                                        typeof DeviceMotionEvent.requestPermission === "function") {
-                                        
-                                        DeviceMotionEvent.requestPermission()
-                                            .then(function() {
-                                                showVideo();
-                                            })
-                                            .catch(function() {
-                                                showVideo();
-                                            });
-                                    } else {
-                                        showVideo();
-                                    }
-                                } else {
-                                    showVideo();
-                                }
-                            })
-                            .catch(function() {
-                                showVideo();
-                            });
-                    } else {
-                        showVideo();
-                    }
-                } catch (error) {
-                    showVideo();
-                }
-            }
-
-            // Helper function to show video after permissions
             function showVideo() {
-                var permReq = document.getElementById("' . $random_id . '-permission-request");
-                permReq.style.display = "none";
-                permReq.style.pointerEvents = "none";
-                document.getElementById("' . $random_id . '-frame").style.display = "block";
+                hideIPhoneFallback();
+                frameContainer.style.display = "block";
                 initializeYouTubePlayer();
             }
 

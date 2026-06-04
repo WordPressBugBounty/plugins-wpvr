@@ -1,11 +1,11 @@
-=== WP VR - 360 Panorama and Free Virtual Tour Builder For WordPress ===
+=== WP VR - 360 Panorama and Free Virtual Tour Builder ===
 Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, free VR tour software, 
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.0.0
-Stable tag: 8.5.73
+Stable tag: 8.5.74
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,7 @@ WPVR comes with all the necessary features to create a free virtual tour on your
 
 https://youtu.be/ukpHp8RzxUw?si=y_uQwNQUD2VT0vxh
 
-WPVR has a simple & easy virtual tour builder, designed for you to create virtual tours real quickly, even without any expertise.
+WPVR has a simple & easy virtual tour builder specially for real estate, designed for you to make virtual tours quickly, even without any expertise.
 
 **In fact, you can create a virtual tour for free in less than 5 minutes!!**
 
@@ -42,19 +42,21 @@ Take a look at some of the amazing virtual tours created using WPVR!
 - [Virtual Car Showroom](https://showcase.rextheme.com/car-showroom-virtual-tour/)
 - [Virtual Tour Of A Pub/Bar](https://showcase.rextheme.com/virtual-tour-of-a-pub-bar/)
 
-Here, you will see that not only you can offer an engaging tour, you can place interactive hotspots to make it more realistic and exciting. And there's so much more.
+Here, you can offer an engaging property virtual tour with interactive hotspots to make it more realistic and exciting. And there’s so much more.
 
 <h4>👉 Offer A 360 Virtual Experience</h4>
-The virtual tour will let users explore in full 360 directions. And you can allow gyroscope for mobile users to get a near realistic visit.
+The virtual tour will let users explore in full 360 directions. In case of a property, you can allow people to move from one room to another and browse every detail easily. And you can allow gyroscope for mobile users to get a near realistic visit.
 
 <h4>👉 Place Interactive Hotspots</h4>
 Use hotspots that people can click to get additional information via tooltips, images, videos, or audio, so that visits can get questions answered, and interest piqued.
 
 <h4>👉 Easy To Highlight Your Brand</h4>
-Easily place your brand logo and contact information on the tour. Plus, customize the colors of the control buttons to match your brand.
+Easily place your brand logo and contact information on your virtual tour. Plus, customize the colors of the control buttons to match your brand.
+
+Whether it's a real estate virtual tour, a hotel tour, or even a museum virtual tour, this will let you get contacted more often by interested prospects.
 
 <h4>👉 Optimize For Inquiries & Bookings</h4>
-Place booking forms or generic inquiry forms either on a hotspot (maybe at the reception desk in the tour), or on a CTA button below the tour. Let prospects contact you as soon as they are ready.
+Place booking forms or generic inquiry forms either on a hotspot (maybe at the reception desk of the tour), or on a CTA button below the tour. Let prospects contact you as soon as they are ready.
 
 <h4>👉 Make The Visitor Feel Welcomed</h4>
 Place a mini-welcome video and add soothing background music to make the visitor feel optimistic and valued right from the start.
@@ -75,13 +77,13 @@ Then, you may follow these **3 simple steps** to create a free 360 VR tour in no
 
 And you are ready. Now you can publish it and place it on any page on your website.
 
-That’s it, you’ve just created a virtual tour, that too, absolutely free!
+That’s it, you’ve just [turned 360 photos into a virtual tour](https://rextheme.com/turn-photos-into-a-virtual-tour/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-turn-photos-into-a-virtual-tour), absolutely free!
 
-Your viewers can move inside or back and forth in this virtual tour, get extra information through hotspots, and get an experience similar to a real-life visit.
+Your viewers can move inside or back and forth in your property virtual tour, get extra information through hotspots, and get an experience similar to a real-life visit.
 
-*In the free version, you can connect up to 5 scenes, and place up to 5 hotspots on each scene.*
+*In the free version (yes, a free virtual tour creator), you can connect up to 5 scenes, and place up to 5 hotspots on each scene.*
 
-> For unlimited scenes and hotspots, you consider using [WPVR Pro 💎](https://rextheme.com/wpvr/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing)
+> For unlimited scenes and hotspots, consider using [WPVR Pro 💎](https://rextheme.com/wpvr/?utm_source=repo-CTA&utm_medium=VR-repo&utm_campaign=VR-repo-to-pricing)
 
 https://youtu.be/kOCNHJdM0TA?si=jdph5JflvX1QmH3S
 
@@ -104,7 +106,7 @@ With WPVR, you can disable WordPress compression and use any high-quality images
 
 <h4>🔮 Use Interactive Hotspots To Answer Questions & Engage With Prospects 🔮</h4>
 
-During a real visit, people want to explore and ask questions - your tour can do the same. 
+During a real visit, people want to explore and ask questions - your virtual tour maker can do the same. 
 
 You can also use interactive hotspots with full control via *[HTML Editor/WYSIWYG Editor](https://rextheme.com/docs/wysiwyg-html-editor-hotspot-content-virtual-tour/)* to add any content you want.
 
@@ -141,7 +143,7 @@ It’s also compatible with popular page builders:
 - [Virtual Tour Element for Oxygen](https://rextheme.com/docs/wp-vr-oxygen-element-embed-virtual-tour/).
 - [Virtual Tour Element for Visual Composer](https://rextheme.com/docs/wp-vr-embed-virtual-tour-visual-composer-element/).
 
-**You can also Publish Virtual Tours with [Password Protection](https://rextheme.com/docs/how-to-set-up-password-protection-for-your-360-virtual-tour-wp-vr/) in case you want to offer private access (maybe for a fee).**
+**You can also Publish Your Virtual Tours with [Password Protection](https://rextheme.com/docs/how-to-set-up-password-protection-for-your-360-virtual-tour-wp-vr/) in case you want to offer private access (maybe for a fee).**
 
 
 <h4>🔮 Interactive Virtual Floor Plan for Meaningful Direction (Pro) 🔮</h4>
@@ -176,7 +178,7 @@ Apart from all those interactive options, you also get to view analytics to help
  🗓️ Filter by time period
 
 <h4>🔮 Mobile First VR Approach 🔮</h4>
-WPVR is built for mobile phones from the start. Every virtual tour you create is fully responsive and optimized to load fast on phones.
+This virtual tour creator is built for mobile phones from the start. Every virtual tour you create is fully responsive and optimized to load fast on phones.
 
 
 <h3>🌟 Who Should Use WP VR? 🌟</h3>
@@ -441,6 +443,9 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.74 (2026-06-04) =
+* Fix: Improve 360 video touch support and iPhone fallback
 
 = 8.5.73 (2026-05-20) =
 * Fix: Mobile touch dragging no longer scrolls the page and now supports smooth vertical VR navigation.
