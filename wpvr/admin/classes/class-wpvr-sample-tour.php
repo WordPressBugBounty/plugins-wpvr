@@ -25,7 +25,7 @@ class WPVR_Sample_Tour {
         }
 
         // Check if HTTP_HOST is set
-        $host = $_SERVER['HTTP_HOST'] ?? '';
+        $host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
 
         // Check for Playground domains
         $playground_domains = [

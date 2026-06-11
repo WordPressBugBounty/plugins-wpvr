@@ -1,4 +1,9 @@
-/*! tether 0.6.5 */
+/*!
+ * tether 0.6.5
+ * https://github.com/shipshapecode/tether
+ * Copyright (c) 2014-2015 HubSpot, Inc.
+ * Licensed under the MIT license.
+ */
 
 
 (function(root, factory) {

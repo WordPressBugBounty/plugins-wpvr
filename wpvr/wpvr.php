@@ -13,10 +13,10 @@
  * @package           Wpvr
  *
  * @wordpress-plugin
- * Plugin Name:       WP VR
+ * Plugin Name:       WP VR - 360 Panorama and Virtual Tour Builder
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.
- * Version:           8.5.74
+ * Version:           8.5.75
  * Tested up to:      7.0
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -43,7 +43,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.74');
+define('WPVR_VERSION', '8.5.75');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -649,7 +649,7 @@ function wpvr_block_render($attributes)
             }
             </script>';
 
-            $random_id = 'video_container_' . rand(10000, 99999);
+            $random_id = 'video_container_' . wp_rand(10000, 99999);
             $html .= '<div id="' . $random_id . '-container" style="position:relative; width:100%; height:100%;">';
 
             // Compatibility check screen (hidden by default and non-interactive unless actively shown)
@@ -4199,7 +4199,11 @@ function wpvr_rest_data_set()
 
 function wpvr_isMobileDevice()
 {
-    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+    if ( ! isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+        return false;
+    }
+    $user_agent = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $user_agent);
 }
 
 function wpvr_directory()
@@ -4324,7 +4328,7 @@ function wpvr_cache_admin_notice()
     if (!$option) {
         ?>
         <div class="notice notice-warning" id="wpvr-warning" style="position: relative;">
-            <p><?php _e('Since you have updated the plugin, please clear the browser cache for smooth functioning. Follow these steps if you are using <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">Google Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/how-clear-firefox-cache" target="_blank">Mozilla Firefox</a>, <a href="https://clear-my-cache.com/en/apple-mac-os/safari.html" target="_blank">Safai</a> or <a href="https://support.microsoft.com/en-us/help/10607/microsoft-edge-view-delete-browser-history" target="_blank">Microsoft Edge</a>', 'wpvr'); ?></p>
+            <p><?php echo wp_kses_post( __( 'Since you have updated the plugin, please clear the browser cache for smooth functioning. Follow these steps if you are using <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">Google Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/how-clear-firefox-cache" target="_blank">Mozilla Firefox</a>, <a href="https://clear-my-cache.com/en/apple-mac-os/safari.html" target="_blank">Safai</a> or <a href="https://support.microsoft.com/en-us/help/10607/microsoft-edge-view-delete-browser-history" target="_blank">Microsoft Edge</a>', 'wpvr' ) ); ?></p>
             <button type="button" id="wpvr-dismissible" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
         </div>
         <?php
@@ -4371,8 +4375,9 @@ function wpvr_redirect_after_activation($plugin)
 {
     if ($plugin == plugin_basename(__FILE__)) {
         $url = admin_url('admin.php?page=rex-wpvr-setup-wizard');
-        $url = esc_url($url, FILTER_SANITIZE_URL);
-        exit(wp_safe_redirect($url));
+        $url = esc_url_raw( $url );
+        wp_safe_redirect( $url );
+        exit;
     }
 }
 //add_action('activated_plugin', 'wpvr_redirect_after_activation');

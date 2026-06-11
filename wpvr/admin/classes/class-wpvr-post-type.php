@@ -95,7 +95,7 @@ class WPVR_Post_Type {
                 <div class="wpvr-create-tour-inner">
                     <div class="wpvr-create-tour-modal-wrapper">
                         <div class="wpvr-create-tour-modal-header">
-                            <h4 class="wpvr-create-tour-modal-title"><?php echo __('Create Tour', 'wpvr'); ?></h4>
+                            <h4 class="wpvr-create-tour-modal-title"><?php echo esc_html__( 'Create Tour', 'wpvr' ); ?></h4>
                             <button type="button" class="wpvr-create-tour-modal-close" aria-label="Close modal">
                                 <svg width="22" height="22" fill="none" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><g stroke="#B0AAC5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" clip-path="url(#clip0_874_3238)"><path d="M16.5 5.5l-11 11m0-11l11 11"/></g><defs><clipPath id="clip0_874_3238"><path fill="#fff" d="M0 0h22v22H0z"/></clipPath></defs></svg>
                             </button>
@@ -104,17 +104,17 @@ class WPVR_Post_Type {
                         <div class="wpvr-create-tour-modal-content">
                             <div class="wpvr-modal-form-group tour-type-group">
                                 <label class="field-label">
-                                    <?php echo __('Select your preferred tour', 'wpvr'); ?>
+                                    <?php echo esc_html__( 'Select your preferred tour', 'wpvr' ); ?>
                                 </label>
                                 
                                 <div class="tour-type-wrapper">
                                     <label class="single-tour-type">
                                         <input type="radio" name="tour-type" value="image-tour" checked>
                                         <span class="radio-box">
-                                            <?php echo $radio_icon; ?>
+                                            <?php echo wp_kses_post( $radio_icon ); ?>
 
                                             <span class="radio-label">
-                                                <?php echo __('360 Image Tour', 'wpvr'); ?>
+                                                <?php echo esc_html__( '360 Image Tour', 'wpvr' ); ?>
                                             </span>
                                         </span>
                                     </label>
@@ -122,46 +122,46 @@ class WPVR_Post_Type {
                                     <label class="single-tour-type">
                                         <input type="radio" name="tour-type" value="video-tour">
                                         <span class="radio-box">
-                                            <?php echo $radio_icon; ?>
+                                            <?php echo wp_kses_post( $radio_icon ); ?>
 
                                             <span class="radio-label">
-                                                <?php echo __('360 Video Tour', 'wpvr'); ?>
+                                                <?php echo esc_html__( '360 Video Tour', 'wpvr' ); ?>
                                             </span>
                                         </span>
                                     </label>
 
-                                    <label class="single-tour-type <?php echo !defined('WPVR_PRO_VERSION') ? 'is-pro' : ''; ?>">
+                                    <label class="single-tour-type <?php echo !defined('WPVR_PRO_VERSION') ? esc_attr('is-pro') : ''; ?>">
 
                                         <?php if(defined('WPVR_PRO_VERSION')){ ?>
                                             <input type="radio" name="tour-type" value="street-view-tour">
                                         <?php } ?>
                                         
                                         <span class="radio-box">
-                                            <?php echo $radio_icon; ?>
+                                            <?php echo wp_kses_post( $radio_icon ); ?>
 
                                             <span class="radio-label">
-                                                <?php echo __('Street View', 'wpvr'); ?>
+                                                <?php echo esc_html__( 'Street View', 'wpvr' ); ?>
                                             </span>
 
                                             <?php if(!defined('WPVR_PRO_VERSION')){ ?>
-                                                <span class="pro-tag"><?php echo __('pro', 'wpvr'); ?></span>
+                                                <span class="pro-tag"><?php echo esc_html__( 'pro', 'wpvr' ); ?></span>
                                             <?php } ?>
                                         </span>
                                     </label>
 
-                                    <label class="single-tour-type <?php echo !defined('WPVR_PRO_VERSION') ? 'is-pro' : ''; ?>">
+                                    <label class="single-tour-type <?php echo !defined('WPVR_PRO_VERSION') ? esc_attr('is-pro') : ''; ?>">
                                         <?php if(defined('WPVR_PRO_VERSION')){ ?>
                                             <input type="radio" name="tour-type" value="bg-tour">
                                         <?php } ?>
                                         <span class="radio-box">
-                                            <?php echo $radio_icon; ?>
+                                            <?php echo wp_kses_post( $radio_icon ); ?>
 
                                             <span class="radio-label">
-                                                <?php echo __('Background Tour', 'wpvr'); ?>
+                                                <?php echo esc_html__( 'Background Tour', 'wpvr' ); ?>
                                             </span>
 
                                             <?php if(!defined('WPVR_PRO_VERSION')){ ?>
-                                                <span class="pro-tag"><?php echo __('pro', 'wpvr'); ?></span>
+                                                <span class="pro-tag"><?php echo esc_html__( 'pro', 'wpvr' ); ?></span>
                                             <?php } ?>
                                         </span>
                                     </label>
@@ -171,7 +171,7 @@ class WPVR_Post_Type {
 
                             <div class="wpvr-modal-form-group">
                                 <label class="field-label">
-                                    <?php echo __('Tour Name', 'wpvr'); ?>
+                                    <?php echo esc_html__( 'Tour Name', 'wpvr' ); ?>
                                 </label>
                                 <input type="text" class="wpvr-tour-name-input" placeholder="Enter name">
                             </div>
@@ -179,9 +179,9 @@ class WPVR_Post_Type {
 
                         <div class="wpvr-create-tour-modal-footer">
                             <div class="modal-action-buttons">
-                                <button type="button" class="wpvr-modal-btn modal-cancel" aria-label="Cancel modal"><?php echo __('Cancel', 'wpvr'); ?></button>
+                                <button type="button" class="wpvr-modal-btn modal-cancel" aria-label="Cancel modal"><?php echo esc_html__( 'Cancel', 'wpvr' ); ?></button>
 
-                                <button type="button" class="wpvr-modal-btn modal-submit" aria-label="Submit modal"><?php echo __('Create Tour', 'wpvr'); ?></button>
+                                <button type="button" class="wpvr-modal-btn modal-submit" aria-label="Submit modal"><?php echo esc_html__( 'Create Tour', 'wpvr' ); ?></button>
                             </div>
                         </div>
                     </div>
@@ -360,19 +360,19 @@ class WPVR_Post_Type {
     public function register()
     {
         $labels = array(
-            'name'              => __('Tours', $this->plugin_name),
-            'singular_name'     => __('Tours', $this->plugin_name),
-            'add_new'           => __('Add New Tour', $this->plugin_name),
-            'add_new_item'      => __('Add New Tour', $this->plugin_name),
-            'edit_item'         => __('Edit Tour', $this->plugin_name),
-            'new_item'          => __('New Tour', $this->plugin_name),
-            'view_item'         => __('View Tour', $this->plugin_name),
-            'search_items'      => __('Search WP VR Tour', $this->plugin_name),
-            'not_found'         => __('No WP VR Tour found', $this->plugin_name),
-            'not_found_in_trash'=> __('No WP VR Tour found in Trash', $this->plugin_name),
+            'name'              => __('Tours', 'wpvr'),
+            'singular_name'     => __('Tours', 'wpvr'),
+            'add_new'           => __('Add New Tour', 'wpvr'),
+            'add_new_item'      => __('Add New Tour', 'wpvr'),
+            'edit_item'         => __('Edit Tour', 'wpvr'),
+            'new_item'          => __('New Tour', 'wpvr'),
+            'view_item'         => __('View Tour', 'wpvr'),
+            'search_items'      => __('Search WP VR Tour', 'wpvr'),
+            'not_found'         => __('No WP VR Tour found', 'wpvr'),
+            'not_found_in_trash'=> __('No WP VR Tour found in Trash', 'wpvr'),
             'parent_item_colon' => '',
-            'all_items'         => __('All Tours', $this->plugin_name),
-            'menu_name'         => __('WP VR', $this->plugin_name),
+            'all_items'         => __('All Tours', 'wpvr'),
+            'menu_name'         => __('WP VR', 'wpvr'),
         );
 
         $args = array(
@@ -423,12 +423,12 @@ class WPVR_Post_Type {
         // Set/unset post type table columns 
         $columns = array(
             'cb'            => '<input type="checkbox" />',
-            'title'         => __('Title', $this->plugin_name),
-            'thumbnail'     => __('Thumbnail', $this->plugin_name),
-            'shortcode'     => __('Shortcodes', $this->plugin_name),
-            'type'          => __('Type', $this->plugin_name),
-            'author'        => __('Author', $this->plugin_name),
-            'date'          => __('Date', $this->plugin_name)
+            'title'         => __('Title', 'wpvr'),
+            'thumbnail'     => __('Thumbnail', 'wpvr'),
+            'shortcode'     => __('Shortcodes', 'wpvr'),
+            'type'          => __('Type', 'wpvr'),
+            'author'        => __('Author', 'wpvr'),
+            'date'          => __('Date', 'wpvr')
         );
         return $columns;
     }
@@ -456,7 +456,7 @@ class WPVR_Post_Type {
 
         switch ($column) {
             case 'shortcode':
-                echo '<div class="wpvr-listing-shortcode"><span class="wpvr-code">[wpvr id="' . $post->ID . '"] </span>' . $this->copy_shortcode_html() . '</div>';
+                echo wp_kses_post('<div class="wpvr-listing-shortcode"><span class="wpvr-code">[wpvr id="' . esc_attr($post->ID) . '"] </span>' . $this->copy_shortcode_html() . '</div>');
                 break;
 
             case 'thumbnail':
@@ -465,20 +465,20 @@ class WPVR_Post_Type {
                 if ($scene_image) {
                     echo '<img loading="lazy" src="' . esc_url($scene_image) . '" class="wpvr-thumbnail-image" alt="thumbnail" width="73" height="54">';
                 }else {
-                    echo '<svg width="74" height="54" fill="none" viewBox="0 0 74 54" xmlns="http://www.w3.org/2000/svg"><rect width="73.517" height="54" fill="#E3E3E3" rx="5"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 34h4.2c3.5 0 4.9-1.4 4.9-4.9v-4.2c0-3.5-1.4-4.9-4.9-4.9h-4.2c-3.5 0-4.9 1.4-4.9 4.9v4.2c0 3.5 1.4 4.9 4.9 4.9z"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 25.6a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zm-4.431 6.265l3.45-2.317c.554-.37 1.352-.329 1.849.098l.23.203c.547.47 1.429.47 1.975 0l2.912-2.499c.546-.469 1.428-.469 1.974 0l1.14.98"/></svg>';
+                    echo wp_kses_post('<svg width="74" height="54" fill="none" viewBox="0 0 74 54" xmlns="http://www.w3.org/2000/svg"><rect width="73.517" height="54" fill="#E3E3E3" rx="5"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 34h4.2c3.5 0 4.9-1.4 4.9-4.9v-4.2c0-3.5-1.4-4.9-4.9-4.9h-4.2c-3.5 0-4.9 1.4-4.9 4.9v4.2c0 3.5 1.4 4.9 4.9 4.9z"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 25.6a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zm-4.431 6.265l3.45-2.317c.554-.37 1.352-.329 1.849.098l.23.203c.547.47 1.429.47 1.975 0l2.912-2.499c.546-.469 1.428-.469 1.974 0l1.14.98"/></svg>');
                 }
                 
                 break;
 
             case 'type':
                 if (isset($postdata['streetviewdata'])) {
-                    echo '<span class="tour-type">'. $streetview_icon .'Street View</span>';
+                    echo wp_kses_post('<span class="tour-type">' . $streetview_icon . 'Street View</span>');
 
                 } elseif (isset($postdata['vidid'])) {
-                    echo '<span class="tour-type">'. $video_tour_icon .'360 Video</span>';
+                    echo wp_kses_post('<span class="tour-type">' . $video_tour_icon . '360 Video</span>');
 
                 } else {
-                    echo '<span class="tour-type">'. $image_tour_icon .' 360 Image</span>';
+                    echo wp_kses_post('<span class="tour-type">' . $image_tour_icon . ' 360 Image</span>');
                 }
                 break;
 
@@ -547,10 +547,16 @@ class WPVR_Post_Type {
      */
     private function wpvr_get_attachment_id_by_url($image_url) {
         global $wpdb;
-        return $wpdb->get_var($wpdb->prepare(
-            "SELECT ID FROM $wpdb->posts WHERE guid=%s AND post_type='attachment'",
-            $image_url
-        ));
+        $cache_key = 'wpvr_attachment_id_' . md5($image_url);
+        $attachment_id = wp_cache_get($cache_key, 'wpvr');
+        if (false === $attachment_id) {
+            $attachment_id = $wpdb->get_var($wpdb->prepare(
+                "SELECT ID FROM $wpdb->posts WHERE guid=%s AND post_type='attachment'",
+                $image_url
+            ));
+            wp_cache_set($cache_key, $attachment_id, 'wpvr', 12 * HOUR_IN_SECONDS);
+        }
+        return $attachment_id;
     }
 
     /**
@@ -585,8 +591,8 @@ class WPVR_Post_Type {
      */
     public function wpvr_post_updated_messages($messages)
     {
-        $messages[$this->post_type][1] = __('WP VR item updated.', $this->plugin_name);
-        $messages[$this->post_type][4] = __('WP VR item updated.', $this->plugin_name);
+        $messages[$this->post_type][1] = __('WP VR item updated.', 'wpvr');
+        $messages[$this->post_type][4] = __('WP VR item updated.', 'wpvr');
 
         return $messages;
     }

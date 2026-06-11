@@ -29,13 +29,13 @@ class WPVR_OXY_INTEGRATION
     public function add_plus_sections()
     {
         /* show a section in +Add dropdown menu and name it "My Custom Elements" */
-        CT_Toolbar::oxygen_add_plus_accordion_section($this->section_slug, __("Build with WP VR"));
+        CT_Toolbar::oxygen_add_plus_accordion_section($this->section_slug, __("Build with WP VR", 'wpvr'));
     }
 
     public function global_settings_tab()
     {
         global $oxygen_toolbar;
-        $oxygen_toolbar->settings_tab(__("WP VR"), $this->tab_slug, "panelsection-icons/styles.svg");
+        $oxygen_toolbar->settings_tab(__("WP VR", 'wpvr'), $this->tab_slug, "panelsection-icons/styles.svg");
     }
 
     public function add_plus_subsections_content()

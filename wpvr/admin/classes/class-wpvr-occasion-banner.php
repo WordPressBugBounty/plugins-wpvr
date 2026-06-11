@@ -93,9 +93,9 @@ class WPVR_Special_Occasion_Banner
         $should_show_banner = false;
 
         if ($screen->base === 'plugins' || $screen->base === 'dashboard') {
-            if (!defined('REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL')) {
+            if (!defined('WPVR_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL')) {
                 $should_show_banner = true;
-                define('REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true);
+                define('WPVR_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true);
             }
         } else {
             if (!defined($plugin_banner_constant)) {
@@ -105,7 +105,7 @@ class WPVR_Special_Occasion_Banner
         }
 
         if ($should_show_banner) {
-            echo '<input type="hidden" id="rex_wpvr_special_occasion" name="rex_wpvr_special_occasion" value="'.$this->occasion.'">';
+            echo wp_kses_post('<input type=\"hidden\" id=\"rex_wpvr_special_occasion\" name=\"rex_wpvr_special_occasion\" value=\"'.esc_attr($this->occasion).'\">');
             $time_remaining = $this->end_date - $current_date_time;
             $countdown = $this->rex_get_halloween_countdown();
             ?>
@@ -170,7 +170,7 @@ class WPVR_Special_Occasion_Banner
                 //rexfeed_deal_countdown_handler();
 
                 function rexfeed_deal_countdown_handler() {
-                    let timeRemaining = <?php echo $time_remaining; ?>;
+                    let timeRemaining = <?php echo esc_js( $time_remaining ); ?>;
 
                     setInterval(function() {
                         const daysElement = document.getElementById('rex-wpvr-halloween-days');
@@ -257,7 +257,7 @@ class WPVR_Special_Occasion_Banner
         <style id="promotional-banner-style" type="text/css">
             @font-face {
                 font-family: 'Inter';
-                src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Bold.woff2'; ?>) format('woff2');
+                src: url(<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Bold.woff2' ); ?>) format('woff2');
                 font-weight: 700;
                 font-style: normal;
                 font-display: swap;
@@ -265,7 +265,7 @@ class WPVR_Special_Occasion_Banner
 
             @font-face {
                 font-family: 'Inter';
-                src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-SemiBold.woff2'; ?>) format('woff2');
+                src: url(<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-SemiBold.woff2' ); ?>) format('woff2');
                 font-weight: 600;
                 font-style: normal;
                 font-display: swap;
@@ -273,7 +273,7 @@ class WPVR_Special_Occasion_Banner
 
             @font-face {
                 font-family: "Inter";
-                src: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Regular.woff2'; ?>) format('woff2');
+                src: url(<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/fonts/campaign-font/Inter-Regular.woff2' ); ?>) format('woff2');
                 font-weight: 400;
                 font-style: normal;
                 font-display: swap;
@@ -288,7 +288,7 @@ class WPVR_Special_Occasion_Banner
                 background-color: #05041E;
                 width: calc(100% - 20px);
                 margin: 50px 0 20px;
-                background-image: url(<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/independence-day-bg.webp'; ?>);
+                background-image: url(<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/independence-day-bg.webp' ); ?>);
                 background-position: 24%;
                 background-repeat: no-repeat;
                 background-size: cover;

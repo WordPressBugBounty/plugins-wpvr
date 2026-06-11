@@ -239,14 +239,14 @@ class Wpvr
         ?>
 
         <div class="rex-pano-tab floor-plan" id="floorPlan">
-            <h6 class="title"> <?php echo __('Floor Plan Settings : ', 'wpvr-pro');?> </h6>
+            <h6 class="title"> <?php echo esc_html__('Floor Plan Settings : ', 'wpvr');?> </h6>
 
             <div class="content-wrapper">
 
                 <div class="floor-plan-left">
                     <!-- bg tour on/off -->
                     <div class="single-settings inline-style">
-                        <span> <?php echo __('Enable Floor Plan: ', 'wpvr-pro') ?> </span>
+                        <span> <?php echo esc_html__('Enable Floor Plan: ', 'wpvr') ?> </span>
                         <span class="wpvr-switcher">
 							<input id="wpvr_floor_plan_enabler" class="vr-switcher-check wpvr_floor_plan_enabler" name="wpvr_floor_plan_enabler" disabled type="checkbox"/>
 							<label for="wpvr_floor_plan_enabler"></label>
@@ -254,12 +254,13 @@ class Wpvr
 
 
 						<div class="field-tooltip">
-                    		<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+                    		<img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ); ?>" alt="icon" />
 
 							<span>
 								<?php 
 									echo wp_kses(
 										sprintf(
+											/* translators: %s: documentation url */
 											__('Activate the floor plan view for your virtual tour. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
 											esc_url('https://rextheme.com/docs/virtual-floor-plans-inside-tours/#0-toc-title')
 										),
@@ -288,13 +289,13 @@ class Wpvr
         ?>
 
         <div class="rex-pano-tab background-tour" id="backgroundTour">
-            <h6 class="title"> <?= __('Background Tour Settings : ', 'wpvr');?> </h6>
+            <h6 class="title"> <?php echo esc_html__('Background Tour Settings : ', 'wpvr');?> </h6>
 
             <div class="content-wrapper">
                 <div class="background-tour-left">
                     <!-- bg tour on/off -->
                     <div class="single-settings inline-style">
-                        <span> <?= __('Enable Background Tour: ', 'wpvr') ?> </span>
+                        <span> <?php echo esc_html__('Enable Background Tour: ', 'wpvr') ?> </span>
 						
                         <span class="wpvr-switcher">
 							<input id="wpvr_bg_tour_enabler" class="vr-switcher-check wpvr_bg_tour_enabler" name="wpvr_bg_tour_enabler" type="checkbox" disabled />
@@ -302,12 +303,13 @@ class Wpvr
                 		</span>
 
 						<div class="field-tooltip">
-                    		<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'?>" alt="icon" />
+                    		<img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ); ?>" alt="icon" />
 
 							<span>
 								<?php 
 									echo wp_kses(
 										sprintf(
+											/* translators: %s: documentation url */
 											__('When enabled, a title and subtitle will appear at the top of the tour. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
 											esc_url('https://rextheme.com/docs/360-panorama-background-virtual-tour/')
 										),
@@ -334,20 +336,20 @@ class Wpvr
 
         <div class="rex-pano-tab streetview" id="streetview">
 
-            <h6 class="title"> <?= __('Embed Google Street View : ', 'wpvr-pro'); ?> </h6>
+            <h6 class="title"> <?php echo esc_html__('Embed Google Street View : ', 'wpvr'); ?> </h6>
 
             <div class="single-settings">
 				<div class="wpvr-global-tooltip-area">
-					<span> <?php echo __('Enable Street View:','wpvr-pro')  ?> </span>
+					<span> <?php echo esc_html__('Enable Street View:','wpvr')  ?> </span>
 
 					<div class="field-tooltip">
-						<img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg'; ?>" alt="icon" />
+						<img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/tooltip-icon.svg' ); ?>" alt="icon" />
 						<span>
-							<?= __('Insert a Street View iframe link.', 'wpvr-pro'); ?>
+							<?php echo esc_html__('Insert a Street View iframe link.', 'wpvr'); ?>
 							 <a href="https://rextheme.com/docs/wp-vr-embed-google-street-view-tour/" 
 								target="_blank" 
 								rel="noopener noreferrer">
-									<?= __('View Doc', 'wpvr-pro'); ?>
+									<?php echo esc_html__('View Doc', 'wpvr'); ?>
 							</a>	
 						</span>
 					</div>
@@ -379,8 +381,8 @@ class Wpvr
         ?>
 
         <div class="rex-pano-tab export" id="import">
-            <h6 class="title"> <?= __('Export Tour : ', 'wpvr-pro') ?></h6>
-            <a  class="vr-export"><?= __('Download', 'wpvr-pro') ?></a>
+            <h6 class="title"> <?php echo esc_html__('Export Tour : ', 'wpvr') ?></h6>
+            <a  class="vr-export"><?php echo esc_html__('Download', 'wpvr') ?></a>
         </div>
         <?php
 

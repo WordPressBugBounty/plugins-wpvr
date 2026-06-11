@@ -38,7 +38,7 @@ class WPVR_Hotspot {
         </nav>
 
         <div data-repeater-list="hotspot-list" class="rex-pano-tab-content">
-            <div data-repeater-item class="single-hotspot rex-pano-tab active clearfix" id="scene-<?php echo $s; ?>-hotspot-<?php echo $h; ?>">
+            <div data-repeater-item class="single-hotspot rex-pano-tab active clearfix" id="scene-<?php echo esc_attr( $s ); ?>-hotspot-<?php echo esc_attr( $h ); ?>">
                 <?php $this->render_hotspot_repeater_item(); ?>
             </div>
         </div>
@@ -86,7 +86,7 @@ class WPVR_Hotspot {
         ob_start();
         ?>
             <ul>    
-                <li class="active"><span data-index="1" data-href="#scene-<?php echo $s; ?>-hotspot-<?php echo $h; ?>"><i class="far fa-dot-circle"></i></span></li>
+                <li class="active"><span data-index="1" data-href="#scene-<?php echo esc_attr( $s ); ?>-hotspot-<?php echo esc_attr( $h ); ?>"><i class="far fa-dot-circle"></i></span></li>
                 <li class="add" data-repeater-create><span><i class="fa fa-plus-circle"></i> </span></li>
             </ul>
         <?php
@@ -106,7 +106,7 @@ class WPVR_Hotspot {
         $pano_hotspot = $postdata['panodata']['scene-list'][0]['hotspot-list'][0];
         ob_start();
         ?>
-        <h6 class="title"><i class="fa fa-cog"></i> <?php echo __('Hotspot Settings','wpvr') ?> </h6>
+        <h6 class="title"><i class="fa fa-cog"></i> <?php esc_html_e('Hotspot Settings','wpvr'); ?> </h6>
 
         <div class="wrapper">
             <?php WPVR_Meta_Field::render_hotspot_setting_left_fields($pano_hotspot); ?>
@@ -140,7 +140,7 @@ class WPVR_Hotspot {
 
                 $firstvaluehotspot = reset($pano_hotspots);
                 foreach ($pano_hotspots as $pano_hotspot) { ?>
-                <li class="<?php if($pano_hotspot['hotspot-title'] == $firstvaluehotspot['hotspot-title']) { echo 'active'; } ?>"><span data-index="<?php echo $j;?>" data-href="#scene-<?php echo $s;?>-hotspot-<?php echo $j;?>"><i class="far fa-dot-circle"></i></span></li>
+                <li class="<?php if($pano_hotspot['hotspot-title'] == $firstvaluehotspot['hotspot-title']) { echo 'active'; } ?>"><span data-index="<?php echo esc_attr( $j ); ?>" data-href="#scene-<?php echo esc_attr( $s ); ?>-hotspot-<?php echo esc_attr( $j ); ?>"><i class="far fa-dot-circle"></i></span></li>
                 <?php $j++; } ?>
                 <li class="add" data-repeater-create><span><i class="fa fa-plus-circle"></i></span></li>
             </ul>
@@ -162,11 +162,11 @@ class WPVR_Hotspot {
     {
         $h = 1;
         $firstvaluehotspotset = reset($pano_hotspots);
-        $is_wpvr_premium = apply_filters('is_wpvr_premium', false);
+        $is_wpvr_premium = apply_filters('is_wpvr_premium', false); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
         foreach ($pano_hotspots as $pano_hotspot) { ob_start(); ?>
-            <div data-repeater-item class="single-hotspot rex-pano-tab clearfix <?php if($pano_hotspot['hotspot-title'] == $firstvaluehotspotset['hotspot-title']) { echo 'active'; }  ?>" id="scene-<?php echo $s;?>-hotspot-<?php echo $h;?>">
+            <div data-repeater-item class="single-hotspot rex-pano-tab clearfix <?php if($pano_hotspot['hotspot-title'] == $firstvaluehotspotset['hotspot-title']) { echo 'active'; }  ?>" id="scene-<?php echo esc_attr( $s ); ?>-hotspot-<?php echo esc_attr( $h ); ?>">
 
-                <h6 class="title"><i class="fa fa-cog"></i> <?php echo __('Hotspot Settings','wpvr') ?> </h6>
+                <h6 class="title"><i class="fa fa-cog"></i> <?php esc_html_e('Hotspot Settings','wpvr'); ?> </h6>
 
                 <div class="wrapper">
                     <?php WPVR_Meta_Field::render_hotspot_setting_left_fields($pano_hotspot); ?>

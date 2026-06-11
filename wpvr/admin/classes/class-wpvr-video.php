@@ -43,7 +43,7 @@ class WPVR_Video {
         ob_start();
         ?>
         
-        <h6 class="title"><?php echo __('Video Settings : ', 'wpvr'); ?></h6>
+        <h6 class="title"><?php echo esc_html__( 'Video Settings : ', 'wpvr' ); ?></h6>
         
         <?php 
         WPVR_Meta_Field::render_video_setting_meta_fields($postdata);
@@ -62,8 +62,12 @@ class WPVR_Video {
      */
     public function wpvr_update_meta_box($postid, $panoid)
     {
+        $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
+            wp_die( 'Permission denied.' );
+        }
         $vidid = 'vid' . $postid;
-        $videourl = esc_url_raw($_POST['videourl']);
+        $videourl = isset( $_POST['videourl'] ) ? esc_url_raw( wp_unslash( $_POST['videourl'] ) ) : '';
         
         $videodata = $this->format->prepare_video_settings_data();
         $vidtype = '';
@@ -86,13 +90,13 @@ class WPVR_Video {
 
         $videoarray = array();
         $videoarray = array(
-                            __("panoid") => $panoid, 
-                            __("panoviddata") => $html, 
-                            __("vidid") => $vidid, 
-                            __("vidurl") => $videourl, 
-                            __("vidtype") => $vidtype,
-                            __("autoplay") => $videodata['autoplay'], 
-                            __("loop") => $videodata['loop']
+                            __("panoid", 'wpvr') => $panoid, 
+                            __("panoviddata", 'wpvr') => $html, 
+                            __("vidid", 'wpvr') => $vidid, 
+                            __("vidurl", 'wpvr') => $videourl, 
+                            __("vidtype", 'wpvr') => $vidtype,
+                            __("autoplay", 'wpvr') => $videodata['autoplay'], 
+                            __("loop", 'wpvr') => $videodata['loop']
                         );
         update_post_meta($postid, 'panodata', $videoarray);
         $response = array(
@@ -118,9 +122,13 @@ class WPVR_Video {
      */
     public function wpvr_video_preview($panoid)
     {
-        $randid = rand(1000, 1000000);
+        $randid = wp_rand(1000, 1000000);
+        $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
+            wp_die( 'Permission denied.' );
+        }
         $vidid = 'vid' . $randid;
-        $videourl = esc_url_raw($_POST['videourl']);
+        $videourl = isset( $_POST['videourl'] ) ? esc_url_raw( wp_unslash( $_POST['videourl'] ) ) : '';
         $videodata = $this->format->prepare_video_settings_data();
         $vidtype = '';
 
@@ -141,7 +149,7 @@ class WPVR_Video {
         }
 
         $response = array();
-        $response = array(__("panoid") => $panoid, __("panodata") => $html, __("vidid") => $vidid, __("vidtype") => $vidtype);
+        $response = array(__("panoid", 'wpvr') => $panoid, __("panodata", 'wpvr') => $html, __("vidid", 'wpvr') => $vidid, __("vidtype", 'wpvr') => $vidtype);
         wp_send_json_success($response);
     }
 

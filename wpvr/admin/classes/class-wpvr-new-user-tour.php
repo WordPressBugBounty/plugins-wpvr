@@ -67,7 +67,7 @@ class WPVR_New_User_Tour {
 
         // 3. Must be a NEW post (no post ID = creating, not editing).
         //    When editing an existing tour, $_GET['post'] is set.
-        if ( isset( $_GET['post'] ) && absint( $_GET['post'] ) > 0 ) {
+        if ( isset( $_GET['post'] ) && absint( wp_unslash($_GET['post']) ) > 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             return false;
         }
 
@@ -146,7 +146,7 @@ class WPVR_New_User_Tour {
         );
 
         // Translations already used by the tour guide script.
-        $tour_guide_translation = new Tour_Guide_Translation();
+        $tour_guide_translation = new WPVR_Tour_Guide_Translation();
 
         wp_localize_script(
             'wpvr-tour-guide',

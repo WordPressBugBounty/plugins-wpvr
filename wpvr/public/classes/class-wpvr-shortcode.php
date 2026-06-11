@@ -96,7 +96,7 @@ class WPVR_Shortcode {
             if ($obj) {
                 $id = $obj->ID;
             } else {
-                return __('Invalid Wpvr slug attribute', $this->plugin_name);
+                return __('Invalid Wpvr slug attribute', 'wpvr');
             }
         }
         

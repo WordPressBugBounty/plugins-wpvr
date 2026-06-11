@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Setup wizard view
@@ -20,8 +21,8 @@
     do_action('admin_head');
     ?>
     <script type="text/javascript">
-        var ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-        var wpvrNonce = '<?php echo wp_create_nonce('wpvr'); ?>';
+        var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>';
+        var wpvrNonce = '<?php echo esc_js( wp_create_nonce( 'wpvr' ) ); ?>';
     </script>
 </head>
 <body>
@@ -119,10 +120,18 @@
                     </div>
                     <p class="template-upload-label"><?php echo esc_html__('Upload my own 360 photo', 'wpvr'); ?></p>
                     <p class="template-upload-hint">
-                        <?php printf(
-                            esc_html__('Drag & drop your 360° image or %s', 'wpvr'),
-                            '<a href="#" id="btn-upload-own-image" class="template-browse-link">' . esc_html__('click to browse', 'wpvr') . '</a>'
-                        ); ?>
+                        <?php 
+                            echo wp_kses(
+                                sprintf(
+                                    /* translators: %s: link to browse */
+                                    __('Drag & drop your 360° image or %s', 'wpvr'),
+                                    '<a href="#" id="btn-upload-own-image" class="template-browse-link">' . esc_html__('click to browse', 'wpvr') . '</a>'
+                                ),
+                                array(
+                                    'a' => array('href' => array(), 'id' => array(), 'class' => array())
+                                )
+                            ); 
+                        ?>
                     </p>
                     <p class="template-upload-supported"><?php echo esc_html__('Supported files: JPEG, PNG, WebP', 'wpvr'); ?></p>
                 </div>

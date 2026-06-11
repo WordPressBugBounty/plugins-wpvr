@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /* main class for this plugin */
 include_once 'WPVR_OXY_INTEGRATION.php';

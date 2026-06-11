@@ -1,9 +1,10 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div id="wpvr-admin-notice-five-star-review" class="wpvr-admin-notice-dashboard wpvr-promo-notice" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wpvr-dismiss-notice-five-star-review') ); ?>" data-id="five-star-review" data-lifespan="0">
     <div class="wpvr-review-step wpvr-review-step-1">
-        <p> <?php echo __("Hey, I noticed you've made nice tour with WP VR! Are you enjoying WP VR?",'wpvr'); ?> </p>
+        <p> <?php esc_html_e("Hey, I noticed you've made nice tour with WP VR! Are you enjoying WP VR?",'wpvr'); ?> </p>
         <div class="wpvr-review-actions">
-            <button class="button-primary wpvr-review-switch-step" data-step="3" ><?php echo __("Yes","wpvr") ?></button><br>
-            <button class="button-link wpvr-review-switch-step" data-step="2" id="review_not_now_feed_back"><?php echo __("Not Really","wpvr") ?></button>
+            <button class="button-primary wpvr-review-switch-step" data-step="3" ><?php esc_html_e("Yes","wpvr"); ?></button><br>
+            <button class="button-link wpvr-review-switch-step" data-step="2" id="review_not_now_feed_back"><?php esc_html_e("Not Really","wpvr"); ?></button>
         </div>
     </div>
 <!--    <div class="wpvr-review-step wpvr-review-step-2" style="display:none;">-->
@@ -14,11 +15,11 @@
 <!--        </div>-->
 <!--    </div>-->
     <div class="wpvr-review-step wpvr-review-step-3" style="display:none;">
-        <p><?php echo __("That's awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us grow and motivate us?","wpvr") ?> <strong>~<?php echo __("Lincoln Islam","wpvr") ?></strong> -  Founder & Visionary</p>
+        <p><?php esc_html_e("That's awesome! Could you please do me a BIG favor and give it a rating on WordPress to help us grow and motivate us?","wpvr"); ?> <strong>~<?php esc_html_e("Lincoln Islam","wpvr"); ?></strong> -  Founder & Visionary</p>
         <div class="wpvr-review-actions">
-            <a href="https://wordpress.org/support/plugin/wpvr/reviews/?filter=5#new-post" class="button button-primary wpvr-promo-notice-dismiss" target="_blank" rel="noopener noreferrer" id="review_rate_now">Ok, you deserve it!</a><br>
-            <button class="button-link wpvr-promo-notice-dismiss" id="review_rated_already"><?php echo __("Already given","wpvr") ?></button>
-            <button class="button-link wpvr-promo-notice-dismiss-next-week" id="review_not_now"><?php echo __("No thanks","wpvr") ?></button>
+            <a href="https://wordpress.org/support/plugin/wpvr/reviews/#new-post" class="button button-primary wpvr-promo-notice-dismiss" target="_blank" rel="noopener noreferrer" id="review_rate_now">Ok, you deserve it!</a><br>
+            <button class="button-link wpvr-promo-notice-dismiss" id="review_rated_already"><?php esc_html_e("Already given","wpvr"); ?></button>
+            <button class="button-link wpvr-promo-notice-dismiss-next-week" id="review_not_now"><?php esc_html_e("No thanks","wpvr"); ?></button>
         </div>
     </div>
     <script type="text/javascript">
@@ -69,7 +70,7 @@
                     frequency: frequency,
                 };
                 $.ajax({
-                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
                     type: 'POST',
                     data: {
                         action: 'wpvr_review_request',

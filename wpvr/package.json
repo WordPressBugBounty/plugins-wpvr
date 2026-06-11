@@ -1,0 +1,65 @@
+{
+  "name": "wpvr",
+  "version": "8.5.75",
+  "description": "WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open --config-file tests/cypress/config.json",
+    "cypress:run": "cypress run --config-file tests/cypress/config.json",
+    "env": "wp-env",
+    "env:stop": "wp-env stop",
+    "prepare": "husky install",
+    "postenv:start": "./tests/bin/initialize.sh",
+    "start": "node index.js",
+    "env:start": "wp-env start",
+    "test:e2e": "wp-scripts test-playwright --config tests/e2e/playwright.config.ts",
+    "test:e2e:playwright-report": "wp-scripts test-playwright --config tests/e2e/playwright.config.ts --reporter=html",
+    "test:e2e:playwright:ui": "wp-scripts test-playwright --ui --config tests/e2e/playwright.config.ts",
+    "test:e2e:watch-browser": "wp-scripts test-playwright --config tests/e2e/playwright.config.ts  -- --watch --browsers=chromium",
+    "test:e2e:playwright": "npm run test:e2e",
+    "test:e2e:watch": "npm run test:e2e -- --watch",
+    "grunt:build": "grunt build",
+    "grunt:zip": "grunt zip"
+  },
+  "keywords": [
+    "wpvr"
+  ],
+  "author": "Rextheme",
+  "license": "ISC",
+  "devDependencies": {
+    "@10up/cypress-wp-utils": "github:10up/cypress-wp-utils#build",
+    "@babel/core": "^7.19.0",
+    "@babel/preset-env": "^7.19.0",
+    "@babel/preset-react": "^7.18.6",
+    "@playwright/test": "^1.44.1",
+    "@wordpress/e2e-test-utils": "^10.29.0",
+    "@wordpress/e2e-test-utils-playwright": "^0.26.0",
+    "@wordpress/e2e-tests": "^7.29.0",
+    "@wordpress/env": "^5.7.0",
+    "babel-loader": "^8.2.5",
+    "cypress": "^9.7.0",
+    "grunt": "^1.6.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-compress": "^1.6.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-release": "^0.14.0",
+    "grunt-run": "^0.8.1",
+    "grunt-text-replace": "^0.4.0",
+    "husky": "^9.0.11",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CODEREXLTD/WP-VR---360-Panorama-and-virtual-tour-for-WordPress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CODEREXLTD/WP-VR---360-Panorama-and-virtual-tour-for-WordPress/issues"
+  },
+  "homepage": "https://github.com/CODEREXLTD/WP-VR---360-Panorama-and-virtual-tour-for-WordPress#readme"
+}

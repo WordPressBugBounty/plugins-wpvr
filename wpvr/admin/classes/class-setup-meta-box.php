@@ -135,13 +135,13 @@ class WPVR_Setup_Meta_Box extends WPVR_Meta_Box {
         $scene_active_tab = 1;
         $hotspot_active_tab = 1;
         if (isset($_GET['active_tab'])) {
-            $active_tab = sanitize_text_field($_GET['active_tab']);
+            $active_tab = sanitize_text_field(wp_unslash($_GET['active_tab'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
         if (isset($_GET['scene'])) {
-            $scene_active_tab = sanitize_text_field($_GET['scene']);
+            $scene_active_tab = sanitize_text_field(wp_unslash($_GET['scene'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
         if (isset($_GET['hotspot'])) {
-            $hotspot_active_tab = sanitize_text_field($_GET['hotspot']);
+            $hotspot_active_tab = sanitize_text_field(wp_unslash($_GET['hotspot'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
 
         // Start custom meta box rendering

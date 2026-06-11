@@ -8,6 +8,8 @@
 
 namespace WPVR\Builder\DIVI\Modules;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 use ET_Builder_Module;
 
 /**

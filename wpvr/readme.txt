@@ -1,19 +1,19 @@
-=== WP VR - 360 Panorama and Free Virtual Tour Builder ===
+=== WP VR - 360 Panorama and Virtual Tour Builder ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, free VR tour software, 
+Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, vr tour
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.0.0
-Stable tag: 8.5.74
+Stable tag: 8.5.75
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create stunning 360 virtual tours to impress visitors and get more clients using WPVR - the easiest virtual tour creator in WordPress.
+Create stunning 360 virtual tours to impress visitors and get more clients using WPVR - an easy virtual tour creator.
 
 == Description ==
 
-<h4>🏆 #1 Free Virtual Tour Creator and 360 Panorama Viewer for WordPress.</h4>
+<h4>🏆 Excellent Virtual Tour Creator and 360 Panorama Viewer.</h4>
 
 WPVR is a free virtual tour creator that helps you build immersive 360 VR tours in minutes - no complexity at all.
 
@@ -92,7 +92,7 @@ https://youtu.be/kOCNHJdM0TA?si=jdph5JflvX1QmH3S
 
 <h3> Everything You Need To Create Virtual Tours That Engage & Convert </h3>
 
-WPVR is a unique VR tour creator that comes with several exclusive features to make virtual tours more engaging and conversion-optimized.
+WPVR comes with several features to make virtual tours more engaging and conversion-optimized.
 
 Simply put, it's not just a tool to show off, but also a solution to **help you get real clients** interested to make inquiries, place bookings, and contact you for negotiations.
 
@@ -328,6 +328,14 @@ You can review how Linno Telemetry and OpenPanel collect and use data via their 
 Data removal
 If you have previously opted in and would like your data removed, you may request deletion by contacting us at support@rextheme.com.
 
+== External Services ==
+
+This plugin connects to an external API (showcase.rextheme.com) to obtain pre-built virtual tour templates. This is needed to allow users to quickly generate a virtual tour using the setup wizard based on their selected industry.
+
+It sends a request containing the corresponding template ID of the selected industry when a user uses the setup wizard to create a tour from a template. No personal user data is transmitted during this process.
+
+This service is provided by "RexTheme": [Terms of Use](https://rextheme.com/terms-and-conditions/), [Privacy Policy](https://rextheme.com/privacy-policy/).
+
 == Installation ==
 
 1. Upload WPVR to the /wp-content/plugins/ directory
@@ -440,9 +448,16 @@ The Patchstack team will review & handle the issue. [Report a security vulnerabi
 12. 360 Video Tour
 
 
+== Source Code ==
+
+This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org guidelines, the uncompiled source code (`src` folders) and configuration files (`package.json`, `webpack.config.js`) are included in this package. To compile, run `npm install` and `npm run build` in the plugin root. Third-party library sources (videojs-vr, tether) are available alongside their distributed files or via our npm dependencies.
+
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.75 (2026-06-11) =
+* Fix: Restored WPVR Pro tab compatibility for Floor Plan, Background Tour, and Street View when WPVR Pro v6.7.4 is active with a valid license.
 
 = 8.5.74 (2026-06-04) =
 * Fix: Improve 360 video touch support and iPhone fallback

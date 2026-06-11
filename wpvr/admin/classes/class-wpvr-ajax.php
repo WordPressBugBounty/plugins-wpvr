@@ -97,15 +97,15 @@ class Wpvr_Ajax
           wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
           return;
       }
-    $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr-dismiss-notice-five-star-review')) {
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'wpvr-dismiss-notice-five-star-review' ) ) {
       $response = array(
         'success' => false,
         'data' => 'Permission denied.'
       );
       wp_send_json($response);
     }
-    $payload = !empty($_POST['payload']) ? $_POST['payload'] : array();
+    $payload = !empty($_POST['payload']) ? map_deep( wp_unslash( $_POST['payload'] ), 'sanitize_text_field' ) : array();
     $data = array(
       'show'      => !empty($payload['show']) ? $payload['show'] : '',
       'time'      => !empty($payload['frequency']) && 'never' !== $payload['frequency'] ? time() : '',
@@ -138,8 +138,8 @@ class Wpvr_Ajax
     }
     //===Current user capabilities check===//
     //===Nonce check===//
-    $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -149,10 +149,11 @@ class Wpvr_Ajax
     //===Nonce check===//
 
     $panoid = '';
-    $postid = sanitize_text_field($_POST['postid']);
+    $postid = isset( $_POST['postid'] ) ? sanitize_text_field( wp_unslash( $_POST['postid'] ) ) : 0;
     $panoid = 'pano' . $postid;
-    if (isset($_POST['panovideo'])) {
-      $panovideo = sanitize_text_field($_POST['panovideo']);
+    $panovideo = 'off';
+    if ( isset( $_POST['panovideo'] ) ) {
+      $panovideo = sanitize_text_field( wp_unslash( $_POST['panovideo'] ) );
     }
 
     $post_type = get_post_type($postid);
@@ -195,7 +196,7 @@ class Wpvr_Ajax
 	 *
 	 * @return void
 	 */
-    $nonce  = sanitize_text_field($_POST['nonce']);
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
 		wp_send_json([
 			'success' => false,
@@ -204,7 +205,7 @@ class Wpvr_Ajax
 	}
 
 
-    $postid = absint(sanitize_text_field($_POST['postid']) ?? 0);
+    $postid = isset( $_POST['postid'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['postid'] ) ) ) : 0;
 
 	/**
 	 * Ensures a valid post ID is supplied before proceeding.
@@ -237,7 +238,7 @@ class Wpvr_Ajax
 	 *
 	 * @return void
 	 */
-    $action_type = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : 'auto-draft';
+    $action_type = isset($_POST['action_type']) ? sanitize_text_field(wp_unslash( $_POST['action_type'] )) : 'auto-draft';
     $is_publish_action = ($action_type === 'publish');
 
     /**
@@ -245,7 +246,7 @@ class Wpvr_Ajax
      *
      * @return void
      */
-    if ($is_publish_action && (!isset($_POST['post_title']) || empty(trim($_POST['post_title'])))) {
+    if ($is_publish_action && (!isset($_POST['post_title']) || empty(trim(sanitize_text_field(wp_unslash( $_POST['post_title'] )))))) {
       wp_send_json([
         'success' => false,
         'data' => '<span class="pano-error-title">Title Required!</span> <p>Please provide a title for this tour before publishing.</p>'
@@ -258,7 +259,7 @@ class Wpvr_Ajax
 	 *
 	 * @return void
 	 */
-    $is_street_view_mode = (!empty($_POST['streetview']) && $_POST['streetview'] == 'on');
+    $is_street_view_mode = (!empty($_POST['streetview']) && sanitize_text_field(wp_unslash( $_POST['streetview'] )) == 'on');
 
     if ($is_publish_action) {
 
@@ -268,12 +269,12 @@ class Wpvr_Ajax
       $has_street_view_data = false;
 
       // Check if video mode is enabled
-      if (isset($_POST['panovideo']) && $_POST['panovideo'] === 'on') {
+      if (isset($_POST['panovideo']) && sanitize_text_field(wp_unslash( $_POST['panovideo'] )) === 'on') {
         $is_video_mode = true;
         if (isset($_POST['videourl']) && !empty($_POST['videourl'])) {
           $has_video_data = true;
         }
-      } elseif (!empty($_POST['streetview']) && $_POST['streetview'] == 'on') {
+      } elseif (!empty($_POST['streetview']) && sanitize_text_field(wp_unslash( $_POST['streetview'] )) == 'on') {
         // Check if Street View mode is enabled (Pro feature)
         $is_street_view_mode = true;
           if (!empty($_POST['streetviewurl'])) {
@@ -283,7 +284,7 @@ class Wpvr_Ajax
       } else {
         // Check for scene data
         if (isset($_POST['panodata']) && !empty($_POST['panodata'])) {
-          $panodata = json_decode(stripslashes($_POST['panodata']), true);
+          $panodata = json_decode( wp_unslash( $_POST['panodata'] ), true ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
           if (isset($panodata['scene-list']) && !empty($panodata['scene-list'])) {
             foreach ($panodata['scene-list'] as $scene) {
               // Check if it's a cubemap scene
@@ -363,15 +364,15 @@ class Wpvr_Ajax
 	);
 
 	if ( isset( $_POST['post_status'] ) ) {
-		$post_status               = sanitize_text_field( $_POST['post_status'] );
+		$post_status               = sanitize_text_field( wp_unslash( $_POST['post_status'] ) );
 		$post_array['post_status'] = $post_status;
 	}
 	if ( isset( $_POST['post_password'] ) ) {
-		$post_password               = sanitize_text_field( $_POST['post_password'] );
+		$post_password               = sanitize_text_field( wp_unslash( $_POST['post_password'] ) );
 		$post_array['post_password'] = $post_password;
 	}
 	if ( isset( $_POST['visibility'] ) ) {
-		$visibility               = sanitize_text_field( $_POST['visibility'] );
+		$visibility               = sanitize_text_field( wp_unslash( $_POST['visibility'] ) );
 		$post_array['visibility'] = $visibility;
 		if ( $visibility == 'public' || $visibility == 'private' ) {
 			$post_array['post_password'] = '';
@@ -390,7 +391,7 @@ class Wpvr_Ajax
 		}
 	}
 
-	$post_title = isset( $_POST['post_title'] ) ? sanitize_text_field( $_POST['post_title'] ) : get_the_title( $postid );
+	$post_title = isset( $_POST['post_title'] ) ? sanitize_text_field( wp_unslash( $_POST['post_title'] ) ) : get_the_title( $postid );
 	wp_update_post( array(
 		'ID'            => $postid,
 		'post_status'   => $post_array['post_status'],
@@ -401,20 +402,22 @@ class Wpvr_Ajax
 	do_action( 'wpvr_pro_update_street_view', $postid, $panoid );
 
 	if ( isset( $_POST['checklistData'] ) && !empty( $_POST['checklistData'] ) ) {
-		$checklist_data = array_map( 'sanitize_text_field', $_POST['checklistData'] );
+		$checklist_data = array_map( 'sanitize_text_field', wp_unslash( $_POST['checklistData'] ) );
 		update_post_meta( $postid, 'wpvr_checklist', $checklist_data );
 	}
-    error_log("Tour with ID $postid has been saved with status " . $post_array['post_status']);
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+        error_log("Tour with ID $postid has been saved with status " . $post_array['post_status']);
+    }
 
 	if ( ! $is_street_view_mode ) {
-		if ( isset( $_POST['panovideo'] ) && $_POST['panovideo'] == 'on' ) {
+		if ( isset( $_POST['panovideo'] ) && sanitize_text_field( wp_unslash( $_POST['panovideo'] ) ) == 'on' ) {
 			$this->video->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
 		} else {
 			$this->scene->wpvr_update_meta_box( $postid, $panoid, $is_publish_action );
 		}
 	}
 
-    do_action('rex_wpvr_tour_saved', $postid);
+    do_action('wpvr_rex_wpvr_tour_saved', $postid);
 
     $response = array(
       'success'   => true,
@@ -446,8 +449,8 @@ class Wpvr_Ajax
     }
     //===Current user capabilities check===//
     //===Nonce check===//
-    $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -467,24 +470,35 @@ class Wpvr_Ajax
               return;
           }
 
-          // Get WordPress uploads directory
-          $upload_dir = wp_upload_dir();
-          $temp_folder = $upload_dir['basedir'] . '/wpvr_imported_temp';
+          // Define a temporary filter to change the upload directory to our temp folder
+          $upload_dir_filter = function( $upload ) {
+              $upload['subdir'] = '/wpvr_imported_temp';
+              $upload['path']   = $upload['basedir'] . $upload['subdir'];
+              $upload['url']    = $upload['baseurl'] . $upload['subdir'];
+              return $upload;
+          };
 
-          // Create temp folder if it doesn't exist
-          if ( ! file_exists( $temp_folder ) ) {
-              wp_mkdir_p( $temp_folder );
+          // Apply the filter
+          add_filter( 'upload_dir', $upload_dir_filter );
+
+          // Use wp_handle_upload to securely handle the uploaded file
+          $upload_overrides = array( 'test_form' => false );
+          $movefile = wp_handle_upload( $file, $upload_overrides );
+
+          // Remove the filter immediately after upload
+          remove_filter( 'upload_dir', $upload_dir_filter );
+
+          if ( $movefile && ! isset( $movefile['error'] ) ) {
+              // Use the sanitized file name generated by WordPress
+              $file_name = basename( $movefile['file'] );
+          } else {
+              wp_send_json_error( array( 'message' => $movefile['error'] ) );
+              return;
           }
-
-          $file_name = basename( $file['name'] );
-
-          // Define target file path inside temp folder
-          $target_file = $temp_folder . '/' . basename( $file['name'] );
-
-          move_uploaded_file( $file['tmp_name'], $target_file );
 
       } else {
           wp_send_json_error( array( 'message' => 'No file selected.' ) );
+          return;
       }
 
     //===Nonce check===//
@@ -512,8 +526,8 @@ class Wpvr_Ajax
     }
     //===Current user capabilities check===//
     //===Nonce check===//
-    $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -522,28 +536,27 @@ class Wpvr_Ajax
     }
     //===Nonce check===//
 
-    $editor = sanitize_text_field($_POST['editor']);
-    $author = sanitize_text_field($_POST['author']);
-    $fontawesome = sanitize_text_field($_POST['fontawesome']);
+    $editor = isset( $_POST['editor'] ) ? sanitize_text_field( wp_unslash( $_POST['editor'] ) ) : '';
+    $author = isset( $_POST['author'] ) ? sanitize_text_field( wp_unslash( $_POST['author'] ) ) : '';
+    $fontawesome = isset( $_POST['fontawesome'] ) ? sanitize_text_field( wp_unslash( $_POST['fontawesome'] ) ) : '';
 
+    $cardboard = !empty($_POST['wpvr_cardboard_disable']) ? sanitize_text_field(wp_unslash( $_POST['wpvr_cardboard_disable'] )) : 'no'; //
 
-    $cardboard = !empty($_POST['wpvr_cardboard_disable']) ? sanitize_text_field($_POST['wpvr_cardboard_disable']) : 'no'; //
+    $wpvr_webp_conversion = !empty($_POST['wpvr_webp_conversion']) ? sanitize_text_field(wp_unslash( $_POST['wpvr_webp_conversion'] )) : 'no';
 
-    $wpvr_webp_conversion = !empty($_POST['wpvr_webp_conversion']) ? sanitize_text_field($_POST['wpvr_webp_conversion']) : 'no';
+    $mobile_media_resize = isset( $_POST['mobile_media_resize'] ) ? sanitize_text_field( wp_unslash( $_POST['mobile_media_resize'] ) ) : '';
+    $high_res_image = isset( $_POST['high_res_image'] ) ? sanitize_text_field( wp_unslash( $_POST['high_res_image'] ) ) : '';
+    $dis_on_hover = isset( $_POST['dis_on_hover'] ) ? sanitize_text_field( wp_unslash( $_POST['dis_on_hover'] ) ) : '';
+    $wpvr_mobile_hotspot_tip = isset( $_POST['wpvr_mobile_hotspot_tip'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_mobile_hotspot_tip'] ) ) : '';
+    $wpvr_frontend_notice = isset( $_POST['wpvr_frontend_notice'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_frontend_notice'] ) ) : '';
+    $wpvr_frontend_notice_area = isset( $_POST['wpvr_frontend_notice_area'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_frontend_notice_area'] ) ) : '';
+    $wpvr_script_control = isset( $_POST['wpvr_script_control'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_script_control'] ) ) : '';
+    $wpvr_script_list = isset( $_POST['wpvr_script_list'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_script_list'] ) ) : '';
 
-    $mobile_media_resize = sanitize_text_field($_POST['mobile_media_resize']);
-    $high_res_image = sanitize_text_field($_POST['high_res_image']);
-    $dis_on_hover = sanitize_text_field($_POST['dis_on_hover']);
-    $wpvr_mobile_hotspot_tip = sanitize_text_field($_POST['wpvr_mobile_hotspot_tip'] ?? '');
-    $wpvr_frontend_notice = sanitize_text_field($_POST['wpvr_frontend_notice']);
-    $wpvr_frontend_notice_area = sanitize_text_field($_POST['wpvr_frontend_notice_area']);
-    $wpvr_script_control = sanitize_text_field($_POST['wpvr_script_control']);
-    $wpvr_script_list = sanitize_text_field($_POST['wpvr_script_list']);
+    $wpvr_video_script_control = isset( $_POST['wpvr_video_script_control'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_video_script_control'] ) ) : '';
+    $wpvr_video_script_list = isset( $_POST['wpvr_video_script_list'] ) ? sanitize_text_field( wp_unslash( $_POST['wpvr_video_script_list'] ) ) : '';
 
-    $wpvr_video_script_control = sanitize_text_field($_POST['wpvr_video_script_control']);
-    $wpvr_video_script_list = sanitize_text_field($_POST['wpvr_video_script_list']);
-
-    //        $enable_woocommerce = sanitize_text_field($_POST['woocommerce']);
+    //        $enable_woocommerce = sanitize_text_field(wp_unslash( $_POST['woocommerce'] ));
 
     $wpvr_script_list = str_replace(' ', '', $wpvr_script_list);
 
@@ -565,13 +578,13 @@ class Wpvr_Ajax
     update_option('wpvr_video_script_list', $wpvr_video_script_list);
 
     if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )){
-        $dokan_vendor = isset( $_POST['dokan_vendor'] ) ? sanitize_text_field($_POST['dokan_vendor']) : false;
+        $dokan_vendor = isset( $_POST['dokan_vendor'] ) ? sanitize_text_field(wp_unslash( $_POST['dokan_vendor'] )) : false;
         update_option('dokan_vendor_active', $dokan_vendor);
     }
 
     // Usage data sharing toggle — sync with Linno telemetry SDK.
     if ( isset( $_POST['wpvr_usage_tracking'] ) ) {
-        $tracking_toggle  = sanitize_text_field( $_POST['wpvr_usage_tracking'] );
+        $tracking_toggle  = sanitize_text_field( wp_unslash( $_POST['wpvr_usage_tracking'] ) );
         $consent_state    = 'true' === $tracking_toggle ? 'yes' : 'no';
         $opt_in_numeric   = 'yes' === $consent_state ? '1' : '0';
 
@@ -620,8 +633,8 @@ class Wpvr_Ajax
     }
     //===Current user capabilities check===//
     //===Nonce check===//
-    $nonce  = sanitize_text_field($_POST['nonce']);
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
+    $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -640,8 +653,8 @@ class Wpvr_Ajax
           wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
           return;
       }
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wpvr')) {
-      wp_die(__('Permission check failed', 'wpvr'));
+    if (!isset($_POST['nonce']) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpvr')) {
+      wp_die(esc_html__('Permission check failed', 'wpvr'));
     }
     update_option('_wpvr_eid_al_adha_2024', 'yes');
     echo json_encode(['success' => true,]);
@@ -678,9 +691,9 @@ class Wpvr_Ajax
       $email = !empty( $email ) ? $email : '';
 
         if ( empty( $email ) ) {
-          wp_send_json_error( array( 'message' => __('Email is required', 'rex-product-feed') ), 400 );
+          wp_send_json_error( array( 'message' => __('Email is required', 'wpvr') ), 400 );
         }elseif( !is_email( $email ) ){
-          wp_send_json_error( array( 'message' => __('Email is invalid', 'rex-product-feed') ), 400 );
+          wp_send_json_error( array( 'message' => __('Email is invalid', 'wpvr') ), 400 );
         }
 
         $create_contact_instance = new WPVR_Create_Contact( $email, $name, $industry );
@@ -740,13 +753,13 @@ class Wpvr_Ajax
       return;
     }
 
-    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
     if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
 
-    $opt_in = isset($_POST['opt_in']) ? sanitize_text_field($_POST['opt_in']) : '0';
+    $opt_in = isset($_POST['opt_in']) ? sanitize_text_field(wp_unslash( $_POST['opt_in'] )) : '0';
     $consent_state = '1' === $opt_in ? 'yes' : 'no';
 
     update_option('wpvr_opt_in_toggle', $opt_in);
@@ -814,13 +827,13 @@ class Wpvr_Ajax
       return;
     }
 
-    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
     if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
 
-    $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : 'real-estate';
+    $industry = isset($_POST['industry']) ? sanitize_text_field(wp_unslash( $_POST['industry'] )) : 'real-estate';
 
     // Static industry to remote tour ID mapping
     $industry_id_map = array(
@@ -949,7 +962,7 @@ class Wpvr_Ajax
       $template_data['image_url'] = esc_url_raw( $api_data['featured_image'] );
     }
 
-    do_action('rex_wpvr_tour_saved', $post_id);
+    do_action('wpvr_rex_wpvr_tour_saved', $post_id);
 
     wp_send_json_success( array( 'template' => $template_data ) );
   }
@@ -1049,7 +1062,7 @@ class Wpvr_Ajax
       return;
     }
 
-    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
     if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
@@ -1060,8 +1073,8 @@ class Wpvr_Ajax
       return;
     }
 
-    // Validate file type
-    $file_type = wp_check_filetype( $_FILES['image']['name'] );
+    $file_name = isset( $_FILES['image']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['image']['name'] ) ) : '';
+    $file_type = wp_check_filetype( $file_name );
     $allowed_types = array( 'jpg', 'jpeg', 'png', 'webp' );
     if ( ! in_array( strtolower( $file_type['ext'] ), $allowed_types ) ) {
       wp_send_json_error( array( 'message' => 'Invalid file type. Only JPG, PNG, and WEBP are allowed.' ) );
@@ -1069,7 +1082,8 @@ class Wpvr_Ajax
     }
 
     // Validate file size (max 50MB)
-    if ( $_FILES['image']['size'] > 50 * 1024 * 1024 ) {
+    $file_size = isset( $_FILES['image']['size'] ) ? absint( $_FILES['image']['size'] ) : 0;
+    if ( $file_size > 50 * 1024 * 1024 ) {
       wp_send_json_error( array( 'message' => 'File size must be less than 50MB' ) );
       return;
     }
@@ -1087,7 +1101,7 @@ class Wpvr_Ajax
 
     $attachment = array(
       'post_mime_type' => $upload['type'],
-      'post_title'     => sanitize_file_name( pathinfo( $_FILES['image']['name'], PATHINFO_FILENAME ) ),
+      'post_title'     => sanitize_file_name( pathinfo( $file_name, PATHINFO_FILENAME ) ),
       'post_content'  => '',
       'post_status'   => 'inherit'
     );
@@ -1116,16 +1130,16 @@ class Wpvr_Ajax
       return;
     }
 
-    $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+    $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
     if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
 
-    $panodata = isset($_POST['panodata']) ? json_decode( stripslashes( $_POST['panodata'] ), true ) : array();
-    $title = isset($_POST['title']) ? sanitize_text_field($_POST['title']) : 'My Virtual Tour';
-    $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : 'real-estate';
-    $existing_post_id = isset($_POST['existing_post_id']) ? absint($_POST['existing_post_id']) : 0;
+    $panodata = isset($_POST['panodata']) ? json_decode( wp_unslash( $_POST['panodata'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    $title = isset($_POST['title']) ? sanitize_text_field(wp_unslash( $_POST['title'] )) : 'My Virtual Tour';
+    $industry = isset($_POST['industry']) ? sanitize_text_field(wp_unslash( $_POST['industry'] )) : 'real-estate';
+    $existing_post_id = isset($_POST['existing_post_id']) ? absint(wp_unslash( $_POST['existing_post_id'] )) : 0;
 
     if ( empty( $panodata ) ) {
       wp_send_json_error( array( 'message' => 'Panodata is required' ) );
@@ -1183,7 +1197,7 @@ class Wpvr_Ajax
     update_post_meta( $post_id, 'wpvr_wizard_industry', $industry );
 
     // Save template meta fields if provided (dynamic meta from API)
-    $template_meta = isset($_POST['templateMeta']) ? json_decode( stripslashes( $_POST['templateMeta'] ), true ) : array();
+    $template_meta = isset($_POST['templateMeta']) ? json_decode( wp_unslash( $_POST['templateMeta'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     if ( ! empty( $template_meta ) && is_array( $template_meta ) ) {
       foreach ( $template_meta as $meta_key => $meta_value ) {
         // Sanitize meta key to ensure it's a valid meta key
@@ -1200,7 +1214,7 @@ class Wpvr_Ajax
     }
 
     // Trigger tour saved action for telemetry
-    do_action('rex_wpvr_tour_saved', $post_id);
+    do_action('wpvr_rex_wpvr_tour_saved', $post_id);
     do_action( 'wpvr_setup_wizard_completed_event', $industry );
 
     // Persist industry selection for telemetry (aha event fires later from consent handler).

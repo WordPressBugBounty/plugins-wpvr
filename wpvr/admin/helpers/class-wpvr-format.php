@@ -294,7 +294,7 @@ class WPVR_Format
         $query_parts = array_filter( [ $autoplay_param, $loop_param ] );
         $foundid     = ! empty( $query_parts ) ? $vid_id . '?' . implode( '&', $query_parts ) : $vid_id;
 
-        $iframe_id = 'wpvr-vimeo-preview-' . wp_rand( 10000, 99999 );
+        $iframe_id = 'wpvr-vimeo-preview-' . wp_wp_rand( 10000, 99999 );
 
         $html  = '';
         $html .= '<iframe id="' . esc_attr( $iframe_id ) . '" src="https://player.vimeo.com/video/' . esc_attr( $foundid ) . '" width="600" height="400" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
@@ -576,7 +576,7 @@ class WPVR_Format
         $expdata = $this->extract_youtube_video_id( $videourl );
         $playlist = '&playlist=' . $expdata;
 
-        $preview_id = 'wpvr-preview-' . rand(10000, 99999);
+        $preview_id = 'wpvr-preview-' . wp_rand(10000, 99999);
 
         $html = '';
         $html .= '<div id="' . esc_attr( $preview_id . '-container' ) . '" style="position:relative; width:100%; max-width:523px; height:400px;">';
@@ -1219,7 +1219,7 @@ class WPVR_Format
         }
     </script>';
 
-        $random_id = 'video-container-' . rand(10000, 99999);
+        $random_id = 'video-container-' . wp_rand(10000, 99999);
         $html .= '<div id="' . $random_id . '-container" style="position:relative; width:100%; height:100%;">';
 
         // First, always check browser compatibility before showing anything
@@ -1886,7 +1886,7 @@ class WPVR_Format
         $query_parts = array_filter( [ $autoplay_param, $loop_param ] );
         $foundid     = !empty($query_parts) ? $vid_id . '?' . implode('&', $query_parts) : $vid_id;
 
-        $iframe_id   = 'wpvr-vimeo-' . wp_rand( 10000, 99999 );
+        $iframe_id   = 'wpvr-vimeo-' . wp_wp_rand( 10000, 99999 );
         $do_autoplay = ( $autoplay == 'on' ) ? 'true' : 'false';
         $do_loop     = ( $loop     == 'on' ) ? 'true' : 'false';
 

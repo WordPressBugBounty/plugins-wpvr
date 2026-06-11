@@ -1,5 +1,6 @@
 <?php
 use LinnoSDK\Telemetry\Client;
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Class WPVR_Linno_Telemetry
@@ -12,12 +13,21 @@ use LinnoSDK\Telemetry\Client;
  *  - activation/onboarding_completed — non-PII, override (track_immediate).
  *  - activation/aha_reached          — consent-gated; wizard completion fires on consent grant,
  *                                       active tour views fire via define_triggers → aha.
+ *  - retention/tour_created          — consent-gated; first publish of a real tour,
+ *                                       emitted once per tour via transition_post_status.
  *  - retention/feature_used          — consent-gated (define_triggers → feature_used).
  *
  * @since 8.5.57
  */
 
 class WPVR_Linno_Telemetry {
+
+    /**
+     * Post meta key storing whether the creation event has already been emitted.
+     *
+     * @var string
+     */
+    const TOUR_CREATED_TRACKED_META_KEY = '_wpvr_linno_tour_created_tracked';
 
     /**
      * Linno API key.
@@ -48,6 +58,7 @@ class WPVR_Linno_Telemetry {
         $this->api_secret = defined( 'WPVR_TELEMETRY_API_SECRET' ) ? WPVR_TELEMETRY_API_SECRET : '';
 
         $this->init_client();
+        add_action( 'transition_post_status', array( $this, 'track_tour_created_event' ), 10, 3 );
         add_filter( 'wpvr_telemetry_report_interval', array( $this, 'set_daily_telemetry_report_interval' ) );
         add_action( 'rex_wpvr_embadded_tour', array( $this, 'handle_embedded_tour_view' ), 10, 1 );
         add_action( 'wpvr_telemetry_consent_granted', array( $this, 'track_aha_after_consent' ) );
@@ -239,6 +250,87 @@ class WPVR_Linno_Telemetry {
             'floor_plan'     => $floor_plan,
             'tour_builder'   => $tour_builder,
         );
+    }
+
+    /**
+     * Build real tour creation payload.
+     *
+     * @param int $tour_id Tour (post) ID.
+     * @return array
+     */
+    public function build_real_tour_creation_payload( $tour_id = 0 ) {
+        $tour_id = absint( $tour_id );
+
+        return array(
+            'tour_id'    => $tour_id,
+            'created_via' => get_post_meta( $tour_id, 'wpvr_created_from_wizard', true ) ? 'wizard' : 'manual',
+            'time'       => current_time( 'mysql' ),
+        );
+    }
+
+    /**
+     * Track retention/tour_created when a real tour is first published.
+     *
+     * This event is consent-gated like other retention events. It is emitted
+     * only once per tour and skipped for demo/sample tours.
+     *
+     * @param string  $new_status New post status.
+     * @param string  $old_status Old post status.
+     * @param WP_Post $post       Post object.
+     * @return void
+     */
+    public function track_tour_created_event( $new_status, $old_status, $post ) {
+        global $wpvr_telemetry;
+
+        if ( ! is_object( $wpvr_telemetry ) || ! $post instanceof WP_Post ) {
+            return;
+        }
+
+        if ( 'wpvr_item' !== $post->post_type || ! $this->is_first_publish_transition( $new_status, $old_status ) ) {
+            return;
+        }
+
+        if ( $this->is_seeded_tour( $post->ID ) || $this->has_tracked_tour_created_event( $post->ID ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track( 'retention/tour_created', $this->build_real_tour_creation_payload( $post->ID ) );
+        update_post_meta( $post->ID, self::TOUR_CREATED_TRACKED_META_KEY, '1' );
+    }
+
+    /**
+     * Determine if a publish transition represents a first real publish.
+     *
+     * @param string $new_status New post status.
+     * @param string $old_status Old post status.
+     * @return bool
+     */
+    private function is_first_publish_transition( $new_status, $old_status ) {
+        if ( 'publish' !== $new_status ) {
+            return false;
+        }
+
+        return in_array( $old_status, array( 'auto-draft', 'draft', 'new', 'pending', 'private', 'future', '' ), true );
+    }
+
+    /**
+     * Determine whether a tour is seeded demo/sample content.
+     *
+     * @param int $tour_id Tour (post) ID.
+     * @return bool
+     */
+    private function is_seeded_tour( $tour_id ) {
+        return '1' === (string) get_post_meta( absint( $tour_id ), 'wpvr_is_demo_tour', true );
+    }
+
+    /**
+     * Check whether the creation event has already been emitted.
+     *
+     * @param int $tour_id Tour (post) ID.
+     * @return bool
+     */
+    private function has_tracked_tour_created_event( $tour_id ) {
+        return '1' === (string) get_post_meta( absint( $tour_id ), self::TOUR_CREATED_TRACKED_META_KEY, true );
     }
 
     /**

@@ -191,7 +191,7 @@ class WPVR_Onboarding_Notice {
                     </p>
                 </div>
                 <div class="wpvr-onboarding-notice__actions">
-                    <a href="<?php echo $wizard_url; ?>" class="button button-primary wpvr-onboarding-notice__cta" id="wpvr-onboarding-start-btn">
+                    <a href="<?php echo esc_url( $wizard_url ); ?>" class="button button-primary wpvr-onboarding-notice__cta" id="wpvr-onboarding-start-btn">
                         <?php esc_html_e( 'Start Onboarding', 'wpvr' ); ?>
                     </a>
                     <button type="button"

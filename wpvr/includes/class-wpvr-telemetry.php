@@ -1,16 +1,16 @@
 <?php
 /**
- * Class Rex_WPVR_Telemetry
+ * Class WPVR_Telemetry
  *
  * Handles telemetry tracking for the WPVR plugin.
  *
  * @since 8.5.48
  */
 
-class Rex_WPVR_Telemetry {
+class WPVR_Telemetry {
 
     /**
-     * Rex_WPVR_Telemetry constructor.
+     * WPVR_Telemetry constructor.
      *
      * Initialize telemetry hooks for the plugin.
      *
@@ -76,7 +76,7 @@ class Rex_WPVR_Telemetry {
             return;
         }
 
-        $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+        $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
         if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
             wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
             return;
@@ -90,7 +90,7 @@ class Rex_WPVR_Telemetry {
 
         update_option('wpvr_setup_wizard_completed', true);
 
-        $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : '';
+        $industry = isset($_POST['industry']) ? sanitize_text_field(wp_unslash( $_POST['industry'] )) : '';
 
         if ( function_exists( 'coderex_telemetry_track' ) && defined( 'WPVR_FILE' ) ) {
             coderex_telemetry_update_last_action( WPVR_FILE, 'setup_wizard_completed' );
@@ -121,7 +121,7 @@ class Rex_WPVR_Telemetry {
             return;
         }
 
-        $nonce = isset($_POST['security']) ? sanitize_text_field($_POST['security']) : '';
+        $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
         if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
             wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
             return;
@@ -135,7 +135,7 @@ class Rex_WPVR_Telemetry {
 
         update_option('wpvr_first_strike_completed', true);
 
-        $industry = isset($_POST['industry']) ? sanitize_text_field($_POST['industry']) : '';
+        $industry = isset($_POST['industry']) ? sanitize_text_field(wp_unslash( $_POST['industry'] )) : '';
 
         if ( function_exists( 'coderex_telemetry_track' ) && defined( 'WPVR_FILE' ) ) {
             coderex_telemetry_update_last_action( WPVR_FILE, 'first_strike_completed' );
@@ -172,11 +172,8 @@ class Rex_WPVR_Telemetry {
             wp_send_json_error( array( 'message' => 'Event name is required' ) );
         }
 
-        $properties = isset( $_POST['properties'] ) ? (array) $_POST['properties'] : array();
+        $properties = isset( $_POST['properties'] ) ? map_deep( wp_unslash( $_POST['properties'] ), 'sanitize_text_field' ) : array();
         
-        // Sanitize properties
-        $properties = map_deep( wp_unslash( $properties ), 'sanitize_text_field' );
-
         $default_properties = array(
             'time' => current_time( 'mysql' ),
         );
@@ -804,4 +801,4 @@ class Rex_WPVR_Telemetry {
 
 }
 
-//new Rex_WPVR_Telemetry();
+//new WPVR_Telemetry();

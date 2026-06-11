@@ -82,7 +82,7 @@ Class WPVR_Helper {
              * @param string $url      The share link URL for the platform.
              * @param string $class    The CSS class for styling the social media icon.
              */
-            echo self::generateSocialMediaLink($platform, $data['icon'], $data['url'],$data['class']);
+            echo wp_kses_post(self::generateSocialMediaLink($platform, $data['icon'], $data['url'],$data['class']));
         }
     }
 

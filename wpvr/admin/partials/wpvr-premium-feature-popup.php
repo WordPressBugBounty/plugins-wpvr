@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * Premium feature upgrade popup.
  *
@@ -60,7 +61,7 @@
                 <div class="wpvr-premium-feature__btn-area">
 
                     <?php
-                        $current_date = date('Y-m-d H:i:s');
+                        $current_date = gmdate('Y-m-d H:i:s');
                         $start_date = '2026-03-04 00:00:00';
                         $end_date = '2026-03-16 23:59:59';
                         $discount_percentage = '';
@@ -77,8 +78,14 @@
                     ?>
 
                     <div class="wpvr-premium-feature__discount-price">
-                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo $discount_percentage; ?>"><?php printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); ?></p>
-                        <p style="text-decoration: line-through; color: #999;"><?php printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); ?></p>
+                        <p class="wpvr-premium-feature__discount-price-label" data-discount="<?php echo esc_attr( $discount_percentage ); ?>"><?php 
+                            /* translators: %s: Discount price */
+                            printf( esc_html__('Starting at %s/year', 'wpvr'), '<span style= "font-weight:600; color:#0F2F72;">' . esc_html( $discount_price ) . '</span>' ); 
+                        ?></p>
+                        <p style="text-decoration: line-through; color: #999;"><?php 
+                            /* translators: %s: Original price */
+                            printf( esc_html__('Normally %s/year', 'wpvr'), esc_html( $price ) ); 
+                        ?></p>
                         
                     </div>
 

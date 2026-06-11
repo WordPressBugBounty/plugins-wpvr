@@ -245,7 +245,7 @@ class Wpvr_Admin {
                 wp_enqueue_script($this->plugin_name . '-tether-js', plugin_dir_url(__FILE__) . 'lib/shepherd/tether/tether.js', $this->version, true);
                 wp_enqueue_script($this->plugin_name . '-shepherd-js', plugin_dir_url(__FILE__) . 'lib/shepherd/tether-shepherd/shepherd.js', array($this->plugin_name . '-tether-js'), $this->version, true);
                 wp_enqueue_script($this->plugin_name . '-tour-guide', plugin_dir_url(__FILE__) . 'js/wpvr-tour-guide.js', array('jquery', $this->plugin_name . '-tether-js'), $this->version, true);
-                $tour_guide_translation = new Tour_Guide_Translation();
+                $tour_guide_translation = new WPVR_Tour_Guide_Translation();
 
                 wp_localize_script($this->plugin_name . '-tour-guide', 'wpvr_tour_guide_obj', array(
                     'Tour_Guide_Translation' => $tour_guide_translation->get_translatable_string(),
@@ -295,7 +295,7 @@ class Wpvr_Admin {
             'url_info' => array(
                 'admin_url' => admin_url(),
                 'screen' => $adscreen->action,
-                'url' => $_SERVER['PHP_SELF'],
+                'url' => isset( $_SERVER['PHP_SELF'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_SELF'] ) ) : '',
                 'param' => $_GET,
             ),
             'active_tab_url' => admin_url('post-new.php?post_type=wpvr_item&active_tab=scene'),
@@ -406,7 +406,7 @@ class Wpvr_Admin {
         ?>
             <div class="rex-pano-tab floor-plan" id="floorPlan">
 
-                <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png' ?>" alt="icon" />
+                <img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png' ); ?>" alt="icon" />
             </div>
         <?php
         }
@@ -423,7 +423,7 @@ class Wpvr_Admin {
         ?>
             <div class="rex-pano-tab background-tour" id="backgroundTour">
 
-                <!--            <img src="--><? //= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png'
+                <!--            <img src="--><?php //= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png'
                                                 ?><!--" alt="icon" />-->
             </div>
         <?php
@@ -440,7 +440,7 @@ class Wpvr_Admin {
 
         ?>
             <div class="rex-pano-tab streetview" id="streetview">
-                <!--                <img src="--><? //= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png'
+                <!--                <img src="--><?php //= WPVR_PLUGIN_DIR_URL . 'images/floor-plan-demo.png'
                                                     ?><!--" alt="icon" />-->
             </div>
         <?php
@@ -451,7 +451,7 @@ class Wpvr_Admin {
         if (!is_plugin_active('wpvr-pro/wpvr-pro.php')) {
 
         ?>
-            <img loading="lazy" src="<?= WPVR_PLUGIN_DIR_URL . 'images/scene-pro-feature.png' ?>" alt="icon" />
+            <img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'images/scene-pro-feature.png' ); ?>" alt="icon" />
         <?php
         }
     }
@@ -486,8 +486,8 @@ class Wpvr_Admin {
                 } elseif ($show_review_request['frequency'] == 'one_week') {
                     $last_shown_date = $show_review_request['time'];
                     $current_date    = time();
-                    $current_date    = new DateTime(date('Y-m-d', $current_date));
-                    $last_shown_date = new DateTime(date('Y-m-d', $last_shown_date));
+                    $current_date    = new DateTime(gmdate('Y-m-d', $current_date));
+                    $last_shown_date = new DateTime(gmdate('Y-m-d', $last_shown_date));
                     $date_diff       = $last_shown_date->diff($current_date);
 
                     if ($date_diff->d > 7) {
@@ -675,7 +675,7 @@ class Wpvr_Admin {
                     var isProUser = <?php echo json_encode(defined('WPVR_PRO_VERSION')); ?>;
 
                     // Add the Import WPVR Tour button
-                    var importButton = $('<a href="#" class="page-title-action wpvr-import-button"><?php _e("Import Tour", "wpvr"); ?></a>');
+                    var importButton = $('<a href="#" class="page-title-action wpvr-import-button"><?php echo esc_js( esc_html__( 'Import Tour', 'wpvr' ) ); ?></a>');
                     $('.wrap .page-title-action').after(importButton);
 
                     // If Free Version, add 'Pro' label

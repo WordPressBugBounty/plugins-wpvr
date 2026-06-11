@@ -1,6 +1,6 @@
 <?php
 
-Class Tour_Guide_Translation
+Class WPVR_Tour_Guide_Translation
 {
     public function get_translatable_string()
     {

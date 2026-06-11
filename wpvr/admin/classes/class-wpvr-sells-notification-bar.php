@@ -38,10 +38,10 @@ class WPVR_Notification_Bar {
       }
 
       if ( $screen->base === 'plugins' || $screen->base === 'dashboard' ) {
-          if ( defined( 'REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL' ) ) {
+          if ( defined( 'WPVR_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL' ) ) {
               return;
           }
-          define( 'REX_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true );
+          define( 'WPVR_SPECIAL_OCCASION_BANNER_SHOWN_GLOBAL', true );
       }
 
       // Check if banner was dismissed within last 5 days
@@ -79,7 +79,7 @@ class WPVR_Notification_Bar {
                         <!-- Close Button -->
                         <button class="wpvr-close-btn"
                                 type="button"
-                                aria-label="<?php esc_attr_e('Close banner', 'rex-product-feed'); ?>"
+                                aria-label="<?php esc_attr_e( 'Close banner', 'wpvr' ); ?>"
                                 id="wpvr-promo-banner__cross-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
                                 <path d="M7.77482 0.75L0.75 7.75" stroke="#7E7E7E" stroke-width="1.5" stroke-linecap="round"/>
@@ -174,7 +174,7 @@ class WPVR_Notification_Bar {
                 const secondsLabel = secondsEl ? secondsEl.nextElementSibling : null;
 
                 // Configure end time from PHP
-                const wpvr_end = new Date(<?php echo json_encode($this->end_datetime); ?>);
+                const wpvr_end = new Date(<?php echo wp_json_encode( $this->end_datetime ); ?>);
 
                 let wpvr_timer;
 
@@ -630,15 +630,16 @@ class WPVR_Notification_Bar {
             wp_send_json($response);
         }
 
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wpvr')) {
-            wp_die(__('Permission check failed', 'wpvr'));
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (!$nonce || !wp_verify_nonce($nonce, 'wpvr')) {
+            wp_die( esc_html__( 'Permission check failed', 'wpvr' ) );
         }
         
         // Store current timestamp for 24-hour dismissal
         $dismissed_option = 'wpvr_' . $this->occasion . '_dismissed';
         update_option($dismissed_option, time());
         
-        echo json_encode(['success' => true,]);
+        echo wp_json_encode(['success' => true]);
         wp_die();
     }
 

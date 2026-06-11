@@ -82,7 +82,7 @@ class WPVR_Scene {
         ?>
 
         <!-- Scene and Hotspot repeater -->
-        <div class="scene-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit + 1;?>">
+        <div class="scene-setup rex-pano-sub-tabs" data-limit="<?php echo esc_attr( $this->data_limit + 1 ); ?>">
             <?php $this->render_scene_repeater_list($postdata); ?>
         </div>
 
@@ -118,7 +118,7 @@ class WPVR_Scene {
             <?php $s = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
             foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
 
-                <div data-repeater-item  class="single-scene rex-pano-tab <?php if($pano_scene['scene-id'] == $firstvalue['scene-id']) { echo 'active'; }; ?>" data-title="1" id="scene-<?php echo $s;?>">
+                <div data-repeater-item  class="single-scene rex-pano-tab <?php if($pano_scene['scene-id'] == $firstvalue['scene-id']) { echo esc_attr('active'); }; ?>" data-title="1" id="scene-<?php echo esc_attr( $s ); ?>">
                     <?php $this->render_repeater_item_with_panodata($pano_scene, $s); ?>
                 </div>
 
@@ -146,7 +146,7 @@ class WPVR_Scene {
             foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
 
                 <li class="<?php if ($pano_scene['scene-id'] == $firstvalue['scene-id']) {echo 'active';};?>">
-            <span data-index="<?php echo $i;?>" data-href="#scene-<?php echo $i;?>">
+            <span data-index="<?php echo esc_attr( $i ); ?>" data-href="#scene-<?php echo esc_attr( $i ); ?>">
               <i class="fa fa-image"></i>
             </span>
                 </li>
@@ -177,7 +177,7 @@ class WPVR_Scene {
         </div>
 
         <!-- hotspot setup -->
-        <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+        <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?php echo esc_attr( $this->data_limit ); ?>">
             <?php $this->hotspot->render_hotspot($s = 0, $h =1)?>
         </div>
         <button data-repeater-delete type="button" title="Delete Scene" class="delete-scene"><i class="far fa-trash-alt"></i></button>
@@ -229,7 +229,7 @@ class WPVR_Scene {
         ob_start();
         ?>
 
-        <h6 class="title"><i class="fa fa-cog"></i> <?php  echo __('Scene Settings','wpvr') ?> </h6>
+        <h6 class="title"><i class="fa fa-cog"></i> <?php esc_html_e('Scene Settings','wpvr'); ?> </h6>
 
         <div class="scene-left">
             <?php WPVR_Meta_Field::render_scene_left_fields_empty_panodata(); ?>
@@ -258,7 +258,7 @@ class WPVR_Scene {
     {
         ob_start();
         ?>
-        <h6 class="title"><i class="fa fa-cog"></i> <?php echo __('Scene Settings','wpvr') ?> </h6>
+        <h6 class="title"><i class="fa fa-cog"></i> <?php esc_html_e('Scene Settings','wpvr'); ?> </h6>
 
         <div class="scene-left">
             <?php WPVR_Meta_Field::render_scene_left_fields_with_panodata($pano_scene) ;?>
@@ -287,13 +287,13 @@ class WPVR_Scene {
     private function render_repeater_item_hotspot_content($pano_scene, $s)
     {
         if (!empty($pano_scene['hotspot-list'])) { ?>
-            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?php echo esc_attr( $this->data_limit ); ?>">
 
                 <?php $this->hotspot->render_hotspot_with_panodata($pano_scene['hotspot-list'], $s); //Render hotspot while scene has hotspot data ?>
 
             </div>
         <?php } else { ?>
-            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?= $this->data_limit;?>">
+            <div class="hotspot-setup rex-pano-sub-tabs" data-limit="<?php echo esc_attr( $this->data_limit ); ?>">
 
                 <?php $this->hotspot->render_hotspot($s, $h = 1); //Render hotspot while scene has no hotspot data ?>
 
@@ -314,83 +314,87 @@ class WPVR_Scene {
      */
     public function wpvr_update_meta_box($postid, $panoid, $is_publish_action = false)
     {
-        $panodata      = $this->format->prepare_panodata(isset($_POST['panodata']) ? $_POST['panodata'] : '');
+        $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
+            wp_die( 'Permission denied.' );
+        }
+        $panodata      = $this->format->prepare_panodata(isset($_POST['panodata']) ? wp_unslash( $_POST['panodata'] ) : ''); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $default_scene = $this->format->prepare_default_scene($panodata);
-        $previewtext = isset($_POST['previewtext']) ? $this->validator->preview_text_validation($_POST['previewtext']) : '';
+        $previewtext = isset($_POST['previewtext']) ? $this->validator->preview_text_validation(wp_unslash( $_POST['previewtext'] )) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-        $gzoom       = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
+        $gzoom       = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['gzoom'] ));
         $default_global_zoom = '';
         $max_global_zoom = '';
         $min_global_zoom = '';
         if ($gzoom == 'on') {
-            $default_global_zoom = isset($_POST['dzoom']) ? $_POST['dzoom'] : '';
-            $max_global_zoom = isset($_POST['maxzoom']) ? $_POST['maxzoom'] : '';
-            $min_global_zoom = isset($_POST['minzoom']) ? $_POST['minzoom'] : '';
+            $default_global_zoom = isset($_POST['dzoom']) ? wp_unslash( $_POST['dzoom'] ) : '';
+            $max_global_zoom = isset($_POST['maxzoom']) ? wp_unslash( $_POST['maxzoom'] ) : '';
+            $min_global_zoom = isset($_POST['minzoom']) ? wp_unslash( $_POST['minzoom'] ) : '';
         }
 
-        $custom_control = isset($_POST['customcontrol']) ? $_POST['customcontrol'] : null;
+        $custom_control = isset($_POST['customcontrol']) ? wp_unslash( $_POST['customcontrol'] ) : null;
 
-        $vrgallery            = $this->format->set_checkbox_value(@$_POST['vrgallery']);
-        $vrgallery_title      = $this->format->set_checkbox_value(@$_POST['vrgallery_title']);
-        $vrgallery_display    = $this->format->set_checkbox_value(@$_POST['vrgallery_display']);
-        $vrgallery_icon_size  = $this->format->set_checkbox_value(@$_POST['vrgallery_icon_size']);
+        $vrgallery            = $this->format->set_checkbox_value(@wp_unslash( $_POST['vrgallery'] ));
+        $vrgallery_title      = $this->format->set_checkbox_value(@wp_unslash( $_POST['vrgallery_title'] ));
+        $vrgallery_display    = $this->format->set_checkbox_value(@wp_unslash( $_POST['vrgallery_display'] ));
+        $vrgallery_icon_size  = $this->format->set_checkbox_value(@wp_unslash( $_POST['vrgallery_icon_size'] ));
 
-        $mouseZoom    = $this->format->set_pro_checkbox_value(@$_POST['mouseZoom']);
-        $draggable    = $this->format->set_pro_checkbox_value(@$_POST['draggable']);
-        $diskeyboard  = $this->format->set_pro_checkbox_value(@$_POST['diskeyboard']);
-        $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
-        $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
+        $mouseZoom    = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['mouseZoom'] ));
+        $draggable    = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['draggable'] ));
+        $diskeyboard  = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['diskeyboard'] ));
+        $keyboardzoom = $this->format->set_checkbox_value(@wp_unslash( $_POST['keyboardzoom'] ));
+        $compass      = $this->format->set_checkbox_on_value(@wp_unslash( $_POST['compass'] ));
         //===Gyroscopre control===//
-        $gyro = $this->format->set_pro_checkbox_value(@$_POST['gyro']);
+        $gyro = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['gyro'] ));
         if ($gyro == 'on') {
             if (!is_ssl()) {
                 wp_send_json_error('<p><span>Warning:</span> Please add SSL to enable Gyroscope for WP VR. </p>');
                 die();
             }
             $gyro = true;
-            $deviceorientationcontrol = $this->format->set_checkbox_value(@$_POST['deviceorientationcontrol']);
+            $deviceorientationcontrol = $this->format->set_checkbox_value(@wp_unslash( $_POST['deviceorientationcontrol'] ));
         } else {
             $gyro = false;
             $deviceorientationcontrol = false;
         }
         //===Gyroscopre control===//
 
-        $autoload           = $this->format->set_checkbox_value(isset($_POST['autoload']) ? $_POST['autoload'] : '');
-        $control            = $this->format->set_checkbox_value(isset($_POST['control']) ? $_POST['control'] : '');
+        $autoload           = $this->format->set_checkbox_value(isset($_POST['autoload']) ? wp_unslash( $_POST['autoload'] ) : '');
+        $control            = $this->format->set_checkbox_value(isset($_POST['control']) ? wp_unslash( $_POST['control'] ) : '');
 
-        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field($_POST['scenefadeduration']) : '';
-        $preview = isset($_POST['preview']) ? esc_url($_POST['preview']) : '';
-        $rotation = isset($_POST['rotation']) ? sanitize_text_field($_POST['rotation']) : '';
-        $autorotation = isset($_POST['autorotation']) ? sanitize_text_field($_POST['autorotation']) : '';
+        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field(wp_unslash( $_POST['scenefadeduration'] )) : '';
+        $preview = isset($_POST['preview']) ? esc_url(wp_unslash( $_POST['preview'] )) : '';
+        $rotation = isset($_POST['rotation']) ? sanitize_text_field(wp_unslash( $_POST['rotation'] )) : '';
+        $autorotation = isset($_POST['autorotation']) ? sanitize_text_field(wp_unslash( $_POST['autorotation'] )) : '';
 
-        $autorotationinactivedelay = isset($_POST['autorotationinactivedelay']) ? sanitize_text_field($_POST['autorotationinactivedelay']) : '';
-        $autorotationstopdelay = isset($_POST['autorotationstopdelay']) ? sanitize_text_field($_POST['autorotationstopdelay']) : '';
+        $autorotationinactivedelay = isset($_POST['autorotationinactivedelay']) ? sanitize_text_field(wp_unslash( $_POST['autorotationinactivedelay'] )) : '';
+        $autorotationstopdelay = isset($_POST['autorotationstopdelay']) ? sanitize_text_field(wp_unslash( $_POST['autorotationstopdelay'] )) : '';
 
         //===generic form===//
-        $genericform = sanitize_text_field(isset($_POST['genericform']) ? $_POST['genericform'] : 'off');
-        $genericformshortcode = isset($_POST['genericformshortcode']) ? sanitize_text_field($_POST['genericformshortcode']) : '' ;
+        $genericform = sanitize_text_field(isset($_POST['genericform']) ? wp_unslash( $_POST['genericform'] ) : 'off');
+        $genericformshortcode = isset($_POST['genericformshortcode']) ? sanitize_text_field(wp_unslash( $_POST['genericformshortcode'] )) : '' ;
         //===generic form===//
 
 
-        if(isset($_POST['rotation']) && sanitize_text_field($_POST['rotation']) === 'on' ) {
+        if(isset($_POST['rotation']) && sanitize_text_field(wp_unslash( $_POST['rotation'] )) === 'on' ) {
             $this->validator->basic_setting_validation($autorotationinactivedelay, $autorotationstopdelay);   // Basic setting error control and validation //
         }
 
         //===Company Logo===//
-        $cpLogoSwitch  = isset($_POST['cpLogoSwitch']) ? $_POST['cpLogoSwitch'] : 'off';
-        $cpLogoImg     = isset($_POST['cpLogoImg']) ? $_POST['cpLogoImg'] : '';
-        $cpLogoContent = isset($_POST['cpLogoContent']) ? sanitize_text_field($_POST['cpLogoContent']) : '';
+        $cpLogoSwitch  = isset($_POST['cpLogoSwitch']) ? wp_unslash( $_POST['cpLogoSwitch'] ) : 'off';
+        $cpLogoImg     = isset($_POST['cpLogoImg']) ? wp_unslash( $_POST['cpLogoImg'] ) : '';
+        $cpLogoContent = isset($_POST['cpLogoContent']) ? sanitize_text_field(wp_unslash( $_POST['cpLogoContent'] )) : '';
         //===Company Logo===//
 
         //===Explainer video===//
-        $explainerSwitch = isset($_POST['explainerSwitch']) ? $_POST['explainerSwitch'] : 'off';
+        $explainerSwitch = isset($_POST['explainerSwitch']) ? wp_unslash( $_POST['explainerSwitch'] ) : 'off';
         $explainerContent = '';
-        $explainerContent = isset($_POST['explainerContent']) ? $_POST['explainerContent'] : '';
+        $explainerContent = isset($_POST['explainerContent']) ? wp_unslash( $_POST['explainerContent'] ) : '';
         //===Explainer video===//
 
 
         $scene_fade_duration = '';
-        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field($_POST['scenefadeduration']) : '';
+        $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field(wp_unslash( $_POST['scenefadeduration'] )) : '';
 
         // Only validate when publishing, not when saving drafts
         if ($is_publish_action) {
@@ -404,10 +408,10 @@ class WPVR_Scene {
         $panodata = $this->format->remove_empty_scene_and_hotspot($panodata);                             // Remove Empty scene and hotspot //
 
         //===audio===//
-        $bg_music          = isset($_POST['bg_music']) ? sanitize_text_field($_POST['bg_music']) : 'off';
-        $bg_music_url      = isset($_POST['bg_music_url']) ? esc_url_raw($_POST['bg_music_url']) : '';
-        $autoplay_bg_music = isset($_POST['autoplay_bg_music']) ? sanitize_text_field($_POST['autoplay_bg_music']) : 'off';
-        $loop_bg_music     = isset($_POST['loop_bg_music']) ? sanitize_text_field($_POST['loop_bg_music']) : 'off';
+        $bg_music          = isset($_POST['bg_music']) ? sanitize_text_field(wp_unslash( $_POST['bg_music'] )) : 'off';
+        $bg_music_url      = isset($_POST['bg_music_url']) ? esc_url_raw(wp_unslash( $_POST['bg_music_url'] )) : '';
+        $autoplay_bg_music = isset($_POST['autoplay_bg_music']) ? sanitize_text_field(wp_unslash( $_POST['autoplay_bg_music'] )) : 'off';
+        $loop_bg_music     = isset($_POST['loop_bg_music']) ? sanitize_text_field(wp_unslash( $_POST['loop_bg_music'] )) : 'off';
         if ($bg_music == 'on') {
             if (empty($bg_music_url)) {
                 wp_send_json_error('<p><span>Warning:</span> Please add an audio file as you enabled audio for this tour </p>');
@@ -526,46 +530,50 @@ class WPVR_Scene {
      */
     public function wpvr_scene_preview($panoid, $panovideo)
     {
-      $panodata     = $this->format->prepare_panodata($_POST['panodata']);
+      $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+      if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
+          wp_die( 'Permission denied.' );
+      }
+      $panodata     = $this->format->prepare_panodata( isset( $_POST['panodata'] ) ? wp_unslash( $_POST['panodata'] ) : '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-      $control      = $this->format->set_checkbox_value($_POST['control']);
-      $autoload     = $this->format->set_checkbox_value($_POST['autoload']);
+      $control      = $this->format->set_checkbox_value(wp_unslash( $_POST['control'] ));
+      $autoload     = $this->format->set_checkbox_value(wp_unslash( $_POST['autoload'] ));
 
-      $compass      = $this->format->set_checkbox_on_value(@$_POST['compass']);
-      $mouseZoom    = $this->format->set_checkbox_value(@$_POST['mouseZoom']);
-      $draggable = $this->format->set_checkbox_value($_POST['draggable'] ?? null);
-      $gzoom        = $this->format->set_pro_checkbox_value(@$_POST['gzoom']);
-      $diskeyboard  = $this->format->set_checkbox_value(@$_POST['diskeyboard']);
-      $keyboardzoom = $this->format->set_checkbox_value(@$_POST['keyboardzoom']);
+      $compass      = $this->format->set_checkbox_on_value(@wp_unslash( $_POST['compass'] ));
+      $mouseZoom    = $this->format->set_checkbox_value(@wp_unslash( $_POST['mouseZoom'] ));
+      $draggable = $this->format->set_checkbox_value(wp_unslash( $_POST['draggable'] ) ?? null);
+      $gzoom        = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['gzoom'] ));
+      $diskeyboard  = $this->format->set_checkbox_value(@wp_unslash( $_POST['diskeyboard'] ));
+      $keyboardzoom = $this->format->set_checkbox_value(@wp_unslash( $_POST['keyboardzoom'] ));
 
-      $gyro = $this->format->set_checkbox_on_value(@$_POST['gyro']);
-      $deviceorientationcontrol = $this->format->set_checkbox_value(@$_POST['deviceorientationcontrol']);
+      $gyro = $this->format->set_checkbox_on_value(@wp_unslash( $_POST['gyro'] ));
+      $deviceorientationcontrol = $this->format->set_checkbox_value(@wp_unslash( $_POST['deviceorientationcontrol'] ));
 
-      $floor_plan_enabler = $this->format->set_pro_checkbox_value(@$_POST['wpvr_floor_plan_enabler']);
-      $floor_plan_image = isset($_POST['wpvr_floor_plan_image']) ? $_POST['wpvr_floor_plan_image'] : '';
+      $floor_plan_enabler = $this->format->set_pro_checkbox_value(@wp_unslash( $_POST['wpvr_floor_plan_enabler'] ));
+      $floor_plan_image = isset($_POST['wpvr_floor_plan_image']) ? wp_unslash( $_POST['wpvr_floor_plan_image'] ) : '';
 
-      $scene_fade_duration       = sanitize_text_field($_POST['scenefadeduration']);
-      $preview                   = esc_url($_POST['preview']);
+      $scene_fade_duration       = sanitize_text_field(wp_unslash( $_POST['scenefadeduration'] ));
+      $preview                   = esc_url(wp_unslash( $_POST['preview'] ));
 
       $default_scene = '';
 
-      $rotation                  = sanitize_text_field($_POST['rotation']);
-      $autorotation              = sanitize_text_field($_POST['autorotation']);
-      $autorotationinactivedelay = sanitize_text_field($_POST['autorotationinactivedelay']);
-      $autorotationstopdelay     = sanitize_text_field($_POST['autorotationstopdelay']);
+      $rotation                  = sanitize_text_field(wp_unslash( $_POST['rotation'] ));
+      $autorotation              = sanitize_text_field(wp_unslash( $_POST['autorotation'] ));
+      $autorotationinactivedelay = sanitize_text_field(wp_unslash( $_POST['autorotationinactivedelay'] ));
+      $autorotationstopdelay     = sanitize_text_field(wp_unslash( $_POST['autorotationstopdelay'] ));
 
       $default_global_zoom = '';
       $max_global_zoom     = '';
       $min_global_zoom     = '';
       if ($gzoom == 'on') {
-          $default_global_zoom = $_POST['dzoom'];
-          $max_global_zoom     = $_POST['maxzoom'];
-          $min_global_zoom     = $_POST['minzoom'];
+          $default_global_zoom = wp_unslash( $_POST['dzoom'] );
+          $max_global_zoom     = wp_unslash( $_POST['maxzoom'] );
+          $min_global_zoom     = wp_unslash( $_POST['minzoom'] );
       }
     
       $default_scene = $this->format->prepare_default_scene($panodata);
 
-        if(isset($_POST['rotation']) && sanitize_text_field($_POST['rotation']) === 'on' ) {
+        if(isset($_POST['rotation']) && sanitize_text_field(wp_unslash( $_POST['rotation'] )) === 'on' ) {
             $this->validator->basic_setting_validation($autorotationinactivedelay, $autorotationstopdelay);   // Basic setting error control and validation //
         }
       $this->validator->scene_validation($panodata);                                                  // Scene content error control and validation //
@@ -607,9 +615,9 @@ class WPVR_Scene {
                 do_action( 'wpvr_floor_plan_configured', $postid, $pano_floor_plan );
             }
             $call_to_action = array(
-                'button_enable' =>sanitize_text_field($_POST['callToAction']),
-                'button_text' =>sanitize_text_field($_POST['buttontext']),
-                'button_url' =>sanitize_text_field($_POST['buttonurl'])
+                'button_enable' =>sanitize_text_field(wp_unslash( $_POST['callToAction'] )),
+                'button_text' =>sanitize_text_field(wp_unslash( $_POST['buttontext'] )),
+                'button_url' =>sanitize_text_field(wp_unslash( $_POST['buttonurl'] ))
             );
         }
 
@@ -635,9 +643,9 @@ class WPVR_Scene {
     public function render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height)
     {
         if (
-                ( isset($_GET['bricks']) && $_GET['bricks'] === 'run' ) ||
-                ( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) && $_REQUEST['action'] === 'bricks_render_element' ) ||
-                ( defined('REST_REQUEST') && REST_REQUEST && isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-json/bricks/v1/render_element') !== false )
+                ( isset( $_GET['bricks'] ) && wp_unslash( $_GET['bricks'] ) === 'run' ) ||
+                ( defined('DOING_AJAX') && DOING_AJAX && isset( $_REQUEST['action'] ) && wp_unslash( $_REQUEST['action'] ) === 'bricks_render_element' ) ||
+                ( defined('REST_REQUEST') && REST_REQUEST && isset($_SERVER['REQUEST_URI']) && strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/wp-json/bricks/v1/render_element') !== false )
         ) {
             return esc_html__('Bricks Editor Mode - WPVR Preview is not available.', 'wpvr');
         }
@@ -3214,6 +3222,7 @@ class WPVR_Scene {
             );
         }
         ob_start();
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $html;
         $output = ob_get_clean();
         return apply_filters('wpvr_generate_tour_layout_html', $output ,$postdata ,$id, $tour_data);

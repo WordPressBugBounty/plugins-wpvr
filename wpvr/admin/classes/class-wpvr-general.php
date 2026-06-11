@@ -71,26 +71,27 @@ class WPVR_General extends WPVR_Tour_setting {
             <!-- end inner tab content -->
 
             <!-- Embed Iframe -->
-            <?php if (apply_filters('is_wpvr_embed_addon_premium', false)) { $post = get_post(); $id = $post->ID;?>
+            <?php if (apply_filters('is_wpvr_embed_addon_premium', false)) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                $post = get_post(); $id = $post->ID;?>
 
                 <div class="wpvr-use-shortcode">
-                    <h4 class="area-title"><?php echo __('Using this Tour','wpvr');?></h4>
+                    <h4 class="area-title"><?php echo esc_html__( 'Using this Tour', 'wpvr' ); ?></h4>
 
                     <div class="wpvr-shortcode-wrapper">
 
                         <div class="wpvr-single-shortcode gutenberg">
 
-                            <span class="shortcode-title"><?php echo __('To Embed on External Page:','wpvr')?></span>
+                            <span class="shortcode-title"><?php esc_html_e('To Embed on External Page:','wpvr'); ?></span>
 
                             <div class="field-wapper">
 
-                                <span><?php echo __('Use the iframe below to share this tour on an external page.','wpvr')?></span><br>
+                                <span><?php esc_html_e('Use the iframe below to share this tour on an external page.','wpvr'); ?></span><br>
                                 <span style="color:red;">
-                                    <?php echo __('Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on embedded tours.','wpvr') ?>
+                                    <?php esc_html_e('Note: WooCommerce &amp; Fluent Forms hotspots will not be supported on embedded tours.','wpvr'); ?>
                                 </span>
 
                                 <div class="wpvr-shortcode-field">
-                                    <p class="copycode">&lt;iframe src="<?= home_url() ?>/?embed_page=<?= $id ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen width="100%" height="400" title="<?php echo $post->post_title  ?>" description="Take a realistic tour within Lupos Bistro as if you are actually there - powered by WPVR.">&lt;/iframe&gt;</p>
+                                    <p class="copycode">&lt;iframe src="<?php echo esc_url( home_url() ); ?>/?embed_page=<?php echo esc_attr( $id ); ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen width="100%" height="400" title="<?php echo esc_attr( $post->post_title ); ?>" description="Take a realistic tour within Lupos Bistro as if you are actually there - powered by WPVR.">&lt;/iframe&gt;</p>
                                 </div>
 
                             </div>
@@ -101,14 +102,14 @@ class WPVR_General extends WPVR_Tour_setting {
                         <div class="wpvr-embaded-share-wrapper">
                             <div class="wpvr-social-share-area">
 
-                                <h4><?php echo __('Share your tour','wpvr')?></h4>
+                                <h4><?php esc_html_e('Share your tour','wpvr'); ?></h4>
 
                                 <div class="wpvr-social-share-btn-area">
 
                                     <div class="single-settings autoload">
-                                        <span> <?php echo __('Enable Social Media Share','wpvr')?>: </span>
+                                        <span> <?php esc_html_e('Enable Social Media Share','wpvr'); ?>: </span>
                                         <span class="wpvr-switcher">
-                                            <input id="wpvr_social_share" class="vr-switcher-check" name="wpvr_social_share" type="checkbox" value="<?php echo WPVR_Helper::is_enable_social_share($postdata) ?>" <?php echo WPVR_Helper::is_enable_social_share($postdata) == 'on' ? 'checked' : '' ?> >
+                                            <input id="wpvr_social_share" class="vr-switcher-check" name="wpvr_social_share" type="checkbox" value="<?php echo esc_attr( WPVR_Helper::is_enable_social_share($postdata) ); ?>" <?php echo WPVR_Helper::is_enable_social_share($postdata) == 'on' ? esc_attr('checked') : ''; ?> >
                                             <label for="wpvr_social_share"></label>
                                         </span>
                                     </div>
@@ -123,12 +124,12 @@ class WPVR_General extends WPVR_Tour_setting {
 
                             <div class="wpvr-qrcode-area">
 
-                            <h4><?php echo __('Create a tour use this QR code','wpvr')?></h4>
+                            <h4><?php esc_html_e('Create a tour use this QR code','wpvr'); ?></h4>
 
                             <div class="wpvr-qrcode-btn-area">
                                 <div class="wpvr-qrcode-btn-section">
                                     <div id="qrcode" class="wpvr-qrcode"></div>
-                                    <button id="downloadBtn" class="wpvr-download-btn"><?php echo __('Download QR Code','wpvr') ?></button>
+                                    <button id="downloadBtn" class="wpvr-download-btn"><?php esc_html_e('Download QR Code','wpvr'); ?></button>
                                 </div>
 
                             </div>
@@ -146,7 +147,7 @@ class WPVR_General extends WPVR_Tour_setting {
                     jQuery(document).ready(function($) {
                         // Generate QR code
                         var qr = new QRCode(document.getElementById("qrcode"), {
-                            text: "<?= home_url() ?>/?embed_page=<?= $id ?>",// Replace with your desired URL or data
+                            text: "<?php echo esc_js( home_url() ); ?>/?embed_page=<?php echo esc_js( $id ); ?>",// Replace with your desired URL or data
                             width: 128,
                             height: 128
                         });

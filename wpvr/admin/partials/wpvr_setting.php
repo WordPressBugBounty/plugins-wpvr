@@ -94,16 +94,16 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                 <a href="#tab1">
                     <svg width="19" height="18" fill="none" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg"><path fill="#ABB4C2" stroke="#ABB4C2" stroke-width=".1" d="M17.71 10.43l-.75-.616a1.055 1.055 0 010-1.628l.75-.617c.532-.438.668-1.19.323-1.788L16.554 3.22a1.402 1.402 0 00-1.71-.614l-.909.34a1.055 1.055 0 01-1.41-.814l-.16-.957A1.402 1.402 0 0010.978 0H8.021c-.69 0-1.274.494-1.387 1.175l-.16.957a1.055 1.055 0 01-1.41.814l-.908-.34a1.402 1.402 0 00-1.711.614L.966 5.78a1.402 1.402 0 00.324 1.79l.749.616a1.055 1.055 0 010 1.628l-.749.617a1.402 1.402 0 00-.324 1.789l1.479 2.56a1.402 1.402 0 001.71.614l.91-.34a1.055 1.055 0 011.41.814l.159.957C6.747 17.505 7.33 18 8.02 18h2.957c.69 0 1.274-.494 1.387-1.175l.16-.957a1.054 1.054 0 011.41-.814l.908.34a1.402 1.402 0 001.712-.614l1.478-2.56a1.402 1.402 0 00-.324-1.79zm-2.373 3.647l-.909-.34a2.46 2.46 0 00-3.29 1.9l-.16.957H8.021l-.16-.957a2.46 2.46 0 00-3.29-1.9l-.909.34-1.478-2.56.749-.617a2.46 2.46 0 000-3.8l-.75-.616 1.48-2.561.908.34a2.46 2.46 0 003.29-1.9l.16-.957h2.957l.16.957a2.46 2.46 0 003.29 1.9l.909-.34 1.479 2.56s0 0 0 0l-.75.617a2.46 2.46 0 000 3.8l.75.616-1.48 2.561zM9.5 5.531A3.473 3.473 0 006.03 9a3.473 3.473 0 003.47 3.469A3.473 3.473 0 0012.968 9 3.473 3.473 0 009.5 5.531zm0 5.532A2.065 2.065 0 017.437 9c0-1.137.925-2.063 2.063-2.063 1.137 0 2.062.926 2.062 2.063A2.065 2.065 0 019.5 11.063z"/></svg>
 
-                    <?php _e('General Settings', 'wpvr'); ?>
+                    <?php esc_html_e('General Settings', 'wpvr'); ?>
                 </a>
             </li>
         </ul>
 
         <div class="wpvr-global-settings-tab-content">
             <div id="tab1" class="block-wrapper">
-                <h3 class="tab-content-title"><?php _e('General Settings', 'wpvr'); ?></h3>
+                <h3 class="tab-content-title"><?php esc_html_e('General Settings', 'wpvr'); ?></h3>
                 <div class="rex-upgrade wpvr-settings <?php echo is_plugin_active('wpvr-pro/wpvr-pro.php') && 'valid' === $status ? 'pro-active' : ''; ?>">
-                    <h4 class="settings-box-title"><?php _e('Setup Options', 'wpvr'); ?></h4>
+                    <h4 class="settings-box-title"><?php esc_html_e('Setup Options', 'wpvr'); ?></h4>
                     <div class="parent settings-wrapper">
                         <div class="wpvr_role-container">
                             <ul class="settings-ul">
@@ -128,7 +128,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                 ?>
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Allow the Editors of your site to Create, Edit, Update, and Delete virtual tours (They can access other users' tours):", "wpvr"); ?>
+                                        <?php esc_html_e("Allow the Editors of your site to Create, Edit, Update, and Delete virtual tours (They can access other users' tours):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -155,6 +155,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Enable editors to manage all virtual tours on your site, including those created by other users. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#1s')
                                                     ),
@@ -170,7 +171,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Allow the Authors of your site to Create, Edit, Update, and Delete virtual tours (They can access their own tours only):", "wpvr"); ?>
+                                        <?php esc_html_e("Allow the Authors of your site to Create, Edit, Update, and Delete virtual tours (They can access their own tours only):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -196,6 +197,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Grant authors permission to manage only their own virtual tours without accessing others\' tours. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#2s')
                                                     ),
@@ -211,7 +213,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                 <?php if(is_plugin_active( 'dokan-lite/dokan.php' ) || is_plugin_active( 'dokan-pro/dokan.php' )) { ?>
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Allow Dokan Vendors of your site to Create, Edit, Update, and Delete virtual tours (They can access their own tours only):", "wpvr"); ?>
+                                        <?php esc_html_e("Allow Dokan Vendors of your site to Create, Edit, Update, and Delete virtual tours (They can access their own tours only):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -233,7 +235,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Dokan vendor will be able to Create, Edit, Update, and Delete their own virtual tours only.', 'wpvr'); ?></p>
+                                        <p><?php esc_html_e('Dokan vendor will be able to Create, Edit, Update, and Delete their own virtual tours only.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
@@ -241,7 +243,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Disable Fontawesome from WP VR:", "wpvr"); ?>
+                                        <?php esc_html_e("Disable Fontawesome from WP VR:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -268,6 +270,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Turn off the Fontawesome icon library in WP VR if you prefer to use custom icons or other icon libraries. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#3s')
                                                     ),
@@ -282,7 +285,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Enable mobile media resizer:", "wpvr"); ?>
+                                        <?php esc_html_e("Enable mobile media resizer:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -304,13 +307,13 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __(' Automatically adjust media sizes for mobile devices to ensure optimal viewing performance.', 'wpvr'); ?></p>
+                                        <p><?php esc_html_e(' Automatically adjust media sizes for mobile devices to ensure optimal viewing performance.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Disable WordPress Large Image Handler on WP VR:", "wpvr"); ?>
+                                        <?php esc_html_e("Disable WordPress Large Image Handler on WP VR:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -337,6 +340,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Prevent WordPress from resizing large images, keeping the original size for better quality in tours. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-disable-wordpress-large-image-handler/')
                                                     ),
@@ -353,7 +357,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Disable On Hover Content for Mobile:", "wpvr"); ?>
+                                        <?php esc_html_e("Disable On Hover Content for Mobile:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -380,6 +384,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Turn off hover-based content interactions on mobile devices to enhance usability on touch screens. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-auto-resize-images-mobile-devices/')
                                                     ),
@@ -394,7 +399,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Enable Mobile Hotspot Tip:", "wpvr"); ?>
+                                        <?php esc_html_e("Enable Mobile Hotspot Tip:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -407,13 +412,13 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('When enabled, a tip message is shown to mobile visitors after their first interaction with the virtual tour.', 'wpvr'); ?></p>
+                                        <p><?php esc_html_e('When enabled, a tip message is shown to mobile visitors after their first interaction with the virtual tour.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Enable script control (It will load the WP VR scripts on the pages with virtual tours only):", "wpvr"); ?>
+                                        <?php esc_html_e("Enable script control (It will load the WP VR scripts on the pages with virtual tours only):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -440,6 +445,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Load WP VR scripts only on pages with virtual tours, improving page load times on other pages. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#5s')
                                                     ),
@@ -454,19 +460,19 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                     <div class="inner-settings-wrapper enqueue-script wpvr_enqueue_script_list">
                                         <p class="single-settings-inner-title">
-                                            <?php echo __('List of allowed pages to load WP VR scripts (The URLs of the pages on your site with virtual tours):', 'wpvr'); ?> 
+                                            <?php esc_html_e('List of allowed pages to load WP VR scripts (The URLs of the pages on your site with virtual tours):', 'wpvr'); ?> 
                                         </p>
 
                                         <div class="settings-input-wrapper">
-                                            <input type="text" id="wpvr_script_list" class="materialize-textarea" placeholder="https://example.com/tour1/,https://example.com/tour2/" value="<?php echo $wpvr_script_list; ?>" >
-                                            <span class="hints"><?php echo __("List the pages with virtual tours like this: https://example.com/tour1/, https://example.com/tour2/", 'wpvr'); ?></span>
+                                            <input type="text" id="wpvr_script_list" class="materialize-textarea" placeholder="https://example.com/tour1/,https://example.com/tour2/" value="<?php echo esc_attr( $wpvr_script_list ); ?>" >
+                                            <span class="hints"><?php esc_html_e("List the pages with virtual tours like this: https://example.com/tour1/, https://example.com/tour2/", 'wpvr'); ?></span>
                                         </div>
                                     </div>
                                 </li>
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Video Tour JS control (It will load the WP VR Video JS library in the listed pages only):", "wpvr"); ?>
+                                        <?php esc_html_e("Video Tour JS control (It will load the WP VR Video JS library in the listed pages only):", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -493,6 +499,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Activate the Video.js library only on pages that contain virtual video tours, optimizing resources. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/wp-vr-exclusive-settings/#5s')
                                                     ),
@@ -507,12 +514,12 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                     <div class="inner-settings-wrapper enqueue-video-script enqueue-script wpvr_enqueue_video_script_list">
                                         <p class="single-settings-inner-title">
-                                            <?php echo __('List of allowed pages to load WP VR Video JS library (The URLs of the pages on your site, You want to load Video JS):', 'wpvr'); ?> 
+                                            <?php esc_html_e('List of allowed pages to load WP VR Video JS library (The URLs of the pages on your site, You want to load Video JS):', 'wpvr'); ?> 
                                         </p>
 
                                         <div class="settings-input-wrapper">
-                                            <input type="text" id="wpvr_video_script_list" class="materialize-textarea" placeholder="https://example.com/video-tour1/,https://example.com/video-tour2/" value="<?php echo $wpvr_video_script_list; ?>">
-                                            <span class="hints"><?php echo __("List the pages like this: https://example.com/tour1/, https://example.com/tour2/", 'wpvr'); ?></span>
+                                            <input type="text" id="wpvr_video_script_list" class="materialize-textarea" placeholder="https://example.com/video-tour1/,https://example.com/video-tour2/" value="<?php echo esc_attr( $wpvr_video_script_list ); ?>">
+                                            <span class="hints"><?php esc_html_e("List the pages like this: https://example.com/tour1/, https://example.com/tour2/", 'wpvr'); ?></span>
                                         </div>
                                     </div>
                                 </li>
@@ -529,7 +536,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                     }
                                     ?>
                                     <p class="single-settings-title">
-                                        <?php echo __("Front-End Notice for Mobile Visitors:", "wpvr"); ?>
+                                        <?php esc_html_e("Front-End Notice for Mobile Visitors:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -551,15 +558,15 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __("Display a message on the front end to inform mobile visitors about virtual tour capabilities or requirements.", 'wpvr'); ?></p>
+                                        <p><?php esc_html_e("Display a message on the front end to inform mobile visitors about virtual tour capabilities or requirements.", 'wpvr'); ?></p>
                                     </span>
 
-                                    <input type="text" id="wpvr_frontend_notice_area" class="materialize-textarea" placeholder="Add your notice here" value="<?php echo $wpvr_frontend_notice_area; ?>">
+                                    <input type="text" id="wpvr_frontend_notice_area" class="materialize-textarea" placeholder="Add your notice here" value="<?php echo esc_attr( $wpvr_frontend_notice_area ); ?>">
                                 </li>
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("VR GLass Support:", "wpvr"); ?>
+                                        <?php esc_html_e("VR GLass Support:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -596,6 +603,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <?php 
                                                 echo wp_kses(
                                                     sprintf(
+                                                        /* translators: %s: documentation url */
                                                         __('Enable compatibility with VR glasses for immersive viewing of virtual tours on supported devices. <a href="%s" target="_blank" rel="noopener noreferrer">View Doc</a>', 'wpvr'),
                                                         esc_url('https://rextheme.com/docs/enable-vr-headset-for-phones-wordpress/')
                                                     ),
@@ -610,7 +618,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Convert any jpeg or png format image to WebP on media upload:", "wpvr"); ?>
+                                        <?php esc_html_e("Convert any jpeg or png format image to WebP on media upload:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -646,7 +654,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
 
-                                        <p><?php echo __('Automatically convert JPEG or PNG images to the WebP format when uploading, improving load times and image quality.', 'wpvr'); ?></p>
+                                        <p><?php esc_html_e('Automatically convert JPEG or PNG images to the WebP format when uploading, improving load times and image quality.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
@@ -655,7 +663,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                 ?>
                                 <li>
                                     <p class="single-settings-title">
-                                        <?php echo __("Allow Usage Data Sharing:", "wpvr"); ?>
+                                        <?php esc_html_e("Allow Usage Data Sharing:", "wpvr"); ?>
                                     </p>
 
                                     <span class="wpvr-switcher">
@@ -667,7 +675,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                         <span class="icon">
                                             <svg width="15" height="16" fill="none" viewBox="0 0 15 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.333" d="M5.56 5.9a2.08 2.08 0 01.873-1.114 1.92 1.92 0 011.351-.259 1.98 1.98 0 011.192.717c.305.38.471.86.47 1.356 0 1.4-2 2.1-2 2.1m.054 2.8h.006m6.66-3.5c0 3.866-2.984 7-6.666 7C3.818 15 .833 11.866.833 8S3.818 1 7.5 1s6.666 3.134 6.666 7z"/></svg>
                                         </span>
-                                        <p><?php echo __('Share your site URL, email, and anonymous usage data to help us improve WP VR. You can disable this at any time.', 'wpvr'); ?></p>
+                                        <p><?php esc_html_e('Share your site URL, email, and anonymous usage data to help us improve WP VR. You can disable this at any time.', 'wpvr'); ?></p>
                                     </span>
                                 </li>
 
@@ -675,7 +683,7 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
                                     <form class="wpvr-version" id="trigger-rollback">
                                         <?php wp_nonce_field( 'wpvr_rollback','wpvr_rollback' ); ?>
                                         <p class="single-settings-title">
-                                            <?php _e('Select a Version to Rollback', 'wpvr'); ?>
+                                            <?php esc_html_e('Select a Version to Rollback', 'wpvr'); ?>
                                         </p>
                                         <select class="wpvr-version-select" name="wpvr_version">
                                             <?php
@@ -697,15 +705,15 @@ $rollback_versions     = function_exists( 'rex_wpvr_get_roll_back_versions' ) ? 
 
                 <div class="settings-footer-area">
                     <span class="wpvr-alert box wpvr-success">
-                        <?php echo __('Succesfully Saved', 'wpvr'); ?>
+                        <?php esc_html_e('Succesfully Saved', 'wpvr'); ?>
                     </span>
 
                     <button class="wpvr-btn reset" type="button" id="wpvr_role_reset">
-                        <?php echo __('Reset Defaults', 'wpvr'); ?>
+                        <?php esc_html_e('Reset Defaults', 'wpvr'); ?>
                     </button>
 
                     <button class="wpvr-btn" type="submit" id="wpvr_role_submit">
-                        <?php echo __('Save Settings', 'wpvr'); ?>
+                        <?php esc_html_e('Save Settings', 'wpvr'); ?>
                         <span class="wpvr-loader"></span>
                     </button>
                 </div>

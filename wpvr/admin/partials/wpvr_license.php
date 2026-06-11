@@ -15,27 +15,27 @@ $status  = get_option( 'wpvr_edd_license_status' );
                     <tbody>
                         <tr valign="top">
                             <th scope="row" valign="top">
-                                <?php _e('License Key','wpvr'); ?>
+                                <?php esc_html_e('License Key','wpvr'); ?>
                             </th>
                             <td>
-                                <input id="wpvr_edd_license_key" name="wpvr_edd_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
-                                <label class="description" for="wpvr_edd_license_key"><?php _e('Enter your license key, save changes and activate.','wpvr'); ?></label>
+                                <input id="wpvr_edd_license_key" name="wpvr_edd_license_key" type="text" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
+                                <label class="description" for="wpvr_edd_license_key"><?php esc_html_e('Enter your license key, save changes and activate.','wpvr'); ?></label>
                             </td>
                         </tr>
                         <?php if( false !== $license ) { ?>
                             <tr valign="top">
                                 <th scope="row" valign="top">
-                                    <?php _e('Activate License','wpvr'); ?>
+                                    <?php esc_html_e('Activate License','wpvr'); ?>
                                 </th>
                                 <td>
                                     <?php if( $status !== false && $status == 'valid' ) { ?>
-                                        <span style="color:green;"><?php _e('active'); ?></span>
+                                        <span style="color:green;"><?php esc_html_e('Active', 'wpvr'); ?></span>
                                         <?php wp_nonce_field( 'wpvr_edd_nonce', 'wpvr_edd_nonce' ); ?>
-                                        <input type="submit" class="button-secondary" name="wpvr_edd_license_deactivate" value="<?php _e('Deactivate License','wpvr'); ?>"/>
+                                        <input type="submit" class="button-secondary" name="wpvr_edd_license_deactivate" value="<?php esc_attr_e('Deactivate License','wpvr'); ?>"/>
                                     <?php } else {?>
                                         
                                         <?php wp_nonce_field( 'wpvr_edd_nonce', 'wpvr_edd_nonce' ); ?>
-                                        <input type="submit" class="button-secondary" name="wpvr_edd_license_activate" value="<?php _e('Activate License','wpvr'); ?>"/>
+                                        <input type="submit" class="button-secondary" name="wpvr_edd_license_activate" value="<?php esc_attr_e('Activate License','wpvr'); ?>"/>
                                     <?php } ?>
                                 </td>
                             </tr>

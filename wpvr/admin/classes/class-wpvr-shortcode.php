@@ -29,19 +29,19 @@ class WPVR_Shortcode_TEST {
         $post = get_post();
         $id = $post->ID;
         ?>
-        <h4 class="area-title"><?php echo __('Using this Tour', 'wpvr'); ?></h4>
+        <h4 class="area-title"><?php echo esc_html__( 'Using this Tour', 'wpvr' ); ?></h4>
 
         <div class="shortcode-wrapper">
             <div class="single-shortcode classic">
-                <span class="shortcode-title"><?php echo __('For Classic Editor:', 'wpvr'); ?></span>
+                <span class="shortcode-title"><?php echo esc_html__( 'For Classic Editor:', 'wpvr' ); ?></span>
 
                 <div class="field-wapper">
-                    <span><?php echo __('To use this WP VR tour in your posts or pages use the following shortcode ', 'wpvr'); ?></span>
+                    <span><?php echo esc_html__( 'To use this WP VR tour in your posts or pages use the following shortcode ', 'wpvr' ); ?></span>
 
                     <div class="shortcode-field">
-                        <p class="copycode" id="copy-shortcode-video">[wpvr id="<?php echo $id; ?>"]</p>
+                        <p class="copycode" id="copy-shortcode-video">[wpvr id="<?php echo esc_attr( $id ); ?>"]</p>
                         <span id="wpvr-copy-shortcode-video" class="wpvr-copy-shortcode">
-                            <img loading="lazy" src=" <?php echo WPVR_PLUGIN_DIR_URL; ?>admin/icon/copy.png" alt="icon" />
+                            <img loading="lazy" src=" <?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/copy.png' ); ?>" alt="icon" />
                         </span>
                     </div>
 

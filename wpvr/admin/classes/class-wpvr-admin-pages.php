@@ -65,7 +65,7 @@ class WPVR_Admin_Page {
 	 */
 	function wpvr_add_admin_pages() {
         $menu_cap = current_user_can('manage_options') ? 'manage_options' : 'edit_wpvr_tours';
-		add_menu_page( 'WP VR', 'WP VR', $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'),$this->get_menu_icon(), 25);
+		add_menu_page( 'WP VR', 'WP VR', $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'),$this->get_menu_icon(), 58.5);
 
         add_submenu_page( 'wpvr', 'WP VR', __('Get Started','wpvr'), $menu_cap, 'wpvr', array( $this, 'wpvr_admin_doc'));
         remove_submenu_page('wpvr', 'wpvr');

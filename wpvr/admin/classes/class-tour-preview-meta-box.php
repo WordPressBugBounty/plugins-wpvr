@@ -115,7 +115,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
             <div class="iframe-wrapper">
                 <i class="fa fa-times" id="cross"></i>
                 <div id="custom-ifram" style="display: none;"></div>
-                <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap dfgsdg" style="height: 100%;">
+                <div id="<?php echo esc_attr( 'pano' . $id ); ?>" class="pano-wrap" style="height: 100%;">
                     <?php
                     if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] === 'youtube' && ! empty( $postdata['vidurl'] ) ) {
                         $format = new WPVR_Format();
@@ -123,14 +123,16 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                             'autoplay' => isset( $postdata['autoplay'] ) ? $postdata['autoplay'] : 'off',
                             'loop'     => isset( $postdata['loop'] ) ? $postdata['loop'] : 'off',
                         );
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted internal preview markup includes script/style tags.
                         echo $format->prepare_youtube_video_preview( $postdata['vidurl'], $videodata );
                     } else {
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- stored tour preview markup is rendered as HTML.
                         echo $postdata['panoviddata'];
                     }
                     ?>
                     <?php if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] == 'selfhost') { ?>
                         <script>
-                            videojs(<?php echo $postdata['vidid']; ?>, {
+                            videojs(<?php echo esc_js($postdata['vidid']); ?>, {
                                 plugins: {
                                     pannellum: {}
                                 }
@@ -149,8 +151,9 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 <div id="custom-ifram" style="display: none;">
 
                 </div>
-                <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap" style="height: 100%;">
+                <div id="<?php echo esc_attr( 'pano' . $id ); ?>" class="pano-wrap" style="height: 100%;">
                     <?php
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- stored street view markup is rendered as HTML.
                     echo $postdata['streetviewdata'];
                     ?>
                 </div>
@@ -163,7 +166,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
+                        <span class="rex-tooltiptext"><?php esc_html_e('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>
@@ -178,8 +181,8 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 <div id="custom-ifram" style="display: none;">
 
                 </div>
-                <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap" style="height: 100%;">
-                    <img loading="lazy" src="<?php echo $postdata['flat_image_url']; ?>" style="width: 600px">
+                <div id="<?php echo esc_attr( 'pano' . $id ); ?>" class="pano-wrap" style="height: 100%;">
+                    <img loading="lazy" src="<?php echo esc_url($postdata['flat_image_url']); ?>" style="width: 600px">
                 </div>
             </div>
 
@@ -190,7 +193,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
+                        <span class="rex-tooltiptext"><?php esc_html_e('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>
@@ -561,7 +564,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
             <div class="iframe-wrapper">
                 <i class="fa fa-times" id="cross"></i>
-                <?php if (!apply_filters('is_wpvr_pro_active', false)) : ?>
+                <?php if (!apply_filters('is_wpvr_pro_active', false)) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
                 <div class="wpvr-pro-preview-watermark" id="wpvr-pro-preview-watermark" style="display:none;">
                     <span><?php esc_html_e('PRO PREVIEW', 'wpvr'); ?></span>
                 </div>
@@ -604,13 +607,20 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 </div>
                 <?php endif; ?>
                 <div id="custom-ifram" style="display: none;"></div>
-                <div id="<?php echo 'pano' . $id; ?>" class="pano-wrap" style="direction:ltr; height: 100%">
+                <div id="<?php echo esc_attr( 'pano' . $id ); ?>" class="pano-wrap" style="direction:ltr; height: 100%">
                     <?php if ($is_floor_enable == 'on') { ?>
                         <div class="wpvr-floor-preview outfit">
                             <div class="wpvr-floor-preview-inner">
-                                <img loading="lazy" src="<?php echo $floor_map_image; ?>" alt="">
-                                <?php foreach($floor_list_pointer_position as $pointer_position){
-                                    echo '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" id="'.$pointer_position->id.'" data-top="'.$pointer_position->data_top.'" data-left="'.$pointer_position->data_left.'" style="'.$pointer_position->style.'">'. $pointer_position->text .'</div>';
+                                <img loading="lazy" src="<?php echo esc_url($floor_map_image); ?>" alt="">
+                                <?php foreach ( $floor_list_pointer_position as $pointer_position ) {
+                                    echo sprintf(
+                                        '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" id="%1$s" data-top="%2$s" data-left="%3$s" style="%4$s">%5$s</div>',
+                                        esc_attr( $pointer_position->id ),
+                                        esc_attr( $pointer_position->data_top ),
+                                        esc_attr( $pointer_position->data_left ),
+                                        esc_attr( $pointer_position->style ),
+                                        esc_html( $pointer_position->text )
+                                    );
                                 }
                                 ?>
                             </div>
@@ -618,8 +628,6 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         <button class="flooplan-toggle">
                             <i class="far fa-map"></i>
                         </button>
-
-                        <!-- <div class="wpvr-floor-preview outfit"><img src="https://i.picsum.photos/id/464/1280/800.jpg?hmac=2QzNeP3LYZ72BNsa-mB0sPYXdI-dACGeT04TMJi58TU" /></div> -->
 
                     <?php } ?>
                 </div>
@@ -634,7 +642,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         </div>
                     </li>
                     <li class="rex-hide-coordinates add-pitch">
-                        <span class="rex-tooltiptext"><?php echo __('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
+                        <span class="rex-tooltiptext"><?php esc_html_e('Add This Position Into Active Hotspot', 'wpvr'); ?></span>
                         <i class="fa fa-plus toppitch"></i>
                     </li>
                 </ul>
@@ -652,20 +660,15 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
              * include alert modal
              */
 
-            $is_pro = apply_filters('is_wpvr_pro_active',false);
+            $is_pro = apply_filters('is_wpvr_pro_active',false); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-            if($is_pro) {
-                $pro = 'true';
-            }
-            else {
-                $pro = 'false';
-            }
+            $pro = (bool) $is_pro;
             ?>
 
             <script>
-                var response = <?php echo $response; ?>;
+                var response = <?php echo wp_json_encode( json_decode( $response, true ) ); ?>;
                 var scenes = response[1];
-                var is_pro =  <?php echo $pro; ?>;   
+                var is_pro = <?php echo wp_json_encode( $pro ); ?>;
 
                 if (scenes) {
                     jQuery.each(scenes.scenes, function(i) {
@@ -938,15 +941,15 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
 
                     <div class="field-wapper">
                         <!-- Start preview button  -->
-                        <button id="panolenspreview" class="panolenspreview wpvr_preview_button"><?php echo __('Preview', 'wpvr'); ?></button>
+                        <button id="panolenspreview" class="panolenspreview wpvr_preview_button"><?php esc_html_e('Preview', 'wpvr'); ?></button>
 <!--                        <button id="panolenssave" class="panolenssave wpvr_preview_button">--><?php //echo __('Save', 'wpvr'); ?><!--</button>-->
                         <!-- End preview button -->
                         <div class="shortcode-field">
 
-                            <p class="copycode" id="copy-shortcode">[wpvr id="<?php echo $id; ?>"]</p>
+                            <p class="copycode" id="copy-shortcode">[wpvr id="<?php echo esc_html($id); ?>"]</p>
 
                             <span id="wpvr-copy-shortcode" class="wpvr-copy-shortcode">
-                                <img loading="lazy" src="<?php echo WPVR_PLUGIN_DIR_URL . 'admin/icon/copy.png'; ?>" alt="icon" />
+                                <img loading="lazy" src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/copy.png' ); ?>" alt="icon" />
                             </span>
                             
                         </div>

@@ -87,7 +87,9 @@ class WPVR_Create_Contact {
                 }
             }
         }catch(\Exception $e){
-            error_log('Error sending contact data to MailMint');
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log('Error sending contact data to MailMint');
+            }
             $response = [
                 'suceess' => false,
             ];

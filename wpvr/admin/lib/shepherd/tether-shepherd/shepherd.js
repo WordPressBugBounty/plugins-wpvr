@@ -1,4 +1,9 @@
-/*! tether-shepherd 1.8.1 */
+/*!
+ * tether-shepherd 1.8.1
+ * https://github.com/shipshapecode/shepherd
+ * Copyright (c) 2015 HubSpot, Inc.
+ * Licensed under the MIT license.
+ */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {

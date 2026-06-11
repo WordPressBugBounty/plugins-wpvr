@@ -108,6 +108,7 @@ class WPVR_First_Tour_Banner {
             // No tours published yet
             $message = sprintf(
                 wp_kses(
+                    /* translators: %s: url to publish first tour */
                     __('You haven\'t published your first tour yet. <a href="%s">Publish your first tour</a> and see it live in minutes!', 'wpvr'),
                     array(
                         'a' => array(
@@ -122,6 +123,7 @@ class WPVR_First_Tour_Banner {
             // Tours published but Pro not active
             $message = sprintf(
                 wp_kses(
+                    /* translators: %s: url to upgrade to pro */
                     __('You\'ve published your first tour! <a href="%s" target="_blank" rel="noopener">Upgrade to Pro</a> for unlimited tours, hotspots, and advanced features!', 'wpvr'),
                     array(
                         'a' => array(
@@ -170,7 +172,7 @@ class WPVR_First_Tour_Banner {
                     type: 'POST',
                     data: {
                         action: 'wpvr_dismiss_tour_banner',
-                        nonce: '<?php echo wp_create_nonce('wpvr_dismiss_banner'); ?>'
+                        nonce: '<?php echo esc_attr( wp_create_nonce('wpvr_dismiss_banner') ); ?>'
                     },
                     success: function(response) {
                         console.log('Banner dismissed successfully');
@@ -330,7 +332,7 @@ class WPVR_First_Tour_Banner {
      */
     public function handle_dismiss_banner() {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wpvr_dismiss_banner')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'wpvr_dismiss_banner')) {
             wp_die('Invalid nonce');
         }
 

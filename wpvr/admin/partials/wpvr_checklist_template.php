@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <div id="wpvr-checklist">
     <div class="wpvr-progress-container">
         <div id="wpvr-progress-bar"></div>
@@ -12,7 +13,7 @@
                 <input type="checkbox" id="wpvr-check-scene" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_scene ? 'checked' : '');?>>
                 <span class="checkmark"></span>
-                <?php _e('Add at least one scene', 'wpvr'); ?>
+                <?php esc_html_e( 'Add at least one scene', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -23,7 +24,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Upload your first 360° image or video.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Upload your first 360° image or video.', 'wpvr' ); ?></p>
                     </span>
         </li>
 
@@ -32,7 +33,7 @@
                 <input type="checkbox" id="wpvr-check-media" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_media ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Upload 360° media', 'wpvr'); ?>
+                <?php esc_html_e( 'Upload 360° media', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -43,7 +44,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Ensure media is self-hosted or from YouTube/Vimeo.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Ensure media is self-hosted or from YouTube/Vimeo.', 'wpvr' ); ?></p>
                     </span>
         </li>
 
@@ -52,7 +53,7 @@
                 <input type="checkbox" id="wpvr-check-default" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_default ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Set a default scene', 'wpvr'); ?>
+                <?php esc_html_e( 'Set a default scene', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -63,7 +64,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Choose where users will start the tour.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Choose where users will start the tour.', 'wpvr' ); ?></p>
                     </span>
         </li>
 
@@ -72,7 +73,7 @@
                 <input type="checkbox" id="wpvr-check-hotspots" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_hotspots ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Add navigation hotspots', 'wpvr'); ?>
+                <?php esc_html_e( 'Add navigation hotspots', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -83,7 +84,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Link different scenes or add interactive elements.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Link different scenes or add interactive elements.', 'wpvr' ); ?></p>
                     </span>
         </li>
 
@@ -92,7 +93,7 @@
                 <input type="checkbox" id="wpvr-check-movement-controls" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_movement_controls ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Enable basic controls', 'wpvr'); ?>
+                <?php esc_html_e( 'Enable basic controls', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -103,7 +104,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Allow movement within the tour.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Allow movement within the tour.', 'wpvr' ); ?></p>
                     </span>
         </li>
         <?php  if (apply_filters('is_wpvr_pro_active', false)) {?>
@@ -112,7 +113,7 @@
                     <input type="checkbox" id="wpvr-check-zoom-controls" class="wpvr-checklist-items"
                         <?php echo esc_attr($wpvr_check_zoom_controls ? 'checked' : ''); ?>>
                     <span class="checkmark"></span>
-                    <?php _e('Enable zoom controls', 'wpvr'); ?>
+                    <?php esc_html_e( 'Enable zoom controls', 'wpvr' ); ?>
                 </label>
 
                 <span class="wpvr-tooltip">
@@ -123,7 +124,7 @@
                             </path>
                         </svg>
                     </span>
-                    <p><?php _e('Allow zooming within the tour.','wpvr')?></p>
+                    <p><?php esc_html_e( 'Allow zooming within the tour.', 'wpvr' ); ?></p>
                 </span>
             </li>
         <?php }?>
@@ -133,7 +134,7 @@
                 <input type="checkbox" id="wpvr-check-publish" class="wpvr-checklist-items"
                     <?php echo esc_attr($wpvr_check_publish ? 'checked' : ''); ?>>
                 <span class="checkmark"></span>
-                <?php _e('Publish the tour', 'wpvr'); ?>
+                <?php esc_html_e( 'Publish the tour', 'wpvr' ); ?>
             </label>
 
             <span class="wpvr-tooltip">
@@ -144,7 +145,7 @@
                                 </path>
                             </svg>
                         </span>
-                        <p><?php _e('Publish your tour and embed it anywhere on your site.','wpvr')?></p>
+                        <p><?php esc_html_e( 'Publish your tour and embed it anywhere on your site.', 'wpvr' ); ?></p>
                     </span>
         </li>
 
