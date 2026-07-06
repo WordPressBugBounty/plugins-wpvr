@@ -105,8 +105,7 @@ class WPVR_Format
      */
     public function prepare_panodata($panodata)
     {
-        $panolist = stripslashes($panodata);
-        $panodata = (array)json_decode($panolist);
+        $panodata = (array)json_decode($panodata);
         $panolist = array();
         if (is_array($panodata["scene-list"])) {
             foreach ($panodata["scene-list"] as $scenes_data) {
@@ -118,6 +117,12 @@ class WPVR_Format
                     foreach ($temp_array['hotspot-list'] as $temp_hotspot) {
 
                         $temp_hotspot = (array)$temp_hotspot;
+                        if (isset($temp_hotspot['hotspot-pitch'])) {
+                            $temp_hotspot['hotspot-pitch'] = trim($temp_hotspot['hotspot-pitch']);
+                        }
+                        if (isset($temp_hotspot['hotspot-yaw'])) {
+                            $temp_hotspot['hotspot-yaw'] = trim($temp_hotspot['hotspot-yaw']);
+                        }
                         $_hotspot_array[] = $temp_hotspot;
                     }
                 }

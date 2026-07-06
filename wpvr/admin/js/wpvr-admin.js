@@ -2011,8 +2011,8 @@
         if(detect_active_hotspot_id === "" || detect_active_hotspot_id == undefined) {
             $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find("#hotspot-title").val(generateRandomString(8));
         }
-        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-pitch').val(pitch[1]);
-        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-yaw').val(yaw[1]);
+        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-pitch').val(pitch[1].trim());
+        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-yaw').val(yaw[1].trim());
     }
 
     function register_hotspot() {
@@ -2285,14 +2285,14 @@
         var datacoords = $('#panodata').text().split(',');
         var pitchsplit = datacoords[0];
         var pitch = pitchsplit.split(':');
-        $(this).parent().parent('.hotspot-setting').children('.hotspot-pitch').val(pitch[1]);
+        $(this).parent().parent('.hotspot-setting').children('.hotspot-pitch').val(pitch[1].trim());
     });
 
     $(document).on("click", ".hotyaw", function (event) {
         var datacoords = $('#panodata').text().split(',');
         var yawsplit = datacoords[1];
         var yaw = yawsplit.split(':');
-        $(this).parent().parent('.hotspot-setting').children('.hotspot-yaw').val(yaw[1]);
+        $(this).parent().parent('.hotspot-setting').children('.hotspot-yaw').val(yaw[1].trim());
     });
 
     jQuery(document).ready(function ($) {
@@ -2318,8 +2318,8 @@
         var yawsplit = datacoords[1];
         var yaw = yawsplit.split(':');
 
-        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-pitch').val(pitch[1]);
-        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-yaw').val(yaw[1]);
+        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-pitch').val(pitch[1].trim());
+        $('div.single-scene.rex-pano-tab.active').children('div.hotspot-setup.rex-pano-sub-tabs').children('div.rex-pano-tab-content').children('div.single-hotspot.rex-pano-tab.active.clearfix').find('.hotspot-yaw').val(yaw[1].trim());
     });
     jQuery(document).ready(function ($) {
         $('.hotspot-customclass-pro-select').fontIconPicker();

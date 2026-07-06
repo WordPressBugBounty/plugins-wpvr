@@ -349,8 +349,9 @@ class WPVR_Validator {
       $this->add_error('pitch_required', '<p><span>Warning:</span> Hotspot pitch is required for every hotspot where scene id: ' . $scene_id_validate . ' and hotspot id : ' . $hotspot_title_validate . '</p>');
     }
     if (!empty($hotspot_pitch_validate)) {
-      $hotspot_pitch_validated = preg_replace('/[^0-9.-]/', '', $hotspot_pitch_validate ?? '');
-      if ($hotspot_pitch_validated != $hotspot_pitch_validate) {
+      $hotspot_pitch_normalized = trim($hotspot_pitch_validate ?? '');
+      $hotspot_pitch_validated = preg_replace('/[^0-9.-]/', '', $hotspot_pitch_normalized);
+      if ($hotspot_pitch_validated != $hotspot_pitch_normalized) {
         $this->add_error('invalid_pitch', '<span class="pano-error-title">Invalid Pitch Value</span> <p>The Pitch Value can only contain float numbers where Scene ID: ' . $scene_id_validate . ' Hotspot ID is: ' . $hotspot_title_validate . '</p>');
       }
     }
@@ -374,8 +375,9 @@ class WPVR_Validator {
       $this->add_error('yaw_required', '<p><span>Warning:</span> Hotspot yaw is required for every hotspot where scene id: ' . $scene_id_validate . ' and hotspot id : ' . $hotspot_title_validate . '</p>');
     }
     if (!empty($hotspot_yaw_validate)) {
-      $hotspot_yaw_validated = preg_replace('/[^0-9.-]/', '', $hotspot_yaw_validate ?? '');
-      if ($hotspot_yaw_validated != $hotspot_yaw_validate) {
+      $hotspot_yaw_normalized = trim($hotspot_yaw_validate ?? '');
+      $hotspot_yaw_validated = preg_replace('/[^0-9.-]/', '', $hotspot_yaw_normalized);
+      if ($hotspot_yaw_validated != $hotspot_yaw_normalized) {
         $this->add_error('invalid_yaw', '<span class="pano-error-title">Invalid Yaw Value</span> <p>The Yaw Value can only contain float numbers where Scene ID: ' . $scene_id_validate . ' Hotspot ID is: ' . $hotspot_title_validate . '</p>');
       }
     }

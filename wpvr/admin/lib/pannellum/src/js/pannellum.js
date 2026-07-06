@@ -390,11 +390,10 @@ function init() {
             var xhr = new XMLHttpRequest();
             xhr.onloadend = function() {
                 if (xhr.status != 200) {
-                    // Display error if image can't be loaded
-                    var a = document.createElement('a');
-                    a.href = p;
-                    a.textContent = a.href;
-                    anError(config.strings.fileAccessError.replace('%s', a.outerHTML));
+                    // XHR blocked (WAF, hotlink protection, etc.) — load directly by URL
+                    panoImage.src = p;
+                    infoDisplay.load.msg.innerHTML = '';
+                    return;
                 }
                 var img = this.response;
                 parseGPanoXMP(img, p);
@@ -524,6 +523,7 @@ function onImageLoad() {
  * @param {Image} image - Image to read XMP metadata from.
  */
 function parseGPanoXMP(image, url) {
+    var localPanoImage = panoImage;
     var reader = new FileReader();
     reader.addEventListener('loadend', function() {
         var img = reader.result;
@@ -598,8 +598,9 @@ function parseGPanoXMP(image, url) {
         }
 
         // Load panorama
-        panoImage.src = window.URL.createObjectURL(image);
-        panoImage.onerror = function() {
+        if (localPanoImage === undefined) return;
+        localPanoImage.src = window.URL.createObjectURL(image);
+        localPanoImage.onerror = function() {
             // If the image fails to load, we check the Content Security Policy
             // headers and see if they block loading images as blobs. If they
             // do, we load the image directly from the URL. While this should
@@ -622,8 +623,8 @@ function parseGPanoXMP(image, url) {
                     });
                     if (invalidImgSource) {
                         console.log('CSP blocks blobs; reverting to URL.');
-                        panoImage.crossOrigin = config.crossOrigin;
-                        panoImage.src = url;
+                        localPanoImage.crossOrigin = config.crossOrigin;
+                        localPanoImage.src = url;
                     }
                 }
             });
