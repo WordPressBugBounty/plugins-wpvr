@@ -299,7 +299,7 @@ class WPVR_Format
         $query_parts = array_filter( [ $autoplay_param, $loop_param ] );
         $foundid     = ! empty( $query_parts ) ? $vid_id . '?' . implode( '&', $query_parts ) : $vid_id;
 
-        $iframe_id = 'wpvr-vimeo-preview-' . wp_wp_rand( 10000, 99999 );
+        $iframe_id = 'wpvr-vimeo-preview-' . wp_rand( 10000, 99999 );
 
         $html  = '';
         $html .= '<iframe id="' . esc_attr( $iframe_id ) . '" src="https://player.vimeo.com/video/' . esc_attr( $foundid ) . '" width="600" height="400" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
@@ -1891,7 +1891,7 @@ class WPVR_Format
         $query_parts = array_filter( [ $autoplay_param, $loop_param ] );
         $foundid     = !empty($query_parts) ? $vid_id . '?' . implode('&', $query_parts) : $vid_id;
 
-        $iframe_id   = 'wpvr-vimeo-' . wp_wp_rand( 10000, 99999 );
+        $iframe_id   = 'wpvr-vimeo-' . wp_rand( 10000, 99999 );
         $do_autoplay = ( $autoplay == 'on' ) ? 'true' : 'false';
         $do_loop     = ( $loop     == 'on' ) ? 'true' : 'false';
 

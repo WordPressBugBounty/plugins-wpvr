@@ -994,6 +994,8 @@ class Wpvr_Ajax
       'scene-attachment-url-face5',
     );
 
+    $imported_urls = array();
+
     foreach ( $panodata['panodata']['scene-list'] as $scene_key => $scene ) {
       if ( ! is_array( $scene ) ) {
         continue;
@@ -1009,14 +1011,24 @@ class Wpvr_Ajax
           continue;
         }
 
-        $attachment_id = media_sideload_image( $source_url, $post_id, null, 'id' );
-        if ( is_wp_error( $attachment_id ) ) {
+        if ( isset( $imported_urls[ $source_url ] ) ) {
+          $panodata['panodata']['scene-list'][ $scene_key ][ $image_key ] = $imported_urls[ $source_url ];
           continue;
+        }
+
+        $attachment_id = attachment_url_to_postid( $source_url );
+        if ( ! $attachment_id ) {
+          $attachment_id = media_sideload_image( $source_url, $post_id, null, 'id' );
+          if ( is_wp_error( $attachment_id ) ) {
+            continue;
+          }
         }
 
         $local_url = wp_get_attachment_url( $attachment_id );
         if ( ! empty( $local_url ) ) {
-          $panodata['panodata']['scene-list'][ $scene_key ][ $image_key ] = esc_url_raw( $local_url );
+          $local_url = esc_url_raw( $local_url );
+          $imported_urls[ $source_url ] = $local_url;
+          $panodata['panodata']['scene-list'][ $scene_key ][ $image_key ] = $local_url;
         }
       }
     }
