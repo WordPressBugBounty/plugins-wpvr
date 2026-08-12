@@ -643,6 +643,16 @@ class WPVR_Scene {
     public function render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height)
     {
         if (
+            'embed' === $width &&
+            ! apply_filters( 'is_wpvr_embed_addon_premium', false )
+        ) {
+            return esc_html__(
+                'This embed requires an active WP VR Agency license.',
+                'wpvr'
+            );
+        }
+
+        if (
                 ( isset( $_GET['bricks'] ) && wp_unslash( $_GET['bricks'] ) === 'run' ) ||
                 ( defined('DOING_AJAX') && DOING_AJAX && isset( $_REQUEST['action'] ) && wp_unslash( $_REQUEST['action'] ) === 'bricks_render_element' ) ||
                 ( defined('REST_REQUEST') && REST_REQUEST && isset($_SERVER['REQUEST_URI']) && strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/wp-json/bricks/v1/render_element') !== false )

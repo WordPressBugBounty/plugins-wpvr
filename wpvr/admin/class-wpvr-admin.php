@@ -118,8 +118,56 @@ class Wpvr_Admin {
         // // Add the import button to the All Tours page
         add_action('admin_footer', array($this, 'add_import_button'));
         add_action('admin_footer', array($this, 'enqueue_deactivation_scripts'), 99);
+        add_filter('post_states_html', array($this, 'add_imported_tour_badge'), 10, 3);
+        add_action('post_updated', array($this, 'remove_imported_tour_badge'), 10, 2);
 
         $this->plugin_admin_ajax     = new Wpvr_Ajax();
+    }
+
+
+    /**
+     * Add an Imported badge to imported tours in the admin list.
+     *
+     * @param string  $post_states_html Post states markup.
+     * @param array   $post_states      Post states.
+     * @param WP_Post $post             Current post.
+     *
+     * @return string
+     */
+    public function add_imported_tour_badge($post_states_html, $post_states, $post)
+    {
+        if ('wpvr_item' !== $post->post_type || 'yes' !== get_post_meta($post->ID, '_wpvr_imported_tour', true)) {
+            return $post_states_html;
+        }
+
+        $imported_at = (int) get_post_meta($post->ID, '_wpvr_imported_at', true);
+        if (!$imported_at) {
+            $imported_at = (int) get_post_time('U', true, $post);
+        }
+
+        if (time() >= $imported_at + (7 * DAY_IN_SECONDS)) {
+            return $post_states_html;
+        }
+
+        return '<span class="wpvr-imported-tour-badge">' . esc_html__('Imported', 'wpvr') . '</span>' . $post_states_html;
+    }
+
+    /**
+     * Remove the Imported badge after an imported tour is updated.
+     *
+     * @param int     $post_id Post ID.
+     * @param WP_Post $post    Updated post.
+     *
+     * @return void
+     */
+    public function remove_imported_tour_badge($post_id, $post)
+    {
+        if ('wpvr_item' !== $post->post_type) {
+            return;
+        }
+
+        delete_post_meta($post_id, '_wpvr_imported_tour');
+        delete_post_meta($post_id, '_wpvr_imported_at');
     }
 
     /**
@@ -152,7 +200,9 @@ class Wpvr_Admin {
         }
 
         if ($screen->id == "edit-wpvr_item") {
-            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpvr-admin-post-type.css', array(), $this->version, 'all');
+            $listing_style_path = plugin_dir_path(__FILE__) . 'css/wpvr-admin-post-type.css';
+            $listing_style_version = file_exists($listing_style_path) ? filemtime($listing_style_path) : $this->version;
+            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpvr-admin-post-type.css', array(), $listing_style_version, 'all');
         }
 
         if ($screen->id == "wpvr_item") {

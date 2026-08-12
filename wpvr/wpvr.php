@@ -16,7 +16,7 @@
  * Plugin Name:       WP VR - 360 Panorama and Virtual Tour Builder
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.
- * Version:           8.5.77
+ * Version:           8.5.78
  * Tested up to:      7.0
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -43,7 +43,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPVR_VERSION', '8.5.77');
+define('WPVR_VERSION', '8.5.78');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__));
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -244,9 +244,13 @@ if ( ! function_exists( 'wpvr_render_explainer_button' ) ) {
             $explainer_color   = isset( $raw_control['explainerColor'] ) ? $raw_control['explainerColor'] : $explainer_color;
         }
 
+        $explainer_feature_enabled = isset( $postdata['explainerSwitch'] )
+            ? 'on' === $postdata['explainerSwitch']
+            : ! empty( $postdata['explainerContent'] );
+
         $pro_license_status = get_option( 'wpvr_edd_license_status' );
-        if ( $explainer_enabled && $pro_license_status === 'valid' && $is_pro ) {
-            $explainer_style = empty( $postdata['explainerContent'] ) || ( isset( $postdata['explainerSwitch'] ) && 'off' === $postdata['explainerSwitch'] )
+        if ( $explainer_enabled && $explainer_feature_enabled && $pro_license_status === 'valid' && $is_pro ) {
+            $explainer_style = empty( $postdata['explainerContent'] )
                 ? 'pointer-events: none; opacity: 0.5;'
                 : '';
 
@@ -357,15 +361,16 @@ function wpvr_enqueue_frontend_scripts( $tour_type ) {
 
     $pub = WPVR_PLUGIN_PUBLIC_DIR_URL;
     $ver = WPVR_VERSION;
+    $pannellum_version = filemtime( WPVR_PLUGIN_DIR_PATH . 'public/lib/pannellum/src/js/pannellum.js' );
 
     if ( 'video' === $tour_type ) {
         wp_enqueue_script( 'videojs-js',      $pub . 'js/video.js',                                        array(),                                                                   $ver, true );
         wp_enqueue_script( 'videojsvr-js',    $pub . 'lib/videojs-vr/videojs-vr.js',                      array( 'videojs-js' ),                                                     $ver, true );
-        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',                  array(),                                                                   $ver, true );
+        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',                  array(),                                                                   $pannellum_version, true );
         wp_enqueue_script( 'panelliumlib-js', $pub . 'lib/pannellum/src/js/libpannellum.js',               array( 'panellium-js' ),                                                   $ver, true );
         wp_enqueue_script( 'panelliumvid-js', $pub . 'lib/pannellum/src/js/videojs-pannellum-plugin.js',   array( 'videojs-js', 'videojsvr-js', 'panellium-js', 'panelliumlib-js' ),  $ver, true );
     } elseif ( 'scene' === $tour_type ) {
-        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',    array(),               $ver, true );
+        wp_enqueue_script( 'panellium-js',    $pub . 'lib/pannellum/src/js/pannellum.js',    array(),               $pannellum_version, true );
         wp_enqueue_script( 'panelliumlib-js', $pub . 'lib/pannellum/src/js/libpannellum.js', array( 'panellium-js' ), $ver, true );
         wp_enqueue_script( 'owl-js',          $pub . 'js/owl.carousel.js',                   array( 'jquery' ),     $ver, true );
     }

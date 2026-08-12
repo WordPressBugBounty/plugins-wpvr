@@ -293,27 +293,8 @@
         tfoot .check-column input[type="checkbox"],
         thead .check-column input[type="checkbox"],
         tbody .check-column input[type="checkbox"] {
-            box-shadow: none;
-            width: 18px;
-            height: 18px;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            border: 1px solid #D6CDF0;
-            background: #FFF;
             margin: 0;
-        }
-
-        tfoot .check-column input[type=checkbox]:checked::before,
-        thead .check-column input[type=checkbox]:checked::before,
-        tbody .check-column input[type=checkbox]:checked::before {
-            height: 18px;
-            width: 20px;
-            position: relative;
-            top: 1px;
-            left: 1px;
+            cursor: pointer;
         }
 
         .check-column input:hover+label, 

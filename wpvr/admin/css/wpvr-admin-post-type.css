@@ -688,26 +688,8 @@ a:focus.wpvr-premium-feature__btn {
 .wpvr-tour-list table.wp-list-table tfoot .check-column input[type=checkbox],
 .wpvr-tour-list table.wp-list-table thead .check-column input[type=checkbox],
 .wpvr-tour-list table.wp-list-table tbody .check-column input[type=checkbox] {
-  box-shadow: none;
-  width: 18px;
-  height: 18px;
-  border: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  border: 1px solid #D6CDF0;
-  background: #FFF;
   margin: 0;
-}
-.wpvr-tour-list table.wp-list-table tfoot .check-column input[type=checkbox]:checked::before,
-.wpvr-tour-list table.wp-list-table thead .check-column input[type=checkbox]:checked::before,
-.wpvr-tour-list table.wp-list-table tbody .check-column input[type=checkbox]:checked::before {
-  height: 18px;
-  width: 20px;
-  position: relative;
-  top: 1px;
-  left: 1px;
+  cursor: pointer;
 }
 .wpvr-tour-list table.wp-list-table .check-column input:hover + label,
 .wpvr-tour-list table.wp-list-table .check-column label:hover {
@@ -868,3 +850,15 @@ a:focus.wpvr-premium-feature__btn {
 } */
 
 /*# sourceMappingURL=wpvr-admin-post-type.css.map */
+.post-type-wpvr_item .wpvr-imported-tour-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 7px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: #e7f7ed;
+    color: #08783e;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
