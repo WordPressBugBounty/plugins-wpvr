@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.0.0
-Stable tag: 8.5.78
+Stable tag: 8.5.79
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -455,6 +455,9 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 8.5.79 (2026-08-13) =
+* Fix: Tours using `width="embed"` retain their fullscreen layout and control buttons.
 
 = 8.5.78 (2026-08-12) =
 * Fix: Resolves FontAwesome icon rendering conflicts with active themes and adds dynamic script cache-busting for Pannellum.
