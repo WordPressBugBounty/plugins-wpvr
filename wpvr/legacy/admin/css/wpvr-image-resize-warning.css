@@ -1,0 +1,161 @@
+.wpvr-image-resize-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 160000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 20px;
+    background: rgba(51, 51, 51, 0.4);
+}
+
+.wpvr-image-resize-modal .pano-error-wrapper {
+    width: 100%;
+    max-width: 605px;
+    overflow: hidden;
+    border-left: 5px solid #faac14;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 1px 34px rgba(0, 0, 0, 0.08);
+    animation: wpvr-bounce 0.3s;
+}
+
+.wpvr-image-resize-modal .pano-error-body {
+    position: relative;
+    padding: 40px;
+    text-align: center;
+}
+
+.wpvr-image-resize-modal .pano-warning {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.wpvr-image-resize-modal .pano-error-title,
+.wpvr-image-resize-modal .pano-error-message p {
+    padding: 0;
+    margin: 0;
+}
+
+.wpvr-image-resize-modal .pano-error-title {
+    color: #39393f;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.wpvr-image-resize-modal .pano-error-message p {
+    margin-top: 3px;
+    color: #868693;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.wpvr-image-resize-modal__close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #a8a7be;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.wpvr-image-resize-modal__options {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 22px;
+    text-align: left;
+}
+
+.wpvr-image-resize-modal__options:empty {
+    display: none;
+}
+
+.wpvr-image-resize-modal__options label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #39393f;
+    font-size: 14px;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.wpvr-image-resize-modal__options input {
+    flex: 0 0 auto;
+    margin: 1px 0 0;
+}
+
+.wpvr-image-resize-modal__setting input {
+    position: absolute;
+    opacity: 0;
+}
+
+.wpvr-image-resize-modal__toggle {
+    position: relative;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    background: #c7c7cf;
+    transition: background 0.2s ease;
+}
+
+.wpvr-image-resize-modal__toggle::before {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    content: '';
+    transition: transform 0.2s ease;
+}
+
+.wpvr-image-resize-modal__setting input:checked + .wpvr-image-resize-modal__toggle {
+    background: #004efa;
+}
+
+.wpvr-image-resize-modal__setting input:checked + .wpvr-image-resize-modal__toggle::before {
+    transform: translateX(16px);
+}
+
+.wpvr-image-resize-modal__setting input:focus-visible + .wpvr-image-resize-modal__toggle {
+    outline: 2px solid #004efa;
+    outline-offset: 2px;
+}
+
+.wpvr-image-resize-modal p.wpvr-image-resize-modal__note {
+    max-width: 390px;
+    margin: 8px 0 0 44px;
+    padding: 0;
+    color: #868693;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.wpvr-image-resize-modal button:focus-visible,
+.wpvr-image-resize-modal input:focus-visible {
+    outline: 2px solid #004efa;
+    outline-offset: 2px;
+}
+
+@media screen and (max-width: 600px) {
+    .wpvr-image-resize-modal .pano-error-body {
+        padding: 36px 22px 28px;
+    }
+
+}
+
+@keyframes wpvr-bounce {
+    0% { transform: scale(.7); }
+    45% { transform: scale(1.05); }
+    80% { transform: scale(.95); }
+    100% { transform: scale(1); }
+}

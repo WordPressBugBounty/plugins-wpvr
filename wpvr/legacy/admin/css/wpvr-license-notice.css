@@ -1,0 +1,135 @@
+.wpvr-license-fallback-notice.notice {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-inline: 16px 16px;
+    border: 1px solid #ffbdbd;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    box-shadow: none;
+}
+
+.wpvr-license-fallback-notice__icon {
+    display: block;
+    width: 20px;
+    height: 19px;
+    flex: 0 0 20px;
+    margin-right: 16px;
+    margin-top: 5px;
+}
+
+.wpvr-license-fallback-notice__content {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.wpvr-license-fallback-notice.notice p.wpvr-license-fallback-notice__title,
+.wpvr-license-fallback-notice.notice p.wpvr-license-fallback-notice__subtitle {
+    margin: 4px !important;
+    padding: 0 !important;
+    color: #333;
+    line-height: normal !important;
+}
+
+.wpvr-license-fallback-notice__title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.wpvr-license-fallback-notice__subtitle {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.wpvr-license-fallback-notice__action {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    margin-left: 24px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #216df0;
+    color: #fff !important;
+    text-decoration: none !important;
+    box-sizing: border-box;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    transition:
+        background-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out,
+        transform 0.08s ease-in-out;
+}
+
+.wpvr-license-fallback-notice__action-icon {
+    width: 16.5px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.wpvr-license-fallback-notice__action:hover {
+    background: #195dcc;
+    color: #fff !important;
+    box-shadow: 0 2px 5px rgba(33, 109, 240, 0.28);
+}
+
+.wpvr-license-fallback-notice__action:focus,
+.wpvr-license-fallback-notice__action:focus-visible {
+    outline: none;
+    border-radius: 8px !important;
+    box-shadow:
+        0 0 0 3px rgba(33, 109, 240, 0.28),
+        0 2px 5px rgba(33, 109, 240, 0.2);
+}
+
+.wpvr-license-fallback-notice__action:active {
+    background: #124aa8;
+    color: #fff !important;
+    box-shadow: 0 1px 2px rgba(18, 74, 168, 0.32);
+    transform: translateY(1px);
+}
+
+.wpvr-license-fallback-notice .notice-dismiss {
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+@media screen and (max-width: 782px) {
+    .wpvr-license-fallback-notice.notice {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-right: 10px;
+    }
+
+    .wpvr-license-fallback-notice__action {
+        align-self: flex-start;
+        width: 166px;
+        margin-top: 12px;
+        margin-left: 36px;
+    }
+}
+
+.wpvr-license-fallback-notice.notice.wpvr-license-fallback-notice--single-line {
+    align-items: center;
+}
+
+.wpvr-license-fallback-notice--single-line .wpvr-license-fallback-notice__icon {
+    margin-top: 0;
+}
+
+.wpvr-license-fallback-notice--single-line .wpvr-license-fallback-notice__action {
+    align-self: center;
+    margin-top: 0;
+}

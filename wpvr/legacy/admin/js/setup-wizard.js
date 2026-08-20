@@ -1,0 +1,1419 @@
+jQuery(document).ready(function ($) {
+    if (typeof window.LinnoOnboarding === 'undefined') {
+        console.error('Linno Onboarding library not loaded');
+        return;
+    }
+
+    const { registerOnboarding, engine, tracker } = window.LinnoOnboarding;
+
+    const content = {
+        'real-estate': {
+            title: "Show your property without another site visit",
+            sub: "Most agents publish their first property tour in minutes.",
+            cta: "USE PROPERTY TEMPLATE",
+            publishText: "Publish property tour",
+            prev: "This is how buyers will experience your listing",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏠"
+        },
+        'hotel': {
+            title: "Let guests experience your hotel before they book",
+            sub: "Virtual tours help increase trust and direct bookings.",
+            cta: "USE HOTEL TEMPLATE",
+            publishText: "Publish hotel tour",
+            prev: "This is how guests will see your room",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏨"
+        },
+        'school': {
+            title: "Showcase your campus to prospective students",
+            sub: "Virtual campus tours help increase enrollment and engagement.",
+            cta: "USE CAMPUS TEMPLATE",
+            publishText: "Publish campus tour",
+            prev: "This is how students will explore your campus",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏫"
+        },
+        'automotive': {
+            title: "Showcase your vehicles in stunning detail",
+            sub: "Virtual tours help customers explore every angle before purchase.",
+            cta: "USE AUTOMOTIVE TEMPLATE",
+            publishText: "Publish automotive tour",
+            prev: "This is how customers will explore your vehicles",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🚗"
+        },
+        'ecommerce': {
+            title: "Create immersive shopping experiences",
+            sub: "Virtual tours help customers visualize products in real spaces.",
+            cta: "USE E-COMMERCE TEMPLATE",
+            publishText: "Publish ecommerce tour",
+            prev: "This is how customers will shop your products",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🛍"
+        },
+        'exhibitions': {
+            title: "Bring your art and exhibitions to life",
+            sub: "Virtual tours help visitors explore galleries from anywhere.",
+            cta: "USE EXHIBITION TEMPLATE",
+            publishText: "Publish exhibition tour",
+            prev: "This is how visitors will experience your exhibition",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🎨"
+        },
+        'offices': {
+            title: "Showcase your workspace to potential clients",
+            sub: "Virtual office tours help build trust and attract talent.",
+            cta: "USE OFFICE TEMPLATE",
+            publishText: "Publish office tour",
+            prev: "This is how visitors will explore your office",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏢"
+        },
+        'training': {
+            title: "Create engaging onboarding experiences",
+            sub: "Virtual training tours help new employees learn faster.",
+            cta: "USE TRAINING TEMPLATE",
+            publishText: "Publish training tour",
+            prev: "This is how trainees will experience your program",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "📘"
+        },
+        'showrooms': {
+            title: "Transform your showroom into a virtual experience",
+            sub: "Virtual showrooms help customers explore products anytime.",
+            cta: "USE SHOWROOM TEMPLATE",
+            publishText: "Publish showroom tour",
+            prev: "This is how customers will browse your showroom",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏬"
+        },
+        'tourism': {
+            title: "Let travelers explore destinations before they arrive",
+            sub: "Virtual tours help increase bookings and visitor engagement.",
+            cta: "USE TOURISM TEMPLATE",
+            publishText: "Publish tourism tour",
+            prev: "This is how travelers will discover your destination",
+            succ: "🎉 Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏖"
+        },
+        'fitness': {
+            title: "Showcase your fitness facilities",
+            sub: "Virtual tours help attract new members and showcase amenities.",
+            cta: "USE FITNESS TEMPLATE",
+            publishText: "Publish fitness tour",
+            prev: "This is how members will explore your facility",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏋️"
+        },
+        'museums': {
+            title: "Make cultural sites accessible to everyone",
+            sub: "Virtual museum tours help reach global audiences.",
+            cta: "USE MUSEUM TEMPLATE",
+            publishText: "Publish museum tour",
+            prev: "This is how visitors will explore your museum",
+            succ: "Your tour is published!",
+            succSub: "Your virtual tour has been created and is ready to be displayed on your website.",
+            icon: "🏛"
+        }
+    };
+
+    // Pro / hotspot-limit config (populated via wp_localize_script)
+    const wpvrWizardCfg = (typeof wpvrSetupWizardData !== 'undefined') ? wpvrSetupWizardData : {};
+    const isPro = !!wpvrWizardCfg.is_pro;
+    const HOTSPOT_LIMIT = isPro ? Infinity : (parseInt(wpvrWizardCfg.hotspot_limit, 10) || 5);
+
+    const wizardStrings = wpvrWizardCfg.wizard_strings || {};
+
+    let industrySkipped = false;       // true when user chose to upload own image from step 1
+    let bypassTemplateOnBack = false;  // true when returning backward through the bypassed template step
+    let selectedIndustry = null;
+    let uploadedImageUrl = null;
+    let uploadedImageFile = null;
+    let uploadedImageId = null; // WordPress attachment ID
+    let panoramaViewer = null;
+    let hotspots = [];
+    let pendingHotspotCoords = null;
+    let panoramaMouseDown = null;
+    let panoramaIsDragging = false;
+    let templateData = null; // Store template tour object
+    let mediaUploader = null; // WordPress media uploader instance
+
+    // Skip wizard and redirect to tour listing
+    function skipWizard() {
+        const listingUrl = ajaxurl.replace('admin-ajax.php', 'edit.php?post_type=wpvr_item');
+        window.location.href = listingUrl;
+    }
+
+    // Bind "Remind me later" button (exits the wizard, redirects to listing)
+    $('#wizard-exit').on('click', function (e) {
+        e.preventDefault();
+        skipWizard();
+    });
+
+    // Generate random string for scene IDs (matching WPVR format)
+    function generateRandomString(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            var randomIndex = Math.floor(Math.random() * charactersLength);
+            result += characters.charAt(randomIndex);
+        }
+        return result;
+    }
+
+    // Universal open WP Media method for our workflow
+    function openWPMediaForDirectUpload(callback) {
+        // Create WordPress media uploader with standard frame
+        const uploader = wp.media({
+            title: 'Select or Upload 360° Image',
+            button: {
+                text: 'Select Image'
+            },
+            multiple: false,
+            library: {
+                type: 'image'
+            },
+            state: 'library'
+        });
+
+        // When image is selected
+        uploader.on('select', function () {
+            const attachment = uploader.state().get('selection').first().toJSON();
+            callback(attachment);
+        });
+
+        uploader.open();
+    }
+
+    function clearWizardImageWarning() {
+        if (!window.WPVRImageResizeWarning) {
+            return;
+        }
+
+        window.WPVRImageResizeWarning.remove();
+    }
+
+    function handleWizardPanoramaSelection(attachment, applyImage) {
+        clearWizardImageWarning();
+
+        if (window.WPVRImageResizeWarning) {
+            try {
+                window.WPVRImageResizeWarning.handleSelection(
+                    attachment,
+                    function (imageUrl) {
+                        applyImage(imageUrl, attachment.id);
+                    }
+                );
+            } catch (error) {
+                applyImage(attachment.url, attachment.id);
+            }
+            return;
+        }
+
+        applyImage(attachment.url, attachment.id);
+    }
+
+    // ── Skip-mode UI helper ─────────────────────────────────────────
+    // Toggles the sidebar Template nav item and the progress bars in
+    // step-preview and step-success between the 4-step default and the
+    // 3-step "no template" variant.
+    function updateSkipModeUI(isSkipped) {
+        const filled = '<div class="step-seg filled"></div>';
+        const empty  = '<div class="step-seg"></div>';
+
+        if (isSkipped) {
+            // Hide template nav, renumber remaining steps as 1→2→3
+            $('.nav-item[data-step="step-template"]').hide();
+            $('.nav-item[data-step="step-preview"]').attr('data-number', '2');
+            $('.nav-item[data-step="step-success"]').attr('data-number', '3');
+
+            // Progress bars — 3-step mode
+            $('#step-vertical .step-progress').html(
+                filled + empty + empty +
+                '<span class="step-count">1/3</span>'
+            );
+            $('#step-preview .step-progress').html(
+                filled + filled + empty +
+                '<span class="step-count">2/3</span>'
+            );
+            $('#step-success .step-progress').html(
+                filled + filled + filled +
+                '<span class="step-count">3/3</span>'
+            );
+        } else {
+            // Show template nav, restore original numbers 1→2→3→4
+            $('.nav-item[data-step="step-template"]').show();
+            $('.nav-item[data-step="step-preview"]').attr('data-number', '3');
+            $('.nav-item[data-step="step-success"]').attr('data-number', '4');
+
+            // Progress bars — 4-step mode
+            $('#step-vertical .step-progress').html(
+                filled + empty + empty + empty +
+                '<span class="step-count">1/4</span>'
+            );
+            $('#step-preview .step-progress').html(
+                filled + filled + filled + empty +
+                '<span class="step-count">3/4</span>'
+            );
+            $('#step-success .step-progress').html(
+                filled + filled + filled + filled +
+                '<span class="step-count">4/4</span>'
+            );
+        }
+    }
+
+    // Helper function to update dynamic content based on selected industry
+    function updateDynamicContent() {
+        const data = content[selectedIndustry];
+        if (!data) return;
+
+        $('.dynamic-title').text(data.title);
+        $('.dynamic-sub').text(data.sub);
+        $('#use-template-btn').text(data.cta);
+        $('.dynamic-prev-title').text(data.prev);
+        $('.dynamic-success-title').text(data.succ);
+        $('.dynamic-success-sub').text(data.succSub);
+        $('#publish-btn').text(data.publishText);
+    }
+
+    function updateIconPlaceholder() {
+        const data = content[selectedIndustry];
+        if (!data) return;
+
+        $('#template-icon-placeholder').text(data.icon);
+    }
+
+    // Navigation helper function
+    function navigateTo(stepId) {
+        // Show/Hide Steps Container (contains sidebar + content)
+        if (stepId === 'step-welcome') {
+            $('#steps-container').hide();
+            $('#welcome-content').show();
+            $('#onboarding-app').removeClass('sidebar-visible');
+        } else {
+            $('#steps-container').css('display', 'flex');
+            $('#welcome-content').hide();
+            $('#onboarding-app').addClass('sidebar-visible');
+        }
+
+        // Toggle Active Step
+        $('.step').removeClass('active');
+        $('#' + stepId).addClass('active');
+
+        // Update Sidebar Navigation UI
+        $('.nav-item').removeClass('active');
+        $(`.nav-item[data-step="${stepId}"]`).addClass('active');
+
+        // Mark previous steps as completed
+        updateNavProgress(stepId);
+
+        // Trigger celebration effect on success step (only once)
+        if (stepId === 'step-success' && !celebrationTriggered) {
+            // Small delay to ensure step is fully rendered
+            setTimeout(() => {
+                triggerCelebration();
+            }, 300);
+        } else if (stepId !== 'step-success') {
+            // Remove confetti if navigating away from success
+            $('.confetti-container').remove();
+            // Reset celebration trigger if going back (optional - comment out if you want it to only play once ever)
+            // celebrationTriggered = false;
+        }
+    }
+
+    function updateNavProgress(currentId) {
+        // Dynamically build steps array depending on 'industrySkipped' or direct upload path
+        let steps = ['step-vertical', 'step-template', 'step-preview', 'step-success'];
+
+        if (industrySkipped || (uploadedImageUrl && !templateData)) {
+            // Hide the template nav item in the DOM
+            $('.nav-item[data-step="step-template"]').hide();
+            steps = ['step-vertical', 'step-preview', 'step-success'];
+        } else {
+            $('.nav-item[data-step="step-template"]').show();
+        }
+
+        const currentIndex = steps.indexOf(currentId);
+
+        $('.nav-item').each(function () {
+            const stepId = $(this).data('step');
+
+            // Skip checking hidden steps
+            if (steps.indexOf(stepId) === -1) {
+                $(this).removeClass('completed active');
+                return;
+            }
+
+            const stepIndex = steps.indexOf(stepId);
+
+            if (stepId === currentId) {
+                $(this).removeClass('completed').addClass('active');
+            } else {
+                $(this).removeClass('active');
+                if (stepIndex < currentIndex && stepIndex !== -1) {
+                    $(this).addClass('completed');
+                } else {
+                    $(this).removeClass('completed');
+                }
+            }
+        });
+    }
+
+    // Track if celebration has been triggered to prevent replay
+    let celebrationTriggered = false;
+
+    function triggerCelebration() {
+        // Check if already triggered
+        if (celebrationTriggered) {
+            return;
+        }
+
+        // Check for prefers-reduced-motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            return;
+        }
+
+        // Mark as triggered
+        celebrationTriggered = true;
+
+        // Remove any existing confetti
+        $('.confetti-container').remove();
+
+        // Create confetti container
+        const confettiContainer = $('<div class="confetti-container"></div>');
+        $('body').append(confettiContainer);
+
+        // Create lightweight confetti particles (fewer particles for performance)
+        const colors = ['#3F04FE', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+        const particleCount = 30; // Reduced from 50 for better performance
+
+        // Get check circle position for burst origin
+        const checkCircle = $('.check-circle');
+        let centerX = window.innerWidth / 2;
+        let centerY = window.innerHeight / 2;
+
+        if (checkCircle.length) {
+            const offset = checkCircle.offset();
+            if (offset) {
+                centerX = offset.left + checkCircle.outerWidth() / 2;
+                centerY = offset.top + checkCircle.outerHeight() / 2;
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            const confetti = $('<div class="confetti"></div>');
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Calculate random direction and distance
+            const angle = (Math.PI * 2 * i) / particleCount + (Math.random() * 0.5);
+            const distance = 100 + Math.random() * 150;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            const rotation = 360 + Math.random() * 360;
+
+            confetti.css({
+                'background': color,
+                'left': centerX + 'px',
+                'top': centerY + 'px',
+                '--tx': tx + 'px',
+                '--ty': ty + 'px',
+                '--rot': rotation + 'deg',
+                'width': (6 + Math.random() * 6) + 'px',
+                'height': (6 + Math.random() * 6) + 'px',
+                'border-radius': Math.random() > 0.5 ? '50%' : '0'
+            });
+
+            confettiContainer.append(confetti);
+        }
+
+        // Remove confetti after animation completes (1.2s duration)
+        setTimeout(function () {
+            confettiContainer.remove();
+        }, 1500);
+    }
+
+    // Register onboarding with Linno Onboarding library
+    registerOnboarding({
+        plugin: 'wpvr-onboarding',
+        version: '8.5.54',
+        theme: {
+            color: '#3F04FE'
+        },
+        // WordPress Telemetry Integration
+        telemetry: {
+            onSetupStarted: (data) => {
+                console.log('📊 Telemetry: setup_started', data);
+            },
+            onSetupCompleted: (data) => {
+                console.log('Setup completed event emitted by wizard flow');
+            },
+            onFirstStrikeCompleted: (data) => {
+                console.log('First strike is tracked on first tour publish');
+            }
+        },
+        steps: [
+            {
+                id: 'vertical',
+                title: 'Industry',
+                description: 'What are you creating a virtual tour for?',
+                canGoBack: false,
+                canSkip: false,
+                mount: (container, context) => {
+                    navigateTo('step-vertical');
+
+                    // Reset global state each time we visit the first step from scratch
+                    clearWizardImageWarning();
+                    industrySkipped = false;
+                    bypassTemplateOnBack = false;
+                    updateSkipModeUI(false);
+
+                    setTimeout(() => {
+                        // Initially disable next button until industry is selected
+                        const nextBtn = $('.next-btn[data-next="step-template"]');
+                        if (!selectedIndustry) {
+                            nextBtn.prop('disabled', true).addClass('disabled');
+                        }
+
+                        // Select Industry Flow
+                        $('.v-card').off('click').on('click', function () {
+                            const newIndustry = $(this).data('vertical');
+
+                            // Reset all template/upload/hotspot state when the industry changes
+                            if (selectedIndustry && selectedIndustry !== newIndustry) {
+                                clearWizardImageWarning();
+                                uploadedImageUrl = null;
+                                uploadedImageFile = null;
+                                uploadedImageId = null;
+                                templateData = null;
+                                hotspots = [];
+                                mediaUploader = null;
+                                if (panoramaViewer) {
+                                    try { panoramaViewer.destroy(); } catch (e) { }
+                                    panoramaViewer = null;
+                                }
+                            }
+
+                            $('.v-card').removeClass('active');
+                            $(this).addClass('active');
+                            selectedIndustry = newIndustry;
+                            // Pre-fetch template in the background here (optional) to make next step faster
+
+                            // Auto-proceed to step 2 (Template)
+                            context.goNext();
+                        });
+
+                        // Skip / Upload My Own — triggers wp.media immediately
+                        $('#skip-industry-link').off('click').on('click', function (e) {
+                            e.preventDefault();
+
+                            openWPMediaForDirectUpload(function (attachment) {
+                                handleWizardPanoramaSelection(attachment, function (url, id) {
+                                    if (url) {
+                                        industrySkipped = true;
+                                        selectedIndustry = null;
+                                        uploadedImageUrl = url;
+                                        uploadedImageId = id;
+                                        uploadedImageFile = null;
+                                        templateData = null;
+                                        hotspots = [];
+                                        $('.v-card').removeClass('active');
+
+                                        // Apply 3-step UI before navigating
+                                        updateSkipModeUI(true);
+
+                                        // goNext() lands on template mount which will auto-skip forward
+                                        context.goNext();
+                                    }
+                                });
+                            });
+                        });
+
+                        // Fallback continue btn
+                        $('.next-btn[data-next="step-template"]').off('click').on('click', () => {
+                            context.goNext();
+                        });
+
+                    }, 0);
+                }
+            },
+            {
+                id: 'template',
+                title: 'Template',
+                description: 'Choose your template',
+                canGoBack: true,
+                canSkip: false,
+                onNext: (context) => {
+                    if (!uploadedImageUrl) {
+                        alert('Please upload a 360° image or use a template before proceeding.');
+                        return false;
+                    }
+                    return true;
+                },
+                mount: (container, context) => {
+                    // ── Bypass logic ────────────────────────────────────────────
+                    // If industry was skipped (forward pass) → jump straight to preview
+                    if (industrySkipped) {
+                        updateSkipModeUI(true);
+                        context.goNext();
+                        return;
+                    }
+                    // If returning backward through a previously-skipped template → go to industry
+                    if (bypassTemplateOnBack) {
+                        bypassTemplateOnBack = false;
+                        updateSkipModeUI(false);
+                        context.goBack();
+                        return;
+                    }
+                    // ── Normal template step ─────────────────────────────────
+                    navigateTo('step-template');
+                    updateDynamicContent();
+                    updateIconPlaceholder();
+
+                    setTimeout(() => {
+                        const $useTemplateBtn = $('#use-template-btn');
+                        $useTemplateBtn.removeData('default-text');
+                        const defaultUseTemplateText = $useTemplateBtn.text();
+                        $useTemplateBtn.data('default-text', defaultUseTemplateText);
+                        $useTemplateBtn.prop('disabled', false).removeClass('is-loading');
+
+                        // Always show template box side-by-side with upload button
+                        $('#template-preview-box').show();
+                        $('#upload-section').show();
+
+                        // Bind navigation buttons
+                        $('.btn-back').off('click').on('click', () => {
+                            context.goBack();
+                        });
+
+                        $('.next-btn[data-next="step-preview"]').not('#use-template-btn').off('click').on('click', () => {
+                            context.goNext();
+                        });
+
+                        // Bind WP media direct trigger — both the zone and the browse link
+                        $('#template-upload-zone, #btn-upload-own-image').off('click.tmplUpload').on('click.tmplUpload', function (e) {
+                            e.preventDefault();
+                            openWPMediaForDirectUpload(function (attachment) {
+                                handleWizardPanoramaSelection(attachment, function (url, id) {
+                                    if (url) {
+                                        uploadedImageUrl = url;
+                                        uploadedImageId = id;
+                                        uploadedImageFile = null;
+                                        templateData = null;
+                                        hotspots = [];
+
+                                        // Jump immediately to step-preview
+                                        context.goNext();
+                                    }
+                                });
+                            });
+                        });
+
+                        // Use template button handler - call remote API
+                        $('#use-template-btn').off('click.template').on('click.template', function (e) {
+                            e.preventDefault();
+                            clearWizardImageWarning();
+
+                            // Show loading state
+                            const $btn = $(this);
+                            const originalText = $btn.text();
+                            $btn.prop('disabled', true).addClass('is-loading').text('Importing template & media...');
+
+                            // Call AJAX to fetch template
+                            $.ajax({
+                                url: ajaxurl,
+                                method: 'POST',
+                                data: {
+                                    action: 'wpvr_fetch_template',
+                                    industry: selectedIndustry,
+                                    security: wpvrNonce
+                                },
+                                success: function (response) {
+                                    if (response.success && response.data.template) {
+                                        templateData = response.data.template;
+
+                                        if (templateData.post_id) {
+                                            window.wpvrCreatedTourId = templateData.post_id;
+                                            window.wpvrCreatedTourUrl = templateData.view_url || '';
+                                            window.wpvrCreatedTourEditUrl = templateData.edit_url || '';
+                                        }
+
+                                        // If template has an image URL, use it
+                                        hotspots = [];
+                                        if (templateData.image_url) {
+                                            uploadedImageUrl = templateData.image_url;
+                                        } else {
+                                            // Fallback placeholder
+                                            uploadedImageUrl = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM2YjcyODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5UZW1wbGF0ZSBQcmV2aWV3PC90ZXh0Pjwvc3ZnPg==';
+                                        }
+
+                                        // Auto proceed to next step
+                                        setTimeout(() => {
+                                            context.goNext();
+                                        }, 500);
+                                    } else {
+                                        alert('Failed to load template. Please try again.');
+                                        $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Template fetch error:', error);
+                                    alert('Failed to load template. Please try again.');
+                                    $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
+                                }
+                            });
+                        });
+                    }, 0);
+                }
+            },
+            {
+                id: 'preview',
+                title: 'Preview',
+                description: 'This is how buyers will experience your listing',
+                canGoBack: true,
+                canSkip: false,
+                onNext: (context) => {
+                    // Validate that user has either uploaded an image or used a template
+                    if (!uploadedImageUrl) {
+                        alert('Please upload a 360° image or use a template before proceeding.');
+                        return false;
+                    }
+                    return true;
+                },
+                mount: (container, context) => {
+                    navigateTo('step-preview');
+                    updateDynamicContent();
+                    // Defensive: re-apply skip mode UI in case of any timing issues
+                    updateSkipModeUI(industrySkipped);
+
+                    setTimeout(() => {
+                        // Back button: if user came through skip-mode, go back to industry rather than template
+                        $('.btn-back').off('click').on('click', () => {
+                            if (industrySkipped) {
+                                // Signal template mount to pass straight through backward
+                                bypassTemplateOnBack = true;
+                                industrySkipped = false;
+                                context.goBack(); // lands on template → template auto-calls goBack() to industry
+                            } else {
+                                context.goBack();
+                            }
+                        });
+
+                        $('#publish-btn').off('click').on('click', function () {
+                            const $btn = $(this);
+                            const originalText = $btn.text();
+                            $btn.prop('disabled', true).text('Publishing...');
+
+                            // Build panodata object matching WPVR format
+                            // Generate scene ID (8 character random string)
+                            const sceneId = generateRandomString(8);
+
+                            // Create scene object matching WPVR structure
+                            const scene = {
+                                'scene-type': 'equirectangular',
+                                'scene-id': sceneId,
+                                'hotspot-list': [],
+                                'dscene': 'off',
+                                'scene-attachment-url': uploadedImageUrl
+                            };
+
+                            // Add hotspots if any (matching WPVR format)
+                            if (hotspots.length > 0) {
+                                hotspots.forEach(function (hotspot, index) {
+                                    const hotspotId = generateRandomString(8);
+                                    scene['hotspot-list'].push({
+                                        'hotspot-title': hotspotId,
+                                        'hotspot-pitch': hotspot.pitch,
+                                        'hotspot-yaw': hotspot.yaw,
+                                        'hotspot-customclass': '',
+                                        'hotspot-scene': '',
+                                        'hotspot-url': '',
+                                        'hotspot-content': '',
+                                        'hotspot-hover': '<p>' + (hotspot.text || '') + '</p>',
+                                        'hotspot-type': hotspot.type || 'info',
+                                        'hotspot-scene-list': 'none',
+                                        'wpvr_url_open': {}
+                                    });
+                                });
+                            }
+
+                            // Build panodata structure matching WPVR format
+                            let panodata = {
+                                'autoLoad': true,
+                                'showControls': true,
+                                'customcontrol': '',
+                                'genericform': 'off',
+                                'genericformshortcode': '',
+                                'preview': '',
+                                'defaultscene': sceneId, // Set default scene to generated scene ID
+                                'scenefadeduration': '',
+                                'panodata': {
+                                    'scene-list': {
+                                        '1': scene // WPVR uses numeric keys starting from 1
+                                    }
+                                },
+                                'previewtext': 'Click To Load Panorama'
+                            };
+
+                            // If template data exists, merge it with panodata
+                            if (templateData && templateData.panodata) {
+                                // Merge template settings
+                                if (templateData.autoLoad !== undefined) panodata.autoLoad = templateData.autoLoad;
+                                if (templateData.showControls !== undefined) panodata.showControls = templateData.showControls;
+                                if (templateData.defaultscene) panodata.defaultscene = templateData.defaultscene;
+
+                                // Merge template panodata scene-list if exists
+                                if (templateData.panodata && templateData.panodata['scene-list']) {
+                                    // Merge template scenes with our scene
+                                    Object.assign(panodata.panodata['scene-list'], templateData.panodata['scene-list']);
+                                    // Ensure our scene is the first one (key 1)
+                                    panodata.panodata['scene-list']['1'] = scene;
+                                    panodata.defaultscene = sceneId;
+                                }
+                            }
+
+                            // Create tour via AJAX
+                            $.ajax({
+                                url: ajaxurl,
+                                type: 'POST',
+                                data: {
+                                    action: 'wpvr_create_tour_from_wizard',
+                                    panodata: JSON.stringify(panodata),
+                                    templateMeta: templateData && templateData.meta ? JSON.stringify(templateData.meta) : '',
+                                    existing_post_id: templateData && templateData.post_id ? templateData.post_id : '',
+                                    title: 'My ' + (
+                                        selectedIndustry === 'real-estate' ? 'Property' :
+                                            selectedIndustry === 'hotel' ? 'Hotel' :
+                                                selectedIndustry === 'school' ? 'Campus' :
+                                                    selectedIndustry === 'automotive' ? 'Automotive' :
+                                                        selectedIndustry === 'ecommerce' ? 'E-commerce' :
+                                                            selectedIndustry === 'exhibitions' ? 'Exhibition' :
+                                                                selectedIndustry === 'offices' ? 'Office' :
+                                                                    selectedIndustry === 'training' ? 'Training' :
+                                                                        selectedIndustry === 'showrooms' ? 'Showroom' :
+                                                                            selectedIndustry === 'tourism' ? 'Tourism' :
+                                                                                selectedIndustry === 'fitness' ? 'Fitness' :
+                                                                                    selectedIndustry === 'museums' ? 'Museum' : 'Virtual'
+                                    ) + ' Tour',
+                                    industry: selectedIndustry,
+                                    security: wpvrNonce
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        // Store tour ID and URLs for later use
+                                        window.wpvrCreatedTourId = response.data.post_id;
+                                        window.wpvrCreatedTourUrl = response.data.view_url;
+                                        window.wpvrCreatedTourEditUrl = response.data.edit_url;
+
+                                        // Proceed to next step
+                                        context.goNext();
+                                    } else {
+                                        alert('Failed to create tour: ' + (response.data.message || 'Unknown error'));
+                                        $btn.prop('disabled', false).text(originalText);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Tour creation error:', error);
+                                    alert('Failed to create tour. Please try again.');
+                                    $btn.prop('disabled', false).text(originalText);
+                                }
+                            });
+                        });
+
+                        // Bind skip button
+                        $('#skip-preview').off('click').on('click', function (e) {
+                            e.preventDefault();
+                            skipWizard();
+                        });
+
+                        // Initialize panorama viewer if image is uploaded
+                        if (uploadedImageUrl) {
+                            initPanoramaViewer();
+                        } else {
+                            $('#panorama-container').hide();
+                            $('#preview-image-placeholder').show();
+                        }
+                        renderHotspotList();
+                    }, 0);
+                }
+            },
+            {
+                id: 'success',
+                title: 'Publish',
+                description: 'Your property tour is live!',
+                canGoBack: true,
+                canSkip: false,
+                mount: (container, context) => {
+                    navigateTo('step-success');
+                    updateDynamicContent();
+
+                    // Change pro badge color to #01B5FF on last step
+                    setTimeout(() => {
+                        $('.pro-badge').css({
+                            'background': '#01B5FF',
+                            'background-color': '#01B5FF'
+                        });
+                    }, 0);
+
+                    // Automatically complete onboarding when user reaches the last step
+                    setTimeout(() => {
+                        // Complete the final step to trigger onboarding completion and firstStrike
+                        context.completeStep();
+                    }, 100);
+
+                    setTimeout(() => {
+                        // Bind Consent Checkbox
+                        $('#consent-checkbox').off('change').on('change', function () {
+                            const isChecked = $(this).is(':checked');
+                            $.ajax({
+                                url: ajaxurl,
+                                type: 'POST',
+                                data: {
+                                    action: 'wpvr_save_opt_in_toggle',
+                                    opt_in: isChecked ? 1 : 0,
+                                    security: wpvrNonce
+                                },
+                                success: function (response) {
+                                    console.log('Opt-in preference updated:', response);
+                                }
+                            });
+                        });
+                        // Fire it initially if checked (as it's default checked in template)
+                        if ($('#consent-checkbox').is(':checked')) {
+                            $('#consent-checkbox').trigger('change');
+                        }
+
+                        // Clear localStorage
+                        if (typeof Storage !== 'undefined') {
+                            localStorage.clear();
+                        }
+
+                        // Bind back button (restart)
+                        $('.btn-back').off('click').on('click', () => {
+                            location.reload();
+                        });
+
+                        // Update button text and show shortcode if tour is created
+                        if (window.wpvrCreatedTourId) {
+                            // Show shortcode instructions - insert before primary CTA
+                            const shortcode = '[wpvr id="' + window.wpvrCreatedTourId + '"]';
+                            const shortcodeHtml = '<div class="shortcode-instructions">' +
+                                '<h4 class="shortcode-title">Use This Shortcode on Your Site</h4>' +
+                                '<p class="shortcode-description">Copy this shortcode and paste it into any page, post, or widget area to display your virtual tour.</p>' +
+                                '<div class="shortcode-box">' +
+                                '<code id="tour-shortcode" class="shortcode-code">' + shortcode + '</code>' +
+                                '<button id="copy-shortcode-btn" class="btn-copy-shortcode">Copy Shortcode</button>' +
+                                '</div>' +
+                                '</div>';
+
+                            // Insert shortcode instructions before primary CTA container
+                            if ($('.shortcode-instructions').length === 0) {
+                                $('#step-success .primary-cta-container').before(shortcodeHtml);
+                            }
+
+                            // Copy shortcode functionality
+                            $('#copy-shortcode-btn').off('click').on('click', function () {
+                                const shortcodeText = $('#tour-shortcode').text();
+
+                                // Modern clipboard API
+                                if (navigator.clipboard && navigator.clipboard.writeText) {
+                                    navigator.clipboard.writeText(shortcodeText).then(function () {
+                                        const $btn = $(this);
+                                        const originalText = $btn.text();
+                                        $btn.text('Copied!').css('background', '#10B981');
+                                        setTimeout(function () {
+                                            $btn.text(originalText).css('background', '#E8E1FF');
+                                        }, 2000);
+                                    }.bind(this));
+                                } else {
+                                    // Fallback for older browsers
+                                    const tempInput = $('<input>');
+                                    $('body').append(tempInput);
+                                    tempInput.val(shortcodeText).select();
+                                    document.execCommand('copy');
+                                    tempInput.remove();
+
+                                    const $btn = $(this);
+                                    const originalText = $btn.text();
+                                    $btn.text('Copied!').css('background', '#3F04FE');
+                                    setTimeout(function () {
+                                        $btn.text(originalText).css('background', '#E8E1FF');
+                                    }, 2000);
+                                }
+                            });
+                        }
+
+                        // Bind "Edit Your Tour" button - opens WP admin edit page
+                        $('#edit-tour-btn').off('click.editTour').on('click.editTour', function (e) {
+                            e.preventDefault();
+
+                            // Complete onboarding first
+                            if (context && typeof context.completeStep === 'function') {
+                                context.completeStep();
+                            }
+
+                            // Navigate to edit tour page
+                            if (window.wpvrCreatedTourId) {
+                                const editUrl = ajaxurl.replace('admin-ajax.php', 'post.php?post=' + window.wpvrCreatedTourId + '&action=edit');
+                                window.location.href = editUrl;
+                            } else if (window.wpvrCreatedTourEditUrl) {
+                                window.location.href = window.wpvrCreatedTourEditUrl;
+                            }
+                        });
+
+                        // Bind skip button
+                        $('#skip-success').off('click').on('click', function (e) {
+                            e.preventDefault();
+                            skipWizard();
+                        });
+
+                        // Bind footer "FINISH" button - go to tour listing
+                        $('#step-success .btn-primary-outline').off('click.finish').on('click.finish', function (e) {
+                            e.preventDefault();
+
+                            // Complete onboarding
+                            if (context && typeof context.completeStep === 'function') {
+                                context.completeStep();
+                            }
+
+                            // Navigate to tour listing page
+                            const listingUrl = ajaxurl.replace('admin-ajax.php', 'edit.php?post_type=wpvr_item');
+                            window.location.href = listingUrl;
+                        });
+                    }, 0);
+                }
+            }
+        ],
+        firstStrike: {
+            label: 'WP VR Onboarding Completed',
+            verify: () => {
+                console.log('First Strike verified! Onboarding completed.');
+                return true;
+            }
+        }
+    });
+
+    // Start onboarding
+    engine.start();
+
+    // Listen to step changes and update UI
+    tracker.on('step_changed', (data) => {
+        const currentStep = engine.getCurrentStep();
+        if (currentStep && currentStep.mount) {
+            const container = document.getElementById('onboarding-app');
+            if (container) {
+                currentStep.mount(container, engine.getStepContext());
+            }
+        }
+    });
+
+    tracker.on('step_completed', (data) => {
+        console.log('Step completed:', data);
+    });
+
+    tracker.on('onboarding_completed', (data) => {
+        console.log('Onboarding completed!', data);
+        // Celebration is already handled in the success step mount
+        // Note: Setup completed is now handled in telemetry.onSetupCompleted callback
+    });
+
+    tracker.on('first_strike_verified', (data) => {
+        console.log('First Strike verified!', data);
+        // firstStrike verification is complete
+    });
+
+    // Initial render - show welcome step
+    const currentStep = engine.getCurrentStep();
+    if (currentStep && currentStep.mount) {
+        const container = document.getElementById('onboarding-app');
+        if (container) {
+            currentStep.mount(container, engine.getStepContext());
+        }
+    }
+
+    // Initialize Panorama Viewer
+    function initPanoramaViewer() {
+        // Hide placeholder, show panorama container
+        $('#preview-image-placeholder').hide();
+        $('#panorama-container').show();
+
+        // Destroy existing viewer if any
+        if (panoramaViewer) {
+            try {
+                panoramaViewer.destroy();
+            } catch (e) {
+                console.log('Viewer already destroyed');
+            }
+        }
+
+        // Initialize pannellum viewer
+        const config = {
+            type: "equirectangular",
+            panorama: uploadedImageUrl,
+            autoLoad: true,
+            showControls: true,
+            hotSpotDebug: false,
+            hotSpots: hotspots
+        };
+
+        panoramaViewer = pannellum.viewer('panorama', config);
+
+        // Remove existing 'load' listeners to avoid duplicates
+        panoramaViewer.off('load');
+
+        // Use Pannellum's load event instead of setTimeout for reliable handler attachment
+        panoramaViewer.on('load', function () {
+            // Get both the container and canvas elements
+            const panoramaElement = document.getElementById('panorama');
+            const canvas = document.querySelector('#panorama canvas');
+
+            if (!panoramaElement) {
+                return;
+            }
+
+            // Remove existing listeners from both elements
+            if (canvas) {
+                canvas.removeEventListener('mousedown', handlePanoramaMouseDown, true);
+                canvas.removeEventListener('mousemove', handlePanoramaMouseMove, true);
+                canvas.removeEventListener('mouseup', handlePanoramaMouseUp, true);
+            }
+
+            panoramaElement.removeEventListener('mousedown', handlePanoramaMouseDown, true);
+            panoramaElement.removeEventListener('mousemove', handlePanoramaMouseMove, true);
+            panoramaElement.removeEventListener('mouseup', handlePanoramaMouseUp, true);
+
+            // Attach to the panorama container with capture phase
+            // This will catch events before Pannellum's handlers
+            panoramaElement.addEventListener('mousedown', handlePanoramaMouseDown, true);
+            panoramaElement.addEventListener('mousemove', handlePanoramaMouseMove, true);
+            panoramaElement.addEventListener('mouseup', handlePanoramaMouseUp, true);
+        });
+    }
+
+    // Handle panorama mousedown - track if it's a click or drag
+    function handlePanoramaMouseDown(e) {
+        // Only handle left clicks
+        if (e.button !== 0) {
+            return;
+        }
+
+        // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
+        // But NOT pnlm-dragfix which is the main dragging overlay
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-fullscreen-toggle-button, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+            return;
+        }
+
+        // Check if clicking on an existing hotspot
+        const hotspotElement = e.target.closest('.pnlm-hotspot');
+        if (hotspotElement) {
+            return;
+        }
+
+        // Verify panoramaViewer exists and has required methods
+        if (!panoramaViewer) {
+            return;
+        }
+
+        // Use Pannellum's built-in projection math to get accurate pitch/yaw
+        // This handles all edge cases, HFOV variations, and aspect ratios correctly
+        let clickPitch, clickYaw;
+
+        if (typeof panoramaViewer.mouseEventToCoords === 'function') {
+            const coords = panoramaViewer.mouseEventToCoords(e);
+            if (coords && coords.length === 2) {
+                clickPitch = coords[0];
+                clickYaw = coords[1];
+            } else {
+                return;
+            }
+        } else {
+            // Fallback to manual calculation if mouseEventToCoords is not available
+            if (typeof panoramaViewer.getPitch !== 'function') {
+                return;
+            }
+
+            const currentPitch = panoramaViewer.getPitch();
+            const currentYaw = panoramaViewer.getYaw();
+            const currentHfov = panoramaViewer.getHfov();
+
+            const canvas = document.querySelector('#panorama canvas');
+            if (!canvas) {
+                return;
+            }
+
+            const rect = canvas.getBoundingClientRect();
+            const canvasWidth = rect.width;
+            const canvasHeight = rect.height;
+
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            const normalizedX = (mouseX / canvasWidth - 0.5) * 2;
+            const normalizedY = (mouseY / canvasHeight - 0.5) * 2;
+
+            const vfov = currentHfov * (canvasHeight / canvasWidth);
+            const yawOffset = normalizedX * (currentHfov / 2);
+            const pitchOffset = -normalizedY * (vfov / 2);
+
+            clickPitch = currentPitch + pitchOffset;
+            clickYaw = currentYaw + yawOffset;
+        }
+
+        // Store mouse down position, time, and calculated coordinates
+        panoramaMouseDown = {
+            x: e.clientX,
+            y: e.clientY,
+            time: Date.now(),
+            pitch: clickPitch,
+            yaw: clickYaw
+        };
+        panoramaIsDragging = false;
+
+        // Don't prevent default or stop propagation - let Pannellum handle dragging
+    }
+
+    // Handle panorama mousemove - detect if dragging
+    function handlePanoramaMouseMove(e) {
+        if (panoramaMouseDown) {
+            const deltaX = Math.abs(e.clientX - panoramaMouseDown.x);
+            const deltaY = Math.abs(e.clientY - panoramaMouseDown.y);
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // If mouse moved more than 5 pixels, it's a drag
+            if (distance > 5 && !panoramaIsDragging) {
+                panoramaIsDragging = true;
+            }
+        }
+    }
+
+    // Handle panorama mouseup - only show hotspot if it was a click, not a drag
+    function handlePanoramaMouseUp(e) {
+        if (!panoramaMouseDown) return;
+
+        // Only handle left clicks
+        if (e.button !== 0) {
+            panoramaMouseDown = null;
+            return;
+        }
+
+        // Ignore clicks on Pannellum UI control buttons (zoom, fullscreen, etc.)
+        // But NOT pnlm-dragfix which is the main dragging overlay
+        if (e.target.closest('.pnlm-zoom-in, .pnlm-zoom-out, .pnlm-fullscreen, .pnlm-fullscreen-toggle-button, .pnlm-load-button, .pnlm-about-msg, .pnlm-compass, .pnlm-orientation')) {
+            panoramaMouseDown = null;
+            panoramaIsDragging = false;
+            return;
+        }
+
+        // Check if clicking on an existing hotspot
+        if (e.target.closest('.pnlm-hotspot')) {
+            panoramaMouseDown = null;
+            panoramaIsDragging = false;
+            return;
+        }
+
+        // Only show hotspot modal if it was a click (not a drag)
+        if (!panoramaIsDragging) {
+            const timeDiff = Date.now() - panoramaMouseDown.time;
+
+            // Also check time - if mouse was held for less than 300ms, it's likely a click
+            if (timeDiff < 300) {
+                // Use the pitch and yaw captured at mousedown (before any potential drag)
+                const pitch = panoramaMouseDown.pitch;
+                const yaw = panoramaMouseDown.yaw;
+
+                // Store coordinates for hotspot creation
+                pendingHotspotCoords = { pitch, yaw };
+
+                // Enforce free-version hotspot limit before opening modal
+                if (!isPro && hotspots.length >= HOTSPOT_LIMIT) {
+                    showHotspotLimitNotice();
+                    pendingHotspotCoords = null;
+                    return;
+                }
+
+                // Show hotspot modal
+                showHotspotModal();
+            }
+        }
+
+        // Reset tracking
+        panoramaMouseDown = null;
+        panoramaIsDragging = false;
+    }
+
+    // Show hotspot modal
+    function showHotspotModal() {
+        $('#hotspot-modal').fadeIn(200);
+        $('#hotspot-text').val('').focus();
+    }
+
+    // Hide hotspot modal
+    function hideHotspotModal() {
+        $('#hotspot-modal').fadeOut(200);
+        $('#hotspot-text').val('');
+        pendingHotspotCoords = null;
+    }
+
+    // Show the premium upgrade popup when hotspot limit is reached
+    function showHotspotLimitNotice() {
+        var $popup = $('#wpvr_premium_feature_popup');
+        if (!$popup.length) {
+            return;
+        }
+
+        // Swap in hotspot-limit-specific text
+        var $heading = $popup.find('.wpvr-premium-feature__heading');
+        var $subheading = $popup.find('.wpvr-premium-feature__subheading');
+        $heading.data('original-text', $heading.text());
+        $subheading.data('original-html', $subheading.html());
+        $heading.text(wizardStrings.limit_heading || 'Limit Reached');
+        $subheading.html(
+            '<p>' + (wizardStrings.limit_line1 || 'You can add up to ' + HOTSPOT_LIMIT + ' hotspots on each scene in the Free version.') + '</p>' +
+            '<p>' + (wizardStrings.limit_line2 || 'Upgrade to Pro to add an unlimited number of hotspots.') + '</p>'
+        );
+
+        // Apply the discount label CSS custom property
+        var $label = $popup.find('.wpvr-premium-feature__discount-price-label');
+        if ($label.length) {
+            $label[0].style.setProperty('--discount-content-value', '"' + ($label.data('discount') || '') + '"');
+        }
+        $popup.show();
+    }
+
+    // Hide the premium upgrade popup and restore original heading text
+    function hideHotspotLimitNotice() {
+        var $popup = $('#wpvr_premium_feature_popup');
+        var $heading = $popup.find('.wpvr-premium-feature__heading');
+        var $subheading = $popup.find('.wpvr-premium-feature__subheading');
+        if ($heading.data('original-text')) {
+            $heading.text($heading.data('original-text'));
+        }
+        if ($subheading.data('original-html')) {
+            $subheading.html($subheading.data('original-html'));
+        }
+        $popup.hide();
+    }
+
+    // Save hotspot
+    function saveHotspot() {
+        const text = $('#hotspot-text').val().trim();
+
+        if (!isPro && hotspots.length >= HOTSPOT_LIMIT) {
+            hideHotspotModal();
+            showHotspotLimitNotice();
+            return;
+        }
+
+        if (!text) {
+            alert('Please enter hotspot text');
+            return;
+        }
+
+        if (!pendingHotspotCoords) {
+            alert('Error: No coordinates available');
+            return;
+        }
+
+        // Create hotspot object
+        const hotspot = {
+            pitch: pendingHotspotCoords.pitch,
+            yaw: pendingHotspotCoords.yaw,
+            type: "info",
+            text: text
+        };
+
+        // Add to hotspots array
+        hotspots.push(hotspot);
+
+        // Reinitialize viewer with updated hotspots
+        initPanoramaViewer();
+
+        // Update hotspot list
+        renderHotspotList();
+
+        // Hide modal
+        hideHotspotModal();
+    }
+
+    // Render hotspot list below panorama with remove buttons
+    function renderHotspotList() {
+        const $list = $('#hotspot-list');
+        if (!$list.length) return;
+
+        $list.empty();
+
+        if (hotspots.length === 0) {
+            return;
+        }
+
+        const $label = $('<p class="hotspot-list-label">Hotspot</p>');
+        const $items = $('<ul class="hotspot-items"></ul>');
+        hotspots.forEach(function (hotspot, index) {
+            const escapedText = $('<span>').text(hotspot.text).html();
+            const $item = $('<li class="hotspot-item">' +
+                '<span class="hotspot-item-text">' + escapedText + '</span>' +
+                '<button class="hotspot-item-remove" data-index="' + index + '" title="Remove hotspot" aria-label="Remove hotspot">&times;</button>' +
+                '</li>');
+            $items.append($item);
+        });
+        $list.append($label);
+        $list.append($items);
+
+        $list.find('.hotspot-item-remove').off('click').on('click', function () {
+            const index = parseInt($(this).data('index'), 10);
+            hotspots.splice(index, 1);
+            initPanoramaViewer();
+            renderHotspotList();
+        });
+    }
+
+    // Bind hotspot modal handlers
+    $(document).ready(function () {
+        $('#hotspot-save').off('click').on('click', saveHotspot);
+        $('#hotspot-cancel, #hotspot-modal-close').off('click').on('click', hideHotspotModal);
+
+        // Close the premium popup via the built-in close button
+        $(document).off('click.limitDismiss').on('click.limitDismiss', '#wpvr_premium_feature_close', function () {
+            hideHotspotLimitNotice();
+        });
+
+        // Close on clicking outside modal
+        $('#hotspot-modal').off('click').on('click', function (e) {
+            if ($(e.target).is('#hotspot-modal')) {
+                hideHotspotModal();
+            }
+        });
+
+        // Prevent modal content clicks from closing modal
+        $('.hotspot-modal-content').off('click').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        // Close on Escape key
+        $(document).off('keydown.hotspot').on('keydown.hotspot', function (e) {
+            if (e.key === 'Escape' && $('#hotspot-modal').is(':visible')) {
+                hideHotspotModal();
+            }
+        });
+
+        // Submit on Enter key
+        $('#hotspot-text').off('keypress').on('keypress', function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                saveHotspot();
+            }
+        });
+    });
+});

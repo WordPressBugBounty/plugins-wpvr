@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'RexTheme\\WPVR\\' => array($baseDir . '/src'),
     'PostHog\\' => array($vendorDir . '/posthog/posthog-php/lib'),
     'LinnoSDK\\Telemetry\\' => array($vendorDir . '/linno/telemetry/src'),
 );

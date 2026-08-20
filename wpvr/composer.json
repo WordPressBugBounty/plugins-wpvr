@@ -1,18 +1,21 @@
 {
-    "name": "wpvr/wpvr",
-    "authors": [
-        {
-            "name": "RexTheme",
-            "email": "support@rextheme.com"
-        }
-    ],
+    "name": "rextheme/wpvr",
+    "license": "GPL-2.0+",
     "autoload": {
+        "psr-4": {
+            "RexTheme\\WPVR\\": "src/"
+        },
         "classmap": [
-            "admin/",
-            "public/",
-            "includes/"
+            "legacy/admin/",
+            "legacy/public/",
+            "legacy/includes/"
         ]
     },
+    "authors": [
+        {
+            "name": "RexTheme"
+        }
+    ],
     "extra": {
         "wordpress-install-dir": "wordpress",
         "patches": {
@@ -32,8 +35,7 @@
         "wp-coding-standards/wpcs": "^3.1",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "phpcompatibility/phpcompatibility-wp": "^2.1",
-        "roots/wordpress-core-installer": "^1.100",
-        "cweagans/composer-patches": "^1.7"
+        "roots/wordpress-core-installer": "^1.100"
     },
     "config": {
         "allow-plugins": {

@@ -1,0 +1,251 @@
+/* WP VR — Create Tour Modal (listing page) */
+
+.wpvr-ctm-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, .55);
+	z-index: 100100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: wpvr-ctm-fade .15s ease;
+}
+
+@keyframes wpvr-ctm-fade {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+.wpvr-ctm {
+	background: #fff;
+	border-radius: 8px;
+	width: 640px;
+	max-width: calc(100vw - 40px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, .18);
+	animation: wpvr-ctm-scale .15s ease;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@keyframes wpvr-ctm-scale {
+	from { transform: scale(.96); opacity: 0; }
+	to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Header */
+.wpvr-ctm__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	padding: 20px 24px 16px;
+	border-bottom: 1px solid #e6e6e6;
+}
+.wpvr-ctm__title {
+	font-size: 18px;
+	font-weight: 600;
+	color: #1e1e1e;
+	margin: 0;
+	line-height: 1.3;
+}
+.wpvr-ctm__subtitle {
+	font-size: 13px;
+	color: #757575;
+	margin: 4px 0 0;
+}
+.wpvr-ctm__close {
+	background: none;
+	border: none;
+	color: #757575;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 2px 6px;
+	border-radius: 4px;
+	transition: color .15s;
+	flex-shrink: 0;
+}
+.wpvr-ctm__close:hover { color: #1e1e1e; }
+
+/* Body */
+.wpvr-ctm__body {
+	padding: 20px 24px;
+}
+.wpvr-ctm__field {
+	margin-bottom: 20px;
+}
+.wpvr-ctm__field:last-child {
+	margin-bottom: 0;
+}
+.wpvr-ctm__label {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	color: #3c434a;
+	margin-bottom: 8px;
+}
+.wpvr-ctm__required {
+	color: #d63638;
+	margin-left: 2px;
+}
+.wpvr-ctm__input {
+	width: 100%;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	font-size: 14px;
+	color: #1e1e1e;
+	background: #fff;
+	outline: none;
+	transition: border-color .15s, box-shadow .15s;
+}
+.wpvr-ctm__input:focus {
+	border-color: #3F04FE;
+	box-shadow: 0 0 0 1px #3F04FE;
+}
+.wpvr-ctm__input--error {
+	border-color: #d63638;
+}
+.wpvr-ctm__error {
+	display: block;
+	font-size: 12px;
+	color: #d63638;
+	margin-top: 4px;
+}
+
+/* Cards */
+.wpvr-ctm__cards {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: 1fr;
+	align-items: stretch;
+	gap: 12px;
+}
+.wpvr-ctm__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px 14px 16px;
+	border: 2px solid #dcdcde;
+	border-radius: 8px;
+	background: #f6f7f7;
+	cursor: pointer;
+	text-align: center;
+	gap: 8px;
+	transition: border-color .15s, background .15s;
+	font-family: inherit;
+	width: 100%;
+	box-sizing: border-box;
+}
+.wpvr-ctm__card:hover:not([disabled]) {
+	border-color: #3F04FE;
+	background: #fff;
+}
+.wpvr-ctm__card--selected {
+	border-color: #3F04FE;
+	background: rgba(63, 4, 254, .06);
+}
+.wpvr-ctm__card[disabled] {
+	opacity: .55;
+	cursor: not-allowed;
+}
+.wpvr-ctm__card .is-pro {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 1;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 17px;
+	padding: 0;
+	color: #fff;
+	font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 17px;
+	text-transform: none;
+	background: #00b4ff;
+	border-radius: 7px 7px 7px 0;
+}
+.wpvr-ctm__card-icon {
+	width: 48px;
+	height: 48px;
+	flex-shrink: 0;
+	display: block;
+}
+.wpvr-ctm__card-title {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1e1e1e;
+	line-height: 1.3;
+}
+.wpvr-ctm__card-desc {
+	font-size: 11px;
+	color: #757575;
+	line-height: 1.45;
+	flex: 1;
+}
+.wpvr-ctm__card-radio {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 2px solid #dcdcde;
+	background: #fff;
+	flex-shrink: 0;
+	transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.wpvr-ctm__card-radio--checked {
+	border-color: #3F04FE;
+	background: #3F04FE;
+	box-shadow: inset 0 0 0 3px #fff;
+}
+
+/* Footer */
+.wpvr-ctm__footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 16px 24px;
+	background: #f6f7f7;
+	border-top: 1px solid #e6e6e6;
+}
+.wpvr-ctm__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 36px;
+	padding: 0 18px;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: background .15s, opacity .15s;
+	font-family: inherit;
+}
+.wpvr-ctm__btn--primary {
+	background: #3F04FE;
+	color: #fff;
+	border-color: #3F04FE;
+}
+.wpvr-ctm__btn--primary:hover:not([disabled]) {
+	background: #3200CC;
+	border-color: #3200CC;
+}
+.wpvr-ctm__btn--primary[disabled] {
+	opacity: .6;
+	cursor: not-allowed;
+}
+.wpvr-ctm__btn--secondary {
+	background: #fff;
+	color: #1e1e1e;
+	border-color: #dcdcde;
+}
+.wpvr-ctm__btn--secondary:hover {
+	background: #f6f7f7;
+}
