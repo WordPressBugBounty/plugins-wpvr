@@ -2086,7 +2086,7 @@ function processOptions(isPreview) {
                 break;
 
             case 'autoLoad':
-                if (config[key] === true && renderer === undefined) {
+                if ((config[key] === true || config[key] === 'true' || config[key] === 'on' || config[key] === 1 || config[key] === '1') && renderer === undefined) {
                     // Show loading box
                     infoDisplay.load.box.style.display = 'inline';
                     // Hide load button

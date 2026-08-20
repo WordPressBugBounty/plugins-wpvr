@@ -824,23 +824,23 @@ class WPVR_Scene {
 
         $draggable = true;
         if (isset($postdata['draggable'])) {
-            $draggable = $postdata['draggable'] == 'off' || $postdata['draggable'] == null ? false : true;
+            $draggable = ! in_array( $postdata['draggable'], array( 'off', 'false', false ), true );
         }
 
         $diskeyboard = false;
         if (isset($postdata['diskeyboard'])) {
-            $diskeyboard = $postdata['diskeyboard'] == 'off' || $postdata['diskeyboard'] == null ? false : true;
+            $diskeyboard = ! in_array( $postdata['diskeyboard'], array( 'off', 'false', false ), true );
         }
 
         $keyboardzoom = true;
         if (isset($postdata['keyboardzoom'])) {
-            $keyboardzoom = $postdata['keyboardzoom'];
+            $keyboardzoom = ! in_array( $postdata['keyboardzoom'], array( 'off', 'false', false ), true );
         }
 
         $autoload = false;
 
         if (isset($postdata['autoLoad'])) {
-            $autoload = $postdata['autoLoad'];
+            $autoload = in_array( $postdata['autoLoad'], array( true, 1, '1', 'on', 'true' ), true );
         }
 
         $default_scene = '';
@@ -1573,8 +1573,8 @@ class WPVR_Scene {
         $social_logo_top = '';
         //===company logo===//
         if (isset($postdata['cpLogoSwitch'])) {
-            $cpLogoImg = $postdata['cpLogoImg'];
-            $cpLogoContent = $postdata['cpLogoContent'];
+            $cpLogoImg = $postdata['cpLogoImg'] ?? '';
+            $cpLogoContent = $postdata['cpLogoContent'] ?? '';
             if ($postdata['cpLogoSwitch'] == 'on' && 'valid' == $status  && $is_pro) {
                 $html .= '<div id="cp-logo-controls">';
                 $html .= '<div class="cp-logo-ctrl" id="cp-logo">';

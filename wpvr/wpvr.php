@@ -18,7 +18,7 @@ use RexTheme\WPVR\Tracker\WPVRLinnoTelemetry;
  * Plugin Name:       WP VR - 360 Panorama and Virtual Tour Builder
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.
- * Version:           9.0.0
+ * Version:           9.0.1
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WPVR_VERSION', '9.0.0');
+define('WPVR_VERSION', '9.0.1');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__).'legacy/');
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__).'legacy/');
@@ -119,6 +119,10 @@ if ( ! function_exists( 'wpvr_get_effective_panodata' ) ) {
             $postdata['scene_navigation'] = in_array( $postdata['scene_navigation'], [ true, 1, '1', 'on' ], true ) ? 'on' : 'off';
         }
 
+        if ( isset( $postdata['autoLoad'] ) ) {
+            $postdata['autoLoad'] = in_array( $postdata['autoLoad'], [ true, 1, '1', 'on', 'true' ], true );
+        }
+
         if ( wpvr_is_pro_active() ) {
             return $postdata;
         }
@@ -155,6 +159,8 @@ if ( ! function_exists( 'wpvr_get_effective_panodata' ) ) {
         $postdata['hfov']        = '';
         $postdata['maxHfov']     = '';
         $postdata['minHfov']     = '';
+        $postdata['cpLogoImg']   = '';
+        $postdata['cpLogoContent'] = '';
 
         if ( ( $postdata['tour-type'] ?? '' ) === 'street-view' || isset( $postdata['streetviewdata'] ) ) {
             $postdata['tour-type']     = 'image';

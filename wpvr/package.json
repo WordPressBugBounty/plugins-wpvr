@@ -1,6 +1,6 @@
 {
   "name": "wpvr",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.",
   "scripts": {
     "build": "wp-scripts build",

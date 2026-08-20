@@ -110,8 +110,12 @@ class TourTransformer implements TransformerInterface {
             : ( $scenes[0]['id'] ?? '' );
 
         $raw = [
-            'autoLoad'           => ! empty( $settings['autoLoad'] ),
+            'autoLoad'           => ! empty( $settings['autoLoad'] ) && $settings['autoLoad'] !== 'off' && $settings['autoLoad'] !== 'false',
             'showControls'       => ! empty( $settings['showControls'] ),
+            'draggable'          => ( isset( $advanced_control['draggable'] ) && ( $advanced_control['draggable'] === 'off' || $advanced_control['draggable'] === false ) ) ? 'off' : 'on',
+            'mouseZoom'          => ( isset( $advanced_control['mouseZoom'] ) && ( $advanced_control['mouseZoom'] === 'off' || $advanced_control['mouseZoom'] === false ) ) ? 'off' : 'on',
+            'diskeyboard'        => ( isset( $advanced_control['diskeyboard'] ) && ( $advanced_control['diskeyboard'] === 'off' || $advanced_control['diskeyboard'] === false ) ) ? 'off' : 'on',
+            'keyboardzoom'       => ( isset( $advanced_control['keyboardzoom'] ) && ( $advanced_control['keyboardzoom'] === 'off' || $advanced_control['keyboardzoom'] === false ) ) ? false : true,
             'previewtext'        => $settings['previewText'] ?? '',
             'scenefadeduration'  => isset( $settings['sceneFadeDuration'] ) ? (string) $settings['sceneFadeDuration'] : '0',
             'scene-info-enabled' => array_key_exists( 'showSceneInfo', $settings ) && ! $settings['showSceneInfo'] ? 'off' : 'on',
