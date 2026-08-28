@@ -50,6 +50,9 @@ class Shortcode {
     }
 
     private function render_streetview( array $postdata, array $atts ) {
+        if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
+            wpvr_enqueue_frontend_scripts( 'streetview' );
+        }
         $width  = ! empty( $atts['width'] )  ? esc_attr( $atts['width'] )  : '600px';
         $height = ! empty( $atts['height'] ) ? esc_attr( $atts['height'] ) : '400px';
         $url    = esc_url( $postdata['streetviewurl'] ?? '' );

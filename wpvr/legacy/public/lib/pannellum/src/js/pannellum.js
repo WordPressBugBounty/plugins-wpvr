@@ -515,15 +515,16 @@ function onImageLoad() {
             dragFix.addEventListener('pointermove', onDocumentPointerMove, false);
             dragFix.addEventListener('pointerup', onDocumentPointerUp, false);
             dragFix.addEventListener('pointerleave', onDocumentPointerUp, false);
+            dragFix.addEventListener('pointercancel', onDocumentPointerUp, false);
         } else {
             dragFix.addEventListener('touchstart', onDocumentTouchStart, { passive: false });
             dragFix.addEventListener('touchmove', onDocumentTouchMove, { passive: false });
             dragFix.addEventListener('touchend', onDocumentTouchEnd, false);
+            dragFix.addEventListener('touchcancel', onDocumentTouchEnd, false);
         }
 
-        // Deal with MS pointer events
-        if (window.navigator.pointerEnabled)
-            container.style.touchAction = 'none';
+        // Deal with touch-action for pointer / touch events
+        container.style.touchAction = 'none';
     }
 
     renderInit();
@@ -982,10 +983,15 @@ var pointerIDs = [],
  * @param {PointerEvent} event - Document pointer down event.
  */
 function onDocumentPointerDown(event) {
-    if (event.pointerType == 'touch') {
+    if (event.pointerType == 'touch' || event.pointerType == 'pen') {
         // Only do something if the panorama is loaded
         if (!loaded || !config.draggable)
             return;
+        try {
+            if (event.target && event.target.setPointerCapture) {
+                event.target.setPointerCapture(event.pointerId);
+            }
+        } catch (e) {}
         pointerIDs.push(event.pointerId);
         var pos = mousePosition(event);
         pointerCoordinates.push({clientX: pos.x, clientY: pos.y});
@@ -1001,7 +1007,7 @@ function onDocumentPointerDown(event) {
  * @param {PointerEvent} event - Document pointer move event.
  */
 function onDocumentPointerMove(event) {
-    if (event.pointerType == 'touch') {
+    if (event.pointerType == 'touch' || event.pointerType == 'pen') {
         if (!config.draggable)
             return;
         for (var i = 0; i < pointerIDs.length; i++) {
@@ -1024,7 +1030,12 @@ function onDocumentPointerMove(event) {
  * @param {PointerEvent} event - Document pointer up event.
  */
 function onDocumentPointerUp(event) {
-    if (event.pointerType == 'touch') {
+    if (event.pointerType == 'touch' || event.pointerType == 'pen') {
+        try {
+            if (event.target && event.target.releasePointerCapture) {
+                event.target.releasePointerCapture(event.pointerId);
+            }
+        } catch (e) {}
         var defined = false;
         for (var i = 0; i < pointerIDs.length; i++) {
             if (event.pointerId == pointerIDs[i])

@@ -2514,12 +2514,12 @@ class WPVR_Format
         $html .= 'var scenehotspot = scenedata[i].hotSpots;';
         $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
         $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-        $html .= 'scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+        $html .= 'scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '}';
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
             $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = wpvrtooltip;';
+            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
         $html .= '}';

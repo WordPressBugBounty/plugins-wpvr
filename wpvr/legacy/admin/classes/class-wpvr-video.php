@@ -165,6 +165,9 @@ class WPVR_Video {
      */
     public function render_video_shortcode($postdata, $id, $width, $height, $radius)
     {
+        if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
+            wpvr_enqueue_frontend_scripts( 'video' );
+        }
         if (empty($width)) {
             $width = '600px';
         }

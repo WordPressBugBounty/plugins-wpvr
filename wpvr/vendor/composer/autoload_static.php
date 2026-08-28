@@ -11,30 +11,30 @@ class ComposerStaticInit55ceedea2b0a4e85eb3299ec0d368af1
     );
 
     public static $prefixLengthsPsr4 = array (
-        'R' =>
+        'R' => 
         array (
             'RexTheme\\WPVR\\' => 14,
         ),
-        'P' =>
+        'P' => 
         array (
             'PostHog\\' => 8,
         ),
-        'L' =>
+        'L' => 
         array (
             'LinnoSDK\\Telemetry\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'RexTheme\\WPVR\\' =>
+        'RexTheme\\WPVR\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'PostHog\\' =>
+        'PostHog\\' => 
         array (
             0 => __DIR__ . '/..' . '/posthog/posthog-php/lib',
         ),
-        'LinnoSDK\\Telemetry\\' =>
+        'LinnoSDK\\Telemetry\\' => 
         array (
             0 => __DIR__ . '/..' . '/linno/telemetry/src',
         ),

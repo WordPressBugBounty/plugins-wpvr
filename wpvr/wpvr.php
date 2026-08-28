@@ -18,7 +18,7 @@ use RexTheme\WPVR\Tracker\WPVRLinnoTelemetry;
  * Plugin Name:       WP VR - 360 Panorama and Virtual Tour Builder
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.
- * Version:           9.0.1
+ * Version:           9.0.2
  * Tested up to:      6.9
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WPVR_VERSION', '9.0.1');
+define('WPVR_VERSION', '9.0.2');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__).'legacy/');
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__).'legacy/');
@@ -154,7 +154,7 @@ if ( ! function_exists( 'wpvr_get_effective_panodata' ) ) {
         ];
         $postdata['draggable']   = true;
         $postdata['mouseZoom']   = true;
-        $postdata['diskeyboard'] = true;
+        $postdata['diskeyboard'] = false;
         $postdata['keyboardzoom'] = true;
         $postdata['hfov']        = '';
         $postdata['maxHfov']     = '';

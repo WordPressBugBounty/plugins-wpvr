@@ -679,7 +679,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                                 const hasOtherContent = val["clickHandlerArgs"].replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
                                 
                                 if (hasTextContent || hasMediaContent || hasOtherContent) {
-                                    val["clickHandlerFunc"] = wpvrhotspot;
+                                    val["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspot === "function") { wpvrhotspot(div, args); } else if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };
                                 }
                             }
                             if (val["createTooltipArgs"]) {
@@ -688,7 +688,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                                 const hasOtherContent = val["createTooltipArgs"].replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
                                 
                                 if (hasTextContent || hasMediaContent || hasOtherContent) {
-                                    val["createTooltipFunc"] = wpvrtooltip;
+                                    val["createTooltipFunc"] = function(div, args) { if (typeof wpvrtooltip === "function") { wpvrtooltip(div, args); } else if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };
                                 }
                             }
                         });

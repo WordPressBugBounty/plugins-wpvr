@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'rextheme/wpvr',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '1aa4b837c02c7439f3ee7ae6cc82ddfac5d85017',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'a91785f7933bdbbfd295baf0aff3d9e693f5bc33',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'rextheme/wpvr' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '1aa4b837c02c7439f3ee7ae6cc82ddfac5d85017',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'a91785f7933bdbbfd295baf0aff3d9e693f5bc33',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

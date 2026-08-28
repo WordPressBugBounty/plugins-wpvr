@@ -48,6 +48,7 @@ function wpvrhotspot(hotSpotDiv, hotspotData) {
         }
     }
 }
+window.wpvrhotspot = wpvrhotspot;
 
 function wpvrtooltip(hotSpotDiv, args) {
     if (args) {
@@ -85,6 +86,7 @@ function wpvrtooltip(hotSpotDiv, args) {
         }
     }
 }
+window.wpvrtooltip = wpvrtooltip;
 
 jQuery(document).ready(function($) {
 
@@ -107,8 +109,8 @@ jQuery(document).ready(function($) {
 
 jQuery(document).ready(function($) {
 
-    var notice_active = wpvr_public.notice_active;
-    var notice = wpvr_public.notice;
+    var notice_active = (typeof wpvr_public !== 'undefined') ? wpvr_public.notice_active : '';
+    var notice = (typeof wpvr_public !== 'undefined') ? wpvr_public.notice : '';
     if (notice_active == "true") {
         if (!$.cookie("wpvr_mobile_notice")) {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {

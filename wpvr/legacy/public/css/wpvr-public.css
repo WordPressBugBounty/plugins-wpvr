@@ -3,6 +3,13 @@
  * included in this file.
 */
 
+.pnlm-container,
+.pano-wrap,
+#master-container,
+.pnlm-dragfix {
+  touch-action: none !important;
+}
+
 .vr-pointer-container {
   position: absolute;
   top: 50%;

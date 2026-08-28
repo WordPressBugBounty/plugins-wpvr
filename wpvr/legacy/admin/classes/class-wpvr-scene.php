@@ -661,6 +661,9 @@ class WPVR_Scene {
      */
     public function render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height)
     {
+        if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
+            wpvr_enqueue_frontend_scripts( 'scene' );
+        }
         $postdata = is_array( $postdata ) ? wpvr_get_effective_panodata( $postdata ) : [];
         $show_scene_info = ( $postdata['scene-info-enabled'] ?? 'on' ) !== 'off';
         $tour_layout = is_array( $postdata['tourLayout'] ?? null )
@@ -2164,13 +2167,13 @@ class WPVR_Scene {
         $html .= 'var scenehotspot = scenedata[i].hotSpots;';
         $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
         $html .= 'if(scenehotspot[i].type === "info") {';
-        $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+        $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '} else if(scenehotspot[i].type === "scene") {';
         $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
         $status = get_option('wpvr_edd_license_status');
         if ($status !== false && $status == 'valid') {
-            $html .='if(wpvr_public.is_pro_active) {';
-            $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspotscene;';
+            $html .='if(typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {';
+            $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspotscene === "function") { wpvrhotspotscene(div, args); } else if (typeof window.wpvrhotspotscene === "function") { window.wpvrhotspotscene(div, args); } };';
             $html .='}';
         }
         $html .= '}';
@@ -2178,14 +2181,18 @@ class WPVR_Scene {
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
             $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = wpvrtooltip;';
+            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
 
         $html .= '}';
         $html .= '}';
         $html .= '}';
-        $html .= 'var panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);';
+        $html .= 'var panoshow' . $id . ';';
+        $html .= 'var panoshow2' . $id . ';';
+        $html .= 'function initWPVRViewer' . $id . '() {';
+        $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer' . $id . ', 50); return; }';
+        $html .= 'panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);';
         $html .= '
             window.wpvrViewers = window.wpvrViewers || {};
             window.wpvrViewers[response[0]["panoid"]] = panoshow' . $id . ';
@@ -2205,7 +2212,7 @@ class WPVR_Scene {
         }
         $html .= '
   
-        if(!wpvr_public.is_pro_active || !wpvr_public.is_license_active) {
+        if(typeof wpvr_public === "undefined" || !wpvr_public.is_pro_active || !wpvr_public.is_license_active) {
             panoshow' . $id . '.on("load", function() {
                 jQuery(".pnlm-panorama-info").hide();
                 jQuery(".pnlm-compass").hide();
@@ -2216,6 +2223,8 @@ class WPVR_Scene {
                 jQuery(".pnlm-compass").hide();
             });
         }';
+        $html .= '}';
+        $html .= 'initWPVRViewer' . $id . '();';
         //===Dplicate mode only for vr mode===//
         $response2 = json_decode($response);
         $response2[1]->compass = false;
@@ -2230,12 +2239,12 @@ class WPVR_Scene {
         $html .= 'var scenehotspot = scenedata[i].hotSpots;';
         $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
         $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-        $html .= 'scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+        $html .= 'scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '}';
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
             $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = wpvrtooltip;';
+            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
         $html .= '}';
@@ -2246,7 +2255,9 @@ class WPVR_Scene {
         $status  = get_option('wpvr_edd_license_status');
         $html .= 'var vr_mode = "off";';
         if ($status !== false &&  'valid' == $status  && $is_pro) {
-            $html .= 'var panoshow2' . $id . ' = pannellum.viewer("pano2' . $id . '", scenes_duplicate);';
+            $html .= 'function initWPVRViewer2' . $id . '() {';
+            $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer2' . $id . ', 50); return; }';
+            $html .= 'panoshow2' . $id . ' = pannellum.viewer("pano2' . $id . '", scenes_duplicate);';
             $html .= '
                 window.wpvrViewers = window.wpvrViewers || {};
                 window.wpvrViewers["pano2' . $id . '"] = panoshow2' . $id . ';
@@ -2254,6 +2265,8 @@ class WPVR_Scene {
                     detail: { containerId: "pano2' . $id . '", viewer: panoshow2' . $id . ' }
                 }));
             ';
+            $html .= '}';
+            $html .= 'initWPVRViewer2' . $id . '();';
 // Show Cardboard Mode in Tour
             $html .= '
         var tim;
@@ -2351,7 +2364,7 @@ class WPVR_Scene {
             let sceneLoadAnalytics = false;
 
             function storeAnalyticsData(data) {
-                if (typeof wpvrAnalyticsObj !== "undefined" && wpvr_public.is_pro_active) {
+                if (typeof wpvrAnalyticsObj !== "undefined" && typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {
                     jQuery.ajax({
                         url: wpvrAnalyticsObj.ajaxUrl,
                         type: "POST",

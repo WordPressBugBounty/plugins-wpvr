@@ -3,9 +3,9 @@ Contributors: rextheme, coderexltd, coderexco
 Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, vr tour
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 6.7
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.0.1
+Stable tag: 9.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,14 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.0.2 (2026-08-28) =
+* Fix: Resolved `wpvrhotspot is not defined` error when caching and JavaScript deferral plugins (Autoptimize, WP Rocket, LiteSpeed Cache) are active.
+* Fix: Ensured frontend scripts and styles are reliably enqueued across Gutenberg blocks and page builder widgets.
+* Fix: Resolved fatal error on `update.php` during plugin updates.
+* Fix: Resolved mobile touch dragging and swipe navigation dropping or getting interrupted on mobile browsers.
+* Fix: Ensured tour navigation controls (mouse drag, zoom, and keyboard movement) remain properly enabled by default on the Free tier.
+* Fix: Corrected keyboard movement control setting mapping in the tour editor.
 
 = 9.0.1 (2026-08-20) =
 * Fix: Fix mouse drag & drop issue. 

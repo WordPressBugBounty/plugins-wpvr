@@ -74,6 +74,7 @@ class Consent {
      * @return void
      */
     public function show_consent_notice(): void {
+       
         if ( $this->is_notice_dismissed() ) {
             return;
         }

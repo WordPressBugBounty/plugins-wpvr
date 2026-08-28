@@ -185,7 +185,10 @@ class WPVR_Admin_Page {
 			return;
 		}
 
-		require_once plugin_dir_path(__FILE__) . '../partials/wpvr_confirmation_alert.php';
+		$file = plugin_dir_path(__FILE__) . '../partials/wpvr_confirmation_alert.php';
+		if ( file_exists( $file ) ) {
+			require_once $file;
+		}
 	}
 
     function wpvr_new_setup_wizard() {

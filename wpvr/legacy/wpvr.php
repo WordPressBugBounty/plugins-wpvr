@@ -706,6 +706,9 @@ add_action('init', 'wpvr_block');
 
 function wpvr_block_render($attributes)
 {
+    if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
+        wpvr_enqueue_frontend_scripts( 'scene' );
+    }
     if (isset($attributes['id'])) {
         $id = $attributes['id'];
     } else {
@@ -2645,26 +2648,30 @@ function wpvr_block_render($attributes)
     $html .= 'var scenehotspot = scenedata[i].hotSpots;';
     $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
     $html .= 'if(scenehotspot[i].type === "info") {';
-    $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+    $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
     $html .= '} else if(scenehotspot[i].type === "scene") {';
     $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
     $status = get_option('wpvr_edd_license_status');
     if ($status !== false && $status == 'valid') {
-        $html .='if(wpvr_public.is_pro_active) {';
-        $html .= '    scenehotspot[i]["clickHandlerFunc"] = wpvrhotspotscene;';
+        $html .='if(typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {';
+        $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspotscene === "function") { wpvrhotspotscene(div, args); } else if (typeof window.wpvrhotspotscene === "function") { window.wpvrhotspotscene(div, args); } };';
         $html .='}';
     }
     $html .= '}';
     if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
     } else {
         $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-        $html .= 'scenehotspot[i]["createTooltipFunc"] = wpvrtooltip;';
+        $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
         $html .= '}';
     }
     $html .= '}';
     $html .= '}';
     $html .= '}';
-    $html .= 'var panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);';
+    $html .= 'var panoshow' . $id . ';';
+    $html .= 'var panoshow2' . $id . ';';
+    $html .= 'function initWPVRViewer' . $id . '() {';
+    $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer' . $id . ', 50); return; }';
+    $html .= 'panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);';
     $html .= '
         window.wpvrViewers = window.wpvrViewers || {};
         window.wpvrViewers[response[0]["panoid"]] = panoshow' . $id . ';
@@ -2683,7 +2690,7 @@ function wpvr_block_render($attributes)
             });';
     }
     $html .= '
-    if(!wpvr_public.is_pro_active || !wpvr_public.is_license_active) {
+    if(typeof wpvr_public === "undefined" || !wpvr_public.is_pro_active || !wpvr_public.is_license_active) {
         panoshow' . $id . '.on("load", function() {
             jQuery(".pnlm-panorama-info").hide();
             jQuery(".pnlm-compass").hide();
@@ -2694,6 +2701,8 @@ function wpvr_block_render($attributes)
             jQuery(".pnlm-compass").hide();
         });
     }';
+    $html .= '}';
+    $html .= 'initWPVRViewer' . $id . '();';
 
     //===Dplicate mode only for vr mode===//
     $response2 = json_decode($response);
@@ -2709,12 +2718,12 @@ function wpvr_block_render($attributes)
     $html .= 'var scenehotspot = scenedata[i].hotSpots;';
     $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
     $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-    $html .= 'scenehotspot[i]["clickHandlerFunc"] = wpvrhotspot;';
+    $html .= 'scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
     $html .= '}';
     if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
     } else {
         $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-        $html .= 'scenehotspot[i]["createTooltipFunc"] = wpvrtooltip;';
+        $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
         $html .= '}';
     }
     $html .= '}';
@@ -2723,7 +2732,9 @@ function wpvr_block_render($attributes)
     $html .= 'var vr_mode = "off";';
     $status  = get_option('wpvr_edd_license_status');
     if ($status !== false &&  'valid' == $status  && $is_pro) {
-        $html .= 'var panoshow2' . $id . ' = pannellum.viewer("pano2' . $id . '", scenes_duplicate);';
+        $html .= 'function initWPVRViewer2' . $id . '() {';
+        $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer2' . $id . ', 50); return; }';
+        $html .= 'panoshow2' . $id . ' = pannellum.viewer("pano2' . $id . '", scenes_duplicate);';
         $html .= '
             window.wpvrViewers = window.wpvrViewers || {};
             window.wpvrViewers["pano2' . $id . '"] = panoshow2' . $id . ';
@@ -2731,6 +2742,8 @@ function wpvr_block_render($attributes)
                 detail: { containerId: "pano2' . $id . '", viewer: panoshow2' . $id . ' }
             }));
         ';
+        $html .= '}';
+        $html .= 'initWPVRViewer2' . $id . '();';
 
         // Show Cardboard Mode in Tour
         $html .= '
@@ -2840,7 +2853,7 @@ function wpvr_block_render($attributes)
             let onLoadAnalytics = false;
             let sceneLoadAnalytics = false;
             function storeAnalyticsData(data) {
-              if(wpvr_public.is_pro_active) {
+              if(typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {
                 jQuery.ajax({
                     url: wpvrAnalyticsObj.ajaxUrl,
                     type: "POST",
@@ -2893,7 +2906,7 @@ function wpvr_block_render($attributes)
                     user_agent: user_agent,
                     device_type: device_type,
                 });
-                if(!wpvr_public.is_pro_active) {
+                if(typeof wpvr_public === "undefined" || !wpvr_public.is_pro_active) {
                     jQuery(".pnlm-panorama-info").hide();
                     setTimeout(function() {
                         jQuery(".pnlm-panorama-info").each(function() {
@@ -2920,7 +2933,7 @@ function wpvr_block_render($attributes)
                         device_type: device_type,
                     });
                 }
-                if(!wpvr_public.is_pro_active) {
+                if(typeof wpvr_public === "undefined" || !wpvr_public.is_pro_active) {
                     jQuery(".pnlm-panorama-info").hide();
                     setTimeout(function() {
                         jQuery(".pnlm-panorama-info").each(function() {

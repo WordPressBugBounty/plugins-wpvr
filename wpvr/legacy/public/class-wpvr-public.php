@@ -257,6 +257,34 @@ if ( ! function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
         $base = plugin_dir_url( __FILE__ );
         $ver  = defined( 'WPVR_VERSION' ) ? WPVR_VERSION : '1.0.0';
 
+        /**
+         * Allow add-ons to replace or extend frontend dependencies before the
+         * free handles are registered. WP VR Pro uses this for page builders
+         * that render their content before wp_head(), including Breakdance.
+         */
+        do_action( 'wpvr_enqueue_frontend_scripts', $type );
+
+        if ( ! wp_style_is( 'panellium-css', 'enqueued' ) ) {
+            $fontawesome_disable = get_option( 'wpvr_fontawesome_disable' );
+            if ( $fontawesome_disable != 'true' ) {
+                wp_enqueue_style( 'wpvrfontawesome', $base . 'css/fontawesome/css/all.css', array(), $ver, 'all' );
+                wp_enqueue_style(
+                    'wpvr-icons-fix',
+                    $base . 'css/fontawesome/css/icons-fix.css',
+                    array( 'wpvrfontawesome' ),
+                    $ver
+                );
+            }
+            wp_enqueue_style( 'panellium-css', $base . 'lib/pannellum/src/css/pannellum.css', array(), $ver );
+            wp_enqueue_style( 'owl-css',       $base . 'css/owl.carousel.css',                array(), $ver, 'all' );
+            wp_enqueue_style( 'wpvr',          $base . 'css/wpvr-public.css',                 array(), $ver, 'all' );
+        }
+
+        if ( $type === 'video' && ! wp_style_is( 'videojs-vr-css', 'enqueued' ) ) {
+            wp_enqueue_style( 'videojs-css',    $base . 'lib/pannellum/src/css/video-js.css', array(), $ver );
+            wp_enqueue_style( 'videojs-vr-css', $base . 'lib/videojs-vr/videojs-vr.css',       array(), $ver );
+        }
+
         wp_enqueue_script( 'panellium-js',    $base . 'lib/pannellum/src/js/pannellum.js',    array(),              $ver, true );
         wp_enqueue_script( 'panelliumlib-js', $base . 'lib/pannellum/src/js/libpannellum.js', array('panellium-js'), $ver, true );
         wp_enqueue_script( 'owl-js',          $base . 'js/owl.carousel.js',                   array('jquery'),       $ver, true );
