@@ -179,7 +179,7 @@ class Wpvr_Ajax
     }
 
     $post_type = get_post_type($postid);
-    if ($post_type != 'wpvr_item') {
+    if ($post_type != 'wpvr_item' || ! current_user_can('edit_post', $postid)) {
       die();
     }
 
@@ -248,8 +248,11 @@ class Wpvr_Ajax
 	 * @return void
 	 */
     $post_type = get_post_type( $postid );
-    if ($post_type != 'wpvr_item') {
-      die();
+    if ($post_type != 'wpvr_item' || ! current_user_can( 'edit_post', $postid )) {
+      wp_send_json([
+        'success' => false,
+        'data'    => 'Permission denied.'
+      ]);
     }
 
     $panoid = 'pano' . $postid;

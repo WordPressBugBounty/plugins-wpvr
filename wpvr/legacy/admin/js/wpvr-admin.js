@@ -911,14 +911,47 @@
         });
     });
 
+    function wpvrSanitizeHtml(rawHtml) {
+        if (!rawHtml || typeof rawHtml !== 'string') return '';
+        var clean = rawHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        try {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(clean, 'text/html');
+            var elements = doc.body.querySelectorAll('*');
+            for (var i = 0; i < elements.length; i++) {
+                var el = elements[i];
+                var tag = el.tagName.toLowerCase();
+                if (['script', 'object', 'embed', 'applet', 'link', 'meta', 'base'].indexOf(tag) !== -1) {
+                    el.parentNode && el.parentNode.removeChild(el);
+                    continue;
+                }
+                var attrs = el.attributes;
+                for (var a = attrs.length - 1; a >= 0; a--) {
+                    var attrName = attrs[a].name.toLowerCase();
+                    var attrVal = attrs[a].value;
+                    if (attrName.indexOf('on') === 0) {
+                        el.removeAttribute(attrs[a].name);
+                    } else if (['href', 'src', 'action', 'formaction', 'xlink:href'].indexOf(attrName) !== -1) {
+                        if (/^\s*(javascript|vbscript|data:text\/html):/i.test(attrVal)) {
+                            el.removeAttribute(attrs[a].name);
+                        }
+                    }
+                }
+            }
+            return doc.body.innerHTML;
+        } catch (e) {
+            return clean.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '').replace(/\s*on\w+\s*=\s*[^\s>]+/gi, '');
+        }
+    }
+
     function wpvrhotspot(hotSpotDiv, args) {
         if (args) {
-            const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
-            const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
-            const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+            const hasTextContent = typeof args === 'string' && args.replace(/<[^>]*>/g, '').trim() !== '';
+            const hasMediaContent = typeof args === 'string' && /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+            const hasOtherContent = typeof args === 'string' && args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
 
             if (hasTextContent || hasMediaContent || hasOtherContent) {
-                const cleanArgs = args.replace(/\\/g, '');
+                const cleanArgs = wpvrSanitizeHtml(args.replace(/\\/g, ''));
                 $("#custom-ifram").html(cleanArgs);
                 $("#custom-ifram").fadeToggle();
                 $(".iframe-wrapper").toggleClass("show-modal");
@@ -928,12 +961,12 @@
 
     function wpvrtooltip(hotSpotDiv, args) {
         if (args) {
-            const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
-            const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
-            const hasOtherContent = args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
+            const hasTextContent = typeof args === 'string' && args.replace(/<[^>]*>/g, '').trim() !== '';
+            const hasMediaContent = typeof args === 'string' && /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(args);
+            const hasOtherContent = typeof args === 'string' && args.replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
 
             if (hasTextContent || hasMediaContent || hasOtherContent) {
-                const cleanArgs = args.replace(/\\/g, '');
+                const cleanArgs = wpvrSanitizeHtml(args.replace(/\\/g, ''));
                 hotSpotDiv.classList.add('custom-tooltip');
 
                 const span = document.createElement('p');

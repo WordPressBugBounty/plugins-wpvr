@@ -428,8 +428,8 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                             "yaw" => $hotspot_data["hotspot-yaw"],
                             "type" => $hotspot_type,
                             "URL" => $hotspot_data["hotspot-url"],
-                            "clickHandlerArgs" => $hotspot_content,
-                            "createTooltipArgs" => $hotspot_data["hotspot-hover"],
+                            "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
+                            "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
                             "sceneId" => $hotspot_data["hotspot-scene"],
                             "targetPitch" => (float)$hotspot_scene_pitch,
                             "targetYaw" => (float)$hotspot_scene_yaw
@@ -763,8 +763,42 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                     });
                 }
 
+                function wpvrSanitizeHtml(rawHtml) {
+                    if (!rawHtml || typeof rawHtml !== 'string') return '';
+                    var clean = rawHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+                    try {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(clean, 'text/html');
+                        var elements = doc.body.querySelectorAll('*');
+                        for (var i = 0; i < elements.length; i++) {
+                            var el = elements[i];
+                            var tag = el.tagName.toLowerCase();
+                            if (['script', 'object', 'embed', 'applet', 'link', 'meta', 'base'].indexOf(tag) !== -1) {
+                                el.parentNode && el.parentNode.removeChild(el);
+                                continue;
+                            }
+                            var attrs = el.attributes;
+                            for (var a = attrs.length - 1; a >= 0; a--) {
+                                var attrName = attrs[a].name.toLowerCase();
+                                var attrVal = attrs[a].value;
+                                if (attrName.indexOf('on') === 0) {
+                                    el.removeAttribute(attrs[a].name);
+                                } else if (['href', 'src', 'action', 'formaction', 'xlink:href'].indexOf(attrName) !== -1) {
+                                    if (/^\s*(javascript|vbscript|data:text\/html):/i.test(attrVal)) {
+                                        el.removeAttribute(attrs[a].name);
+                                    }
+                                }
+                            }
+                        }
+                        return doc.body.innerHTML;
+                    } catch (e) {
+                        return clean.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '').replace(/\s*on\w+\s*=\s*[^\s>]+/gi, '');
+                    }
+                }
+
                 function wpvrhotspot(hotSpotDiv, args) {
-                    var argst = args.replace(/\\/g, '');
+                    var argst = typeof args === 'string' ? args.replace(/\\/g, '') : '';
+                    argst = wpvrSanitizeHtml(argst);
                     jQuery("#custom-ifram").html(argst);
                     jQuery("#custom-ifram").fadeToggle();
                     jQuery(".iframe-wrapper").toggleClass("show-modal");
@@ -777,10 +811,8 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 function wpvrtooltip(hotSpotDiv, args) {
                     hotSpotDiv.classList.add('custom-tooltip');
                     var span = document.createElement('p');
-                    if (args != null) {
-                        args = args.replace(/\\/g, "");
-                    }
-                    span.innerHTML = args;
+                    var cleanTooltip = typeof args === 'string' ? args.replace(/\\/g, "") : '';
+                    span.innerHTML = wpvrSanitizeHtml(cleanTooltip);
                     hotSpotDiv.appendChild(span);
                     span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
                     span.style.marginTop = -span.scrollHeight - 12 + 'px';

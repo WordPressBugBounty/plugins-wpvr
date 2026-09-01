@@ -597,18 +597,30 @@ class TourTransformer implements TransformerInterface {
     protected function hotspots_from_api( array $hotspots ): array {
         $hotspot_list = [];
         foreach ( $hotspots as $hotspot ) {
+            $hotspot_type = sanitize_key( $hotspot['type'] ?? 'info' );
+            $is_fluent_form = $hotspot_type === 'fluent_form';
+            $raw_content = (string) ( $hotspot['content'] ?? '' );
+            $raw_hover   = (string) ( $hotspot['hover'] ?? '' );
+
+            $content = function_exists( 'sanitize_content_preserve_styles' )
+                ? sanitize_content_preserve_styles( $raw_content, $is_fluent_form )
+                : wp_kses_post( $raw_content );
+            $hover = function_exists( 'sanitize_content_preserve_styles' )
+                ? sanitize_content_preserve_styles( $raw_hover, false )
+                : wp_kses_post( $raw_hover );
+
             $hs = [
                 'hotspot-id'          => $hotspot['id'] ?? wp_generate_uuid4(),
-                'hotspot-type'        => $hotspot['type'] ?? 'info',
+                'hotspot-type'        => $hotspot_type,
                 'hotspot-pitch'       => (string) ( $hotspot['pitch'] ?? 0 ),
                 'hotspot-yaw'         => (string) ( $hotspot['yaw'] ?? 0 ),
-                'hotspot-title'       => $hotspot['text'] ?? '',
-                'hotspot-content'     => $hotspot['content'] ?? '',
-                'hotspot-url'         => $hotspot['url'] ?? '',
-                'hotspot-url-open'    => $hotspot['urlOpen'] ?? 'off',
-                'hotspot-hover'       => $hotspot['hover'] ?? '',
-                'hotspot-scene'       => $hotspot['targetSceneId'] ?? '',
-                'hotspot-customclass' => $hotspot['customClass'] ?? '',
+                'hotspot-title'       => sanitize_text_field( $hotspot['text'] ?? '' ),
+                'hotspot-content'     => $content,
+                'hotspot-url'         => sanitize_text_field( $hotspot['url'] ?? '' ),
+                'hotspot-url-open'    => ( $hotspot['urlOpen'] ?? 'off' ) === 'on' ? 'on' : 'off',
+                'hotspot-hover'       => $hover,
+                'hotspot-scene'       => sanitize_text_field( $hotspot['targetSceneId'] ?? '' ),
+                'hotspot-customclass' => sanitize_text_field( $hotspot['customClass'] ?? '' ),
                 'hotspot-scene-list'  => 'none',
             ];
 

@@ -546,8 +546,8 @@ class WPVR_Format
                     "yaw" => $hotspot_data["hotspot-yaw"],
                     "type" => $hotspot_type,
                     "URL" => $hotspot_data["hotspot-url"],
-                    "clickHandlerArgs" => $hotspot_content,
-                    "createTooltipArgs" => $hotspot_data["hotspot-hover"],
+                    "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
+                    "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
                     "sceneId" => $hotspot_data["hotspot-scene"],
                     'hotspot_type' => $hotspot_data['hotspot-type']
                 );
@@ -2089,8 +2089,8 @@ class WPVR_Format
             "cssClass" => $hotspot_data["hotspot-customclass"],
             "URL" => $hotspot_data["hotspot-url"],
             "wpvr_url_open" => isset($hotspot_data["wpvr_url_open"][0]) ? $hotspot_data["wpvr_url_open"][0] : 'off',
-            "clickHandlerArgs" => $hotspot_content,
-            "createTooltipArgs" => $hotspot_data["hotspot-hover"],
+            "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
+            "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
             "sceneId" => $hotspot_data["hotspot-scene"],
             'hotspot_type' => $hotspot_data['hotspot-type']
         );

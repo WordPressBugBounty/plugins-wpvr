@@ -1055,14 +1055,10 @@ class WPVR_Scene {
                     );
 
 
-                    if('fluent_form' !== $hotspot_data["hotspot-type"]){
-                        $on_hover_content = $this->sanitize_content_preserve_styles($on_hover_content ?? '');
-                        $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
-                        $on_click_content = $this->sanitize_content_preserve_styles($on_click_content ?? '');
-                    }else{
-                        $on_hover_content = $on_hover_content ?? '';
-                        $on_click_content = $hotspot_content ?? '';
-                    }
+                    $is_fluent_form = isset($hotspot_data["hotspot-type"]) && 'fluent_form' === $hotspot_data["hotspot-type"];
+                    $on_hover_content = $this->sanitize_content_preserve_styles($on_hover_content ?? '', false);
+                    $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
+                    $on_click_content = $this->sanitize_content_preserve_styles($on_click_content ?? '', $is_fluent_form);
 
                     // Shape is independent of the optional custom icon in the
                     // new editor, so it must always be included in the public
@@ -3512,7 +3508,7 @@ class WPVR_Scene {
 
     }
 
-private function sanitize_content_preserve_styles($content) {
+private function sanitize_content_preserve_styles($content, $allow_forms = false) {
     // Decode HTML entities first (in case content was encoded in database)
     $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     
@@ -3534,9 +3530,14 @@ private function sanitize_content_preserve_styles($content) {
         return ' ' . esc_html($matches[1]) . '=' . esc_html($matches[2]);
     }, $content);
 
-    // Remove all unsafe embedded/interactive elements except iframe
-    $content = preg_replace('/<(object|embed|applet|frame|frameset|meta|link|base|form|input|button|textarea|select|option)\b[^>]*>/i', '', $content);
-    $content = preg_replace('/<\/(object|embed|applet|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+    // Remove unsafe embedded/interactive elements
+    if ($allow_forms) {
+        $content = preg_replace('/<(object|embed|applet|frame|frameset|meta|link|base)\b[^>]*>/i', '', $content);
+        $content = preg_replace('/<\/(object|embed|applet|frame|frameset|meta|link|base)>/i', '', $content);
+    } else {
+        $content = preg_replace('/<(object|embed|applet|frame|frameset|meta|link|base|form|input|button|textarea|select|option)\b[^>]*>/i', '', $content);
+        $content = preg_replace('/<\/(object|embed|applet|frame|frameset|meta|link|base|form|input|button|textarea|select|option)>/i', '', $content);
+    }
 
     // Clean style attributes safely
     $content = preg_replace_callback('/style\s*=\s*["\']([^"\']*)["\']/', function($matches) {
@@ -3589,6 +3590,50 @@ private function sanitize_content_preserve_styles($content) {
         'srcset'   => true,
         'sizes'    => true,
     ];
+
+    if ($allow_forms) {
+        $form_attributes = [
+            'id'          => true,
+            'class'       => true,
+            'style'       => true,
+            'name'        => true,
+            'value'       => true,
+            'type'        => true,
+            'placeholder' => true,
+            'action'      => true,
+            'method'      => true,
+            'target'      => true,
+            'enctype'     => true,
+            'disabled'    => true,
+            'readonly'    => true,
+            'required'    => true,
+            'checked'     => true,
+            'selected'    => true,
+            'multiple'    => true,
+            'size'        => true,
+            'rows'        => true,
+            'cols'        => true,
+            'maxlength'   => true,
+            'minlength'   => true,
+            'min'         => true,
+            'max'         => true,
+            'step'        => true,
+            'pattern'     => true,
+            'autocomplete'=> true,
+            'autofocus'   => true,
+            'for'         => true,
+        ];
+        $allowed_tags['form']     = $form_attributes;
+        $allowed_tags['input']    = $form_attributes;
+        $allowed_tags['button']   = $form_attributes;
+        $allowed_tags['textarea'] = $form_attributes;
+        $allowed_tags['select']   = $form_attributes;
+        $allowed_tags['option']   = $form_attributes;
+        $allowed_tags['optgroup'] = $form_attributes;
+        $allowed_tags['label']    = $form_attributes;
+        $allowed_tags['fieldset'] = $form_attributes;
+        $allowed_tags['legend']   = $form_attributes;
+    }
 
     // Apply wp_kses() to keep only allowed tags/attributes
     $content = wp_kses($content, $allowed_tags);

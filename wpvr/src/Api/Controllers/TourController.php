@@ -24,7 +24,7 @@ class TourController implements ControllerInterface {
             [
                 'methods'             => 'POST',
                 'callback'            => [ $this, 'create' ],
-                'permission_callback' => [ $this, 'permission_check' ],
+                'permission_callback' => [ $this, 'create_permission_check' ],
             ],
         ] );
 
@@ -41,7 +41,7 @@ class TourController implements ControllerInterface {
             [
                 'methods'             => 'POST',
                 'callback'            => [ $this, 'switch_ui_mode' ],
-                'permission_callback' => [ $this, 'permission_check' ],
+                'permission_callback' => [ $this, 'ui_mode_permission_check' ],
             ],
         ] );
 
@@ -49,19 +49,19 @@ class TourController implements ControllerInterface {
             [
                 'methods'             => 'GET',
                 'callback'            => [ $this, 'show' ],
-                'permission_callback' => [ $this, 'permission_check' ],
+                'permission_callback' => [ $this, 'item_permission_check' ],
                 'args'                => $id_arg,
             ],
             [
                 'methods'             => 'PUT',
                 'callback'            => [ $this, 'update' ],
-                'permission_callback' => [ $this, 'permission_check' ],
+                'permission_callback' => [ $this, 'item_permission_check' ],
                 'args'                => $id_arg,
             ],
             [
                 'methods'             => 'DELETE',
                 'callback'            => [ $this, 'delete' ],
-                'permission_callback' => [ $this, 'delete_permission_check' ],
+                'permission_callback' => [ $this, 'item_permission_check' ],
                 'args'                => $id_arg,
             ],
         ] );
@@ -113,6 +113,11 @@ class TourController implements ControllerInterface {
         $post_update      = [ 'ID' => $tour_id ];
         $allowed_statuses = [ 'draft', 'publish' ];
         if ( ! empty( $body['status'] ) && in_array( $body['status'], $allowed_statuses, true ) ) {
+            $post_type_obj = get_post_type_object( 'wpvr_item' );
+            $publish_cap   = $post_type_obj ? $post_type_obj->cap->publish_posts : 'publish_wpvr_tours';
+            if ( 'publish' === $body['status'] && ! current_user_can( $publish_cap ) ) {
+                return new WP_REST_Response( [ 'message' => __( 'You do not have permission to publish tours.', 'wpvr' ) ], 403 );
+            }
             $post_update['post_status'] = $body['status'];
         }
         if ( isset( $body['title'] ) ) {
@@ -150,11 +155,24 @@ class TourController implements ControllerInterface {
         return new WP_REST_Response( [ 'mode' => $mode ], 200 );
     }
 
-    public function permission_check(): bool {
-        return current_user_can( 'edit_posts' );
+    public function create_permission_check(): bool {
+        $post_type_obj = get_post_type_object( 'wpvr_item' );
+        $create_cap    = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+        return current_user_can( $create_cap );
     }
 
-    public function delete_permission_check( WP_REST_Request $request ): bool {
-        return current_user_can( 'delete_post', (int) $request->get_param( 'id' ) );
+    public function item_permission_check( WP_REST_Request $request ): bool {
+        $tour_id = (int) $request->get_param( 'id' );
+        $post    = get_post( $tour_id );
+        if ( ! $post || $post->post_type !== 'wpvr_item' ) {
+            return false;
+        }
+
+        $capability = ( 'DELETE' === $request->get_method() ) ? 'delete_post' : 'edit_post';
+        return current_user_can( $capability, $tour_id );
+    }
+
+    public function ui_mode_permission_check(): bool {
+        return current_user_can( 'manage_options' );
     }
 }

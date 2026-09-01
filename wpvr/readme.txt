@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.0.2
+Stable tag: 9.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,11 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.0.3 (2026-09-01) =
+* Security Fix: Enforced object-level authorization (BOLA) checks on tour REST API and AJAX endpoints so users can no longer read, edit, or delete tours they don't own.
+* Security Fix: Restricted the UI mode toggle endpoint to administrators only.
+* Security Fix: Sanitized hotspot content (including FluentForm hotspots) on both server and client sides to prevent stored XSS.
 
 = 9.0.2 (2026-08-28) =
 * Fix: Resolved `wpvrhotspot is not defined` error when caching and JavaScript deferral plugins (Autoptimize, WP Rocket, LiteSpeed Cache) are active.

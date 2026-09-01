@@ -57,11 +57,14 @@ class Admin {
             ? __( 'Edit Tour', 'wpvr' )
             : __( 'Add New Tour', 'wpvr' );
 
+        $post_type_obj = get_post_type_object( self::POST_TYPE );
+        $capability    = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+
         add_submenu_page(
             '',
             $page_title,
             $page_title,
-            'edit_posts',
+            $capability,
             self::PAGE_SLUG,
             [ $this, 'render_editor_page' ]
         );
@@ -128,6 +131,14 @@ class Admin {
     // -------------------------------------------------------------------------
 
     public function render_editor_page(): void {
+        $tour_id = isset( $_GET['tour_id'] ) ? (int) $_GET['tour_id'] : 0;
+        if ( $tour_id ) {
+            $post = get_post( $tour_id );
+            if ( ! $post || $post->post_type !== self::POST_TYPE || ! current_user_can( 'edit_post', $tour_id ) ) {
+                wp_die( esc_html__( 'Sorry, you are not allowed to edit this tour.', 'wpvr' ), 403 );
+            }
+        }
+
         echo '<div id="wpvr-tour-editor-root"></div>';
 
         if ( ! wpvr_is_pro_active() ) {
@@ -148,6 +159,14 @@ class Admin {
     public function enqueue_tour_editor_assets( string $hook ): void {
         if ( ! $this->is_editor_page( $hook ) ) {
             return;
+        }
+
+        $tour_id_cfg = isset( $_GET['tour_id'] ) ? (int) $_GET['tour_id'] : 0;
+        if ( $tour_id_cfg ) {
+            $post = get_post( $tour_id_cfg );
+            if ( ! $post || $post->post_type !== self::POST_TYPE || ! current_user_can( 'edit_post', $tour_id_cfg ) ) {
+                return;
+            }
         }
 
         $plugin_url  = plugin_dir_url( WPVR_FILE );
