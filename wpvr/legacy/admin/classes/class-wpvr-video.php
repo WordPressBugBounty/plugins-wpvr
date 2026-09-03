@@ -90,13 +90,13 @@ class WPVR_Video {
 
         $videoarray = array();
         $videoarray = array(
-                            __("panoid", 'wpvr') => $panoid, 
-                            __("panoviddata", 'wpvr') => $html, 
-                            __("vidid", 'wpvr') => $vidid, 
-                            __("vidurl", 'wpvr') => $videourl, 
-                            __("vidtype", 'wpvr') => $vidtype,
-                            __("autoplay", 'wpvr') => $videodata['autoplay'], 
-                            __("loop", 'wpvr') => $videodata['loop']
+                            'panoid'      => $panoid, 
+                            'panoviddata' => $html, 
+                            'vidid'       => $vidid, 
+                            'vidurl'      => $videourl, 
+                            'vidtype'     => $vidtype,
+                            'autoplay'    => $videodata['autoplay'], 
+                            'loop'        => $videodata['loop']
                         );
         update_post_meta($postid, 'panodata', $videoarray);
         $response = array(

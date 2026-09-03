@@ -63,6 +63,10 @@ class Shortcode {
     }
 
     private function render_video( array $postdata, array $atts, int $id ) {
+        if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
+            wpvr_enqueue_frontend_scripts( 'video' );
+        }
+
         $width  = ! empty( $atts['width'] )  ? esc_attr( $atts['width'] )  : '600px';
         $height = ! empty( $atts['height'] ) ? esc_attr( $atts['height'] ) : '400px';
         $radius = ! empty( $atts['radius'] ) ? esc_attr( $atts['radius'] ) : null;
@@ -70,6 +74,14 @@ class Shortcode {
         // New UI stores video-autoplay / video-loop; legacy renderer expects autoplay / loop.
         $postdata['autoplay'] = $postdata['video-autoplay'] ?? 'off';
         $postdata['loop']     = $postdata['video-loop']     ?? 'off';
+
+        $vidid = ! empty( $postdata['vidid'] ) ? $postdata['vidid'] : ( 'vid' . $id );
+        $postdata['vidid'] = $vidid;
+
+        if ( empty( $postdata['panoviddata'] ) && ! empty( $postdata['vidurl'] ) ) {
+            $format = new \WPVR_Format();
+            $postdata['panoviddata'] = $format->prepare_selfhost_video_meta_data( $postdata['vidurl'], $vidid, $postdata );
+        }
 
         return $this->legacy_video->render_video_shortcode( $postdata, $id, $width, $height, $radius );
     }

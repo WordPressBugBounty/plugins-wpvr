@@ -191,7 +191,7 @@ class WPVR_Shortcode {
         }
 
 
-        if (isset($postdata['vidid'])) {
+        if ( isset( $postdata['vidid'] ) || ( isset( $postdata['tour-type'] ) && $postdata['tour-type'] === 'video' ) || ! empty( $postdata['vidurl'] ) ) {
             wpvr_enqueue_frontend_scripts( 'video' );
             $html = $this->video->render_video_shortcode($postdata, $id, $width, $height, $radius);
             return $html;

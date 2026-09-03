@@ -1963,23 +1963,34 @@ class WPVR_Format
      */
     public function prepare_regular_video_shortcode_data($id, $postdata, $width, $height, $radius)
     {
+        $unique_suffix = wp_rand(1000, 99999);
+        $pano_id       = 'pano' . $id . '_' . $unique_suffix;
+        $vid_id        = 'wpvr-vid-' . $id . '-' . $unique_suffix;
+
+        if ( ! empty( $postdata['vidurl'] ) ) {
+            $panoviddata = $this->prepare_selfhost_video_meta_data( $postdata['vidurl'], $vid_id, $postdata );
+        } elseif ( ! empty( $postdata['panoviddata'] ) ) {
+            $panoviddata = preg_replace( '/\bid=["\'][^"\']*["\']/i', 'id="' . esc_attr( $vid_id ) . '"', $postdata['panoviddata'], 1 );
+        } else {
+            $panoviddata = '';
+        }
+
         $html = '';
-        $html .= '<div id="pano' . $id . '" class="pano-wrap" style="max-width:100%; width: ' . $width . '; height: ' . $height . '; border-radius: ' . $radius . '; margin: 0 auto;">';
-        $html .= '<div style="width:100%; height:100%; ">' . $postdata['panoviddata'] . '</div>';
+        $html .= '<div id="' . esc_attr( $pano_id ) . '" class="pano-wrap" style="max-width:100%; width: ' . $width . '; height: ' . $height . '; border-radius: ' . $radius . '; margin: 0 auto;">';
+        $html .= '<div style="width:100%; height:100%; ">' . $panoviddata . '</div>';
 
         $html .= '
         <style>
-            .video-js {
+            #' . esc_attr( $pano_id ) . ' .video-js {
                 border-radius:' . $radius . ';
             }
-            .video-js canvas{
+            #' . esc_attr( $pano_id ) . ' .video-js canvas{
                 border-radius:' . $radius . ';
              }
-            #pano' . $id . ' .vjs-poster {
+            #' . esc_attr( $pano_id ) . ' .vjs-poster {
                 border-radius: ' . $radius . ';
-               }
+            }
         </style>
-        
         ';
 
         $html .= '</div>';
@@ -1987,15 +1998,63 @@ class WPVR_Format
         //video js vr setup //
         $html .= '<script>';
         $html .= '
-        (function (window, videojs) {
-            var player = window.player = videojs("' . $postdata['vidid'] . '");
-            player.mediainfo = player.mediainfo || {};
-            player.mediainfo.projection = "equirectangular";
-      
-            // AUTO is the default and looks at mediainfo
-            var vr = window.vr = player.vr({ projection: "AUTO", debug: true, forceCardboard: false, antialias: false });
-          }(window, window.videojs));
-        
+        (function () {
+            function initWPVRVideoPlayer() {
+                if (typeof window.videojs !== "function") {
+                    return false;
+                }
+                var playerEl = document.getElementById("' . esc_js( $vid_id ) . '");
+                if (!playerEl) {
+                    return false;
+                }
+                try {
+                    var player = window.videojs(playerEl, {
+                        controls: true,
+                        autoplay: ' . ( ( isset( $postdata['autoplay'] ) && $postdata['autoplay'] === 'on' ) ? 'true' : 'false' ) . ',
+                        loop: ' . ( ( isset( $postdata['loop'] ) && $postdata['loop'] === 'on' ) ? 'true' : 'false' ) . ',
+                        preload: "auto",
+                        fluid: true
+                    });
+
+                    player.mediainfo = player.mediainfo || {};
+                    player.mediainfo.projection = "equirectangular";
+
+                    if (typeof player.vr === "function") {
+                        var vr = player.vr({ projection: "360", debug: false, forceCardboard: false, antialias: false });
+
+                        // If video metadata is already loaded or readyState >= 1,
+                        // trigger vr.init() directly because loadedmetadata won\'t fire again.
+                        if (player.readyState() >= 1 || (playerEl.readyState && playerEl.readyState >= 1) || (player.videoWidth && player.videoWidth() > 0)) {
+                            if (vr && typeof vr.init === "function" && !vr.initialized_) {
+                                vr.init();
+                            }
+                        } else {
+                            player.one("loadedmetadata", function() {
+                                if (vr && typeof vr.init === "function" && !vr.initialized_) {
+                                    vr.init();
+                                }
+                            });
+                        }
+                    }
+                    return true;
+                } catch (e) {
+                    console.error("Error initializing WPVR video player:", e);
+                    return false;
+                }
+            }
+
+            if (!initWPVRVideoPlayer()) {
+                if (document.readyState === "loading") {
+                    document.addEventListener("DOMContentLoaded", function() {
+                        if (!initWPVRVideoPlayer()) {
+                            window.addEventListener("load", initWPVRVideoPlayer);
+                        }
+                    });
+                } else {
+                    window.addEventListener("load", initWPVRVideoPlayer);
+                }
+            }
+        })();
         ';
         $html .= '</script>';
         //video js vr end //

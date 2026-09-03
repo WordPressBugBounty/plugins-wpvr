@@ -1908,10 +1908,12 @@ class WPVR_Meta_Field {
      */
     public static function get__video_setting_fields($postdata)
     {
-        $vidurl = '';
-        if (isset($postdata['vidid'])) {
-            $vidurl = $postdata['vidurl']; 
-        } 
+        $is_video = ( isset( $postdata['tour-type'] ) && $postdata['tour-type'] === 'video' ) 
+            || ! empty( $postdata['vidid'] ) 
+            || ! empty( $postdata['vidurl'] );
+
+        $vidurl = ! empty( $postdata['vidurl'] ) ? $postdata['vidurl'] : ''; 
+
         $meta_fields = array(
             'panovideo' => array(
                 'class' => 'single-settings videosetup',
@@ -1922,14 +1924,14 @@ class WPVR_Meta_Field {
                         'input_class' => 'styled-radio video_off',
                         'input_id' => 'styled-radio',
                         'value' => 'off',
-                        'checked' => isset($postdata['vidid']),
+                        'checked' => $is_video,
                         'label_value' => 'Off'
                         ),
                         array(
                             'input_class' => 'styled-radio video_on',
                             'input_id' => 'styled-radio-0',
                             'value' => 'on',
-                            'checked' => isset($postdata['vidid']),
+                            'checked' => $is_video,
                             'label_value' => 'On'
                         )
                 ),

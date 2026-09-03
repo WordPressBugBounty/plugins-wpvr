@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.0.3
+Stable tag: 9.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,13 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.1.0 (2026-09-03) =
+* New: Added Breakdance page builder integration with dedicated WPVR block support.
+* New: Added 360-degree video tour support with Video.js and VideoJS-VR integration in the modern tour editor and frontend.
+* Fix: Resolved self-hosted 360-degree video dragging and touch navigation issues with robust deferred initialization.
+* Fix: Resolved Gutenberg block inline script corruption caused by wptexturize modifying operators in the content filter.
+* Fix: Improved video tour metadata handling, state synchronization, and toggle logic between UI modes and editor.
 
 = 9.0.3 (2026-09-01) =
 * Security Fix: Enforced object-level authorization (BOLA) checks on tour REST API and AJAX endpoints so users can no longer read, edit, or delete tours they don't own.

@@ -63,8 +63,8 @@ class TourTransformer implements TransformerInterface {
             ],
             'videoData'      => [
                 'url'      => $raw['vidurl'] ?? '',
-                'autoplay' => ( $raw['video-autoplay'] ?? 'off' ) === 'on',
-                'loop'     => ( $raw['video-loop'] ?? 'off' ) === 'on',
+                'autoplay' => ( $raw['video-autoplay'] ?? $raw['autoplay'] ?? 'off' ) === 'on',
+                'loop'     => ( $raw['video-loop'] ?? $raw['loop'] ?? 'off' ) === 'on',
             ],
             'streetViewData' => [
                 'embedUrl' => $raw['streetviewurl'] ?? '',
@@ -162,6 +162,9 @@ class TourTransformer implements TransformerInterface {
             'vidurl'             => esc_url_raw( $video_data['url'] ?? '' ),
             'video-autoplay'     => ! empty( $video_data['autoplay'] ) ? 'on' : 'off',
             'video-loop'         => ! empty( $video_data['loop'] ) ? 'on' : 'off',
+            'autoplay'           => ! empty( $video_data['autoplay'] ) ? 'on' : 'off',
+            'loop'               => ! empty( $video_data['loop'] ) ? 'on' : 'off',
+            'vidid'              => $tour_type === 'video' && ! empty( $video_data['url'] ) ? ( 'vid' . ( $data['tourId'] ?? $data['id'] ?? wp_rand( 1000, 99999 ) ) ) : '',
             'streetviewurl'      => esc_url_raw( $street_view_data['embedUrl'] ?? '' ),
             'streetview'         => ! empty( $street_view_data['embedUrl'] ) ? 'on' : 'off',
             'panodata'           => [

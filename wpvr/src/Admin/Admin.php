@@ -179,6 +179,13 @@ class Admin {
         wp_enqueue_script( 'wpvr-libpannellum', $pano_base . 'js/libpannellum.js', [], WPVR_VERSION, true );
         wp_enqueue_script( 'wpvr-pannellum',    $pano_base . 'js/pannellum.js', [ 'wpvr-libpannellum' ], WPVR_VERSION, true );
 
+        // Load Video.js & VideoJS-VR (for 360 video tours).
+        $public_base = $plugin_url . 'legacy/public/';
+        wp_enqueue_style( 'wpvr-videojs-css',    $public_base . 'lib/pannellum/src/css/video-js.css', [], WPVR_VERSION );
+        wp_enqueue_style( 'wpvr-videojs-vr-css', $public_base . 'lib/videojs-vr/videojs-vr.css',       [], WPVR_VERSION );
+        wp_enqueue_script( 'wpvr-videojs',       $public_base . 'js/video.js',                   [],                 WPVR_VERSION, true );
+        wp_enqueue_script( 'wpvr-videojs-vr',    $public_base . 'lib/videojs-vr/videojs-vr.js', [ 'wpvr-videojs' ], WPVR_VERSION, true );
+
         wp_enqueue_style( 'wpvr-fontawesome', $plugin_url . 'legacy/admin/lib/fontawesome/css/all.min.css', [], WPVR_VERSION );
 
         // Tour editor React bundle.
@@ -197,7 +204,7 @@ class Admin {
         wp_enqueue_script(
             'wpvr-tour-editor',
             $plugin_url . 'build/tour-editor/index.js',
-            array_merge( $asset['dependencies'], [ 'wpvr-pannellum' ] ),
+            array_merge( $asset['dependencies'], [ 'wpvr-pannellum', 'wpvr-videojs-vr' ] ),
             $asset['version'],
             true
         );

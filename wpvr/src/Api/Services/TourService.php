@@ -23,6 +23,9 @@ class TourService {
     }
 
     public function update( int $tour_id, array $api_data ): bool {
+        $api_data['tourId'] = $tour_id;
+        $api_data['id']     = $tour_id;
+
         // Read existing panodata first so we can preserve pro-managed fields
         // that the free transformer does not handle.
         $existing_raw = $this->repository->find( $tour_id );

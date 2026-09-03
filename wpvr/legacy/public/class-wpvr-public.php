@@ -263,7 +263,7 @@ if ( ! function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
          * that render their content before wp_head(), including Breakdance.
          */
         do_action( 'wpvr_enqueue_frontend_scripts', $type );
-
+        
         if ( ! wp_style_is( 'panellium-css', 'enqueued' ) ) {
             $fontawesome_disable = get_option( 'wpvr_fontawesome_disable' );
             if ( $fontawesome_disable != 'true' ) {

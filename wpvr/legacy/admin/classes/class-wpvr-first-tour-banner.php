@@ -28,6 +28,13 @@ class WPVR_First_Tour_Banner {
      * Constructor
      */
     public function __construct() {
+        add_action('admin_init', array($this, 'initialize'));
+    }
+
+    /**
+     * Initialize the banner after WordPress has finished loading plugins.
+     */
+    public function initialize() {
         // Only initialize if banner should be shown
         if ($this->should_show_banner()) {
             // add_action('admin_notices', array($this, 'display_banner'));

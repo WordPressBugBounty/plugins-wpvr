@@ -132,6 +132,9 @@ class WPVR_Setup_Meta_Box extends WPVR_Meta_Box {
         $postdata = array_merge($primary, $post_meta_data);
         // active tab variables
         $active_tab = 'scene';
+        if ( ( isset( $postdata['tour-type'] ) && $postdata['tour-type'] === 'video' ) || ! empty( $postdata['vidid'] ) || ! empty( $postdata['vidurl'] ) ) {
+            $active_tab = 'video';
+        }
         $scene_active_tab = 1;
         $hotspot_active_tab = 1;
         if (isset($_GET['active_tab'])) {
