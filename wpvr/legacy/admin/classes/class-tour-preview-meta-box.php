@@ -109,7 +109,14 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
         $postdata = get_post_meta($id, 'panodata', true);
         $panoid = 'pano' . $id;
 
-        if (isset($postdata['vidid'])) {
+        $is_video_tour = false;
+        if ( isset( $postdata['tour-type'] ) ) {
+            $is_video_tour = ( $postdata['tour-type'] === 'video' );
+        } else {
+            $is_video_tour = ( ! empty( $postdata['vidid'] ) || ! empty( $postdata['vidurl'] ) );
+        }
+
+        if ( $is_video_tour ) {
             ob_start();
 ?>
             <div class="iframe-wrapper">
@@ -127,12 +134,18 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         echo $format->prepare_youtube_video_preview( $postdata['vidurl'], $videodata );
                     } else {
                         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- stored tour preview markup is rendered as HTML.
-                        echo $postdata['panoviddata'];
+                        if ( ! empty( $postdata['panoviddata'] ) ) {
+                            echo $postdata['panoviddata'];
+                        } elseif ( ! empty( $postdata['vidurl'] ) ) {
+                            $format = new WPVR_Format();
+                            $vidid = ! empty( $postdata['vidid'] ) ? $postdata['vidid'] : ( 'vid' . $id );
+                            echo $format->prepare_selfhost_video_meta_data( $postdata['vidurl'], $vidid, $postdata );
+                        }
                     }
                     ?>
                     <?php if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] == 'selfhost') { ?>
                         <script>
-                            videojs(<?php echo esc_js($postdata['vidid']); ?>, {
+                            videojs(<?php echo esc_js($postdata['vidid'] ?? ('vid' . $id)); ?>, {
                                 plugins: {
                                     pannellum: {}
                                 }

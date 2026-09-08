@@ -82,8 +82,8 @@ class WPVR_Format
             if (!empty($panoscenes['scene-id'])) {
                 array_push($allsceneids, $panoscenes['scene-id']);
             }
-            if ($panoscenes['dscene'] == 'on') {
-                return $default_scene = $panoscenes['scene-id'];
+            if (($panoscenes['dscene'] ?? 'off') == 'on') {
+                return $default_scene = $panoscenes['scene-id'] ?? '';
             }
         }
 
@@ -2569,18 +2569,21 @@ class WPVR_Format
     {
         $html .= 'if(scenes) {';
         $html .= 'var scenedata = scenes.scenes;';
-        $html .= 'for(var i in scenedata) {';
-        $html .= 'var scenehotspot = scenedata[i].hotSpots;';
-        $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
-        $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-        $html .= 'scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
+        $html .= 'for(var scId in scenedata) {';
+        $html .= 'if(!scenedata.hasOwnProperty(scId)) continue;';
+        $html .= 'var scenehotspot = scenedata[scId].hotSpots;';
+        $html .= 'if(scenehotspot && scenehotspot.length) {';
+        $html .= 'for(var hIdx = 0; hIdx < scenehotspot.length; hIdx++) {';
+        $html .= 'if(scenehotspot[hIdx]["clickHandlerArgs"] != "") {';
+        $html .= 'scenehotspot[hIdx]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '}';
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
-            $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
+            $html .= 'if(scenehotspot[hIdx]["createTooltipArgs"] != "") {';
+            $html .= 'scenehotspot[hIdx]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
+        $html .= '}';
         $html .= '}';
         $html .= '}';
         $html .= '}';

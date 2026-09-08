@@ -40,7 +40,7 @@ class Shortcode {
                 return $this->render_streetview( $postdata, $parsed );
             }
 
-            if ( $tour_type === 'video' && ! isset( $postdata['vidid'] ) ) {
+            if ( $tour_type === 'video' ) {
                 return $this->render_video( $postdata, $parsed, $id );
             }
         }

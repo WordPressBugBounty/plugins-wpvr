@@ -59,6 +59,20 @@ class WPVR_Shortcode {
         $this->streetview = new WPVR_StreetView();
         $this->video = new WPVR_Video();
         $this->scene = new WPVR_Scene();
+
+        add_filter('no_texturize_shortcodes', array($this, 'no_texturize_wpvr_shortcode'));
+    }
+
+    /**
+     * Prevent WordPress wptexturize from corrupting [wpvr] shortcode content
+     *
+     * @param array $tags
+     * @return array
+     */
+    public function no_texturize_wpvr_shortcode($tags)
+    {
+        $tags[] = 'wpvr';
+        return $tags;
     }
 
     /**
@@ -182,16 +196,21 @@ class WPVR_Shortcode {
 
         $postdata = get_post_meta($id, 'panodata', true);
         $postdata = is_array( $postdata ) ? wpvr_get_effective_panodata( $postdata ) : [];
-        $panoid = 'pano'.$id;
 
-        if (isset($postdata['streetviewdata'])){
+        static $tour_instances = array();
+        $tour_instances[$id] = isset($tour_instances[$id]) ? $tour_instances[$id] + 1 : 1;
+        $instance_num = $tour_instances[$id];
+        $panoid = ($instance_num === 1) ? ('pano' . $id) : ('pano' . $id . '_' . $instance_num);
+
+        $tour_type = isset( $postdata['tour-type'] ) ? $postdata['tour-type'] : '';
+
+        if ( $tour_type === 'street-view' || ( $tour_type === '' && isset( $postdata['streetviewdata'] ) ) ) {
             wpvr_enqueue_frontend_scripts( 'streetview' );
             $html = $this->streetview->render_streetview_shortcode($postdata, $width, $height);
             return $html;
         }
 
-
-        if ( isset( $postdata['vidid'] ) || ( isset( $postdata['tour-type'] ) && $postdata['tour-type'] === 'video' ) || ! empty( $postdata['vidurl'] ) ) {
+        if ( $tour_type === 'video' || ( $tour_type === '' && ( ! empty( $postdata['vidid'] ) || ! empty( $postdata['vidurl'] ) ) ) ) {
             wpvr_enqueue_frontend_scripts( 'video' );
             $html = $this->video->render_video_shortcode($postdata, $id, $width, $height, $radius);
             return $html;
@@ -199,6 +218,24 @@ class WPVR_Shortcode {
 
         wpvr_enqueue_frontend_scripts( 'scene' );
         $html = $this->scene->render_scene_shortcode($postdata, $panoid, $id, $radius, $width, $height, $mobile_height);
+
+        // Extract any <script> tags so they are not corrupted by wptexturize or the_content filters
+        $scripts = '';
+        if (preg_match_all('/<script\b[^>]*>[\s\S]*?<\/script>/i', $html, $matches)) {
+            $scripts = implode("\n", $matches[0]);
+            $html    = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $html);
+        }
+
+        if (!empty($scripts)) {
+            if (wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || did_action('wp_footer')) {
+                $html .= "\n" . $scripts;
+            } else {
+                add_action('wp_footer', function() use ($scripts) {
+                    echo $scripts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                }, 20);
+            }
+        }
+
         return $html;
     }
 }

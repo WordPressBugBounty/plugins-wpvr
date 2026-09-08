@@ -117,8 +117,8 @@ class WPVR_Validator {
 
     foreach ($panodata["scene-list"] as $panoscenes) {
 
-      if ($panoscenes['dscene'] == 'on') {
-        $default_scene = $panoscenes['scene-id'];
+      if (($panoscenes['dscene'] ?? 'off') == 'on') {
+        $default_scene = $panoscenes['scene-id'] ?? '';
       }
     }
     if (empty($default_scene)) {

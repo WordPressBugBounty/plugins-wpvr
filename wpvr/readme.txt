@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.1.0
+Stable tag: 9.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,14 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.1.1 (2026-09-08) =
+* Fix: Resolved issue where tours created with the new UI failed to render when embedded.
+* Fix: Improved tour type detection and state synchronization across legacy and REST API services.
+* Fix: Prevented WordPress wptexturize and content filters from corrupting tour inline scripts.
+* Fix: Resolved container ID conflicts and script errors when embedding multiple tour instances on the same page.
+* Fix: Resolved hotspot click and modal popup display issues across different content formats.
+* Fix: Added safe fallbacks to prevent PHP undefined key warnings in scene and hotspot data validation.
 
 = 9.1.0 (2026-09-03) =
 * New: Added Breakdance page builder integration with dedicated WPVR block support.

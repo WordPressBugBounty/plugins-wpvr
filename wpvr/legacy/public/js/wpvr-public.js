@@ -66,7 +66,7 @@ function wpvrSanitizeHtml(rawHtml) {
 window.wpvrSanitizeHtml = wpvrSanitizeHtml;
 
 function wpvrhotspot(hotSpotDiv, hotspotData) {
-    const args = hotspotData && hotspotData.on_click_content ? hotspotData.on_click_content : '';
+    const args = (hotspotData && typeof hotspotData === 'object') ? (hotspotData.on_click_content || '') : (typeof hotspotData === 'string' ? hotspotData : '');
 
     if (args) {
         const hasTextContent = args.replace(/<[^>]*>/g, '').trim() !== '';
@@ -76,10 +76,15 @@ function wpvrhotspot(hotSpotDiv, hotspotData) {
         if (hasTextContent || hasMediaContent || hasOtherContent) {
             const cleanArgs = wpvrSanitizeHtml(args.replace(/\\/g, ''));
 
-            const $wrapper = jQuery(hotSpotDiv.target).parent().siblings(".custom-ifram-wrapper");
+            const target = (hotSpotDiv && hotSpotDiv.target) ? hotSpotDiv.target : hotSpotDiv;
+            const $panoWrap = target ? jQuery(target).closest(".pano-wrap") : jQuery(".pano-wrap:first");
+            let $wrapper = $panoWrap.find(".custom-ifram-wrapper");
+            if (!$wrapper.length && target) {
+                $wrapper = jQuery(target).parent().siblings(".custom-ifram-wrapper");
+            }
             $wrapper.find('.custom-ifram').html(cleanArgs);
             $wrapper.fadeIn();
-            jQuery(hotSpotDiv.target).closest(".pano-wrap").addClass("show-modal");
+            $panoWrap.addClass("show-modal");
         }
     }
 }

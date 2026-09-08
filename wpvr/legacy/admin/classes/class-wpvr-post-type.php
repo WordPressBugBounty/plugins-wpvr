@@ -474,10 +474,11 @@ class WPVR_Post_Type {
                 break;
 
             case 'type':
-                if (isset($postdata['streetviewdata'])) {
+                $tour_type = $postdata['tour-type'] ?? '';
+                if ( $tour_type === 'street-view' || ( $tour_type === '' && isset( $postdata['streetviewdata'] ) ) ) {
                     echo wp_kses_post('<span class="tour-type">' . $streetview_icon . 'Street View</span>');
 
-                } elseif (isset($postdata['vidid'])) {
+                } elseif ( $tour_type === 'video' || ( $tour_type === '' && ( ! empty( $postdata['vidid'] ) || ! empty( $postdata['vidurl'] ) ) ) ) {
                     echo wp_kses_post('<span class="tour-type">' . $video_tour_icon . '360 Video</span>');
 
                 } else {

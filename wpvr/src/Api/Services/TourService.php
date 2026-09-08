@@ -43,6 +43,11 @@ class TourService {
             $raw = array_merge( $existing_raw, $raw );
         }
 
+        // If not a video tour, remove any stale video ID from existing data
+        if ( ( $raw['tour-type'] ?? '' ) !== 'video' ) {
+            unset( $raw['vidid'] );
+        }
+
         // If the request carries proData (future React pro panels will send this),
         // run the same filter the legacy AJAX stack uses so pro plugin saves its fields.
         if ( $this->is_pro && ! empty( $api_data['proData'] ) && is_array( $api_data['proData'] ) ) {

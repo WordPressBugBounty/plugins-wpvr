@@ -115,14 +115,26 @@ class WPVR_Scene {
             </div>
             <!-- Empty repeater end -->
 
-            <?php $s = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
-            foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
+            <?php 
+            if ( ! empty( $postdata['panodata']["scene-list"] ) && is_array( $postdata['panodata']["scene-list"] ) ) {
+                $s = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
+                $default_scene = $postdata['defaultscene'] ?? ($firstvalue['scene-id'] ?? '');
+                foreach ($postdata['panodata']["scene-list"] as $pano_scene) {
+                    if ( ! is_array( $pano_scene ) ) {
+                        continue;
+                    }
+                    if ( ! isset( $pano_scene['dscene'] ) ) {
+                        $pano_scene['dscene'] = ( ! empty( $default_scene ) && ( $pano_scene['scene-id'] ?? '' ) === $default_scene ) ? 'on' : 'off';
+                    }
+                    $is_active = ( ( $pano_scene['scene-id'] ?? '' ) === ( $firstvalue['scene-id'] ?? '' ) );
+            ?>
 
-                <div data-repeater-item  class="single-scene rex-pano-tab <?php if($pano_scene['scene-id'] == $firstvalue['scene-id']) { echo esc_attr('active'); }; ?>" data-title="1" id="scene-<?php echo esc_attr( $s ); ?>">
+                <div data-repeater-item  class="single-scene rex-pano-tab <?php if($is_active) { echo esc_attr('active'); }; ?>" data-title="1" id="scene-<?php echo esc_attr( $s ); ?>">
                     <?php $this->render_repeater_item_with_panodata($pano_scene, $s); ?>
                 </div>
 
-                <?php $s++; } ?>
+                <?php $s++; } 
+            } ?>
         </div>
         <?php
 //      ob_end_flush();
@@ -142,16 +154,24 @@ class WPVR_Scene {
         ob_start();
         ?>
         <ul>
-            <?php $i = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
-            foreach ($postdata['panodata']["scene-list"] as $pano_scene) { ?>
+            <?php 
+            if ( ! empty( $postdata['panodata']["scene-list"] ) && is_array( $postdata['panodata']["scene-list"] ) ) {
+                $i = 1; $firstvalue = reset($postdata['panodata']["scene-list"]);
+                foreach ($postdata['panodata']["scene-list"] as $pano_scene) {
+                    if ( ! is_array( $pano_scene ) ) {
+                        continue;
+                    }
+                    $is_active = ( ( $pano_scene['scene-id'] ?? '' ) === ( $firstvalue['scene-id'] ?? '' ) );
+            ?>
 
-                <li class="<?php if ($pano_scene['scene-id'] == $firstvalue['scene-id']) {echo 'active';};?>">
+                <li class="<?php if ($is_active) {echo 'active';};?>">
             <span data-index="<?php echo esc_attr( $i ); ?>" data-href="#scene-<?php echo esc_attr( $i ); ?>">
               <i class="fa fa-image"></i>
             </span>
                 </li>
 
-                <?php $i++; } ?>
+                <?php $i++; } 
+            } ?>
             <li class="add" data-repeater-create><span><i class="fa fa-plus-circle"></i></span></li>
         </ul>
         <?php
@@ -889,8 +909,8 @@ class WPVR_Scene {
             $scene_fade_duration = $postdata['scenefadeduration'];
         }
 
-        $panodata = '';
-        if (isset($postdata['panodata'])) {
+        $panodata = array();
+        if (isset($postdata['panodata']) && is_array($postdata['panodata'])) {
             $panodata = $postdata['panodata'];
         }
 
@@ -1290,11 +1310,15 @@ class WPVR_Scene {
                 $html .= isset($postdata['customcss']) ? $postdata['customcss'] : '';
             }
         }
-        $panoid2 = 'pano2'.$id;
+        $pano_suffix = (strpos($panoid, 'pano') === 0) ? substr($panoid, 4) : (string) $panoid;
+        $panoid2 = 'pano2' . $pano_suffix;
+        $master_container_id = ($panoid === 'pano' . $id) ? 'master-container' : ('master-container-' . $pano_suffix);
         $status  = get_option('wpvr_edd_license_status');
-        if ($status !== false && $status == 'valid') {
+        if ($status !== false && $status == 'valid' && ! empty( $panodata['scene-list'] ) && is_array( $panodata['scene-list'] )) {
             foreach ($panodata['scene-list'] as $panoscenes){
-
+                if ( empty( $panoscenes['hotspot-list'] ) || ! is_array( $panoscenes['hotspot-list'] ) ) {
+                    continue;
+                }
                 foreach($panoscenes['hotspot-list'] as $hotspot){
                     if (isset($hotspot['hotspot-customclass-color-icon-value']) && !empty($hotspot['hotspot-customclass-color-icon-value'])) {
                         $hotspoticoncolor = $hotspot['hotspot-customclass-color-icon-value'];
@@ -1497,9 +1521,9 @@ class WPVR_Scene {
         }
 
         if (wpvr_isMobileDevice()) {
-            $html .= '<div id="master-container" class="wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $mobile_height . '; border-radius:' . $radius . '; direction:ltr; ">';
+            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $mobile_height . '; border-radius:' . $radius . '; direction:ltr; ">';
         } else {
-            $html .= '<div id="master-container" class="wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $height . '; border-radius:' . $radius . '; direction:ltr; ">';
+            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $height . '; border-radius:' . $radius . '; direction:ltr; ">';
         }
         $is_pro = apply_filters('is_wpvr_pro_active',false);
         $status  = get_option('wpvr_edd_license_status');
@@ -1519,7 +1543,7 @@ class WPVR_Scene {
                 $embed_mode = "vr-embade-mode";
             }
             $html .= '<label class="wpvr-cardboard-switcher '.$embed_mode.'">
-                <input type="checkbox" class="vr_mode_change' . $id . '" name="vr_mode_change" value="off">
+                <input type="checkbox" class="vr_mode_change' . $pano_suffix . '" name="vr_mode_change" value="off">
                 <span class="switcher-box">
                     <span class="normal-mode-tooltip">Normal VR Mode</span>
                     <svg width="78" height="60" viewBox="0 0 78 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1533,41 +1557,41 @@ class WPVR_Scene {
         if ($width == 'fullwidth') {
             if (wpvr_isMobileDevice()) {
                 $html .= '<div class="cardboard-vrfullwidth vrfullwidth">';
-                $html .= '<div id="pano2' . $id . '" class="pano-wrap  pano-left cardboard-half" style="width: 49%!important; border-radius:' . $radius . ' text-align:center; direction:ltr;" ><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
-                $html .= '<div id="pano' . $id . '" class="pano-wrap  pano-right" style="width: 100%; text-align:center; direction:ltr; border-radius:' . $radius . '" >';
+                $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left cardboard-half pano2' . $id . '" style="width: 49%!important; border-radius:' . $radius . ' text-align:center; direction:ltr;" ><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+                $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style="width: 100%; text-align:center; direction:ltr; border-radius:' . $radius . '" >';
             } else {
-                $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+                $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left pano2' . $id . '" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
                 if ($radius) {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap vrfullwidth" style=" text-align:center; height: ' . $height . '; border-radius:' . $radius . '; direction:ltr;" >';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap vrfullwidth pano' . $id . '" style=" text-align:center; height: ' . $height . '; border-radius:' . $radius . '; direction:ltr;" >';
                 } else {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap vrfullwidth" style=" text-align:center; height: ' . $height . '; direction:ltr;" >';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap vrfullwidth pano' . $id . '" style=" text-align:center; height: ' . $height . '; direction:ltr;" >';
                 }
             }
         } elseif ($width == 'embed') {
             $html .= '<div class="cardboard-vrembed vrembed">';
-            $html .= '<div id="pano2' . $id . '" class="pano-wrap  pano-left" style=" width: 49%!important; text-align:center; direction:ltr;" ><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
-            $html .= '<div id="pano' . $id . '" class="pano-wrap  pano-right" style=" text-align:center; direction:ltr;" >';
+            $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left pano2' . $id . '" style=" width: 49%!important; text-align:center; direction:ltr;" ><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+            $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style=" text-align:center; direction:ltr;" >';
         } else {
             if (wpvr_isMobileDevice()) {
-                $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left cardboard-half" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+                $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left cardboard-half pano2' . $id . '" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
                 if ($radius) {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style=" width: 100%; border-radius:' . $radius . ';">';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style=" width: 100%; border-radius:' . $radius . ';">';
                 } else {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style=" width: 100%; ">';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style=" width: 100%; ">';
                 }
             } else {
-                $html .= '<div id="pano2' . $id . '" class="pano-wrap pano-left" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $id . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
+                $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left pano2' . $id . '" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
 
                 if ($radius) {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style="width: 100%; border-radius:' . $radius . ';">';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style="width: 100%; border-radius:' . $radius . ';">';
                 } else {
-                    $html .= '<div id="pano' . $id . '" class="pano-wrap pano-right" style="width: 100%;">';
+                    $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style="width: 100%;">';
                 }
             }
         }
         // Vr mode transction scene to scene
         if ($status !== false &&  'valid' == $status  && $is_pro) {
-            $html .= '<div id="center-pointer' . $id . '" class="vr-pointer-container" style="display:none"><span class="center-pointer"></span></div>';
+            $html .= '<div id="center-pointer' . $pano_suffix . '" class="vr-pointer-container" style="display:none"><span class="center-pointer"></span></div>';
         }
         $social_logo_top = '';
         //===company logo===//
@@ -1606,12 +1630,12 @@ class WPVR_Scene {
             $generic_form_icon = implode(' ', array_filter(array_map('sanitize_html_class', preg_split('/\s+/', $generic_form_icon))));
             $generic_form_icon = $generic_form_icon ?: 'fab fa-wpforms';
             $generic_form_icon_color = sanitize_hex_color($postdata['genericformiconcolor'] ?? '') ?: '#f7fffb';
-            $html .= '<div class="generic_form_button" id="generic_form_button_' . esc_attr($id) . '">';
-            $html .= '<div class="generic-form-icon" title ="Generic Form" id="generic_form_target_' . esc_attr($id) . '"><i class="' . esc_attr($generic_form_icon) . '" style="color:' . esc_attr($generic_form_icon_color) . ';"></i></div>';
+            $html .= '<div class="generic_form_button" id="generic_form_button_' . esc_attr($pano_suffix) . '">';
+            $html .= '<div class="generic-form-icon" title ="Generic Form" id="generic_form_target_' . esc_attr($pano_suffix) . '"><i class="' . esc_attr($generic_form_icon) . '" style="color:' . esc_attr($generic_form_icon_color) . ';"></i></div>';
             $html .= '</div>';
 
             // Generate the modal form container
-            $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . esc_attr($id) . '" style="display: none">';
+            $html .= '<div class="wpvr-generic-form" id="wpvr-generic-form' . esc_attr($pano_suffix) . '" style="display: none">';
             $html .= '<span class="close-generic-form"><i class="fa fa-times"></i></span>';
             $html .= '<div class="generic-form-container">' . $shortcode_content . '</div>';
             $html .= '</div>';
@@ -1666,21 +1690,21 @@ class WPVR_Scene {
         if (isset($custom_control)) {
             $gyro_button_enabled = wpvr_isMobileDevice() && $custom_control['gyroSwitch'] == "on" && $custom_control['gyroscopeSwitch'] == "on";
             if ($custom_control['panZoomInSwitch'] == "on" || $custom_control['panZoomOutSwitch'] == "on" || $gyro_button_enabled || $custom_control['backToHomeSwitch'] == "on") {
-                $html .= '<div id="zoom-in-out-controls' . $id . '" class="zoom-in-out-controls">';
+                $html .= '<div id="zoom-in-out-controls' . $pano_suffix . '" class="zoom-in-out-controls">';
 
                 if ($custom_control['backToHomeSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                    $html .= '<div class="ctrl" id="backToHome' . $id . '"><i class="' . $custom_control['backToHomeIcon'] . '" style="color:' . $custom_control['backToHomeColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl" id="backToHome' . $pano_suffix . '"><i class="' . $custom_control['backToHomeIcon'] . '" style="color:' . $custom_control['backToHomeColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panZoomInSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                    $html .= '<div class="ctrl" id="zoom-in' . $id . '"><i class="' . $custom_control['panZoomInIcon'] . '" style="color:' . $custom_control['panZoomInColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl" id="zoom-in' . $pano_suffix . '"><i class="' . $custom_control['panZoomInIcon'] . '" style="color:' . $custom_control['panZoomInColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panZoomOutSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                    $html .= '<div class="ctrl" id="zoom-out' . $id . '"><i class="' . $custom_control['panZoomOutIcon'] . '" style="color:' . $custom_control['panZoomOutColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl" id="zoom-out' . $pano_suffix . '"><i class="' . $custom_control['panZoomOutIcon'] . '" style="color:' . $custom_control['panZoomOutColor'] . ';"></i></div>';
                 }
                 if ($gyro_button_enabled && 'valid' == $status  && $is_pro) {
-                    $html .= '<div class="ctrl" id="gyroscope' . $id . '" ><i class="' . $custom_control['gyroscopeIcon'] . '" style="color:' . $custom_control['gyroscopeColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl" id="gyroscope' . $pano_suffix . '" ><i class="' . $custom_control['gyroscopeIcon'] . '" style="color:' . $custom_control['gyroscopeColor'] . ';"></i></div>';
                 }
                 $html .= '</div>';
             }
@@ -1688,26 +1712,26 @@ class WPVR_Scene {
 
             if (($custom_control['panupSwitch'] == "on" || $custom_control['panDownSwitch'] == "on" || $custom_control['panLeftSwitch'] == "on" || $custom_control['panRightSwitch'] == "on" || $custom_control['panFullscreenSwitch'] == "on" ) && 'valid' == $status  && $is_pro) {
                 //===Custom Control===//
-                $html .= '<div class="controls" id="controls' . $id . '">';
+                $html .= '<div class="controls" id="controls' . $pano_suffix . '">';
 
                 if ($custom_control['panupSwitch'] == "on") {
-                    $html .= '<div class="ctrl pan-up" id="pan-up' . $id . '"><i class="' . $custom_control['panupIcon'] . '" style="color:' . $custom_control['panupColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl pan-up" id="pan-up' . $pano_suffix . '"><i class="' . $custom_control['panupIcon'] . '" style="color:' . $custom_control['panupColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panDownSwitch'] == "on") {
-                    $html .= '<div class="ctrl pan-down" id="pan-down' . $id . '"><i class="' . $custom_control['panDownIcon'] . '" style="color:' . $custom_control['panDownColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl pan-down" id="pan-down' . $pano_suffix . '"><i class="' . $custom_control['panDownIcon'] . '" style="color:' . $custom_control['panDownColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panLeftSwitch'] == "on") {
-                    $html .= '<div class="ctrl pan-left" id="pan-left' . $id . '"><i class="' . $custom_control['panLeftIcon'] . '" style="color:' . $custom_control['panLeftColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl pan-left" id="pan-left' . $pano_suffix . '"><i class="' . $custom_control['panLeftIcon'] . '" style="color:' . $custom_control['panLeftColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panRightSwitch'] == "on") {
-                    $html .= '<div class="ctrl pan-right" id="pan-right' . $id . '"><i class="' . $custom_control['panRightIcon'] . '" style="color:' . $custom_control['panRightColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl pan-right" id="pan-right' . $pano_suffix . '"><i class="' . $custom_control['panRightIcon'] . '" style="color:' . $custom_control['panRightColor'] . ';"></i></div>';
                 }
 
                 if ($custom_control['panFullscreenSwitch'] == "on") {
-                    $html .= '<div class="ctrl fullscreen" id="fullscreen' . $id . '"><i class="' . $custom_control['panFullscreenIcon'] . '" style="color:' . $custom_control['panFullscreenColor'] . ';"></i></div>';
+                    $html .= '<div class="ctrl fullscreen" id="fullscreen' . $pano_suffix . '"><i class="' . $custom_control['panFullscreenIcon'] . '" style="color:' . $custom_control['panFullscreenColor'] . ';"></i></div>';
                 }
                 $html .= '</div>';
             }
@@ -1721,7 +1745,7 @@ class WPVR_Scene {
             $is_pro,
             $autoload,
             $explainer_right,
-            $id
+            $pano_suffix
         );
         //===explainer button end===//
 
@@ -1729,8 +1753,8 @@ class WPVR_Scene {
         $status  = get_option('wpvr_edd_license_status');
         if ($status !== false &&  'valid' == $status  && $is_pro){
             if ($floor_plan_enable == "on" && !empty($floor_plan_image)) {
-                $html .= '<div class="floor_map_button" id="floor_map_button_' . $id . '" style="right:'.$floor_map_right.'">';
-                $html .= '<div class="ctrl" id="floor_map_target_' . $id . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
+                $html .= '<div class="floor_map_button" id="floor_map_button_' . $pano_suffix . '" style="right:'.$floor_map_right.'">';
+                $html .= '<div class="ctrl" id="floor_map_target_' . $pano_suffix . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
                 $html .= '</div>';
             }
         }
@@ -1742,16 +1766,16 @@ class WPVR_Scene {
             if($vrgallery_icon_size){
                 $size = 'vrg-icon-size-large';
             }
-            $html .= '<div id="vrgcontrols' . $id . '" class="vrgcontrols">';
+            $html .= '<div id="vrgcontrols' . $pano_suffix . '" class="vrgcontrols">';
 
-            $html .= '<div class="vrgctrl' . $id . ' vrbounce '.$size.'">';
+            $html .= '<div class="vrgctrl' . $pano_suffix . ' vrbounce '.$size.'">';
             $html .= '</div>';
             $html .= '</div>';
 
             $gallery_layout_class = isset($postdata['tourLayout']['layout']) && 'layout1' === $postdata['tourLayout']['layout']
                 ? 'wpvr-gallery--modern'
                 : 'wpvr-gallery--classic';
-            $html .= '<div id="sccontrols' . $id . '" class="scene-gallery vrowl-carousel ' . esc_attr($gallery_layout_class) . '">';
+            $html .= '<div id="sccontrols' . $pano_suffix . '" class="scene-gallery vrowl-carousel ' . esc_attr($gallery_layout_class) . '">';
             if (isset($panodata["scene-list"])) {
                 foreach ($panodata["scene-list"] as $panoscenes) {
                     $scene_key = $panoscenes['scene-id'];
@@ -1777,9 +1801,9 @@ class WPVR_Scene {
                     }
 
                     if( isset($postdata['tourLayout']['layout']) && 'layout1' !== $postdata['tourLayout']['layout']) {
-                        $html .= '<ul><li title="Click to view scene"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"></li></ul>';
+                        $html .= '<ul><li title="Click to view scene"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $pano_suffix . '" src="' . $thumbnail . '"></li></ul>';
                     }else {
-                        $html .= '<ul><li title="Click to view scene"><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $id . '" src="' . $thumbnail . '"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span></li></ul>';
+                        $html .= '<ul><li title="Click to view scene"><img loading="lazy" class="scctrl" id="' . $scene_key . '_gallery_' . $pano_suffix . '" src="' . $thumbnail . '"><span class="scene-title" title="' . esc_attr($scene_key_title) . '">' . $scene_key_title . '</span></li></ul>';
                     }
                 }
             }
@@ -1812,13 +1836,13 @@ class WPVR_Scene {
         $audio_icon_class = 'fa-volume-mute'; // Always start with mute icon
 
         if ($bg_music === 'on' && 'valid' == $status  && $is_pro) {
-            $html .= '<div id="adcontrol' . esc_attr( $id ) . '" class="adcontrol" style="right:' . esc_attr( $audio_right ) . '">';
-            $html .= '<audio id="vrAudio' . esc_attr($id) . '" class="vrAudioDefault" data-autoplay="' . esc_attr($autoplay_bg_music) . '" onended="audionEnd' . esc_attr($id) . '()" ' . $autoplay_attr . ' ' . $audio_muted_attr . ' ' . $bg_loop . '>
+            $html .= '<div id="adcontrol' . esc_attr( $pano_suffix ) . '" class="adcontrol" style="right:' . esc_attr( $audio_right ) . '">';
+            $html .= '<audio id="vrAudio' . esc_attr($pano_suffix) . '" class="vrAudioDefault" data-autoplay="' . esc_attr($autoplay_bg_music) . '" onended="audionEnd' . esc_attr($pano_suffix) . '()" ' . $autoplay_attr . ' ' . $audio_muted_attr . ' ' . $bg_loop . '>
                         <source src="' . esc_url($bg_music_url) . '" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>';
-            $html .= '<button onclick="playPause' . esc_attr($id) . '()" class="ctrl audio_control" id="audio_control' . esc_attr($id) . '">
-                        <i id="vr-volume' . esc_attr($id) . '" class="wpvrvolumeicon' . esc_attr($id) . ' fas ' . esc_attr($audio_icon_class) . '" style="color:#fff;"></i>
+            $html .= '<button onclick="playPause' . esc_attr($pano_suffix) . '()" class="ctrl audio_control" id="audio_control' . esc_attr($pano_suffix) . '">
+                        <i id="vr-volume' . esc_attr($pano_suffix) . '" class="wpvrvolumeicon' . esc_attr($pano_suffix) . ' fas ' . esc_attr($audio_icon_class) . '" style="color:#fff;"></i>
                     </button>';
             $html .= '</div>';
         }
@@ -1827,7 +1851,7 @@ class WPVR_Scene {
         if (isset($postdata['explainerContent'])) {
             $explainerContent = $this->wpvr_sanitize_iframe_only($postdata['explainerContent']);
         }
-        $html .= '<div class="explainer" id="explainer' . $id . '" style="display: none">';
+        $html .= '<div class="explainer" id="explainer' . $pano_suffix . '" style="display: none">';
         $html .= '<span class="close-explainer-video"><i class="fa fa-times"></i></span>';
         $html .= '' . $explainerContent . '';
         $html .= '</div>';
@@ -1847,11 +1871,11 @@ class WPVR_Scene {
                     top: 37px;
                 }
             </style>';
-            $html .= '<div id="custom-scene-navigation' . $id . '" class="custom-scene-navigation">
+            $html .= '<div id="custom-scene-navigation' . $pano_suffix . '" class="custom-scene-navigation">
                 <span class="hamburger-menu"><svg width="16" height="10" fill="none" viewBox="0 0 22 15" xmlns="http://www.w3.org/2000/svg"><rect width="21.177" height="2.647" fill="#f7fffb" rx="1.324"/><rect width="21.177" height="2.647" y="6.177" fill="#f7fffb" rx="1.324"/><rect width="21.177" height="2.647" y="12.352" fill="#f7fffb" rx="1.324"/></svg></span> 
               </div>
               
-              <div id="custom-scene-navigation-nav' . $id . '" class="' . esc_attr( $scene_navigation_nav_class ) . '">
+              <div id="custom-scene-navigation-nav' . $pano_suffix . '" class="' . esc_attr( $scene_navigation_nav_class ) . '">
                   <ul></ul>
               </div> 
               ';
@@ -1861,7 +1885,7 @@ class WPVR_Scene {
 
         if( 'embed' === $width){
             if(WPVR_Helper::is_enable_social_share($postdata) === 'on'){
-                $html .= '<div id="wpvr-social-share-bg-box'.$id.'" class="wpvr-social-share-bg-box" style="top:'.$social_logo_top.'">
+                $html .= '<div id="wpvr-social-share-bg-box'.$pano_suffix.'" class="wpvr-social-share-bg-box" style="top:'.$social_logo_top.'">
                             <span class="share-btn-svg"><svg fill="none" viewBox="0 0 24 24" width="24" height="24" ><path fill="#1F1CF4" d="M18.4 2.4a3.2 3.2 0 00-3.2 3.2 3.2 3.2 0 00.075.67L8.01 9.901A3.2 3.2 0 005.6 8.8a3.2 3.2 0 101.325 6.112 3.2 3.2 0 001.086-.812l7.261 3.632a3.2 3.2 0 101.803-2.242c-.415.189-.786.466-1.085.81l-7.261-3.63A3.2 3.2 0 008.8 12a3.2 3.2 0 00-.075-.667L15.991 7.7a3.2 3.2 0 002.41 1.1 3.2 3.2 0 100-6.4z"/></svg></span>
                             <nav class="wpvr-share-nav">
                                 '.WPVR_Helper::social_media_share_links_display_in_embed(home_url().'/?embed_page='. $id).'
@@ -1882,7 +1906,7 @@ class WPVR_Scene {
             $floor_map_scene_id = $postdata['floor_plan_data_list'];
             $floor_plan_custom_color = $postdata['floor_plan_custom_color'];
         }
-        $html .= '<div class="wpvr-floor-map" id="wpvr-floor-map' . $id . '" style="display: none">';
+        $html .= '<div class="wpvr-floor-map" id="wpvr-floor-map' . $pano_suffix . '" style="display: none">';
         $html .= '<span class="close-floor-map-plan"><i class="fa fa-times"></i></span>';
         $html .= '<img loading="lazy" src="'.$floor_map_image.'">';
         foreach($floor_map_pointer as $key=> $pointer_position){
@@ -2000,155 +2024,161 @@ class WPVR_Scene {
         $html .= '<script>';
         if (isset($postdata['bg_music']) && $bg_music == 'on' && 'valid' == $status  && $is_pro) {
             $html .= '
-            var x' . $id . ' = document.getElementById("vrAudio' . $id . '");
-            var playing' . $id . ' = false;
-            var autoplaySupported' . $id . ' = false;
-            var alertShown' . $id . ' = false;
-            var autoplayChecked' . $id . ' = false;
+            var x' . $pano_suffix . ' = document.getElementById("vrAudio' . $pano_suffix . '");
+            var playing' . $pano_suffix . ' = false;
+            var autoplaySupported' . $pano_suffix . ' = false;
+            var alertShown' . $pano_suffix . ' = false;
+            var autoplayChecked' . $pano_suffix . ' = false;
         
-            function playPause' . $id . '() {
-                if (playing' . $id . ') {
-                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
-                    x' . $id . '.pause();
-                    jQuery("#audio_control' . $id . '").attr("data-play", "off");
-                    playing' . $id . ' = false;
+            function playPause' . $pano_suffix . '() {
+                if (playing' . $pano_suffix . ') {
+                    jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                    x' . $pano_suffix . '.pause();
+                    jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "off");
+                    playing' . $pano_suffix . ' = false;
                 } else {
-                    x' . $id . '.muted = false;
-                    x' . $id . '.play().then(function() {
-                        jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                        jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                        playing' . $id . ' = true;
+                    x' . $pano_suffix . '.muted = false;
+                    x' . $pano_suffix . '.play().then(function() {
+                        jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                        jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                        playing' . $pano_suffix . ' = true;
                     }).catch(function(e) {
                         console.log("Play failed:", e);
                     });
                 }
             }
         
-            function audionEnd' . $id . '() {
-                playing' . $id . ' = false;
-                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
-                jQuery("#audio_control' . $id . '").attr("data-play", "off");
+            function audionEnd' . $pano_suffix . '() {
+                playing' . $pano_suffix . ' = false;
+                jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "off");
             }
         
-            x' . $id . '.addEventListener("ended", audionEnd' . $id . ');';
+            x' . $pano_suffix . '.addEventListener("ended", audionEnd' . $pano_suffix . ');';
 
                     if ($autoplay_bg_music == 'on') {
                         $html .= '
         
-                x' . $id . '.addEventListener("loadeddata", function() {
-                    if (!autoplayChecked' . $id . ') {
-                        checkAutoplayStatus' . $id . '();
+                x' . $pano_suffix . '.addEventListener("loadeddata", function() {
+                    if (!autoplayChecked' . $pano_suffix . ') {
+                        checkAutoplayStatus' . $pano_suffix . '();
                     }
                 });
         
-                x' . $id . '.addEventListener("canplay", function() {
-                    if (!autoplayChecked' . $id . ') {
-                        checkAutoplayStatus' . $id . '();
+                x' . $pano_suffix . '.addEventListener("canplay", function() {
+                    if (!autoplayChecked' . $pano_suffix . ') {
+                        checkAutoplayStatus' . $pano_suffix . '();
                     }
                 });
         
-                x' . $id . '.addEventListener("canplaythrough", function() {
-                    if (!autoplayChecked' . $id . ') {
-                        checkAutoplayStatus' . $id . '();
+                x' . $pano_suffix . '.addEventListener("canplaythrough", function() {
+                    if (!autoplayChecked' . $pano_suffix . ') {
+                        checkAutoplayStatus' . $pano_suffix . '();
                     }
                 });
         
                 setTimeout(function() {
-                    if (!autoplayChecked' . $id . ') {
-                        checkAutoplayStatus' . $id . '();
+                    if (!autoplayChecked' . $pano_suffix . ') {
+                        checkAutoplayStatus' . $pano_suffix . '();
                     }
                 }, 1000);
         
-                x' . $id . '.addEventListener("play", function() {
-                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                    jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                    playing' . $id . ' = true;
+                x' . $pano_suffix . '.addEventListener("play", function() {
+                    jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                    jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                    playing' . $pano_suffix . ' = true;
                 });
         
-                x' . $id . '.addEventListener("pause", function() {
-                    if (!playing' . $id . ') {
-                        jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
-                        jQuery("#audio_control' . $id . '").attr("data-play", "off");
+                x' . $pano_suffix . '.addEventListener("pause", function() {
+                    if (!playing' . $pano_suffix . ') {
+                        jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                        jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "off");
                     }
                 });
         
-                function checkAutoplayStatus' . $id . '() {
-                    autoplayChecked' . $id . ' = true;
+                function checkAutoplayStatus' . $pano_suffix . '() {
+                    autoplayChecked' . $pano_suffix . ' = true;
         
-                    x' . $id . '.muted = true;
-                    var playPromise = x' . $id . '.play();
+                    x' . $pano_suffix . '.muted = true;
+                    var playPromise = x' . $pano_suffix . '.play();
         
                     if (playPromise !== undefined) {
                         playPromise.then(function () {
-                            if (x' . $id . '.muted || x' . $id . '.volume === 0) {
-                                handleAutoplayBlocked' . $id . '();
+                            if (x' . $pano_suffix . '.muted || x' . $pano_suffix . '.volume === 0) {
+                                handleAutoplayBlocked' . $pano_suffix . '();
                             } else {
-                                autoplaySupported' . $id . ' = true;
-                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                                playing' . $id . ' = true;
+                                autoplaySupported' . $pano_suffix . ' = true;
+                                jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                                playing' . $pano_suffix . ' = true;
                             }
                         }).catch(function () {
-                            handleAutoplayBlocked' . $id . '();
+                            handleAutoplayBlocked' . $pano_suffix . '();
                         });
                     } else {
                         setTimeout(function () {
-                            if (x' . $id . '.paused || x' . $id . '.currentTime === 0) {
-                                handleAutoplayBlocked' . $id . '();
+                            if (x' . $pano_suffix . '.paused || x' . $pano_suffix . '.currentTime === 0) {
+                                handleAutoplayBlocked' . $pano_suffix . '();
                             } else {
-                                autoplaySupported' . $id . ' = true;
-                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                                playing' . $id . ' = true;
+                                autoplaySupported' . $pano_suffix . ' = true;
+                                jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                                playing' . $pano_suffix . ' = true;
                             }
                         }, 300);
                     }
                 }
         
-                function handleAutoplayBlocked' . $id . '() {
-                    autoplaySupported' . $id . ' = false;
-                    if (!alertShown' . $id . ') {
+                function handleAutoplayBlocked' . $pano_suffix . '() {
+                    autoplaySupported' . $pano_suffix . ' = false;
+                    if (!alertShown' . $pano_suffix . ') {
                         alert("Autoplay is not supported in your browser. Please click the audio button to play music.");
-                        alertShown' . $id . ' = true;
+                        alertShown' . $pano_suffix . ' = true;
                     }
         
-                    x' . $id . '.pause();
-                    x' . $id . '.currentTime = 0;
-                    x' . $id . '.muted = true;
+                    x' . $pano_suffix . '.pause();
+                    x' . $pano_suffix . '.currentTime = 0;
+                    x' . $pano_suffix . '.muted = true;
         
-                    jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
-                    jQuery("#audio_control' . $id . '").attr("data-play", "off");
+                    jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-up").addClass("fas fa-volume-mute");
+                    jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "off");
         
-                    document.getElementById("pano' . $id . '").addEventListener("click", musicPlay' . $id . ');
-                    document.addEventListener("touchstart", musicPlay' . $id . ', { once: true });
-                    document.addEventListener("click", musicPlay' . $id . ', { once: true });
+                    var musicTriggerElem = document.getElementById("' . $panoid . '");
+                    if (musicTriggerElem) {
+                        musicTriggerElem.addEventListener("click", musicPlay' . $pano_suffix . ');
+                    }
+                    document.addEventListener("touchstart", musicPlay' . $pano_suffix . ', { once: true });
+                    document.addEventListener("click", musicPlay' . $pano_suffix . ', { once: true });
                 }
         
-                function musicPlay' . $id . '() {
-                    x' . $id . '.muted = false;
-                    var playPromise = x' . $id . '.play();
+                function musicPlay' . $pano_suffix . '() {
+                    x' . $pano_suffix . '.muted = false;
+                    var playPromise = x' . $pano_suffix . '.play();
         
                     if (playPromise !== undefined) {
                         playPromise.then(function () {
-                            jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                            jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                            playing' . $id . ' = true;
+                            jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                            jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                            playing' . $pano_suffix . ' = true;
                         }).catch(function(e) {
                             console.log("Play failed:", e);
                         });
                     } else {
                         setTimeout(function () {
-                            if (!x' . $id . '.paused) {
-                                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
-                                jQuery("#audio_control' . $id . '").attr("data-play", "on");
-                                playing' . $id . ' = true;
+                            if (!x' . $pano_suffix . '.paused) {
+                                jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-mute").addClass("fas fa-volume-up");
+                                jQuery("#audio_control' . $pano_suffix . '").attr("data-play", "on");
+                                playing' . $pano_suffix . ' = true;
                             }
                         }, 100);
                     }
         
-                    document.getElementById("pano' . $id . '").removeEventListener("click", musicPlay' . $id . ');
-                    document.removeEventListener("touchstart", musicPlay' . $id . ');
-                    document.removeEventListener("click", musicPlay' . $id . ');
+                    var musicTriggerElem = document.getElementById("' . $panoid . '");
+                    if (musicTriggerElem) {
+                        musicTriggerElem.removeEventListener("click", musicPlay' . $pano_suffix . ');
+                    }
+                    document.removeEventListener("touchstart", musicPlay' . $pano_suffix . ');
+                    document.removeEventListener("click", musicPlay' . $pano_suffix . ');
                 }
                 ';
             }
@@ -2159,47 +2189,52 @@ class WPVR_Scene {
         $html .= 'var scenes = response[1];';
         $html .= 'if(scenes) {';
         $html .= 'var scenedata = scenes.scenes;';
-        $html .= 'for(var i in scenedata) {';
-        $html .= 'var scenehotspot = scenedata[i].hotSpots;';
-        $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
-        $html .= 'if(scenehotspot[i].type === "info") {';
-        $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
-        $html .= '} else if(scenehotspot[i].type === "scene") {';
-        $html .= '    scenehotspot[i]["clickHandlerArgs"] = scenehotspot[i]["text"];';
+        $html .= 'for(var scId in scenedata) {';
+        $html .= 'if(!scenedata.hasOwnProperty(scId)) continue;';
+        $html .= 'var scenehotspot = scenedata[scId].hotSpots;';
+        $html .= 'if(scenehotspot && scenehotspot.length) {';
+        $html .= 'for(var hIdx = 0; hIdx < scenehotspot.length; hIdx++) {';
+        $html .= 'if(scenehotspot[hIdx].type === "info") {';
+        $html .= '    scenehotspot[hIdx]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
+        $html .= '} else if(scenehotspot[hIdx].type === "scene") {';
+        $html .= '    scenehotspot[hIdx]["clickHandlerArgs"] = scenehotspot[hIdx]["text"] || "";';
         $status = get_option('wpvr_edd_license_status');
         if ($status !== false && $status == 'valid') {
-            $html .='if(typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {';
-            $html .= '    scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspotscene === "function") { wpvrhotspotscene(div, args); } else if (typeof window.wpvrhotspotscene === "function") { window.wpvrhotspotscene(div, args); } };';
+            $html .='if(typeof wpvr_public !== "undefined") {';
+            $html .='if(wpvr_public.is_pro_active) {';
+            $html .= '    scenehotspot[hIdx]["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspotscene' . $pano_suffix . ' === "function") { wpvrhotspotscene' . $pano_suffix . '(div, args); } else if (typeof wpvrhotspotscene === "function") { wpvrhotspotscene(div, args); } else if (typeof window.wpvrhotspotscene === "function") { window.wpvrhotspotscene(div, args); } };';
+            $html .='}';
             $html .='}';
         }
         $html .= '}';
 
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
-            $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
+            $html .= 'if(scenehotspot[hIdx]["createTooltipArgs"] != "") {';
+            $html .= 'scenehotspot[hIdx]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
 
         $html .= '}';
         $html .= '}';
         $html .= '}';
-        $html .= 'var panoshow' . $id . ';';
-        $html .= 'var panoshow2' . $id . ';';
-        $html .= 'function initWPVRViewer' . $id . '() {';
-        $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer' . $id . ', 50); return; }';
-        $html .= 'panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);';
+        $html .= '}';
+        $html .= 'var panoshow' . $pano_suffix . ';';
+        $html .= 'var panoshow2' . $pano_suffix . ';';
+        $html .= 'function initWPVRViewer' . $pano_suffix . '() {';
+        $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer' . $pano_suffix . ', 50); return; }';
+        $html .= 'panoshow' . $pano_suffix . ' = pannellum.viewer(response[0]["panoid"], scenes);';
         $html .= '
             window.wpvrViewers = window.wpvrViewers || {};
-            window.wpvrViewers[response[0]["panoid"]] = panoshow' . $id . ';
+            window.wpvrViewers[response[0]["panoid"]] = panoshow' . $pano_suffix . ';
             document.dispatchEvent(new CustomEvent("wpvr:viewer-ready", {
-                detail: { containerId: response[0]["panoid"], viewer: panoshow' . $id . ' }
+                detail: { containerId: response[0]["panoid"], viewer: panoshow' . $pano_suffix . ' }
             }));
         ';
         if ( (float) $scene_fade_duration > 0 ) {
             $html .= '
-                panoshow' . $id . '.on("scenechange", function() {
-                    var fadeImage = document.querySelector("#pano' . $id . ' .pnlm-render-container > .pnlm-fade-img");
+                panoshow' . $pano_suffix . '.on("scenechange", function() {
+                    var fadeImage = document.querySelector("#' . $panoid . ' .pnlm-render-container > .pnlm-fade-img");
                     if (fadeImage) {
                         fadeImage.style.opacity = "1";
                         void fadeImage.offsetWidth;
@@ -2209,18 +2244,18 @@ class WPVR_Scene {
         $html .= '
   
         if(typeof wpvr_public === "undefined" || !wpvr_public.is_pro_active || !wpvr_public.is_license_active) {
-            panoshow' . $id . '.on("load", function() {
+            panoshow' . $pano_suffix . '.on("load", function() {
                 jQuery(".pnlm-panorama-info").hide();
                 jQuery(".pnlm-compass").hide();
             });
             
-            panoshow' . $id . '.on("scenechange", function() {
+            panoshow' . $pano_suffix . '.on("scenechange", function() {
                 jQuery(".pnlm-panorama-info").hide();
                 jQuery(".pnlm-compass").hide();
             });
         }';
         $html .= '}';
-        $html .= 'initWPVRViewer' . $id . '();';
+        $html .= 'initWPVRViewer' . $pano_suffix . '();';
         //===Dplicate mode only for vr mode===//
         $response2 = json_decode($response);
         $response2[1]->compass = false;
@@ -2231,18 +2266,21 @@ class WPVR_Scene {
 
         $html .= 'if(scenes_duplicate) {';
         $html .= 'var scenedata = scenes_duplicate.scenes;';
-        $html .= 'for(var i in scenedata) {';
-        $html .= 'var scenehotspot = scenedata[i].hotSpots;';
-        $html .= 'for(var i = 0; i < scenehotspot.length; i++) {';
-        $html .= 'if(scenehotspot[i]["clickHandlerArgs"] != "") {';
-        $html .= 'scenehotspot[i]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
+        $html .= 'for(var scId in scenedata) {';
+        $html .= 'if(!scenedata.hasOwnProperty(scId)) continue;';
+        $html .= 'var scenehotspot = scenedata[scId].hotSpots;';
+        $html .= 'if(scenehotspot && scenehotspot.length) {';
+        $html .= 'for(var hIdx = 0; hIdx < scenehotspot.length; hIdx++) {';
+        $html .= 'if(scenehotspot[hIdx]["clickHandlerArgs"] != "") {';
+        $html .= 'scenehotspot[hIdx]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '}';
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
-            $html .= 'if(scenehotspot[i]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[i]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
+            $html .= 'if(scenehotspot[hIdx]["createTooltipArgs"] != "") {';
+            $html .= 'scenehotspot[hIdx]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
+        $html .= '}';
         $html .= '}';
         $html .= '}';
         $html .= '}';
@@ -2251,18 +2289,18 @@ class WPVR_Scene {
         $status  = get_option('wpvr_edd_license_status');
         $html .= 'var vr_mode = "off";';
         if ($status !== false &&  'valid' == $status  && $is_pro) {
-            $html .= 'function initWPVRViewer2' . $id . '() {';
-            $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer2' . $id . ', 50); return; }';
-            $html .= 'panoshow2' . $id . ' = pannellum.viewer("pano2' . $id . '", scenes_duplicate);';
+            $html .= 'function initWPVRViewer2' . $pano_suffix . '() {';
+            $html .= 'if (typeof pannellum === "undefined" || typeof jQuery === "undefined") { setTimeout(initWPVRViewer2' . $pano_suffix . ', 50); return; }';
+            $html .= 'panoshow2' . $pano_suffix . ' = pannellum.viewer("' . $panoid2 . '", scenes_duplicate);';
             $html .= '
                 window.wpvrViewers = window.wpvrViewers || {};
-                window.wpvrViewers["pano2' . $id . '"] = panoshow2' . $id . ';
+                window.wpvrViewers["' . $panoid2 . '"] = panoshow2' . $pano_suffix . ';
                 document.dispatchEvent(new CustomEvent("wpvr:viewer-ready", {
-                    detail: { containerId: "pano2' . $id . '", viewer: panoshow2' . $id . ' }
+                    detail: { containerId: "' . $panoid2 . '", viewer: panoshow2' . $pano_suffix . ' }
                 }));
             ';
             $html .= '}';
-            $html .= 'initWPVRViewer2' . $id . '();';
+            $html .= 'initWPVRViewer2' . $pano_suffix . '();';
 // Show Cardboard Mode in Tour
             $html .= '
         var tim;
@@ -2277,40 +2315,42 @@ class WPVR_Scene {
                 for(var i in scenedata) {
                     if(active_scene === i) {
                         var scenehotspot = scenedata[i].hotSpots;
-                        for(var j in scenehotspot) {
-                            var plusFiveYaw = Math.round(scenehotspot[j].yaw) + 5;
-                            var minusFiveYaw = Math.round(scenehotspot[j].yaw) - 5;
-                            var plusFivePitch = Math.round(scenehotspot[j].pitch) + 5;
-                            var minusFivePitch = Math.round(scenehotspot[j].pitch) - 5;
-                            var firstCondition = ( Math.round(data.pitch) > minusFivePitch) && (Math.round(data.pitch) < plusFivePitch) ;
-                            var secCondition = (Math.round(data.yaw) > minusFiveYaw) && (Math.round(data.yaw) < plusFiveYaw);
-                            if(( Math.round(data.pitch) > minusFivePitch) && (Math.round(data.pitch) < plusFivePitch) ){
-                                if((Math.round(data.yaw) > minusFiveYaw) && (Math.round(data.yaw) < plusFiveYaw)){
-                                    jQuery(".center-pointer").addClass("wpvr-pluse-effect")
-                                    var getScene = scenehotspot[j].sceneId;
-                                    if(scenehotspot[j].type == "scene"){
-                                            panoshow' . $id . '.loadScene(getScene);
-                                            panoshow2' . $id . '.loadScene(getScene);
-//                                            var inside_current_time_object = new Date();
-//                                            var inside_timer = inside_current_time_object.getTime();
-//                                            if(inside_timer > timer) {
-//                                                panoshow' . $id . '.loadScene(getScene);
-//                                                panoshow2' . $id . '.loadScene(getScene);
-//                                                jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
-//                                            }
-                                    }else{
-                                        jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
+                        if(scenehotspot && scenehotspot.length) {
+                            for(var j = 0; j < scenehotspot.length; j++) {
+                                var plusFiveYaw = Math.round(scenehotspot[j].yaw) + 5;
+                                var minusFiveYaw = Math.round(scenehotspot[j].yaw) - 5;
+                                var plusFivePitch = Math.round(scenehotspot[j].pitch) + 5;
+                                var minusFivePitch = Math.round(scenehotspot[j].pitch) - 5;
+                                if(Math.round(data.pitch) > minusFivePitch) {
+                                    if(Math.round(data.pitch) < plusFivePitch) {
+                                        if(Math.round(data.yaw) > minusFiveYaw) {
+                                            if(Math.round(data.yaw) < plusFiveYaw) {
+                                                jQuery(".center-pointer").addClass("wpvr-pluse-effect");
+                                                var getScene = scenehotspot[j].sceneId;
+                                                if(scenehotspot[j].type == "scene"){
+                                                    panoshow' . $pano_suffix . '.loadScene(getScene);
+                                                    panoshow2' . $pano_suffix . '.loadScene(getScene);
+                                                }else{
+                                                    jQuery(".center-pointer").removeClass("wpvr-pluse-effect");
+                                                }
+                                            } else {
+                                                jQuery(".center-pointer").removeClass("wpvr-pluse-effect");
+                                                c_time = new Date();
+                                                timer = c_time.getTime() + 2000;
+                                            }
+                                        } else {
+                                            jQuery(".center-pointer").removeClass("wpvr-pluse-effect");
+                                            c_time = new Date();
+                                            timer = c_time.getTime() + 2000;
+                                        }
+                                    } else {
+                                        c_time = new Date();
+                                        timer = c_time.getTime() + 2000;
                                     }
-                                }
-                                else {
-                                    jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
+                                } else {
                                     c_time = new Date();
                                     timer = c_time.getTime() + 2000;
                                 }
-                            }
-                            else {
-                                c_time = new Date();
-                                timer = c_time.getTime() + 2000;
                             }
                         }
                     }
@@ -2319,24 +2359,26 @@ class WPVR_Scene {
        };
        function vrDeviseOrientation(){
             var data = {
-                pitch: panoshow' . $id . '.getPitch(),
-                yaw: panoshow' . $id . '.getYaw(),
+                pitch: panoshow' . $pano_suffix . '.getPitch(),
+                yaw: panoshow' . $pano_suffix . '.getYaw(),
             };
             panoShowCardBoardOnTrigger(data);
        }';
             $html .= '
             function requestFullScreen(){
-                var elem = document.getElementById("master-container");
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                  } else if (elem.webkitRequestFullscreen) { /* Safari */
-                    elem.webkitRequestFullscreen();
-                  } else if (elem.msRequestFullscreen) { /* IE11 */
-                    elem.msRequestFullscreen();
-                  }
+                var elem = document.getElementById("' . $master_container_id . '") || document.getElementById("master-container");
+                if (elem) {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) { /* Safari */
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) { /* IE11 */
+                        elem.msRequestFullscreen();
+                    }
+                }
             }
             function requestExitFullscreen(){
-                var elem = document.getElementById("master-container");
+                var elem = document.getElementById("' . $master_container_id . '") || document.getElementById("master-container");
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                  } else if (document.webkitExitFullscreen) { /* Safari */
@@ -2360,27 +2402,31 @@ class WPVR_Scene {
             let sceneLoadAnalytics = false;
 
             function storeAnalyticsData(data) {
-                if (typeof wpvrAnalyticsObj !== "undefined" && typeof wpvr_public !== "undefined" && wpvr_public.is_pro_active) {
-                    jQuery.ajax({
-                        url: wpvrAnalyticsObj.ajaxUrl,
-                        type: "POST",
-                        data: {
-                            action: "store_scene_hotspot_data",
-                            scene_id: data.scene_id,
-                            tour_id: data.tour_id,
-                            type: data.type,
-                            hotspot_id: data.hotspot_id || "",
-                            user_agent: navigator.userAgent,
-                            device_type: getDeviceType() || "desktop",
-                            nonce: wpvrAnalyticsObj.nonce,
-                        },
-                        success: function (response) {
-                            console.log("Data stored successfully");
-                        },
-                        error: function (error) {
-                            console.log("Error in storing data");
+                if (typeof wpvrAnalyticsObj !== "undefined") {
+                    if (typeof wpvr_public !== "undefined") {
+                        if (wpvr_public.is_pro_active) {
+                            jQuery.ajax({
+                                url: wpvrAnalyticsObj.ajaxUrl,
+                                type: "POST",
+                                data: {
+                                    action: "store_scene_hotspot_data",
+                                    scene_id: data.scene_id,
+                                    tour_id: data.tour_id,
+                                    type: data.type,
+                                    hotspot_id: data.hotspot_id || "",
+                                    user_agent: navigator.userAgent,
+                                    device_type: getDeviceType() || "desktop",
+                                    nonce: wpvrAnalyticsObj.nonce,
+                                },
+                                success: function (response) {
+                                    console.log("Data stored successfully");
+                                },
+                                error: function (error) {
+                                    console.log("Error in storing data");
+                                }
+                            });
                         }
-                    });
+                    }
                 } else {
                     console.warn("Analytics object not available or pro not active");
                 }
@@ -2395,7 +2441,7 @@ class WPVR_Scene {
                     return "desktop";
                 }
             }
-            panoshow' . $id . '.on("scenechange", function(scene) {         
+            panoshow' . $pano_suffix . '.on("scenechange", function(scene) {         
                 onLoadAnalytics = true;
                 sceneLoadAnalytics = true;
                 let scene_id = scene;
@@ -2413,27 +2459,29 @@ class WPVR_Scene {
                     device_type: device_type,
                 });
             });
-            panoshow' . $id . '.on("load", function() {
-                let scene_id = panoshow' . $id . '.getScene();
+            panoshow' . $pano_suffix . '.on("load", function() {
+                let scene_id = panoshow' . $pano_suffix . '.getScene();
                 let tour_id = ' . $id . ';
                 let type = "scene";
                 let hotspot_id = "";
                 let user_agent = navigator.userAgent;
                 let device_type = getDeviceType() ? getDeviceType() : "desktop";
-                if(!onLoadAnalytics && !sceneLoadAnalytics) {
-                    storeAnalyticsData({
-                        scene_id: scene_id,
-                        tour_id: tour_id,
-                        type: type,
-                        hotspot_id: hotspot_id,
-                        user_agent: user_agent,
-                        device_type: device_type,
-                    });
+                if(!onLoadAnalytics) {
+                    if(!sceneLoadAnalytics) {
+                        storeAnalyticsData({
+                            scene_id: scene_id,
+                            tour_id: tour_id,
+                            type: type,
+                            hotspot_id: hotspot_id,
+                            user_agent: user_agent,
+                            device_type: device_type,
+                        });
+                    }
                 }
             });
-            function wpvrhotspotscene(hotSpotDiv, args) {
+            function wpvrhotspotscene' . $pano_suffix . '(hotSpotDiv, args) {
                 onLoadAnalytics = true;
-                let scene_id = panoshow' . $id . '.getScene();
+                let scene_id = panoshow' . $pano_suffix . '.getScene();
                 let tour_id = ' . $id . ';
                 let type = "hotspot";
                 let hotspot_id = args;
@@ -2448,25 +2496,26 @@ class WPVR_Scene {
                     device_type: device_type
                 });
             }
+            var wpvrhotspotscene = wpvrhotspotscene' . $pano_suffix . ';
             ';
-            $html .= 'panoshow' . $id . '.on("scenechange", function (scene){
+            $html .= 'panoshow' . $pano_suffix . '.on("scenechange", function (scene){
             jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
             active_scene = scene;
             // if(localStorage.getItem("vr_mode") == "on") {
             if(vr_mode == "on") {
-                jQuery("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
-                jQuery("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                jQuery("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                jQuery("#' . $panoid . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
              }
         });
         var compassBlock = "";
         var infoBlock = "";
-        jQuery(document).on("click",".vr_mode_change' . $id . '",function (){
-          jQuery("#pano2' . $id . ' .pnlm-load-button").trigger("click");
-          jQuery("#pano' . $id . ' .pnlm-load-button").trigger("click");
+        jQuery(document).on("click",".vr_mode_change' . $pano_suffix . '",function (){
+          jQuery("#' . $panoid2 . ' .pnlm-load-button").trigger("click");
+          jQuery("#' . $panoid . ' .pnlm-load-button").trigger("click");
           var getValue =   jQuery(this).val();
           var getParent = jQuery(this).parent().parent();
-          var compass = getParent.find("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display");
-          var panoInfo = getParent.find("#pano' . $id . ' .pnlm-panorama-info").css("display");
+          var compass = getParent.find("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display");
+          var panoInfo = getParent.find("#' . $panoid . ' .pnlm-panorama-info").css("display");
           if(compass == "block"){
             compassBlock = "block";
           }
@@ -2483,77 +2532,77 @@ class WPVR_Scene {
                 vr_mode = "on";
                 jQuery(".vr-mode-title").show();
                 jQuery(this).val("on");
-                getParent.find("#pano2' . $id . '").css({
+                getParent.find("#' . $panoid2 . '").css({
                     "opacity": "1", 
                     "visibility": "visible",
                     "position": "relative",
                 });
                 gyroSwitch = true;
-                panoshow' . $id . '.startOrientation();
-                panoshow2' . $id . '.startOrientation();
-                panoshow2' . $id . '.setPitch(panoshow' . $id . '.getPitch(), 0);
-                panoshow2' . $id . '.setYaw(panoshow' . $id . '.getYaw(), 0);
+                panoshow' . $pano_suffix . '.startOrientation();
+                panoshow2' . $pano_suffix . '.startOrientation();
+                panoshow2' . $pano_suffix . '.setPitch(panoshow' . $pano_suffix . '.getPitch(), 0);
+                panoshow2' . $pano_suffix . '.setYaw(panoshow' . $pano_suffix . '.getYaw(), 0);
                 getParent.find(".pano-wrap").addClass("wpvr-cardboard-disable-event");
-                getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #controls'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #explainer_button_'.$id. '").hide();
-                getParent.find("#pano' . $id . ' #generic_form_button_' . $id . '").hide();
-                getParent.find("#pano' .$id. ' #floor_map_button_'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #vrgcontrols'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #sccontrols'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #adcontrol'.$id.'").hide();
-                getParent.find("#pano' .$id. ' .wpvr_slider_nav").hide();
-                getParent.find("#pano' .$id. ' #cp-logo-controls").hide();
-                getParent.find("#pano' .$id. ' #wpvr-social-share-bg-box'.$id.'").hide();
-                getParent.find("#pano2' . $id . ' .pnlm-controls-container").hide();
-                getParent.find("#pano' . $id . ' .pnlm-controls-container").hide();
-                getParent.find("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
-                getParent.find("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
-                getParent.find("#pano2' . $id . ' .pnlm-panorama-info").hide();
-                getParent.find("#pano' . $id . ' .pnlm-panorama-info").hide();
-                getParent.find("#pano' . $id . '").addClass("cardboard-half"); 
-                getParent.find("#center-pointer' . $id . '").show();
+                getParent.find("#' . $panoid . ' #zoom-in-out-controls' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #controls' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #explainer_button_' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #generic_form_button_' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #floor_map_button_' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #vrgcontrols' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #sccontrols' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #adcontrol' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' .wpvr_slider_nav").hide();
+                getParent.find("#' . $panoid . ' #cp-logo-controls").hide();
+                getParent.find("#' . $panoid . ' #wpvr-social-share-bg-box' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid2 . ' .pnlm-controls-container").hide();
+                getParent.find("#' . $panoid . ' .pnlm-controls-container").hide();
+                getParent.find("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
+                getParent.find("#' . $panoid . ' .pnlm-compass.pnlm-controls.pnlm-control").hide();
+                getParent.find("#' . $panoid2 . ' .pnlm-panorama-info").hide();
+                getParent.find("#' . $panoid . ' .pnlm-panorama-info").hide();
+                getParent.find("#' . $panoid . '").addClass("cardboard-half"); 
+                getParent.find("#center-pointer' . $pano_suffix . '").show();
                 getParent.find(".fullscreen-button").hide();
-                getParent.find("#pano' . $id . ' #custom-scene-navigation' . $id . '").hide();
+                getParent.find("#' . $panoid . ' #custom-scene-navigation' . $pano_suffix . '").hide();
                 if (window.DeviceOrientationEvent) {
                     window.addEventListener("deviceorientation", vrDeviseOrientation);
                 }
-                 panoshow' . $id . '.on("zoomchange", function (data){
-                    panoshow2' . $id . '.setHfov(data, 0);
+                 panoshow' . $pano_suffix . '.on("zoomchange", function (data){
+                    panoshow2' . $pano_suffix . '.setHfov(data, 0);
                 });
-                panoshow2' . $id . '.on("zoomchange", function (data){
-                    panoshow' . $id . '.setHfov(data, 0);
+                panoshow2' . $pano_suffix . '.on("zoomchange", function (data){
+                    panoshow' . $pano_suffix . '.setHfov(data, 0);
                 });
-                jQuery(document).on("click","#pano2' . $id . '",function(event) {
-                  panoshow' . $id . '.startOrientation();
-                  panoshow2' . $id . '.startOrientation();
+                jQuery(document).on("click","#' . $panoid2 . '",function(event) {
+                  panoshow' . $pano_suffix . '.startOrientation();
+                  panoshow2' . $pano_suffix . '.startOrientation();
                 });
-                jQuery(document).on("click","#pano' . $id . '",function(event) {
-                  panoshow' . $id . '.startOrientation();
-                  panoshow2' . $id . '.startOrientation();
+                jQuery(document).on("click","#' . $panoid . '",function(event) {
+                  panoshow' . $pano_suffix . '.startOrientation();
+                  panoshow2' . $pano_suffix . '.startOrientation();
                 });
-                panoshow' . $id . '.on("mousemove", function (data){
-                    panoshow2' . $id . '.setPitch(data.pitch, 0);
-                    panoshow2' . $id . '.setYaw(data.yaw, 0);
+                panoshow' . $pano_suffix . '.on("mousemove", function (data){
+                    panoshow2' . $pano_suffix . '.setPitch(data.pitch, 0);
+                    panoshow2' . $pano_suffix . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
                 });
-                panoshow2' . $id . '.on("mousemove", function (data){
-                    panoshow' . $id . '.setPitch(data.pitch, 0);
-                    panoshow' . $id . '.setYaw(data.yaw, 0);
+                panoshow2' . $pano_suffix . '.on("mousemove", function (data){
+                    panoshow' . $pano_suffix . '.setPitch(data.pitch, 0);
+                    panoshow' . $pano_suffix . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
                 });
-                panoshow' . $id . '.on("touchmove", function (data){
-                    panoshow' . $id . '.stopOrientation();
-                    panoshow2' . $id . '.stopOrientation();
-                    panoshow2' . $id . '.setPitch(data.pitch, 0);
-                    panoshow2' . $id . '.setYaw(data.yaw, 0);
+                panoshow' . $pano_suffix . '.on("touchmove", function (data){
+                    panoshow' . $pano_suffix . '.stopOrientation();
+                    panoshow2' . $pano_suffix . '.stopOrientation();
+                    panoshow2' . $pano_suffix . '.setPitch(data.pitch, 0);
+                    panoshow2' . $pano_suffix . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
                 });
-                panoshow2' . $id . '.on("touchmove", function (data){
-                    panoshow' . $id . '.stopOrientation();
-                    panoshow2' . $id . '.stopOrientation();
-                    panoshow' . $id . '.setPitch(data.pitch, 0);
-                    panoshow' . $id . '.setYaw(data.yaw, 0);
+                panoshow2' . $pano_suffix . '.on("touchmove", function (data){
+                    panoshow' . $pano_suffix . '.stopOrientation();
+                    panoshow2' . $pano_suffix . '.stopOrientation();
+                    panoshow' . $pano_suffix . '.setPitch(data.pitch, 0);
+                    panoshow' . $pano_suffix . '.setYaw(data.yaw, 0);
                     panoShowCardBoardOnTrigger(data);
                 });   
             } else if(getValue == "on") {
@@ -2563,64 +2612,64 @@ class WPVR_Scene {
                 vr_mode = "off";
                 jQuery(".vr-mode-title").hide();
                 jQuery(this).val("off");
-                getParent.find("#pano2' . $id . '").css({
+                getParent.find("#' . $panoid2 . '").css({
                     "opacity": "0", 
                     "visibility": "hidden",
                     "position": "absolute",
                 });
                 getParent.find(".pano-wrap").removeClass("wpvr-cardboard-disable-event");
-                getParent.find("#pano' .$id. ' #zoom-in-out-controls'.$id.'").show();
-                getParent.find("#pano' .$id. ' #controls'.$id.'").show();
-                getParent.find("#pano' .$id. ' #explainer_button_'.$id. '").show();
-                getParent.find("#pano' . $id . ' #generic_form_button_' . $id . '").show();
-                getParent.find("#pano' .$id. ' #floor_map_button_'.$id.'").show();
-                getParent.find("#pano2' . $id . ' .pnlm-controls-container").show();
-                getParent.find("#pano' . $id . ' .pnlm-controls-container").show();
-                getParent.find("#pano' .$id. ' #vrgcontrols'.$id.'").show();
-                getParent.find("#pano' .$id. ' #sccontrols'.$id.'").hide();
-                getParent.find("#pano' .$id. ' #adcontrol'.$id.'").show();
-                getParent.find("#pano' .$id. ' .wpvr_slider_nav").hide();
-                getParent.find("#pano' .$id. ' #cp-logo-controls").show();
-                getParent.find("#pano' .$id. ' #wpvr-social-share-bg-box'.$id.'").show();
-                 getParent.find("#pano' . $id . ' #custom-scene-navigation' . $id . '").show();
+                getParent.find("#' . $panoid . ' #zoom-in-out-controls' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' #controls' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' #explainer_button_' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' #generic_form_button_' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' #floor_map_button_' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid2 . ' .pnlm-controls-container").show();
+                getParent.find("#' . $panoid . ' .pnlm-controls-container").show();
+                getParent.find("#' . $panoid . ' #vrgcontrols' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' #sccontrols' . $pano_suffix . '").hide();
+                getParent.find("#' . $panoid . ' #adcontrol' . $pano_suffix . '").show();
+                getParent.find("#' . $panoid . ' .wpvr_slider_nav").hide();
+                getParent.find("#' . $panoid . ' #cp-logo-controls").show();
+                getParent.find("#' . $panoid . ' #wpvr-social-share-bg-box' . $pano_suffix . '").show();
+                 getParent.find("#' . $panoid . ' #custom-scene-navigation' . $pano_suffix . '").show();
                 if(compassBlock == "block"){
-                    getParent.find("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
-                    getParent.find("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
+                    getParent.find("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
+                    getParent.find("#' . $panoid . ' .pnlm-compass.pnlm-controls.pnlm-control").show();
                 }
                 if(infoBlock == "block"){
-                    getParent.find("#pano2' . $id . ' .pnlm-panorama-info").show();
-                    getParent.find("#pano' . $id . ' .pnlm-panorama-info").show();
+                    getParent.find("#' . $panoid2 . ' .pnlm-panorama-info").show();
+                    getParent.find("#' . $panoid . ' .pnlm-panorama-info").show();
                 }
-                getParent.find("#pano' . $id . '").removeClass("cardboard-half");
-                getParent.find("#center-pointer' . $id . '").hide();
+                getParent.find("#' . $panoid . '").removeClass("cardboard-half");
+                getParent.find("#center-pointer' . $pano_suffix . '").hide();
                 getParent.find(".fullscreen-button").hide();
-                panoshow' . $id . '.off("mousemove");
-                panoshow' . $id . '.off("touchmove");
-                panoshow2' . $id . '.off("mousemove");
-                panoshow2' . $id . '.off("touchmove");
+                panoshow' . $pano_suffix . '.off("mousemove");
+                panoshow' . $pano_suffix . '.off("touchmove");
+                panoshow2' . $pano_suffix . '.off("mousemove");
+                panoshow2' . $pano_suffix . '.off("touchmove");
                 if (window.DeviceOrientationEvent) {
                     window.removeEventListener("deviceorientation", vrDeviseOrientation);
                 }
             }
         });';
-            $html .= 'panoshow2' . $id . '.on("load", function (){
+            $html .= 'panoshow2' . $pano_suffix . '.on("load", function (){
                 // if(localStorage.getItem("vr_mode") == "off") {
                 if( vr_mode == "off") {
                       jQuery(".vr-mode-title").hide();
                     }
                  else {
-                    jQuery("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
-                    jQuery("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
-                    jQuery("#pano2' . $id . ' .pnlm-panorama-info").hide();
-                    jQuery("#pano' . $id . ' .pnlm-panorama-info").hide();
+                    jQuery("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                    jQuery("#' . $panoid . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                    jQuery("#' . $panoid2 . ' .pnlm-panorama-info").hide();
+                    jQuery("#' . $panoid . ' .pnlm-panorama-info").hide();
                     jQuery(".vr-mode-title").show();
                  }
 			});';
         }
         //=== end Dplicate mode only for vr mode===//
-        $html .= 'jQuery("#pano' . $id . ' .wpvr-floor-map .floor-plan-pointer").on("click",function(){
+        $html .= 'jQuery("#' . $panoid . ' .wpvr-floor-map .floor-plan-pointer").on("click",function(){
            var scene_id = jQuery(this).attr("scene_id");
-           panoshow' . $id . '.loadScene(scene_id)
+           panoshow' . $pano_suffix . '.loadScene(scene_id)
            jQuery(".floor-plan-pointer").removeClass("add-pulse")
            jQuery(this).addClass("add-pulse")
         });';
@@ -2632,7 +2681,7 @@ class WPVR_Scene {
             $animation_js = apply_filters('wpvr_scene_animation_js', $id, $animation_type, $animationDuration, $animationDelay);
             if (!empty($animation_js)) {
                 $html .= $animation_js;
-                $html .= 'panoshow' . $id . '.on("load", function (scene){
+                $html .= 'panoshow' . $pano_suffix . '.on("load", function (scene){
                     if (typeof changeScene === "function") {
                         changeScene();
                     } else {
@@ -2642,13 +2691,13 @@ class WPVR_Scene {
             }
         }
 
-        $html .= 'panoshow' . $id . '.on("mousemove", function (data){
+        $html .= 'panoshow' . $pano_suffix . '.on("mousemove", function (data){
             jQuery(".add-pulse").css({"transform":"rotate("+data.yaw+"deg)"});
         });
     ';
         $status  = get_option('wpvr_edd_license_status');
         if ($status !== false &&  'valid' == $status  && $is_pro){
-            $html .= 'panoshow' . $id . '.on("scenechange", function (scene){
+            $html .= 'panoshow' . $pano_suffix . '.on("scenechange", function (scene){
             jQuery(".center-pointer").removeClass("wpvr-pluse-effect")
             jQuery(".floor-plan-pointer").each(function(index ,element){
                 var scene_id = jQuery(this).attr("scene_id");
@@ -2658,7 +2707,7 @@ class WPVR_Scene {
                 }
             });
         });';
-            $html .= 'panoshow' . $id . '.on("load", function (){
+            $html .= 'panoshow' . $pano_suffix . '.on("load", function (){
            if(jQuery(".floor-plan-pointer").length > 0){
                jQuery(".floor-plan-pointer").each(function(index ,element){
                     var scene_id = jQuery(this).attr("scene_id");
@@ -2672,12 +2721,12 @@ class WPVR_Scene {
         }
         if ($status !== false &&  'valid' == $status  && $is_pro){
             $scene_navigation_content_type = isset($postdata['scene_navigation_content_type']) ? $postdata['scene_navigation_content_type'] : 'scene_id';
-            $html .= 'jQuery("#pano' . $id . ' .custom-scene-navigation").on("click", function() {
-                jQuery("#custom-scene-navigation-nav' . $id . ' ul").empty();
+            $html .= 'jQuery("#' . $panoid . ' .custom-scene-navigation").on("click", function() {
+                jQuery("#custom-scene-navigation-nav' . $pano_suffix . ' ul").empty();
                 if (scenes) {
                     var scene_navigation_content_type = "' . $scene_navigation_content_type . '";
                     var sceneList = scenes.scenes;
-                    var getScene = panoshow' . $id . '.getScene();
+                    var getScene = panoshow' . $pano_suffix . '.getScene();
                     for (const key in sceneList) {
                         let title;
                         if (scene_navigation_content_type === "scene_title") {
@@ -2698,7 +2747,7 @@ class WPVR_Scene {
                             title = key;
                         }
                         if (sceneList.hasOwnProperty(key)) {
-                            let ulElement = document.querySelector("#custom-scene-navigation-nav' . $id . ' ul");
+                            let ulElement = document.querySelector("#custom-scene-navigation-nav' . $pano_suffix . ' ul");
                             if (ulElement) {
                                 let liElement = document.createElement("li");
                                 liElement.className = "scene-navigation-list" + (key === getScene ? " active" : "");
@@ -2708,7 +2757,7 @@ class WPVR_Scene {
                             }
                         }
                     }
-                    jQuery("#custom-scene-navigation-nav' . $id . '").toggleClass("visible");
+                    jQuery("#custom-scene-navigation-nav' . $pano_suffix . '").toggleClass("visible");
                 }
             });';
             $html .='function getImageNameWithoutExtension(imageUrl) {
@@ -2723,68 +2772,68 @@ class WPVR_Scene {
                     // Return the image name without extension
                     return imageNameWithoutExtension;
                 }';
-            $html .= 'jQuery("#pano' . $id . ' #custom-scene-navigation-nav' . $id . ' ul").on("click", "li.scene-navigation-list", function() {
+            $html .= 'jQuery("#' . $panoid . ' #custom-scene-navigation-nav' . $pano_suffix . ' ul").on("click", "li.scene-navigation-list", function() {
             if (scenes) {
                 jQuery(this).siblings("li").removeClass("active");
                 jQuery(this).addClass("active");
                 var scene_key = jQuery(this).attr("scene_id");
-                panoshow' . $id . '.loadScene(scene_key);
+                panoshow' . $pano_suffix . '.loadScene(scene_key);
             }
         });';
         }
         $html .= 'const node = document.querySelector(".add-pulse");
-        panoshow' . $id . '.on("compasschange", function (data){
+        panoshow' . $pano_suffix . '.on("compasschange", function (data){
             // const node = document.querySelector(".add-pulse");
             // node.style.transform = data;
             // jQuery(".add-pulse").css({"transform":data});
             });';
-        $html .= 'panoshow' . $id . '.on("load", function (){
+        $html .= 'panoshow' . $pano_suffix . '.on("load", function (){
             // if(localStorage.getItem("vr_mode") == "off") {
             if(vr_mode == "off") {
                   jQuery(".vr-mode-title").hide();
                 } else {
-                jQuery("#pano2' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
-                jQuery("#pano' . $id . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
-                jQuery("#pano2' . $id . ' .pnlm-panorama-info").hide();
-                jQuery("#pano' . $id . ' .pnlm-panorama-info").hide();
+                jQuery("#' . $panoid2 . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                jQuery("#' . $panoid . ' .pnlm-compass.pnlm-controls.pnlm-control").css("display","none");
+                jQuery("#' . $panoid2 . ' .pnlm-panorama-info").hide();
+                jQuery("#' . $panoid . ' .pnlm-panorama-info").hide();
                 jQuery(".vr-mode-title").show();
              }
             setTimeout(() => {
                 window.dispatchEvent(new Event("resize"));
             }, 200);
-						if (jQuery("#pano' . $id . '").children().children(".pnlm-panorama-info:visible").length > 0) {
-	               jQuery("#controls' . $id . '").css("bottom", "80px");
+						if (jQuery("#' . $panoid . '").children().children(".pnlm-panorama-info:visible").length > 0) {
+	               jQuery("#controls' . $pano_suffix . '").css("bottom", "80px");
 	           }
 	           else {
-	             jQuery("#controls' . $id . '").css("bottom", "5px");
+	             jQuery("#controls' . $pano_suffix . '").css("bottom", "5px");
 	           }
 					});';
-        $html .= 'panoshow' . $id . '.on("render", function (){
+        $html .= 'panoshow' . $pano_suffix . '.on("render", function (){
               window.dispatchEvent(new Event("resize"));
             });';
         $html .= 'if (scenes.autoRotate) {
-                        var wpvrAutoRotateTimer' . $id . ' = null;
-                        var wpvrAutoRotateStopDelay' . $id . ' = parseInt(scenes.autoRotateStopDelay, 10) || 0;
-                        var wpvrScheduleAutoRotate' . $id . ' = function () {
-                            clearTimeout(wpvrAutoRotateTimer' . $id . ');
-                            if (wpvrAutoRotateStopDelay' . $id . ' > 0) {
-                                wpvrAutoRotateTimer' . $id . ' = setTimeout(function () {
-                                    panoshow' . $id . '.stopAutoRotate();
-                                }, wpvrAutoRotateStopDelay' . $id . ');
+                        var wpvrAutoRotateTimer' . $pano_suffix . ' = null;
+                        var wpvrAutoRotateStopDelay' . $pano_suffix . ' = parseInt(scenes.autoRotateStopDelay, 10) || 0;
+                        var wpvrScheduleAutoRotate' . $pano_suffix . ' = function () {
+                            clearTimeout(wpvrAutoRotateTimer' . $pano_suffix . ');
+                            if (wpvrAutoRotateStopDelay' . $pano_suffix . ' > 0) {
+                                wpvrAutoRotateTimer' . $pano_suffix . ' = setTimeout(function () {
+                                    panoshow' . $pano_suffix . '.stopAutoRotate();
+                                }, wpvrAutoRotateStopDelay' . $pano_suffix . ');
                             } else {
-                                wpvrAutoRotateTimer' . $id . ' = setTimeout(function () {
-                                    panoshow' . $id . '.startAutoRotate(scenes.autoRotate, 0);
+                                wpvrAutoRotateTimer' . $pano_suffix . ' = setTimeout(function () {
+                                    panoshow' . $pano_suffix . '.startAutoRotate(scenes.autoRotate, 0);
                                 }, 3000);
                             }
                         };
-                        panoshow' . $id . '.on("load", wpvrScheduleAutoRotate' . $id . ');
-                        panoshow' . $id . '.on("scenechange", wpvrScheduleAutoRotate' . $id . ');
+                        panoshow' . $pano_suffix . '.on("load", wpvrScheduleAutoRotate' . $pano_suffix . ');
+                        panoshow' . $pano_suffix . '.on("scenechange", wpvrScheduleAutoRotate' . $pano_suffix . ');
                     }';
         $html .= 'var touchtime = 0;';
         $html .= '
-            var wpvrHotspotRoot' . $id . ' = document.getElementById("pano' . $id . '");
-            if (wpvrHotspotRoot' . $id . ') {
-                wpvrHotspotRoot' . $id . '.addEventListener("click", function (event) {
+            var wpvrHotspotRoot' . $pano_suffix . ' = document.getElementById("' . $panoid . '");
+            if (wpvrHotspotRoot' . $pano_suffix . ') {
+                wpvrHotspotRoot' . $pano_suffix . '.addEventListener("click", function (event) {
                     var hotspot = event.target.closest(".pnlm-hotspot-base");
 
                     if (!hotspot) {
@@ -2817,9 +2866,9 @@ class WPVR_Scene {
                 foreach ($panodata["scene-list"] as $panoscenes) {
                     $scene_key = $panoscenes['scene-id'];
                     $gallery_scene_ids[] = (string) $scene_key;
-                    $scene_key_gallery = $panoscenes['scene-id'] . '_gallery_' . $id;
+                    $scene_key_gallery = $panoscenes['scene-id'] . '_gallery_' . $pano_suffix;
                     $html .= 'jQuery(document).on("click","#' . $scene_key_gallery . '",function() {
-                        panoshow' . $id . '.loadScene("' . $scene_key . '");
+                        panoshow' . $pano_suffix . '.loadScene("' . $scene_key . '");
     		        });';
                 }
             }
@@ -2849,20 +2898,20 @@ class WPVR_Scene {
                 }';
 
             $html .= '
-                var wpvrGallery' . $id . ' = jQuery("#sccontrols' . $id . '");
-                var wpvrGalleryRoot' . $id . ' = jQuery("#pano' . $id . '");
-                var wpvrGalleryScenes' . $id . ' = ' . wp_json_encode(array_values($gallery_scene_ids)) . ';
-                var wpvrGalleryResizeTimer' . $id . ';
-                var wpvrGalleryVisibilityTimer' . $id . ';
-                var wpvrGalleryObserver' . $id . ';
+                var wpvrGallery' . $pano_suffix . ' = jQuery("#sccontrols' . $pano_suffix . '");
+                var wpvrGalleryRoot' . $pano_suffix . ' = jQuery("#' . $panoid . '");
+                var wpvrGalleryScenes' . $pano_suffix . ' = ' . wp_json_encode(array_values($gallery_scene_ids)) . ';
+                var wpvrGalleryResizeTimer' . $pano_suffix . ';
+                var wpvrGalleryVisibilityTimer' . $pano_suffix . ';
+                var wpvrGalleryObserver' . $pano_suffix . ';
 
-                function wpvrPrepareSceneNavigation' . $id . '() {
-                    var navigationDisabled = wpvrGalleryScenes' . $id . '.length < 2;
-                    var previousButtons = wpvrGalleryRoot' . $id . '.find(".wpvr_owl_prev");
-                    var nextButtons = wpvrGalleryRoot' . $id . '.find(".wpvr_owl_next");
+                function wpvrPrepareSceneNavigation' . $pano_suffix . '() {
+                    var navigationDisabled = wpvrGalleryScenes' . $pano_suffix . '.length < 2;
+                    var previousButtons = wpvrGalleryRoot' . $pano_suffix . '.find(".wpvr_owl_prev");
+                    var nextButtons = wpvrGalleryRoot' . $pano_suffix . '.find(".wpvr_owl_next");
 
-                    wpvrGallery' . $id . '.removeClass("owl-theme");
-                    wpvrGalleryRoot' . $id . '.find(".wpvr_slider_nav").removeClass("owl-nav");
+                    wpvrGallery' . $pano_suffix . '.removeClass("owl-theme");
+                    wpvrGalleryRoot' . $pano_suffix . '.find(".wpvr_slider_nav").removeClass("owl-nav");
                     previousButtons
                         .removeClass("owl-prev")
                         .prop("disabled", navigationDisabled)
@@ -2873,81 +2922,81 @@ class WPVR_Scene {
                         .toggleClass("disabled", navigationDisabled);
                 }
 
-                function wpvrRefreshGallery' . $id . '() {
-                    wpvrPrepareSceneNavigation' . $id . '();
+                function wpvrRefreshGallery' . $pano_suffix . '() {
+                    wpvrPrepareSceneNavigation' . $pano_suffix . '();
 
-                    if (!wpvrGallery' . $id . '.length || !wpvrGallery' . $id . '.hasClass("owl-loaded") || !wpvrGallery' . $id . '.is(":visible")) {
+                    if (!wpvrGallery' . $pano_suffix . '.length || !wpvrGallery' . $pano_suffix . '.hasClass("owl-loaded") || !wpvrGallery' . $pano_suffix . '.is(":visible")) {
                         return;
                     }
 
-                    if (wpvrGallery' . $id . '.css("display") === "flex") {
-                        wpvrGallery' . $id . '.css("display", "block");
+                    if (wpvrGallery' . $pano_suffix . '.css("display") === "flex") {
+                        wpvrGallery' . $pano_suffix . '.css("display", "block");
                     }
-                    wpvrGallery' . $id . '.trigger("refresh.owl.carousel");
-                    wpvrUpdateGalleryNavigation' . $id . '(panoshow' . $id . '.getScene());
+                    wpvrGallery' . $pano_suffix . '.trigger("refresh.owl.carousel");
+                    wpvrUpdateGalleryNavigation' . $pano_suffix . '(panoshow' . $pano_suffix . '.getScene());
                 }
 
-                function wpvrGallerySceneIndex' . $id . '(sceneId) {
-                    return wpvrGalleryScenes' . $id . '.indexOf(String(sceneId));
+                function wpvrGallerySceneIndex' . $pano_suffix . '(sceneId) {
+                    return wpvrGalleryScenes' . $pano_suffix . '.indexOf(String(sceneId));
                 }
 
-                function wpvrUpdateGalleryNavigation' . $id . '(sceneId) {
-                    var currentIndex = wpvrGallerySceneIndex' . $id . '(sceneId);
-                    var activeThumbnailId = String(sceneId) + "_gallery_' . $id . '";
-                    var thumbnails = wpvrGallery' . $id . '.find("img.scctrl");
+                function wpvrUpdateGalleryNavigation' . $pano_suffix . '(sceneId) {
+                    var currentIndex = wpvrGallerySceneIndex' . $pano_suffix . '(sceneId);
+                    var activeThumbnailId = String(sceneId) + "_gallery_' . $pano_suffix . '";
+                    var thumbnails = wpvrGallery' . $pano_suffix . '.find("img.scctrl");
                     var activeThumbnail = thumbnails.filter(function () {
                         return this.id === activeThumbnailId;
                     });
 
-                    wpvrPrepareSceneNavigation' . $id . '();
+                    wpvrPrepareSceneNavigation' . $pano_suffix . '();
                     thumbnails.removeClass("wpvr-active-thumbnail");
-                    wpvrGallery' . $id . '.find(".owl-item").removeClass("clicked");
+                    wpvrGallery' . $pano_suffix . '.find(".owl-item").removeClass("clicked");
                     activeThumbnail.addClass("wpvr-active-thumbnail");
                     activeThumbnail.closest(".owl-item").addClass("clicked");
 
                     if (currentIndex >= 0) {
-                        if (wpvrGallery' . $id . '.hasClass("owl-loaded")) {
-                            wpvrGallery' . $id . '.trigger("to.owl.carousel", [currentIndex, 300, true]);
-                            window.setTimeout(wpvrPrepareSceneNavigation' . $id . ', 0);
+                        if (wpvrGallery' . $pano_suffix . '.hasClass("owl-loaded")) {
+                            wpvrGallery' . $pano_suffix . '.trigger("to.owl.carousel", [currentIndex, 300, true]);
+                            window.setTimeout(wpvrPrepareSceneNavigation' . $pano_suffix . ', 0);
                         }
                     }
                 }
 
-                function wpvrLoadAdjacentGalleryScene' . $id . '(direction) {
-                    var currentIndex = wpvrGallerySceneIndex' . $id . '(panoshow' . $id . '.getScene());
+                function wpvrLoadAdjacentGalleryScene' . $pano_suffix . '(direction) {
+                    var currentIndex = wpvrGallerySceneIndex' . $pano_suffix . '(panoshow' . $pano_suffix . '.getScene());
 
-                    if (currentIndex < 0 || wpvrGalleryScenes' . $id . '.length < 2) {
+                    if (currentIndex < 0 || wpvrGalleryScenes' . $pano_suffix . '.length < 2) {
                         return;
                     }
 
-                    var targetIndex = (currentIndex + direction + wpvrGalleryScenes' . $id . '.length) % wpvrGalleryScenes' . $id . '.length;
-                    panoshow' . $id . '.loadScene(wpvrGalleryScenes' . $id . '[targetIndex]);
+                    var targetIndex = (currentIndex + direction + wpvrGalleryScenes' . $pano_suffix . '.length) % wpvrGalleryScenes' . $pano_suffix . '.length;
+                    panoshow' . $pano_suffix . '.loadScene(wpvrGalleryScenes' . $pano_suffix . '[targetIndex]);
                 }
 
                 if (jQuery.fn.owlCarousel) {
-                    if (wpvrGallery' . $id . '.length) {
-                        if (!wpvrGallery' . $id . '.hasClass("owl-loaded")) {
-                            wpvrGallery' . $id . '.owlCarousel(' . $gallery_options . ');
+                    if (wpvrGallery' . $pano_suffix . '.length) {
+                        if (!wpvrGallery' . $pano_suffix . '.hasClass("owl-loaded")) {
+                            wpvrGallery' . $pano_suffix . '.owlCarousel(' . $gallery_options . ');
                         }
                     }
                 }
 
-                wpvrGalleryRoot' . $id . '
-                    .off("click.wpvrGalleryRefresh' . $id . '", "#vrgcontrols' . $id . '")
-                    .on("click.wpvrGalleryRefresh' . $id . '", "#vrgcontrols' . $id . '", function () {
-                        wpvrPrepareSceneNavigation' . $id . '();
-                        window.setTimeout(wpvrRefreshGallery' . $id . ', 450);
+                wpvrGalleryRoot' . $pano_suffix . '
+                    .off("click.wpvrGalleryRefresh' . $pano_suffix . '", "#vrgcontrols' . $pano_suffix . '")
+                    .on("click.wpvrGalleryRefresh' . $pano_suffix . '", "#vrgcontrols' . $pano_suffix . '", function () {
+                        wpvrPrepareSceneNavigation' . $pano_suffix . '();
+                        window.setTimeout(wpvrRefreshGallery' . $pano_suffix . ', 450);
                     });
 
-                if (wpvrGalleryRoot' . $id . '.length) {
-                    wpvrGalleryRoot' . $id . '[0].addEventListener("click", function (event) {
+                if (wpvrGalleryRoot' . $pano_suffix . '.length) {
+                    wpvrGalleryRoot' . $pano_suffix . '[0].addEventListener("click", function (event) {
                         var navigationButton = event.target.closest(".wpvr_owl_prev, .wpvr_owl_next");
 
                         if (!navigationButton) {
                             return;
                         }
 
-                        if (!wpvrGalleryRoot' . $id . '[0].contains(navigationButton)) {
+                        if (!wpvrGalleryRoot' . $pano_suffix . '[0].contains(navigationButton)) {
                             return;
                         }
 
@@ -2955,82 +3004,82 @@ class WPVR_Scene {
                         event.stopImmediatePropagation();
 
                         if (navigationButton.classList.contains("wpvr_owl_prev")) {
-                            wpvrLoadAdjacentGalleryScene' . $id . '(-1);
+                            wpvrLoadAdjacentGalleryScene' . $pano_suffix . '(-1);
                         } else {
-                            wpvrLoadAdjacentGalleryScene' . $id . '(1);
+                            wpvrLoadAdjacentGalleryScene' . $pano_suffix . '(1);
                         }
                     }, true);
                 }
 
                 jQuery(window)
-                    .off("resize.wpvrGallery' . $id . '")
-                    .on("resize.wpvrGallery' . $id . '", function () {
-                        window.clearTimeout(wpvrGalleryResizeTimer' . $id . ');
-                        wpvrGalleryResizeTimer' . $id . ' = window.setTimeout(wpvrRefreshGallery' . $id . ', 100);
+                    .off("resize.wpvrGallery' . $pano_suffix . '")
+                    .on("resize.wpvrGallery' . $pano_suffix . '", function () {
+                        window.clearTimeout(wpvrGalleryResizeTimer' . $pano_suffix . ');
+                        wpvrGalleryResizeTimer' . $pano_suffix . ' = window.setTimeout(wpvrRefreshGallery' . $pano_suffix . ', 100);
                     });
 
                 if (window.MutationObserver) {
-                    if (wpvrGallery' . $id . '.length) {
-                        wpvrGalleryObserver' . $id . ' = new MutationObserver(function () {
-                            window.clearTimeout(wpvrGalleryVisibilityTimer' . $id . ');
-                            wpvrGalleryVisibilityTimer' . $id . ' = window.setTimeout(wpvrRefreshGallery' . $id . ', 50);
+                    if (wpvrGallery' . $pano_suffix . '.length) {
+                        wpvrGalleryObserver' . $pano_suffix . ' = new MutationObserver(function () {
+                            window.clearTimeout(wpvrGalleryVisibilityTimer' . $pano_suffix . ');
+                            wpvrGalleryVisibilityTimer' . $pano_suffix . ' = window.setTimeout(wpvrRefreshGallery' . $pano_suffix . ', 50);
                         });
-                        wpvrGalleryObserver' . $id . '.observe(wpvrGallery' . $id . '[0], {
+                        wpvrGalleryObserver' . $pano_suffix . '.observe(wpvrGallery' . $pano_suffix . '[0], {
                             attributes: true,
                             attributeFilter: ["style"]
                         });
                     }
                 }
 
-                panoshow' . $id . '.on("scenechange", function (sceneId) {
-                    wpvrUpdateGalleryNavigation' . $id . '(sceneId);
+                panoshow' . $pano_suffix . '.on("scenechange", function (sceneId) {
+                    wpvrUpdateGalleryNavigation' . $pano_suffix . '(sceneId);
                 });
 
-                window.setTimeout(wpvrRefreshGallery' . $id . ', 0);
+                window.setTimeout(wpvrRefreshGallery' . $pano_suffix . ', 0);
                 window.setTimeout(function () {
-                    wpvrUpdateGalleryNavigation' . $id . '(panoshow' . $id . '.getScene());
+                    wpvrUpdateGalleryNavigation' . $pano_suffix . '(panoshow' . $pano_suffix . '.getScene());
                 }, 0);
             ';
         }
         //===Custom Control===//
         if (isset($custom_control)) {
             if ($custom_control['panupSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("pan-up' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setPitch(panoshow' . $id . '.getPitch() + 10);';
+                $html .= 'document.getElementById("pan-up' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setPitch(panoshow' . $pano_suffix . '.getPitch() + 10);';
                 $html .= '});';
             }
             if ($custom_control['panDownSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("pan-down' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setPitch(panoshow' . $id . '.getPitch() - 10);';
+                $html .= 'document.getElementById("pan-down' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setPitch(panoshow' . $pano_suffix . '.getPitch() - 10);';
                 $html .= '});';
             }
             if ($custom_control['panLeftSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("pan-left' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setYaw(panoshow' . $id . '.getYaw() - 10);';
+                $html .= 'document.getElementById("pan-left' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setYaw(panoshow' . $pano_suffix . '.getYaw() - 10);';
                 $html .= '});';
             }
             if ($custom_control['panRightSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("pan-right' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setYaw(panoshow' . $id . '.getYaw() + 10);';
+                $html .= 'document.getElementById("pan-right' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setYaw(panoshow' . $pano_suffix . '.getYaw() + 10);';
                 $html .= '});';
             }
             if ($custom_control['panZoomInSwitch'] == "on") {
-                $html .= 'document.getElementById("zoom-in' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setHfov(panoshow' . $id . '.getHfov() - 10);';
+                $html .= 'document.getElementById("zoom-in' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setHfov(panoshow' . $pano_suffix . '.getHfov() - 10);';
                 $html .= '});';
             }
             if ($custom_control['panZoomOutSwitch'] == "on") {
-                $html .= 'document.getElementById("zoom-out' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.setHfov(panoshow' . $id . '.getHfov() + 10);';
+                $html .= 'document.getElementById("zoom-out' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.setHfov(panoshow' . $pano_suffix . '.getHfov() + 10);';
                 $html .= '});';
             }
             if ($custom_control['panFullscreenSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("fullscreen' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.toggleFullscreen();';
+                $html .= 'document.getElementById("fullscreen' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.toggleFullscreen();';
                 $html .= '});';
                 $html .= '(function() {';
-                $html .= 'function wpvrFsChange' . $id . '() {';
-                $html .= 'var fsIcon = document.querySelector("#fullscreen' . $id . ' i");';
+                $html .= 'function wpvrFsChange' . $pano_suffix . '() {';
+                $html .= 'var fsIcon = document.querySelector("#fullscreen' . $pano_suffix . ' i");';
                 $html .= 'if (!fsIcon) return;';
                 $html .= 'if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {';
                 $html .= 'fsIcon.classList.remove("fa-expand"); fsIcon.classList.add("fa-minimize");';
@@ -3038,21 +3087,21 @@ class WPVR_Scene {
                 $html .= 'fsIcon.classList.remove("fa-minimize"); fsIcon.classList.add("fa-expand");';
                 $html .= '}';
                 $html .= '}';
-                $html .= 'document.addEventListener("fullscreenchange", wpvrFsChange' . $id . ');';
-                $html .= 'document.addEventListener("webkitfullscreenchange", wpvrFsChange' . $id . ');';
-                $html .= 'document.addEventListener("mozfullscreenchange", wpvrFsChange' . $id . ');';
-                $html .= 'document.addEventListener("MSFullscreenChange", wpvrFsChange' . $id . ');';
+                $html .= 'document.addEventListener("fullscreenchange", wpvrFsChange' . $pano_suffix . ');';
+                $html .= 'document.addEventListener("webkitfullscreenchange", wpvrFsChange' . $pano_suffix . ');';
+                $html .= 'document.addEventListener("mozfullscreenchange", wpvrFsChange' . $pano_suffix . ');';
+                $html .= 'document.addEventListener("MSFullscreenChange", wpvrFsChange' . $pano_suffix . ');';
                 $html .= '})();';
             }
             if ($custom_control['backToHomeSwitch'] == "on" && 'valid' == $status  && $is_pro) {
-                $html .= 'document.getElementById("backToHome' . $id . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $id . '.loadScene("' . $default_scene . '");';
+                $html .= 'document.getElementById("backToHome' . $pano_suffix . '").addEventListener("click", function(e) {';
+                $html .= 'panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");';
                 $html .= '});';
             }
             if ($gyro_button_enabled && 'valid' == $status  && $is_pro) {
                 $html .= '
                     (function() {
-                        var gyroButton = document.getElementById("gyroscope' . $id . '");
+                        var gyroButton = document.getElementById("gyroscope' . $pano_suffix . '");
                         var gyroIcon = gyroButton ? gyroButton.querySelector("i") : null;
                         var activeColor = ' . wp_json_encode($custom_control['gyroscopeColor']) . ';
                         var permissionGranted = false;
@@ -3062,18 +3111,18 @@ class WPVR_Scene {
                         }
 
                         function updateGyroscopeState() {
-                            gyroIcon.style.color = panoshow' . $id . '.isOrientationActive()
+                            gyroIcon.style.color = panoshow' . $pano_suffix . '.isOrientationActive()
                                 ? activeColor
                                 : "red";
                         }
 
                         function startGyroscope() {
-                            if (!panoshow' . $id . '.isOrientationSupported()) {
+                            if (!panoshow' . $pano_suffix . '.isOrientationSupported()) {
                                 updateGyroscopeState();
                                 return;
                             }
 
-                            panoshow' . $id . '.startOrientation();
+                            panoshow' . $pano_suffix . '.startOrientation();
                             window.setTimeout(updateGyroscopeState, 0);
                         }
 
@@ -3100,12 +3149,12 @@ class WPVR_Scene {
                             startGyroscope();
                         }
 
-                        panoshow' . $id . '.on("load", updateGyroscopeState);
-                        panoshow' . $id . '.on("scenechange", updateGyroscopeState);
+                        panoshow' . $pano_suffix . '.on("load", updateGyroscopeState);
+                        panoshow' . $pano_suffix . '.on("scenechange", updateGyroscopeState);
 
                         gyroButton.addEventListener("click", function() {
-                            if (panoshow' . $id . '.isOrientationActive()) {
-                                panoshow' . $id . '.stopOrientation();
+                            if (panoshow' . $pano_suffix . '.isOrientationActive()) {
+                                panoshow' . $pano_suffix . '.stopOrientation();
                                 updateGyroscopeState();
                                 return;
                             }
@@ -3122,13 +3171,13 @@ class WPVR_Scene {
         //===Explainer Script===//
 
         if ($autoplay_bg_music == 'on') {
-            $html .= 'jQuery(document).on("click","#explainer_button_' . $id . '",function() {
-                jQuery("#explainer' . $id . '").slideToggle();
-                playing' . $id . ' = false;
-                var x' . $id . ' = document.getElementById("vrAudio' . $id . '");
-                jQuery("#vr-volume' . $id . '").removeClass("fas fa-volume-up");
-                jQuery("#vr-volume' . $id . '").addClass("fas fa-volume-mute");
-                x' . $id . '.pause();
+            $html .= 'jQuery(document).on("click","#explainer_button_' . $pano_suffix . '",function() {
+                jQuery("#explainer' . $pano_suffix . '").slideToggle();
+                playing' . $pano_suffix . ' = false;
+                var x' . $pano_suffix . ' = document.getElementById("vrAudio' . $pano_suffix . '");
+                jQuery("#vr-volume' . $pano_suffix . '").removeClass("fas fa-volume-up");
+                jQuery("#vr-volume' . $pano_suffix . '").addClass("fas fa-volume-mute");
+                x' . $pano_suffix . '.pause();
             });
             jQuery(document).on("click",".close-explainer-video",function() {
                 jQuery(this).parent(".explainer").hide();
@@ -3136,9 +3185,9 @@ class WPVR_Scene {
                 jQuery(".vr-iframe").attr("src", el_src);
               });';
         } else {
-            $html .= 'jQuery(document).on("click","#explainer_button_' . $id . '",function() {
-                    jQuery("#explainer' . $id . '").slideToggle(function(){
-                    var $explainerVideoId = jQuery("#explainer' . $id . '");
+            $html .= 'jQuery(document).on("click","#explainer_button_' . $pano_suffix . '",function() {
+                    jQuery("#explainer' . $pano_suffix . '").slideToggle(function(){
+                    var $explainerVideoId = jQuery("#explainer' . $pano_suffix . '");
                     var $explainerVideoIframe = $explainerVideoId.find("iframe");
                     var explainerVideoIframSrc = $explainerVideoIframe.attr("src");
                     $explainerVideoIframe.attr("src", "");
@@ -3156,7 +3205,7 @@ class WPVR_Scene {
         }
 
         $html .= '
-      jQuery(document).on("click","#pano' . $id . '",function(event) {
+      jQuery(document).on("click","#' . $panoid . '",function(event) {
         var isActiveModal = event.target.closest(".custom-ifram-wrapper");
         var isForm = event.target.closest(".wpvr-hotspot-tweak-contents");
         var isHotspot = event.target.closest(".pnlm-hotspot-base");
@@ -3177,8 +3226,8 @@ class WPVR_Scene {
         //===generic form script===//
         if (isset($postdata["genericform"]) && $postdata["genericform"] === 'on') {
             $html .= '
-    jQuery(document).on("click","#generic_form_button_' . $id . '",function() {
-      jQuery("#wpvr-generic-form' . $id . '").fadeToggle();
+    jQuery(document).on("click","#generic_form_button_' . $pano_suffix . '",function() {
+      jQuery("#wpvr-generic-form' . $pano_suffix . '").fadeToggle();
     });
 
     jQuery(document).on("click",".close-generic-form",function() {
@@ -3189,10 +3238,10 @@ class WPVR_Scene {
         //===generic from script===//
 
         //===Floor map  Script===//
-        $html .= 'jQuery(document).on("click","#floor_map_button_' . $id . '",function() {
-                jQuery("#wpvr-floor-map' . $id . '").toggle().removeClass("fullwindow");
+        $html .= 'jQuery(document).on("click","#floor_map_button_' . $pano_suffix . '",function() {
+                jQuery("#wpvr-floor-map' . $pano_suffix . '").toggle().removeClass("fullwindow");
               });
-              jQuery(document).on("dblclick","#wpvr-floor-map' . $id . '",function(){
+              jQuery(document).on("dblclick","#wpvr-floor-map' . $pano_suffix . '",function(){
                 jQuery(this).addClass("fullwindow");
                 jQuery(this).parents(".pano-wrap").addClass("show-modal");
               });
@@ -3207,22 +3256,22 @@ class WPVR_Scene {
 
             if (!$autoload) {
                 $html .= 'jQuery(document).ready(function($){
-                    jQuery("#sccontrols' . $id . '").hide();
-  		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
-                    jQuery("#sccontrols' . $id . '").hide();
-                    jQuery("#pano' . $id . ' .wpvr_slider_nav").hide();
+                    jQuery("#sccontrols' . $pano_suffix . '").hide();
+  		              jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
+                    jQuery("#sccontrols' . $pano_suffix . '").hide();
+                    jQuery("#' . $panoid . ' .wpvr_slider_nav").hide();
                 });';
-                $html .= 'var slide' . $id . ' = "down";
-    		          jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-    		            if (slide' . $id . ' == "up") {
-                                jQuery(".vrgctrl' . $id . '").empty();
-                                jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
-                                slide' . $id . ' = "down";
-                                jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
-                                jQuery("#sccontrols' . $id . '").slideToggle(function(){
+                $html .= 'var slide' . $pano_suffix . ' = "down";
+    		          jQuery(document).on("click","#vrgcontrols' . $pano_suffix . '",function() {
+    		            if (slide' . $pano_suffix . ' == "up") {
+                                jQuery(".vrgctrl' . $pano_suffix . '").empty();
+                                jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
+                                slide' . $pano_suffix . ' = "down";
+                                jQuery("#' . $panoid . ' .wpvr_slider_nav").slideToggle();
+                                jQuery("#sccontrols' . $pano_suffix . '").slideToggle(function(){
                                 if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                                     if (jQuery(this).is(":visible")) {
-                                    jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                                    jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                             "display": "flex",
                                             "justify-content": "center",
                                             "align-items": "center",
@@ -3232,7 +3281,7 @@ class WPVR_Scene {
                                 }
                                 if (jQuery(".bricks-is-frontend").length) {
                                     if (jQuery(this).is(":visible")) {
-                                    jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                                    jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                             "display": "flex",
                                             "justify-content": "center",
                                             "align-items": "center"
@@ -3242,14 +3291,14 @@ class WPVR_Scene {
                             });
     		            }
     		            else {
-                jQuery(".vrgctrl' . $id . '").empty();
-                jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
-                slide' . $id . ' = "up";
-                jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
-               jQuery("#sccontrols' . $id . '").slideToggle(function(){
+                jQuery(".vrgctrl' . $pano_suffix . '").empty();
+                jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
+                slide' . $pano_suffix . ' = "up";
+                jQuery("#' . $panoid . ' .wpvr_slider_nav").slideToggle();
+               jQuery("#sccontrols' . $pano_suffix . '").slideToggle(function(){
                   if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                     if (jQuery(this).is(":visible")) {
-                        jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                        jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center",
@@ -3259,7 +3308,7 @@ class WPVR_Scene {
                   }
                   if (jQuery(".bricks-is-frontend").length) {
                     if (jQuery(this).is(":visible")) {
-                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                       jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                             "display": "flex",
                             "justify-content": "center",
                             "align-items": "center"
@@ -3271,26 +3320,26 @@ class WPVR_Scene {
             });';
             } else {
                 $html .= 'jQuery(document).ready(function($){
-                  jQuery("#sccontrols' . $id . '").show();
-                    jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
-                    jQuery("#pano' . $id . ' .wpvr_slider_nav").show();
+                  jQuery("#sccontrols' . $pano_suffix . '").show();
+                    jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
+                    jQuery("#' . $panoid . ' .wpvr_slider_nav").show();
                 });';
-                $html .= 'var slide' . $id . ' = "down";
-                jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-                  if (slide' . $id . ' == "up") {
-                    jQuery(".vrgctrl' . $id . '").empty();
-                    jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
-                    slide' . $id . ' = "down";
+                $html .= 'var slide' . $pano_suffix . ' = "down";
+                jQuery(document).on("click","#vrgcontrols' . $pano_suffix . '",function() {
+                  if (slide' . $pano_suffix . ' == "up") {
+                    jQuery(".vrgctrl' . $pano_suffix . '").empty();
+                    jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
+                    slide' . $pano_suffix . ' = "down";
                   } else {
-                    jQuery(".vrgctrl' . $id . '").empty();
-                    jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
-                    slide' . $id . ' = "up";
+                    jQuery(".vrgctrl' . $pano_suffix . '").empty();
+                    jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
+                    slide' . $pano_suffix . ' = "up";
                   }
-                  jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
-                    jQuery("#sccontrols' . $id . '").slideToggle(function(){
+                  jQuery("#' . $panoid . ' .wpvr_slider_nav").slideToggle();
+                    jQuery("#sccontrols' . $pano_suffix . '").slideToggle(function(){
                         if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                             if (jQuery(this).is(":visible")) {
-                            jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                            jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center",
@@ -3300,7 +3349,7 @@ class WPVR_Scene {
                         }
                         if (jQuery(".bricks-is-frontend").length) {
                             if (jQuery(this).is(":visible")) {
-                            jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                            jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center"
@@ -3312,27 +3361,27 @@ class WPVR_Scene {
             }
         } else {
             $html .= 'jQuery(document).ready(function($){
-		              jQuery("#sccontrols' . $id . '").hide();
-                      jQuery("#pano' . $id . ' .wpvr_slider_nav").hide();
-		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
+		              jQuery("#sccontrols' . $pano_suffix . '").hide();
+                      jQuery("#' . $panoid . ' .wpvr_slider_nav").hide();
+		              jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
 		          });';
-            $html .= 'var slide' . $id . ' = "down";
-		          jQuery(document).on("click","#vrgcontrols' . $id . '",function() {
-		            if (slide' . $id . ' == "up") {
-		              jQuery(".vrgctrl' . $id . '").empty();
-		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
-		              slide' . $id . ' = "down";
+            $html .= 'var slide' . $pano_suffix . ' = "down";
+		          jQuery(document).on("click","#vrgcontrols' . $pano_suffix . '",function() {
+		            if (slide' . $pano_suffix . ' == "up") {
+		              jQuery(".vrgctrl' . $pano_suffix . '").empty();
+		              jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_up . $sin_qout . ');
+		              slide' . $pano_suffix . ' = "down";
 		            }
 		            else {
-		              jQuery(".vrgctrl' . $id . '").empty();
-		              jQuery(".vrgctrl' . $id . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
-		              slide' . $id . ' = "up";
+		              jQuery(".vrgctrl' . $pano_suffix . '").empty();
+		              jQuery(".vrgctrl' . $pano_suffix . '").html(' . $sin_qout . $angle_down . $sin_qout . ');
+		              slide' . $pano_suffix . ' = "up";
 		            }
-                    jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle(); 
-                    jQuery("#sccontrols' . $id . '").slideToggle(function(){
+                    jQuery("#' . $panoid . ' .wpvr_slider_nav").slideToggle(); 
+                    jQuery("#sccontrols' . $pano_suffix . '").slideToggle(function(){
                         if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                             if (jQuery(this).is(":visible")) {
-                                jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                                jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center",
@@ -3342,7 +3391,7 @@ class WPVR_Scene {
                         }
                         if (jQuery(".bricks-is-frontend").length) {
                             if (jQuery(this).is(":visible")) {
-                            jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                            jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center"
@@ -3354,31 +3403,31 @@ class WPVR_Scene {
         }
         if (!$autoload) {
             $html .= 'jQuery(document).ready(function(){
-                    jQuery("#controls' . $id . '").hide();
-                    jQuery("#zoom-in-out-controls' . $id . '").hide();
-                    jQuery("#adcontrol' . $id . '").hide();
-                    jQuery("#explainer_button_' . $id . '").hide();
-                    jQuery("#generic_form_button_' . $id . '").hide();
-                    jQuery("#floor_map_button_' . $id . '").hide();
-                    jQuery("#vrgcontrols' . $id . '").hide();
+                    jQuery("#controls' . $pano_suffix . '").hide();
+                    jQuery("#zoom-in-out-controls' . $pano_suffix . '").hide();
+                    jQuery("#adcontrol' . $pano_suffix . '").hide();
+                    jQuery("#explainer_button_' . $pano_suffix . '").hide();
+                    jQuery("#generic_form_button_' . $pano_suffix . '").hide();
+                    jQuery("#floor_map_button_' . $pano_suffix . '").hide();
+                    jQuery("#vrgcontrols' . $pano_suffix . '").hide();
                     jQuery("#cp-logo-controls").hide();
                     jQuery(".custom-scene-navigation").hide();
-                    jQuery("#pano' . $id . '").find(".pnlm-panorama-info").hide();
+                    jQuery("#' . $panoid . '").find(".pnlm-panorama-info").hide();
                 });';
             if ($vrgallery_display) {
-                $html .= 'var load_once = "true";';
-                $html .= 'panoshow' . $id . '.on("load", function (){
-                      if (load_once == "true") {
-                        load_once = "false";
-                       jQuery("#sccontrols' . $id . '").slideToggle(function(){
+                $html .= 'var load_once' . $pano_suffix . ' = "true";';
+                $html .= 'panoshow' . $pano_suffix . '.on("load", function (){
+                      if (load_once' . $pano_suffix . ' == "true") {
+                        load_once' . $pano_suffix . ' = "false";
+                       jQuery("#sccontrols' . $pano_suffix . '").slideToggle(function(){
                           if (jQuery(".elementor-edit-mode .elementor-widget-container").length) {
                             if (jQuery(this).is(":visible")) {
-                             jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css("display", "flex");
+                             jQuery(".elementor-edit-mode  .elementor-widget-container .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css("display", "flex");
                             }
                           }
                           if (jQuery(".bricks-is-frontend").length) {
                             if (jQuery(this).is(":visible")) {
-                               jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $id . '").css({
+                               jQuery(".bricks-is-frontend .wpvr-cardboard .pnlm-container #sccontrols' . $pano_suffix . '").css({
                                     "display": "flex",
                                     "justify-content": "center",
                                     "align-items": "center"
@@ -3386,21 +3435,21 @@ class WPVR_Scene {
                             }
                           }                          
                        });
-                        jQuery("#pano' . $id . ' .wpvr_slider_nav").slideToggle();
+                        jQuery("#' . $panoid . ' .wpvr_slider_nav").slideToggle();
                       }
               });';
             }
-            $html .= 'panoshow' . $id . '.on("load", function (){
-                    jQuery("#controls' . $id . '").show();
-                    jQuery("#zoom-in-out-controls' . $id . '").show();
-                    jQuery("#adcontrol' . $id . '").show();
-                    jQuery("#explainer_button_' . $id . '").show();
-                    jQuery("#generic_form_button_' . $id . '").show();
-                    jQuery("#floor_map_button_' . $id . '").show();
-                    jQuery("#vrgcontrols' . $id . '").show();
+            $html .= 'panoshow' . $pano_suffix . '.on("load", function (){
+                    jQuery("#controls' . $pano_suffix . '").show();
+                    jQuery("#zoom-in-out-controls' . $pano_suffix . '").show();
+                    jQuery("#adcontrol' . $pano_suffix . '").show();
+                    jQuery("#explainer_button_' . $pano_suffix . '").show();
+                    jQuery("#generic_form_button_' . $pano_suffix . '").show();
+                    jQuery("#floor_map_button_' . $pano_suffix . '").show();
+                    jQuery("#vrgcontrols' . $pano_suffix . '").show();
                     jQuery("#cp-logo-controls").show();
                     jQuery(".custom-scene-navigation").show();
-                    jQuery("#pano' . $id . '").find(".pnlm-panorama-info").show();
+                    jQuery("#' . $panoid . '").find(".pnlm-panorama-info").show();
             });';
         }
 
@@ -3416,67 +3465,65 @@ class WPVR_Scene {
                       var element_id = this.id;
                       element_id = element_id.split("-");
                       element_id = element_id[3];
-                      jQuery("#elementor-tab-content-"+element_id).find("#master-container").children("div").eq(1).addClass("awwww");
+                      jQuery("#elementor-tab-content-"+element_id).find("#' . $master_container_id . '").children("div").eq(1).addClass("awwww");
                       var pano_id = jQuery(".awwww").attr("id");
-                      jQuery("#elementor-tab-content-"+element_id).find("#master-container").children("div").eq(1).removeClass("awwww");;
+                      jQuery("#elementor-tab-content-"+element_id).find("#' . $master_container_id . '").children("div").eq(1).removeClass("awwww");;
                       if (pano_id != undefined) {
-                        pano_id = pano_id.split("o");
-                        pano_id = pano_id[1];
-                        if (pano_id == "' . $id . '") {
-                          jQuery("#pano' . $id . '").children(".pnlm-render-container").remove();
-                          jQuery("#pano' . $id . '").children(".pnlm-ui").remove();
-                          panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);
+                        if (pano_id == "' . $panoid . '") {
+                          jQuery("#' . $panoid . '").children(".pnlm-render-container").remove();
+                          jQuery("#' . $panoid . '").children(".pnlm-ui").remove();
+                          panoshow' . $pano_suffix . ' = pannellum.viewer(response[0]["panoid"], scenes);
                           window.wpvrViewers = window.wpvrViewers || {};
-                          window.wpvrViewers[response[0]["panoid"]] = panoshow' . $id . ';
+                          window.wpvrViewers[response[0]["panoid"]] = panoshow' . $pano_suffix . ';
                           document.dispatchEvent(new CustomEvent("wpvr:viewer-ready", {
-                              detail: { containerId: response[0]["panoid"], viewer: panoshow' . $id . ' }
+                              detail: { containerId: response[0]["panoid"], viewer: panoshow' . $pano_suffix . ' }
                           }));
-                          jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
+                          jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
                           setTimeout(function() {
-                                //   panoshow' . $id . '.loadScene("' . $default_scene . '");
+                                //   panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");
                                   window.dispatchEvent(new Event("resize"));
-                                  if (jQuery("#pano' . $id . '").children().children(".pnlm-panorama-info:visible").length > 0) {
-                                       jQuery("#controls' . $id . '").css("bottom", "55px");
+                                  if (jQuery("#' . $panoid . '").children().children(".pnlm-panorama-info:visible").length > 0) {
+                                       jQuery("#controls' . $pano_suffix . '").css("bottom", "55px");
                                    } else {
-                                     jQuery("#controls' . $id . '").css("bottom", "5px");
+                                     jQuery("#controls' . $pano_suffix . '").css("bottom", "5px");
                                    }
                           }, 200);
                         }
                       }
             });';
         $html .= 'jQuery(".geodir-tab-head dd, #vr-tour-tab").click(function(){
-              jQuery("#pano' . $id . '").children(".pnlm-render-container").remove();
-              jQuery("#pano' . $id . '").children(".pnlm-ui").remove();
-              panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);
+              jQuery("#' . $panoid . '").children(".pnlm-render-container").remove();
+              jQuery("#' . $panoid . '").children(".pnlm-ui").remove();
+              panoshow' . $pano_suffix . ' = pannellum.viewer(response[0]["panoid"], scenes);
               window.wpvrViewers = window.wpvrViewers || {};
-              window.wpvrViewers[response[0]["panoid"]] = panoshow' . $id . ';
+              window.wpvrViewers[response[0]["panoid"]] = panoshow' . $pano_suffix . ';
               document.dispatchEvent(new CustomEvent("wpvr:viewer-ready", {
-                  detail: { containerId: response[0]["panoid"], viewer: panoshow' . $id . ' }
+                  detail: { containerId: response[0]["panoid"], viewer: panoshow' . $pano_suffix . ' }
               }));
               setTimeout(function() {
-                      panoshow' . $id . '.loadScene("' . $default_scene . '");
+                      panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");
                       window.dispatchEvent(new Event("resize"));
-                      if (jQuery("#pano' . $id . '").children().children(".pnlm-panorama-info:visible").length > 0) {
-                           jQuery("#controls' . $id . '").css("bottom", "55px");
+                      if (jQuery("#' . $panoid . '").children().children(".pnlm-panorama-info:visible").length > 0) {
+                           jQuery("#controls' . $pano_suffix . '").css("bottom", "55px");
                        }
                        else {
-                         jQuery("#controls' . $id . '").css("bottom", "5px");
+                         jQuery("#controls' . $pano_suffix . '").css("bottom", "5px");
                        }
               }, 200);
             });';
         if (isset($previeword) && $previeword != '') {
             $html .= '
-            jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
+            jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
             ';
         }
         if ($default_global_zoom != '' || $max_global_zoom != '' || $min_global_zoom != '') {
             $html .= 'jQuery(".globalzoom").val("on").change();';
         }
 
-        $html .= 'jQuery("#pano' . $id . ' .pnlm-title-box").on("mouseenter", function(){
+        $html .= 'jQuery("#' . $panoid . ' .pnlm-title-box").on("mouseenter", function(){
                 jQuery(this).attr("title", jQuery(this).text());
             });
-            jQuery("#pano' . $id . ' .pnlm-title-box").on("mouseleave", function(){
+            jQuery("#' . $panoid . ' .pnlm-title-box").on("mouseleave", function(){
                 jQuery(this).removeAttr("title");
             });';
         $html .= '});';

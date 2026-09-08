@@ -377,7 +377,11 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
      * @since 9.0.0
      */
     function wpvr_render_scene_info_row( $html, $postdata, $id ) {
-        $pano_id      = 'pano' . absint( $id );
+        if ( preg_match( '/id=[\'"](pano' . absint( $id ) . '(?:_\d+)?)[\'"]/', $html, $m ) ) {
+            $pano_id = $m[1];
+        } else {
+            $pano_id = 'pano' . absint( $id );
+        }
         $pano_id_json = wp_json_encode( $pano_id );
         $by_label     = wp_json_encode( __( 'By', 'wpvr' ) );
         $tour_layout  = is_array( $postdata['tourLayout'] ?? null )
@@ -385,7 +389,7 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
             : ( $postdata['tourLayout'] ?? 'default' );
         $is_classic_layout = wp_json_encode( 'layout1' !== $tour_layout );
 
-        $html .= '<style id="wpvr-scene-info-' . esc_attr( $id ) . '">
+        $html .= '<style id="wpvr-scene-info-' . esc_attr( $pano_id ) . '">
             #' . esc_attr( $pano_id ) . ' .pnlm-panorama-info.wpvr-scene-info-row {
                 display: flex !important;
                 align-items: center !important;
@@ -483,7 +487,7 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
                 }
             }
         </style>
-        <script id="wpvr-scene-info-script-' . esc_attr( $id ) . '">
+        <script id="wpvr-scene-info-script-' . esc_attr( $pano_id ) . '">
             (function () {
                 var pano = document.getElementById(' . $pano_id_json . ');
                 var byLabel = ' . $by_label . ';
@@ -498,7 +502,7 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
                     }
 
                     var firstNode = author.firstChild;
-                    if (firstNode && firstNode.nodeType === 3) {
+                    if (firstNode ? firstNode.nodeType === 3 : false) {
                         var prefix = byLabel + " ";
                         if (firstNode.nodeValue.indexOf(prefix) === 0) {
                             firstNode.nodeValue = firstNode.nodeValue.slice(prefix.length);
@@ -526,8 +530,8 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
 
                     var title = info.querySelector(".pnlm-title-box");
                     var author = info.querySelector(".pnlm-author-box");
-                    var hasTitle = !!(title && title.textContent.trim());
-                    var hasAuthor = !!(author && author.textContent.trim());
+                    var hasTitle = Boolean(title ? title.textContent.trim() : false);
+                    var hasAuthor = Boolean(author ? author.textContent.trim() : false);
 
                     if (hasTitle) {
                         title.setAttribute("title", title.textContent.trim());

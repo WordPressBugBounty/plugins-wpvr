@@ -1159,7 +1159,7 @@ class WPVR_Meta_Field {
             'scene-attachment-url' => array(
                 'title' => __('Scene Upload','wpvr'),
                 'type' => 'upload',
-                'value' => $pano_scene['scene-attachment-url'],
+                'value' => $pano_scene['scene-attachment-url'] ?? '',
                 'display' => 'block',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
@@ -1172,7 +1172,7 @@ class WPVR_Meta_Field {
                 'title' => __('Set as Default','wpvr'),
                 'type' => 'select',
                 'select_class' => 'dscen',
-                'selected' => $pano_scene['dscene'],
+                'selected' => $pano_scene['dscene'] ?? 'off',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
                     'text' => __('Make this scene the first one that appears when the tour loads.', 'wpvr'),
@@ -1184,7 +1184,7 @@ class WPVR_Meta_Field {
                 'title' => __('Scene ID','wpvr'),
                 'input_class' => 'sceneid',
                 'type' => 'text',
-                'value' => $pano_scene['scene-id'],
+                'value' => $pano_scene['scene-id'] ?? '',
                 'disabled' => 'disabled',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
@@ -1209,7 +1209,7 @@ class WPVR_Meta_Field {
         $fields = array(
             'hotspot-title' => array(
                 'title' => __('Hotspot ID','wpvr'),
-                'value' => $pano_hotspot['hotspot-title'],
+                'value' => $pano_hotspot['hotspot-title'] ?? '',
                 'type' => 'text',
                 'input_class' => '',
                 'input_id' => 'hotspot-title',
@@ -1222,7 +1222,7 @@ class WPVR_Meta_Field {
             ),
             'hotspot-pitch' => array(
                 'title' => __('Pitch','wpvr'),
-                'value' => $pano_hotspot['hotspot-pitch'],
+                'value' => $pano_hotspot['hotspot-pitch'] ?? '',
                 'type' => 'text',
                 'input_class' => 'hotspot-pitch',
                 'input_id' => '',
@@ -1234,7 +1234,7 @@ class WPVR_Meta_Field {
             ),
             'hotspot-yaw' => array(
                 'title' => __('Yaw','wpvr'),
-                'value' => $pano_hotspot['hotspot-yaw'],
+                'value' => $pano_hotspot['hotspot-yaw'] ?? '',
                 'type' => 'text',
                 'input_class' => 'hotspot-yaw',
                 'input_id' => '',
@@ -1246,7 +1246,7 @@ class WPVR_Meta_Field {
             ),
             'hotspot-customclass' => array(
                 'title' => __('Hotspot Custom Icon Class','wpvr'),
-                'value' => $pano_hotspot['hotspot-customclass'],
+                'value' => $pano_hotspot['hotspot-customclass'] ?? '',
                 'type' => 'text',
                 'input_class' => '',
                 'input_id' => 'hotspot-customclass',
@@ -1363,7 +1363,7 @@ class WPVR_Meta_Field {
             'hotspot-url' => array(
                 'title' => __('URL','wpvr'),
                 'type' => 'info_url',
-                'value' => $pano_hotspot['hotspot-url'],
+                'value' => $pano_hotspot['hotspot-url'] ?? '',
                 'display' => 'block',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
@@ -1386,7 +1386,7 @@ class WPVR_Meta_Field {
                 'class' => 'hotspot-content',
                 'title' => __('On Click Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-content'],
+                'value' => $pano_hotspot['hotspot-content'] ?? '',
                 'display' => 'block',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
@@ -1398,7 +1398,7 @@ class WPVR_Meta_Field {
                 'class' => 'hotspot-hover tip',
                 'title' => __('On Hover Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-hover'],
+                'value' => $pano_hotspot['hotspot-hover'] ?? '',
                 'display' => 'block',
                 'have_tooltip' => true,
                 'tooltip_text' => array(
@@ -1461,7 +1461,7 @@ class WPVR_Meta_Field {
             'hotspot-url' => array(
                 'title' => __('URL','wpvr'),
                 'type' => 'info_url',
-                'value' => $pano_hotspot['hotspot-url'],
+                'value' => $pano_hotspot['hotspot-url'] ?? '',
                 'display' => 'none',
             ),
             'wpvr_url_open' => array(
@@ -1474,14 +1474,14 @@ class WPVR_Meta_Field {
                 'class' => 'hotspot-content',
                 'title' => __('On Click Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-content'],
+                'value' => $pano_hotspot['hotspot-content'] ?? '',
                 'display' => 'none',
             ),
             'hotspot-hover' => array(
                 'class' => 'hotspot-hover',
                 'title' => __('On Hover Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-hover'],
+                'value' => $pano_hotspot['hotspot-hover'] ?? '',
                 'display' => 'block',
             ),
             'hotspot-scene-list' => array(
@@ -1527,7 +1527,7 @@ class WPVR_Meta_Field {
             'hotspot-url' => array(
                 'title' => __('URL','wpvr'),
                 'type' => 'info_url',
-                'value' => $pano_hotspot['hotspot-url'],
+                'value' => $pano_hotspot['hotspot-url'] ?? '',
                 'display' => 'none',
             ),
             'wpvr_url_open' => array(
@@ -1540,14 +1540,14 @@ class WPVR_Meta_Field {
                 'class' => 'hotspot-content',
                 'title' => __('On Click Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-content'],
+                'value' => $pano_hotspot['hotspot-content'] ?? '',
                 'display' => 'none',
             ),
             'hotspot-hover' => array(
                 'class' => 'hotspot-hover',
                 'title' => __('On Hover Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-hover'],
+                'value' => $pano_hotspot['hotspot-hover'] ?? '',
                 'display' => 'block',
             ),
             'hotspot-scene-list' => array(
@@ -1606,7 +1606,7 @@ class WPVR_Meta_Field {
                 'class' => 'hotspot-hover',
                 'title' => __('On Hover Content','wpvr'),
                 'type' => 'info_textarea',
-                'value' => $pano_hotspot['hotspot-hover'],
+                'value' => $pano_hotspot['hotspot-hover'] ?? '',
                 'display' => 'block',
             ),
             'hotspot-scene-list' => array(
@@ -1619,7 +1619,7 @@ class WPVR_Meta_Field {
                 'display' => 'block',
                 'input_class' => 'hotspotsceneinfodata',
                 'type' => 'disabled_text',
-                'value' => $pano_hotspot['hotspot-scene']
+                'value' => $pano_hotspot['hotspot-scene'] ?? ''
             ),
         );
         return apply_filters( 'modify_hotspot_setting_scene_fields', $fields, $pano_hotspot );
