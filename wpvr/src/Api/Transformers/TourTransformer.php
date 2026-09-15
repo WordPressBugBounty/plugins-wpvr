@@ -54,6 +54,7 @@ class TourTransformer implements TransformerInterface {
                 'sceneFadeDuration' => isset( $raw['scenefadeduration'] ) ? (int) $raw['scenefadeduration'] : 0,
                 'showSceneInfo'     => ( $raw['scene-info-enabled'] ?? 'on' ) !== 'off',
                 'autoRotate'        => $auto_rotate,
+                'socialShare'       => ( $raw['wpvr_social_share'] ?? 'off' ) === 'on',
             ],
             'floorPlan'      => $this->floor_plan_to_api( $raw ),
             'backgroundTour' => [
@@ -173,6 +174,7 @@ class TourTransformer implements TransformerInterface {
                     ( $settings['showSceneInfo'] ?? true ) !== false
                 ),
             ],
+            'wpvr_social_share'  => ! empty( $settings['socialShare'] ) ? 'on' : 'off',
         ];
 
         if ( $tour_type === 'video' && ! empty( $video_data['url'] ) ) {

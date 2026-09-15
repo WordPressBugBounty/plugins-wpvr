@@ -227,7 +227,7 @@ class WPVR_Shortcode {
         }
 
         if (!empty($scripts)) {
-            if (wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || did_action('wp_footer')) {
+            if (wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || did_action('wp_footer') || get_query_var('embed_page') || isset($_GET['embed_page'])) {
                 $html .= "\n" . $scripts;
             } else {
                 add_action('wp_footer', function() use ($scripts) {

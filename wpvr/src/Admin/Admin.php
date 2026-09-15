@@ -217,19 +217,31 @@ class Admin {
             $fa_icons = ( new \Wpvr_fontawesome_icons() )->icon;
         }
 
+        $is_embed_addon_active = apply_filters( 'is_wpvr_embed_addon_premium', false );
+        if ( $is_embed_addon_active ) {
+            if ( wp_script_is( 'custom-qrcode', 'registered' ) ) {
+                wp_enqueue_script( 'custom-qrcode' );
+            } elseif ( defined( 'WPVR_PRO_PLUGIN_DIR_URL' ) ) {
+                wp_enqueue_script( 'custom-qrcode', trailingslashit( WPVR_PRO_PLUGIN_DIR_URL ) . 'admin/lib/qr-code/custom-qrcode.js', [ 'jquery' ], null, true );
+            }
+        }
+
         wp_localize_script( 'wpvr-tour-editor', 'wpvrTourEditor', [
-            'tourId'      => $tour_id_cfg ?: null,
-            'tourStatus'  => $tour_status,
-            'nonce'       => wp_create_nonce( 'wp_rest' ),
-            'apiBase'     => rest_url( 'wpvr/v1' ),
-            'mediaUrl'    => rest_url( 'wp/v2/media' ),
-            'isPro'       => wpvr_is_pro_active(),
-            'pluginUrl'   => $plugin_url,
-            'listUrl'     => admin_url( 'edit.php?post_type=' . self::POST_TYPE ),
-            'postEditUrl' => admin_url( 'post.php' ),
-            'faIcons'     => $fa_icons,
-            'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
-            'exportNonce' => wp_create_nonce( 'wpvr_export_tour' ),
+            'tourId'             => $tour_id_cfg ?: null,
+            'tourStatus'         => $tour_status,
+            'tourTitle'          => $tour_id_cfg ? get_the_title( $tour_id_cfg ) : '',
+            'homeUrl'            => home_url( '/' ),
+            'isEmbedAddonActive' => $is_embed_addon_active,
+            'nonce'              => wp_create_nonce( 'wp_rest' ),
+            'apiBase'            => rest_url( 'wpvr/v1' ),
+            'mediaUrl'           => rest_url( 'wp/v2/media' ),
+            'isPro'              => wpvr_is_pro_active(),
+            'pluginUrl'          => $plugin_url,
+            'listUrl'            => admin_url( 'edit.php?post_type=' . self::POST_TYPE ),
+            'postEditUrl'        => admin_url( 'post.php' ),
+            'faIcons'            => $fa_icons,
+            'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
+            'exportNonce'        => wp_create_nonce( 'wpvr_export_tour' ),
             'imageResizeWarning' => [
                 'ajaxNonce'         => wp_create_nonce( 'wpvr' ),
                 'canManageSettings' => current_user_can( 'manage_options' ),

@@ -3,6 +3,11 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.1.2 (2026-09-15)
+- **Fix:** Restored embed and social share functionality for virtual tours in the new UI (feature parity with legacy UI).
+- **Fix:** Resolved embedded tour rendering issue (black screen) when tour loaded via the embed iframe.
+- **Fix:** Improved tour type detection, hotspot rendering, and data validation across legacy and API services.
+
 ### 9.1.1 (2026-09-08)
 - **Fix:** Resolved issue where tours created with the new UI failed to render when embedded.
 - **Fix:** Improved tour type detection and state synchronization across legacy and REST API services.

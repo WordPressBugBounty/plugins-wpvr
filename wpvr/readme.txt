@@ -1,11 +1,11 @@
-=== WP VR - 360 Panorama and Virtual Tour Builder ===
+=== WPVR - 360 Panorama viewer and Virtual Tour Builder for WordPress ===
 Contributors: rextheme, coderexltd, coderexco
-Tags: virtual tour, virtual reality, 360 panorama viewer, real estate, vr tour
+Tags: 360 panorama, panorama viewer, virtual tour,real estate
 Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-for-wordpress/
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.1.1
+Stable tag: 9.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,11 +13,11 @@ Create stunning 360 virtual tours to impress visitors and get more clients using
 
 == Description ==
 
-<h4>🏆 Excellent Virtual Tour Creator and 360 Panorama Viewer.</h4>
+<h4>#1 virtual tour creator & 360 Panorama viewer for WordPress</h4>
 
-WPVR is a free virtual tour creator that helps you build immersive 360 VR tours in minutes - no complexity at all.
+WPVR is a free virtual tour creator that helps you build immersive 360 VR tours in minutes.
 
-With this WPVR plugin, you can use an effective 360 panorama viewer to showcase properties, shops, hotels, or exhibitions. Visitors can explore your space freely, interact with key areas, and gather the details they need to make a decision more quickly.
+Create interactive 360° virtual tours and panorama viewers directly in WordPress. Build real estate property tours, hotel tours, showrooms and immersive 360 experiences using panoramic photos — no coding or external SaaS required.
 
 
 <h3>🌟 Why Use WPVR?</h3>
@@ -459,6 +459,11 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.1.2 (2026-09-15) =
+* Fix: Restored embed and social share functionality for virtual tours in the new UI (feature parity with legacy UI).
+* Fix: Resolved embedded tour rendering issue (black screen) when tour loaded via the embed iframe.
+* Fix: Improved tour type detection, hotspot rendering, and data validation across legacy and API services.
 
 = 9.1.1 (2026-09-08) =
 * Fix: Resolved issue where tours created with the new UI failed to render when embedded.

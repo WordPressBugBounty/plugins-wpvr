@@ -1518,6 +1518,10 @@ class WPVR_Scene {
 
         if ($width == 'fullwidth') {
             $width = "100%";
+        } elseif ($width == 'embed') {
+            $width = "100%";
+            $height = "100%";
+            $mobile_height = "100%";
         }
 
         if (wpvr_isMobileDevice()) {
