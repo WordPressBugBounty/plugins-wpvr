@@ -789,10 +789,14 @@ function sanitize_content_preserve_styles($content, $allow_forms = false) {
     // Decode HTML entities first (in case content was encoded in database)
     $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     
-    // Escape <script> blocks to display as text instead of removing them
-    $content = preg_replace_callback('/<script\b[^>]*>(.*?)<\/script>/si', function($matches) {
-        return esc_html($matches[0]); // Convert to plain text
-    }, $content);
+    // Escape or strip <script> blocks
+    if ($allow_forms) {
+        $content = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $content);
+    } else {
+        $content = preg_replace_callback('/<script\b[^>]*>(.*?)<\/script>/si', function($matches) {
+            return esc_html($matches[0]); // Convert to plain text
+        }, $content);
+    }
 
     // Strip dangerous URL-based attributes
     $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*(javascript|vbscript|data|about):/i', '$1=""', $content);
@@ -837,8 +841,14 @@ function sanitize_content_preserve_styles($content, $allow_forms = false) {
         return '<style>' . esc_html($css) . '</style>';
     }, $content);
 
-    // Allow iframes from safe sources only (e.g., YouTube, Vimeo)
+    // Allow iframes and styles from safe sources only
     $allowed_tags = wp_kses_allowed_html('post');
+    $allowed_tags['style'] = [
+        'type'  => true,
+        'id'    => true,
+        'class' => true,
+        'media' => true,
+    ];
     $allowed_tags['iframe'] = [
         'src'             => true,
         'width'           => true,
@@ -870,35 +880,45 @@ function sanitize_content_preserve_styles($content, $allow_forms = false) {
 
     if ($allow_forms) {
         $form_attributes = [
-            'id'          => true,
-            'class'       => true,
-            'style'       => true,
-            'name'        => true,
-            'value'       => true,
-            'type'        => true,
-            'placeholder' => true,
-            'action'      => true,
-            'method'      => true,
-            'target'      => true,
-            'enctype'     => true,
-            'disabled'    => true,
-            'readonly'    => true,
-            'required'    => true,
-            'checked'     => true,
-            'selected'    => true,
-            'multiple'    => true,
-            'size'        => true,
-            'rows'        => true,
-            'cols'        => true,
-            'maxlength'   => true,
-            'minlength'   => true,
-            'min'         => true,
-            'max'         => true,
-            'step'        => true,
-            'pattern'     => true,
-            'autocomplete'=> true,
-            'autofocus'   => true,
-            'for'         => true,
+            'id'                 => true,
+            'class'              => true,
+            'style'              => true,
+            'name'               => true,
+            'value'              => true,
+            'type'               => true,
+            'placeholder'        => true,
+            'action'             => true,
+            'method'             => true,
+            'target'             => true,
+            'enctype'            => true,
+            'disabled'           => true,
+            'readonly'           => true,
+            'required'           => true,
+            'checked'            => true,
+            'selected'           => true,
+            'multiple'           => true,
+            'size'               => true,
+            'rows'               => true,
+            'cols'               => true,
+            'maxlength'          => true,
+            'minlength'          => true,
+            'min'                => true,
+            'max'                => true,
+            'step'               => true,
+            'pattern'            => true,
+            'autocomplete'       => true,
+            'autofocus'          => true,
+            'for'                => true,
+            'data-*'             => true,
+            'data-form_id'       => true,
+            'data-form_instance' => true,
+            'data-name'          => true,
+            'data-type'          => true,
+            'aria-invalid'       => true,
+            'aria-required'      => true,
+            'aria-label'         => true,
+            'aria-describedby'   => true,
+            'aria-labelledby'    => true,
         ];
         $allowed_tags['form']     = $form_attributes;
         $allowed_tags['input']    = $form_attributes;
@@ -910,6 +930,16 @@ function sanitize_content_preserve_styles($content, $allow_forms = false) {
         $allowed_tags['label']    = $form_attributes;
         $allowed_tags['fieldset'] = $form_attributes;
         $allowed_tags['legend']   = $form_attributes;
+        if (!isset($allowed_tags['div'])) {
+            $allowed_tags['div'] = [];
+        }
+        $allowed_tags['div']['data-*']             = true;
+        $allowed_tags['div']['data-form_id']       = true;
+        $allowed_tags['div']['data-form_instance'] = true;
+        if (!isset($allowed_tags['span'])) {
+            $allowed_tags['span'] = [];
+        }
+        $allowed_tags['span']['data-*']            = true;
     }
 
     // Apply wp_kses() to keep only allowed tags/attributes
@@ -1028,13 +1058,20 @@ function wpvr_rest_data_route()
 
 function wpvr_rest_route_permission()
 {
-    return true;
+    $post_type_obj = get_post_type_object( 'wpvr_item' );
+    $edit_cap      = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+    return current_user_can( $edit_cap ) || current_user_can( 'edit_posts' );
 }
 
 function wpvr_rest_data_set()
 {
+    $post_type_obj = get_post_type_object( 'wpvr_item' );
+    $edit_cap      = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+    $post_status   = current_user_can( $edit_cap ) ? array( 'publish', 'draft', 'private' ) : 'publish';
+
     $query = new WP_Query(array(
-        'post_type' => 'wpvr_item',
+        'post_type'      => 'wpvr_item',
+        'post_status'    => $post_status,
         'posts_per_page' => -1,
     ));
 
@@ -1049,6 +1086,7 @@ function wpvr_rest_data_set()
         $list_ob = array('value' => $post_id, 'label' => $title);
         array_push($wpvr_list, $list_ob);
     }
+    wp_reset_postdata();
 
     return $wpvr_list;
 }
@@ -1359,4 +1397,29 @@ function wpvr_sanitize_iframe_only( $input ) {
     }
 
     return wp_kses( $content, $allowed_tags );
+}
+
+add_filter('fluentform/form_vars_for_JS', 'wpvr_fluent_form_register_inline_vars', 10, 2);
+/**
+ * Register Fluent Forms JS vars safely via WordPress script API.
+ * Prevents raw script tag concatenation in HTML while ensuring form handlers initialize.
+ *
+ * @param array $vars Form configuration variables from Fluent Forms.
+ * @param object $form Fluent Form database record.
+ * @return array
+ */
+function wpvr_fluent_form_register_inline_vars($vars, $form) {
+    if (!empty($vars['form_instance'])) {
+        $inline_js = 'window.fluent_form_' . esc_js($vars['form_instance']) . ' = ' . wp_json_encode($vars) . ';';
+        if (wp_script_is('fluent-form-submission', 'done') || wp_doing_ajax()) {
+            if (function_exists('wp_print_inline_script_tag')) {
+                wp_print_inline_script_tag($inline_js);
+            } else {
+                echo '<script type="text/javascript">' . $inline_js . '</script>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            }
+        } else {
+            wp_add_inline_script('fluent-form-submission', $inline_js, 'before');
+        }
+    }
+    return $vars;
 }

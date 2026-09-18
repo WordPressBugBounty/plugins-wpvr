@@ -38,6 +38,9 @@ class Bootstrap {
         // New tour editor admin UI.
         new Admin\Admin();
 
+        // Listing promotional banner.
+        Admin\PromotionalBanner::init();
+
         // REST API routes.
         add_action( 'rest_api_init', [ new Api\Router(), 'register' ] );
     }

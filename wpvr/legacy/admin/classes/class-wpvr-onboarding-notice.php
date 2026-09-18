@@ -163,6 +163,29 @@ class WPVR_Onboarding_Notice {
         return $screen && 'edit-wpvr_item' === $screen->id;
     }
 
+    /**
+     * Check if a demo tour currently exists on the site.
+     *
+     * @return bool
+     */
+    private function has_demo_tour() {
+        $demo_tours = get_posts( array(
+            'post_type'      => 'wpvr_item',
+            'post_status'    => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+            'meta_query'     => array(
+                array(
+                    'key'     => 'wpvr_is_demo_tour',
+                    'value'   => '1',
+                    'compare' => '=',
+                ),
+            ),
+        ) );
+
+        return ! empty( $demo_tours );
+    }
+
     /* -----------------------------------------------------------------------
      * Rendering
      * --------------------------------------------------------------------- */
@@ -278,19 +301,30 @@ class WPVR_Onboarding_Notice {
             return;
         }
 
-        $wizard_url = esc_url( admin_url( 'admin.php?page=rex-wpvr-setup-wizard' ) );
-        $nonce      = wp_create_nonce( self::AJAX_DISMISS );
+        $has_demo = $this->has_demo_tour();
+
+        if ( $has_demo ) {
+            $notice_text = __( "You're exploring with a demo tour. Ready to upload your own 360° photos and create your first real tour?", 'wpvr' );
+            $cta_text    = __( 'Upload your 360 photo', 'wpvr' );
+            $cta_url     = admin_url( 'post-new.php?post_type=wpvr_item' );
+        } else {
+            $notice_text = __( 'Welcome to WPVR! Our quick setup wizard will help you publish your first virtual tour in minutes.', 'wpvr' );
+            $cta_text    = __( 'Start setup wizard', 'wpvr' );
+            $cta_url     = admin_url( 'admin.php?page=rex-wpvr-setup-wizard' );
+        }
+
+        $nonce = wp_create_nonce( self::AJAX_DISMISS );
         ?>
         <div id="wpvr-onboarding-notice" class="wpvr-onboarding-notice notice">
             <div class="wpvr-onboarding-notice__inner">
                 <div class="wpvr-onboarding-notice__body">
                     <p class="wpvr-onboarding-notice__text">
-                        <?php esc_html_e( "You haven't created a virtual tour yet. Our quick setup wizard will help you publish your first tour in minutes!", 'wpvr' ); ?>
+                        <?php echo esc_html( $notice_text ); ?>
                     </p>
                 </div>
                 <div class="wpvr-onboarding-notice__actions">
-                    <a href="<?php echo esc_url( $wizard_url ); ?>" class="button button-primary wpvr-onboarding-notice__cta" id="wpvr-onboarding-start-btn">
-                        <?php esc_html_e( 'Start setup wizard', 'wpvr' ); ?>
+                    <a href="<?php echo esc_url( $cta_url ); ?>" class="button button-primary wpvr-onboarding-notice__cta" id="wpvr-onboarding-start-btn">
+                        <?php echo esc_html( $cta_text ); ?>
                     </a>
                     <button type="button"
                             class="wpvr-onboarding-notice__dismiss"

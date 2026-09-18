@@ -104,7 +104,7 @@ class Wpvr_Ajax
 
     $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
 
-    if (!wp_verify_nonce($nonce, 'wpvr')) {
+    if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error(array('message' => 'Permission denied.'), 403);
     }
 
@@ -465,7 +465,9 @@ class Wpvr_Ajax
   public function wpvr_file_import()
   {
     //===Current user capabilities check===//
-    if (!current_user_can('edit_posts')) {
+    $post_type_obj = get_post_type_object( 'wpvr_item' );
+    $edit_cap      = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+    if ( ! current_user_can( $edit_cap ) || ! current_user_can( 'upload_files' ) ) {
       $response = array(
         'success'   => false,
         'data'  => 'Permission denied.'
@@ -608,7 +610,7 @@ class Wpvr_Ajax
     update_option('mobile_media_resize', $mobile_media_resize);
     update_option('high_res_image', $high_res_image);
     update_option('dis_on_hover', $dis_on_hover);
-    update_option('wpvr_mobile_hotspot_tip', $wpvr_mobile_hotspot_tip ? 'true' : 'false');
+    update_option('wpvr_mobile_hotspot_tip', 'true' === $wpvr_mobile_hotspot_tip ? 'true' : 'false');
     update_option('wpvr_frontend_notice', $wpvr_frontend_notice);
     update_option('wpvr_frontend_notice_area', $wpvr_frontend_notice_area);
     update_option('wpvr_script_control', $wpvr_script_control);
@@ -716,7 +718,7 @@ class Wpvr_Ajax
       }
       $nonce = filter_input(INPUT_POST, 'security', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
       $nonce = !empty( $nonce ) ? $nonce : null;
-      if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+      if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
             wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
             return;
         }
@@ -794,7 +796,7 @@ class Wpvr_Ajax
     }
 
     $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
-    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+    if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
@@ -868,7 +870,7 @@ class Wpvr_Ajax
     }
 
     $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
-    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+    if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
@@ -948,6 +950,12 @@ class Wpvr_Ajax
       'post_status'  => 'publish',
       'post_type'    => 'wpvr_item',
       'post_author'  => get_current_user_id(),
+      // meta_input is written before wp_insert_post() fires transition_post_status,
+      // so telemetry listening on that hook sees these flags already set.
+      'meta_input'   => array(
+        'wpvr_created_from_wizard' => true,
+        'wpvr_wizard_industry'     => $industry,
+      ),
     );
 
     $post_id = wp_insert_post( $post_data );
@@ -966,8 +974,6 @@ class Wpvr_Ajax
     $remote_meta['panodata'] = $panodata;
 
     update_post_meta( $post_id, 'panodata', $panodata );
-    update_post_meta( $post_id, 'wpvr_created_from_wizard', true );
-    update_post_meta( $post_id, 'wpvr_wizard_industry', $industry );
 
     if ( ! empty( $remote_meta ) ) {
       foreach ( $remote_meta as $meta_key => $meta_value ) {
@@ -1058,7 +1064,16 @@ class Wpvr_Ajax
 
         $attachment_id = attachment_url_to_postid( $source_url );
         if ( ! $attachment_id ) {
-          $attachment_id = media_sideload_image( $source_url, $post_id, null, 'id' );
+          if ( ! current_user_can( 'upload_files' ) ) {
+            continue;
+          }
+
+          $valid_url = wp_http_validate_url( $source_url );
+          if ( ! $valid_url ) {
+            continue;
+          }
+
+          $attachment_id = media_sideload_image( $valid_url, $post_id, null, 'id' );
           if ( is_wp_error( $attachment_id ) ) {
             continue;
           }
@@ -1115,7 +1130,7 @@ class Wpvr_Ajax
     }
 
     $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
-    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+    if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
@@ -1177,13 +1192,15 @@ class Wpvr_Ajax
    * @since 8.5.48
    */
   public function wpvr_create_tour_from_wizard() {
-    if ( ! current_user_can( 'edit_posts' ) ) {
+    $post_type_obj = get_post_type_object( 'wpvr_item' );
+    $create_cap    = $post_type_obj ? $post_type_obj->cap->edit_posts : 'edit_wpvr_tours';
+    if ( ! current_user_can( $create_cap ) ) {
       wp_send_json_error( array( 'message' => 'Unauthorized user' ), 403 );
       return;
     }
 
     $nonce = isset($_POST['security']) ? sanitize_text_field(wp_unslash( $_POST['security'] )) : '';
-    if ( !wp_verify_nonce( $nonce, 'wpvr' ) ) {
+    if ( ! wp_verify_nonce( $nonce, 'wpvr_setup_wizard' ) && ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
       wp_send_json_error( array( 'message' => 'Invalid nonce' ), 400 );
       return;
     }
@@ -1198,6 +1215,28 @@ class Wpvr_Ajax
       return;
     }
 
+    if ( is_array( $panodata ) ) {
+      if ( isset( $panodata['previewtext'] ) ) {
+        $panodata['previewtext'] = sanitize_text_field( $panodata['previewtext'] );
+      }
+      if ( isset( $panodata['defaultscene'] ) && is_string( $panodata['defaultscene'] ) ) {
+        $panodata['defaultscene'] = preg_replace( '/[^0-9a-zA-Z_\-]/', '', $panodata['defaultscene'] );
+      }
+      if ( isset( $panodata['panodata']['firstScene'] ) && is_string( $panodata['panodata']['firstScene'] ) ) {
+        $panodata['panodata']['firstScene'] = preg_replace( '/[^0-9a-zA-Z_\-]/', '', $panodata['panodata']['firstScene'] );
+      }
+      if ( isset( $panodata['panodata']['scene-list'] ) && is_array( $panodata['panodata']['scene-list'] ) ) {
+        foreach ( $panodata['panodata']['scene-list'] as $s_idx => $s_val ) {
+          if ( isset( $s_val['scene-id'] ) && is_string( $s_val['scene-id'] ) ) {
+            $panodata['panodata']['scene-list'][ $s_idx ]['scene-id'] = preg_replace( '/[^0-9a-zA-Z_\-]/', '', $s_val['scene-id'] );
+          }
+        }
+      }
+    }
+
+    $publish_cap   = $post_type_obj ? $post_type_obj->cap->publish_posts : 'publish_wpvr_tours';
+    $target_status = current_user_can( $publish_cap ) ? 'publish' : 'draft';
+
     if ( $existing_post_id > 0 ) {
       $existing_post = get_post( $existing_post_id );
       if ( ! $existing_post || 'wpvr_item' !== $existing_post->post_type || ! current_user_can( 'edit_post', $existing_post_id ) ) {
@@ -1210,16 +1249,27 @@ class Wpvr_Ajax
         array(
           'ID' => $post_id,
           'post_title' => $title,
-          'post_status' => 'publish',
+          'post_status' => $target_status,
+          // See note below: meta_input lands before transition_post_status fires.
+          'meta_input' => array(
+            'wpvr_created_from_wizard' => true,
+            'wpvr_wizard_industry'     => $industry,
+          ),
         )
       );
     } else {
       // Create new post
       $post_data = array(
         'post_title'   => $title,
-        'post_status'  => 'publish',
+        'post_status'  => $target_status,
         'post_type'    => 'wpvr_item',
         'post_author'  => get_current_user_id(),
+        // meta_input is written before wp_insert_post() fires transition_post_status,
+        // so telemetry listening on that hook sees these flags already set.
+        'meta_input'   => array(
+          'wpvr_created_from_wizard' => true,
+          'wpvr_wizard_industry'     => $industry,
+        ),
       );
 
       $post_id = wp_insert_post( $post_data );
@@ -1244,20 +1294,32 @@ class Wpvr_Ajax
     // Save panodata as post meta
     update_post_meta( $post_id, 'panodata', $panodata );
 
-    // Mark as created from wizard
-    update_post_meta( $post_id, 'wpvr_created_from_wizard', true );
-    update_post_meta( $post_id, 'wpvr_wizard_industry', $industry );
-
     // Save template meta fields if provided (dynamic meta from API)
     $template_meta = isset($_POST['templateMeta']) ? json_decode( wp_unslash( $_POST['templateMeta'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     if ( ! empty( $template_meta ) && is_array( $template_meta ) ) {
+      $allowed_meta_keys = apply_filters(
+        'wpvr_wizard_allowed_template_meta_keys',
+        array(
+          'wpvr_created_from_wizard',
+          'wpvr_wizard_industry',
+          'wpvr_tour_layout',
+          'wpvr_custom_css',
+          'wpvr_streetview_settings',
+          'wpvr_general_settings',
+          'wpvr_controls_settings',
+          'wpvr_floor_plan_settings',
+          'wpvr_checklist',
+        )
+      );
+
       foreach ( $template_meta as $meta_key => $meta_value ) {
         // Sanitize meta key to ensure it's a valid meta key
         $sanitized_key = sanitize_key( $meta_key );
-        if ( ! empty( $sanitized_key ) && 'panodata' !== $sanitized_key ) {
+        if ( ! empty( $sanitized_key ) && in_array( $sanitized_key, $allowed_meta_keys, true ) ) {
           // Handle different value types
           if ( is_array( $meta_value ) ) {
-            update_post_meta( $post_id, $sanitized_key, $meta_value );
+            $sanitized_value = map_deep( $meta_value, 'sanitize_text_field' );
+            update_post_meta( $post_id, $sanitized_key, $sanitized_value );
           } else {
             update_post_meta( $post_id, $sanitized_key, sanitize_text_field( $meta_value ) );
           }
@@ -1269,11 +1331,13 @@ class Wpvr_Ajax
     do_action('wpvr_rex_wpvr_tour_saved', $post_id);
     do_action( 'wpvr_setup_wizard_completed_event', $industry );
 
-    // Persist industry selection for telemetry (aha event fires later from consent handler).
-    update_option( 'wpvr_industry_name', sanitize_text_field( $industry ), false );
+    if ( current_user_can( 'manage_options' ) ) {
+      // Persist industry selection for telemetry (aha event fires later from consent handler).
+      update_option( 'wpvr_industry_name', sanitize_text_field( $industry ), false );
 
-    // Mark wizard as permanently done so the onboarding notice is suppressed.
-    update_option( 'wpvr_wizard_onboarding_done', '1', false );
+      // Mark wizard as permanently done so the onboarding notice is suppressed.
+      update_option( 'wpvr_wizard_onboarding_done', '1', false );
+    }
 
     wp_send_json_success( array( 
       'post_id' => $post_id,

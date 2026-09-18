@@ -27,6 +27,7 @@
 .wpvr-tour-list #wpbody-content > .wrap {
 	box-sizing: border-box;
 	margin: 28px 20px 0;
+	clear: both;
 }
 
 .wpvr-tour-list .wpvr-listing-notices {
@@ -34,12 +35,24 @@
 	flex-direction: column;
 	gap: 10px;
 	margin: 0 0 20px;
+	width: 100%;
+	clear: both;
+}
+
+.wpvr-tour-list .wpvr-listing-notices:empty {
+	display: none;
+	margin: 0;
 }
 
 .wpvr-tour-list .wpvr-listing-notices > .notice,
 .wpvr-tour-list .wpvr-listing-notices > .wpvr-onboarding-notice {
-	width: 100%;
+	width: 100% !important;
 	margin: 0 !important;
+}
+
+.wpvr-tour-list .wpvr-listing-notices > .wpvr-promotional-banner {
+	width: 100% !important;
+	margin: 10px 0 16px 0 !important;
 }
 
 .wpvr-tour-list .wpvr-listing-header {

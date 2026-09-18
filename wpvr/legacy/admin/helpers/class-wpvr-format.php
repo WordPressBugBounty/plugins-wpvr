@@ -123,6 +123,12 @@ class WPVR_Format
                         if (isset($temp_hotspot['hotspot-yaw'])) {
                             $temp_hotspot['hotspot-yaw'] = trim($temp_hotspot['hotspot-yaw']);
                         }
+                        if (isset($temp_hotspot['hotspot-type']) && $temp_hotspot['hotspot-type'] === 'fluent_form') {
+                            $temp_hotspot['hotspot-content'] = '';
+                            if (isset($temp_hotspot['fluent-form-id'])) {
+                                $temp_hotspot['fluent-form-id'] = (string) absint($temp_hotspot['fluent-form-id']);
+                            }
+                        }
                         $_hotspot_array[] = $temp_hotspot;
                     }
                 }
@@ -537,8 +543,14 @@ class WPVR_Format
                 $hotspot_content = ob_get_clean();
 
 
-                if (!$hotspot_content) $hotspot_content = $hotspot_data["hotspot-content"];
-
+                $is_fluent_form = ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form';
+                if ($is_fluent_form) {
+                    if ($hotspot_content) {
+                        $hotspot_content = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $hotspot_content);
+                    }
+                } else {
+                    if (!$hotspot_content) $hotspot_content = $hotspot_data["hotspot-content"] ?? '';
+                }
 
                 $hotspot_info = array(
                     "text" => $hotspot_data["hotspot-title"],
@@ -546,7 +558,7 @@ class WPVR_Format
                     "yaw" => $hotspot_data["hotspot-yaw"],
                     "type" => $hotspot_type,
                     "URL" => $hotspot_data["hotspot-url"],
-                    "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
+                    "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, $is_fluent_form),
                     "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
                     "sceneId" => $hotspot_data["hotspot-scene"],
                     'hotspot_type' => $hotspot_data['hotspot-type']
@@ -2120,7 +2132,7 @@ class WPVR_Format
         $hotspots = array();
         foreach ($hotspot_datas as $hotspot_data) {
             $hotspot_type = $hotspot_data["hotspot-type"] !== 'scene' ? 'info' : $hotspot_data["hotspot-type"];
-            $hotspot_content = $hotspot_data["hotspot-content"];
+            $hotspot_content = ($hotspot_data["hotspot-type"] ?? '') === 'fluent_form' ? '' : ($hotspot_data["hotspot-content"] ?? '');
             $hotspot_info = $this->get_shortcode_hotspot_info($hotspot_data, $hotspot_type, $hotspot_content);
             array_push($hotspots, $hotspot_info);
         }
@@ -2548,7 +2560,7 @@ class WPVR_Format
         $html = $this->render_vr_tour_tab_click_content($html, $id, $default_scene);
 
         if (isset($previeword ) && $previeword  != '') {
-            $html .= 'jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword  . '")';
+            $html .= 'jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text(' . wp_json_encode( (string) $previeword ) . ');';
         }
 
         $html .= '});';
@@ -2709,7 +2721,7 @@ class WPVR_Format
                 jQuery("#pano' . $id . '").children(".pnlm-render-container").remove();
                 jQuery("#pano' . $id . '").children(".pnlm-ui").remove();
                 panoshow' . $id . ' = pannellum.viewer(response[0]["panoid"], scenes);
-                jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
+                jQuery("#pano' . $id . '").children(".pnlm-ui").find(".pnlm-load-button p").text(' . wp_json_encode( (string) $previeword ) . ');
                 setTimeout(function() {
                         // panoshow' . $id . '.loadScene("' . $default_scene . '");
                         window.dispatchEvent(new Event("resize"));

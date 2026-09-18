@@ -571,6 +571,15 @@ class TourTransformer implements TransformerInterface {
             $scene_yaw = isset( $hotspot['hotspot-scene-yaw'] ) && $hotspot['hotspot-scene-yaw'] !== ''
                 ? (float) $hotspot['hotspot-scene-yaw']
                 : null;
+            $product_id   = isset( $hotspot['hotspot-product-id'] ) ? (string) $hotspot['hotspot-product-id'] : '';
+            $product_name = '';
+            if ( ! empty( $product_id ) && function_exists( 'wc_get_product' ) ) {
+                $product_obj = wc_get_product( $product_id );
+                if ( is_object( $product_obj ) ) {
+                    $product_name = $product_obj->get_formatted_name();
+                }
+            }
+
             $hotspots[] = [
                 'id'            => $hotspot['hotspot-id'] ?? wp_generate_uuid4(),
                 'type'          => $hotspot['hotspot-type'] ?? 'info',
@@ -583,6 +592,9 @@ class TourTransformer implements TransformerInterface {
                 'hover'         => $hotspot['hotspot-hover'] ?? '',
                 'targetSceneId' => $hotspot['hotspot-scene'] ?? '',
                 'customClass'   => $hotspot['hotspot-customclass'] ?? '',
+                'fluentFormId'  => isset( $hotspot['fluent-form-id'] ) ? (string) $hotspot['fluent-form-id'] : '',
+                'productId'     => $product_id,
+                'productName'   => $product_name,
                 // Pro styling fields
                 'iconClass'     => ( ( $hotspot['hotspot-customclass-pro'] ?? '' ) === 'none' || ( $hotspot['hotspot-customclass-pro'] ?? '' ) === '' ) ? '' : $hotspot['hotspot-customclass-pro'],
                 'iconBgColor'   => $hotspot['hotspot-customclass-color-icon-value'] ?? '#00b4ff',
@@ -610,9 +622,15 @@ class TourTransformer implements TransformerInterface {
             $raw_content = (string) ( $hotspot['content'] ?? '' );
             $raw_hover   = (string) ( $hotspot['hover'] ?? '' );
 
-            $content = function_exists( 'sanitize_content_preserve_styles' )
-                ? sanitize_content_preserve_styles( $raw_content, $is_fluent_form )
-                : wp_kses_post( $raw_content );
+            // For fluent_form hotspots, content is dynamically rendered server-side from fluent-form-id.
+            // User-supplied content is never used and must not be saved, completely eliminating stored XSS.
+            if ( $is_fluent_form ) {
+                $content = '';
+            } else {
+                $content = function_exists( 'sanitize_content_preserve_styles' )
+                    ? sanitize_content_preserve_styles( $raw_content, false )
+                    : wp_kses_post( $raw_content );
+            }
             $hover = function_exists( 'sanitize_content_preserve_styles' )
                 ? sanitize_content_preserve_styles( $raw_hover, false )
                 : wp_kses_post( $raw_hover );
@@ -632,6 +650,18 @@ class TourTransformer implements TransformerInterface {
                 'hotspot-scene-list'  => 'none',
             ];
 
+            if ( isset( $hotspot['fluentFormId'] ) ) {
+                $hs['fluent-form-id'] = (string) absint( $hotspot['fluentFormId'] );
+            } elseif ( isset( $hotspot['fluent-form-id'] ) ) {
+                $hs['fluent-form-id'] = (string) absint( $hotspot['fluent-form-id'] );
+            }
+
+            if ( isset( $hotspot['productId'] ) ) {
+                $hs['hotspot-product-id'] = sanitize_text_field( $hotspot['productId'] );
+            } elseif ( isset( $hotspot['hotspot-product-id'] ) ) {
+                $hs['hotspot-product-id'] = sanitize_text_field( $hotspot['hotspot-product-id'] );
+            }
+
             if ( $this->is_pro ) {
                 $hs = array_merge( $hs, [
                     // Pro styling fields
@@ -644,9 +674,8 @@ class TourTransformer implements TransformerInterface {
                     'hotspot-border-width'                 => $hotspot['borderWidth'] ?? '1',
                     'hotspot-border-style'                 => $hotspot['borderStyle'] ?? 'none',
                     'hotspot-border-color'                 => $hotspot['borderColor'] ?? '#00b4ff',
-                    // Pro navigation entry point fields
-                    'hotspot-scene-pitch' => $hotspot['scenePitch'] !== null ? (string) $hotspot['scenePitch'] : '',
-                    'hotspot-scene-yaw'   => $hotspot['sceneYaw'] !== null ? (string) $hotspot['sceneYaw'] : '',
+                    'hotspot-scene-pitch' => ( isset( $hotspot['scenePitch'] ) && $hotspot['scenePitch'] !== null ) ? (string) $hotspot['scenePitch'] : '',
+                    'hotspot-scene-yaw'   => ( isset( $hotspot['sceneYaw'] ) && $hotspot['sceneYaw'] !== null ) ? (string) $hotspot['sceneYaw'] : '',
                     'hotspot-scene-entry-point-mode' => in_array( $hotspot['sceneEntryPointMode'] ?? '', [ 'inherit', 'custom' ], true )
                         ? $hotspot['sceneEntryPointMode']
                         : 'inherit',

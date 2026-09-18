@@ -131,6 +131,7 @@ jQuery(document).ready(function ($) {
 
     // Pro / hotspot-limit config (populated via wp_localize_script)
     const wpvrWizardCfg = (typeof wpvrSetupWizardData !== 'undefined') ? wpvrSetupWizardData : {};
+    const wizardNonce = (typeof wpvrNonce !== 'undefined' && wpvrNonce) ? wpvrNonce : (wpvrWizardCfg.ajax_nonce || '');
     const isPro = !!wpvrWizardCfg.is_pro;
     const HOTSPOT_LIMIT = isPro ? Infinity : (parseInt(wpvrWizardCfg.hotspot_limit, 10) || 5);
 
@@ -639,7 +640,7 @@ jQuery(document).ready(function ($) {
                                 data: {
                                     action: 'wpvr_fetch_template',
                                     industry: selectedIndustry,
-                                    security: wpvrNonce
+                                    security: wizardNonce
                                 },
                                 success: function (response) {
                                     if (response.success && response.data.template) {
@@ -809,7 +810,7 @@ jQuery(document).ready(function ($) {
                                                                                     selectedIndustry === 'museums' ? 'Museum' : 'Virtual'
                                     ) + ' Tour',
                                     industry: selectedIndustry,
-                                    security: wpvrNonce
+                                    security: wizardNonce
                                 },
                                 success: function (response) {
                                     if (response.success) {
@@ -884,7 +885,7 @@ jQuery(document).ready(function ($) {
                                 data: {
                                     action: 'wpvr_save_opt_in_toggle',
                                     opt_in: isChecked ? 1 : 0,
-                                    security: wpvrNonce
+                                    security: wizardNonce
                                 },
                                 success: function (response) {
                                     console.log('Opt-in preference updated:', response);

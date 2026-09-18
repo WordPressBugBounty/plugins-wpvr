@@ -345,31 +345,46 @@ class Wpvr_Admin {
             wp_enqueue_script($this->plugin_name . '-shortcode', plugin_dir_url(__FILE__) . 'js/wpvr-shortcode.js', array('jquery'), $this->version, true);
         }
 
-        wp_enqueue_script('owl-js', plugin_dir_url(__FILE__) . 'js/owl.carousel.js', array('jquery'), false);
-        wp_enqueue_script('wpvr-global', $asset_url . 'js/wpvr-global.js', array('jquery'), $this->version, false);
+        $is_wpvr_screen = false;
+        if ( isset( $adscreen->id ) ) {
+            $is_wpvr_screen = (
+                $adscreen->id === 'wpvr_item' ||
+                $adscreen->id === 'edit-wpvr_item' ||
+                $adscreen->id === 'toplevel_page_wpvr' ||
+                $adscreen->id === 'wp-vr_page_wpvr-setting' ||
+                false !== strpos( $adscreen->id, 'wpvr' ) ||
+                false !== strpos( $adscreen->id, 'wp-vr' ) ||
+                ( isset( $adscreen->post_type ) && 'wpvr_item' === $adscreen->post_type )
+            );
+        }
 
-        $admin_user = wp_get_current_user();
-        $admin_name = $admin_user->display_name ?? '';
+        if ( $is_wpvr_screen ) {
+            wp_enqueue_script('owl-js', plugin_dir_url(__FILE__) . 'js/owl.carousel.js', array('jquery'), false);
+            wp_enqueue_script('wpvr-global', $asset_url . 'js/wpvr-global.js', array('jquery'), $this->version, false);
 
-        wp_localize_script('wpvr-global', 'wpvr_global_obj', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'site_url' => site_url() . '/wp-json/',
-            'ajax_nonce' => wp_create_nonce('wpvr'),
-            'user_information' => $this->get_logged_in_user_information(),
-            'is_wpvr_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
-            'admin_name' => $admin_name,
-            'url_info' => array(
-                'admin_url' => admin_url(),
-                'screen' => $adscreen->action,
-                'url' => isset( $_SERVER['PHP_SELF'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_SELF'] ) ) : '',
-                'param' => $_GET,
-            ),
-            'active_tab_url' => admin_url('post-new.php?post_type=wpvr_item&active_tab=scene'),
-            'hotspot_warning_text' => __('Please upload a scene before proceeding to set hotspot!', 'wpvr'),
-            'negative_number_warning_text' =>__('Negative numbers are not allowed!', 'wpvr'),
-        ));
+            $admin_user = wp_get_current_user();
+            $admin_name = $admin_user->display_name ?? '';
 
-        wp_localize_script('wpvr-global', 'wpvr_id_options', $wpvr_list);
+            wp_localize_script('wpvr-global', 'wpvr_global_obj', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'site_url' => site_url() . '/wp-json/',
+                'ajax_nonce' => wp_create_nonce('wpvr'),
+                'user_information' => $this->get_logged_in_user_information(),
+                'is_wpvr_active' => is_plugin_active('wpvr-pro/wpvr-pro.php'),
+                'admin_name' => $admin_name,
+                'url_info' => array(
+                    'admin_url' => admin_url(),
+                    'screen' => $adscreen->action,
+                    'url' => isset( $_SERVER['PHP_SELF'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_SELF'] ) ) : '',
+                    'param' => $_GET,
+                ),
+                'active_tab_url' => admin_url('post-new.php?post_type=wpvr_item&active_tab=scene'),
+                'hotspot_warning_text' => __('Please upload a scene before proceeding to set hotspot!', 'wpvr'),
+                'negative_number_warning_text' =>__('Negative numbers are not allowed!', 'wpvr'),
+            ));
+
+            wp_localize_script('wpvr-global', 'wpvr_id_options', $wpvr_list);
+        }
     }
 
     /**

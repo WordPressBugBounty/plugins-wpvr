@@ -13,11 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *  - activation/plugin_activated     — SDK lifecycle, no consent (automatic).
  *  - activation/plugin_deactivated   — SDK lifecycle, no consent (automatic).
  *  - activation/onboarding_completed — non-PII, override (track_immediate).
- *  - activation/aha_reached          — consent-gated; wizard completion fires on consent grant,
- *                                       active tour views fire via define_triggers → aha.
- *  - retention/tour_created          — consent-gated; first publish of a real tour,
+ *  - activation/tour_created         — consent-gated; first publish of a real tour,
  *                                       emitted once per tour via transition_post_status.
  *  - retention/feature_used          — consent-gated (define_triggers → feature_used).
+ *
+ * activation/aha_reached is temporarily disabled (both producers guarded off below)
+ * pending removal — see handle_embedded_tour_view() and track_aha_after_consent().
  *
  * @since 8.5.57
  */
@@ -120,20 +121,12 @@ class WPVRLinnoTelemetry {
         add_action( 'wpvr_setup_wizard_completed_event', array( $this, 'track_onboarding_event' ), 10, 1 );
 
         // Consent-gated events via SDK trigger system.
-        // activation/aha_reached  — queued when ≥60% of tours are actively viewed (recurring).
-        // retention/feature_used  — queued on every tour save.
-        // Both require opt-in consent.
+        // retention/feature_used  — queued on every tour save. Requires opt-in consent.
+        // activation/aha_reached (tours_actively_viewed) is temporarily disabled — see
+        // handle_embedded_tour_view() below, which no longer emits the underlying hook.
         $self = $this;
         $wpvr_telemetry->define_triggers(
             array(
-                'aha' => array(
-                    'tours_actively_viewed' => array(
-                        'hook'     => 'wpvr_kui_unique_views_updated',
-                        'callback' => function ( $unique_views, $tour_id ) use ( $self ) {
-                            return $self->build_kui_payload( $unique_views, $tour_id );
-                        },
-                    ),
-                ),
                 'feature_used' => array(
                     'tour_creation' => array(
                         'hook'     => 'wpvr_tour_settings_saved',
@@ -296,7 +289,7 @@ class WPVRLinnoTelemetry {
             return;
         }
 
-        $wpvr_telemetry->track( 'retention/tour_created', $this->build_real_tour_creation_payload( $post->ID ) );
+        $wpvr_telemetry->track( 'activation/tour_created', $this->build_real_tour_creation_payload( $post->ID ) );
         update_post_meta( $post->ID, self::TOUR_CREATED_TRACKED_META_KEY, '1' );
     }
 
@@ -365,7 +358,10 @@ class WPVRLinnoTelemetry {
      * @return void
      */
     public function track_aha_after_consent() {
-        global $wpvr_telemetry;
+        // Temporarily disabled — activation/aha_reached is being retired.
+        return;
+
+        global $wpvr_telemetry; // phpcs:ignore
         if ( ! is_object( $wpvr_telemetry ) ) {
             return;
         }
@@ -402,7 +398,10 @@ class WPVRLinnoTelemetry {
      * @return void
      */
     public function handle_embedded_tour_view( $tour_id ) {
-        $tour_id = absint( $tour_id );
+        // Temporarily disabled — activation/aha_reached is being retired.
+        return;
+
+        $tour_id = absint( $tour_id ); // phpcs:ignore
         if ( $tour_id <= 0 ) {
             return;
         }

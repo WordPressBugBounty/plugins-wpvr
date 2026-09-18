@@ -3,6 +3,14 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.1.3 (2026-09-17)
+- **Security Fix:** Resolved broken access control, authorization bypasses, and stored XSS vulnerabilities in the setup wizard, tour file import, and REST API endpoints.
+- **Fix:** Restored Fluent Forms and WooCommerce product hotspot types in the modern tour editor.
+- **Enhancement:** Added searchable dropdown with live search and request cancellation for selecting Fluent Forms and WooCommerce products in hotspot configuration.
+- **Fix:** Improved Fluent Forms script handling, layout styling, and dynamic form re-initialization inside tour scenes.
+- **Fix:** Resolved issue where scene numbering counter failed to reset after deleting scenes in the creation modal.
+- **Fix:** Corrected typo in default scene name across translation strings.
+
 ### 9.1.2 (2026-09-15)
 - **Fix:** Restored embed and social share functionality for virtual tours in the new UI (feature parity with legacy UI).
 - **Fix:** Resolved embedded tour rendering issue (black screen) when tour loaded via the embed iframe.

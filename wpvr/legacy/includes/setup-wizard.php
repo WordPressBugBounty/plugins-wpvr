@@ -92,7 +92,7 @@ class WPVR_Setup_Wizard
             'wpvrSetupWizardData',
             array(
                 'ajaxurl'               => admin_url( 'admin-ajax.php' ),
-                'ajax_nonce'            => wp_create_nonce( 'wpvr' ),
+                'ajax_nonce'            => wp_create_nonce( 'wpvr_setup_wizard' ),
                 'is_pro'                => (bool) apply_filters( 'is_wpvr_pro_active', false ),
                 'hotspot_limit'         => 5,
                 'upgrade_url'           => esc_url( 'https://rextheme.com/wpvr/pricing/' ),

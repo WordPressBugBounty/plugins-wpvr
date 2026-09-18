@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.1.2
+Stable tag: 9.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,14 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.1.3 (2026-09-17) =
+* Security Fix: Resolved broken access control, authorization bypasses, and stored XSS vulnerabilities in the setup wizard, tour file import, and REST API endpoints.
+* Fix: Restored Fluent Forms and WooCommerce product hotspot types in the modern tour editor.
+* Enhancement: Added searchable dropdown with live search and request cancellation for selecting Fluent Forms and WooCommerce products in hotspot configuration.
+* Fix: Improved Fluent Forms script handling, layout styling, and dynamic form re-initialization inside tour scenes.
+* Fix: Resolved issue where scene numbering counter failed to reset after deleting scenes in the creation modal.
+* Fix: Corrected typo in default scene name across translation strings.
 
 = 9.1.2 (2026-09-15) =
 * Fix: Restored embed and social share functionality for virtual tours in the new UI (feature parity with legacy UI).

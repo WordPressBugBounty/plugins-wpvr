@@ -432,7 +432,14 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                         do_action('wpvr_hotspot_content', $hotspot_data);
                         $hotspot_content = ob_get_clean();
 
-                        if (!$hotspot_content) $hotspot_content = $hotspot_data["hotspot-content"];
+                        $is_fluent_form = ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form';
+                        if ($is_fluent_form) {
+                            if ($hotspot_content) {
+                                $hotspot_content = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $hotspot_content);
+                            }
+                        } else {
+                            if (!$hotspot_content) $hotspot_content = $hotspot_data["hotspot-content"] ?? '';
+                        }
 
 
                         $hotspot_info = array(
@@ -441,7 +448,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                             "yaw" => $hotspot_data["hotspot-yaw"],
                             "type" => $hotspot_type,
                             "URL" => $hotspot_data["hotspot-url"],
-                            "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
+                            "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, $is_fluent_form),
                             "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
                             "sceneId" => $hotspot_data["hotspot-scene"],
                             "targetPitch" => (float)$hotspot_scene_pitch,

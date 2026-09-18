@@ -85,6 +85,17 @@ function wpvrhotspot(hotSpotDiv, hotspotData) {
             $wrapper.find('.custom-ifram').html(cleanArgs);
             $wrapper.fadeIn();
             $panoWrap.addClass("show-modal");
+
+            if (typeof jQuery !== 'undefined') {
+                var $ffForm = $wrapper.find('form.frm-fluent-form');
+                if ($ffForm.length) {
+                    jQuery(document).trigger('fluentform_init', [$ffForm]);
+                    jQuery.each($ffForm, function(index, form) {
+                        jQuery(form).trigger('reInitExtras');
+                        jQuery(document).trigger('ff_reinit', [form]);
+                    });
+                }
+            }
         }
     }
 }

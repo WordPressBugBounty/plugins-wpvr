@@ -120,7 +120,7 @@
 		} );
 
 		var notices = document.querySelectorAll(
-			'#wpvr-ui-mode-notice, #wpvr-license-fallback-notice, #wpvr-onboarding-notice, .wpvr-migration-notice'
+			'#wpvr-promotional-banner, #wpvr-ui-mode-notice, #wpvr-license-fallback-notice, #wpvr-onboarding-notice, .wpvr-migration-notice'
 		);
 		if ( notices.length ) {
 			var noticeArea = document.createElement( 'div' );

@@ -1052,8 +1052,16 @@ class WPVR_Scene {
                     do_action('wpvr_hotspot_content', $hotspot_data);
                     $hotspot_content = ob_get_clean();
 
-                    if (!$hotspot_content) {
-                        $hotspot_content = $hotspot_data["hotspot-content"];
+                    $is_fluent_form = isset($hotspot_data["hotspot-type"]) && 'fluent_form' === $hotspot_data["hotspot-type"];
+
+                    if ($is_fluent_form) {
+                        if (!empty($hotspot_content)) {
+                            $hotspot_content = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $hotspot_content);
+                        }
+                    } else {
+                        if (!$hotspot_content) {
+                            $hotspot_content = $hotspot_data["hotspot-content"] ?? '';
+                        }
                     }
 
                     $hotspot_url = $this->normalize_hotspot_external_url($hotspot_data["hotspot-url"] ?? '');
@@ -1075,7 +1083,6 @@ class WPVR_Scene {
                     );
 
 
-                    $is_fluent_form = isset($hotspot_data["hotspot-type"]) && 'fluent_form' === $hotspot_data["hotspot-type"];
                     $on_hover_content = $this->sanitize_content_preserve_styles($on_hover_content ?? '', false);
                     $on_click_content = preg_replace_callback('/<img[^>]*>/', "replace_callback", $hotspot_content ?? '');
                     $on_click_content = $this->sanitize_content_preserve_styles($on_click_content ?? '', $is_fluent_form);
@@ -1516,18 +1523,22 @@ class WPVR_Scene {
             $html .= $animation_css;
         }
 
+        $container_width         = $width;
+        $container_height        = $height;
+        $container_mobile_height = $mobile_height;
+
         if ($width == 'fullwidth') {
-            $width = "100%";
+            $container_width = "100%";
         } elseif ($width == 'embed') {
-            $width = "100%";
-            $height = "100%";
-            $mobile_height = "100%";
+            $container_width         = "100%";
+            $container_height        = "100%";
+            $container_mobile_height = "100%";
         }
 
         if (wpvr_isMobileDevice()) {
-            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $mobile_height . '; border-radius:' . $radius . '; direction:ltr; ">';
+            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $container_width . '; width: 100%; height: ' . $container_mobile_height . '; border-radius:' . $radius . '; direction:ltr; ">';
         } else {
-            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $width . '; width: 100%; height: ' . $height . '; border-radius:' . $radius . '; direction:ltr; ">';
+            $html .= '<div id="' . $master_container_id . '" class="wpvr-master-container wpvr-cardboard '.$enable_cardboard.'" style="max-width:' . $container_width . '; width: 100%; height: ' . $container_height . '; border-radius:' . $radius . '; direction:ltr; ">';
         }
         $is_pro = apply_filters('is_wpvr_pro_active',false);
         $status  = get_option('wpvr_edd_license_status');
@@ -1574,7 +1585,7 @@ class WPVR_Scene {
         } elseif ($width == 'embed') {
             $html .= '<div class="cardboard-vrembed vrembed">';
             $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left pano2' . $id . '" style=" width: 49%!important; text-align:center; direction:ltr;" ><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
-            $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style=" text-align:center; direction:ltr;" >';
+            $html .= '<div id="' . $panoid . '" class="pano-wrap pano-right pano' . $id . '" style="width: 100%; height: 100%; text-align:center; direction:ltr;" >';
         } else {
             if (wpvr_isMobileDevice()) {
                 $html .= '<div id="' . $panoid2 . '" class="pano-wrap pano-left cardboard-half pano2' . $id . '" style="width: 49%; border-radius:' . $radius . '"><div id="center-pointer2' . $pano_suffix . '" class="vr-pointer-container"><span class="center-pointer"></span></div></div>';
@@ -2016,7 +2027,8 @@ class WPVR_Scene {
                           border-radius: '.$border_radius.'px;
                           padding: '.$button_pt.'px '.$button_pr.'px '.$button_pb.'px '.$button_pl.'px;
                          ';
-                $html .= '<div class="wpvr-call-to-action-button position-'.$text_align.'" style="max-width:' . $width.'">
+                $cta_width = ( $width === 'fullwidth' || $width === 'embed' ) ? '100%' : $width;
+                $html .= '<div class="wpvr-call-to-action-button position-'.$text_align.'" style="max-width:' . $cta_width . '">
                         <a href="'.$buttonurl.'" style="'.$style.'" target="'.$target.'">'.$buttontext.'</a>
                       </div>';
 
@@ -2872,7 +2884,7 @@ class WPVR_Scene {
                     $gallery_scene_ids[] = (string) $scene_key;
                     $scene_key_gallery = $panoscenes['scene-id'] . '_gallery_' . $pano_suffix;
                     $html .= 'jQuery(document).on("click","#' . $scene_key_gallery . '",function() {
-                        panoshow' . $pano_suffix . '.loadScene("' . $scene_key . '");
+                        panoshow' . $pano_suffix . '.loadScene(' . wp_json_encode( (string) $scene_key ) . ');
     		        });';
                 }
             }
@@ -3099,7 +3111,7 @@ class WPVR_Scene {
             }
             if ($custom_control['backToHomeSwitch'] == "on" && 'valid' == $status  && $is_pro) {
                 $html .= 'document.getElementById("backToHome' . $pano_suffix . '").addEventListener("click", function(e) {';
-                $html .= 'panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");';
+                $html .= 'panoshow' . $pano_suffix . '.loadScene(' . wp_json_encode( (string) $default_scene ) . ');';
                 $html .= '});';
             }
             if ($gyro_button_enabled && 'valid' == $status  && $is_pro) {
@@ -3210,9 +3222,13 @@ class WPVR_Scene {
 
         $html .= '
       jQuery(document).on("click","#' . $panoid . '",function(event) {
+        var isCross = event.target.closest(".cross");
         var isActiveModal = event.target.closest(".custom-ifram-wrapper");
-        var isForm = event.target.closest(".wpvr-hotspot-tweak-contents");
+        var isForm = event.target.closest(".wpvr-hotspot-tweak-contents-wrapper");
         var isHotspot = event.target.closest(".pnlm-hotspot-base");
+        if(isCross != null){
+            return;
+        }
         if(isForm != null){
             jQuery(this).addClass("show-modal");
         }else if(isActiveModal == null){
@@ -3220,7 +3236,7 @@ class WPVR_Scene {
                 jQuery(".custom-ifram-wrapper .custom-ifram").empty();
                 jQuery(".custom-ifram-wrapper").hide();
                 jQuery(this).removeClass("show-modal");
-                jQuery(".wpvr-hotspot-tweak-contents-wrapper").hide("show-modal");
+                jQuery(".wpvr-hotspot-tweak-contents-wrapper").hide();
             }
         }
       });';
@@ -3482,7 +3498,7 @@ class WPVR_Scene {
                           document.dispatchEvent(new CustomEvent("wpvr:viewer-ready", {
                               detail: { containerId: response[0]["panoid"], viewer: panoshow' . $pano_suffix . ' }
                           }));
-                          jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
+                          jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text(' . wp_json_encode( (string) $previeword ) . ')
                           setTimeout(function() {
                                 //   panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");
                                   window.dispatchEvent(new Event("resize"));
@@ -3505,7 +3521,7 @@ class WPVR_Scene {
                   detail: { containerId: response[0]["panoid"], viewer: panoshow' . $pano_suffix . ' }
               }));
               setTimeout(function() {
-                      panoshow' . $pano_suffix . '.loadScene("' . $default_scene . '");
+                      panoshow' . $pano_suffix . '.loadScene(' . wp_json_encode( (string) $default_scene ) . ');
                       window.dispatchEvent(new Event("resize"));
                       if (jQuery("#' . $panoid . '").children().children(".pnlm-panorama-info:visible").length > 0) {
                            jQuery("#controls' . $pano_suffix . '").css("bottom", "55px");
@@ -3517,7 +3533,7 @@ class WPVR_Scene {
             });';
         if (isset($previeword) && $previeword != '') {
             $html .= '
-            jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text("' . $previeword . '")
+            jQuery("#' . $panoid . '").children(".pnlm-ui").find(".pnlm-load-button p").text(' . wp_json_encode( (string) $previeword ) . ')
             ';
         }
         if ($default_global_zoom != '' || $max_global_zoom != '' || $min_global_zoom != '') {
@@ -3563,10 +3579,14 @@ private function sanitize_content_preserve_styles($content, $allow_forms = false
     // Decode HTML entities first (in case content was encoded in database)
     $content = html_entity_decode($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     
-    // Escape <script> blocks to display as text instead of removing them
-    $content = preg_replace_callback('/<script\b[^>]*>(.*?)<\/script>/si', function($matches) {
-        return esc_html($matches[0]); // Convert to plain text
-    }, $content);
+    // Escape or strip <script> blocks
+    if ($allow_forms) {
+        $content = preg_replace('/<script\b[^>]*>[\s\S]*?<\/script>/i', '', $content);
+    } else {
+        $content = preg_replace_callback('/<script\b[^>]*>(.*?)<\/script>/si', function($matches) {
+            return esc_html($matches[0]); // Convert to plain text
+        }, $content);
+    }
 
     // Strip dangerous URL-based attributes
     $content = preg_replace('/(href|action|formaction)\s*=\s*["\']?\s*(javascript|vbscript|data|about):/i', '$1=""', $content);
@@ -3611,8 +3631,14 @@ private function sanitize_content_preserve_styles($content, $allow_forms = false
         return '<style>' . esc_html($css) . '</style>';
     }, $content);
 
-    // Allow iframes from safe sources only (e.g., YouTube, Vimeo)
+    // Allow iframes and styles from safe sources only
     $allowed_tags = wp_kses_allowed_html('post');
+    $allowed_tags['style'] = [
+        'type'  => true,
+        'id'    => true,
+        'class' => true,
+        'media' => true,
+    ];
     $allowed_tags['iframe'] = [
         'src'             => true,
         'width'           => true,
@@ -3644,35 +3670,45 @@ private function sanitize_content_preserve_styles($content, $allow_forms = false
 
     if ($allow_forms) {
         $form_attributes = [
-            'id'          => true,
-            'class'       => true,
-            'style'       => true,
-            'name'        => true,
-            'value'       => true,
-            'type'        => true,
-            'placeholder' => true,
-            'action'      => true,
-            'method'      => true,
-            'target'      => true,
-            'enctype'     => true,
-            'disabled'    => true,
-            'readonly'    => true,
-            'required'    => true,
-            'checked'     => true,
-            'selected'    => true,
-            'multiple'    => true,
-            'size'        => true,
-            'rows'        => true,
-            'cols'        => true,
-            'maxlength'   => true,
-            'minlength'   => true,
-            'min'         => true,
-            'max'         => true,
-            'step'        => true,
-            'pattern'     => true,
-            'autocomplete'=> true,
-            'autofocus'   => true,
-            'for'         => true,
+            'id'                 => true,
+            'class'              => true,
+            'style'              => true,
+            'name'               => true,
+            'value'              => true,
+            'type'               => true,
+            'placeholder'        => true,
+            'action'             => true,
+            'method'             => true,
+            'target'             => true,
+            'enctype'            => true,
+            'disabled'           => true,
+            'readonly'           => true,
+            'required'           => true,
+            'checked'            => true,
+            'selected'           => true,
+            'multiple'           => true,
+            'size'               => true,
+            'rows'               => true,
+            'cols'               => true,
+            'maxlength'          => true,
+            'minlength'          => true,
+            'min'                => true,
+            'max'                => true,
+            'step'               => true,
+            'pattern'            => true,
+            'autocomplete'       => true,
+            'autofocus'          => true,
+            'for'                => true,
+            'data-*'             => true,
+            'data-form_id'       => true,
+            'data-form_instance' => true,
+            'data-name'          => true,
+            'data-type'          => true,
+            'aria-invalid'       => true,
+            'aria-required'      => true,
+            'aria-label'         => true,
+            'aria-describedby'   => true,
+            'aria-labelledby'    => true,
         ];
         $allowed_tags['form']     = $form_attributes;
         $allowed_tags['input']    = $form_attributes;
@@ -3684,6 +3720,16 @@ private function sanitize_content_preserve_styles($content, $allow_forms = false
         $allowed_tags['label']    = $form_attributes;
         $allowed_tags['fieldset'] = $form_attributes;
         $allowed_tags['legend']   = $form_attributes;
+        if (!isset($allowed_tags['div'])) {
+            $allowed_tags['div'] = [];
+        }
+        $allowed_tags['div']['data-*']             = true;
+        $allowed_tags['div']['data-form_id']       = true;
+        $allowed_tags['div']['data-form_instance'] = true;
+        if (!isset($allowed_tags['span'])) {
+            $allowed_tags['span'] = [];
+        }
+        $allowed_tags['span']['data-*']            = true;
     }
 
     // Apply wp_kses() to keep only allowed tags/attributes

@@ -3125,7 +3125,7 @@ msgstr ""
 
 #. translators: %d: position of the new scene in the current operation.
 #: app/components/modals/CreateSceneModal.jsx:173
-msgid "Untitle Scene - %d"
+msgid "Untitled Scene - %d"
 msgstr ""
 
 #: app/components/modals/CreateSceneModal.jsx:234

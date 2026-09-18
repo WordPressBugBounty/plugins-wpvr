@@ -217,6 +217,50 @@ class Admin {
             $fa_icons = ( new \Wpvr_fontawesome_icons() )->icon;
         }
 
+        $raw_hotspot_types = apply_filters( 'wpvr_hotspot_types', [
+            'info'  => __( 'Info', 'wpvr' ),
+            'scene' => __( 'Scene', 'wpvr' ),
+        ] );
+
+        $hotspot_types = [];
+        if ( isset( $raw_hotspot_types['info'] ) ) {
+            $hotspot_types[] = [ 'value' => 'info', 'label' => $raw_hotspot_types['info'] ];
+            unset( $raw_hotspot_types['info'] );
+        } else {
+            $hotspot_types[] = [ 'value' => 'info', 'label' => __( 'Info', 'wpvr' ) ];
+        }
+
+        if ( isset( $raw_hotspot_types['scene'] ) ) {
+            $hotspot_types[] = [ 'value' => 'scene', 'label' => $raw_hotspot_types['scene'] ];
+            unset( $raw_hotspot_types['scene'] );
+        } else {
+            $hotspot_types[] = [ 'value' => 'scene', 'label' => __( 'Scene', 'wpvr' ) ];
+        }
+
+        $hotspot_types[] = [ 'value' => 'url', 'label' => __( 'External URL', 'wpvr' ) ];
+        if ( isset( $raw_hotspot_types['url'] ) ) {
+            unset( $raw_hotspot_types['url'] );
+        }
+
+        foreach ( $raw_hotspot_types as $type_key => $type_label ) {
+            $hotspot_types[] = [ 'value' => $type_key, 'label' => $type_label ];
+        }
+
+        $fluent_forms = [];
+        if ( defined( 'FLUENTFORM' ) ) {
+            global $wpdb;
+            $fluent_form_table = $wpdb->prefix . 'fluentform_forms';
+            $forms             = $wpdb->get_results( "SELECT id, title FROM {$fluent_form_table} WHERE status = 'published' ORDER BY title ASC" );
+            if ( ! empty( $forms ) && is_array( $forms ) ) {
+                foreach ( $forms as $form ) {
+                    $fluent_forms[] = [
+                        'id'    => (string) $form->id,
+                        'title' => $form->title,
+                    ];
+                }
+            }
+        }
+
         $is_embed_addon_active = apply_filters( 'is_wpvr_embed_addon_premium', false );
         if ( $is_embed_addon_active ) {
             if ( wp_script_is( 'custom-qrcode', 'registered' ) ) {
@@ -227,21 +271,25 @@ class Admin {
         }
 
         wp_localize_script( 'wpvr-tour-editor', 'wpvrTourEditor', [
-            'tourId'             => $tour_id_cfg ?: null,
-            'tourStatus'         => $tour_status,
+            'tourId'      => $tour_id_cfg ?: null,
+            'tourStatus'  => $tour_status,
             'tourTitle'          => $tour_id_cfg ? get_the_title( $tour_id_cfg ) : '',
             'homeUrl'            => home_url( '/' ),
             'isEmbedAddonActive' => $is_embed_addon_active,
-            'nonce'              => wp_create_nonce( 'wp_rest' ),
-            'apiBase'            => rest_url( 'wpvr/v1' ),
-            'mediaUrl'           => rest_url( 'wp/v2/media' ),
-            'isPro'              => wpvr_is_pro_active(),
-            'pluginUrl'          => $plugin_url,
-            'listUrl'            => admin_url( 'edit.php?post_type=' . self::POST_TYPE ),
-            'postEditUrl'        => admin_url( 'post.php' ),
-            'faIcons'            => $fa_icons,
-            'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
-            'exportNonce'        => wp_create_nonce( 'wpvr_export_tour' ),
+            'nonce'       => wp_create_nonce( 'wp_rest' ),
+            'apiBase'     => rest_url( 'wpvr/v1' ),
+            'mediaUrl'    => rest_url( 'wp/v2/media' ),
+            'isPro'       => wpvr_is_pro_active(),
+            'pluginUrl'   => $plugin_url,
+            'listUrl'     => admin_url( 'edit.php?post_type=' . self::POST_TYPE ),
+            'postEditUrl' => admin_url( 'post.php' ),
+            'faIcons'     => $fa_icons,
+            'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+            'exportNonce' => wp_create_nonce( 'wpvr_export_tour' ),
+            'hotspotTypes'       => $hotspot_types,
+            'fluentForms'        => $fluent_forms,
+            'isFluentFormActive' => defined( 'FLUENTFORM' ),
+            'isWcActive'         => class_exists( 'WooCommerce' ),
             'imageResizeWarning' => [
                 'ajaxNonce'         => wp_create_nonce( 'wpvr' ),
                 'canManageSettings' => current_user_can( 'manage_options' ),
@@ -493,18 +541,24 @@ class Admin {
             $script_dependencies[] = 'wpvr-create-tour-modal';
         }
 
+        $tour_listing_css = plugin_dir_path( WPVR_FILE ) . 'app/admin/tour-listing.css';
+        $tour_listing_css_ver = file_exists( $tour_listing_css ) ? (string) filemtime( $tour_listing_css ) : WPVR_VERSION;
+
+        $tour_listing_js  = plugin_dir_path( WPVR_FILE ) . 'app/admin/tour-listing.js';
+        $tour_listing_js_ver  = file_exists( $tour_listing_js ) ? (string) filemtime( $tour_listing_js ) : WPVR_VERSION;
+
         wp_enqueue_style(
             'wpvr-tour-listing',
             $plugin_url . 'app/admin/tour-listing.css',
             $style_dependencies,
-            WPVR_VERSION
+            $tour_listing_css_ver
         );
 
         wp_enqueue_script(
             'wpvr-tour-listing',
             $plugin_url . 'app/admin/tour-listing.js',
             $script_dependencies,
-            WPVR_VERSION,
+            $tour_listing_js_ver,
             true
         );
     }

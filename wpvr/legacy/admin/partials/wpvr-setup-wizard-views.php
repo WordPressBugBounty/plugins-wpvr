@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     ?>
     <script type="text/javascript">
         var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>';
-        var wpvrNonce = '<?php echo esc_js( wp_create_nonce( 'wpvr' ) ); ?>';
+        var wpvrNonce = '<?php echo esc_js( wp_create_nonce( 'wpvr_setup_wizard' ) ); ?>';
     </script>
 </head>
 <body>
