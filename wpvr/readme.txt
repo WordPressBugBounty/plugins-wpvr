@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.1.3
+Stable tag: 9.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,10 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.1.4 (2026-10-02) =
+* Fix: Added missing alternative text (alt attribute) to the floor plan image for accessibility (WCAG) compliance.
+* Fix: Improved floor plan pointer data handling and attribute escaping.
 
 = 9.1.3 (2026-09-17) =
 * Security Fix: Resolved broken access control, authorization bypasses, and stored XSS vulnerabilities in the setup wizard, tour file import, and REST API endpoints.

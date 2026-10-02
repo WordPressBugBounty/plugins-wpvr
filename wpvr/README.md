@@ -3,6 +3,11 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.1.4 (2026-10-02)
+- **Fix:** Added missing alternative text (alt attribute) to the floor plan image for accessibility (WCAG) compliance.
+- **Fix:** Improved floor plan pointer data handling and attribute escaping.
+- **Fix:** Resolved duplicate telemetry tracker instantiation and event handling.
+
 ### 9.1.3 (2026-09-17)
 - **Security Fix:** Resolved broken access control, authorization bypasses, and stored XSS vulnerabilities in the setup wizard, tour file import, and REST API endpoints.
 - **Fix:** Restored Fluent Forms and WooCommerce product hotspot types in the modern tour editor.

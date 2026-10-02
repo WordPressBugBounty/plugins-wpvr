@@ -277,7 +277,7 @@ class WPVRLinnoTelemetry {
     public function track_tour_created_event( $new_status, $old_status, $post ) {
         global $wpvr_telemetry;
 
-        if ( ! is_object( $wpvr_telemetry ) || ! $post instanceof WP_Post ) {
+        if ( ! is_object( $wpvr_telemetry ) || ! $post instanceof \WP_Post ) {
             return;
         }
 
@@ -516,6 +516,3 @@ class WPVRLinnoTelemetry {
     }
 
 }
-
-
-new WPVRLinnoTelemetry();

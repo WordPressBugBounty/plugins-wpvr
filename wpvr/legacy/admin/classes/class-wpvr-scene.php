@@ -1766,12 +1766,11 @@ class WPVR_Scene {
 
         //===Floor map button===//
         $status  = get_option('wpvr_edd_license_status');
-        if ($status !== false &&  'valid' == $status  && $is_pro){
-            if ($floor_plan_enable == "on" && !empty($floor_plan_image)) {
-                $html .= '<div class="floor_map_button" id="floor_map_button_' . $pano_suffix . '" style="right:'.$floor_map_right.'">';
-                $html .= '<div class="ctrl" id="floor_map_target_' . $pano_suffix . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
-                $html .= '</div>';
-            }
+        $has_floor_plan = ( $status !== false && 'valid' == $status && $is_pro && 'on' == $floor_plan_enable && ! empty( $floor_plan_image ) );
+        if ( $has_floor_plan ) {
+            $html .= '<div class="floor_map_button" id="floor_map_button_' . $pano_suffix . '" style="right:'.$floor_map_right.'">';
+            $html .= '<div class="ctrl" id="floor_map_target_' . $pano_suffix . '"><i class="fas fa-map" style="color:#f7fffb;"></i></div>';
+            $html .= '</div>';
         }
         //===floor map button===//
 
@@ -1909,43 +1908,86 @@ class WPVR_Scene {
             }
         }
         //===Floor plan section===//
-        $floor_map_image = "";
-        $floor_map_pointer = array();
-        $floor_map_scene_id = '';
-        $floor_plan_custom_color = '#cca92c';
-        $floor_plan_direction_indicator = isset($postdata['floor_plan_direction_indicator']) ? $postdata['floor_plan_direction_indicator'] : 'on';
+        if ( $has_floor_plan ) {
+            $floor_map_image = $floor_plan_image;
+            $floor_map_pointer = isset($postdata['floor_plan_pointer_position']) && is_array($postdata['floor_plan_pointer_position']) ? $postdata['floor_plan_pointer_position'] : array();
+            $floor_map_scene_id = isset($postdata['floor_plan_data_list']) && is_array($postdata['floor_plan_data_list']) ? $postdata['floor_plan_data_list'] : array();
+            $floor_plan_custom_color = isset($postdata['floor_plan_custom_color']) && ! empty($postdata['floor_plan_custom_color']) ? $postdata['floor_plan_custom_color'] : '#cca92c';
+            $floor_plan_direction_indicator = isset($postdata['floor_plan_direction_indicator']) ? $postdata['floor_plan_direction_indicator'] : 'on';
 
-        if (isset($postdata['floor_plan_attachment_url'])) {
-            $floor_map_image = $postdata['floor_plan_attachment_url'];
-            $floor_map_pointer = $postdata['floor_plan_pointer_position'];
-            $floor_map_scene_id = $postdata['floor_plan_data_list'];
-            $floor_plan_custom_color = $postdata['floor_plan_custom_color'];
-        }
-        $html .= '<div class="wpvr-floor-map" id="wpvr-floor-map' . $pano_suffix . '" style="display: none">';
-        $html .= '<span class="close-floor-map-plan"><i class="fa fa-times"></i></span>';
-        $html .= '<img loading="lazy" src="'.$floor_map_image.'">';
-        foreach($floor_map_pointer as $key=> $pointer_position){
-            $html .= '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" scene_id = "'.$floor_map_scene_id[$key]->value.'" id="'.$pointer_position->id.'" data-top="'.$pointer_position->data_top.'" data-left="'.$pointer_position->data_left.'" style="'.$pointer_position->style.'">                        
-                                    <svg class="floor-pointer-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="12" cy="12" r="11.5" stroke="'.$floor_plan_custom_color.'"/>
-                                        <circle cx="12" cy="12" r="5" fill="'.$foreground_color_pointer.'"/>
-                                    </svg>';
-        
-                    // Only add the floor pointer flash SVG if floor_plan_direction_indicator is "on"
-                    if ($floor_plan_direction_indicator === "on") {
-                        $html .= '<svg class="floor-pointer-flash" width="54" height="35" viewBox="0 0 54 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M0.454054 1.32433L11.7683 34.3243C11.9069 34.7285 12.287 35 12.7143 35H41.2857C41.713 35 42.0931 34.7285 42.2317 34.3243L53.5459 1.32432C53.7685 0.675257 53.2862 0 52.6 0H1.4C0.713843 0 0.231517 0.675258 0.454054 1.32433Z" fill="url(#paint0_linear_1_10)"/>
-                                                    <defs>
-                                                    <linearGradient id="paint0_linear_1_10" x1="27" y1="4.59807e-08" x2="26.5" y2="28" gradientUnits="userSpaceOnUse">
-                                                    <stop stop-color="' . esc_attr( $floor_plan_custom_color ) . '" stop-opacity="0"/>
-                                                    <stop offset="1" stop-color="' . esc_attr( $floor_plan_custom_color ) . '"/>
-                                                    </linearGradient>
-                                                    </defs>
-                                                </svg>';
+            $media_alt     = '';
+            $attachment_id = attachment_url_to_postid( $floor_map_image );
+
+            if ( $attachment_id ) {
+                $media_alt = sanitize_text_field( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+            }
+
+            if ( ! empty( $media_alt ) ) {
+                $floor_map_alt = $media_alt;
+            } else {
+                $tour_title = sanitize_text_field( get_the_title( $id ) );
+
+                $floor_map_alt = ! empty( $tour_title )
+                    /* translators: %s: tour title */
+                    ? sprintf( __( '%s - Floor Plan', 'wpvr' ), $tour_title )
+                    : __( 'Floor Plan', 'wpvr' );
+            }
+
+            $html .= '<div class="wpvr-floor-map" id="wpvr-floor-map' . $pano_suffix . '" style="display: none">';
+            $html .= '<span class="close-floor-map-plan"><i class="fa fa-times"></i></span>';
+            $html .= '<img loading="lazy" src="' . esc_url( $floor_map_image ) . '" alt="' . esc_attr( $floor_map_alt ) . '">';
+            foreach ( $floor_map_pointer as $key => $pointer_position ) {
+                $pointer_id = '';
+                $data_top   = '';
+                $data_left  = '';
+                $style      = '';
+
+                if ( is_object( $pointer_position ) ) {
+                    $pointer_id = isset( $pointer_position->id ) ? (string) $pointer_position->id : '';
+                    $data_top   = isset( $pointer_position->data_top ) ? (string) $pointer_position->data_top : '';
+                    $data_left  = isset( $pointer_position->data_left ) ? (string) $pointer_position->data_left : '';
+                    $style      = isset( $pointer_position->style ) ? (string) $pointer_position->style : '';
+                } elseif ( is_array( $pointer_position ) ) {
+                    $pointer_id = isset( $pointer_position['id'] ) ? (string) $pointer_position['id'] : '';
+                    $data_top   = isset( $pointer_position['data_top'] ) ? (string) $pointer_position['data_top'] : '';
+                    $data_left  = isset( $pointer_position['data_left'] ) ? (string) $pointer_position['data_left'] : '';
+                    $style      = isset( $pointer_position['style'] ) ? (string) $pointer_position['style'] : '';
+                }
+
+                $scene_id_val = '';
+                if ( isset( $floor_map_scene_id[ $key ] ) ) {
+                    $scene_item = $floor_map_scene_id[ $key ];
+                    if ( is_object( $scene_item ) && isset( $scene_item->value ) ) {
+                        $scene_id_val = (string) $scene_item->value;
+                    } elseif ( is_array( $scene_item ) && isset( $scene_item['value'] ) ) {
+                        $scene_id_val = (string) $scene_item['value'];
+                    } elseif ( is_scalar( $scene_item ) ) {
+                        $scene_id_val = (string) $scene_item;
                     }
+                }
+
+                $html .= '<div class="floor-plan-pointer ui-draggable ui-draggable-handle" scene_id="' . esc_attr( $scene_id_val ) . '" id="' . esc_attr( $pointer_id ) . '" data-top="' . esc_attr( $data_top ) . '" data-left="' . esc_attr( $data_left ) . '" style="' . esc_attr( $style ) . '">                        
+                                        <svg class="floor-pointer-circle" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="12" r="11.5" stroke="' . esc_attr( $floor_plan_custom_color ) . '"/>
+                                            <circle cx="12" cy="12" r="5" fill="' . esc_attr( $foreground_color_pointer ) . '"/>
+                                        </svg>';
+
+                // Only add the floor pointer flash SVG if floor_plan_direction_indicator is "on"
+                if ( $floor_plan_direction_indicator === 'on' ) {
+                    $html .= '<svg class="floor-pointer-flash" width="54" height="35" viewBox="0 0 54 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.454054 1.32433L11.7683 34.3243C11.9069 34.7285 12.287 35 12.7143 35H41.2857C41.713 35 42.0931 34.7285 42.2317 34.3243L53.5459 1.32432C53.7685 0.675257 53.2862 0 52.6 0H1.4C0.713843 0 0.231517 0.675258 0.454054 1.32433Z" fill="url(#paint0_linear_1_10)"/>
+                                <defs>
+                                <linearGradient id="paint0_linear_1_10" x1="27" y1="4.59807e-08" x2="26.5" y2="28" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="' . esc_attr( $floor_plan_custom_color ) . '" stop-opacity="0"/>
+                                <stop offset="1" stop-color="' . esc_attr( $floor_plan_custom_color ) . '"/>
+                                </linearGradient>
+                                </defs>
+                            </svg>';
+                }
+                $html .= '</div>';
+            }
             $html .= '</div>';
         }
-        $html .= '</div>';
         //===Floor plan section===//
 
         $html .= '<div class="wpvr-hotspot-tweak-contents-wrapper" style="display: none">';
