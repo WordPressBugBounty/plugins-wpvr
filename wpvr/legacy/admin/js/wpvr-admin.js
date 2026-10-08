@@ -365,7 +365,11 @@
                                         ) {
                                             val["clickHandlerFunc"] = wpvrhotspot;
                                         }
-                                        if (
+                                        if (val.hotspot_type === 'sticker' || val.stickerTemplate) {
+                                            val["createTooltipFunc"] = function (div) {
+                                                window.wpvrRenderStickerHotspot(div, val);
+                                            };
+                                        } else if (
                                             val["createTooltipArgs"] &&
                                             val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== ''
                                         ) {

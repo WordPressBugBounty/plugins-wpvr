@@ -106,11 +106,17 @@ class Wpvr_Public {
                     $this->version
                 );
             }
+            $inter_font_path = plugin_dir_path(__FILE__) . 'css/inter.css';
+            $inter_font_ver  = file_exists($inter_font_path) ? filemtime($inter_font_path) : $this->version;
+            wp_enqueue_style('wpvr-inter-font', plugin_dir_url(__FILE__) . 'css/inter.css', array(), $inter_font_ver, 'all');
             wp_enqueue_style('videojs-css',    plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/video-js.css',  array(), $this->version);
             wp_enqueue_style('videojs-vr-css', plugin_dir_url(__FILE__) . 'lib/videojs-vr/videojs-vr.css',        array(), $this->version);
             wp_enqueue_style('panellium-css',  plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/pannellum.css',  array(), $this->version);
             wp_enqueue_style('owl-css',        plugin_dir_url(__FILE__) . 'css/owl.carousel.css',                 array(), $this->version, 'all');
-            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpvr-public.css',                array(), $this->version, 'all');
+            $public_css_path = plugin_dir_path(__FILE__) . 'css/wpvr-public.css';
+            $public_css_ver  = file_exists($public_css_path) ? filemtime($public_css_path) : $this->version;
+            wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpvr-public.css',                array('wpvr-inter-font'), $public_css_ver, 'all');
+            wp_enqueue_style('wpvr-stickers', plugin_dir_url(__FILE__) . 'css/wpvr-stickers.css', array($this->plugin_name), filemtime(plugin_dir_path(__FILE__) . 'css/wpvr-stickers.css'));
         }
 	}
 
@@ -143,7 +149,8 @@ class Wpvr_Public {
                     wp_enqueue_script('panelliumvid-js', plugin_dir_url(__FILE__) . 'lib/pannellum/src/js/videojs-pannellum-plugin.js',     array('videojs-js', 'videojsvr-js', 'panellium-js', 'panelliumlib-js'),   $this->version, true);
                     wp_enqueue_script('owl-js',          plugin_dir_url(__FILE__) . 'js/owl.carousel.js',                                  array('jquery'),                                                           $this->version, true);
                     wp_enqueue_script('jquery_cookie',   plugin_dir_url(__FILE__) . 'js/jquery.cookie.js',                                 array('jquery'),                                                           $this->version, true);
-                    wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wpvr-public.js',                                  array('jquery', 'jquery_cookie'),                                          $this->version, true);
+                    wp_enqueue_script('wpvr-stickers', plugin_dir_url(__FILE__) . 'js/wpvr-stickers.js', array(), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-stickers.js'), true);
+                    wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wpvr-public.js',                                  array('jquery', 'jquery_cookie', 'wpvr-stickers'),                         $this->version, true);
                     wp_localize_script('wpvr', 'wpvr_public', array(
                         'notice_active'      => $wpvr_frontend_notice,
                         'notice'             => $notice,
@@ -275,9 +282,15 @@ if ( ! function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
                     $ver
                 );
             }
+            $inter_font_path = plugin_dir_path( __FILE__ ) . 'css/inter.css';
+            $inter_font_ver  = file_exists( $inter_font_path ) ? filemtime( $inter_font_path ) : $ver;
+            wp_enqueue_style( 'wpvr-inter-font', $base . 'css/inter.css', array(), $inter_font_ver, 'all' );
             wp_enqueue_style( 'panellium-css', $base . 'lib/pannellum/src/css/pannellum.css', array(), $ver );
             wp_enqueue_style( 'owl-css',       $base . 'css/owl.carousel.css',                array(), $ver, 'all' );
-            wp_enqueue_style( 'wpvr',          $base . 'css/wpvr-public.css',                 array(), $ver, 'all' );
+            $public_css_path = plugin_dir_path( __FILE__ ) . 'css/wpvr-public.css';
+            $public_css_ver  = file_exists( $public_css_path ) ? filemtime( $public_css_path ) : $ver;
+            wp_enqueue_style( 'wpvr',          $base . 'css/wpvr-public.css',                 array( 'wpvr-inter-font' ), $public_css_ver, 'all' );
+            wp_enqueue_style('wpvr-stickers', $base . 'css/wpvr-stickers.css', array('wpvr'), filemtime(plugin_dir_path(__FILE__) . 'css/wpvr-stickers.css'));
         }
 
         if ( $type === 'video' && ! wp_style_is( 'videojs-vr-css', 'enqueued' ) ) {
@@ -289,7 +302,8 @@ if ( ! function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
         wp_enqueue_script( 'panelliumlib-js', $base . 'lib/pannellum/src/js/libpannellum.js', array('panellium-js'), $ver, true );
         wp_enqueue_script( 'owl-js',          $base . 'js/owl.carousel.js',                   array('jquery'),       $ver, true );
         wp_enqueue_script( 'jquery_cookie',   $base . 'js/jquery.cookie.js',                  array('jquery'),       $ver, true );
-        wp_enqueue_script( 'wpvr',            $base . 'js/wpvr-public.js',                    array('jquery', 'jquery_cookie'), $ver, true );
+        wp_enqueue_script('wpvr-stickers', $base . 'js/wpvr-stickers.js', array(), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-stickers.js'), true);
+        wp_enqueue_script( 'wpvr',            $base . 'js/wpvr-public.js',                    array('jquery', 'jquery_cookie', 'wpvr-stickers'), $ver, true );
 
         if ( $type === 'video' ) {
             wp_enqueue_script( 'videojs-js',      $base . 'js/video.js',                                       array(),                                                                 $ver, true );

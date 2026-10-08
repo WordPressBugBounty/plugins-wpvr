@@ -412,6 +412,10 @@
             return false;
         }
 
+        if (element.matches('.wpvr-hs-sticker, .wpvr-hs--sticker') || element.querySelector('.wpvr-sticker-card, .wpvr-sticker-scale-wrapper')) {
+            return false;
+        }
+
         var anchor = null;
         if (element.parentElement && element.parentElement.matches('a[href]')) {
             anchor = element.parentElement;
@@ -465,9 +469,11 @@
         }
 
         if (
-            element.matches('.ctrl') &&
+            (element.matches('.ctrl') &&
             element.parentElement &&
-            element.parentElement.matches('.explainer_button, .floor_map_button')
+            element.parentElement.matches('.explainer_button, .floor_map_button')) ||
+            element.matches('.wpvr-hs-sticker, .wpvr-hs--sticker') ||
+            element.querySelector('.wpvr-sticker-card, .wpvr-sticker-scale-wrapper')
         ) {
             return;
         }
@@ -478,12 +484,10 @@
         if (!isNativeControl(element)) {
             element.setAttribute(
                 'role',
-                element.matches('.cp-logo-ctrl') ? 'group' : (isExternalHotspotLink ? 'link' : 'button')
+                isExternalHotspotLink ? 'link' : 'button'
             );
             element.setAttribute('tabindex', '0');
-            if (!element.matches('.cp-logo-ctrl')) {
-                element.addEventListener('keydown', activateControlFromKeyboard);
-            }
+            element.addEventListener('keydown', activateControlFromKeyboard);
         } else if (element.getAttribute('role') === 'presentation') {
             element.removeAttribute('role');
         }

@@ -578,6 +578,48 @@ if ( ! function_exists( 'wpvr_render_scene_info_row' ) ) {
 
 add_filter( 'wpvr_generate_tour_layout_html', 'wpvr_render_scene_info_row', 30, 3 );
 
+if ( ! function_exists( 'wpvr_text_overlay_hex_to_rgba' ) ) {
+    /**
+     * Convert HEX color and opacity percentage to RGBA CSS string.
+     *
+     * Backward-compatibility wrapper for RexTheme\WPVR\Frontend\TextOverlayRenderer::hex_to_rgba().
+     *
+     * @param string    $hex             Hex color code.
+     * @param float|int $opacity_percent Opacity 0-100.
+     * @return string
+     */
+    function wpvr_text_overlay_hex_to_rgba( $hex, $opacity_percent = 55 ) {
+        if ( class_exists( 'RexTheme\WPVR\Frontend\TextOverlayRenderer' ) ) {
+            return \RexTheme\WPVR\Frontend\TextOverlayRenderer::hex_to_rgba( $hex, $opacity_percent );
+        }
+        return 'rgba(40, 30, 25, 0.55)';
+    }
+}
+
+if ( ! function_exists( 'wpvr_render_frontend_text_overlays' ) ) {
+    /**
+     * Render the text overlay layer(s) on the frontend for each scene in the tour.
+     *
+     * Backward-compatibility wrapper for RexTheme\WPVR\Frontend\TextOverlayRenderer::render().
+     *
+     * @param string $html     Generated tour HTML.
+     * @param array  $postdata Saved tour settings.
+     * @param int    $id       Tour post ID.
+     *
+     * @return string
+     */
+    function wpvr_render_frontend_text_overlays( $html, $postdata, $id ) {
+        if ( class_exists( 'RexTheme\WPVR\Frontend\TextOverlayRenderer' ) ) {
+            return \RexTheme\WPVR\Frontend\TextOverlayRenderer::render( $html, $postdata, $id );
+        }
+        return $html;
+    }
+}
+
+if ( class_exists( 'RexTheme\WPVR\Frontend\TextOverlayRenderer' ) ) {
+    \RexTheme\WPVR\Frontend\TextOverlayRenderer::init();
+}
+
 if ( ! function_exists( 'wpvr_render_explainer_button' ) ) {
     /**
      * Render the WPVR explainer button independently.
@@ -1093,7 +1135,8 @@ function wpvr_rest_data_set()
 
 function wpvr_isMobileDevice()
 {
-    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+    $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    return (bool) preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|ipad|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $user_agent);
 }
 
 function wpvr_directory()

@@ -71,6 +71,7 @@ class ComposerStaticInit55ceedea2b0a4e85eb3299ec0d368af1
         'WPVR_Shortcode' => __DIR__ . '/../..' . '/legacy/public/classes/class-wpvr-shortcode.php',
         'WPVR_Shortcode_TEST' => __DIR__ . '/../..' . '/legacy/admin/classes/class-wpvr-shortcode.php',
         'WPVR_Special_Occasion_Banner' => __DIR__ . '/../..' . '/legacy/admin/classes/class-wpvr-occasion-banner.php',
+        'WPVR_Sticker_Fields' => __DIR__ . '/../..' . '/legacy/admin/classes/class-wpvr-sticker-fields.php',
         'WPVR_StreetView' => __DIR__ . '/../..' . '/legacy/admin/classes/class-wpvr-streetview.php',
         'WPVR_Telemetry' => __DIR__ . '/../..' . '/legacy/includes/class-wpvr-telemetry.php',
         'WPVR_Tour_Checklist_Meta_Box' => __DIR__ . '/../..' . '/legacy/admin/classes/class-tour-checklist-meta-box.php',

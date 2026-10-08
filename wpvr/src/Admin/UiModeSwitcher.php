@@ -143,6 +143,20 @@ class UiModeSwitcher {
 			(function() {
 				var notice = document.getElementById('wpvr-ui-mode-notice');
 				var dismissButton = notice ? notice.querySelector('.wpvr-ui-mode-notice__dismiss') : null;
+				var switchButton = notice ? notice.querySelector('.wpvr-ui-mode-notice__switch') : null;
+
+				if (switchButton) {
+					switchButton.addEventListener('click', function() {
+						// Publishing updates the page URL without rebuilding this notice.
+						var tourId = parseInt(new URLSearchParams(window.location.search).get('post'), 10);
+						if (tourId > 0) {
+							var switchUrl = new URL(switchButton.href);
+							switchUrl.searchParams.set('context', 'edit');
+							switchUrl.searchParams.set('tour_id', tourId);
+							switchButton.href = switchUrl.toString();
+						}
+					});
+				}
 
 				if (dismissButton) {
 					dismissButton.addEventListener('click', function() {
@@ -190,7 +204,7 @@ class UiModeSwitcher {
 	}
 
 	private function get_current_mode(): string {
-		return get_option( 'wpvr_ui_mode', 'legacy' ) === 'latest' ? 'latest' : 'legacy';
+		return get_option( 'wpvr_ui_mode', 'latest' ) === 'latest' ? 'latest' : 'legacy';
 	}
 
 	private function get_current_context(): string {

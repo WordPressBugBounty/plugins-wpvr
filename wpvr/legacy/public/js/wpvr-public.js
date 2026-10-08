@@ -139,6 +139,8 @@ function wpvrtooltip(hotSpotDiv, args) {
 }
 window.wpvrtooltip = wpvrtooltip;
 
+
+
 jQuery(document).ready(function($) {
 
     $(".cross").on("click", function(e) {
@@ -276,5 +278,47 @@ jQuery(document).ready(function($) {
 			}
 		}, 800);
 	}
+});
+
+jQuery(document).ready(function($) {
+  // Toggle company branding info on logo click
+  $(document).on('click', '.cp-logo-ctrl', function(e) {
+    // If the click is inside the information div (.cp-info), keep it open
+    if ($(e.target).closest('.cp-info').length) {
+      return;
+    }
+
+    var $ctrl = $(this);
+    var isShown = $ctrl.hasClass('show');
+
+    // Close any other open company info divs
+    $('.cp-logo-ctrl').not($ctrl).removeClass('show').attr('aria-expanded', 'false');
+
+    if (isShown) {
+      $ctrl.removeClass('show').attr('aria-expanded', 'false');
+    } else {
+      $ctrl.addClass('show').attr('aria-expanded', 'true');
+    }
+  });
+
+  // Close when clicking anywhere on the screen/scene except inside .cp-info or on .cp-logo-ctrl
+  $(document).on('click pointerdown', function(e) {
+    var $target = $(e.target);
+
+    // If the click is inside .cp-info or on .cp-logo-ctrl, ignore
+    if ($target.closest('.cp-info').length || $target.closest('.cp-logo-ctrl').length) {
+      return;
+    }
+
+    // Otherwise close open company info divs
+    $('.cp-logo-ctrl.show').removeClass('show').attr('aria-expanded', 'false');
+  });
+
+  // Close on Escape key
+  $(document).on('keydown', function(e) {
+    if (e.key === 'Escape' || e.keyCode === 27) {
+      $('.cp-logo-ctrl.show').removeClass('show').attr('aria-expanded', 'false');
+    }
+  });
 });
 

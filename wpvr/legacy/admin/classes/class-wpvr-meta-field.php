@@ -1359,6 +1359,7 @@ class WPVR_Meta_Field {
             'hotspot-type' => array(
                 'title' => __('Hotspot-Type','wpvr'),
                 'type' => 'info_type_select',
+                'value' => $pano_hotspot['hotspot-type'] ?? 'info',
             ),
             'hotspot-url' => array(
                 'title' => __('URL','wpvr'),
@@ -3687,7 +3688,7 @@ class WPVR_Meta_Field {
     
         <select name="<?php echo esc_attr( $name ); ?>">
         <?php
-        $hotspot_type = 'info';
+        $hotspot_type = $val['value'] ?? 'info';
         foreach ($default_type as $key => $value) {
             echo sprintf("<option %s value='%s'>%s</option>\n", selected($key, $hotspot_type, false), esc_attr($key), esc_attr($value));
         } ?>

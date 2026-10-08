@@ -3,7 +3,7 @@
         'name' => 'rextheme/wpvr',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '3584d42790c6b48209c9b6edc7850ee86d283cd8',
+        'reference' => 'a2dcee12e8213be997dbc2d3ec5d6247b68ba43b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'rextheme/wpvr' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '3584d42790c6b48209c9b6edc7850ee86d283cd8',
+            'reference' => 'a2dcee12e8213be997dbc2d3ec5d6247b68ba43b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -1,5 +1,6 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
+require_once __DIR__ . '/class-wpvr-sticker-fields.php';
 /**
  * Responsible for managing Hotspot tab content on Setup meta box
  *
@@ -113,7 +114,7 @@ class WPVR_Hotspot {
         </div>
 
         <div class="hotspot-type hotspot-setting">
-            <?php WPVR_Meta_Field::render_hotspot_setting_right_fields(); ?>
+            <?php WPVR_Meta_Field::render_hotspot_setting_right_fields(); WPVR_Sticker_Fields::render($pano_hotspot); ?>
         </div>
         <!-- Hotspot type End -->
         <button data-repeater-delete title="Delete Hotspot" type="button" class="delete-hotspot"><i class="far fa-trash-alt"></i></button>
@@ -174,21 +175,21 @@ class WPVR_Hotspot {
 
                 <!-- Hotspot type -->
 
-            <?php if ($pano_hotspot['hotspot-type'] == "info") { ?>
+            <?php if (in_array($pano_hotspot['hotspot-type'], array('info', 'sticker'), true)) { ?>
                 <div class="hotspot-type hotspot-setting">
-                    <?php WPVR_Meta_Field::render_hotspot_setting_info_fields($pano_hotspot); ?>
+                    <?php WPVR_Meta_Field::render_hotspot_setting_info_fields($pano_hotspot); WPVR_Sticker_Fields::render($pano_hotspot); ?>
                 </div>
             <?php }elseif($pano_hotspot['hotspot-type'] == "fluent_form" && $is_wpvr_premium == 1){ ?>
                 <div class="hotspot-type hotspot-setting">
-                    <?php WPVR_Meta_Field::render_hotspot_setting_fluent_form_fields($pano_hotspot); ?>
+                    <?php WPVR_Meta_Field::render_hotspot_setting_fluent_form_fields($pano_hotspot); WPVR_Sticker_Fields::render($pano_hotspot); ?>
                 </div>
             <?php }elseif($pano_hotspot['hotspot-type'] == "wc_product" && $is_wpvr_premium == 1){ ?>
                 <div class="hotspot-type hotspot-setting">
-                    <?php WPVR_Meta_Field::render_hotspot_setting_wc_product_fields($pano_hotspot); ?>
+                    <?php WPVR_Meta_Field::render_hotspot_setting_wc_product_fields($pano_hotspot); WPVR_Sticker_Fields::render($pano_hotspot); ?>
                 </div>
             <?php } else { ?>
                 <div class="hotspot-type hotspot-setting">
-                    <?php WPVR_Meta_Field::render_hotspot_setting_scene_fields($pano_hotspot); ?>
+                    <?php WPVR_Meta_Field::render_hotspot_setting_scene_fields($pano_hotspot); WPVR_Sticker_Fields::render($pano_hotspot); ?>
                 </div>
             <?php } ?>
                 <!-- Hotspot type End -->

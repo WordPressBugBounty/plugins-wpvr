@@ -454,6 +454,27 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                             "targetPitch" => (float)$hotspot_scene_pitch,
                             "targetYaw" => (float)$hotspot_scene_yaw
                         );
+                        if (($hotspot_data['hotspot-type'] ?? '') === 'sticker') {
+                            $hotspot_info['hotspot_type'] = 'sticker';
+                            $hotspot_info['cssClass'] = 'wpvr-hs-custom wpvr-hs-sticker';
+                            if (!empty($hotspot_data['hotspot-customclass']) && $hotspot_data['hotspot-customclass'] !== 'none') {
+                                $hotspot_info['cssClass'] .= ' ' . $hotspot_data['hotspot-customclass'];
+                            }
+                            $hotspot_info['scale'] = !isset($hotspot_data['hotspot-scale'])
+                                || $hotspot_data['hotspot-scale'] === 'on'
+                                || $hotspot_data['hotspot-scale'] === true;
+                            $hotspot_info['URL'] = '';
+                            $hotspot_info['clickHandlerArgs'] = '';
+                            $hotspot_info['createTooltipArgs'] = '';
+                            unset($hotspot_info['sceneId'], $hotspot_info['targetPitch'], $hotspot_info['targetYaw']);
+
+                            // The shared renderer accepts the saved sticker field names directly.
+                            foreach ($hotspot_data as $key => $value) {
+                                if (strpos($key, 'hotspot-sticker-') === 0) {
+                                    $hotspot_info[$key] = $value;
+                                }
+                            }
+                        }
                         array_push($hotspots, $hotspot_info);
                         if (empty($hotspot_data["hotspot-scene"])) {
                             unset($hotspot_info['targetPitch']);
@@ -690,6 +711,8 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 var scenes = response[1];
                 var is_pro = <?php echo wp_json_encode( $pro ); ?>;
 
+                // The sticker renderer is enqueued in the footer.
+                jQuery(function() {
                 if (scenes) {
                     jQuery.each(scenes.scenes, function(i) {
                         jQuery.each(scenes.scenes[i]['hotSpots'], function(key, val) {
@@ -702,7 +725,15 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                                     val["clickHandlerFunc"] = function(div, args) { if (typeof wpvrhotspot === "function") { wpvrhotspot(div, args); } else if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };
                                 }
                             }
-                            if (val["createTooltipArgs"]) {
+                            if (val.hotspot_type === 'sticker') {
+                                (function(hs) {
+                                    hs["createTooltipFunc"] = function(div) {
+                                        if (typeof window.wpvrRenderStickerHotspot === "function") {
+                                            window.wpvrRenderStickerHotspot(div, hs);
+                                        }
+                                    };
+                                })(val);
+                            } else if (val["createTooltipArgs"]) {
                                 const hasTextContent = val["createTooltipArgs"].replace(/<[^>]*>/g, '').trim() !== '';
                                 const hasMediaContent = /<(img|video|audio|iframe|embed|object)\b[^>]*>/i.test(val["createTooltipArgs"]);
                                 const hasOtherContent = val["createTooltipArgs"].replace(/<(p|br|div|span)\b[^>]*\/?>/gi, '').trim() !== '';
@@ -765,6 +796,7 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                     }
 
                 }
+                });
                 function activateSceneTab(sceneId){
                     jQuery(".scene-nav ul li span").each(function() {
                         var sceneTab = jQuery(this);

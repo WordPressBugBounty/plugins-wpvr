@@ -1,0 +1,510 @@
+/* ── Sticker Hotspots in Frontend Viewer ─────────────────────── */
+.pnlm-hotspot-base.wpvr-hs-sticker,
+.pnlm-hotspot-base.wpvr-hs--sticker {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transform-origin: center center;
+  pointer-events: auto !important;
+  z-index: 3 !important;
+  overflow: visible !important;
+}
+
+.wpvr-sticker-scale-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  transform: scale(var(--wpvr-sticker-scale, 1));
+  pointer-events: auto;
+  max-width: none;
+  width: max-content;
+  box-sizing: border-box;
+  transition: transform 0.15s ease-out;
+}
+
+.wpvr-sticker-scale-wrapper .wpvr-sticker-card {
+  max-width: none;
+  flex-shrink: 0;
+}
+
+.wpvr-sticker-card {
+  position: relative;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  pointer-events: auto !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.wpvr-sticker-card,
+.wpvr-sticker-card *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.fab):not(.far),
+.wpvr-sticker-card p,
+.wpvr-sticker-card span:not([class*="fa-"]),
+.wpvr-sticker-card div,
+.pnlm-hotspot-base .wpvr-sticker-card,
+.pnlm-hotspot-base .wpvr-sticker-card *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.fab):not(.far),
+.pnlm-hotspot-base .wpvr-sticker-card span:not([class*="fa-"]),
+.pnlm-hotspot-base .wpvr-sticker-card p,
+.wpvr-sticker-review,
+.wpvr-sticker-name {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.wpvr-sticker-card i,
+.wpvr-sticker-card [class*="fa-"],
+.wpvr-sticker-discount-btn i,
+.pnlm-hotspot-base .wpvr-sticker-card i,
+.pnlm-hotspot-base .wpvr-sticker-card [class*="fa-"],
+.pnlm-hotspot-base .wpvr-sticker-discount-btn i {
+  font-family: var(--fa-style-family, "Font Awesome 6 Free"), "Font Awesome 5 Free", "FontAwesome" !important;
+  font-style: normal !important;
+  font-weight: 900;
+}
+
+.wpvr-sticker-card i.fab,
+.wpvr-sticker-card .fab,
+.wpvr-sticker-discount-btn i.fab,
+.pnlm-hotspot-base .wpvr-sticker-card i.fab,
+.pnlm-hotspot-base .wpvr-sticker-card .fab,
+.pnlm-hotspot-base .wpvr-sticker-discount-btn i.fab {
+  font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands" !important;
+  font-weight: 400 !important;
+}
+
+.wpvr-sticker-card i.far,
+.wpvr-sticker-card .far,
+.wpvr-sticker-discount-btn i.far,
+.pnlm-hotspot-base .wpvr-sticker-card i.far,
+.pnlm-hotspot-base .wpvr-sticker-card .far,
+.pnlm-hotspot-base .wpvr-sticker-discount-btn i.far {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+  font-weight: 400 !important;
+}
+
+.wpvr-sticker-card--social-proof {
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  padding: 24px 26px;
+  border-radius: 20px;
+  border: 1px solid #3a3051;
+  background-color: rgba(32, 27, 44, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  text-align: left;
+}
+
+.wpvr-sticker-card--social-proof:hover {
+  transform: translateY(-2px);
+}
+
+.wpvr-sticker-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.wpvr-sticker-stars svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.wpvr-sticker-review {
+  margin: 0 0 18px 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 24px;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.wpvr-sticker-client {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wpvr-sticker-avatar {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.wpvr-sticker-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.wpvr-sticker-name {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wpvr-sticker-card--discount-btn {
+  width: 282px;
+  padding: 21px;
+  border-radius: 15px;
+  border: 1px solid #40355a;
+  background-color: rgba(32, 27, 44, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wpvr-sticker-card--discount-btn:hover {
+  transform: translateY(-2px);
+}
+
+.wpvr-sticker-card--discount-btn.wpvr-sticker-card--no-main-bg,
+.wpvr-sticker-card--no-main-bg {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+.wpvr-sticker-discount-btn {
+  width: 100%;
+  height: 60px;
+  background-color: #ef991f;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.wpvr-sticker-discount-btn:hover {
+  opacity: 0.95;
+  transform: scale(1.02);
+}
+
+.wpvr-sticker-discount-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.wpvr-sticker-discount-btn i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ── Button with separate icon sticker ── */
+.wpvr-sticker-card--btn-separate-icon {
+  width: auto;
+  padding: 21px;
+  border-radius: 135px;
+  border: 1px solid #40355a;
+  background-color: rgba(32, 27, 44, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wpvr-sticker-btn-separate-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.wpvr-sticker-separate-btn-text {
+  width: 356px;
+  max-width: 100%;
+  height: 60px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 34px;
+  color: #000000;
+  white-space: nowrap;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+
+.wpvr-sticker-separate-icon-box {
+  width: 60px;
+  height: 60px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+
+.wpvr-sticker-separate-icon-box i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Cumulative hover and active effect for button with separate icon */
+.wpvr-sticker-btn-separate-wrap:hover .wpvr-sticker-separate-btn-text,
+.wpvr-sticker-btn-separate-wrap:hover .wpvr-sticker-separate-icon-box {
+  transform: translateY(-2px);
+  box-shadow: 0px 14px 34px rgba(0, 0, 0, 0.32);
+  opacity: 0.96;
+}
+
+.wpvr-sticker-btn-separate-wrap:active .wpvr-sticker-separate-btn-text,
+.wpvr-sticker-btn-separate-wrap:active .wpvr-sticker-separate-icon-box {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* ── Add to cart sticker ── */
+.wpvr-sticker-card--add-to-cart {
+  width: auto;
+  padding: 21px;
+  border-radius: 15px;
+  border: 1px solid #40355a;
+  background-color: rgba(32, 27, 44, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.wpvr-sticker-card--add-to-cart.wpvr-sticker-card--no-main-bg {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.wpvr-sticker-cart-text-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 18px;
+  line-height: 24px;
+  user-select: none;
+}
+
+.wpvr-sticker-cart-prefix-text {
+  font-weight: 700;
+  color: inherit;
+}
+
+.wpvr-sticker-cart-sub-text {
+  font-weight: 500;
+  color: inherit;
+}
+
+.wpvr-sticker-cart-btn {
+  width: 163px;
+  max-width: 100%;
+  height: 60px;
+  background-color: #3f04fe;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+
+.wpvr-sticker-cart-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0px 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+.wpvr-sticker-cart-btn:active {
+  transform: translateY(0);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Social share sticker ── */
+.wpvr-sticker-card--social-share {
+  width: auto;
+  padding: 21px;
+  border-radius: 15px;
+  border: 1px solid #40355a;
+  background-color: rgba(32, 27, 44, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 21px;
+}
+
+.wpvr-sticker-card--social-share.wpvr-sticker-card--no-main-bg {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.wpvr-sticker-share-btn {
+  width: 222px;
+  max-width: 100%;
+  height: 60px;
+  background-color: #201a2b;
+  border: 1px solid #3a3051;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  cursor: default;
+  text-decoration: none !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.36px;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.wpvr-sticker-social-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.wpvr-sticker-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease, color 0.15s ease;
+  line-height: 1;
+}
+
+.wpvr-sticker-social-link:hover {
+  opacity: 0.85;
+  transform: scale(1.15);
+}
+
+.wpvr-sticker-social-link i {
+  font-size: inherit;
+  color: inherit;
+  line-height: 1;
+}
+
+.wpvr-sticker-social-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+}
+
+.wpvr-sticker-social-svg svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  display: block;
+}
+
+
+

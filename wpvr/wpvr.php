@@ -18,7 +18,7 @@ use RexTheme\WPVR\Tracker\WPVRLinnoTelemetry;
  * Plugin Name:       WP VR - 360 Panorama and Virtual Tour Builder
  * Plugin URI:        https://rextheme.com/wpvr/
  * Description:       WP VR - 360 Panorama and virtual tour creator is a customized panaroma & virtual builder tool for your website.
- * Version:           9.1.4
+ * Version:           9.2.0
  * Tested up to:      7.1
  * Author:            Rextheme
  * Author URI:        http://rextheme.com/
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('WPVR_VERSION', '9.1.4');
+define('WPVR_VERSION', '9.2.0');
 define('WPVR_FILE', __FILE__);
 define("WPVR_PLUGIN_DIR_URL", plugin_dir_url(__FILE__).'legacy/');
 define("WPVR_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__).'legacy/');
@@ -652,13 +652,20 @@ function wpvr_register_src_autoloader() {
 }
 
 // UI/UX Mode Switch: legacy/classic or latest
-// Option: wpvr_ui_mode (default: legacy)
+// Option: wpvr_ui_mode (default: latest)
 wpvr_register_src_autoloader();
 
 // Promotional banner on WPVR listing page.
 \RexTheme\WPVR\Admin\PromotionalBanner::init();
 
-$wpvr_ui_mode = get_option('wpvr_ui_mode', 'legacy');
+// Apply the new default once for both fresh installs and existing sites.
+// Keep subsequent manual UI switches intact, including after reactivation.
+if (!get_option('wpvr_new_ui_default_applied', false)) {
+    update_option('wpvr_ui_mode', 'latest');
+    update_option('wpvr_new_ui_default_applied', true);
+}
+
+$wpvr_ui_mode = get_option('wpvr_ui_mode', 'latest');
 if ($wpvr_ui_mode === 'latest') {
     require_once plugin_dir_path(__FILE__) . 'src/Bootstrap.php';
     \RexTheme\WPVR\Bootstrap::init();

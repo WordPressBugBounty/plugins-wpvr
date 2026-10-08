@@ -36,6 +36,7 @@ return array(
     'WPVR_Shortcode' => $baseDir . '/legacy/public/classes/class-wpvr-shortcode.php',
     'WPVR_Shortcode_TEST' => $baseDir . '/legacy/admin/classes/class-wpvr-shortcode.php',
     'WPVR_Special_Occasion_Banner' => $baseDir . '/legacy/admin/classes/class-wpvr-occasion-banner.php',
+    'WPVR_Sticker_Fields' => $baseDir . '/legacy/admin/classes/class-wpvr-sticker-fields.php',
     'WPVR_StreetView' => $baseDir . '/legacy/admin/classes/class-wpvr-streetview.php',
     'WPVR_Telemetry' => $baseDir . '/legacy/includes/class-wpvr-telemetry.php',
     'WPVR_Tour_Checklist_Meta_Box' => $baseDir . '/legacy/admin/classes/class-tour-checklist-meta-box.php',

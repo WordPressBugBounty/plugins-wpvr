@@ -35,6 +35,9 @@ class Bootstrap {
         // Override shortcode handler to support new-UI tour formats (street-view saved without streetviewdata).
         new Frontend\Shortcode();
 
+        // Frontend text overlay layers.
+        Frontend\TextOverlayRenderer::init();
+
         // New tour editor admin UI.
         new Admin\Admin();
 

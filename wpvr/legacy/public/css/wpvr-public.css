@@ -1,3 +1,4 @@
+
 /**
  * All of the CSS for your public-facing functionality should be
  * included in this file.
@@ -2129,7 +2130,7 @@ input[type="checkbox"]:checked
   position: absolute;
   top: 4px;
   left: 4px;
-  z-index: 4;
+  z-index: 40 !important;
   text-align: center;
   display: flex;
   flex-flow: column;
@@ -2163,7 +2164,7 @@ input[type="checkbox"]:checked
   color: #8e44ad;
   width: 176px;
   position: absolute;
-  z-index: 10;
+  z-index: 50 !important;
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease;
@@ -2336,13 +2337,6 @@ input[type="checkbox"]:checked
   opacity: 1 !important;
 }
 
-#cp-logo-controls .cp-logo-ctrl:focus .cp-info,
-#cp-logo-controls .cp-logo-ctrl:focus-within .cp-info {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
 .wpvr-a11y-instructions {
   position: absolute !important;
   width: 1px !important;
@@ -2359,3 +2353,354 @@ input[type="checkbox"]:checked
   .pano-wrap.pnlm-container:focus-visible,
   .pano-wrap .wpvr-a11y-control:focus-visible {
     outline: 3px solid CanvasText !important;
+  }
+}
+
+/* ── WPVR Frontend Text Overlays & Controls Stacking ────────── */
+/* Hotspots stay behind text overlays */
+.pano-wrap .pnlm-hotspot-base,
+.pano-wrap .pnlm-hotspot,
+.pano-wrap .pnlm-tooltip,
+.pnlm-container .pnlm-hotspot-base,
+.pnlm-container .pnlm-hotspot,
+.pnlm-container .pnlm-tooltip {
+  z-index: 2 !important;
+}
+
+/* Text overlay layer */
+.wpvr-frontend-text-overlays {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10 !important;
+  overflow: hidden;
+}
+
+.wpvr-frontend-text-overlay {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: auto;
+  z-index: var(--wpvr-overlay-z-index, 10) !important;
+  display: block;
+  overflow: hidden;
+  user-select: text;
+  -webkit-user-select: text;
+  text-align: left;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Pannellum UI overlay container and drag surface stay below text overlays and controls */
+.pano-wrap .pnlm-ui,
+.pnlm-container .pnlm-ui {
+  z-index: auto !important;
+}
+
+.pano-wrap .pnlm-dragfix,
+.pnlm-container .pnlm-dragfix {
+  z-index: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Tour control buttons & other tour-related buttons have preference over overlay */
+.pano-wrap .pnlm-controls-container,
+.pano-wrap .pnlm-controls-container *,
+.pano-wrap .pnlm-controls,
+.pano-wrap .pnlm-controls *,
+.pano-wrap .pnlm-control,
+.pano-wrap .pnlm-control *,
+.pano-wrap .pnlm-zoom-controls,
+.pano-wrap .pnlm-zoom-controls *,
+.pano-wrap .pnlm-fullscreen-toggle-button,
+.pano-wrap .pnlm-orientation-button,
+.pano-wrap .pnlm-compass,
+.pano-wrap .pnlm-load-button,
+.pano-wrap .pnlm-load-box,
+.pano-wrap .pnlm-panorama-info,
+.pano-wrap .zoom-in-out-controls,
+.pano-wrap .zoom-in-out-controls *,
+.pano-wrap .controls,
+.pano-wrap .controls *,
+.pano-wrap .ctrl,
+.pano-wrap .ctrl *,
+.pano-wrap .explainer_button,
+.pano-wrap .explainer_button *,
+.pano-wrap .floor_map_button,
+.pano-wrap .floor_map_button *,
+.pano-wrap .generic_form_button,
+.pano-wrap .generic_form_button *,
+.pano-wrap .adcontrol,
+.pano-wrap .adcontrol *,
+.pano-wrap .audio_control,
+.pano-wrap .audio_control *,
+.pano-wrap #cp-logo-controls,
+.pano-wrap #cp-logo-controls *,
+.pano-wrap .cp-logo-ctrl,
+.pano-wrap .cp-logo-ctrl *,
+.pano-wrap .scene-gallery,
+.pano-wrap .scene-gallery *,
+.pano-wrap .vrowl-carousel,
+.pano-wrap .vrowl-carousel *,
+.pano-wrap .wpvr_slider_nav,
+.pano-wrap .wpvr_slider_nav *,
+.pano-wrap .wpvr_owl_prev,
+.pano-wrap .wpvr_owl_prev *,
+.pano-wrap .wpvr_owl_next,
+.pano-wrap .wpvr_owl_next *,
+.pano-wrap .vrgcontrols,
+.pano-wrap .vrgcontrols *,
+.pano-wrap .wpvr-scene-info-row,
+.pano-wrap .wpvr-cardboard-switcher,
+.pano-wrap .wpvr-cardboard-switcher *,
+.pano-wrap .wpvr-call-to-action-button,
+.pano-wrap .fullscreen-button,
+.pano-wrap .vr-pointer-container,
+.pnlm-container .pnlm-controls-container,
+.pnlm-container .pnlm-controls-container *,
+.pnlm-container .pnlm-controls,
+.pnlm-container .pnlm-controls *,
+.pnlm-container .pnlm-control,
+.pnlm-container .pnlm-control *,
+.pnlm-container .pnlm-zoom-controls,
+.pnlm-container .pnlm-zoom-controls *,
+.pnlm-container .pnlm-fullscreen-toggle-button,
+.pnlm-container .pnlm-orientation-button,
+.pnlm-container .pnlm-compass,
+.pnlm-container .pnlm-load-button,
+.pnlm-container .pnlm-load-box,
+.pnlm-container .pnlm-panorama-info,
+.pnlm-container .zoom-in-out-controls,
+.pnlm-container .zoom-in-out-controls *,
+.pnlm-container .controls,
+.pnlm-container .controls *,
+.pnlm-container .ctrl,
+.pnlm-container .ctrl *,
+.pnlm-container .explainer_button,
+.pnlm-container .explainer_button *,
+.pnlm-container .floor_map_button,
+.pnlm-container .floor_map_button *,
+.pnlm-container .generic_form_button,
+.pnlm-container .generic_form_button *,
+.pnlm-container .adcontrol,
+.pnlm-container .adcontrol *,
+.pnlm-container .audio_control,
+.pnlm-container .audio_control *,
+.pnlm-container #cp-logo-controls,
+.pnlm-container #cp-logo-controls *,
+.pnlm-container .cp-logo-ctrl,
+.pnlm-container .cp-logo-ctrl *,
+.pnlm-container .scene-gallery,
+.pnlm-container .scene-gallery *,
+.pnlm-container .vrowl-carousel,
+.pnlm-container .vrowl-carousel *,
+.pnlm-container .wpvr_slider_nav,
+.pnlm-container .wpvr_slider_nav *,
+.pnlm-container .wpvr_owl_prev,
+.pnlm-container .wpvr_owl_prev *,
+.pnlm-container .wpvr_owl_next,
+.pnlm-container .wpvr_owl_next *,
+.pnlm-container .vrgcontrols,
+.pnlm-container .vrgcontrols *,
+.pnlm-container .wpvr-scene-info-row,
+.pnlm-container .wpvr-cardboard-switcher,
+.pnlm-container .wpvr-cardboard-switcher *,
+.pnlm-container .wpvr-call-to-action-button,
+.pnlm-container .fullscreen-button,
+.pnlm-container .vr-pointer-container {
+  z-index: 40 !important;
+  pointer-events: auto !important;
+}
+
+.wpvr-frontend-text-overlay,
+.wpvr-frontend-text-overlay__body,
+.wpvr-frontend-text-overlay__content {
+  text-align: left;
+}
+
+.wpvr-frontend-text-overlay * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wpvr-frontend-text-overlay__body {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  text-align: left;
+}
+
+/* Custom sleek scrollbar for overlay body */
+.wpvr-frontend-text-overlay__body::-webkit-scrollbar {
+  width: 5px;
+}
+.wpvr-frontend-text-overlay__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.wpvr-frontend-text-overlay__body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+.wpvr-frontend-text-overlay__body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.wpvr-frontend-text-overlay__content {
+  position: absolute;
+  box-sizing: border-box;
+  line-height: 1.55;
+  color: #ffffff;
+  word-break: break-word;
+  padding-bottom: 24px;
+  text-align: left;
+}
+
+.wpvr-frontend-text-overlay__content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.wpvr-frontend-text-overlay__content p {
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+.wpvr-frontend-text-overlay__content p:last-child {
+  margin-bottom: 0;
+}
+
+.wpvr-frontend-text-overlay__content h1,
+.wpvr-frontend-text-overlay__content h2,
+.wpvr-frontend-text-overlay__content h3,
+.wpvr-frontend-text-overlay__content h4,
+.wpvr-frontend-text-overlay__content h5,
+.wpvr-frontend-text-overlay__content h6 {
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+  color: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+
+.wpvr-frontend-text-overlay__content ul,
+.wpvr-frontend-text-overlay__content ol {
+  margin: 0 0 10px 0;
+  padding-left: 20px;
+}
+
+.wpvr-frontend-text-overlay__content li {
+  margin-bottom: 4px;
+}
+
+.wpvr-frontend-text-overlay__content blockquote {
+  margin: 0 0 10px 0;
+  padding: 4px 12px;
+  border-left: 3px solid rgba(255, 255, 255, 0.45);
+  font-style: italic;
+}
+
+.wpvr-frontend-text-overlay__content a {
+  color: #60a5fa;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+.wpvr-frontend-text-overlay__content a:hover {
+  color: #93c5fd;
+}
+
+.wpvr-frontend-text-overlay__content img {
+  border-radius: 6px;
+  height: auto;
+}
+
+/* Close button */
+.wpvr-text-overlay-close-btn {
+  position: absolute;
+  /* Follow the top-right curve without leaving small overlays. */
+  top: min(var(--wpvr-overlay-close-inset, 12px), max(0px, calc(50% - 14px)));
+  right: min(var(--wpvr-overlay-close-inset, 12px), max(0px, calc(50% - 14px)));
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  z-index: 35 !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.wpvr-text-overlay-close-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.08);
+  color: #ffffff;
+}
+
+.wpvr-text-overlay-close-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Reopen button */
+.wpvr-text-overlay-reopen-btn {
+  position: absolute;
+  z-index: 35 !important;
+  pointer-events: auto !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  background: rgba(20, 20, 25, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wpvr-text-overlay-reopen-btn:hover {
+  background: rgba(30, 30, 42, 0.95);
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.wpvr-text-overlay-reopen-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .wpvr-frontend-text-overlay--template-left {
+    min-width: min(85%, 320px) !important;
+  }
+  .wpvr-frontend-text-overlay--template-right {
+    min-width: min(85%, 320px) !important;
+    left: auto !important;
+    right: 0 !important;
+  }
+  .wpvr-frontend-text-overlay--template-top,
+  .wpvr-frontend-text-overlay--template-bottom {
+    min-height: min(60%, 260px) !important;
+  }
+}
+

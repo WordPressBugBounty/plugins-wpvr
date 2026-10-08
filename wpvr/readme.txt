@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.1.4
+Stable tag: 9.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,13 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.2.0 (2026-10-08) =
+* New: Added Text Overlay feature to create customizable rich text overlays on tour scenes with WYSIWYG editing, styling, and layer controls.
+* New: Added Sticker Hotspots with interactive templates including discount buttons, add-to-cart, action buttons, social share, and social proof.
+* Enhancement: Added responsive scaling, container observation, and customizable styling options (dimensions, borders, typography) for sticker hotspots.
+* Enhancement: Self-hosted Inter font files to eliminate Google Fonts CDN dependencies and improve loading performance.
+* Fix: Optimized mobile panorama resolution with attachment metadata, local file fallbacks, device GPU limit checks, and cached attachment lookups.
 
 = 9.1.4 (2026-10-02) =
 * Fix: Added missing alternative text (alt attribute) to the floor plan image for accessibility (WCAG) compliance.

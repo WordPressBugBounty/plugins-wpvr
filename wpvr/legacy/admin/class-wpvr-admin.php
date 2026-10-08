@@ -213,6 +213,9 @@ class Wpvr_Admin {
             wp_enqueue_style('panellium-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/pannellum.css', array(), true);
             wp_enqueue_style('videojs-css', plugin_dir_url(__FILE__) . 'lib/pannellum/src/css/video-js.css', array(), true);
             wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpvr-admin.css', array(), $this->version, 'all');
+            wp_enqueue_style('wpvr-inter-font', plugin_dir_url(__FILE__) . '../public/css/inter.css', array(), filemtime(plugin_dir_path(__FILE__) . '../public/css/inter.css'));
+            wp_enqueue_style('wpvr-stickers', plugin_dir_url(__FILE__) . '../public/css/wpvr-stickers.css', array('panellium-css', 'wpvr-inter-font'), filemtime(plugin_dir_path(__FILE__) . '../public/css/wpvr-stickers.css'));
+            wp_enqueue_style('wpvr-sticker-fields', plugin_dir_url(__FILE__) . 'css/wpvr-sticker-fields.css', array($this->plugin_name), filemtime(plugin_dir_path(__FILE__) . 'css/wpvr-sticker-fields.css'));
             wp_enqueue_style('wpvr-image-resize-warning', plugin_dir_url(__FILE__) . 'css/wpvr-image-resize-warning.css', array(), filemtime(plugin_dir_path(__FILE__) . 'css/wpvr-image-resize-warning.css'), 'all');
             wp_enqueue_style('wpvr-rtl', plugin_dir_url(__FILE__) . 'css/wpvr-admin-rtl.css', array(), $this->version, 'all');
             wp_enqueue_style('summernote', plugin_dir_url(__FILE__) . 'lib/summernote/summernote-lite.min.css', array(), $this->version, 'all');
@@ -290,7 +293,9 @@ class Wpvr_Admin {
             wp_enqueue_script('icon-picker', $asset_url . 'lib/jquery.fonticonpicker.min.js', array(), true);
             wp_enqueue_script('owl', $asset_url . 'js/owl.carousel.js', array('jquery'), false);
             wp_enqueue_script('wpvr-image-resize-warning', plugin_dir_url(__FILE__) . 'js/wpvr-image-resize-warning.js', array('jquery'), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-image-resize-warning.js'), true);
-            wp_enqueue_script($this->plugin_name, $asset_url . 'js/wpvr-admin.js', array('jquery', 'wpvr-image-resize-warning'), filemtime($admin_script_path), true);
+            wp_enqueue_script('wpvr-stickers', plugin_dir_url(__FILE__) . '../public/js/wpvr-stickers.js', array(), filemtime(plugin_dir_path(__FILE__) . '../public/js/wpvr-stickers.js'), true);
+            wp_enqueue_script($this->plugin_name, $asset_url . 'js/wpvr-admin.js', array('jquery', 'wpvr-image-resize-warning', 'wpvr-stickers'), filemtime($admin_script_path), true);
+            wp_enqueue_script('wpvr-sticker-fields', plugin_dir_url(__FILE__) . 'js/wpvr-sticker-fields.js', array('jquery', $this->plugin_name), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-sticker-fields.js'), true);
             wp_localize_script($this->plugin_name, 'wpvr_localize', array(
                 'WriteYourCssHere' => __('Write your css here', 'wpvr'),
                 'VideoTourNotice'  => __('Turning On The Video Option Will Erase Your Virtual Tour Data. Are You Sure?', 'wpvr'),

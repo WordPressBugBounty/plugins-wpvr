@@ -3,6 +3,13 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.2.0 (2026-10-08)
+- **New:** Added Text Overlay feature to create customizable rich text overlays on tour scenes with WYSIWYG editing, styling, and layer controls.
+- **New:** Added Sticker Hotspots with interactive templates including discount buttons, add-to-cart, action buttons, social share, and social proof.
+- **Enhancement:** Added responsive scaling, container observation, and customizable styling options (dimensions, borders, typography) for sticker hotspots.
+- **Enhancement:** Self-hosted Inter font files to eliminate Google Fonts CDN dependencies and improve loading performance.
+- **Fix:** Optimized mobile panorama resolution with attachment metadata, local file fallbacks, device GPU limit checks, and cached attachment lookups.
+
 ### 9.1.4 (2026-10-02)
 - **Fix:** Added missing alternative text (alt attribute) to the floor plan image for accessibility (WCAG) compliance.
 - **Fix:** Improved floor plan pointer data handling and attribute escaping.

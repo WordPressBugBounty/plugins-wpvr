@@ -302,11 +302,15 @@ class Admin {
             ],
         ] );
 
+        $inter_font_path = $plugin_path . 'legacy/public/css/inter.css';
+        $inter_font_ver  = file_exists( $inter_font_path ) ? filemtime( $inter_font_path ) : WPVR_VERSION;
+        wp_enqueue_style( 'wpvr-inter-font', $public_base . 'css/inter.css', [], $inter_font_ver, 'all' );
+
         if ( file_exists( $css_file ) ) {
             wp_enqueue_style(
                 'wpvr-tour-editor',
                 $plugin_url . 'build/tour-editor/style-index.css',
-                [ 'wpvr-pannellum-css' ],
+                [ 'wpvr-pannellum-css', 'wpvr-inter-font' ],
                 $asset['version']
             );
         }

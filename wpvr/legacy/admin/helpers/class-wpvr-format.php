@@ -129,6 +129,18 @@ class WPVR_Format
                                 $temp_hotspot['fluent-form-id'] = (string) absint($temp_hotspot['fluent-form-id']);
                             }
                         }
+                        // Legacy repeater controls serialize compound sticker fields as JSON.
+                        foreach (array('border-radius', 'padding', 'social-links') as $sticker_field) {
+                            $key = 'hotspot-sticker-' . $sticker_field;
+                            if (isset($temp_hotspot[$key])) {
+                                $value = $temp_hotspot[$key];
+                                if (is_string($value)) $value = json_decode($value, true);
+                                if (is_object($value)) $value = (array) $value;
+                                if (is_array($value)) {
+                                    $temp_hotspot[$key] = json_decode(wp_json_encode($value), true);
+                                }
+                            }
+                        }
                         $_hotspot_array[] = $temp_hotspot;
                     }
                 }
@@ -552,6 +564,7 @@ class WPVR_Format
                     if (!$hotspot_content) $hotspot_content = $hotspot_data["hotspot-content"] ?? '';
                 }
 
+                $is_sticker = ( ( $hotspot_data['hotspot-type'] ?? '' ) === 'sticker' );
                 $hotspot_info = array(
                     "text" => $hotspot_data["hotspot-title"],
                     "pitch" => $hotspot_data["hotspot-pitch"],
@@ -561,8 +574,82 @@ class WPVR_Format
                     "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, $is_fluent_form),
                     "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
                     "sceneId" => $hotspot_data["hotspot-scene"],
-                    'hotspot_type' => $hotspot_data['hotspot-type']
+                    'hotspot_type' => $hotspot_data['hotspot-type'],
+                    'scale' => isset($hotspot_data['hotspot-scale']) ? ($hotspot_data['hotspot-scale'] === 'on' || $hotspot_data['hotspot-scale'] === true) : $is_sticker
                 );
+
+                if ( $is_sticker ) {
+                    $custom_class_pro = ! empty( $hotspot_data['hotspot-customclass'] ) && $hotspot_data['hotspot-customclass'] !== 'none'
+                        ? ' ' . $hotspot_data['hotspot-customclass']
+                        : '';
+                    $hotspot_info['cssClass'] = 'wpvr-hs-custom wpvr-hs-sticker' . $custom_class_pro;
+                    $hotspot_info['stickerTemplate']     = $hotspot_data['hotspot-sticker-template'] ?? 'social_proof';
+                    $hotspot_info['stickerReviewText']   = $hotspot_data['hotspot-sticker-review-text'] ?? 'The support is super responsive and responds without worries to our requests and needs! Big up to the entire RexTheme team!';
+                    $hotspot_info['stickerClientName']   = $hotspot_data['hotspot-sticker-client-name'] ?? 'Elena R.';
+                    $hotspot_info['stickerClientAvatar'] = $hotspot_data['hotspot-sticker-client-avatar'] ?? '';
+                    $hotspot_info['stickerRating']       = isset( $hotspot_data['hotspot-sticker-rating'] ) ? (int) $hotspot_data['hotspot-sticker-rating'] : 5;
+                    $is_separate_icon = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'button_with_separate_icon';
+                    $is_add_to_cart   = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'add_to_cart';
+                    $is_social_share  = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'social_share';
+                    $hotspot_info['stickerBgColor']      = $hotspot_data['hotspot-sticker-bg-color'] ?? '#201b2c';
+                    $hotspot_info['stickerBgOpacity']    = isset( $hotspot_data['hotspot-sticker-bg-opacity'] ) ? (float) $hotspot_data['hotspot-sticker-bg-opacity'] : ( ( $is_separate_icon || $is_add_to_cart || $is_social_share ) ? 75 : 95 );
+                    $hotspot_info['stickerBlur']         = isset( $hotspot_data['hotspot-sticker-blur'] ) ? (float) $hotspot_data['hotspot-sticker-blur'] : 12;
+                    $hotspot_info['stickerBrightness']   = isset( $hotspot_data['hotspot-sticker-brightness'] ) ? (float) $hotspot_data['hotspot-sticker-brightness'] : 100;
+                    $hotspot_info['stickerTextColor']    = $hotspot_data['hotspot-sticker-text-color'] ?? '#ffffff';
+                    $hotspot_info['stickerBorderColor']  = $hotspot_data['hotspot-sticker-border-color'] ?? ( ( $is_separate_icon || $is_add_to_cart || $is_social_share ) ? '#40355a' : '#3a3051' );
+                    $default_radius                      = $is_separate_icon ? 135 : ( ( $is_add_to_cart || $is_social_share ) ? 15 : 20 );
+                    $hotspot_info['stickerBorderRadius'] = $hotspot_data['hotspot-sticker-border-radius'] ?? [
+                        'topLeft'     => $default_radius,
+                        'topRight'    => $default_radius,
+                        'bottomRight' => $default_radius,
+                        'bottomLeft'  => $default_radius,
+                    ];
+                    $hotspot_info['stickerPadding']      = $hotspot_data['hotspot-sticker-padding'] ?? [
+                        'top'    => 21,
+                        'right'  => 21,
+                        'bottom' => 21,
+                        'left'   => 21,
+                    ];
+                    $hotspot_info['stickerStarColor']    = $hotspot_data['hotspot-sticker-star-color'] ?? '#EF991F';
+                    // Text before button (for add_to_cart)
+                    $hotspot_info['stickerPrefixText']   = $hotspot_data['hotspot-sticker-prefix-text'] ?? '$1,090 -';
+                    $hotspot_info['stickerSubText']      = $hotspot_data['hotspot-sticker-sub-text'] ?? 'Ready to ship';
+                    // Discount button, add to cart & social share sticker fields
+                    $hotspot_info['stickerBtnText']      = $hotspot_data['hotspot-sticker-btn-text'] ?? ( $is_social_share ? 'SHARE EXPERIENCE' : ( $is_add_to_cart ? 'ADD TO CART' : ( $is_separate_icon ? 'Limited “Midnight Horizon” Edition' : 'GET 20% OFF NOW' ) ) );
+                    $hotspot_info['stickerBtnColor']     = $hotspot_data['hotspot-sticker-btn-color'] ?? ( $is_social_share ? '#201a2b' : ( $is_add_to_cart ? '#3f04fe' : ( $is_separate_icon ? '#ffffff' : '#EF991F' ) ) );
+                    $hotspot_info['stickerBtnTextColor'] = $hotspot_data['hotspot-sticker-btn-text-color'] ?? ( ( $is_add_to_cart || $is_social_share ) ? '#ffffff' : '#000000' );
+                    $hotspot_info['stickerBtnIconColor'] = $hotspot_data['hotspot-sticker-btn-icon-color'] ?? '#000000';
+                    $hotspot_info['stickerBtnUrl']       = $hotspot_data['hotspot-sticker-btn-url'] ?? '';
+                    $hotspot_info['stickerBtnNewTab']    = $hotspot_data['hotspot-sticker-btn-new-tab'] ?? 'off';
+                    $hotspot_info['stickerMainBg']       = $hotspot_data['hotspot-sticker-main-bg'] ?? ( $hotspot_data['hotspot-sticker-card-bg'] ?? 'on' );
+                    $hotspot_info['stickerCardBg']       = $hotspot_info['stickerMainBg'];
+                    $hotspot_info['stickerBtnBg']          = $hotspot_data['hotspot-sticker-btn-bg'] ?? 'on';
+                    $hotspot_info['stickerBtnWidth']       = isset( $hotspot_data['hotspot-sticker-btn-width'] ) && $hotspot_data['hotspot-sticker-btn-width'] !== '' ? $hotspot_data['hotspot-sticker-btn-width'] : ( $is_social_share ? 222 : ( $is_add_to_cart ? 163 : ( $is_separate_icon ? 356 : '' ) ) );
+                    $hotspot_info['stickerBtnHeight']      = isset( $hotspot_data['hotspot-sticker-btn-height'] ) && $hotspot_data['hotspot-sticker-btn-height'] !== '' ? $hotspot_data['hotspot-sticker-btn-height'] : ( ( $is_social_share || $is_add_to_cart || $is_separate_icon ) ? 60 : '' );
+                    $hotspot_info['stickerBtnRadius']      = isset( $hotspot_data['hotspot-sticker-btn-radius'] ) && $hotspot_data['hotspot-sticker-btn-radius'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-radius'] : ( $is_separate_icon ? 30 : 10 );
+                    $hotspot_info['stickerBtnBorder']      = isset( $hotspot_data['hotspot-sticker-btn-border'] ) && $hotspot_data['hotspot-sticker-btn-border'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-border'] : ( $is_social_share ? 1 : 0 );
+                    $hotspot_info['stickerBtnBorderColor'] = $hotspot_data['hotspot-sticker-btn-border-color'] ?? ( $is_social_share ? '#3a3051' : ( ( $is_add_to_cart || $is_separate_icon ) ? '#ffffff' : '#EF991F' ) );
+                    $hotspot_info['stickerBtnTextSize']    = isset( $hotspot_data['hotspot-sticker-btn-text-size'] ) && $hotspot_data['hotspot-sticker-btn-text-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-text-size'] : 18;
+                    $hotspot_info['stickerBtnTextWeight']  = $hotspot_data['hotspot-sticker-btn-text-weight'] ?? ( ( $is_social_share || $is_add_to_cart || $is_separate_icon ) ? '600' : '700' );
+                    $hotspot_info['stickerBtnIcon']        = ( $is_add_to_cart || $is_social_share ) ? 'none' : ( $hotspot_data['hotspot-sticker-btn-icon'] ?? 'fas fa-tag' );
+                    // Button with separate icon fields
+                    $hotspot_info['stickerIconBoxBgColor']     = $hotspot_data['hotspot-sticker-icon-box-bg-color'] ?? '#ffffff';
+                    $hotspot_info['stickerIconBoxRadius']      = isset( $hotspot_data['hotspot-sticker-icon-box-radius'] ) && $hotspot_data['hotspot-sticker-icon-box-radius'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-radius'] : 30;
+                    $hotspot_info['stickerIconBoxBorder']      = isset( $hotspot_data['hotspot-sticker-icon-box-border'] ) && $hotspot_data['hotspot-sticker-icon-box-border'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-border'] : 0;
+                    $hotspot_info['stickerIconBoxBorderColor'] = $hotspot_data['hotspot-sticker-icon-box-border-color'] ?? '#ffffff';
+                    $hotspot_info['stickerIconBoxSize']        = isset( $hotspot_data['hotspot-sticker-icon-box-size'] ) && $hotspot_data['hotspot-sticker-icon-box-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-size'] : 60;
+                    // Social share sticker fields
+                    $hotspot_info['stickerSocialColor']        = $hotspot_data['hotspot-sticker-social-color'] ?? '#ffffff';
+                    $hotspot_info['stickerSocialSize']         = isset( $hotspot_data['hotspot-sticker-social-size'] ) && $hotspot_data['hotspot-sticker-social-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-social-size'] : 20;
+                    $hotspot_info['stickerSocialGap']          = isset( $hotspot_data['hotspot-sticker-social-gap'] ) && $hotspot_data['hotspot-sticker-social-gap'] !== '' ? (float) $hotspot_data['hotspot-sticker-social-gap'] : 16;
+                    $hotspot_info['stickerSocialLinks']        = isset( $hotspot_data['hotspot-sticker-social-links'] ) ? ( is_array( $hotspot_data['hotspot-sticker-social-links'] ) ? $hotspot_data['hotspot-sticker-social-links'] : json_decode( (string) $hotspot_data['hotspot-sticker-social-links'], true ) ) : [
+                        [ 'id' => '1', 'icon' => 'fab fa-linkedin-in', 'customSvg' => '', 'url' => 'https://linkedin.com', 'openNewTab' => 'on' ],
+                        [ 'id' => '2', 'icon' => 'fab fa-facebook-f', 'customSvg' => '', 'url' => 'https://facebook.com', 'openNewTab' => 'on' ],
+                        [ 'id' => '3', 'icon' => 'fab fa-instagram', 'customSvg' => '', 'url' => 'https://instagram.com', 'openNewTab' => 'on' ],
+                        [ 'id' => '4', 'icon' => 'fab fa-dribbble', 'customSvg' => '', 'url' => 'https://dribbble.com', 'openNewTab' => 'on' ],
+                    ];
+                    $hotspot_info['stickerShowPlaceholderText'] = $hotspot_data['hotspot-sticker-show-placeholder-text'] ?? 'on';
+                }
 
                 array_push($hotspots, $hotspot_info);
                 if (empty($hotspot_data["hotspot-scene"])) {
@@ -2152,6 +2239,7 @@ class WPVR_Format
      */
     private function get_shortcode_hotspot_info($hotspot_data, $hotspot_type, $hotspot_content)
     {
+        $is_sticker = ( ( $hotspot_data['hotspot-type'] ?? '' ) === 'sticker' );
         $hotspot_info = array(
             "text" => $hotspot_data["hotspot-title"],
             "pitch" => $hotspot_data["hotspot-pitch"],
@@ -2163,13 +2251,87 @@ class WPVR_Format
             "clickHandlerArgs" => sanitize_content_preserve_styles($hotspot_content, ($hotspot_data['hotspot-type'] ?? '') === 'fluent_form'),
             "createTooltipArgs" => sanitize_content_preserve_styles($hotspot_data["hotspot-hover"] ?? '', false),
             "sceneId" => $hotspot_data["hotspot-scene"],
-            'hotspot_type' => $hotspot_data['hotspot-type']
+            'hotspot_type' => $hotspot_data['hotspot-type'],
+            'scale' => isset($hotspot_data['hotspot-scale']) ? ($hotspot_data['hotspot-scale'] === 'on' || $hotspot_data['hotspot-scale'] === true) : $is_sticker
         );
 
         $hotspot_info['URL'] = ($hotspot_data['hotspot-type'] === 'fluent_form' || $hotspot_data['hotspot-type'] === 'wc_product') ? '' : $hotspot_info['URL'];
 
-        if ($hotspot_data["hotspot-customclass"] == 'none' || $hotspot_data["hotspot-customclass"] == '') {
-            unset($hotspot_info["cssClass"]);
+        if ( $is_sticker ) {
+            $custom_class_pro = ! empty( $hotspot_data['hotspot-customclass'] ) && $hotspot_data['hotspot-customclass'] !== 'none'
+                ? ' ' . $hotspot_data['hotspot-customclass']
+                : '';
+            $hotspot_info['cssClass'] = 'wpvr-hs-custom wpvr-hs-sticker' . $custom_class_pro;
+            $hotspot_info['stickerTemplate']     = $hotspot_data['hotspot-sticker-template'] ?? 'social_proof';
+            $hotspot_info['stickerReviewText']   = $hotspot_data['hotspot-sticker-review-text'] ?? 'The support is super responsive and responds without worries to our requests and needs! Big up to the entire RexTheme team!';
+            $hotspot_info['stickerClientName']   = $hotspot_data['hotspot-sticker-client-name'] ?? 'Elena R.';
+            $hotspot_info['stickerClientAvatar'] = $hotspot_data['hotspot-sticker-client-avatar'] ?? '';
+            $hotspot_info['stickerRating']       = isset( $hotspot_data['hotspot-sticker-rating'] ) ? (int) $hotspot_data['hotspot-sticker-rating'] : 5;
+            $is_separate_icon = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'button_with_separate_icon';
+            $is_add_to_cart   = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'add_to_cart';
+            $is_social_share  = ( $hotspot_data['hotspot-sticker-template'] ?? '' ) === 'social_share';
+            $hotspot_info['stickerBgColor']      = $hotspot_data['hotspot-sticker-bg-color'] ?? '#201b2c';
+            $hotspot_info['stickerBgOpacity']    = isset( $hotspot_data['hotspot-sticker-bg-opacity'] ) ? (float) $hotspot_data['hotspot-sticker-bg-opacity'] : ( ( $is_separate_icon || $is_add_to_cart || $is_social_share ) ? 75 : 95 );
+            $hotspot_info['stickerBlur']         = isset( $hotspot_data['hotspot-sticker-blur'] ) ? (float) $hotspot_data['hotspot-sticker-blur'] : 12;
+            $hotspot_info['stickerBrightness']   = isset( $hotspot_data['hotspot-sticker-brightness'] ) ? (float) $hotspot_data['hotspot-sticker-brightness'] : 100;
+            $hotspot_info['stickerTextColor']    = $hotspot_data['hotspot-sticker-text-color'] ?? '#ffffff';
+            $hotspot_info['stickerBorderColor']  = $hotspot_data['hotspot-sticker-border-color'] ?? ( ( $is_separate_icon || $is_add_to_cart || $is_social_share ) ? '#40355a' : '#3a3051' );
+            $default_radius                      = $is_separate_icon ? 135 : ( ( $is_add_to_cart || $is_social_share ) ? 15 : 20 );
+            $hotspot_info['stickerBorderRadius'] = $hotspot_data['hotspot-sticker-border-radius'] ?? [
+                'topLeft'     => $default_radius,
+                'topRight'    => $default_radius,
+                'bottomRight' => $default_radius,
+                'bottomLeft'  => $default_radius,
+            ];
+            $hotspot_info['stickerPadding']      = $hotspot_data['hotspot-sticker-padding'] ?? [
+                'top'    => 21,
+                'right'  => 21,
+                'bottom' => 21,
+                'left'   => 21,
+            ];
+            $hotspot_info['stickerStarColor']    = $hotspot_data['hotspot-sticker-star-color'] ?? '#EF991F';
+            // Text before button (for add_to_cart)
+            $hotspot_info['stickerPrefixText']   = $hotspot_data['hotspot-sticker-prefix-text'] ?? '$1,090 -';
+            $hotspot_info['stickerSubText']      = $hotspot_data['hotspot-sticker-sub-text'] ?? 'Ready to ship';
+            // Discount button, add to cart & social share sticker fields
+            $hotspot_info['stickerBtnText']      = $hotspot_data['hotspot-sticker-btn-text'] ?? ( $is_social_share ? 'SHARE EXPERIENCE' : ( $is_add_to_cart ? 'ADD TO CART' : ( $is_separate_icon ? 'Limited “Midnight Horizon” Edition' : 'GET 20% OFF NOW' ) ) );
+            $hotspot_info['stickerBtnColor']     = $hotspot_data['hotspot-sticker-btn-color'] ?? ( $is_social_share ? '#201a2b' : ( $is_add_to_cart ? '#3f04fe' : ( $is_separate_icon ? '#ffffff' : '#EF991F' ) ) );
+            $hotspot_info['stickerBtnTextColor'] = $hotspot_data['hotspot-sticker-btn-text-color'] ?? ( ( $is_add_to_cart || $is_social_share ) ? '#ffffff' : '#000000' );
+            $hotspot_info['stickerBtnIconColor'] = $hotspot_data['hotspot-sticker-btn-icon-color'] ?? '#000000';
+            $hotspot_info['stickerBtnUrl']       = $hotspot_data['hotspot-sticker-btn-url'] ?? '';
+            $hotspot_info['stickerBtnNewTab']    = $hotspot_data['hotspot-sticker-btn-new-tab'] ?? 'off';
+            $hotspot_info['stickerMainBg']       = $hotspot_data['hotspot-sticker-main-bg'] ?? ( $hotspot_data['hotspot-sticker-card-bg'] ?? 'on' );
+            $hotspot_info['stickerCardBg']       = $hotspot_info['stickerMainBg'];
+            $hotspot_info['stickerBtnBg']          = $hotspot_data['hotspot-sticker-btn-bg'] ?? 'on';
+            $hotspot_info['stickerBtnWidth']       = isset( $hotspot_data['hotspot-sticker-btn-width'] ) && $hotspot_data['hotspot-sticker-btn-width'] !== '' ? $hotspot_data['hotspot-sticker-btn-width'] : ( $is_social_share ? 222 : ( $is_add_to_cart ? 163 : ( $is_separate_icon ? 356 : '' ) ) );
+            $hotspot_info['stickerBtnHeight']      = isset( $hotspot_data['hotspot-sticker-btn-height'] ) && $hotspot_data['hotspot-sticker-btn-height'] !== '' ? $hotspot_data['hotspot-sticker-btn-height'] : ( ( $is_social_share || $is_add_to_cart || $is_separate_icon ) ? 60 : '' );
+            $hotspot_info['stickerBtnRadius']      = isset( $hotspot_data['hotspot-sticker-btn-radius'] ) && $hotspot_data['hotspot-sticker-btn-radius'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-radius'] : ( $is_separate_icon ? 30 : 10 );
+            $hotspot_info['stickerBtnBorder']      = isset( $hotspot_data['hotspot-sticker-btn-border'] ) && $hotspot_data['hotspot-sticker-btn-border'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-border'] : ( $is_social_share ? 1 : 0 );
+            $hotspot_info['stickerBtnBorderColor'] = $hotspot_data['hotspot-sticker-btn-border-color'] ?? ( $is_social_share ? '#3a3051' : ( ( $is_add_to_cart || $is_separate_icon ) ? '#ffffff' : '#EF991F' ) );
+            $hotspot_info['stickerBtnTextSize']    = isset( $hotspot_data['hotspot-sticker-btn-text-size'] ) && $hotspot_data['hotspot-sticker-btn-text-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-btn-text-size'] : 18;
+            $hotspot_info['stickerBtnTextWeight']  = $hotspot_data['hotspot-sticker-btn-text-weight'] ?? ( ( $is_social_share || $is_add_to_cart || $is_separate_icon ) ? '600' : '700' );
+            $hotspot_info['stickerBtnIcon']        = ( $is_add_to_cart || $is_social_share ) ? 'none' : ( $hotspot_data['hotspot-sticker-btn-icon'] ?? 'fas fa-tag' );
+            // Button with separate icon fields
+            $hotspot_info['stickerIconBoxBgColor']     = $hotspot_data['hotspot-sticker-icon-box-bg-color'] ?? '#ffffff';
+            $hotspot_info['stickerIconBoxRadius']      = isset( $hotspot_data['hotspot-sticker-icon-box-radius'] ) && $hotspot_data['hotspot-sticker-icon-box-radius'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-radius'] : 30;
+            $hotspot_info['stickerIconBoxBorder']      = isset( $hotspot_data['hotspot-sticker-icon-box-border'] ) && $hotspot_data['hotspot-sticker-icon-box-border'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-border'] : 0;
+            $hotspot_info['stickerIconBoxBorderColor'] = $hotspot_data['hotspot-sticker-icon-box-border-color'] ?? '#ffffff';
+            $hotspot_info['stickerIconBoxSize']        = isset( $hotspot_data['hotspot-sticker-icon-box-size'] ) && $hotspot_data['hotspot-sticker-icon-box-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-icon-box-size'] : 60;
+            // Social share sticker fields
+            $hotspot_info['stickerSocialColor']        = $hotspot_data['hotspot-sticker-social-color'] ?? '#ffffff';
+            $hotspot_info['stickerSocialSize']         = isset( $hotspot_data['hotspot-sticker-social-size'] ) && $hotspot_data['hotspot-sticker-social-size'] !== '' ? (float) $hotspot_data['hotspot-sticker-social-size'] : 20;
+            $hotspot_info['stickerSocialGap']          = isset( $hotspot_data['hotspot-sticker-social-gap'] ) && $hotspot_data['hotspot-sticker-social-gap'] !== '' ? (float) $hotspot_data['hotspot-sticker-social-gap'] : 16;
+            $hotspot_info['stickerSocialLinks']        = isset( $hotspot_data['hotspot-sticker-social-links'] ) ? ( is_array( $hotspot_data['hotspot-sticker-social-links'] ) ? $hotspot_data['hotspot-sticker-social-links'] : json_decode( (string) $hotspot_data['hotspot-sticker-social-links'], true ) ) : [
+                [ 'id' => '1', 'icon' => 'fab fa-linkedin-in', 'customSvg' => '', 'url' => 'https://linkedin.com', 'openNewTab' => 'on' ],
+                [ 'id' => '2', 'icon' => 'fab fa-facebook-f', 'customSvg' => '', 'url' => 'https://facebook.com', 'openNewTab' => 'on' ],
+                [ 'id' => '3', 'icon' => 'fab fa-instagram', 'customSvg' => '', 'url' => 'https://instagram.com', 'openNewTab' => 'on' ],
+                [ 'id' => '4', 'icon' => 'fab fa-dribbble', 'customSvg' => '', 'url' => 'https://dribbble.com', 'openNewTab' => 'on' ],
+            ];
+            $hotspot_info['stickerShowPlaceholderText'] = $hotspot_data['hotspot-sticker-show-placeholder-text'] ?? 'on';
+        } else {
+            if ($hotspot_data["hotspot-customclass"] == 'none' || $hotspot_data["hotspot-customclass"] == '') {
+                unset($hotspot_info["cssClass"]);
+            }
         }
         if (empty($hotspot_data["hotspot-scene"])) {
             unset($hotspot_info['targetPitch']);
@@ -2220,29 +2382,37 @@ class WPVR_Format
     private function get_shortcode_device_scene($device_scene)
     {
         $mobile_media_resize = get_option('mobile_media_resize');
-        $file_accessible = ini_get('allow_url_fopen');
 
-        if ($mobile_media_resize == "true" && $device_scene) {
-            if ($file_accessible == "1") {
-                $image_info = getimagesize($device_scene);
-                if ($image_info[0] > 4096) {
-                    $src_to_id_for_mobile = '';
-                    $src_to_id_for_desktop = '';
+        if ($mobile_media_resize == "true" && !empty($device_scene)) {
+            $attachment_id = attachment_url_to_postid($device_scene);
+
+            if ($attachment_id) {
+                $image_width = 0;
+                $image_meta  = wp_get_attachment_metadata($attachment_id);
+
+                if (isset($image_meta['width'])) {
+                    $image_width = (int) $image_meta['width'];
+                } elseif (function_exists('get_attached_file')) {
+                    // Local file fallback only if attachment metadata is missing (no network request)
+                    $file_path = get_attached_file($attachment_id);
+                    if ($file_path && file_exists($file_path)) {
+                        $image_info = @getimagesize($file_path);
+                        if (isset($image_info[0])) {
+                            $image_width = (int) $image_info[0];
+                        }
+                    }
+                }
+
+                if ($image_width > 4096) {
                     if (wpvr_isMobileDevice()) {
-                        $src_to_id_for_mobile = attachment_url_to_postid($device_scene);
-                        if ($src_to_id_for_mobile) {
-                            $mobile_scene = wp_get_attachment_image_src($src_to_id_for_mobile, 'wpvr_mobile');
-                            if ($mobile_scene[3]) {
-                                $device_scene = $mobile_scene[0];
-                            }
+                        $mobile_scene = wp_get_attachment_image_src($attachment_id, 'wpvr_mobile');
+                        if (!empty($mobile_scene[3])) {
+                            $device_scene = $mobile_scene[0];
                         }
                     } else {
-                        $src_to_id_for_desktop = attachment_url_to_postid($device_scene);
-                        if ($src_to_id_for_desktop) {
-                            $desktop_scene = wp_get_attachment_image_src($src_to_id_for_mobile, 'full');
-                            if ($desktop_scene[0]) {
-                                $device_scene = $desktop_scene[0];
-                            }
+                        $desktop_scene = wp_get_attachment_image_src($attachment_id, 'full');
+                        if (isset($desktop_scene[0])) {
+                            $device_scene = $desktop_scene[0];
                         }
                     }
                 }
@@ -2589,10 +2759,20 @@ class WPVR_Format
         $html .= 'if(scenehotspot[hIdx]["clickHandlerArgs"] != "") {';
         $html .= 'scenehotspot[hIdx]["clickHandlerFunc"] = function(div, args) { if (typeof window.wpvrhotspot === "function") { window.wpvrhotspot(div, args); } };';
         $html .= '}';
+        $html .= 'if(scenehotspot[hIdx].hotspot_type === "sticker" || scenehotspot[hIdx].type === "sticker" || scenehotspot[hIdx].stickerTemplate) {';
+        $html .= '    (function(hs) {';
+        $html .= '        hs["createTooltipFunc"] = function(div) {';
+        $html .= '            if (typeof window.wpvrRenderStickerHotspot === "function") {';
+        $html .= '                window.wpvrRenderStickerHotspot(div, hs);';
+        $html .= '            }';
+        $html .= '        };';
+        $html .= '    })(scenehotspot[hIdx]);';
+        $html .= '}';
+
         if (wpvr_isMobileDevice() && get_option('dis_on_hover') == "true") {
         } else {
-            $html .= 'if(scenehotspot[hIdx]["createTooltipArgs"] != "") {';
-            $html .= 'scenehotspot[hIdx]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
+            $html .= 'else if(scenehotspot[hIdx]["createTooltipArgs"] != "") {';
+            $html .= '    scenehotspot[hIdx]["createTooltipFunc"] = function(div, args) { if (typeof window.wpvrtooltip === "function") { window.wpvrtooltip(div, args); } };';
             $html .= '}';
         }
         $html .= '}';

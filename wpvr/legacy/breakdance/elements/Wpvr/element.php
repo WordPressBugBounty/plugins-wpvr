@@ -78,6 +78,7 @@ class Wpvr extends \Breakdance\Elements\Element {
                     $main_script,
                 ],
                 'styles'            => [
+                    $public_url . 'css/inter.css',
                     $public_url . 'css/fontawesome/css/all.css',
                     $public_url . 'css/fontawesome/css/icons-fix.css',
                     $public_url . 'lib/pannellum/src/css/pannellum.css',
