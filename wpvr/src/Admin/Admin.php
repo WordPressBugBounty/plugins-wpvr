@@ -171,6 +171,7 @@ class Admin {
 
         $plugin_url  = plugin_dir_url( WPVR_FILE );
         $plugin_path = plugin_dir_path( WPVR_FILE );
+        \RexTheme\WPVR\Content\VideoSource::enqueue_verifier();
         $build_dir   = $plugin_path . 'build/tour-editor/';
 
         // Load Pannellum (from legacy bundle).
@@ -204,7 +205,7 @@ class Admin {
         wp_enqueue_script(
             'wpvr-tour-editor',
             $plugin_url . 'build/tour-editor/index.js',
-            array_merge( $asset['dependencies'], [ 'wpvr-pannellum', 'wpvr-videojs-vr' ] ),
+            array_merge( $asset['dependencies'], [ 'wpvr-pannellum', 'wpvr-videojs-vr', 'wpvr-video-url' ] ),
             $asset['version'],
             true
         );

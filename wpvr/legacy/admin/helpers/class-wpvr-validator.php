@@ -147,35 +147,117 @@ class WPVR_Validator {
    * @return void
    * @since 8.0.0
    */
+  /**
+   * Validate that a nonempty image URL has valid scheme (http or https) and host.
+   *
+   * @param mixed $url
+   * @param string $scene_id_validate
+   * @param string $label
+   *
+   * @return void
+   */
+  public function validate_scene_image_url($url, $scene_id_validate, $label = '')
+  {
+    if (empty($url) && $url !== '0') {
+      return;
+    }
+
+    if (!is_string($url)) {
+      $this->add_error('invalid_scene_image_url', '<span class="pano-error-title">' . esc_html__('Invalid Scene Image URL', 'wpvr') . '</span><p>' . esc_html__('Scene image URL must be a string.', 'wpvr') . '</p>');
+      return;
+    }
+
+    $trimmed = trim($url);
+    $clean_url = esc_url_raw($trimmed, array('http', 'https'));
+    $parsed = wp_parse_url($clean_url);
+
+    if (empty($clean_url) || !is_array($parsed) || empty($parsed['scheme']) || empty($parsed['host']) || !in_array(strtolower($parsed['scheme']), array('http', 'https'), true)) {
+      $desc = !empty($label)
+        ? sprintf(esc_html__('Please provide a valid HTTP or HTTPS image URL with a host where Scene ID is %1$s (%2$s).', 'wpvr'), esc_html($scene_id_validate), esc_html($label))
+        : sprintf(esc_html__('Please provide a valid HTTP or HTTPS image URL with a host where Scene ID is %s.', 'wpvr'), esc_html($scene_id_validate));
+
+      $this->add_error('invalid_scene_image_url', '<span class="pano-error-title">' . esc_html__('Invalid Scene Image URL', 'wpvr') . '</span><p>' . $desc . '</p>');
+    }
+  }
+
+  /**
+   * Validate all nonempty scene image URLs in panodata (used for both publish and drafts).
+   *
+   * @param array $panodata
+   *
+   * @return void
+   */
+  public function validate_nonempty_scene_image_urls($panodata)
+  {
+    if (empty($panodata['scene-list']) || !is_array($panodata['scene-list'])) {
+      return;
+    }
+
+    foreach ($panodata['scene-list'] as $scene) {
+      if (!is_array($scene)) {
+        continue;
+      }
+      $scene_id = $scene['scene-id'] ?? '';
+      $scene_type = $scene['scene-type'] ?? '';
+
+      if ($scene_type === 'cubemap') {
+        for ($i = 0; $i < 6; $i++) {
+          $face_key = "scene-attachment-url-face{$i}";
+          if (!empty($scene[$face_key])) {
+            $this->validate_scene_image_url($scene[$face_key], $scene_id, "Face {$i}");
+          }
+        }
+      } else {
+        if (!empty($scene['scene-attachment-url'])) {
+          $this->validate_scene_image_url($scene['scene-attachment-url'], $scene_id);
+        }
+      }
+    }
+  }
+
   private function scene_attachment_validation($scenes_val, $scene_id_validate)
   {
     if ($scenes_val['scene-type'] == 'cubemap') {
       if (empty($scenes_val["scene-attachment-url-face0"])) {
         $this->add_error('cubemap_0', '<span class="pano-error-title">Missing Cubemap Scene Face 0</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face0"], $scene_id_validate, 'Face 0');
       }
 
       if (empty($scenes_val["scene-attachment-url-face1"])) {
         $this->add_error('cubemap_1', '<span class="pano-error-title">Missing Cubemap Scene Face 1</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face1"], $scene_id_validate, 'Face 1');
       }
 
       if (empty($scenes_val["scene-attachment-url-face2"])) {
         $this->add_error('cubemap_2', '<span class="pano-error-title">Missing Cubemap Scene Face 2</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face2"], $scene_id_validate, 'Face 2');
       }
 
       if (empty($scenes_val["scene-attachment-url-face3"])) {
         $this->add_error('cubemap_3', '<span class="pano-error-title">Missing Cubemap Scene Face 3</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face3"], $scene_id_validate, 'Face 3');
       }
 
       if (empty($scenes_val["scene-attachment-url-face4"])) {
         $this->add_error('cubemap_4', '<span class="pano-error-title">Missing Cubemap Scene Face 4</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face4"], $scene_id_validate, 'Face 4');
       }
 
       if (empty($scenes_val["scene-attachment-url-face5"])) {
         $this->add_error('cubemap_5', '<span class="pano-error-title">Missing Cubemap Scene Face 5</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url-face5"], $scene_id_validate, 'Face 5');
       }
     } else {
       if (empty($scenes_val["scene-attachment-url"])) {
         $this->add_error('missing_scene', '<span class="pano-error-title">Missing Scene Image</span><p> Please upload a 360 Degree image where Scene ID is: ' . $scene_id_validate . '</p>');
+      } else {
+        $this->validate_scene_image_url($scenes_val["scene-attachment-url"], $scene_id_validate);
       }
     }
   }

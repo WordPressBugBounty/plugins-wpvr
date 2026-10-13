@@ -274,6 +274,9 @@ class Wpvr_Admin {
 
         $asset_url = apply_filters('change_asset_url', plugin_dir_url(__FILE__));
         $admin_script_path = plugin_dir_path(__FILE__) . 'js/wpvr-admin.js';
+        if ( in_array( get_current_screen()->id, [ 'wpvr_item', 'toplevel_page_wpvr', 'wp-vr_page_wpvr-setting', 'edit-wpvr_item' ], true ) ) {
+            \RexTheme\WPVR\Content\VideoSource::enqueue_verifier();
+        }
 
         if (defined('WPVR_PRO_PLUGIN_DIR_URL') && defined('WPVR_PRO_PLUGIN_DIR_PATH') && $asset_url === WPVR_PRO_PLUGIN_DIR_URL . 'admin/') {
             $admin_script_path = WPVR_PRO_PLUGIN_DIR_PATH . 'admin/js/wpvr-admin.js';
@@ -294,7 +297,7 @@ class Wpvr_Admin {
             wp_enqueue_script('owl', $asset_url . 'js/owl.carousel.js', array('jquery'), false);
             wp_enqueue_script('wpvr-image-resize-warning', plugin_dir_url(__FILE__) . 'js/wpvr-image-resize-warning.js', array('jquery'), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-image-resize-warning.js'), true);
             wp_enqueue_script('wpvr-stickers', plugin_dir_url(__FILE__) . '../public/js/wpvr-stickers.js', array(), filemtime(plugin_dir_path(__FILE__) . '../public/js/wpvr-stickers.js'), true);
-            wp_enqueue_script($this->plugin_name, $asset_url . 'js/wpvr-admin.js', array('jquery', 'wpvr-image-resize-warning', 'wpvr-stickers'), filemtime($admin_script_path), true);
+            wp_enqueue_script($this->plugin_name, $asset_url . 'js/wpvr-admin.js', array('jquery', 'wpvr-image-resize-warning', 'wpvr-stickers', 'wpvr-video-url'), filemtime($admin_script_path), true);
             wp_enqueue_script('wpvr-sticker-fields', plugin_dir_url(__FILE__) . 'js/wpvr-sticker-fields.js', array('jquery', $this->plugin_name), filemtime(plugin_dir_path(__FILE__) . 'js/wpvr-sticker-fields.js'), true);
             wp_localize_script($this->plugin_name, 'wpvr_localize', array(
                 'WriteYourCssHere' => __('Write your css here', 'wpvr'),
@@ -338,6 +341,17 @@ class Wpvr_Admin {
                     'close'            => __('Close', 'wpvr'),
                     'can_manage_settings' => current_user_can('manage_options'),
                     'setting_enabled'  => get_option('high_res_image') === 'true',
+                ),
+                'external_url_messages' => array(
+                    'enter_url'        => __('Please enter an image URL.', 'wpvr'),
+                    'invalid_protocol' => __('Please enter a valid HTTP or HTTPS image URL.', 'wpvr'),
+                    'invalid_format'   => __('The URL entered is not valid.', 'wpvr'),
+                    'timeout'          => __('Connection timed out. The image host took too long to respond.', 'wpvr'),
+                    'cors_blocked'     => __('Image is accessible, but the remote server blocked CORS (Access-Control-Allow-Origin). 360° panoramas require CORS enabled on the storage server.', 'wpvr'),
+                    'load_error'       => __('Unable to load image. Ensure the URL is a direct public image link (e.g. .jpg/.png) and CORS is enabled on the hosting server.', 'wpvr'),
+                    'checking'         => __('Checking image…', 'wpvr'),
+                    'verifying'        => __('Verifying…', 'wpvr'),
+                    'applied_success'  => __('Image applied successfully! (%1$s×%2$s)', 'wpvr'),
                 ),
             ));
         }

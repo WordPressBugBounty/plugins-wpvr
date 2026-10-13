@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.2.0
+Stable tag: 9.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,11 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.3.0 (2026-10-13) =
+* New: Added external image URL support for 360° panorama scenes via CDN and cloud storage (Amazon S3, Cloudflare R2, Google Cloud Storage) across modern and classic tour editors.
+* New: Added CDN video URL support for 360° video tours with cross-origin playback handling.
+* Enhancement: Added real-time URL verification and WebGL CORS preflight validation before saving tour scenes.
 
 = 9.2.0 (2026-10-08) =
 * New: Added Text Overlay feature to create customizable rich text overlays on tour scenes with WYSIWYG editing, styling, and layer controls.

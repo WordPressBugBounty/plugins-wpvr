@@ -274,6 +274,7 @@
         j = $('#scene-1').find('.hotspot-nav li').eq(-2).find('span').attr('data-index');
         var ajaxurl = wpvr_obj.ajaxurl;
         $('.panolenspreview').on('click', function (e) {
+            if (window.WPVRVideoUrl && window.WPVRVideoUrl.deferLegacyAction(e, this)) return;
             e.preventDefault();
             $('.wpvr-loading').show();
             var videourl = $("input[name='video-attachment-url']").val();
@@ -335,6 +336,7 @@
                     scenefadeduration: scenefadeduration,
                     panovideo: panovideo,
                     videourl: videourl,
+                    "video-source-type": $(".wpvr-video-source-select").val(),
                     autoplay: autoplay,
                     loop: loop,
                     // vidautoplay: vidautoplay,
@@ -450,14 +452,16 @@
                                 $('.pnlm-load-button p').text(previewtext);
                             }
                         }else{
+                            if (window.WPVRVideoUrl) window.WPVRVideoUrl.disposePreview($("#" + response.data["panoid"]));
                             $('#' + response.data["panoid"]).empty();
                             $('#' + response.data["panoid"]).html(response.data["panodata"]);
                             if (response.data['vidtype'] == 'selfhost') {
-                                videojs(response.data["vidid"], {
+                                var videoPlayer = videojs(response.data["vidid"], {
                                     plugins: {
                                         pannellum: {}
                                     }
                                 });
+                                if (window.WPVRVideoUrl) window.WPVRVideoUrl.configurePlayer(videoPlayer);
                             }
                             $('html, body').animate({
                                 scrollTop: $("#wpvr_item_builder__box").offset().top
@@ -565,25 +569,51 @@
                 }
             }
         }
-        var flag_ok = false;
+        var isSavingLocked = false;
         $('#publish').on('click', function (e) {
             e.preventDefault();
 
-            var hidden_post_status = $('#hidden_post_status').val() || 'auto-draft';
-            var action_type = (hidden_post_status === 'publish') ? 'update' : 'publish';
+            if (isSavingLocked) {
+                return;
+            }
+            isSavingLocked = true;
             $('#publish').prop('disabled', true);
-            $('.panolenspreview').trigger('click')
-            var data = $('form#post').serializeArray();
-            var post_status =  findValueByName('post_status',data)
-            var hidden_post_status =  findValueByName('hidden_post_status',data)
-            var hidden_post_password =  findValueByName('hidden_post_password',data)
-            var hidden_post_visibility =  findValueByName('hidden_post_visibility',data)
-            var visibility =  findValueByName('visibility',data)
-            var post_password =  findValueByName('post_password',data)
-            var post_title =  findValueByName('post_title',data)
-            var x = $(this).val();
-            // if (!flag_ok) {
-                $('.wpvr-loading').show();
+            $('.wpvr-loading').show();
+
+            var syncPromise = (typeof syncUnappliedExternalUrls === 'function')
+                ? syncUnappliedExternalUrls()
+                : (typeof window.wpvrSyncUnappliedExternalUrls === 'function'
+                    ? window.wpvrSyncUnappliedExternalUrls()
+                    : Promise.resolve(true));
+
+            syncPromise.then(function (valid) {
+                if (!valid) {
+                    isSavingLocked = false;
+                    $('#publish').prop('disabled', false);
+                    $('.wpvr-loading').hide();
+
+                    var $firstError = $('.wpvr-url-feedback-msg.is-error:visible, .wpvr-video-url-feedback.is-error:visible').first();
+                    if ($firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: $firstError.offset().top - 100
+                        }, 500);
+                    }
+                    return;
+                }
+
+                var hidden_post_status = $('#hidden_post_status').val() || 'auto-draft';
+                var action_type = (hidden_post_status === 'publish') ? 'update' : 'publish';
+                $('.panolenspreview').trigger('click');
+                var data = $('form#post').serializeArray();
+                var post_status =  findValueByName('post_status',data);
+                var hidden_post_status =  findValueByName('hidden_post_status',data);
+                var hidden_post_password =  findValueByName('hidden_post_password',data);
+                var hidden_post_visibility =  findValueByName('hidden_post_visibility',data);
+                var visibility =  findValueByName('visibility',data);
+                var post_password =  findValueByName('post_password',data);
+                var post_title =  findValueByName('post_title',data);
+                var x = $('#publish').val();
+
                 var postid = Number($("#post_ID").val() || 0);
                 var panovideo = $("input[name='panovideo']:checked").val();
                 var videourl = $("input[name='video-attachment-url']").val();
@@ -639,6 +669,7 @@
                         postid: postid,
                         panovideo: panovideo,
                         videourl: videourl,
+                        "video-source-type": $(".wpvr-video-source-select").val(),
                         control: control,
                         compass: compass,
                         autoload: autoload,
@@ -665,6 +696,7 @@
 
                     success: function (response) {
                       
+                        isSavingLocked = false;
                         $('.wpvr-loading').hide();
                         $('#publish').prop('disabled', false);
                         if (response.success == false) {
@@ -736,9 +768,22 @@
                             window.history.replaceState(null, '', url_info.admin_url+"post.php?"+"post="+postid+"&action=edit");
                             resetPostFormDirtyState();
                         }
+                    },
+                    error: function () {
+                        isSavingLocked = false;
+                        $('.wpvr-loading').hide();
+                        $('#publish').prop('disabled', false);
+                        $('#error_occured').show();
+                        $('#error_occured .pano-error-message').text('Failed to save tour. Please try again.');
+                        $('#error_occuredpub').show();
+                        $('#error_occuredpub').text('Failed to save tour. Please try again.');
                     }
                 });
-            // }
+            }).catch(function () {
+                isSavingLocked = false;
+                $('#publish').prop('disabled', false);
+                $('.wpvr-loading').hide();
+            });
         });
     });
 
@@ -788,6 +833,7 @@
 
         var flag_ok = false;
         $('#save-post').on('click', function (e) {
+            if (window.WPVRVideoUrl && window.WPVRVideoUrl.deferLegacyAction(e, this)) return;
             var x = $(this).val();
             if (!flag_ok) {
                 e.preventDefault();
@@ -847,6 +893,7 @@
                         postid: postid,
                         panovideo: panovideo,
                         videourl: videourl,
+                        "video-source-type": $(".wpvr-video-source-select").val(),
                         control: control,
                         compass: compass,
                         autoload: autoload,
@@ -1310,6 +1357,7 @@
                     var _this = $(this);
 
                     if (confirm('Are you sure you want to delete?')) {
+                        _this.find('input, select, textarea').remove();
                         jQuery(_this).slideUp(deleteElement);
                         if (current == fchild) {
                             $(_this).next().addClass("active");
@@ -1321,6 +1369,9 @@
                             $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").prev().children("span").trigger("click");
                         }
                         $(_this).parent().parent('.scene-setup').find('.scene-nav li span[data-href="' + hide_id + '"]').parent("li").remove();
+                        if ($('.scene-setup .dscen').filter(function() { return $(this).val() === 'on'; }).length === 0) {
+                            $('.scene-setup .dscen').first().val('on');
+                        }
                         setTimeout(deleteinfodata, 1000);
 
                         //tab active setup
@@ -1683,6 +1734,7 @@
                         var _this = $(this);
 
                         if (confirm('Are you sure you want to delete?')) {
+                            _this.find('input, select, textarea').remove();
                             jQuery(_this).slideUp(deleteElement);
                             if (hotspot_current == hotspot_fchild) {
                                 $(_this).next().addClass("active");
@@ -1749,9 +1801,338 @@
         $(".scene-upload").trigger("click");
     })
 
-        $(document).on("click", ".scene-upload", function (event) {
+    function applySceneImageUrl($parent, imageUrl) {
+        if (!imageUrl) {
+            return;
+        }
+        var siteProtocol = window.location.protocol;
+        var imageProtocol = '';
+
+        try {
+            var parsed = new URL(imageUrl, window.location.origin);
+            imageProtocol = parsed.protocol;
+        } catch (error) {
+            // Keep original imageUrl as-is
+        }
+
+        $('.rex-add-coordinates .mixed-content-warning, .rex-add-coordinates .mixed-content-doc-link').remove();
+
+        if (imageProtocol && siteProtocol !== imageProtocol) {
+
+            // Create warning message
+            var $warningBox = $('<div>', {
+                text: "You're loading an image over " + imageProtocol.replace(':', '').toUpperCase() +
+                    " on a site using " + siteProtocol.replace(':', '').toUpperCase() +
+                    ". This may cause a mixed content issue.",
+                class: 'mixed-content-warning',
+                css: {
+                    color: 'red',
+                    marginTop: '35px',
+                }
+            });
+
+            // Create doc link
+            var $docLink = $('<a>', {
+                href: 'https://rextheme.com/docs/wp-vr-tour-not-displaying/',
+                text: 'View fix guide',
+                target: '_blank',
+                class: 'mixed-content-doc-link',
+                css: {
+                    display: 'block',
+                    color: '#0073aa',
+                    textDecoration: 'underline'
+                }
+            }).on('click', function () {
+                $(this).blur(); // Remove focus after click
+            });
+
+            // Prepend warning and link to the top of the container
+            $('.rex-add-coordinates').prepend($warningBox, $docLink);
+        }
+
+        $parent.find('.scene-attachment-url').val(imageUrl);
+        $parent.find('.scene-external-url')
+            .val(imageUrl)
+            .data('wpvrUrlDirty', false);
+        $parent.find('img').first().attr('src', imageUrl).show();
+        $parent.find('.wpvr-url-feedback-msg').removeClass('is-error is-info').empty().hide();
+
+        setTimeout(function () {
+            if (!$('#wpvr-check-scene').is(':checked')) {
+                $('#wpvr-check-scene').prop('checked', true);
+                $('#wpvr-check-scene').closest('.wpvr-checklist-item').css('color', '#0E003C');
+            }
+
+            if (!$('#wpvr-check-media').is(':checked')) {
+                $('#wpvr-check-media').prop('checked', true);
+                $('#wpvr-check-media').closest('.wpvr-checklist-item').css('color', '#0E003C');
+            }
+
+            if (typeof updateProgress === 'function') {
+                updateProgress();
+            }
+
+            $('.panolenspreview').trigger('click');
+        }, 1000);
+    }
+
+    function getExternalUrlMsg(key, defaultMsg) {
+        if (window.wpvr_obj && window.wpvr_obj.external_url_messages && window.wpvr_obj.external_url_messages[key]) {
+            return window.wpvr_obj.external_url_messages[key];
+        }
+        return defaultMsg;
+    }
+
+    function verifyExternalImageUrlOldUI(url) {
+        return new Promise(function (resolve, reject) {
+            if (!url || typeof url !== 'string') {
+                return reject({ message: getExternalUrlMsg('enter_url', 'Please enter an image URL.') });
+            }
+            var trimmedUrl = url.trim();
+            if (!/^https?:\/\/.+/i.test(trimmedUrl)) {
+                return reject({ message: getExternalUrlMsg('invalid_protocol', 'Please enter a valid HTTP or HTTPS image URL.') });
+            }
+            try {
+                new URL(trimmedUrl);
+            } catch (e) {
+                return reject({ message: getExternalUrlMsg('invalid_format', 'The URL entered is not valid.') });
+            }
+
+            var img = new Image();
+            img.crossOrigin = 'anonymous'; // WebGL texture prerequisite
+
+            var timedOut = false;
+            var timer = setTimeout(function () {
+                timedOut = true;
+                img.src = '';
+                reject({ message: getExternalUrlMsg('timeout', 'Connection timed out. The image host took too long to respond.') });
+            }, 10000);
+
+            img.onload = function () {
+                if (timedOut) return;
+                clearTimeout(timer);
+                resolve({ url: trimmedUrl, width: img.naturalWidth, height: img.naturalHeight });
+            };
+
+            img.onerror = function () {
+                if (timedOut) return;
+                clearTimeout(timer);
+
+                // Probe whether the image is accessible without CORS
+                var probe = new Image();
+                var probeTimer = setTimeout(function () {
+                    reject({ message: getExternalUrlMsg('load_error', 'Unable to load image. Ensure the URL is a direct public image link (e.g. .jpg/.png) and CORS is enabled on the hosting server.') });
+                }, 4000);
+
+                probe.onload = function () {
+                    clearTimeout(probeTimer);
+                    reject({
+                        message: getExternalUrlMsg('cors_blocked', 'Image is accessible, but the remote server blocked CORS (Access-Control-Allow-Origin). 360° panoramas require CORS enabled on the storage server.')
+                    });
+                };
+
+                probe.onerror = function () {
+                    clearTimeout(probeTimer);
+                    reject({
+                        message: getExternalUrlMsg('load_error', 'Unable to load image. Ensure the URL is a direct public image link (e.g. .jpg/.png) and CORS is enabled on the hosting server.')
+                    });
+                };
+
+                probe.src = trimmedUrl;
+            };
+
+            img.src = trimmedUrl;
+        });
+    }
+
+    function verifyAndApplySceneUrl($parent, url) {
+        var trimmedUrl = (url || '').trim();
+        var $btn = $parent.find('.wpvr-apply-url-btn');
+        var $msg = $parent.find('.wpvr-url-feedback-msg');
+
+        if (!trimmedUrl) {
+            $msg.removeClass('is-success is-info').addClass('is-error').text(getExternalUrlMsg('enter_url', 'Please enter an image URL.')).show();
+            return Promise.resolve(false);
+        }
+
+        var activeVer = $parent.data('wpvrActiveVerification');
+        if (activeVer && activeVer.url === trimmedUrl) {
+            return activeVer.promise;
+        }
+
+        var gen = ($parent.data('wpvrVerificationGen') || 0) + 1;
+        $parent.data('wpvrVerificationGen', gen);
+
+        var originalBtnText = $btn.data('wpvrOriginalText') || $btn.text();
+        $btn.data('wpvrOriginalText', originalBtnText);
+        $btn.prop('disabled', true).text(getExternalUrlMsg('verifying', 'Verifying…'));
+        $msg.removeClass('is-error is-success').addClass('is-info').text(getExternalUrlMsg('checking', 'Checking image…')).show();
+
+        var promise = verifyExternalImageUrlOldUI(trimmedUrl).then(function (res) {
+            if ($parent.data('wpvrVerificationGen') !== gen) {
+                return false;
+            }
+            $parent.removeData('wpvrActiveVerification');
+            $btn.prop('disabled', false).text($btn.data('wpvrOriginalText') || 'Apply URL');
+            var successTemplate = getExternalUrlMsg('applied_success', 'Image applied successfully! (%1$s×%2$s)');
+            var successText = successTemplate.replace('%1$s', res.width).replace('%2$s', res.height);
+            $msg.removeClass('is-error is-info').addClass('is-success').text(successText).show();
+            applySceneImageUrl($parent, res.url);
+            return true;
+        }).catch(function (err) {
+            if ($parent.data('wpvrVerificationGen') !== gen) {
+                return false;
+            }
+            $parent.removeData('wpvrActiveVerification');
+            $btn.prop('disabled', false).text($btn.data('wpvrOriginalText') || 'Apply URL');
+            var errorMsg = (err && err.message) ? err.message : getExternalUrlMsg('load_error', 'Unable to load image.');
+            $msg.removeClass('is-success is-info').addClass('is-error').text(errorMsg).show();
+            return false;
+        });
+
+        $parent.data('wpvrActiveVerification', {
+            gen: gen,
+            url: trimmedUrl,
+            promise: promise
+        });
+
+        return promise;
+    }
+
+    $(document).on("input", ".scene-external-url", function () {
+        $(this).data('wpvrUrlDirty', true);
+    });
+
+    $(document).on("click", ".wpvr-upload-tab-btn", function (e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var target = $btn.data("tab");
+        var $group = $btn.closest(".wpvr-scene-upload-group, .form-group");
+        $group.find(".wpvr-upload-tab-btn").removeClass("active");
+        $btn.addClass("active");
+
+        if (target === 'media') {
+            $group.find(".wpvr-tab-content-url").hide();
+            $group.find(".scene-upload").show();
+        } else {
+            $group.find(".scene-upload").hide();
+            $group.find(".wpvr-tab-content-url").show();
+            var $extInput = $group.find('.scene-external-url');
+            if (!$extInput.data('wpvrUrlDirty')) {
+                var committedUrl = ($group.find('.scene-attachment-url').val() || '').trim();
+                $extInput.val(committedUrl);
+            }
+        }
+    });
+
+    $(document).on("click", ".wpvr-apply-url-btn", function (e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var $parent = $btn.closest('.wpvr-scene-upload-group, .form-group');
+        var url = $parent.find('.scene-external-url').val();
+        verifyAndApplySceneUrl($parent, url);
+    });
+
+    $(document).on("keydown", ".scene-external-url", function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            $(this).closest('.wpvr-scene-upload-group, .form-group').find('.wpvr-apply-url-btn').trigger('click');
+        }
+    });
+
+    $(document).on("blur", ".scene-external-url", function (e) {
+        var $input = $(this);
+        if (!$input.data('wpvrUrlDirty')) {
+            return;
+        }
+
+        // If focus moved to Apply URL button, let its click handler handle verification
+        if (e.relatedTarget && $(e.relatedTarget).hasClass('wpvr-apply-url-btn')) {
+            return;
+        }
+
+        var $parent = $input.closest('.wpvr-scene-upload-group, .form-group');
+        var url = ($input.val() || '').trim();
+        var $attached = $parent.find('.scene-attachment-url');
+        var currentAttached = ($attached.val() || '').trim();
+
+        if (url && url !== currentAttached) {
+            verifyAndApplySceneUrl($parent, url);
+        }
+    });
+
+    function syncUnappliedExternalUrls() {
+        var verificationPromises = [];
+        if (window.WPVRVideoUrl && $("input[name='panovideo']:checked").val() === "on") {
+            verificationPromises.push(window.WPVRVideoUrl.flush());
+        }
+
+        $('.scene-external-url').each(function () {
+            var $extInput = $(this);
+            if (!$extInput.data('wpvrUrlDirty')) {
+                return;
+            }
+
+            var $parent = $extInput.closest('.wpvr-scene-upload-group, .form-group');
+            var extUrl = ($extInput.val() || '').trim();
+            var $attachedInput = $parent.find('.scene-attachment-url');
+            var attachedUrl = ($attachedInput.val() || '').trim();
+
+            if (!extUrl) {
+                verificationPromises.push(verifyAndApplySceneUrl($parent, ''));
+                return;
+            }
+
+            if (extUrl === attachedUrl) {
+                $extInput.data('wpvrUrlDirty', false);
+                return;
+            }
+
+            verificationPromises.push(verifyAndApplySceneUrl($parent, extUrl));
+        });
+
+        if (verificationPromises.length === 0) {
+            return Promise.resolve(true);
+        }
+
+        return Promise.all(verificationPromises).then(function (results) {
+            return results.every(function (r) { return r === true; });
+        }).catch(function () {
+            return false;
+        });
+    }
+    window.wpvrSyncUnappliedExternalUrls = syncUnappliedExternalUrls;
+
+    var isPostFormSubmitting = false;
+    $(document).on('submit', 'form#post', function (e) {
+        if (isPostFormSubmitting) {
+            return;
+        }
+
+        var $form = $(this);
+        e.preventDefault();
+
+        syncUnappliedExternalUrls().then(function (valid) {
+            if (!valid) {
+                var $firstError = $('.wpvr-url-feedback-msg.is-error:visible, .wpvr-video-url-feedback.is-error:visible').first();
+                if ($firstError.length) {
+                    $('html, body').animate({
+                        scrollTop: $firstError.offset().top - 100
+                    }, 500);
+                }
+                return;
+            }
+
+            isPostFormSubmitting = true;
+            $form[0].submit();
+        }).catch(function () {
+            // Do not submit on error
+        });
+    });
+
+    $(document).on("click", ".scene-upload", function (event) {
         event.preventDefault();
-        scene_upload_parent = $(this).parent('.form-group');
+        scene_upload_parent = $(this).closest('.wpvr-scene-upload-group, .form-group');
 
         if (scene_uploader) {
             scene_uploader.open();
@@ -1776,87 +2157,32 @@
 
             var $selectedSceneUploadParent = scene_upload_parent;
 
-            function applySelectedSceneImage(imageUrl) {
-                var siteProtocol = window.location.protocol;
-                var normalizedImageUrl;
+            // Invalidate pending URL verification for this scene parent
+            var currentGen = ($selectedSceneUploadParent.data('wpvrVerificationGen') || 0) + 1;
+            $selectedSceneUploadParent.data('wpvrVerificationGen', currentGen);
+            $selectedSceneUploadParent.removeData('wpvrActiveVerification');
+            $selectedSceneUploadParent.find('.wpvr-url-feedback-msg').removeClass('is-error is-info is-success').empty().hide();
+            var $applyBtn = $selectedSceneUploadParent.find('.wpvr-apply-url-btn');
+            if ($applyBtn.data('wpvrOriginalText')) {
+                $applyBtn.prop('disabled', false).text($applyBtn.data('wpvrOriginalText'));
+            }
 
-                try {
-                    normalizedImageUrl = new URL(imageUrl, window.location.origin);
-                } catch (error) {
-                    return;
-                }
-
-                imageUrl = normalizedImageUrl.href;
-                var imageProtocol = normalizedImageUrl.protocol;
-
-                $('.rex-add-coordinates .mixed-content-warning, .rex-add-coordinates .mixed-content-doc-link').remove();
-
-                if (siteProtocol !== imageProtocol) {
-
-                    // Create warning message
-                    var $warningBox = $('<div>', {
-                        text: "You're loading an image over " + imageProtocol.replace(':', '').toUpperCase() +
-                            " on a site using " + siteProtocol.replace(':', '').toUpperCase() +
-                            ". This may cause a mixed content issue.",
-                        class: 'mixed-content-warning',
-                        css: {
-                            color: 'red',
-                            marginTop: '35px',
-                        }
-                    });
-
-                    // Create doc link
-                    var $docLink = $('<a>', {
-                        href: 'https://rextheme.com/docs/wp-vr-tour-not-displaying/',
-                        text: 'View fix guide',
-                        target: '_blank',
-                        class: 'mixed-content-doc-link',
-                        css: {
-                            display: 'block',
-                            color: '#0073aa',
-                            textDecoration: 'underline'
-                        }
-                    }).on('click', function () {
-                        $(this).blur(); // Remove focus after click
-                    });
-
-                    // Prepend warning and link to the top of the container
-                    $('.rex-add-coordinates').prepend($warningBox, $docLink);
-                }
-
-                $selectedSceneUploadParent.find('.scene-attachment-url').val(imageUrl);
-                $selectedSceneUploadParent.find('img').attr('src', imageUrl).show();
-
-                setTimeout(function () {
-                    if (!$('#wpvr-check-scene').is(':checked')) {
-                        $('#wpvr-check-scene').prop('checked', true);
-                        $('#wpvr-check-scene').closest('.wpvr-checklist-item').css('color', '#0E003C');
-                    }
-
-                    if (!$('#wpvr-check-media').is(':checked')) {
-                        $('#wpvr-check-media').prop('checked', true);
-                        $('#wpvr-check-media').closest('.wpvr-checklist-item').css('color', '#0E003C');
-                    }
-
-                    updateProgress();
-
-                    $('.panolenspreview').trigger('click');
-                }, 1000);
+            function onAttachmentReady(imageUrl) {
+                applySceneImageUrl($selectedSceneUploadParent, imageUrl);
             }
 
             if (window.WPVRImageResizeWarning) {
                 try {
                     window.WPVRImageResizeWarning.handleSelection(
                         attachment,
-                        applySelectedSceneImage
+                        onAttachmentReady
                     );
                 } catch (error) {
-                    applySelectedSceneImage(attachment.url);
+                    onAttachmentReady(attachment.url);
                 }
             } else {
-                applySelectedSceneImage(attachment.url);
+                onAttachmentReady(attachment.url);
             }
-
 
         });
 

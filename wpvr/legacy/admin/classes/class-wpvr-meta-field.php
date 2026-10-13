@@ -1938,21 +1938,22 @@ class WPVR_Meta_Field {
                 ),
                 'have_tooltip' => true,
                 'tooltip_text' => array(
-                    'text' => __('Enable or disable video mode using self-hosted, YouTube, or Vimeo.', 'wpvr'),
+                    'text' => __('Enable or disable video mode using a self-hosted file, YouTube/Vimeo, or a CDN URL.', 'wpvr'),
                     'url'  => '' 
                 ),
                     
             ),
             'video-attachment-url' => array(
                 'class' => 'single-settings video-setting',
-                'title' => __('Upload or Add Link','wpvr'),
+                'title' => __('Video Source','wpvr'),
                 'placeholder' => __('Paste Youtube or Vimeo link or upload','wpvr'),
                 'input_class' => 'video-attachment-url',
                 'type' => 'video_text_input',
                 'value' => $vidurl,
+                'source_type' => \RexTheme\WPVR\Content\VideoSource::normalize( $postdata['video-source-type'] ?? '', (string) $vidurl ),
                 'have_tooltip' => true,
                 'tooltip_text' => array(
-                    'text' => __('Use a self-hosted file or paste a YouTube/Vimeo link.', 'wpvr'),
+                    'text' => __('Upload a video, paste a YouTube/Vimeo link, or use a direct CDN video URL.', 'wpvr'),
                     'url'  => '' 
                 ),
             )
@@ -2217,9 +2218,30 @@ class WPVR_Meta_Field {
                 <?php } ?>
             </div>
 
-            <div class="form-group">
+            <div class="form-group wpvr-scene-upload-group">
                 <img loading="lazy" src="<?php echo esc_url( $value ); ?>" style="display: <?php echo esc_attr( $display ); ?>;"><br>
-                <input type="button" class="scene-upload" data-info="" value="Upload"/>
+                <?php
+                $is_external = ( ! empty( $value ) && ! attachment_url_to_postid( $value ) );
+                $active_tab  = $is_external ? 'url' : 'media';
+                ?>
+                <div class="wpvr-upload-tab-nav">
+                    <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'media' ) ? 'active' : ''; ?>" data-tab="media">
+                        <span class="dashicons dashicons-admin-media"></span>
+                        <?php esc_html_e( 'Media Library', 'wpvr' ); ?>
+                    </button>
+                    <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'url' ) ? 'active' : ''; ?>" data-tab="url">
+                        <span class="dashicons dashicons-admin-links"></span>
+                        <?php esc_html_e( 'External URL', 'wpvr' ); ?>
+                    </button>
+                </div>
+                <input type="button" class="scene-upload" data-info="" value="<?php esc_attr_e( 'Upload', 'wpvr' ); ?>" style="<?php echo ( $active_tab === 'media' ) ? '' : 'display: none;'; ?>"/>
+                <div class="wpvr-tab-content wpvr-tab-content-url" style="<?php echo ( $active_tab === 'url' ) ? '' : 'display: none;'; ?>">
+                    <div class="wpvr-url-input-wrap">
+                        <input type="url" class="scene-external-url" placeholder="<?php esc_attr_e( 'Paste image URL (S3, CDN, etc.)', 'wpvr' ); ?>" value="<?php echo $is_external ? esc_url( $value ) : ''; ?>" />
+                        <button type="button" class="wpvr-apply-url-btn"><?php esc_html_e( 'Apply URL', 'wpvr' ); ?></button>
+                    </div>
+                    <div class="wpvr-url-feedback-msg" style="display:none;"></div>
+                </div>
                 <input type="hidden" name="scene-attachment-url" class="scene-attachment-url" value="<?php echo esc_attr( $value ); ?>">
             </div>
         </div>
@@ -2291,9 +2313,30 @@ class WPVR_Meta_Field {
             </div>
         
 
-            <div class="form-group">
+            <div class="form-group wpvr-scene-upload-group">
                 <img loading="lazy" src="<?php echo esc_url( $value ); ?>" style="display: <?php echo esc_attr( $img_display ); ?>;"><br>
-                <input type="button" class="scene-upload" data-info="" value="Upload"/>
+                <?php
+                $is_external = ( ! empty( $value ) && ! attachment_url_to_postid( $value ) );
+                $active_tab  = $is_external ? 'url' : 'media';
+                ?>
+                <div class="wpvr-upload-tab-nav">
+                    <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'media' ) ? 'active' : ''; ?>" data-tab="media">
+                        <span class="dashicons dashicons-admin-media"></span>
+                        <?php esc_html_e( 'Media Library', 'wpvr' ); ?>
+                    </button>
+                    <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'url' ) ? 'active' : ''; ?>" data-tab="url">
+                        <span class="dashicons dashicons-admin-links"></span>
+                        <?php esc_html_e( 'External URL', 'wpvr' ); ?>
+                    </button>
+                </div>
+                <input type="button" class="scene-upload" data-info="" value="<?php esc_attr_e( 'Upload', 'wpvr' ); ?>" style="<?php echo ( $active_tab === 'media' ) ? '' : 'display: none;'; ?>"/>
+                <div class="wpvr-tab-content wpvr-tab-content-url" style="<?php echo ( $active_tab === 'url' ) ? '' : 'display: none;'; ?>">
+                    <div class="wpvr-url-input-wrap">
+                        <input type="url" class="scene-external-url" placeholder="<?php esc_attr_e( 'Paste image URL (S3, CDN, etc.)', 'wpvr' ); ?>" value="<?php echo $is_external ? esc_url( $value ) : ''; ?>" />
+                        <button type="button" class="wpvr-apply-url-btn"><?php esc_html_e( 'Apply URL', 'wpvr' ); ?></button>
+                    </div>
+                    <div class="wpvr-url-feedback-msg" style="display:none;"></div>
+                </div>
                 <input type="hidden" name="scene-attachment-url" class="scene-attachment-url" value="<?php echo esc_attr( $value ); ?>">
             </div>
         </div>
@@ -2348,9 +2391,30 @@ class WPVR_Meta_Field {
                         <?php } ?>
                     </div>
 
-                    <div class="form-group">
-                        <img loading="lazy" src="<?php echo esc_url( $value ); ?>" style="display: block;">
-                        <input type="button" class="scene-upload" data-info="" value="Upload"/>
+                    <div class="form-group wpvr-scene-upload-group">
+                        <img loading="lazy" src="<?php echo esc_url( $value ); ?>" style="display: <?php echo ! empty( $value ) ? 'block' : 'none'; ?>;"><br>
+                        <?php
+                        $is_external = ( ! empty( $value ) && ! attachment_url_to_postid( $value ) );
+                        $active_tab  = $is_external ? 'url' : 'media';
+                        ?>
+                        <div class="wpvr-upload-tab-nav">
+                            <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'media' ) ? 'active' : ''; ?>" data-tab="media">
+                                <span class="dashicons dashicons-admin-media"></span>
+                                <?php esc_html_e( 'Media Library', 'wpvr' ); ?>
+                            </button>
+                            <button type="button" class="wpvr-upload-tab-btn <?php echo ( $active_tab === 'url' ) ? 'active' : ''; ?>" data-tab="url">
+                                <span class="dashicons dashicons-admin-links"></span>
+                                <?php esc_html_e( 'External URL', 'wpvr' ); ?>
+                            </button>
+                        </div>
+                        <input type="button" class="scene-upload" data-info="" value="<?php esc_attr_e( 'Upload', 'wpvr' ); ?>" style="<?php echo ( $active_tab === 'media' ) ? '' : 'display: none;'; ?>"/>
+                        <div class="wpvr-tab-content wpvr-tab-content-url" style="<?php echo ( $active_tab === 'url' ) ? '' : 'display: none;'; ?>">
+                            <div class="wpvr-url-input-wrap">
+                                <input type="url" class="scene-external-url" placeholder="<?php esc_attr_e( 'Paste image URL (S3, CDN, etc.)', 'wpvr' ); ?>" value="<?php echo $is_external ? esc_url( $value ) : ''; ?>" />
+                                <button type="button" class="wpvr-apply-url-btn"><?php esc_html_e( 'Apply URL', 'wpvr' ); ?></button>
+                            </div>
+                            <div class="wpvr-url-feedback-msg" style="display:none;"></div>
+                        </div>
                         <input type="hidden" name="<?php echo esc_attr( $name ); ?>" class="scene-attachment-url" value="<?php echo esc_attr( $value ); ?>">
                     </div>
 
@@ -2493,6 +2557,7 @@ class WPVR_Meta_Field {
     public static function render_video_text_input($name, $val)
     {
         extract( $val );
+        $source_type = $val['source_type'] ?? \RexTheme\WPVR\Content\VideoSource::normalize( '', (string) $value );
         ob_start();
         ?>
         <div class="<?php echo esc_attr( $class ); ?>" style="display:none;">
@@ -2524,9 +2589,25 @@ class WPVR_Meta_Field {
                 <?php } ?>
             </div>
 
-            <div class="form-group">
-                <input type="text" placeholder="<?php echo esc_attr( $placeholder ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $input_class ); ?>" value="<?php echo esc_attr( $value ); ?>">
-                <input type="button" class="video-upload" data-info="" value="Upload"/>
+            <div class="form-group wpvr-video-source-field">
+                <label for="wpvr-video-source"><?php esc_html_e( 'Video Source', 'wpvr' ); ?></label>
+                <select id="wpvr-video-source" name="video-source-type" class="wpvr-video-source-select">
+                    <?php foreach ( [ 'upload' => __( 'Self Hosted', 'wpvr' ), 'url' => __( 'YouTube / Vimeo', 'wpvr' ), 'cdn' => __( 'CDN URL', 'wpvr' ) ] as $key => $label ) : ?>
+                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $source_type, $key ); ?>><?php echo esc_html( $label ); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="<?php echo $source_type === 'cdn' ? 'hidden' : 'url'; ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" name="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $input_class ); ?>" value="<?php echo esc_attr( $value ); ?>">
+                <input type="button" class="video-upload" data-info="" value="<?php esc_attr_e( 'Upload', 'wpvr' ); ?>" <?php if ( $source_type !== 'upload' ) echo 'style="display:none"'; ?>/>
+                <div class="wpvr-video-cdn-controls" <?php if ( $source_type !== 'cdn' ) echo 'style="display:none"'; ?>>
+                    <label for="wpvr-video-cdn-url"><?php esc_html_e( 'Video URL', 'wpvr' ); ?></label>
+                    <input id="wpvr-video-cdn-url" type="url" class="wpvr-video-cdn-url" value="<?php echo esc_attr( $value ); ?>" placeholder="https://cdn.example.com/video.mp4">
+                    <div class="wpvr-video-url-actions">
+                        <button type="button" class="button wpvr-video-apply-url"><?php esc_html_e( 'Apply URL', 'wpvr' ); ?></button>
+                        <button type="button" class="button wpvr-video-remove-url"><?php esc_html_e( 'Remove', 'wpvr' ); ?></button>
+                    </div>
+                    <p class="description"><?php esc_html_e( 'Use a direct 360° equirectangular MP4 URL. The video host must allow CORS for this site.', 'wpvr' ); ?></p>
+                    <p class="wpvr-video-url-feedback" role="status" aria-live="polite"></p>
+                </div>
             </div>
 
         </div>

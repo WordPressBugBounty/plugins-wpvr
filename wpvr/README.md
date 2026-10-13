@@ -3,6 +3,11 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.3.0 (2026-10-13)
+- **New:** Added external image URL support for 360° panorama scenes via CDN and cloud storage (Amazon S3, Cloudflare R2, Google Cloud Storage) across modern and classic tour editors.
+- **New:** Added CDN video URL support for 360° video tours with cross-origin playback handling.
+- **Enhancement:** Added real-time URL verification and WebGL CORS preflight validation before saving tour scenes.
+
 ### 9.2.0 (2026-10-08)
 - **New:** Added Text Overlay feature to create customizable rich text overlays on tour scenes with WYSIWYG editing, styling, and layer controls.
 - **New:** Added Sticker Hotspots with interactive templates including discount buttons, add-to-cart, action buttons, social share, and social proof.

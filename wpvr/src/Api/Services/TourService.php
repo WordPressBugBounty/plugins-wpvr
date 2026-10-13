@@ -4,6 +4,7 @@ namespace RexTheme\WPVR\Api\Services;
 
 use RexTheme\WPVR\Api\Contracts\RepositoryInterface;
 use RexTheme\WPVR\Api\Contracts\TransformerInterface;
+use RexTheme\WPVR\Content\VideoSource;
 
 class TourService {
 
@@ -22,7 +23,21 @@ class TourService {
         return $this->transformer->toApi( $raw );
     }
 
-    public function update( int $tour_id, array $api_data ): bool {
+    public function update( int $tour_id, array $api_data ) {
+        if ( ( $api_data['tourType'] ?? '' ) === 'video' ) {
+            $video_error = VideoSource::validate( $api_data['videoData']['url'] ?? '', $api_data['videoData']['sourceType'] ?? '' );
+            if ( is_wp_error( $video_error ) ) {
+                return $video_error;
+            }
+            if ( ( $api_data['status'] ?? get_post_status( $tour_id ) ) === 'publish' && trim( $api_data['videoData']['url'] ?? '' ) === '' ) {
+                return new \WP_Error( 'missing_video_url', __( 'Add a video before publishing the tour.', 'wpvr' ) );
+            }
+        }
+        $url_error = $this->validate_scene_image_urls( $api_data );
+        if ( is_wp_error( $url_error ) ) {
+            return $url_error;
+        }
+
         $api_data['tourId'] = $tour_id;
         $api_data['id']     = $tour_id;
 
@@ -273,5 +288,54 @@ class TourService {
         $this->repository->save( $post_id, [ 'tour-type' => $tour_type ] );
 
         return $post_id;
+    }
+
+    /**
+     * Validate that supplied nonempty scene image URLs have valid scheme (http or https) and host.
+     *
+     * @param array $api_data
+     * @return \WP_Error|null
+     */
+    public function validate_scene_image_urls( array $api_data ): ?\WP_Error {
+        $scenes = is_array( $api_data['scenes'] ?? null ) ? $api_data['scenes'] : [];
+        foreach ( $scenes as $scene ) {
+            if ( ! is_array( $scene ) ) {
+                continue;
+            }
+            $scene_id = $scene['id'] ?? '';
+            if ( ! empty( $scene['imageUrl'] ) ) {
+                $err = $this->validate_url_scheme_and_host( $scene['imageUrl'], $scene_id );
+                if ( is_wp_error( $err ) ) {
+                    return $err;
+                }
+            }
+            if ( ! empty( $scene['cubemapFaces'] ) && is_array( $scene['cubemapFaces'] ) ) {
+                foreach ( $scene['cubemapFaces'] as $idx => $face_url ) {
+                    if ( ! empty( $face_url ) ) {
+                        $err = $this->validate_url_scheme_and_host( $face_url, $scene_id, sprintf( __( 'Face %d', 'wpvr' ), $idx ) );
+                        if ( is_wp_error( $err ) ) {
+                            return $err;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private function validate_url_scheme_and_host( $url, string $scene_id, string $label = '' ): ?\WP_Error {
+        if ( ! is_string( $url ) ) {
+            return new \WP_Error( 'invalid_scene_image_url', __( 'Scene image URL must be a string.', 'wpvr' ) );
+        }
+        $trimmed = trim( $url );
+        $clean   = esc_url_raw( $trimmed, [ 'http', 'https' ] );
+        $parsed  = wp_parse_url( $clean );
+        if ( empty( $clean ) || ! is_array( $parsed ) || empty( $parsed['scheme'] ) || empty( $parsed['host'] ) || ! in_array( strtolower( $parsed['scheme'] ), [ 'http', 'https' ], true ) ) {
+            $msg = $label !== ''
+                ? sprintf( __( 'Please provide a valid HTTP or HTTPS image URL with a host where Scene ID is %1$s (%2$s).', 'wpvr' ), $scene_id, $label )
+                : sprintf( __( 'Please provide a valid HTTP or HTTPS image URL with a host where Scene ID is %s.', 'wpvr' ), $scene_id );
+            return new \WP_Error( 'invalid_scene_image_url', $msg );
+        }
+        return null;
     }
 }

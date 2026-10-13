@@ -3,6 +3,7 @@
 namespace RexTheme\WPVR\Api\Transformers;
 
 use RexTheme\WPVR\Api\Contracts\TransformerInterface;
+use RexTheme\WPVR\Content\VideoSource;
 use RexTheme\WPVR\Content\TextOverlayContent;
 
 class TourTransformer implements TransformerInterface {
@@ -41,8 +42,10 @@ class TourTransformer implements TransformerInterface {
                 : ( isset( $raw['autoRotateStopDelay'] ) && $raw['autoRotateStopDelay'] !== '' ? (int) $raw['autoRotateStopDelay'] : null ),
         ];
 
-        $default_scene_id = ! empty( $raw['defaultscene'] ) ? $raw['defaultscene'] : null;
-        $has_explicit_default_scene = ( $raw['defaultscene-auto'] ?? 'off' ) !== 'on';
+        $default_scene_id = ! empty( $raw['defaultscene'] ) ? (string) $raw['defaultscene'] : null;
+        $scene_ids        = array_filter( array_column( $scenes, 'id' ) );
+        $default_scene_exists = $default_scene_id !== null && in_array( $default_scene_id, $scene_ids, true );
+        $has_explicit_default_scene = ( ( $raw['defaultscene-auto'] ?? 'off' ) !== 'on' ) && $default_scene_exists;
 
         return [
             'defaultSceneId' => $has_explicit_default_scene ? $default_scene_id : null,
@@ -65,6 +68,7 @@ class TourTransformer implements TransformerInterface {
             ],
             'videoData'      => [
                 'url'      => $raw['vidurl'] ?? '',
+                'sourceType' => VideoSource::normalize( $raw['video-source-type'] ?? '', (string) ( $raw['vidurl'] ?? '' ) ),
                 'autoplay' => ( $raw['video-autoplay'] ?? $raw['autoplay'] ?? 'off' ) === 'on',
                 'loop'     => ( $raw['video-loop'] ?? $raw['loop'] ?? 'off' ) === 'on',
             ],
@@ -99,6 +103,7 @@ class TourTransformer implements TransformerInterface {
         }
 
         $scenes = is_array( $data['scenes'] ?? null ) ? $data['scenes'] : [];
+        $first_scene_id = $scenes[0]['id'] ?? '';
         $requested_default_scene_id = (string) ( $data['defaultSceneId'] ?? '' );
         $has_explicit_default_scene = $requested_default_scene_id !== ''
             && ! empty( array_filter(
@@ -109,7 +114,7 @@ class TourTransformer implements TransformerInterface {
             ) );
         $default_scene_id = $has_explicit_default_scene
             ? $requested_default_scene_id
-            : ( $scenes[0]['id'] ?? '' );
+            : $first_scene_id;
 
         $raw = [
             'autoLoad'           => ! empty( $settings['autoLoad'] ) && $settings['autoLoad'] !== 'off' && $settings['autoLoad'] !== 'false',
@@ -162,6 +167,7 @@ class TourTransformer implements TransformerInterface {
             ),
             'tour-type'          => $tour_type,
             'vidurl'             => esc_url_raw( $video_data['url'] ?? '' ),
+            'video-source-type'  => VideoSource::normalize( $video_data['sourceType'] ?? '', (string) ( $video_data['url'] ?? '' ) ),
             'video-autoplay'     => ! empty( $video_data['autoplay'] ) ? 'on' : 'off',
             'video-loop'         => ! empty( $video_data['loop'] ) ? 'on' : 'off',
             'autoplay'           => ! empty( $video_data['autoplay'] ) ? 'on' : 'off',
@@ -180,6 +186,8 @@ class TourTransformer implements TransformerInterface {
 
         if ( $tour_type === 'video' && ! empty( $video_data['url'] ) ) {
             $raw['vidid'] = 'vid' . ( $data['tourId'] ?? $data['id'] ?? wp_rand( 1000, 99999 ) );
+            $raw['vidtype'] = VideoSource::player_type( $raw['vidurl'], $raw['video-source-type'] );
+            $raw['panoviddata'] = ''; // Rebuild preview markup from the current URL.
         }
 
         return $raw;
@@ -515,7 +523,7 @@ class TourTransformer implements TransformerInterface {
                 'scene-id'             => $scene_id,
                 'scene-ititle'         => $scene['name']     ?? '',
                 'scene-type'           => $this->is_pro && ( $scene['type'] ?? '' ) === 'cubemap' ? 'cubemap' : 'equirectangular',
-                'scene-attachment-url' => $scene['imageUrl'] ?? '',
+                'scene-attachment-url' => ! empty( $scene['imageUrl'] ) ? esc_url_raw( trim( (string) $scene['imageUrl'] ), [ 'http', 'https' ] ) : '',
                 'scene-show-info'      => $show_scene_info ? 'on' : 'off',
                 'hotspot-list'         => $this->hotspots_from_api( $scene['hotspots'] ?? [] ),
                 'dscene'                  => ( $default_scene_id !== '' && $scene_id === $default_scene_id ) ? 'on' : 'off',
@@ -528,7 +536,7 @@ class TourTransformer implements TransformerInterface {
                 $scene_data = array_merge( $scene_data, [
                     // Pro: metadata
                     'scene-author'               => $scene['author']          ?? '',
-                    'scene-author-url'           => $scene['authorUrl']       ?? '',
+                    'scene-author-url'           => ! empty( $scene['authorUrl'] ) ? esc_url_raw( $scene['authorUrl'] ) : '',
                     'scene-vaov'                 => $scene['vaov']            ?? '',
                     'scene-haov'                 => $scene['haov']            ?? '',
                     'scene-vertical-offset'      => $scene['verticalOffset']  ?? '',
@@ -550,12 +558,12 @@ class TourTransformer implements TransformerInterface {
                     'scene-maxzoom'              => $scene['maxZoom']         ?? '',
                     'scene-minzoom'              => $scene['minZoom']         ?? '',
                     // Pro: cubemap faces
-                    'scene-attachment-url-face0' => $faces[0] ?? '',
-                    'scene-attachment-url-face1' => $faces[1] ?? '',
-                    'scene-attachment-url-face2' => $faces[2] ?? '',
-                    'scene-attachment-url-face3' => $faces[3] ?? '',
-                    'scene-attachment-url-face4' => $faces[4] ?? '',
-                    'scene-attachment-url-face5' => $faces[5] ?? '',
+                    'scene-attachment-url-face0' => ! empty( $faces[0] ) ? esc_url_raw( trim( (string) $faces[0] ), [ 'http', 'https' ] ) : '',
+                    'scene-attachment-url-face1' => ! empty( $faces[1] ) ? esc_url_raw( trim( (string) $faces[1] ), [ 'http', 'https' ] ) : '',
+                    'scene-attachment-url-face2' => ! empty( $faces[2] ) ? esc_url_raw( trim( (string) $faces[2] ), [ 'http', 'https' ] ) : '',
+                    'scene-attachment-url-face3' => ! empty( $faces[3] ) ? esc_url_raw( trim( (string) $faces[3] ), [ 'http', 'https' ] ) : '',
+                    'scene-attachment-url-face4' => ! empty( $faces[4] ) ? esc_url_raw( trim( (string) $faces[4] ), [ 'http', 'https' ] ) : '',
+                    'scene-attachment-url-face5' => ! empty( $faces[5] ) ? esc_url_raw( trim( (string) $faces[5] ), [ 'http', 'https' ] ) : '',
                     'text-overlays'              => $this->text_overlays_from_api( $scene['textOverlays'] ?? [] ),
                 ] );
             }

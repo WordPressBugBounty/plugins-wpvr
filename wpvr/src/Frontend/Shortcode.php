@@ -72,13 +72,13 @@ class Shortcode {
         $radius = ! empty( $atts['radius'] ) ? esc_attr( $atts['radius'] ) : null;
 
         // New UI stores video-autoplay / video-loop; legacy renderer expects autoplay / loop.
-        $postdata['autoplay'] = $postdata['video-autoplay'] ?? 'off';
-        $postdata['loop']     = $postdata['video-loop']     ?? 'off';
+        $postdata['autoplay'] = $postdata['video-autoplay'] ?? $postdata['autoplay'] ?? 'off';
+        $postdata['loop']     = $postdata['video-loop'] ?? $postdata['loop'] ?? 'off';
 
         $vidid = ! empty( $postdata['vidid'] ) ? $postdata['vidid'] : ( 'vid' . $id );
         $postdata['vidid'] = $vidid;
 
-        if ( empty( $postdata['panoviddata'] ) && ! empty( $postdata['vidurl'] ) ) {
+        if ( ! empty( $postdata['vidurl'] ) && \RexTheme\WPVR\Content\VideoSource::player_type( $postdata['vidurl'], $postdata['video-source-type'] ?? '' ) === 'selfhost' ) {
             $format = new \WPVR_Format();
             $postdata['panoviddata'] = $format->prepare_selfhost_video_meta_data( $postdata['vidurl'], $vidid, $postdata );
         }

@@ -429,7 +429,10 @@ class WPVR_Scene {
         $scene_fade_duration = '';
         $scene_fade_duration = isset($_POST['scenefadeduration']) ? sanitize_text_field(wp_unslash( $_POST['scenefadeduration'] )) : '';
 
-        // Only validate when publishing, not when saving drafts
+        // Validate nonempty scene image URLs for both drafts and publishing
+        $this->validator->validate_nonempty_scene_image_urls($panodata);
+
+        // Only validate required scenes/hotspots when publishing, not when saving drafts
         if ($is_publish_action) {
             $this->validator->scene_validation($panodata);                                                    // Scene content error control and validation //
 
@@ -912,6 +915,18 @@ class WPVR_Scene {
         $panodata = array();
         if (isset($postdata['panodata']) && is_array($postdata['panodata'])) {
             $panodata = $postdata['panodata'];
+        }
+
+        $available_scene_ids = [];
+        if (!empty($panodata["scene-list"]) && is_array($panodata["scene-list"])) {
+            foreach ($panodata["scene-list"] as $panoscene) {
+                if (!empty($panoscene['scene-id'])) {
+                    $available_scene_ids[] = (string) $panoscene['scene-id'];
+                }
+            }
+        }
+        if (empty($default_scene) || !in_array((string)$default_scene, $available_scene_ids, true)) {
+            $default_scene = !empty($available_scene_ids) ? $available_scene_ids[0] : '';
         }
 
         $hotspoticoncolor = '#00b4ff';

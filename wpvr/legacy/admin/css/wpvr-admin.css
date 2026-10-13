@@ -7327,3 +7327,195 @@ body.wp-vr_page_wpvr-setting {
         display: none;
     }
 }
+
+/* WPVR Old UI Scene Upload Tabs & External URL */
+.wpvr-scene-upload-group {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wpvr-upload-tab-nav {
+    display: flex;
+    background: #f0f2f7;
+    border: 1px solid #dae3fd;
+    border-radius: 6px;
+    padding: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+}
+
+.wpvr-upload-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #646970;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    outline: none;
+    line-height: 1.4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.wpvr-upload-tab-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 1.2;
+}
+
+.wpvr-upload-tab-btn:hover {
+    color: #1d2327;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.wpvr-upload-tab-btn.active {
+    background: #ffffff;
+    color: #3F04FE;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.wpvr-tab-content {
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+}
+
+.wpvr-tab-content-url .wpvr-url-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url input.scene-external-url,
+.equirectangular-upload .wpvr-tab-content-url input.scene-external-url,
+.cubemap-upload .wpvr-tab-content-url input.scene-external-url {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 46px !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    border: 1px solid #dae3fd !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important;
+    color: #454545 !important;
+    background: #ffffff !important;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url input.scene-external-url:focus,
+.equirectangular-upload .wpvr-tab-content-url input.scene-external-url:focus,
+.cubemap-upload .wpvr-tab-content-url input.scene-external-url:focus {
+    border-color: #3F04FE !important;
+    box-shadow: 0 0 0 1px #3F04FE !important;
+    outline: none !important;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url button.wpvr-apply-url-btn,
+.equirectangular-upload .wpvr-tab-content-url button.wpvr-apply-url-btn,
+.cubemap-upload .wpvr-tab-content-url button.wpvr-apply-url-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 42px !important;
+    text-transform: uppercase !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    color: #ffffff !important;
+    background: #3F04FE !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url button.wpvr-apply-url-btn:hover,
+.equirectangular-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:hover,
+.cubemap-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:hover {
+    background: #3869f3 !important;
+    color: #ffffff !important;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url button.wpvr-apply-url-btn:focus,
+.equirectangular-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:focus,
+.cubemap-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:focus {
+    box-shadow: none !important;
+    outline: inherit !important;
+}
+
+.single-scene .scene-setting .wpvr-tab-content-url button.wpvr-apply-url-btn:disabled,
+.equirectangular-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:disabled,
+.cubemap-upload .wpvr-tab-content-url button.wpvr-apply-url-btn:disabled {
+    background: #8b70f8 !important;
+    cursor: not-allowed !important;
+    opacity: 0.8 !important;
+}
+
+.wpvr-url-feedback-msg {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.wpvr-url-feedback-msg.is-error {
+    background: #fdf2f2;
+    color: #d63638;
+    border: 1px solid #f8d7da;
+    display: block;
+}
+
+.wpvr-url-feedback-msg.is-success {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    display: block;
+}
+
+.wpvr-url-feedback-msg.is-info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    display: block;
+}
+
+
+/* Shared Free/Pro classic video source controls. */
+.wpvr-video-source-field { flex-wrap: wrap; gap: 10px; }
+.wpvr-video-source-field > label { display: block; width: 100%; }
+.wpvr-video-source-field .wpvr-video-source-select { display: block; width: 100%; max-width: 100%; height: 40px; }
+.wpvr-video-source-field input[type="url"] { width: 100%; min-width: 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+.wpvr-video-source-field input[type="hidden"] { display: none !important; }
+.wpvr-video-cdn-controls { width: 100%; }
+.wpvr-video-cdn-controls > label { display: block; margin-bottom: 8px; }
+.wpvr-video-url-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+.wpvr-video-url-actions .button { margin: 0; }
+.wpvr-video-url-feedback { color: #227345; }
+.wpvr-video-url-feedback.is-error { color: #b32d2e; }

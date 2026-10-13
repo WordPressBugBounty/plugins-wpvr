@@ -124,30 +124,35 @@ class WPVR_Tour_Preview extends WPVR_Meta_Box
                 <div id="custom-ifram" style="display: none;"></div>
                 <div id="<?php echo esc_attr( 'pano' . $id ); ?>" class="pano-wrap" style="height: 100%;">
                     <?php
-                    if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] === 'youtube' && ! empty( $postdata['vidurl'] ) ) {
-                        $format = new WPVR_Format();
-                        $videodata = array(
-                            'autoplay' => isset( $postdata['autoplay'] ) ? $postdata['autoplay'] : 'off',
-                            'loop'     => isset( $postdata['loop'] ) ? $postdata['loop'] : 'off',
-                        );
+                    $format = new WPVR_Format();
+                    $vidid = ! empty( $postdata['vidid'] ) ? $postdata['vidid'] : ( 'vid' . $id );
+                    $video_url = (string) ( $postdata['vidurl'] ?? '' );
+                    $player_type = \RexTheme\WPVR\Content\VideoSource::player_type( $video_url, $postdata['video-source-type'] ?? '' );
+                    $videodata = [
+                        'autoplay' => $postdata['video-autoplay'] ?? $postdata['autoplay'] ?? 'off',
+                        'loop' => $postdata['video-loop'] ?? $postdata['loop'] ?? 'off',
+                    ];
+                    if ( $player_type === 'youtube' && $video_url !== '' ) {
                         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted internal preview markup includes script/style tags.
-                        echo $format->prepare_youtube_video_preview( $postdata['vidurl'], $videodata );
+                        echo $format->prepare_youtube_video_preview( $video_url, $videodata );
+                    } elseif ( $player_type === 'vimeo' && $video_url !== '' ) {
+                        echo $format->prepare_vimeo_video_meta_data( $video_url, $videodata );
                     } else {
                         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- stored tour preview markup is rendered as HTML.
-                        if ( ! empty( $postdata['panoviddata'] ) ) {
+                        if ( $video_url !== '' ) {
+                            echo $format->prepare_selfhost_video_meta_data( $video_url, $vidid, $videodata );
+                        } elseif ( ! empty( $postdata['panoviddata'] ) ) {
                             echo $postdata['panoviddata'];
-                        } elseif ( ! empty( $postdata['vidurl'] ) ) {
-                            $format = new WPVR_Format();
-                            $vidid = ! empty( $postdata['vidid'] ) ? $postdata['vidid'] : ( 'vid' . $id );
-                            echo $format->prepare_selfhost_video_meta_data( $postdata['vidurl'], $vidid, $postdata );
                         }
                     }
                     ?>
-                    <?php if ( isset( $postdata['vidtype'] ) && $postdata['vidtype'] == 'selfhost') { ?>
+                    <?php if ( $player_type === 'selfhost' ) { ?>
                         <script>
-                            videojs(<?php echo esc_js($postdata['vidid'] ?? ('vid' . $id)); ?>, {
-                                plugins: {
-                                    pannellum: {}
+                            jQuery(function () {
+                                var element = document.getElementById(<?php echo wp_json_encode($vidid); ?>);
+                                if (element && typeof window.videojs === 'function') {
+                                    var player = window.videojs(element, { plugins: { pannellum: {} } });
+                                    if (window.WPVRVideoUrl) window.WPVRVideoUrl.configurePlayer(player);
                                 }
                             });
                         </script>

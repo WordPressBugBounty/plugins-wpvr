@@ -1,4 +1,5 @@
 <?php
+use RexTheme\WPVR\Content\VideoSource;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 /**
  * Responsible for managing Video tab content on Setup metabox
@@ -60,7 +61,7 @@ class WPVR_Video {
      * @return void
      * @since 8.0.0
      */
-    public function wpvr_update_meta_box($postid, $panoid)
+    public function wpvr_update_meta_box($postid, $panoid, $is_publish_action = false)
     {
         $nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
         if ( ! wp_verify_nonce( $nonce, 'wpvr' ) ) {
@@ -68,19 +69,24 @@ class WPVR_Video {
         }
         $vidid = 'vid' . $postid;
         $videourl = isset( $_POST['videourl'] ) ? esc_url_raw( wp_unslash( $_POST['videourl'] ) ) : '';
+        $source = isset( $_POST['video-source-type'] ) ? sanitize_key( wp_unslash( $_POST['video-source-type'] ) ) : '';
+        $error = VideoSource::validate( $videourl, $source );
+        if ( is_wp_error( $error ) ) {
+            wp_send_json_error( esc_html( $error->get_error_message() ) );
+        }
+        $source = VideoSource::normalize( $source, $videourl );
         
         $videodata = $this->format->prepare_video_settings_data();
         $vidtype = '';
 
-        $this->validator->empty_video_validation($videourl);
+        if ($is_publish_action) {
+            $this->validator->empty_video_validation($videourl);
+        }
 
-        if (strpos($videourl, 'youtube') > 0) {
+        if (VideoSource::player_type($videourl, $source) === 'youtube') {
             $vidtype = 'youtube';
             $html = $this->format->prepare_youtube_video_meta_data($videourl, $videodata);
-        } elseif (strpos($videourl, 'youtu.be') > 0) {
-            $vidtype = 'youtube';
-            $html = $this->format->prepare_youtu_be_video_meta_data($videourl, $videodata);
-        } elseif (strpos($videourl, 'vimeo') > 0) {
+        } elseif (VideoSource::player_type($videourl, $source) === 'vimeo') {
             $vidtype = 'vimeo';
             $html = $this->format->prepare_vimeo_video_meta_data($videourl, $videodata);
         } else {
@@ -88,6 +94,9 @@ class WPVR_Video {
             $html = $this->format->prepare_selfhost_video_meta_data($videourl, $vidid, $videodata);
         }
 
+        if ($videourl === '') {
+            $html = '';
+        }
         $videoarray = array();
         $videoarray = array(
                             'panoid'      => $panoid, 
@@ -95,6 +104,8 @@ class WPVR_Video {
                             'vidid'       => $vidid, 
                             'vidurl'      => $videourl, 
                             'vidtype'     => $vidtype,
+                            'video-source-type' => $source,
+                            'tour-type'   => 'video',
                             'autoplay'    => $videodata['autoplay'], 
                             'loop'        => $videodata['loop']
                         );
@@ -129,18 +140,21 @@ class WPVR_Video {
         }
         $vidid = 'vid' . $randid;
         $videourl = isset( $_POST['videourl'] ) ? esc_url_raw( wp_unslash( $_POST['videourl'] ) ) : '';
+        $source = isset( $_POST['video-source-type'] ) ? sanitize_key( wp_unslash( $_POST['video-source-type'] ) ) : '';
+        $error = VideoSource::validate( $videourl, $source );
+        if ( is_wp_error( $error ) ) {
+            wp_send_json_error( esc_html( $error->get_error_message() ) );
+        }
+        $source = VideoSource::normalize( $source, $videourl );
         $videodata = $this->format->prepare_video_settings_data();
         $vidtype = '';
 
         $this->validator->empty_video_validation($videourl);
 
-        if (strpos($videourl, 'youtube') > 0) {
+        if (VideoSource::player_type($videourl, $source) === 'youtube') {
             $vidtype = 'youtube';
             $html = $this->format->prepare_youtube_video_preview($videourl, $videodata);
-        } elseif (strpos($videourl, 'youtu.be') > 0) {
-            $vidtype = 'youtube';
-            $html = $this->format->prepare_youtube_video_preview($videourl, $videodata);
-        } elseif (strpos($videourl, 'vimeo') > 0) {
+        } elseif (VideoSource::player_type($videourl, $source) === 'vimeo') {
             $vidtype = 'vimeo';
             $html = $this->format->prepare_vimeo_video_meta_data($videourl, $videodata);
         } else {
@@ -185,9 +199,10 @@ class WPVR_Video {
             $loop = $postdata['loop'];
         }
 
-        if (strpos($postdata['vidurl'], 'youtube') > 0 || strpos($postdata['vidurl'], 'youtu') > 0) {
+        $player_type = VideoSource::player_type( (string) ($postdata['vidurl'] ?? ''), $postdata['video-source-type'] ?? '' );
+        if ($player_type === 'youtube') {
             $html = $this->format->prepare_youtube_video_shortcode_data($postdata, $width, $height, $autoplay, $loop, $radius);
-        } elseif (strpos($postdata['vidurl'], 'vimeo') > 0) {
+        } elseif ($player_type === 'vimeo') {
             $html = $this->format->prepare_vimeo_video_shortcode_data($postdata, $width, $height, $autoplay, $loop, $radius);
         } else {
             $html = $this->format->prepare_regular_video_shortcode_data($id, $postdata, $width, $height, $radius);

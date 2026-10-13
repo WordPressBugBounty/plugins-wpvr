@@ -256,6 +256,15 @@ class Wpvr_Ajax
     }
 
     $panoid = 'pano' . $postid;
+    if ( ( $_POST['panovideo'] ?? '' ) === 'on' ) {
+        $video_error = \RexTheme\WPVR\Content\VideoSource::validate(
+            isset( $_POST['videourl'] ) ? wp_unslash( $_POST['videourl'] ) : '',
+            isset( $_POST['video-source-type'] ) ? wp_unslash( $_POST['video-source-type'] ) : ''
+        );
+        if ( is_wp_error( $video_error ) ) {
+            wp_send_json_error( esc_html( $video_error->get_error_message() ) );
+        }
+    }
     
 
     /**
@@ -416,6 +425,9 @@ class Wpvr_Ajax
 		}
 	}
 
+	if ( ( $_POST['panovideo'] ?? '' ) === 'on' && in_array( $post_array['post_status'], [ 'publish', 'private', 'future' ], true ) && trim( wp_unslash( $_POST['videourl'] ?? '' ) ) === '' ) {
+		wp_send_json_error( esc_html__( 'Add a video before publishing the tour.', 'wpvr' ) );
+	}
 	$post_title = isset( $_POST['post_title'] ) ? sanitize_text_field( wp_unslash( $_POST['post_title'] ) ) : get_the_title( $postid );
 	wp_update_post( array(
 		'ID'            => $postid,

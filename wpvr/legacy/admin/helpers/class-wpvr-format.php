@@ -77,21 +77,26 @@ class WPVR_Format
     public function prepare_default_scene($panodata)
     {
         $allsceneids = array();
+        $default_scene = '';
 
-        foreach ($panodata["scene-list"] as $panoscenes) {
-            if (!empty($panoscenes['scene-id'])) {
-                array_push($allsceneids, $panoscenes['scene-id']);
-            }
-            if (($panoscenes['dscene'] ?? 'off') == 'on') {
-                return $default_scene = $panoscenes['scene-id'] ?? '';
+        if (!empty($panodata["scene-list"]) && is_array($panodata["scene-list"])) {
+            foreach ($panodata["scene-list"] as $panoscenes) {
+                if (!empty($panoscenes['scene-id'])) {
+                    array_push($allsceneids, $panoscenes['scene-id']);
+                    if (($panoscenes['dscene'] ?? 'off') === 'on' && empty($default_scene)) {
+                        $default_scene = $panoscenes['scene-id'];
+                    }
+                }
             }
         }
 
-        if (empty($default_scene)) {
-            if ($allsceneids) {
-                return $default_scene = $allsceneids[0];
+        if (empty($default_scene) || !in_array($default_scene, $allsceneids, true)) {
+            if (!empty($allsceneids)) {
+                $default_scene = $allsceneids[0];
             }
         }
+
+        return $default_scene;
     }
 
 
@@ -145,6 +150,22 @@ class WPVR_Format
                     }
                 }
 
+                if ( isset( $temp_array['scene-attachment-url'] ) && is_string( $temp_array['scene-attachment-url'] ) ) {
+                    $trimmed_attachment = trim( $temp_array['scene-attachment-url'] );
+                    $temp_array['scene-attachment-url'] = $trimmed_attachment !== ''
+                        ? esc_url_raw( $trimmed_attachment, array( 'http', 'https' ) )
+                        : '';
+                }
+                for ( $f = 0; $f < 6; $f++ ) {
+                    $face_key = "scene-attachment-url-face{$f}";
+                    if ( isset( $temp_array[ $face_key ] ) && is_string( $temp_array[ $face_key ] ) ) {
+                        $trimmed_face = trim( $temp_array[ $face_key ] );
+                        $temp_array[ $face_key ] = $trimmed_face !== ''
+                            ? esc_url_raw( $trimmed_face, array( 'http', 'https' ) )
+                            : '';
+                    }
+                }
+
                 $temp_array['hotspot-list'] = $_hotspot_array;
                 $panolist['scene-list'][] = $temp_array;
             }
@@ -164,19 +185,25 @@ class WPVR_Format
      */
     public function remove_empty_scene_and_hotspot($panodata)
     {
-        $panolength = count($panodata["scene-list"]);
-        for ($i = 0; $i < $panolength; $i++) {
-            if (empty($panodata["scene-list"][$i]['scene-id'])) {
+        if (empty($panodata["scene-list"]) || !is_array($panodata["scene-list"])) {
+            return $panodata;
+        }
+
+        foreach ($panodata["scene-list"] as $i => $scene) {
+            if (empty($scene['scene-id'])) {
                 unset($panodata["scene-list"][$i]);
             } else {
-                $panohotspotlength = count($panodata["scene-list"][$i]['hotspot-list']);
-                for ($j = 0; $j < $panohotspotlength; $j++) {
-                    if (empty($panodata["scene-list"][$i]['hotspot-list'][$j]['hotspot-title'])) {
-                        unset($panodata["scene-list"][$i]['hotspot-list'][$j]);
+                if (!empty($scene['hotspot-list']) && is_array($scene['hotspot-list'])) {
+                    foreach ($scene['hotspot-list'] as $j => $hotspot) {
+                        if (empty($hotspot['hotspot-title'])) {
+                            unset($panodata["scene-list"][$i]['hotspot-list'][$j]);
+                        }
                     }
+                    $panodata["scene-list"][$i]['hotspot-list'] = array_values($panodata["scene-list"][$i]['hotspot-list']);
                 }
             }
         }
+        $panodata["scene-list"] = array_values($panodata["scene-list"]);
         return $panodata;
     }
 
@@ -241,8 +268,7 @@ class WPVR_Format
      */
     public function prepare_youtube_video_meta_data($videourl, $videodata)
     {
-        $explodeid = '';
-        $explodeid = explode("=", $videourl);
+        $video_id = $this->extract_youtube_video_id( $videourl );
 
         if ($videodata['autoplay'] == 'on') {
             $autoplay = '&autoplay=1';
@@ -257,7 +283,7 @@ class WPVR_Format
         }
 
         $foundid = '';
-        $foundid = $explodeid[1] . '?' . $autoplay . $loop;
+        $foundid = $video_id . '?' . $autoplay . $loop;
         $html = '';
         $html .= '<iframe width="600" height="400" src="https://www.youtube.com/embed/' . $foundid . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
         return $html;
@@ -305,7 +331,7 @@ class WPVR_Format
      */
     public function prepare_vimeo_video_meta_data($videourl, $videodata)
     {
-        $vid_parts = explode( '/', rtrim( $videourl, '/' ) );
+        $vid_parts = explode( '/', trim( (string) wp_parse_url( $videourl, PHP_URL_PATH ), '/' ) );
         $vid_id    = end( $vid_parts );
 
         $do_autoplay = ( $videodata['autoplay'] === 'on' ) ? 'true' : 'false';
@@ -381,21 +407,21 @@ class WPVR_Format
      */
     public function prepare_selfhost_video_meta_data($videourl, $vidid, $videodata)
     {
-        if ($videodata['autoplay'] == 'on') {
+        if (($videodata['autoplay'] ?? $videodata['video-autoplay'] ?? 'off') == 'on') {
             $autoplay = 'autoplay muted';
         } else {
             $autoplay = '';
         }
 
-        if ($videodata['loop'] == 'on') {
+        if (($videodata['loop'] ?? $videodata['video-loop'] ?? 'off') == 'on') {
             $loop = 'loop';
         } else {
             $loop = '';
         }
 
         $html = '';
-        $html .= '<video id="' . $vidid . '" class="video-js vjs-default-skin vjs-big-play-centered" ' . $autoplay . ' ' . $loop . ' controls preload="auto" style="width:100%; height: 100%;" poster="" >';
-        $html .= '<source src="' . $videourl . '" type="video/mp4"/>';
+        $html .= '<video id="' . esc_attr($vidid) . '" class="video-js vjs-default-skin vjs-big-play-centered" crossorigin="anonymous" playsinline ' . $autoplay . ' ' . $loop . ' controls preload="auto" style="width:100%; height: 100%;" poster="" >';
+        $html .= '<source src="' . esc_url($videourl) . '" type="video/mp4"/>';
         $html .= '<p class="vjs-no-js">';
         $html .= 'To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com html5-video-support/" target="_blank">supports HTML5 video</a>';
         $html .= '</p>';
@@ -1161,13 +1187,13 @@ class WPVR_Format
         $parsed = wp_parse_url( $url );
 
         // Handle youtu.be short URLs.
-        if ( isset( $parsed['host'] ) && 'youtu.be' === $parsed['host'] ) {
+        if ( isset( $parsed['host'] ) && in_array( strtolower($parsed['host']), [ 'youtu.be', 'www.youtu.be' ], true ) ) {
             $video_id = isset( $parsed['path'] ) ? ltrim( $parsed['path'], '/' ) : '';
             return preg_replace( '/[^A-Za-z0-9_\-]/', '', $video_id );
         }
 
         // Handle youtube.com/embed/VIDEO_ID or youtube.com/v/VIDEO_ID.
-        if ( isset( $parsed['path'] ) && preg_match( '#/(embed|v)/([A-Za-z0-9_\-]+)#', $parsed['path'], $matches ) ) {
+        if ( isset( $parsed['path'] ) && preg_match( '#/(embed|v|shorts)/([A-Za-z0-9_\-]+)#', $parsed['path'], $matches ) ) {
             return $matches[2];
         }
 
@@ -1984,7 +2010,7 @@ class WPVR_Format
         $autoplay_param = ($autoplay == 'on') ? 'autoplay=1&muted=1' : '';
         $loop_param     = ($loop == 'on') ? 'loop=1' : '';
 
-        $vidurl_parts = explode('/', rtrim( $postdata['vidurl'], '/' ) );
+        $vidurl_parts = explode('/', trim( (string) wp_parse_url( $postdata['vidurl'], PHP_URL_PATH ), '/' ) );
         $vid_id       = end($vidurl_parts);
 
         $query_parts = array_filter( [ $autoplay_param, $loop_param ] );
@@ -2115,6 +2141,11 @@ class WPVR_Format
                         fluid: true
                     });
 
+                    player.on("error", function () {
+                        if (player.errorDisplay && typeof player.errorDisplay.content === "function") {
+                            player.errorDisplay.content(' . wp_json_encode( __( 'Unable to play this video. Check that its URL is accessible, the encoding is supported and the video host allows CORS.', 'wpvr' ) ) . ');
+                        }
+                    });
                     player.mediainfo = player.mediainfo || {};
                     player.mediainfo.projection = "equirectangular";
 

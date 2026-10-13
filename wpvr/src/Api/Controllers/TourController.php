@@ -106,6 +106,10 @@ class TourController implements ControllerInterface {
         $body    = $request->get_json_params();
         $success = $this->service->update( $tour_id, $body );
 
+        if ( is_wp_error( $success ) ) {
+            return new WP_REST_Response( [ 'message' => $success->get_error_message() ], 400 );
+        }
+
         if ( ! $success ) {
             return new WP_REST_Response( [ 'message' => __( 'Save failed.', 'wpvr' ) ], 500 );
         }
