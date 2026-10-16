@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.3.0
+Stable tag: 9.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,10 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.3.1 (2026-10-16) =
+* Fix: Resolved false-positive unsaved changes warning (beforeunload prompt) and prevented tour ID loss when switching a newly published tour from Classic to Modern UI.
+* Fix: Improved admin tour list column rendering and scene thumbnail retrieval fallback logic.
 
 = 9.3.0 (2026-10-13) =
 * New: Added external image URL support for 360° panorama scenes via CDN and cloud storage (Amazon S3, Cloudflare R2, Google Cloud Storage) across modern and classic tour editors.

@@ -7,10 +7,10 @@ namespace RexTheme\WPVR\Admin;
  */
 class PromotionalBanner {
 
-	const OPTION_DISMISSED = 'wpvr_new_ui_promo_banner_dismissed';
+	const OPTION_DISMISSED = 'wpvr_halloween_2026_promo_banner_dismissed';
 	const POST_TYPE        = 'wpvr_item';
 	const TARGET_SCREEN    = 'edit-wpvr_item';
-	const END_DATE         = '2026-09-30 23:59:59';
+	const END_DATE         = '2026-10-26 23:59:59';
 	const CTA_URL          = 'https://rextheme.com/wpvr/wpvr-pricing/';
 	const AJAX_ACTION      = 'wpvr_dismiss_promo_banner';
 	const NONCE_ACTION     = 'wpvr_promo_banner_dismiss';
@@ -158,24 +158,15 @@ class PromotionalBanner {
 
 		$countdown = $this->get_countdown_data();
 		?>
-		<div id="wpvr-promotional-banner" class="wpvr-promotional-banner" data-end-time="<?php echo esc_attr( (string) $countdown['end_timestamp'] ); ?>" role="region" aria-label="<?php esc_attr_e( 'WPVR Promotional Offer', 'wpvr' ); ?>">
+		<div id="wpvr-promotional-banner" class="wpvr-promotional-banner" data-end-time="<?php echo esc_attr( (string) $countdown['end_timestamp'] ); ?>" role="region" aria-label="<?php esc_attr_e( 'WPVR Halloween Offer', 'wpvr' ); ?>">
 			<div class="wpvr-promo-banner__content">
-				<div class="wpvr-promo-banner__badge" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54" fill="none" focusable="false">
-						<path d="M26.2456 23.3063L29.1152 20.7481L28.4685 17.0989L31.9848 18.8294L35.501 17.1365L34.8139 20.7857L37.6431 23.3816L33.6823 23.8706L31.9039 27.1813L30.166 23.8706L26.2456 23.3063Z" fill="white"></path>
-						<rect width="53.18" height="53.18" rx="9" fill="white" fill-opacity="0.1"></rect>
-						<rect x="6.22736" y="6.22733" width="40.7259" height="40.7259" rx="5.5" fill="#EFEAFF" stroke="white"></rect>
-						<path d="M30.6591 40.1589V37.234H33.0726V28.7661H30.6591V25.8412H38.9838V28.7661H36.5498V37.234H38.9838V40.1589H30.6591Z" fill="#3F04FE"></path>
-						<path d="M21.3401 40.2816C20.1537 40.2816 19.097 40.0429 18.1697 39.5657C17.2425 39.0748 16.513 38.4066 15.9812 37.5612C15.463 36.7158 15.2039 35.7476 15.2039 34.6568V25.8411H18.722V34.4727C18.722 34.9908 18.8379 35.4613 19.0697 35.884C19.3015 36.2931 19.6151 36.6203 20.0106 36.8658C20.406 37.0976 20.8492 37.2135 21.3401 37.2135C21.8582 37.2135 22.315 37.0976 22.7105 36.8658C23.1196 36.6203 23.4468 36.2931 23.6923 35.884C23.9377 35.4613 24.0604 34.9908 24.0604 34.4727V25.8411H27.4558V34.6568C27.4558 35.7476 27.1899 36.7158 26.6581 37.5612C26.1399 38.4066 25.4172 39.0748 24.49 39.5657C23.5627 40.0429 22.5128 40.2816 21.3401 40.2816Z" fill="#3F04FE"></path>
-						<path d="M31.0628 21.3415L28.8824 13.4177H30.2119L31.9775 20.2779H31.6478L33.4772 13.4177H34.7854L36.6148 20.2779H36.2745L38.0507 13.4177H39.3695L37.1998 21.3415H35.7852L33.9452 14.5877H34.3174L32.4668 21.3415H31.0628Z" fill="#3F04FE"></path>
-						<path d="M23.197 21.3415V13.4177H28.4192V14.5345H24.452V16.8106H28.2065V17.9274H24.452V20.2247H28.4192V21.3415H23.197Z" fill="#3F04FE"></path>
-						<path d="M15.3333 21.3415V13.4176H16.3437L20.7895 19.5546L20.3109 19.6291V13.4176H21.5553V21.3415H20.5449L16.131 15.1619L16.5883 15.0769V21.3415H15.3333Z" fill="#3F04FE"></path>
-					</svg>
-				</div>
+				<figure class="wpvr-promo-banner__logo">
+					<img src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/halloween-img.webp' ); ?>" alt="<?php esc_attr_e( 'Halloween', 'wpvr' ); ?>" width="174" height="47">
+				</figure>
 
 				<div class="wpvr-promo-banner__text">
-					<span class="wpvr-promo-banner__title"><?php esc_html_e( 'WPVR New UI, Save Big', 'wpvr' ); ?></span>
-					<span class="wpvr-promo-banner__subtitle"><?php esc_html_e( 'Flat 30% Off', 'wpvr' ); ?></span>
+					<span class="wpvr-promo-banner__title"><?php esc_html_e( 'Spooktacular Halloween Sale', 'wpvr' ); ?></span>
+					<span class="wpvr-promo-banner__subtitle"><?php esc_html_e( 'GET 30% OFF!', 'wpvr' ); ?> <span class="wpvr-promo-banner__emoji" aria-hidden="true">&#127875;</span></span>
 				</div>
 
 				<div class="wpvr-promo-banner__timer" id="wpvr-promo-countdown" aria-label="<?php esc_attr_e( 'Offer countdown timer', 'wpvr' ); ?>">
@@ -198,16 +189,16 @@ class PromotionalBanner {
 				</div>
 
 				<a href="<?php echo esc_url( self::CTA_URL ); ?>" class="wpvr-promo-banner__cta" target="_blank" rel="noopener noreferrer">
-					<span><?php esc_html_e( 'Get 30% OFF', 'wpvr' ); ?></span>
-					<svg class="wpvr-promo-banner__cta-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-						<path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+					<span><?php esc_html_e( 'Claim Your Deal', 'wpvr' ); ?></span>
+					<svg class="wpvr-promo-banner__cta-arrow" width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+						<path d="M1 10L10 1M10 1H2.75M10 1V8.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
 					</svg>
 				</a>
 			</div>
 
 			<button type="button" class="wpvr-promo-banner__dismiss" id="wpvr-promo-banner-dismiss" aria-label="<?php esc_attr_e( 'Dismiss banner permanently', 'wpvr' ); ?>">
-				<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-					<path d="M1 1L10 10M10 1L1 10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+				<svg width="9" height="9" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+					<path d="M1 1L10 10M10 1L1 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</button>
 		</div>

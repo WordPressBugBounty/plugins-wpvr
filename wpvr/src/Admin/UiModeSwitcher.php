@@ -146,15 +146,33 @@ class UiModeSwitcher {
 				var switchButton = notice ? notice.querySelector('.wpvr-ui-mode-notice__switch') : null;
 
 				if (switchButton) {
-					switchButton.addEventListener('click', function() {
-						// Publishing updates the page URL without rebuilding this notice.
+					switchButton.addEventListener('click', function(e) {
+						e.preventDefault();
+
+						// Publishing updates the page URL/inputs without rebuilding this notice.
 						var tourId = parseInt(new URLSearchParams(window.location.search).get('post'), 10);
+						if (!tourId || isNaN(tourId) || tourId <= 0) {
+							var postInput = document.getElementById('post_ID');
+							if (postInput && postInput.value) {
+								var parsedId = parseInt(postInput.value, 10);
+								if (!isNaN(parsedId) && parsedId > 0) {
+									tourId = parsedId;
+								}
+							}
+						}
+
+						var switchUrl = new URL(switchButton.href, window.location.origin);
 						if (tourId > 0) {
-							var switchUrl = new URL(switchButton.href);
 							switchUrl.searchParams.set('context', 'edit');
 							switchUrl.searchParams.set('tour_id', tourId);
-							switchButton.href = switchUrl.toString();
 						}
+
+						if (window.jQuery) {
+							window.jQuery(window).off('beforeunload.edit-post beforeunload');
+						}
+						window.onbeforeunload = null;
+
+						window.location.href = switchUrl.toString();
 					});
 				}
 
@@ -251,7 +269,7 @@ class UiModeSwitcher {
 
 	private function get_redirect_url( string $mode, string $context, int $tour_id = 0 ): string {
 		if ( $mode === 'latest' ) {
-			if ( $context === 'edit' && $tour_id > 0 ) {
+			if ( $tour_id > 0 ) {
 				return add_query_arg(
 					[
 						'page'    => self::PAGE_SLUG,
@@ -268,7 +286,7 @@ class UiModeSwitcher {
 			return admin_url( 'edit.php?post_type=' . self::POST_TYPE );
 		}
 
-		if ( $context === 'edit' && $tour_id > 0 ) {
+		if ( $tour_id > 0 ) {
 			return add_query_arg(
 				[
 					'post'   => $tour_id,

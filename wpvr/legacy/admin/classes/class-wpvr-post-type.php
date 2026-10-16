@@ -62,7 +62,7 @@ class WPVR_Post_Type {
         add_filter('post_updated_messages', array($this, 'wpvr_post_updated_messages') );
  
         // Admin edit post columns
-        add_filter('manage_' . $this->post_type . '_posts_custom_column', array($this, 'edit_columns'));
+        add_filter('manage_' . $this->post_type . '_posts_custom_column', array($this, 'edit_columns'), 10, 2);
 
         add_filter('admin_body_class',array($this, 'add_body_class'));
 
@@ -443,10 +443,11 @@ class WPVR_Post_Type {
      * the admin table for this post
      * @since 8.0.0
      */
-    public function edit_columns($column) {
+    public function edit_columns($column, $post_id = 0) {
         // Post type table column content
-        $post = get_post();
-        $postdata = get_post_meta($post->ID, 'panodata', true);
+        $post    = get_post();
+        $post_id = $post_id ? absint( $post_id ) : ( get_the_ID() ?: ( $post ? $post->ID : 0 ) );
+        $postdata = get_post_meta($post_id, 'panodata', true);
 
         $image_tour_icon = '<svg width="16" height="16" fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5.9 15h4.2c3.5 0 4.9-1.4 4.9-4.9V5.9C15 2.4 13.6 1 10.1 1H5.9C2.4 1 1 2.4 1 5.9v4.2C1 13.6 2.4 15 5.9 15z"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5.9 6.6a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zm-4.431 6.265l3.45-2.317c.554-.37 1.352-.329 1.849.098l.23.203c.547.47 1.429.47 1.975 0l2.912-2.499c.546-.469 1.428-.469 1.974 0l1.14.98"/></svg>';
 
@@ -454,35 +455,39 @@ class WPVR_Post_Type {
 
         $streetview_icon = '<svg width="16" height="17" fill="none" viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg"><path stroke="#73707D" stroke-miterlimit="10" stroke-width="1.2" d="M6.74 16l1.015-1.278-1.015-1.278"/><path stroke="#73707D" stroke-miterlimit="10" stroke-width="1.2" d="M6.37 10.507C3.305 10.71 1 11.566 1 12.592c0 1.177 3.024 2.13 6.754 2.13m2.188-.114c2.656-.287 4.566-1.08 4.566-2.016 0-1.01-2.227-1.855-5.217-2.074m-.184-8.165a1.352 1.352 0 10-2.705 0 1.352 1.352 0 002.705 0z"/><path stroke="#73707D" stroke-miterlimit="10" stroke-width="1.2" d="M10.275 6.226v.952c0 .578-.468 1.045-1.045 1.045v3.566H6.28V8.223a1.045 1.045 0 01-1.046-1.045v-.952a2.52 2.52 0 115.041 0z"/></svg>';
 
-        
-
         switch ($column) {
             case 'shortcode':
                 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG icon is hardcoded, not user input
-                echo '<div class="wpvr-listing-shortcode"><span class="wpvr-code">[wpvr id="' . esc_attr($post->ID) . '"] </span>' . $this->copy_shortcode_html( $post->ID ) . '</div>';
+                echo '<div class="wpvr-listing-shortcode"><span class="wpvr-code">[wpvr id="' . esc_attr($post_id) . '"] </span>' . $this->copy_shortcode_html( $post_id ) . '</div>';
                 break;
 
             case 'thumbnail':
-                $scene_image = !empty($postdata['preview']) ?  $postdata['preview'] : $this->get_scene_image($postdata);
-                
+                $scene_image = !empty($postdata['preview'])
+                    ? ($this->wpvr_fetch_thumbnail($postdata['preview']) ?: $postdata['preview'])
+                    : $this->get_scene_image($postdata);
+
                 if ($scene_image) {
                     echo '<img loading="lazy" src="' . esc_url($scene_image) . '" class="wpvr-thumbnail-image" alt="thumbnail" width="73" height="54">';
-                }else {
-                    echo wp_kses_post('<svg width="74" height="54" fill="none" viewBox="0 0 74 54" xmlns="http://www.w3.org/2000/svg"><rect width="73.517" height="54" fill="#E3E3E3" rx="5"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 34h4.2c3.5 0 4.9-1.4 4.9-4.9v-4.2c0-3.5-1.4-4.9-4.9-4.9h-4.2c-3.5 0-4.9 1.4-4.9 4.9v4.2c0 3.5 1.4 4.9 4.9 4.9z"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 25.6a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zm-4.431 6.265l3.45-2.317c.554-.37 1.352-.329 1.849.098l.23.203c.547.47 1.429.47 1.975 0l2.912-2.499c.546-.469 1.428-.469 1.974 0l1.14.98"/></svg>');
+                } else {
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static hardcoded SVG placeholder
+                    echo '<svg width="74" height="54" fill="none" viewBox="0 0 74 54" xmlns="http://www.w3.org/2000/svg"><rect width="73.517" height="54" fill="#E3E3E3" rx="5"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 34h4.2c3.5 0 4.9-1.4 4.9-4.9v-4.2c0-3.5-1.4-4.9-4.9-4.9h-4.2c-3.5 0-4.9 1.4-4.9 4.9v4.2c0 3.5 1.4 4.9 4.9 4.9z"/><path stroke="#73707D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M34.9 25.6a1.4 1.4 0 100-2.8 1.4 1.4 0 000 2.8zm-4.431 6.265l3.45-2.317c.554-.37 1.352-.329 1.849.098l.23.203c.547.47 1.429.47 1.975 0l2.912-2.499c.546-.469 1.428-.469 1.974 0l1.14.98"/></svg>';
                 }
-                
+
                 break;
 
             case 'type':
                 $tour_type = $postdata['tour-type'] ?? '';
                 if ( $tour_type === 'street-view' || ( $tour_type === '' && isset( $postdata['streetviewdata'] ) ) ) {
-                    echo wp_kses_post('<span class="tour-type">' . $streetview_icon . 'Street View</span>');
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static hardcoded SVG icon
+                    echo '<span class="tour-type">' . $streetview_icon . 'Street View</span>';
 
                 } elseif ( $tour_type === 'video' || ( $tour_type === '' && ( ! empty( $postdata['vidid'] ) || ! empty( $postdata['vidurl'] ) ) ) ) {
-                    echo wp_kses_post('<span class="tour-type">' . $video_tour_icon . '360 Video</span>');
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static hardcoded SVG icon
+                    echo '<span class="tour-type">' . $video_tour_icon . '360 Video</span>';
 
                 } else {
-                    echo wp_kses_post('<span class="tour-type">' . $image_tour_icon . ' 360 Image</span>');
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static hardcoded SVG icon
+                    echo '<span class="tour-type">' . $image_tour_icon . ' 360 Image</span>';
                 }
                 break;
 
@@ -494,21 +499,103 @@ class WPVR_Post_Type {
     /**
      * Get the scene image for the post
      *
-     * @param $postdata array The post meta data
+     * @param array $postdata The post meta data
      * @return string
      * @since 8.5.22
      */
     private function get_scene_image($postdata) {
-        if (!empty($postdata['panodata']['scene-list'][1]['scene-type']) && $postdata['panodata']['scene-list'][1]['scene-type'] === 'equirectangular') {
-            $image_src = $postdata['panodata']['scene-list'][1]['scene-attachment-url'] ?? '';
-            $thumbnail = $this->wpvr_fetch_thumbnail($image_src);
-            if ($thumbnail) {
-                return $thumbnail;
+        if (!is_array($postdata)) {
+            return '';
+        }
+
+        $scene_list = [];
+        if (!empty($postdata['panodata']['scene-list']) && is_array($postdata['panodata']['scene-list'])) {
+            $scene_list = $postdata['panodata']['scene-list'];
+        } elseif (!empty($postdata['scene-list']) && is_array($postdata['scene-list'])) {
+            $scene_list = $postdata['scene-list'];
+        }
+
+        if (empty($scene_list)) {
+            return '';
+        }
+
+        $target_scene = null;
+        $default_scene_id = isset($postdata['defaultscene']) ? (string) $postdata['defaultscene'] : '';
+
+        // Priority 1: Default scene specified by ID
+        if ($default_scene_id !== '') {
+            foreach ($scene_list as $scene) {
+                if (is_array($scene) && isset($scene['scene-id']) && (string) $scene['scene-id'] === $default_scene_id) {
+                    $target_scene = $scene;
+                    break;
+                }
             }
         }
 
-        $image_src_face = $postdata['panodata']['scene-list'][1]['scene-attachment-url-face0'] ?? '';
-        return $this->wpvr_fetch_thumbnail($image_src_face);
+        // Priority 2: Scene with dscene flag turned on
+        if (!$target_scene) {
+            foreach ($scene_list as $scene) {
+                if (is_array($scene) && isset($scene['dscene']) && $scene['dscene'] === 'on') {
+                    $target_scene = $scene;
+                    break;
+                }
+            }
+        }
+
+        // Priority 3: First scene in the list
+        if (!$target_scene) {
+            $target_scene = reset($scene_list);
+        }
+
+        // Extract image from target scene
+        if (is_array($target_scene)) {
+            $image_src = $this->get_image_from_scene($target_scene);
+            if (!empty($image_src)) {
+                $thumbnail = $this->wpvr_fetch_thumbnail($image_src);
+                return $thumbnail ?: $image_src;
+            }
+        }
+
+        // Fallback: check all other scenes for any available image
+        foreach ($scene_list as $scene) {
+            if (is_array($scene)) {
+                $image_src = $this->get_image_from_scene($scene);
+                if (!empty($image_src)) {
+                    $thumbnail = $this->wpvr_fetch_thumbnail($image_src);
+                    return $thumbnail ?: $image_src;
+                }
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Extract the image URL from a scene.
+     *
+     * @param array $scene
+     * @return string
+     * @since 9.3.1
+     */
+    private function get_image_from_scene($scene) {
+        if (!is_array($scene)) {
+            return '';
+        }
+
+        $scene_type = $scene['scene-type'] ?? '';
+        if ($scene_type === 'cubemap') {
+            return !empty($scene['scene-attachment-url-face0']) ? $scene['scene-attachment-url-face0'] : '';
+        }
+
+        if (!empty($scene['scene-attachment-url'])) {
+            return $scene['scene-attachment-url'];
+        }
+
+        if (!empty($scene['scene-attachment-url-face0'])) {
+            return $scene['scene-attachment-url-face0'];
+        }
+
+        return '';
     }
 
     /**

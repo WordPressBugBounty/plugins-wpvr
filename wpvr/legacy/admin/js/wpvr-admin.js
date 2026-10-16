@@ -35,6 +35,10 @@
      * practising this, we should strive to set a better example in our own work.
      */
 
+    window.addEventListener('beforeunload', function (event) {
+        event.stopImmediatePropagation();
+    });
+
     let lastChildClicked = false;
     $(document).ready(function () {
         if($('#scene-1').find('input.sceneid').val()){
@@ -766,6 +770,15 @@
                                 $('#publish').val(update_text);
                             }
                             window.history.replaceState(null, '', url_info.admin_url+"post.php?"+"post="+postid+"&action=edit");
+                            var switchLink = document.querySelector('.wpvr-ui-mode-notice__switch');
+                            if (switchLink && postid > 0) {
+                                try {
+                                    var sUrl = new URL(switchLink.href, window.location.origin);
+                                    sUrl.searchParams.set('context', 'edit');
+                                    sUrl.searchParams.set('tour_id', postid);
+                                    switchLink.href = sUrl.toString();
+                                } catch (err) {}
+                            }
                             resetPostFormDirtyState();
                         }
                     },
@@ -808,6 +821,10 @@
       // Reset WordPress dirty tracking
       if (typeof wp !== 'undefined' && wp.autosave && wp.autosave.server) {
         wp.autosave.server.postChanged = false;
+      }
+
+      if (window.jQuery) {
+        window.jQuery(window).off('beforeunload.edit-post');
       }
     }
 
