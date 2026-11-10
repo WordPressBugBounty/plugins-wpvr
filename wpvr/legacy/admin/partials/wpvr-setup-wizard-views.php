@@ -98,6 +98,17 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <a href="#" id="skip-industry-link" class="skip-link"><?php echo esc_html__("Skip — I'll upload my own image", 'wpvr'); ?></a>
             </div>
 
+            <!-- Telemetry Consent Block -->
+            <div class="wizard-consent-block">
+                <label class="consent-label" for="consent-checkbox">
+                    <input type="checkbox" id="consent-checkbox" name="consent-checkbox">
+                    <span>
+                        <?php echo esc_html__('I agree to share non-sensitive usage data to help improve WP VR.', 'wpvr'); ?>
+                        <br><small style="font-weight: normal; font-size: 11px; opacity: 0.8;"><?php echo esc_html__('(Optional — you can change this in WP VR settings anytime)', 'wpvr'); ?></small>
+                    </span>
+                </label>
+            </div>
+
             <footer class="onboarding-footer" style="display: none;">
                 <!-- Hide footer for Step 1 -->
             </footer>
@@ -227,17 +238,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             <!-- Edit Tour Button -->
             <div class="edit-tour-container">
                 <a class="btn-edit-tour" id="edit-tour-btn"><?php echo esc_html__('Edit Your Tour', 'wpvr'); ?></a>
-            </div>
-
-            <!-- Telemetry Consent Block -->
-            <div class="wizard-consent-block">
-                <label class="consent-label" for="consent-checkbox">
-                    <input type="checkbox" id="consent-checkbox" name="consent-checkbox" checked>
-                    <span>
-                        <?php echo esc_html__('I agree to share non-sensitive diagnostic data to help improve WP VR.', 'wpvr'); ?>
-                        <br><small style="font-weight: normal; font-size: 11px; opacity: 0.8;"><?php echo esc_html__('(You can change this in WP VR settings anytime)', 'wpvr'); ?></small>
-                    </span>
-                </label>
             </div>
 
             <footer class="onboarding-footer">

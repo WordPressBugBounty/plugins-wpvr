@@ -4,6 +4,7 @@ namespace RexTheme\WPVR\Api\Controllers;
 
 use RexTheme\WPVR\Api\Contracts\ControllerInterface;
 use RexTheme\WPVR\Api\Services\TourService;
+use RexTheme\WPVR\Tracker\WPVRLinnoTelemetry;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -45,6 +46,24 @@ class TourController implements ControllerInterface {
             ],
         ] );
 
+        register_rest_route( self::NAMESPACE, '/telemetry/event', [
+            [
+                'methods'             => 'POST',
+                'callback'            => [ $this, 'track_telemetry_event' ],
+                'permission_callback' => [ $this, 'create_permission_check' ],
+                'args'                => [
+                    'event' => [
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'validate_callback' => static function ( $value ) {
+                            return is_string( $value ) && in_array( $value, WPVRLinnoTelemetry::ALLOWED_CLIENT_EVENTS, true );
+                        },
+                    ],
+                ],
+            ],
+        ] );
+
         register_rest_route( self::NAMESPACE, '/' . self::BASE . '/(?P<id>[\d]+)', [
             [
                 'methods'             => 'GET',
@@ -75,6 +94,17 @@ class TourController implements ControllerInterface {
         if ( is_wp_error( $post_id ) ) {
             return new WP_REST_Response( [ 'message' => $post_id->get_error_message() ], 500 );
         }
+
+        $tour_type = sanitize_key( (string) ( $body['tourType'] ?? 'image' ) );
+
+        /**
+         * Fires after a new tour draft is created via the REST API.
+         *
+         * @since 9.3.2
+         * @param int    $post_id   Newly created tour post ID.
+         * @param string $tour_type Selected tour type.
+         */
+        do_action( 'wpvr_tour_draft_created', (int) $post_id, $tour_type );
 
         return new WP_REST_Response( [ 'id' => $post_id ], 201 );
     }
@@ -149,6 +179,14 @@ class TourController implements ControllerInterface {
             return new WP_REST_Response( [ 'message' => __( 'Tour could not be deleted.', 'wpvr' ) ], 500 );
         }
 
+        /**
+         * Fires after a tour is moved to trash via the REST API.
+         *
+         * @since 9.3.2
+         * @param int $tour_id Trashed tour post ID.
+         */
+        do_action( 'wpvr_tour_deleted', $tour_id );
+
         return new WP_REST_Response( [ 'deleted' => true, 'id' => $tour_id ], 200 );
     }
 
@@ -156,7 +194,37 @@ class TourController implements ControllerInterface {
         $body = $request->get_json_params() ?? [];
         $mode = isset( $body['mode'] ) && $body['mode'] === 'latest' ? 'latest' : 'legacy';
         update_option( 'wpvr_ui_mode', $mode );
+
+        /**
+         * Fires after the editor UI mode is switched via REST.
+         *
+         * @since 9.3.2
+         * @param string $mode New UI mode ('latest' or 'legacy').
+         */
+        do_action( 'wpvr_ui_mode_switched', $mode );
+
         return new WP_REST_Response( [ 'mode' => $mode ], 200 );
+    }
+
+    /**
+     * Handle allowlisted client-side telemetry funnel and friction events.
+     *
+     * @since 9.3.2
+     * @param WP_REST_Request $request Incoming REST request.
+     * @return WP_REST_Response
+     */
+    public function track_telemetry_event( WP_REST_Request $request ): WP_REST_Response {
+        $body       = $request->get_json_params() ?? [];
+        $event_name = (string) $request->get_param( 'event' );
+        $properties = isset( $body['properties'] ) && is_array( $body['properties'] ) ? $body['properties'] : [];
+        $telemetry  = WPVRLinnoTelemetry::get_instance();
+
+        if ( ! $telemetry ) {
+            return new WP_REST_Response( [ 'tracked' => false ], 200 );
+        }
+
+        $tracked = $telemetry->track_client_event( $event_name, $properties );
+        return new WP_REST_Response( [ 'tracked' => $tracked ], 200 );
     }
 
     public function create_permission_check(): bool {

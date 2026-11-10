@@ -151,8 +151,31 @@ jQuery(document).ready(function ($) {
     let templateData = null; // Store template tour object
     let mediaUploader = null; // WordPress media uploader instance
 
+    // Send allowlisted funnel/friction telemetry event (consent enforced server-side).
+    function trackWizardEvent(eventName, properties) {
+        if (!wpvrWizardCfg.rest_url || !wpvrWizardCfg.rest_nonce || typeof window.fetch !== 'function') {
+            return;
+        }
+        try {
+            window.fetch(wpvrWizardCfg.rest_url, {
+                method: 'POST',
+                keepalive: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': wpvrWizardCfg.rest_nonce
+                },
+                body: JSON.stringify({ event: eventName, properties: properties || {} })
+            }).catch(function () {});
+        } catch (e) {}
+    }
+
     // Skip wizard and redirect to tour listing
     function skipWizard() {
+        const currentStep = engine && typeof engine.getCurrentStep === 'function' ? engine.getCurrentStep() : null;
+        trackWizardEvent('wizard/skipped', {
+            step_id: currentStep ? currentStep.id : 'unknown',
+            skip_type: 'remind_later'
+        });
         const listingUrl = ajaxurl.replace('admin-ajax.php', 'edit.php?post_type=wpvr_item');
         window.location.href = listingUrl;
     }
@@ -457,13 +480,11 @@ jQuery(document).ready(function ($) {
         // WordPress Telemetry Integration
         telemetry: {
             onSetupStarted: (data) => {
-                console.log('📊 Telemetry: setup_started', data);
+                trackWizardEvent('wizard/started', { is_pro: isPro ? 'yes' : 'no' });
             },
             onSetupCompleted: (data) => {
-                console.log('Setup completed event emitted by wizard flow');
             },
             onFirstStrikeCompleted: (data) => {
-                console.log('First strike is tracked on first tour publish');
             }
         },
         steps: [
@@ -483,6 +504,25 @@ jQuery(document).ready(function ($) {
                     updateSkipModeUI(false);
 
                     setTimeout(() => {
+                        // Bind explicit opt-in checkbox on Step 1 (unchecked by default).
+                        $('#consent-checkbox').off('change.wpvrConsent').on('change.wpvrConsent', function () {
+                            const isChecked = $(this).is(':checked');
+                            $.ajax({
+                                url: ajaxurl,
+                                type: 'POST',
+                                data: {
+                                    action: 'wpvr_save_opt_in_toggle',
+                                    opt_in: isChecked ? 1 : 0,
+                                    security: wizardNonce
+                                },
+                                success: function () {
+                                    if (isChecked) {
+                                        trackWizardEvent('wizard/started', { is_pro: isPro ? 'yes' : 'no' });
+                                    }
+                                }
+                            });
+                        });
+
                         // Initially disable next button until industry is selected
                         const nextBtn = $('.next-btn[data-next="step-template"]');
                         if (!selectedIndustry) {
@@ -520,6 +560,10 @@ jQuery(document).ready(function ($) {
                         // Skip / Upload My Own — triggers wp.media immediately
                         $('#skip-industry-link').off('click').on('click', function (e) {
                             e.preventDefault();
+                            trackWizardEvent('wizard/skipped', {
+                                step_id: 'vertical',
+                                skip_type: 'skip_industry'
+                            });
 
                             openWPMediaForDirectUpload(function (attachment) {
                                 handleWizardPanoramaSelection(attachment, function (url, id) {
@@ -666,12 +710,13 @@ jQuery(document).ready(function ($) {
                                             context.goNext();
                                         }, 500);
                                     } else {
+                                        trackWizardEvent('wizard/error', { step_id: 'template', industry: selectedIndustry || '', error_code: 'template_invalid' });
                                         alert('Failed to load template. Please try again.');
                                         $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
                                     }
                                 },
                                 error: function (xhr, status, error) {
-                                    console.error('Template fetch error:', error);
+                                    trackWizardEvent('wizard/error', { step_id: 'template', industry: selectedIndustry || '', error_code: 'template_fetch_failed' });
                                     alert('Failed to load template. Please try again.');
                                     $btn.prop('disabled', false).removeClass('is-loading').text(originalText);
                                 }
@@ -822,12 +867,13 @@ jQuery(document).ready(function ($) {
                                         // Proceed to next step
                                         context.goNext();
                                     } else {
+                                        trackWizardEvent('wizard/error', { step_id: 'preview', industry: selectedIndustry || '', error_code: 'wizard_publish_failed' });
                                         alert('Failed to create tour: ' + (response.data.message || 'Unknown error'));
                                         $btn.prop('disabled', false).text(originalText);
                                     }
                                 },
                                 error: function (xhr, status, error) {
-                                    console.error('Tour creation error:', error);
+                                    trackWizardEvent('wizard/error', { step_id: 'preview', industry: selectedIndustry || '', error_code: 'wizard_publish_request_failed' });
                                     alert('Failed to create tour. Please try again.');
                                     $btn.prop('disabled', false).text(originalText);
                                 }
@@ -876,30 +922,9 @@ jQuery(document).ready(function ($) {
                     }, 100);
 
                     setTimeout(() => {
-                        // Bind Consent Checkbox
-                        $('#consent-checkbox').off('change').on('change', function () {
-                            const isChecked = $(this).is(':checked');
-                            $.ajax({
-                                url: ajaxurl,
-                                type: 'POST',
-                                data: {
-                                    action: 'wpvr_save_opt_in_toggle',
-                                    opt_in: isChecked ? 1 : 0,
-                                    security: wizardNonce
-                                },
-                                success: function (response) {
-                                    console.log('Opt-in preference updated:', response);
-                                }
-                            });
-                        });
-                        // Fire it initially if checked (as it's default checked in template)
-                        if ($('#consent-checkbox').is(':checked')) {
-                            $('#consent-checkbox').trigger('change');
-                        }
-
-                        // Clear localStorage
+                        // Remove only wizard-scoped storage key so editor onboarding state stays intact.
                         if (typeof Storage !== 'undefined') {
-                            localStorage.clear();
+                            localStorage.removeItem('linno_onboarding_wpvr-onboarding');
                         }
 
                         // Bind back button (restart)
@@ -928,6 +953,7 @@ jQuery(document).ready(function ($) {
                             // Copy shortcode functionality
                             $('#copy-shortcode-btn').off('click').on('click', function () {
                                 const shortcodeText = $('#tour-shortcode').text();
+                                trackWizardEvent('tour/shortcode_copied', { source: 'wizard', tour_id: window.wpvrCreatedTourId || 0 });
 
                                 // Modern clipboard API
                                 if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1022,7 +1048,13 @@ jQuery(document).ready(function ($) {
     });
 
     tracker.on('step_completed', (data) => {
-        console.log('Step completed:', data);
+        if (data && data.stepId && data.stepId !== 'success') {
+            trackWizardEvent('wizard/step_completed', {
+                step_id: data.stepId,
+                industry: selectedIndustry || '',
+                path: industrySkipped ? 'skipped' : (templateData ? 'template' : (uploadedImageUrl ? 'upload' : 'none'))
+            });
+        }
     });
 
     tracker.on('onboarding_completed', (data) => {

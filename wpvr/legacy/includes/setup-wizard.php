@@ -93,6 +93,8 @@ class WPVR_Setup_Wizard
             array(
                 'ajaxurl'               => admin_url( 'admin-ajax.php' ),
                 'ajax_nonce'            => wp_create_nonce( 'wpvr_setup_wizard' ),
+                'rest_url'              => esc_url_raw( rest_url( 'wpvr/v1/telemetry/event' ) ),
+                'rest_nonce'            => wp_create_nonce( 'wp_rest' ),
                 'is_pro'                => (bool) apply_filters( 'is_wpvr_pro_active', false ),
                 'hotspot_limit'         => 5,
                 'upgrade_url'           => esc_url( 'https://rextheme.com/wpvr/pricing/' ),

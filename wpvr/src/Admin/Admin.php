@@ -431,6 +431,14 @@ class Admin {
 
         update_option( 'wpvr_ui_mode', $mode );
 
+        /**
+         * Fires after the editor UI mode is switched via admin-post.
+         *
+         * @since 9.3.2
+         * @param string $mode New UI mode ('latest' or 'legacy').
+         */
+        do_action( 'wpvr_ui_mode_switched', $mode );
+
         wp_safe_redirect( $this->get_ui_mode_redirect_url( $mode, $tour_id ) );
         exit;
     }

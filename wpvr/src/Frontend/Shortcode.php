@@ -37,7 +37,7 @@ class Shortcode {
             $tour_type = is_array( $postdata ) ? ( $postdata['tour-type'] ?? '' ) : '';
 
             if ( $tour_type === 'street-view' && ! isset( $postdata['streetviewdata'] ) ) {
-                return $this->render_streetview( $postdata, $parsed );
+                return $this->render_streetview( $postdata, $parsed, $id );
             }
 
             if ( $tour_type === 'video' ) {
@@ -49,7 +49,16 @@ class Shortcode {
         return $this->legacy->wpvr_shortcode( $atts );
     }
 
-    private function render_streetview( array $postdata, array $atts ) {
+    private function render_streetview( array $postdata, array $atts, int $id = 0 ) {
+        if ( $id > 0 ) {
+            /**
+             * Fires when a published tour is embedded and rendered via shortcode.
+             *
+             * @since 9.3.2
+             * @param int $id Tour post ID.
+             */
+            do_action( 'rex_wpvr_embadded_tour', $id );
+        }
         if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
             wpvr_enqueue_frontend_scripts( 'streetview' );
         }
@@ -63,6 +72,15 @@ class Shortcode {
     }
 
     private function render_video( array $postdata, array $atts, int $id ) {
+        if ( $id > 0 ) {
+            /**
+             * Fires when a published video tour is embedded and rendered via shortcode.
+             *
+             * @since 9.3.2
+             * @param int $id Tour post ID.
+             */
+            do_action( 'rex_wpvr_embadded_tour', $id );
+        }
         if ( function_exists( 'wpvr_enqueue_frontend_scripts' ) ) {
             wpvr_enqueue_frontend_scripts( 'video' );
         }

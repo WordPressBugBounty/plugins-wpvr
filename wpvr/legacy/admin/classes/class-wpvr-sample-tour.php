@@ -100,10 +100,12 @@ class WPVR_Sample_Tour {
         $new_post_id = wp_insert_post(array(
             'post_title'    => $new_title,
             'post_type'     => 'wpvr_item',
-            'post_status'     => 'publish',
+            'post_status'   => 'publish',
+            'meta_input'    => array(
+                'wpvr_is_demo_tour' => '1',
+            ),
         ));
         if ($new_post_id) {
-            // Mark this as a demo tour
             update_post_meta($new_post_id, 'wpvr_is_demo_tour', '1');
             
             if ($new_data['panoid']) {

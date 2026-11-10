@@ -110,6 +110,13 @@ class Wpvr_Ajax
 
     update_option('high_res_image', 'true');
 
+    /**
+     * Fires after the high-resolution large-image override is enabled.
+     *
+     * @since 9.3.2
+     */
+    do_action('wpvr_large_image_handler_enabled');
+
     wp_send_json_success();
   }
 
@@ -959,7 +966,7 @@ class Wpvr_Ajax
 
     $post_data = array(
       'post_title'   => $title,
-      'post_status'  => 'publish',
+      'post_status'  => 'draft',
       'post_type'    => 'wpvr_item',
       'post_author'  => get_current_user_id(),
       // meta_input is written before wp_insert_post() fires transition_post_status,

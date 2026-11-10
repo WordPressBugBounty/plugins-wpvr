@@ -34,6 +34,17 @@
 
 			copyShortcode( copyButton.getAttribute( 'data-shortcode' ) || '' )
 				.then( function () {
+					if ( window.wpvrListingModal && window.wpvrListingModal.apiBase && window.wpvrListingModal.nonce && typeof window.fetch === 'function' ) {
+						window.fetch( window.wpvrListingModal.apiBase + '/telemetry/event', {
+							method: 'POST',
+							keepalive: true,
+							headers: {
+								'Content-Type': 'application/json',
+								'X-WP-Nonce': window.wpvrListingModal.nonce,
+							},
+							body: JSON.stringify( { event: 'tour/shortcode_copied', properties: { source: 'listing' } } ),
+						} ).catch( function () {} );
+					}
 					showListingToast( 'success', 'Shortcode copied.' );
 				} )
 				.catch( function () {

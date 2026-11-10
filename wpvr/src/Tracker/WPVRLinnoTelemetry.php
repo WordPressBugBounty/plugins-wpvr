@@ -2,27 +2,26 @@
 namespace RexTheme\WPVR\Tracker;
 
 use LinnoSDK\Telemetry\Client;
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
 
 /**
- * Class WPVR_Linno_Telemetry
+ * Telemetry event bridge for the Linno SDK (PostHog driver).
  *
- * Telemetry event bridge for the Linno SDK.
+ * Canonical events tracked (consent-gated unless SDK lifecycle):
+ *  - activation/plugin_activated     — SDK lifecycle (automatic).
+ *  - activation/plugin_deactivated   — SDK lifecycle + wpvr_deactivation_payload context.
+ *  - activation/onboarding_completed — Consent-gated immediate send on wizard publish.
+ *  - activation/tour_created         — Consent-gated immediate send on first real publish.
+ *  - retention/feature_used          — Consent-gated on rex_wpvr_tour_saved & wpvr_tour_settings_saved,
+ *                                      plus standalone export_tour and high_res_image_enabled actions.
+ *  - wizard/*, editor/*, tour/*      — Consent-gated funnel & friction events.
  *
- * Canonical events tracked:
- *  - activation/plugin_activated     — SDK lifecycle, no consent (automatic).
- *  - activation/plugin_deactivated   — SDK lifecycle, no consent (automatic).
- *  - activation/onboarding_completed — non-PII, override (track_immediate).
- *  - activation/tour_created         — consent-gated; first publish of a real tour,
- *                                       emitted once per tour via transition_post_status.
- *  - retention/feature_used          — consent-gated (define_triggers → feature_used).
- *
- * activation/aha_reached is temporarily disabled (both producers guarded off below)
- * pending removal — see handle_embedded_tour_view() and track_aha_after_consent().
- *
+ * @package RexTheme\WPVR
  * @since 8.5.57
  */
-
 class WPVRLinnoTelemetry {
 
     /**
@@ -31,6 +30,30 @@ class WPVRLinnoTelemetry {
      * @var string
      */
     const TOUR_CREATED_TRACKED_META_KEY = '_wpvr_linno_tour_created_tracked';
+
+    /**
+     * Option key storing local non-PII journey milestone progression.
+     *
+     * @var string
+     */
+    const MILESTONES_OPTION_KEY = 'wpvr_journey_milestones';
+
+    /**
+     * Allowlisted client-side funnel and friction event names.
+     *
+     * @var string[]
+     */
+    const ALLOWED_CLIENT_EVENTS = array(
+        'wizard/started',
+        'wizard/step_completed',
+        'wizard/skipped',
+        'wizard/error',
+        'editor/opened',
+        'editor/onboarding_exited',
+        'editor/error',
+        'editor/paywall_hit',
+        'tour/shortcode_copied',
+    );
 
     /**
      * Linno API key.
@@ -54,18 +77,48 @@ class WPVRLinnoTelemetry {
     private $client_initialized = false;
 
     /**
+     * Singleton instance for static access from REST controllers.
+     *
+     * @since 9.3.2
+     * @var WPVRLinnoTelemetry|null
+     */
+    private static $instance = null;
+
+    /**
      * Constructor.
      */
     public function __construct() {
-        $this->api_key = defined( 'WPVR_TELEMETRY_API_KEY' ) ? WPVR_TELEMETRY_API_KEY : '';
+        self::$instance   = $this;
+        $this->api_key    = defined( 'WPVR_TELEMETRY_API_KEY' ) ? WPVR_TELEMETRY_API_KEY : '';
         $this->api_secret = defined( 'WPVR_TELEMETRY_API_SECRET' ) ? WPVR_TELEMETRY_API_SECRET : '';
 
         $this->init_client();
         add_action( 'transition_post_status', array( $this, 'track_tour_created_event' ), 10, 3 );
         add_filter( 'wpvr_telemetry_report_interval', array( $this, 'set_daily_telemetry_report_interval' ) );
         add_action( 'rex_wpvr_embadded_tour', array( $this, 'handle_embedded_tour_view' ), 10, 1 );
-        add_action( 'wpvr_telemetry_consent_granted', array( $this, 'track_aha_after_consent' ) );
-        add_filter( 'wpvr_telemetry_deactivation_reasons', array( $this, 'set_deactivation_reasons' ) );
+        add_action( 'wpvr_plugin_deactivated', array( $this, 'flush_queue_on_deactivation' ) );
+        add_filter( 'wpvr_deactivation_payload', array( $this, 'enrich_deactivation_payload' ) );
+
+        // Feature usage across both New UI (REST) and Classic UI (AJAX).
+        add_action( 'rex_wpvr_tour_saved', array( $this, 'track_feature_used_on_save' ), 10, 1 );
+        add_action( 'wpvr_tour_settings_saved', array( $this, 'track_feature_used_on_save' ), 10, 1 );
+
+        // Funnel, friction, and standalone feature hooks.
+        add_action( 'wpvr_tour_draft_created', array( $this, 'track_draft_created' ), 10, 2 );
+        add_action( 'wpvr_tour_deleted', array( $this, 'track_tour_deleted' ), 10, 1 );
+        add_action( 'wpvr_ui_mode_switched', array( $this, 'track_ui_mode_switched' ), 10, 1 );
+        add_action( 'wpvr_tour_exported', array( $this, 'track_tour_exported' ), 10, 1 );
+        add_action( 'wpvr_large_image_handler_enabled', array( $this, 'track_large_image_handler_enabled' ) );
+    }
+
+    /**
+     * Get the active telemetry bridge instance.
+     *
+     * @since 9.3.2
+     * @return WPVRLinnoTelemetry|null
+     */
+    public static function get_instance() {
+        return self::$instance;
     }
 
     /**
@@ -78,24 +131,22 @@ class WPVRLinnoTelemetry {
     }
 
     /**
-     * Initialize Linno telemetry client and trigger mappings.
+     * Initialize Linno telemetry client and alias the SDK global lookup key.
      *
      * @return void
      */
     public function init_client() {
-        global $wpvr_telemetry;
+        global $wpvr_telemetry, $wpvr_telemetry_client;
 
         if ( $this->client_initialized ) {
             return;
         }
 
         if ( ! class_exists( 'LinnoSDK\\Telemetry\\Client' ) || ! defined( 'WPVR_FILE' ) ) {
-            error_log( 'WPVR Telemetry: Linno Client class unavailable or WPVR_FILE not defined.' );
             return;
         }
 
         if ( empty( $this->api_key ) || empty( $this->api_secret ) ) {
-            error_log( 'WPVR Telemetry: API key or API secret is empty. Telemetry client not initialized.' );
             return;
         }
 
@@ -117,26 +168,10 @@ class WPVRLinnoTelemetry {
             )
         );
 
-        // Non-PII onboarding event — bypasses consent via override=true on track_immediate().
-        add_action( 'wpvr_setup_wizard_completed_event', array( $this, 'track_onboarding_event' ), 10, 1 );
+        // Alias so LinnoSDK Client::getInstance() / linno_telemetry() resolves cleanly.
+        $wpvr_telemetry_client = $wpvr_telemetry;
 
-        // Consent-gated events via SDK trigger system.
-        // retention/feature_used  — queued on every tour save. Requires opt-in consent.
-        // activation/aha_reached (tours_actively_viewed) is temporarily disabled — see
-        // handle_embedded_tour_view() below, which no longer emits the underlying hook.
-        $self = $this;
-        $wpvr_telemetry->define_triggers(
-            array(
-                'feature_used' => array(
-                    'tour_creation' => array(
-                        'hook'     => 'wpvr_tour_settings_saved',
-                        'callback' => function ( $tour_id ) use ( $self ) {
-                            return $self->build_tour_creation_payload( $tour_id );
-                        },
-                    ),
-                ),
-            )
-        );
+        add_action( 'wpvr_setup_wizard_completed_event', array( $this, 'track_onboarding_event' ), 10, 1 );
 
         $this->ensure_daily_telemetry_queue_schedule();
         $this->client_initialized = true;
@@ -152,8 +187,8 @@ class WPVRLinnoTelemetry {
             return;
         }
 
-        $slug = dirname( plugin_basename( WPVR_FILE ) );
-        $hook = $slug . '_telemetry_queue_process';
+        $slug            = dirname( plugin_basename( WPVR_FILE ) );
+        $hook            = $slug . '_telemetry_queue_process';
         $scheduled_event = wp_get_scheduled_event( $hook );
 
         if ( $scheduled_event && 'daily' === $scheduled_event->schedule ) {
@@ -165,10 +200,171 @@ class WPVRLinnoTelemetry {
     }
 
     /**
+     * Determine whether user telemetry consent is currently granted.
+     *
+     * @since 9.3.2
+     * @return bool
+     */
+    public function is_consent_enabled(): bool {
+        global $wpvr_telemetry;
+
+        if ( ! is_object( $wpvr_telemetry ) || ! method_exists( $wpvr_telemetry, 'get_optin_state' ) ) {
+            return false;
+        }
+
+        return 'yes' === $wpvr_telemetry->get_optin_state();
+    }
+
+    /**
+     * Flush pending queued events before Client::deactivate() clears the queue.
+     *
+     * @since 9.3.2
+     * @return void
+     */
+    public function flush_queue_on_deactivation() {
+        global $wpvr_telemetry;
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        if ( method_exists( $wpvr_telemetry, 'process_queue' ) ) {
+            $wpvr_telemetry->process_queue();
+        }
+    }
+
+    /**
+     * Record a non-PII local journey milestone for deactivation context.
+     *
+     * @since 9.3.2
+     * @param string $milestone Milestone identifier.
+     * @return void
+     */
+    public function record_local_milestone( string $milestone ) {
+        $milestone = sanitize_key( $milestone );
+        if ( '' === $milestone ) {
+            return;
+        }
+
+        $data = get_option( self::MILESTONES_OPTION_KEY, array() );
+        if ( ! is_array( $data ) ) {
+            $data = array();
+        }
+
+        $data['last_milestone'] = $milestone;
+        if ( 'switched_to_classic' === $milestone ) {
+            $data['switched_to_classic'] = true;
+        }
+
+        update_option( self::MILESTONES_OPTION_KEY, $data, false );
+    }
+
+    /**
+     * Attach non-PII journey summary context to deactivation events.
+     *
+     * @since 9.3.2
+     * @param array<string,mixed> $payload Existing deactivation payload.
+     * @return array<string,mixed>
+     */
+    public function enrich_deactivation_payload( array $payload ): array {
+        /**
+         * Filter whether to attach local journey context to deactivation payload.
+         *
+         * @since 9.3.2
+         * @param bool $include Whether to include journey context.
+         */
+        if ( ! apply_filters( 'wpvr_telemetry_include_deactivation_context', true ) ) {
+            return $payload;
+        }
+
+        $milestones     = get_option( self::MILESTONES_OPTION_KEY, array() );
+        $milestones     = is_array( $milestones ) ? $milestones : array();
+        $installed_time = absint( get_option( 'wpvr_installed_time', 0 ) );
+        $counts         = wp_count_posts( 'wpvr_item' );
+        $published      = is_object( $counts ) && isset( $counts->publish ) ? absint( $counts->publish ) : 0;
+        $drafts         = is_object( $counts ) && isset( $counts->draft ) ? absint( $counts->draft ) : 0;
+
+        $payload['last_milestone']      = sanitize_key( (string) ( $milestones['last_milestone'] ?? 'activated' ) );
+        $payload['minutes_since_install'] = $installed_time > 0 ? (int) floor( max( 0, time() - $installed_time ) / 60 ) : 0;
+        $payload['ui_mode']             = sanitize_key( (string) get_option( 'wpvr_ui_mode', 'latest' ) );
+        $payload['tours_total']         = $published + $drafts;
+        $payload['tours_published']     = $published;
+        $payload['wizard_completed']    = get_option( 'wpvr_wizard_onboarding_done' ) ? 'yes' : 'no';
+        $payload['switched_to_classic'] = ! empty( $milestones['switched_to_classic'] ) ? 'yes' : 'no';
+
+        return $payload;
+    }
+
+    /**
+     * Dispatch an allowlisted client-side funnel or friction event if consented.
+     *
+     * @since 9.3.2
+     * @param string              $event_name Event name from ALLOWED_CLIENT_EVENTS.
+     * @param array<string,mixed> $properties Raw event properties.
+     * @return bool True if allowlisted and processed, false otherwise.
+     */
+    public function track_client_event( string $event_name, array $properties = array() ): bool {
+        global $wpvr_telemetry;
+
+        if ( ! in_array( $event_name, self::ALLOWED_CLIENT_EVENTS, true ) ) {
+            return false;
+        }
+
+        $sanitized = $this->sanitize_flat_properties( $properties );
+
+        if ( 'wizard/started' === $event_name ) {
+            $this->record_local_milestone( 'wizard_started' );
+        } elseif ( 'wizard/step_completed' === $event_name && ! empty( $sanitized['step_id'] ) ) {
+            $this->record_local_milestone( 'wizard_' . $sanitized['step_id'] );
+        } elseif ( 'wizard/skipped' === $event_name ) {
+            $this->record_local_milestone( 'wizard_skipped' );
+        } elseif ( 'editor/opened' === $event_name ) {
+            $this->record_local_milestone( 'editor_opened' );
+        } elseif ( 'tour/shortcode_copied' === $event_name ) {
+            $this->record_local_milestone( 'shortcode_copied' );
+        }
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return true;
+        }
+
+        $sanitized['ui_mode'] = sanitize_key( (string) get_option( 'wpvr_ui_mode', 'latest' ) );
+        $sanitized['is_pro']  = function_exists( 'wpvr_is_pro_active' ) && wpvr_is_pro_active() ? 'yes' : 'no';
+        $wpvr_telemetry->track_immediate( $event_name, $sanitized, false );
+
+        return true;
+    }
+
+    /**
+     * Sanitize flat scalar properties for client-submitted telemetry events.
+     *
+     * @since 9.3.2
+     * @param array<string,mixed> $properties Raw properties.
+     * @return array<string,mixed>
+     */
+    private function sanitize_flat_properties( array $properties ): array {
+        $sanitized = array();
+        foreach ( $properties as $key => $value ) {
+            $clean_key = sanitize_key( (string) $key );
+            if ( '' === $clean_key ) {
+                continue;
+            }
+            if ( is_bool( $value ) ) {
+                $sanitized[ $clean_key ] = $value ? 'yes' : 'no';
+            } elseif ( is_int( $value ) || is_float( $value ) ) {
+                $sanitized[ $clean_key ] = $value;
+            } elseif ( is_scalar( $value ) ) {
+                $sanitized[ $clean_key ] = sanitize_text_field( (string) $value );
+            }
+        }
+        return $sanitized;
+    }
+
+    /**
      * Build setup event payload.
      *
      * @param string $industry Industry from setup wizard.
-     * @return array
+     * @return array<string,mixed>
      */
     public function build_setup_payload( $industry = '' ) {
         return array(
@@ -178,100 +374,312 @@ class WPVRLinnoTelemetry {
     }
 
     /**
-     * Build KUI payload.
-     *
-     * @param int $unique_views Unique active-tour views in 7 days.
-     * @param int $tour_id       Last viewed tour ID.
-     * @return array
-     */
-    public function build_kui_payload( $unique_views = 0, $tour_id = 0 ) {
-        return array(
-            'unique_views' => absint( $unique_views ),
-            'tour_id'      => absint( $tour_id ),
-            'window_days'  => 7,
-            'time'         => current_time( 'mysql' ),
-        );
-    }
-
-    /**
-     * Build tour creation payload with feature usage as properties.
-     *
-     * Fires when tour settings are saved. Inspects the stored panodata meta to
-     * determine which core features the user has configured, so all feature
-     * usage is captured in a single event instead of separate ones.
+     * Inspect saved panodata meta and report all Free and Pro feature usage.
      *
      * @param int $tour_id Tour (post) ID.
-     * @return array
+     * @return array<string,mixed>
      */
     public function build_tour_creation_payload( $tour_id = 0 ) {
         $tour_id  = absint( $tour_id );
         $panodata = get_post_meta( $tour_id, 'panodata', true );
+        $panodata = is_array( $panodata ) ? $panodata : array();
 
-        $hotspot_editor = 'no';
-        $floor_plan     = 'no';
-        $tour_builder   = 'no';
+        $is_on = static function ( $val ) {
+            return in_array( $val, array( true, 1, '1', 'on', 'true' ), true );
+        };
 
-        if ( is_array( $panodata ) ) {
-            // Floor plan — added to panodata by pro version via filter.
-            if (
-                isset( $panodata['floor_plan_tour_enabler'] ) &&
-                'on' === $panodata['floor_plan_tour_enabler'] &&
-                ! empty( $panodata['floor_plan_attachment_url'] )
-            ) {
-                $floor_plan = 'yes';
+        $tour_type    = isset( $panodata['tour-type'] ) ? sanitize_key( (string) $panodata['tour-type'] ) : 'image';
+        $video_source = 'none';
+        if ( 'video' === $tour_type && ! empty( $panodata['vidurl'] ) ) {
+            $video_source = class_exists( 'RexTheme\\WPVR\\Content\\VideoSource' )
+                ? \RexTheme\WPVR\Content\VideoSource::player_type( (string) $panodata['vidurl'], (string) ( $panodata['video-source-type'] ?? '' ) )
+                : sanitize_key( (string) ( $panodata['video-source-type'] ?? 'selfhost' ) );
+        }
+
+        $scene_list               = isset( $panodata['panodata']['scene-list'] ) && is_array( $panodata['panodata']['scene-list'] )
+            ? $panodata['panodata']['scene-list']
+            : array();
+        $scene_count              = count( $scene_list );
+        $has_cubemap              = false;
+        $hotspot_count            = 0;
+        $hotspot_types            = array();
+        $has_text_overlay         = false;
+        $has_custom_hotspot_style = false;
+
+        foreach ( $scene_list as $scene ) {
+            if ( ! is_array( $scene ) ) {
+                continue;
             }
-
-            // Scene list lives one level deeper inside panodata.
-            $scene_list = isset( $panodata['panodata']['scene-list'] ) ? $panodata['panodata']['scene-list'] : array();
-
-            if ( is_array( $scene_list ) ) {
-                // Tour builder = more than one scene configured.
-                if ( count( $scene_list ) > 1 ) {
-                    $tour_builder = 'yes';
-                }
-
-                // Hotspot editor = at least one non-empty hotspot in any scene.
-                foreach ( $scene_list as $scene ) {
-                    if ( ! empty( $scene['hotspot-list'] ) && is_array( $scene['hotspot-list'] ) ) {
-                        $hotspot_editor = 'yes';
-                        break;
+            if ( isset( $scene['scene-type'] ) && 'cubemap' === $scene['scene-type'] ) {
+                $has_cubemap = true;
+            }
+            if ( ! empty( $scene['text-overlays'] ) && is_array( $scene['text-overlays'] ) ) {
+                $has_text_overlay = true;
+            }
+            if ( ! empty( $scene['hotspot-list'] ) && is_array( $scene['hotspot-list'] ) ) {
+                foreach ( $scene['hotspot-list'] as $hotspot ) {
+                    if ( ! is_array( $hotspot ) ) {
+                        continue;
+                    }
+                    ++$hotspot_count;
+                    if ( ! empty( $hotspot['hotspot-type'] ) ) {
+                        $hotspot_types[] = sanitize_key( (string) $hotspot['hotspot-type'] );
+                    }
+                    if (
+                        ! empty( $hotspot['hotspot-customclass'] )
+                        || ( ! empty( $hotspot['hotspot-customclass-pro'] ) && 'none' !== $hotspot['hotspot-customclass-pro'] )
+                        || ( ! empty( $hotspot['hotspot-shape'] ) && 'round' !== $hotspot['hotspot-shape'] )
+                        || ( isset( $hotspot['hotspot-border'] ) && $is_on( $hotspot['hotspot-border'] ) )
+                    ) {
+                        $has_custom_hotspot_style = true;
                     }
                 }
             }
         }
 
-        return array(
-            'hotspot_editor' => $hotspot_editor,
-            'floor_plan'     => $floor_plan,
-            'tour_builder'   => $tour_builder,
+        $floor_plan_enabled = (
+            ( isset( $panodata['floor_plan_tour_enabler'] ) && $is_on( $panodata['floor_plan_tour_enabler'] ) && ! empty( $panodata['floor_plan_attachment_url'] ) )
+            || ( isset( $panodata['floorplan-enabled'] ) && $is_on( $panodata['floorplan-enabled'] ) && ! empty( $panodata['floorplan-image'] ) )
         );
+
+        $custom_controls = false;
+        if ( isset( $panodata['customcontrol'] ) && is_array( $panodata['customcontrol'] ) ) {
+            foreach ( $panodata['customcontrol'] as $ctrl_val ) {
+                if ( $is_on( $ctrl_val ) ) {
+                    $custom_controls = true;
+                    break;
+                }
+            }
+        }
+
+        $tour_layout = 'default';
+        if ( isset( $panodata['tourLayout'] ) ) {
+            $tour_layout = is_array( $panodata['tourLayout'] )
+                ? sanitize_key( (string) ( $panodata['tourLayout']['layout'] ?? 'default' ) )
+                : sanitize_key( (string) $panodata['tourLayout'] );
+        }
+
+        $bool_flags = array(
+            'autoload'         => isset( $panodata['autoLoad'] ) && $is_on( $panodata['autoLoad'] ),
+            'autorotation'     => ( isset( $panodata['autorotate-enabled'] ) && $is_on( $panodata['autorotate-enabled'] ) ) || ! empty( $panodata['autoRotate'] ),
+            'scene_fade'       => isset( $panodata['scenefadeduration'] ) && floatval( $panodata['scenefadeduration'] ) > 0,
+            'social_share'     => isset( $panodata['wpvr_social_share'] ) && $is_on( $panodata['wpvr_social_share'] ),
+            'floor_plan'       => $floor_plan_enabled,
+            'background_tour'  => isset( $panodata['bg_tour_enabler'] ) && $is_on( $panodata['bg_tour_enabler'] ),
+            'vr_gallery'       => isset( $panodata['vrgallery'] ) && $is_on( $panodata['vrgallery'] ),
+            'scene_navigation' => isset( $panodata['scene_navigation'] ) && $is_on( $panodata['scene_navigation'] ),
+            'scene_animation'  => isset( $panodata['sceneAnimation'] ) && $is_on( $panodata['sceneAnimation'] ),
+            'gyroscope'        => isset( $panodata['gyro'] ) && $is_on( $panodata['gyro'] ),
+            'compass'          => isset( $panodata['compass'] ) && $is_on( $panodata['compass'] ),
+            'bg_music'         => isset( $panodata['bg_music'] ) && $is_on( $panodata['bg_music'] ),
+            'company_logo'     => isset( $panodata['cpLogoSwitch'] ) && $is_on( $panodata['cpLogoSwitch'] ),
+            'explainer_video'  => isset( $panodata['explainerSwitch'] ) && $is_on( $panodata['explainerSwitch'] ),
+            'generic_form'     => isset( $panodata['genericform'] ) && $is_on( $panodata['genericform'] ),
+            'call_to_action'   => isset( $panodata['calltoaction'] ) && $is_on( $panodata['calltoaction'] ),
+            'custom_css'       => isset( $panodata['customcss_enable'] ) && $is_on( $panodata['customcss_enable'] ),
+            'custom_controls'  => $custom_controls,
+        );
+
+        $payload = array(
+            'feature'                  => 'tour_save',
+            'tour_id'                  => $tour_id,
+            'tour_type'                => $tour_type,
+            'video_source'             => $video_source,
+            'has_cubemap'              => $has_cubemap ? 'yes' : 'no',
+            'scene_count'              => $scene_count,
+            'tour_builder'             => $scene_count > 1 ? 'yes' : 'no',
+            'hotspot_editor'           => $hotspot_count > 0 ? 'yes' : 'no',
+            'hotspot_count'            => $hotspot_count,
+            'hotspot_types'            => implode( ',', array_values( array_unique( $hotspot_types ) ) ),
+            'has_text_overlay'         => $has_text_overlay ? 'yes' : 'no',
+            'has_custom_hotspot_style' => $has_custom_hotspot_style ? 'yes' : 'no',
+            'tour_layout'              => $tour_layout ?: 'default',
+            'ui_mode'                  => sanitize_key( (string) get_option( 'wpvr_ui_mode', 'latest' ) ),
+            'is_pro'                   => function_exists( 'wpvr_is_pro_active' ) && wpvr_is_pro_active() ? 'yes' : 'no',
+        );
+
+        foreach ( $bool_flags as $key => $enabled ) {
+            $payload[ $key ] = $enabled ? 'yes' : 'no';
+        }
+
+        return $payload;
+    }
+
+    /**
+     * Track retention/feature_used whenever a tour is saved in New or Classic UI.
+     *
+     * @since 9.3.2
+     * @param int $tour_id Tour (post) ID.
+     * @return void
+     */
+    public function track_feature_used_on_save( $tour_id ) {
+        global $wpvr_telemetry;
+
+        $tour_id = absint( $tour_id );
+        if ( $tour_id <= 0 ) {
+            return;
+        }
+
+        $this->record_local_milestone( 'tour_saved' );
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track( 'retention/feature_used', $this->build_tour_creation_payload( $tour_id ) );
+    }
+
+    /**
+     * Track tour draft creation from the modal or REST API.
+     *
+     * @since 9.3.2
+     * @param int    $tour_id   Tour post ID.
+     * @param string $tour_type Tour type (image|video|street-view).
+     * @return void
+     */
+    public function track_draft_created( $tour_id, $tour_type = 'image' ) {
+        global $wpvr_telemetry;
+
+        $this->record_local_milestone( 'draft_created' );
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track_immediate(
+            'tour/draft_created',
+            array(
+                'tour_id'   => absint( $tour_id ),
+                'tour_type' => sanitize_key( (string) $tour_type ),
+                'ui_mode'   => sanitize_key( (string) get_option( 'wpvr_ui_mode', 'latest' ) ),
+            ),
+            false
+        );
+    }
+
+    /**
+     * Track tour trash/deletion.
+     *
+     * @since 9.3.2
+     * @param int $tour_id Deleted tour ID.
+     * @return void
+     */
+    public function track_tour_deleted( $tour_id ) {
+        global $wpvr_telemetry;
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track_immediate(
+            'tour/deleted',
+            array(
+                'tour_id' => absint( $tour_id ),
+                'is_demo' => $this->is_seeded_tour( absint( $tour_id ) ) ? 'yes' : 'no',
+            ),
+            false
+        );
+    }
+
+    /**
+     * Track switching from the New UI back to Classic UI.
+     *
+     * @since 9.3.2
+     * @param string $mode Target UI mode ('legacy'|'latest').
+     * @return void
+     */
+    public function track_ui_mode_switched( $mode ) {
+        global $wpvr_telemetry;
+
+        $mode = sanitize_key( (string) $mode );
+        if ( 'legacy' === $mode ) {
+            $this->record_local_milestone( 'switched_to_classic' );
+        }
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        if ( 'legacy' === $mode ) {
+            $wpvr_telemetry->track_immediate(
+                'editor/switched_to_classic_ui',
+                array(
+                    'target_mode' => $mode,
+                ),
+                false
+            );
+        }
+    }
+
+    /**
+     * Track tour export standalone feature usage.
+     *
+     * @since 9.3.2
+     * @param int $tour_id Exported tour ID.
+     * @return void
+     */
+    public function track_tour_exported( $tour_id ) {
+        global $wpvr_telemetry;
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track_feature_used(
+            'export_tour',
+            array(
+                'tour_id' => absint( $tour_id ),
+            )
+        );
+    }
+
+    /**
+     * Track enabling the WordPress high-res large image override.
+     *
+     * @since 9.3.2
+     * @return void
+     */
+    public function track_large_image_handler_enabled() {
+        global $wpvr_telemetry;
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
+            return;
+        }
+
+        $wpvr_telemetry->track_feature_used( 'high_res_image_enabled' );
     }
 
     /**
      * Build real tour creation payload.
      *
      * @param int $tour_id Tour (post) ID.
-     * @return array
+     * @return array<string,mixed>
      */
     public function build_real_tour_creation_payload( $tour_id = 0 ) {
-        $tour_id = absint( $tour_id );
+        $tour_id  = absint( $tour_id );
+        $panodata = get_post_meta( $tour_id, 'panodata', true );
+        $tour_type = is_array( $panodata ) && ! empty( $panodata['tour-type'] )
+            ? sanitize_key( (string) $panodata['tour-type'] )
+            : 'image';
 
         return array(
-            'tour_id'    => $tour_id,
+            'tour_id'     => $tour_id,
             'created_via' => get_post_meta( $tour_id, 'wpvr_created_from_wizard', true ) ? 'wizard' : 'manual',
-            'time'       => current_time( 'mysql' ),
+            'tour_type'   => $tour_type,
+            'time'        => current_time( 'mysql' ),
         );
     }
 
     /**
-     * Track retention/tour_created when a real tour is first published.
+     * Track activation/tour_created when a real tour is first published.
      *
-     * This event is consent-gated like other retention events. It is emitted
-     * only once per tour and skipped for demo/sample tours.
+     * Emitted immediately when consent is active, skipped for demo tours, and
+     * only marked as tracked after consent verification so pre-consent publishes
+     * do not permanently block future tracking.
      *
-     * @param string  $new_status New post status.
-     * @param string  $old_status Old post status.
-     * @param WP_Post $post       Post object.
+     * @param string   $new_status New post status.
+     * @param string   $old_status Old post status.
+     * @param \WP_Post $post       Post object.
      * @return void
      */
     public function track_tour_created_event( $new_status, $old_status, $post ) {
@@ -289,7 +697,13 @@ class WPVRLinnoTelemetry {
             return;
         }
 
-        $wpvr_telemetry->track( 'activation/tour_created', $this->build_real_tour_creation_payload( $post->ID ) );
+        $this->record_local_milestone( 'tour_published' );
+
+        if ( ! $this->is_consent_enabled() ) {
+            return;
+        }
+
+        $wpvr_telemetry->track_immediate( 'activation/tour_created', $this->build_real_tour_creation_payload( $post->ID ), false );
         update_post_meta( $post->ID, self::TOUR_CREATED_TRACKED_META_KEY, '1' );
     }
 
@@ -329,79 +743,40 @@ class WPVRLinnoTelemetry {
     }
 
     /**
-     * Track onboarding completed event (non-PII, bypasses consent gate).
+     * Track onboarding completed event while strictly honoring consent.
      *
      * @param string $industry Industry from setup wizard.
      * @return void
      */
     public function track_onboarding_event( $industry = '' ) {
         global $wpvr_telemetry;
-        if ( ! is_object( $wpvr_telemetry ) ) {
+
+        $this->record_local_milestone( 'wizard_completed' );
+
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
             return;
         }
+
         if ( method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'onboarding_completed' ) ) {
             return;
         }
-        $wpvr_telemetry->track_immediate( 'activation/onboarding_completed', $this->build_setup_payload( $industry ), true );
+
+        $wpvr_telemetry->track_immediate( 'activation/onboarding_completed', $this->build_setup_payload( $industry ), false );
         if ( method_exists( $wpvr_telemetry, 'mark_event_sent' ) ) {
             $wpvr_telemetry->mark_event_sent( 'onboarding_completed' );
         }
     }
 
     /**
-     * Track activation/aha_reached after consent is granted.
-     *
-     * The wizard completion hook fires BEFORE consent is set (separate AJAX calls),
-     * so aha cannot use define_triggers. Instead, this method fires once when
-     * consent is granted on the Success step, if the wizard was completed.
-     *
-     * @return void
-     */
-    public function track_aha_after_consent() {
-        // Temporarily disabled — activation/aha_reached is being retired.
-        return;
-
-        global $wpvr_telemetry; // phpcs:ignore
-        if ( ! is_object( $wpvr_telemetry ) ) {
-            return;
-        }
-
-        // Only fire if the wizard was actually completed.
-        if ( ! get_option( 'wpvr_wizard_onboarding_done' ) ) {
-            return;
-        }
-
-        // One-shot guard — never send twice.
-        if ( method_exists( $wpvr_telemetry, 'has_sent_event' ) && $wpvr_telemetry->has_sent_event( 'aha_reached_wizard_completed' ) ) {
-            return;
-        }
-
-        $industry = sanitize_text_field( get_option( 'wpvr_industry_name', '' ) );
-
-        $wpvr_telemetry->track_kui(
-            'wizard_completed',
-            array(
-                'industry' => $industry,
-                'time'     => current_time( 'mysql' ),
-            )
-        );
-
-        if ( method_exists( $wpvr_telemetry, 'mark_event_sent' ) ) {
-            $wpvr_telemetry->mark_event_sent( 'aha_reached_wizard_completed' );
-        }
-    }
-
-    /**
-     * Update rolling 7-day unique active-tour views and emit KUI trigger event.
+     * Track frontend embedded tour views (throttled to once per tour per day).
      *
      * @param int $tour_id Tour ID.
      * @return void
      */
     public function handle_embedded_tour_view( $tour_id ) {
-        // Temporarily disabled — activation/aha_reached is being retired.
-        return;
+        global $wpvr_telemetry;
 
-        $tour_id = absint( $tour_id ); // phpcs:ignore
+        $tour_id = absint( $tour_id );
         if ( $tour_id <= 0 ) {
             return;
         }
@@ -411,68 +786,37 @@ class WPVRLinnoTelemetry {
             return;
         }
 
-        $option_key = 'wpvr_kui_unique_views_7d';
-        $last_kui_sent_key = 'wpvr_kui_unique_views_7d_last_sent_at';
-        $window_seconds = 7 * DAY_IN_SECONDS;
-        $now = time();
+        $this->record_local_milestone( 'tour_embedded' );
 
-        $tracked_views = get_option( $option_key, array() );
-        if ( ! is_array( $tracked_views ) ) {
-            $tracked_views = array();
-        }
-
-        foreach ( $tracked_views as $tracked_tour_id => $timestamp ) {
-            $tracked_tour_id = absint( $tracked_tour_id );
-            $timestamp = absint( $timestamp );
-
-            if (
-                $tracked_tour_id <= 0 ||
-                $timestamp <= 0 ||
-                ( $now - $timestamp ) > $window_seconds ||
-                'publish' !== get_post_status( $tracked_tour_id )
-            ) {
-                unset( $tracked_views[ $tracked_tour_id ] );
-            }
-        }
-
-        $tracked_views[ $tour_id ] = $now;
-        update_option( $option_key, $tracked_views );
-
-        $unique_views = count( $tracked_views );
-        $published_tours = wp_count_posts( 'wpvr_item' );
-        $total_published_tours = 0;
-
-        if ( is_object( $published_tours ) && isset( $published_tours->publish ) ) {
-            $total_published_tours = absint( $published_tours->publish );
-        }
-
-        $active_tour_ratio = 0;
-        if ( $total_published_tours > 0 ) {
-            $active_tour_ratio = (float) ( $unique_views / $total_published_tours );
-        }
-
-        update_option( 'wpvr_last_active_tour_ratio', $active_tour_ratio );
-
-        $last_kui_sent_at = absint( get_option( $last_kui_sent_key, 0 ) );
-        $minimum_active_tour_ratio = 0.6;
-
-        if ( $active_tour_ratio < $minimum_active_tour_ratio ) {
+        if ( ! $this->is_consent_enabled() || ! is_object( $wpvr_telemetry ) ) {
             return;
         }
 
-        if ( $last_kui_sent_at > 0 && ( $now - $last_kui_sent_at ) < $window_seconds ) {
+        $transient_key = 'wpvr_embed_tracked_' . $tour_id;
+        if ( get_transient( $transient_key ) ) {
             return;
         }
 
-        do_action( 'wpvr_kui_unique_views_updated', $unique_views, $tour_id );
-        update_option( $last_kui_sent_key, $now );
+        $panodata  = get_post_meta( $tour_id, 'panodata', true );
+        $tour_type = is_array( $panodata ) && ! empty( $panodata['tour-type'] )
+            ? sanitize_key( (string) $panodata['tour-type'] )
+            : 'image';
+
+        set_transient( $transient_key, '1', DAY_IN_SECONDS );
+        $wpvr_telemetry->track(
+            'tour/embedded_viewed',
+            array(
+                'tour_id'   => $tour_id,
+                'tour_type' => $tour_type,
+            )
+        );
     }
 
     /**
      * Replace generic deactivation reasons with VR-specific ones.
      *
-     * @param array $reasons
-     * @return array
+     * @param array<int,array<string,string>> $reasons Default reasons.
+     * @return array<int,array<string,string>>
      */
     public function set_deactivation_reasons( $reasons ) {
         return array(
@@ -514,5 +858,4 @@ class WPVRLinnoTelemetry {
             ),
         );
     }
-
 }
