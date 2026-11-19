@@ -7,11 +7,12 @@ namespace RexTheme\WPVR\Admin;
  */
 class PromotionalBanner {
 
-	const OPTION_DISMISSED = 'wpvr_halloween_2026_promo_banner_dismissed';
+	const OPTION_DISMISSED = 'wpvr_black_friday_2026_promo_banner_dismissed';
 	const POST_TYPE        = 'wpvr_item';
 	const TARGET_SCREEN    = 'edit-wpvr_item';
-	const END_DATE         = '2026-10-26 23:59:59';
-	const CTA_URL          = 'https://rextheme.com/wpvr/wpvr-pricing/';
+	const START_DATE       = '2026-11-20 00:00:00';
+	const END_DATE         = '2026-12-11 23:59:59';
+	const CTA_URL          = 'https://rextheme.com/black-friday-deal/?utm_source=in-plugin-banner&utm_medium=button&utm_campaign=bfcm2026#wpvr';
 	const AJAX_ACTION      = 'wpvr_dismiss_promo_banner';
 	const NONCE_ACTION     = 'wpvr_promo_banner_dismiss';
 
@@ -73,8 +74,9 @@ class PromotionalBanner {
 			return false;
 		}
 
-		// Suppress if campaign has ended.
-		if ( time() >= strtotime( self::END_DATE ) ) {
+		// Suppress if campaign has not started or has ended.
+		$now = time();
+		if ( $now < strtotime( self::START_DATE ) || $now >= strtotime( self::END_DATE ) ) {
 			return false;
 		}
 
@@ -158,15 +160,15 @@ class PromotionalBanner {
 
 		$countdown = $this->get_countdown_data();
 		?>
-		<div id="wpvr-promotional-banner" class="wpvr-promotional-banner" data-end-time="<?php echo esc_attr( (string) $countdown['end_timestamp'] ); ?>" role="region" aria-label="<?php esc_attr_e( 'WPVR Halloween Offer', 'wpvr' ); ?>">
+		<div id="wpvr-promotional-banner" class="wpvr-promotional-banner" data-end-time="<?php echo esc_attr( (string) $countdown['end_timestamp'] ); ?>" role="region" aria-label="<?php esc_attr_e( 'WPVR Black Friday Offer', 'wpvr' ); ?>">
 			<div class="wpvr-promo-banner__content">
 				<figure class="wpvr-promo-banner__logo">
-					<img src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/halloween-img.webp' ); ?>" alt="<?php esc_attr_e( 'Halloween', 'wpvr' ); ?>" width="174" height="47">
+					<img src="<?php echo esc_url( WPVR_PLUGIN_DIR_URL . 'admin/icon/banner-images/black-friday.webp' ); ?>" alt="<?php esc_attr_e( 'Black Friday', 'wpvr' ); ?>" width="87" height="56">
 				</figure>
 
 				<div class="wpvr-promo-banner__text">
-					<span class="wpvr-promo-banner__title"><?php esc_html_e( 'Spooktacular Halloween Sale', 'wpvr' ); ?></span>
-					<span class="wpvr-promo-banner__subtitle"><?php esc_html_e( 'GET 30% OFF!', 'wpvr' ); ?> <span class="wpvr-promo-banner__emoji" aria-hidden="true">&#127875;</span></span>
+					<span class="wpvr-promo-banner__title"><?php esc_html_e( 'Biggest Sale of The Year', 'wpvr' ); ?></span>
+					<span class="wpvr-promo-banner__subtitle"><?php esc_html_e( 'GET 50% OFF!', 'wpvr' ); ?></span>
 				</div>
 
 				<div class="wpvr-promo-banner__timer" id="wpvr-promo-countdown" aria-label="<?php esc_attr_e( 'Offer countdown timer', 'wpvr' ); ?>">

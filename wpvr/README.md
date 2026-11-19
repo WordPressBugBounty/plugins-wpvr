@@ -3,6 +3,9 @@ WP VR - 360 Panorama and virtual tour creator for WordPress is a customized pano
 
 ## Changelog
 
+### 9.3.3 (2026-11-19)
+- **Fix:** Enable Custom CSS toggle no longer turns off after saving a tour in the New UI.
+
 ### 9.3.2 (2026-11-10)
 - **Enhancement:** Improved setup wizard onboarding flow, consent handling, and diagnostic event reliability.
 - **Fix:** Prevented setup wizard completion from clearing unrelated browser `localStorage` data.

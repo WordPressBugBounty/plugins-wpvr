@@ -96,6 +96,12 @@ class TourService {
                 $scene_animation               = $post_format['sceneAnimation'];
                 $post_format['sceneAnimation'] = ( ! empty( $scene_animation ) && $scene_animation !== 'off' ) ? 'on' : 'off';
             }
+            // Same for Custom CSS: the Pro filter stores the raw value, so a
+            // boolean true became "1" and the toggle read back as off.
+            if ( array_key_exists( 'customcss_enable', $post_format ) ) {
+                $customcss_enable                = $post_format['customcss_enable'];
+                $post_format['customcss_enable'] = ( ! empty( $customcss_enable ) && $customcss_enable !== 'off' ) ? 'on' : 'off';
+            }
             if ( ( $post_format['sceneAnimationName'] ?? '' ) === 'fade' ) {
                 $post_format['sceneAnimationName'] = 'fade_in';
             }

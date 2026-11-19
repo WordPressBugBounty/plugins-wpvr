@@ -5,7 +5,7 @@ Donate link: https://rextheme.com/wp-vr-360-panorama-and-virtual-tour-creator-fo
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.0.0
-Stable tag: 9.3.2
+Stable tag: 9.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -459,6 +459,9 @@ This plugin uses Webpack to compile JavaScript/CSS. To comply with WordPress.org
 == Changelog ==
 
 = WPVR (Free) =
+
+= 9.3.3 (2026-11-19) =
+* Fix: Enable Custom CSS toggle no longer turns off after saving a tour in the New UI.
 
 = 9.3.2 (2026-11-10) =
 * Enhancement: Improved setup wizard onboarding flow, consent handling, and diagnostic event reliability.

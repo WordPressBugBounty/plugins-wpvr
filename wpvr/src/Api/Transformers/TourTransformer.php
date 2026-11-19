@@ -350,7 +350,8 @@ class TourTransformer implements TransformerInterface {
             'buttontext'                      => (string) ( $raw['buttontext']  ?? 'Click Here' ),
             'buttonurl'                       => (string) ( $raw['buttonurl']   ?? '' ),
             'button_configuration'            => $this->button_configuration_to_api( $raw['button_configuration'] ?? [] ),
-            'customcss_enable'                => ( ( $raw['customcss_enable'] ?? 'off' ) === 'on' ),
+            // '1' / true were written by older New UI saves; treat them as on.
+            'customcss_enable'                => in_array( $raw['customcss_enable'] ?? 'off', [ 'on', '1', 1, true ], true ),
             'customcss'                       => (string) ( $raw['customcss']   ?? '' ),
             'customcontrol'                   => $this->customcontrol_to_api( $raw['customcontrol'] ?? [] ),
         ];
